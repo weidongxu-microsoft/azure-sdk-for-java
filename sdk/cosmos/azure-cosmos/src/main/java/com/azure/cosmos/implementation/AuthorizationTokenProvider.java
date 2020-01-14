@@ -10,7 +10,7 @@ import java.util.Map;
  * service.
  */
 public interface AuthorizationTokenProvider {
-    String generateKeyAuthorizationSignature(String verb,
+    String generateKeyAuthorizationSignature(HttpConstants.HttpMethod verb,
                                              String resourceIdOrFullName,
                                              ResourceType resourceType,
                                              Map<String, String> headers);

@@ -120,7 +120,7 @@ public class GatewayServiceConfigurationReader {
             Map<String, String> header = new HashMap<>();
             header.put(HttpConstants.HttpHeaders.X_DATE, xDate);
             authorizationToken = baseAuthorizationTokenProvider
-                    .generateKeyAuthorizationSignature(HttpConstants.HttpMethods.GET, serviceEndpoint, header);
+                    .generateKeyAuthorizationSignature(HttpConstants.HttpMethod.GET, serviceEndpoint, header);
         }
         httpHeaders.set(HttpConstants.HttpHeaders.AUTHORIZATION, authorizationToken);
 

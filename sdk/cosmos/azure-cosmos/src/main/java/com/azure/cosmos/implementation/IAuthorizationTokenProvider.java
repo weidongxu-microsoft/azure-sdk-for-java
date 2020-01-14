@@ -7,7 +7,7 @@ import java.util.Map;
 public interface IAuthorizationTokenProvider {
     String getUserAuthorizationToken(String resourceAddress,
                                      ResourceType resourceType,
-                                     String get,
+                                     HttpConstants.HttpMethod verb,
                                      Map<String, String> headers,
                                      AuthorizationTokenType primarymasterkey,
                                      Map<String, Object> properties);

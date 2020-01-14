@@ -665,22 +665,22 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
     }
 
     private Flux<RxDocumentServiceResponse> delete(RxDocumentServiceRequest request) {
-        populateHeaders(request, HttpConstants.HttpMethods.DELETE);
+        populateHeaders(request, HttpConstants.HttpMethod.DELETE);
         return getStoreProxy(request).processMessage(request);
     }
 
     private Flux<RxDocumentServiceResponse> read(RxDocumentServiceRequest request) {
-        populateHeaders(request, HttpConstants.HttpMethods.GET);
+        populateHeaders(request, HttpConstants.HttpMethod.GET);
         return getStoreProxy(request).processMessage(request);
     }
 
     Flux<RxDocumentServiceResponse> readFeed(RxDocumentServiceRequest request) {
-        populateHeaders(request, HttpConstants.HttpMethods.GET);
+        populateHeaders(request, HttpConstants.HttpMethod.GET);
         return gatewayProxy.processMessage(request);
     }
 
     private Flux<RxDocumentServiceResponse> query(RxDocumentServiceRequest request) {
-        populateHeaders(request, HttpConstants.HttpMethods.POST);
+        populateHeaders(request, HttpConstants.HttpMethod.POST);
         return this.getStoreProxy(request).processMessage(request)
                 .map(response -> {
                             this.captureSessionToken(request, response);
@@ -961,7 +961,7 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
         return addPartitionKeyInformation(request, typedDocument, options, collectionObs);
     }
 
-    private void populateHeaders(RxDocumentServiceRequest request, String httpMethod) {
+    private void populateHeaders(RxDocumentServiceRequest request, HttpConstants.HttpMethod httpMethod) {
         request.getHeaders().put(HttpConstants.HttpHeaders.X_DATE, Utils.nowAsRFC1123());
         if (this.masterKeyOrResourceToken != null || this.resourceTokensMap != null
             || this.tokenResolver != null || this.cosmosKeyCredential != null) {
@@ -978,7 +978,7 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
             request.getHeaders().put(HttpConstants.HttpHeaders.AUTHORIZATION, authorization);
         }
 
-        if ((HttpConstants.HttpMethods.POST.equals(httpMethod) || HttpConstants.HttpMethods.PUT.equals(httpMethod))
+        if ((HttpConstants.HttpMethod.POST == httpMethod || HttpConstants.HttpMethod.PUT == httpMethod)
                 && !request.getHeaders().containsKey(HttpConstants.HttpHeaders.CONTENT_TYPE)) {
             request.getHeaders().put(HttpConstants.HttpHeaders.CONTENT_TYPE, RuntimeConstants.MediaTypes.JSON);
         }
@@ -991,13 +991,13 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
     @Override
     public String getUserAuthorizationToken(String resourceName,
                                             ResourceType resourceType,
-                                            String requestVerb,
+                                            HttpConstants.HttpMethod requestVerb,
                                             Map<String, String> headers,
                                             AuthorizationTokenType tokenType,
                                             Map<String, Object> properties) {
 
         if (this.tokenResolver != null) {
-            return this.tokenResolver.getAuthorizationToken(requestVerb, resourceName, this.resolveCosmosResourceType(resourceType),
+            return this.tokenResolver.getAuthorizationToken(requestVerb.asLowerCase(), resourceName, this.resolveCosmosResourceType(resourceType),
                     properties != null ? Collections.unmodifiableMap(properties) : null);
         } else if (cosmosKeyCredential != null) {
             return this.authorizationTokenProvider.generateKeyAuthorizationSignature(requestVerb, resourceName,
@@ -1026,14 +1026,14 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
     }
 
     private Flux<RxDocumentServiceResponse> create(RxDocumentServiceRequest request) {
-        populateHeaders(request, HttpConstants.HttpMethods.POST);
+        populateHeaders(request, HttpConstants.HttpMethod.POST);
         RxStoreModel storeProxy = this.getStoreProxy(request);
         return storeProxy.processMessage(request);
     }
 
     private Flux<RxDocumentServiceResponse> upsert(RxDocumentServiceRequest request) {
 
-        populateHeaders(request, HttpConstants.HttpMethods.POST);
+        populateHeaders(request, HttpConstants.HttpMethod.POST);
         Map<String, String> headers = request.getHeaders();
         // headers can never be null, since it will be initialized even when no
         // request options are specified,
@@ -1051,7 +1051,7 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
     }
 
     private Flux<RxDocumentServiceResponse> replace(RxDocumentServiceRequest request) {
-        populateHeaders(request, HttpConstants.HttpMethods.PUT);
+        populateHeaders(request, HttpConstants.HttpMethod.PUT);
         return getStoreProxy(request).processMessage(request);
     }
 
@@ -2658,7 +2658,7 @@ public class RxDocumentClientImpl implements AsyncDocumentClient, IAuthorization
         return Flux.defer(() -> {
             RxDocumentServiceRequest request = RxDocumentServiceRequest.create(OperationType.Read,
                     ResourceType.DatabaseAccount, "", null, (Object) null);
-            this.populateHeaders(request, HttpConstants.HttpMethods.GET);
+            this.populateHeaders(request, HttpConstants.HttpMethod.GET);
 
             request.setEndpointOverride(endpoint);
             return this.gatewayProxy.processMessage(request).doOnError(e -> {

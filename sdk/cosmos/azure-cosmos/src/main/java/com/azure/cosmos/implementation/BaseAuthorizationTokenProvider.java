@@ -80,10 +80,10 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
      * @param headers              the request headers.
      * @return the key authorization signature.
      */
-    public String generateKeyAuthorizationSignature(String verb,
-            String resourceIdOrFullName,
-            ResourceType resourceType,
-            Map<String, String> headers) {
+    public String generateKeyAuthorizationSignature(HttpConstants.HttpMethod verb,
+                                                    String resourceIdOrFullName,
+                                                    ResourceType resourceType,
+                                                    Map<String, String> headers) {
         return this.generateKeyAuthorizationSignature(verb, resourceIdOrFullName,
                 BaseAuthorizationTokenProvider.getResourceSegment(resourceType).toLowerCase(), headers);
     }
@@ -97,11 +97,11 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
      * @param headers              the request headers
      * @return the key authorization signature
      */
-    public String generateKeyAuthorizationSignature(String verb,
-            String resourceIdOrFullName,
-            String resourceSegment,
-            Map<String, String> headers) {
-        if (verb == null || verb.isEmpty()) {
+    public String generateKeyAuthorizationSignature(HttpConstants.HttpMethod verb,
+                                                    String resourceIdOrFullName,
+                                                    String resourceSegment,
+                                                    Map<String, String> headers) {
+        if (verb == null) {
             throw new IllegalArgumentException("verb");
         }
 
@@ -127,7 +127,7 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
 
         // Skipping lower casing of resourceId since it may now contain "ID" of the resource as part of the FullName
         StringBuilder body = new StringBuilder();
-        body.append(verb.toLowerCase())
+        body.append(verb.asLowerCase())
                 .append('\n')
                 .append(resourceSegment)
                 .append('\n')
@@ -195,8 +195,8 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
 
         return resourceToken;
     }
-    public String generateKeyAuthorizationSignature(String verb, URI uri, Map<String, String> headers) {
-        if (StringUtils.isEmpty(verb)) {
+    public String generateKeyAuthorizationSignature(HttpConstants.HttpMethod verb, URI uri, Map<String, String> headers) {
+        if (verb == null) {
             throw new IllegalArgumentException(String.format(RMResources.StringArgumentNullOrEmpty, "verb"));
         }
 
@@ -213,9 +213,9 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
                 headers);
     }
 
-    private String generateKeyAuthorizationSignatureNew(String verb, String resourceIdValue, String resourceType,
+    private String generateKeyAuthorizationSignatureNew(HttpConstants.HttpMethod verb, String resourceIdValue, String resourceType,
                                                         Map<String, String> headers) {
-        if (StringUtils.isEmpty(verb)) {
+        if (verb == null) {
             throw new IllegalArgumentException(String.format(RMResources.StringArgumentNullOrEmpty, "verb"));
         }
 
@@ -269,8 +269,8 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
         }
     }
 
-    private String generateMessagePayload(String verb, String resourceId, String resourceType,
-            Map<String, String> headers) {
+    private String generateMessagePayload(HttpConstants.HttpMethod verb, String resourceId, String resourceType,
+                                          Map<String, String> headers) {
         String xDate = headers.get(HttpConstants.HttpHeaders.X_DATE);
         String date = headers.get(HttpConstants.HttpHeaders.HTTP_DATE);
         // At-least one of date header should present
@@ -286,7 +286,7 @@ public class BaseAuthorizationTokenProvider implements AuthorizationTokenProvide
         }
 
         StringBuilder payload = new StringBuilder();
-        payload.append(verb.toLowerCase())
+        payload.append(verb.asLowerCase())
                 .append('\n')
                 .append(resourceType.toLowerCase())
                 .append('\n')

@@ -8,14 +8,23 @@ package com.azure.cosmos.implementation;
  * SDK.
  */
 public class HttpConstants {
-    public static class HttpMethods {
-        public static final String GET = "GET";
-        public static final String POST = "POST";
-        public static final String PUT = "PUT";
-        public static final String DELETE = "DELETE";
-        public static final String HEAD = "HEAD";
-        public static final String OPTIONS = "OPTIONS";
-        public static final String PATCH = "PATCH";
+    public enum HttpMethod {
+        GET("get"),
+        POST("post"),
+        PUT("put"),
+        DELETE("delete"),
+        HEAD("head"),
+        OPTIONS("options"),
+        PATCH("patch");
+
+        HttpMethod(String value) {
+            this.value = value;
+        }
+        private final String value;
+
+        public String asLowerCase() {
+            return this.value;
+        }
     }
 
     public static class QueryStrings {

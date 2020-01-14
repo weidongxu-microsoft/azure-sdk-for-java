@@ -88,7 +88,7 @@ public class BarrierRequestHelper {
                 authorizationToken = authorizationTokenProvider.getUserAuthorizationToken(
                         barrierLsnRequest.getResourceAddress(),
                         isCollectionHeadRequest ? ResourceType.DocumentCollection : ResourceType.Database,
-                        HttpConstants.HttpMethods.HEAD,
+                        HttpConstants.HttpMethod.HEAD,
                         barrierLsnRequest.getHeaders(),
                         originalRequestTokenType,
                         request.properties);

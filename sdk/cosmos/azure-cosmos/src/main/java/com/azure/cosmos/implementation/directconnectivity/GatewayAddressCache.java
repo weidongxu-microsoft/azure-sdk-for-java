@@ -271,7 +271,7 @@ public class GatewayAddressCache implements IAddressCache {
         token = this.tokenProvider.getUserAuthorizationToken(
                 collectionRid,
                 ResourceType.Document,
-                HttpConstants.HttpMethods.GET,
+                HttpConstants.HttpMethod.GET,
                 headers,
                 AuthorizationTokenType.PrimaryMasterKey,
                 request.properties);
@@ -282,7 +282,7 @@ public class GatewayAddressCache implements IAddressCache {
             token = this.tokenProvider.getUserAuthorizationToken(
                     collectionAltLink,
                     ResourceType.Document,
-                    HttpConstants.HttpMethods.GET,
+                    HttpConstants.HttpMethod.GET,
                     headers,
                     AuthorizationTokenType.PrimaryMasterKey,
                     request.properties);
@@ -461,7 +461,7 @@ public class GatewayAddressCache implements IAddressCache {
         String token = this.tokenProvider.getUserAuthorizationToken(
                 resourceAddress,
                 resourceType,
-                HttpConstants.HttpMethods.GET,
+                HttpConstants.HttpMethod.GET,
                 headers,
                 AuthorizationTokenType.PrimaryMasterKey,
                 properties);

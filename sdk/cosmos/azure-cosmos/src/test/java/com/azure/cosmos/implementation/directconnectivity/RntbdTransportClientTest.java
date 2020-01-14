@@ -26,6 +26,7 @@ import com.azure.cosmos.ServiceUnavailableException;
 import com.azure.cosmos.UnauthorizedException;
 import com.azure.cosmos.implementation.BaseAuthorizationTokenProvider;
 import com.azure.cosmos.implementation.FailureValidator;
+import com.azure.cosmos.implementation.HttpConstants;
 import com.azure.cosmos.implementation.OperationType;
 import com.azure.cosmos.implementation.Paths;
 import com.azure.cosmos.implementation.ResourceType;
@@ -74,7 +75,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static com.azure.cosmos.implementation.HttpConstants.HttpHeaders;
-import static com.azure.cosmos.implementation.HttpConstants.HttpMethods;
 import static com.azure.cosmos.implementation.HttpConstants.SubStatusCodes;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -626,10 +626,10 @@ public final class RntbdTransportClientTest {
 
             builder.put(HttpHeaders.X_DATE, Utils.nowAsRFC1123());
 
-            final String token = authorizationTokenProvider.generateKeyAuthorizationSignature(HttpMethods.GET,
-                Paths.DATABASE_ACCOUNT_PATH_SEGMENT,
-                ResourceType.DatabaseAccount,
-                builder.build()
+            final String token = authorizationTokenProvider.generateKeyAuthorizationSignature(HttpConstants.HttpMethod.GET,
+                                                                                              Paths.DATABASE_ACCOUNT_PATH_SEGMENT,
+                                                                                              ResourceType.DatabaseAccount,
+                                                                                              builder.build()
             );
 
             builder.put(HttpHeaders.AUTHORIZATION, token);

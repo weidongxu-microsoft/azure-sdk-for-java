@@ -41,7 +41,7 @@ public class RxClientCollectionCache extends RxCollectionCache {
 
     public RxClientCollectionCache(ISessionContainer sessionContainer,
             RxStoreModel storeModel,
-            IAuthorizationTokenProvider tokenProvider, 
+            IAuthorizationTokenProvider tokenProvider,
             IRetryPolicyFactory retryPolicy) {
         this.storeModel = storeModel;
         this.tokenProvider = tokenProvider;
@@ -64,7 +64,7 @@ public class RxClientCollectionCache extends RxCollectionCache {
     }
 
     private Mono<DocumentCollection> readCollectionAsync(String collectionLink, IDocumentClientRetryPolicy retryPolicyInstance, Map<String, Object> properties) {
-       
+
         String path = Utils.joinPath(collectionLink, null);
         RxDocumentServiceRequest request = RxDocumentServiceRequest.create(
                 OperationType.Read,
@@ -78,7 +78,7 @@ public class RxClientCollectionCache extends RxCollectionCache {
         String authorizationToken = tokenProvider.getUserAuthorizationToken(
                 resourceName,
                 request.getResourceType(),
-                HttpConstants.HttpMethods.GET,
+                HttpConstants.HttpMethod.GET,
                 request.getHeaders(),
                 AuthorizationTokenType.PrimaryMasterKey,
                 properties);
