@@ -14,27 +14,13 @@ import com.azure.identity.implementation.IdentityClientOptions;
 import reactor.core.publisher.Mono;
 
 /**
- * A credential provider that provides token credentials based on environment variables.  The sets of environment variables
+ * A credential provider that provides token credentials based on environment variables.  The environment variables
  * expected are:
  * <p>
  * <ul>
  *     <li>{@link Configuration#PROPERTY_AZURE_CLIENT_ID AZURE_CLIENT_ID}</li>
  *     <li>{@link Configuration#PROPERTY_AZURE_CLIENT_SECRET AZURE_CLIENT_SECRET}</li>
  *     <li>{@link Configuration#PROPERTY_AZURE_TENANT_ID AZURE_TENANT_ID}</li>
- * </ul>
- * or:
- * <p>
- * <ul>
- *     <li>{@link Configuration#PROPERTY_AZURE_CLIENT_ID AZURE_CLIENT_ID}</li>
- *     <li>{@link Configuration#PROPERTY_AZURE_CLIENT_CERTIFICATE_PATH AZURE_CLIENT_CERTIFICATE_PATH}</li>
- *     <li>{@link Configuration#PROPERTY_AZURE_TENANT_ID AZURE_TENANT_ID}</li>
- * </ul>
- * or:
- * <p>
- * <ul>
- *     <li>{@link Configuration#PROPERTY_AZURE_CLIENT_ID AZURE_CLIENT_ID}</li>
- *     <li>{@link Configuration#PROPERTY_AZURE_USERNAME AZURE_USERNAME}</li>
- *     <li>{@link Configuration#PROPERTY_AZURE_PASSWORD AZURE_PASSWORD}</li>
  * </ul>
  */
 @Immutable
@@ -55,22 +41,15 @@ public class EnvironmentCredential implements TokenCredential {
 
     @Override
     public Mono<AccessToken> getToken(TokenRequestContext request) {
-        String clientId = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_ID);
-        String tenantId = configuration.get(Configuration.PROPERTY_AZURE_TENANT_ID);
-        String clientSecret = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_SECRET);
-        String certPath = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_CERTIFICATE_PATH);
-        String username = configuration.get(Configuration.PROPERTY_AZURE_USERNAME);
-        String password = configuration.get(Configuration.PROPERTY_AZURE_PASSWORD);
         return Mono.fromSupplier(() -> {
-            if (verifyNotNull(clientId)) {
-                if (verifyNotNull(tenantId, clientSecret)) {
-                    // TODO: support other clouds
-                    return new ClientSecretCredential(tenantId, clientId, clientSecret, identityClientOptions);
-                } else if (verifyNotNull(tenantId, certPath)) {
-                    return new ClientCertificateCredential(tenantId, clientId, certPath, null, identityClientOptions);
-                } else if (verifyNotNull(username, password)) {
-                    return new UsernamePasswordCredential(clientId, tenantId, username, password, identityClientOptions);
-                }
+            if (configuration.contains(Configuration.PROPERTY_AZURE_CLIENT_ID)
+                && configuration.contains(Configuration.PROPERTY_AZURE_CLIENT_SECRET)
+                && configuration.contains(Configuration.PROPERTY_AZURE_TENANT_ID)) {
+                // TODO: support other clouds
+                return new ClientSecretCredential(configuration.get(Configuration.PROPERTY_AZURE_TENANT_ID),
+                    configuration.get(Configuration.PROPERTY_AZURE_CLIENT_ID),
+                    configuration.get(Configuration.PROPERTY_AZURE_CLIENT_SECRET),
+                    identityClientOptions);
             }
 
             // Other environment variables
@@ -78,14 +57,5 @@ public class EnvironmentCredential implements TokenCredential {
                 "Cannot create any credentials with the current environment variables",
                 null));
         }).flatMap(cred -> cred.getToken(request));
-    }
-
-    private boolean verifyNotNull(String... configs){
-        for(String config: configs){
-            if(config == null){
-                return false;
-            }
-        }
-        return true;
     }
 }
