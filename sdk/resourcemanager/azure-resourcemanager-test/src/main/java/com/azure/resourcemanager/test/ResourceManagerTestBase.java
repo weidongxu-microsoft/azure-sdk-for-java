@@ -20,6 +20,7 @@ import com.azure.core.test.utils.ResourceNamer;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.identity.ClientSecretCredentialBuilder;
+import com.azure.resourcemanager.test.policy.RequestTracePolicy;
 import com.azure.resourcemanager.test.policy.TextReplacementPolicy;
 import com.azure.resourcemanager.test.utils.AuthFile;
 
@@ -147,13 +148,13 @@ public abstract class ResourceManagerTestBase extends TestBase {
             }
         }
 
-        if (httpLogDetailLevel == HttpLogDetailLevel.NONE) {
-            try {
-                System.setOut(new PrintStream(EMPTY_OUTPUT_STREAM, false, Charset.defaultCharset().name()));
-                System.setErr(new PrintStream(EMPTY_OUTPUT_STREAM, false, Charset.defaultCharset().name()));
-            } catch (UnsupportedEncodingException e) {
-            }
-        }
+//        if (httpLogDetailLevel == HttpLogDetailLevel.NONE) {
+//            try {
+//                System.setOut(new PrintStream(EMPTY_OUTPUT_STREAM, false, Charset.defaultCharset().name()));
+//                System.setErr(new PrintStream(EMPTY_OUTPUT_STREAM, false, Charset.defaultCharset().name()));
+//            } catch (UnsupportedEncodingException e) {
+//            }
+//        }
 
         if (isPlaybackMode()) {
             if (interceptorManager.getRecordedData() == null) {
@@ -165,6 +166,7 @@ public abstract class ResourceManagerTestBase extends TestBase {
             List<HttpPipelinePolicy> policies = new ArrayList<>();
             policies.add(new TextReplacementPolicy(interceptorManager.getRecordedData(), textReplacementRules));
             policies.add(new CookiePolicy());
+            policies.add(new RequestTracePolicy());
             httpPipeline = buildHttpPipeline(
                 null,
                 testProfile,
