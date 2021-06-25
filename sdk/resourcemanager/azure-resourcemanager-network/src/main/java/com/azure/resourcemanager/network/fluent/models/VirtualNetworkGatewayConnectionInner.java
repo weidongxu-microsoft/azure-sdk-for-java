@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /** A common class for general resource information. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkGatewayConnectionInner extends Resource {
+public final class VirtualNetworkGatewayConnectionInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkGatewayConnectionInner.class);
 
     /*
@@ -37,132 +36,154 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /*
      * The authorizationKey.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizationKey")
     private String authorizationKey;
 
     /*
      * The reference to virtual network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetworkGateway1", required = true)
     private VirtualNetworkGatewayInner virtualNetworkGateway1;
 
     /*
      * The reference to virtual network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetworkGateway2")
     private VirtualNetworkGatewayInner virtualNetworkGateway2;
 
     /*
      * The reference to local network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.localNetworkGateway2")
     private LocalNetworkGatewayInner localNetworkGateway2;
 
     /*
      * List of ingress NatRules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ingressNatRules")
     private List<SubResource> ingressNatRules;
 
     /*
      * List of egress NatRules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.egressNatRules")
     private List<SubResource> egressNatRules;
 
     /*
      * Gateway connection type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionType", required = true)
     private VirtualNetworkGatewayConnectionType connectionType;
 
     /*
      * Connection protocol used for this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionProtocol")
     private VirtualNetworkGatewayConnectionProtocol connectionProtocol;
 
     /*
      * The routing weight.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingWeight")
     private Integer routingWeight;
 
     /*
      * The dead peer detection timeout of this connection in seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dpdTimeoutSeconds")
     private Integer dpdTimeoutSeconds;
 
     /*
      * The connection mode for this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionMode")
     private VirtualNetworkGatewayConnectionMode connectionMode;
 
     /*
      * The IPSec shared key.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sharedKey")
     private String sharedKey;
 
     /*
      * Virtual Network Gateway connection status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private VirtualNetworkGatewayConnectionStatus connectionStatus;
 
     /*
      * Collection of all tunnels' connection health status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.tunnelConnectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private List<TunnelConnectionHealth> tunnelConnectionStatus;
 
     /*
      * The egress bytes transferred in this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.egressBytesTransferred", access = JsonProperty.Access.WRITE_ONLY)
     private Long egressBytesTransferred;
 
     /*
      * The ingress bytes transferred in this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ingressBytesTransferred", access = JsonProperty.Access.WRITE_ONLY)
     private Long ingressBytesTransferred;
 
     /*
      * The reference to peerings resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peer")
     private SubResource peer;
 
     /*
      * EnableBgp flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableBgp")
     private Boolean enableBgp;
 
     /*
      * Use private local Azure IP for the connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.useLocalAzureIpAddress")
     private Boolean useLocalAzureIpAddress;
 
     /*
      * Enable policy-based traffic selectors.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.usePolicyBasedTrafficSelectors")
     private Boolean usePolicyBasedTrafficSelectors;
 
     /*
      * The IPSec Policies to be considered by this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipsecPolicies")
     private List<IpsecPolicy> ipsecPolicies;
 
     /*
      * The Traffic Selector Policies to be considered by this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.trafficSelectorPolicies")
     private List<TrafficSelectorPolicy> trafficSelectorPolicies;
 
@@ -170,6 +191,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
      * The resource GUID property of the virtual network gateway connection
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
@@ -177,12 +199,14 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
      * The provisioning state of the virtual network gateway connection
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Bypass ExpressRoute Gateway for data forwarding.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteGatewayBypass")
     private Boolean expressRouteGatewayBypass;
 

@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Authorization in an ExpressRouteCircuit resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteCircuitAuthorizationInner extends SubResource {
+public final class ExpressRouteCircuitAuthorizationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteCircuitAuthorizationInner.class);
 
     /*
@@ -41,18 +40,21 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /*
      * The authorization key.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizationKey")
     private String authorizationKey;
 
     /*
      * The authorization use status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizationUseStatus")
     private AuthorizationUseStatus authorizationUseStatus;
 
     /*
      * The provisioning state of the authorization resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -4,7 +4,7 @@
 
 package com.azure.resourcemanager.compute.fluent.models;
 
-import com.azure.core.annotation.Immutable;
+import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.azure.core.util.logging.ClientLogger;
@@ -17,20 +17,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** The status of the latest virtual machine scale set rolling upgrade. */
-@JsonFlatten
-@Immutable
-public class RollingUpgradeStatusInfoInner extends Resource {
+@Fluent
+public final class RollingUpgradeStatusInfoInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(RollingUpgradeStatusInfoInner.class);
 
     /*
      * The rolling upgrade policies applied for this upgrade.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.policy", access = JsonProperty.Access.WRITE_ONLY)
     private RollingUpgradePolicy policy;
 
     /*
      * Information about the current running state of the overall upgrade.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.runningStatus", access = JsonProperty.Access.WRITE_ONLY)
     private RollingUpgradeRunningStatus runningStatus;
 
@@ -38,12 +39,14 @@ public class RollingUpgradeStatusInfoInner extends Resource {
      * Information about the number of virtual machine instances in each
      * upgrade state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.progress", access = JsonProperty.Access.WRITE_ONLY)
     private RollingUpgradeProgressInfo progress;
 
     /*
      * Error details for this upgrade, if there are any.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.error", access = JsonProperty.Access.WRITE_ONLY)
     private ApiError error;
 

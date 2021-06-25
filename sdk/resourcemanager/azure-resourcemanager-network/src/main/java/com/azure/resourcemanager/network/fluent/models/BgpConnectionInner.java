@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Virtual Appliance Site resource. */
-@JsonFlatten
 @Fluent
-public class BgpConnectionInner extends SubResource {
+public final class BgpConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(BgpConnectionInner.class);
 
     /*
@@ -40,24 +39,28 @@ public class BgpConnectionInner extends SubResource {
     /*
      * Peer ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerAsn")
     private Long peerAsn;
 
     /*
      * Peer IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerIp")
     private String peerIp;
 
     /*
      * The provisioning state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The current state of the VirtualHub to Peer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionState", access = JsonProperty.Access.WRITE_ONLY)
     private HubBgpConnectionStatus connectionState;
 

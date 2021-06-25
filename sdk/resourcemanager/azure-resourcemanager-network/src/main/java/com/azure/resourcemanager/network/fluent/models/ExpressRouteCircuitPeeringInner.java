@@ -19,9 +19,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Peering in an ExpressRouteCircuit resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteCircuitPeeringInner extends SubResource {
+public final class ExpressRouteCircuitPeeringInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteCircuitPeeringInner.class);
 
     /*
@@ -46,108 +45,126 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
     /*
      * The peering type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeringType")
     private ExpressRoutePeeringType peeringType;
 
     /*
      * The peering state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.state")
     private ExpressRoutePeeringState state;
 
     /*
      * The Azure ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.azureASN")
     private Integer azureAsn;
 
     /*
      * The peer ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerASN")
     private Long peerAsn;
 
     /*
      * The primary address prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primaryPeerAddressPrefix")
     private String primaryPeerAddressPrefix;
 
     /*
      * The secondary address prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.secondaryPeerAddressPrefix")
     private String secondaryPeerAddressPrefix;
 
     /*
      * The primary port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primaryAzurePort")
     private String primaryAzurePort;
 
     /*
      * The secondary port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.secondaryAzurePort")
     private String secondaryAzurePort;
 
     /*
      * The shared key.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sharedKey")
     private String sharedKey;
 
     /*
      * The VLAN ID.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vlanId")
     private Integer vlanId;
 
     /*
      * The Microsoft peering configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.microsoftPeeringConfig")
     private ExpressRouteCircuitPeeringConfig microsoftPeeringConfig;
 
     /*
      * The peering stats of express route circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.stats")
     private ExpressRouteCircuitStatsInner stats;
 
     /*
      * The provisioning state of the express route circuit peering resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The GatewayManager Etag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayManagerEtag")
     private String gatewayManagerEtag;
 
     /*
      * Who was the last to modify the peering.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.lastModifiedBy", access = JsonProperty.Access.WRITE_ONLY)
     private String lastModifiedBy;
 
     /*
      * The reference to the RouteFilter resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routeFilter")
     private SubResource routeFilter;
 
     /*
      * The IPv6 peering configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipv6PeeringConfig")
     private Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig;
 
     /*
      * The ExpressRoute connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteConnection")
     private ExpressRouteConnectionId expressRouteConnection;
 
@@ -155,6 +172,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * The list of circuit connections associated with Azure Private Peering
      * for this circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connections")
     private List<ExpressRouteCircuitConnectionInner> connections;
 
@@ -162,6 +180,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * The list of peered circuit connections associated with Azure Private
      * Peering for this circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeredConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<PeerExpressRouteCircuitConnectionInner> peeredConnections;
 

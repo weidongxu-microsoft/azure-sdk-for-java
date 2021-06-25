@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Backend address pool settings of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayBackendHttpSettings extends SubResource {
+public final class ApplicationGatewayBackendHttpSettings extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayBackendHttpSettings.class);
 
     /*
@@ -40,18 +39,21 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /*
      * The destination port on the backend.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.port")
     private Integer port;
 
     /*
      * The protocol used to communicate with the backend.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private ApplicationGatewayProtocol protocol;
 
     /*
      * Cookie based affinity.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.cookieBasedAffinity")
     private ApplicationGatewayCookieBasedAffinity cookieBasedAffinity;
 
@@ -60,36 +62,42 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * response is not received within RequestTimeout. Acceptable values are
      * from 1 second to 86400 seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requestTimeout")
     private Integer requestTimeout;
 
     /*
      * Probe resource of an application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.probe")
     private SubResource probe;
 
     /*
      * Array of references to application gateway authentication certificates.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authenticationCertificates")
     private List<SubResource> authenticationCertificates;
 
     /*
      * Array of references to application gateway trusted root certificates.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.trustedRootCertificates")
     private List<SubResource> trustedRootCertificates;
 
     /*
      * Connection draining of the backend http settings resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionDraining")
     private ApplicationGatewayConnectionDraining connectionDraining;
 
     /*
      * Host header to be sent to the backend servers.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostName")
     private String hostname;
 
@@ -97,18 +105,21 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Whether to pick host header should be picked from the host name of the
      * backend server. Default value is false.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.pickHostNameFromBackendAddress")
     private Boolean pickHostnameFromBackendAddress;
 
     /*
      * Cookie name to use for the affinity cookie.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.affinityCookieName")
     private String affinityCookieName;
 
     /*
      * Whether the probe is enabled. Default value is false.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.probeEnabled")
     private Boolean probeEnabled;
 
@@ -116,12 +127,14 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Path which should be used as a prefix for all HTTP requests. Null means
      * no path will be prefixed. Default value is null.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.path")
     private String path;
 
     /*
      * The provisioning state of the backend HTTP settings resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

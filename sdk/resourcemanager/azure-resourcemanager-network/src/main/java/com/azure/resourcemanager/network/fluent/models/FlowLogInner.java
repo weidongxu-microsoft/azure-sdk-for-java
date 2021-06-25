@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** A flow log resource. */
-@JsonFlatten
 @Fluent
-public class FlowLogInner extends Resource {
+public final class FlowLogInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(FlowLogInner.class);
 
     /*
@@ -31,48 +30,56 @@ public class FlowLogInner extends Resource {
     /*
      * ID of network security group to which flow log will be applied.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.targetResourceId")
     private String targetResourceId;
 
     /*
      * Guid of network security group to which flow log will be applied.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.targetResourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String targetResourceGuid;
 
     /*
      * ID of the storage account which is used to store the flow log.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageId")
     private String storageId;
 
     /*
      * Flag to enable/disable flow logging.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enabled")
     private Boolean enabled;
 
     /*
      * Parameters that define the retention policy for flow log.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.retentionPolicy")
     private RetentionPolicyParameters retentionPolicy;
 
     /*
      * Parameters that define the flow log format.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.format")
     private FlowLogFormatParameters format;
 
     /*
      * Parameters that define the configuration of traffic analytics.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.flowAnalyticsConfiguration")
     private TrafficAnalyticsProperties flowAnalyticsConfiguration;
 
     /*
      * The provisioning state of the flow log.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

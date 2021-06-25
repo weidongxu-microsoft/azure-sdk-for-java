@@ -21,39 +21,43 @@ import java.util.List;
 import java.util.Map;
 
 /** Describes a Virtual Machine Image. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
+public final class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineImageInner.class);
 
     /*
      * Used for establishing the purchase context of any 3rd Party artifact
      * through MarketPlace.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.plan")
     private PurchasePlan plan;
 
     /*
      * Contains the os disk image information.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osDiskImage")
     private OSDiskImage osDiskImage;
 
     /*
      * The dataDiskImages property.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dataDiskImages")
     private List<DataDiskImage> dataDiskImages;
 
     /*
      * Describes automatic OS upgrade properties on the image.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.automaticOSUpgradeProperties")
     private AutomaticOSUpgradeProperties automaticOSUpgradeProperties;
 
     /*
      * Specifies the HyperVGeneration Type
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGenerationTypes hyperVGeneration;
 
@@ -61,12 +65,14 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      * Specifies disallowed configuration for the VirtualMachine created from
      * the image
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.disallowed")
     private DisallowedConfiguration disallowed;
 
     /*
      * The features property.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.features")
     private List<VirtualMachineImageFeature> features;
 

@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** IP configuration for virtual network gateway. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkGatewayIpConfigurationInner extends SubResource {
+public final class VirtualNetworkGatewayIpConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkGatewayIpConfigurationInner.class);
 
     /*
@@ -35,24 +34,28 @@ public class VirtualNetworkGatewayIpConfigurationInner extends SubResource {
     /*
      * The private IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
     /*
      * The reference to the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /*
      * The reference to the public IP resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIpAddress;
 
     /*
      * Private IP Address for this gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String privateIpAddress;
 
@@ -60,6 +63,7 @@ public class VirtualNetworkGatewayIpConfigurationInner extends SubResource {
      * The provisioning state of the virtual network gateway IP configuration
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

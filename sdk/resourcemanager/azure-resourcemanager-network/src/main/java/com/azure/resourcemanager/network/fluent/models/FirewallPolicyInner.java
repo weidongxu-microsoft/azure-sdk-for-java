@@ -25,9 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 /** FirewallPolicy Resource. */
-@JsonFlatten
 @Fluent
-public class FirewallPolicyInner extends Resource {
+public final class FirewallPolicyInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(FirewallPolicyInner.class);
 
     /*
@@ -45,18 +44,21 @@ public class FirewallPolicyInner extends Resource {
     /*
      * List of references to FirewallPolicyRuleCollectionGroups.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ruleCollectionGroups", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> ruleCollectionGroups;
 
     /*
      * The provisioning state of the firewall policy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The parent firewall policy from which rules are inherited.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.basePolicy")
     private SubResource basePolicy;
 
@@ -64,60 +66,70 @@ public class FirewallPolicyInner extends Resource {
      * List of references to Azure Firewalls that this Firewall Policy is
      * associated with.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewalls", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> firewalls;
 
     /*
      * List of references to Child Firewall Policies.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.childPolicies", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> childPolicies;
 
     /*
      * The operation mode for Threat Intelligence.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.threatIntelMode")
     private AzureFirewallThreatIntelMode threatIntelMode;
 
     /*
      * ThreatIntel Whitelist for Firewall Policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.threatIntelWhitelist")
     private FirewallPolicyThreatIntelWhitelist threatIntelWhitelist;
 
     /*
      * Insights on Firewall Policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.insights")
     private FirewallPolicyInsights insights;
 
     /*
      * The private IP addresses/IP ranges to which traffic will not be SNAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.snat")
     private FirewallPolicySnat snat;
 
     /*
      * DNS Proxy Settings definition.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private DnsSettings dnsSettings;
 
     /*
      * The configuration for Intrusion detection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.intrusionDetection")
     private FirewallPolicyIntrusionDetection intrusionDetection;
 
     /*
      * TLS Configuration definition.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.transportSecurity")
     private FirewallPolicyTransportSecurity transportSecurity;
 
     /*
      * The Firewall Policy SKU.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sku")
     private FirewallPolicySku sku;
 

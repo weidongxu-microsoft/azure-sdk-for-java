@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** A load balancer probe. */
-@JsonFlatten
 @Fluent
-public class ProbeInner extends SubResource {
+public final class ProbeInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ProbeInner.class);
 
     /*
@@ -42,6 +41,7 @@ public class ProbeInner extends SubResource {
     /*
      * The load balancer rules that use this probe.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancingRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> loadBalancingRules;
 
@@ -51,6 +51,7 @@ public class ProbeInner extends SubResource {
      * specified, a 200 OK response from the specifies URI is required for the
      * probe to be successful.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private ProbeProtocol protocol;
 
@@ -58,6 +59,7 @@ public class ProbeInner extends SubResource {
      * The port for communicating the probe. Possible values range from 1 to
      * 65535, inclusive.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.port")
     private Integer port;
 
@@ -68,6 +70,7 @@ public class ProbeInner extends SubResource {
      * before taking the instance out of rotation. The default value is 15, the
      * minimum value is 5.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.intervalInSeconds")
     private Integer intervalInSeconds;
 
@@ -77,6 +80,7 @@ public class ProbeInner extends SubResource {
      * endpoints to be taken out of rotation faster or slower than the typical
      * times used in Azure.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.numberOfProbes")
     private Integer numberOfProbes;
 
@@ -85,12 +89,14 @@ public class ProbeInner extends SubResource {
      * if a protocol is set to http. Otherwise, it is not allowed. There is no
      * default value.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requestPath")
     private String requestPath;
 
     /*
      * The provisioning state of the probe resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

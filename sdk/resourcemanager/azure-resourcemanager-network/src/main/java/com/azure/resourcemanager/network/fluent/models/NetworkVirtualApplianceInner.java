@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /** NetworkVirtualAppliance Resource. */
-@JsonFlatten
 @Fluent
-public class NetworkVirtualApplianceInner extends Resource {
+public final class NetworkVirtualApplianceInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkVirtualApplianceInner.class);
 
     /*
@@ -40,66 +39,77 @@ public class NetworkVirtualApplianceInner extends Resource {
     /*
      * Network Virtual Appliance SKU.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.nvaSku")
     private VirtualApplianceSkuProperties nvaSku;
 
     /*
      * Address Prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix", access = JsonProperty.Access.WRITE_ONLY)
     private String addressPrefix;
 
     /*
      * BootStrapConfigurationBlobs storage URLs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bootStrapConfigurationBlobs")
     private List<String> bootStrapConfigurationBlobs;
 
     /*
      * The Virtual Hub where Network Virtual Appliance is being deployed.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHub")
     private SubResource virtualHub;
 
     /*
      * CloudInitConfigurationBlob storage URLs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.cloudInitConfigurationBlobs")
     private List<String> cloudInitConfigurationBlobs;
 
     /*
      * CloudInitConfiguration string in plain text.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.cloudInitConfiguration")
     private String cloudInitConfiguration;
 
     /*
      * VirtualAppliance ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualApplianceAsn")
     private Long virtualApplianceAsn;
 
     /*
      * List of Virtual Appliance Network Interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualApplianceNics", access = JsonProperty.Access.WRITE_ONLY)
     private List<VirtualApplianceNicProperties> virtualApplianceNics;
 
     /*
      * List of references to VirtualApplianceSite.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualApplianceSites", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> virtualApplianceSites;
 
     /*
      * List of references to InboundSecurityRules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.inboundSecurityRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> inboundSecurityRules;
 
     /*
      * The provisioning state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

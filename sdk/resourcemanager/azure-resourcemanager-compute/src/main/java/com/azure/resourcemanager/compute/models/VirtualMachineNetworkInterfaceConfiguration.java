@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a virtual machine network interface configurations. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineNetworkInterfaceConfiguration {
+public final class VirtualMachineNetworkInterfaceConfiguration {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineNetworkInterfaceConfiguration.class);
 
     /*
@@ -28,12 +27,14 @@ public class VirtualMachineNetworkInterfaceConfiguration {
      * Specifies the primary network interface in case the virtual machine has
      * more than 1 network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
     /*
      * Specify what happens to the network interface when the VM is deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 
@@ -41,42 +42,49 @@ public class VirtualMachineNetworkInterfaceConfiguration {
      * Specifies whether the network interface is accelerated
      * networking-enabled.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableAcceleratedNetworking")
     private Boolean enableAcceleratedNetworking;
 
     /*
      * Specifies whether the network interface is FPGA networking-enabled.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableFpga")
     private Boolean enableFpga;
 
     /*
      * Whether IP forwarding enabled on this NIC.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableIPForwarding")
     private Boolean enableIpForwarding;
 
     /*
      * The network security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkSecurityGroup")
     private SubResource networkSecurityGroup;
 
     /*
      * The dns settings to be applied on the network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private VirtualMachineNetworkInterfaceDnsSettingsConfiguration dnsSettings;
 
     /*
      * Specifies the IP configurations of the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<VirtualMachineNetworkInterfaceIpConfiguration> ipConfigurations;
 
     /*
      * The dscpConfiguration property.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dscpConfiguration")
     private SubResource dscpConfiguration;
 

@@ -14,44 +14,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Parameters that define the create packet capture operation. */
-@JsonFlatten
 @Fluent
-public class PacketCaptureInner {
+public final class PacketCaptureInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PacketCaptureInner.class);
 
     /*
      * The ID of the targeted resource, only VM is currently supported.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.target", required = true)
     private String target;
 
     /*
      * Number of bytes captured per packet, the remaining bytes are truncated.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bytesToCapturePerPacket")
     private Long bytesToCapturePerPacket;
 
     /*
      * Maximum size of the capture output.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.totalBytesPerSession")
     private Long totalBytesPerSession;
 
     /*
      * Maximum duration of the capture session in seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.timeLimitInSeconds")
     private Integer timeLimitInSeconds;
 
     /*
      * The storage location for a packet capture session.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageLocation", required = true)
     private PacketCaptureStorageLocation storageLocation;
 
     /*
      * A list of packet capture filters.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.filters")
     private List<PacketCaptureFilter> filters;
 

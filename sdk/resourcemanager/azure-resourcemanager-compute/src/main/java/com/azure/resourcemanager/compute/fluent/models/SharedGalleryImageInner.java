@@ -22,9 +22,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 /** Specifies information about the gallery image definition that you want to create or update. */
-@JsonFlatten
 @Fluent
-public class SharedGalleryImageInner extends PirSharedGalleryResource {
+public final class SharedGalleryImageInner extends PirSharedGalleryResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SharedGalleryImageInner.class);
 
     /*
@@ -32,6 +31,7 @@ public class SharedGalleryImageInner extends PirSharedGalleryResource {
      * in the disk when creating a VM from a managed image. <br><br> Possible
      * values are: <br><br> **Windows** <br><br> **Linux**
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osType")
     private OperatingSystemTypes osType;
 
@@ -39,6 +39,7 @@ public class SharedGalleryImageInner extends PirSharedGalleryResource {
      * This property allows the user to specify whether the virtual machines
      * created under this image are 'Generalized' or 'Specialized'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osState")
     private OperatingSystemStateTypes osState;
 
@@ -46,12 +47,14 @@ public class SharedGalleryImageInner extends PirSharedGalleryResource {
      * The end of life date of the gallery image definition. This property can
      * be used for decommissioning purposes. This property is updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.endOfLifeDate")
     private OffsetDateTime endOfLifeDate;
 
     /*
      * This is the gallery image definition identifier.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.identifier")
     private GalleryImageIdentifier identifier;
 
@@ -59,12 +62,14 @@ public class SharedGalleryImageInner extends PirSharedGalleryResource {
      * The properties describe the recommended machine configuration for this
      * Image Definition. These properties are updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.recommended")
     private RecommendedMachineConfiguration recommended;
 
     /*
      * Describes the disallowed disk types.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.disallowed")
     private Disallowed disallowed;
 
@@ -72,12 +77,14 @@ public class SharedGalleryImageInner extends PirSharedGalleryResource {
      * The hypervisor generation of the Virtual Machine. Applicable to OS disks
      * only.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGeneration hyperVGeneration;
 
     /*
      * A list of gallery image features.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.features")
     private List<GalleryImageFeature> features;
 
@@ -85,6 +92,7 @@ public class SharedGalleryImageInner extends PirSharedGalleryResource {
      * Describes the gallery image definition purchase plan. This is used by
      * marketplace images.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.purchasePlan")
     private ImagePurchasePlan purchasePlan;
 

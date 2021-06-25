@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Custom IP prefix resource. */
-@JsonFlatten
 @Fluent
-public class CustomIpPrefixInner extends Resource {
+public final class CustomIpPrefixInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(CustomIpPrefixInner.class);
 
     /*
@@ -46,60 +45,70 @@ public class CustomIpPrefixInner extends Resource {
      * The prefix range in CIDR notation. Should include the start address and
      * the prefix length.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.cidr")
     private String cidr;
 
     /*
      * Signed message for WAN validation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.signedMessage")
     private String signedMessage;
 
     /*
      * Authorization message for WAN validation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizationMessage")
     private String authorizationMessage;
 
     /*
      * The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customIpPrefixParent")
     private CustomIpPrefixInner customIpPrefixParent;
 
     /*
      * The list of all Children for IPv6 /48 CustomIpPrefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.childCustomIpPrefixes", access = JsonProperty.Access.WRITE_ONLY)
     private List<CustomIpPrefixInner> childCustomIpPrefixes;
 
     /*
      * The commissioned state of the Custom IP Prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.commissionedState")
     private CommissionedState commissionedState;
 
     /*
      * The list of all referenced PublicIpPrefixes.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIpPrefixes", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> publicIpPrefixes;
 
     /*
      * The resource GUID property of the custom IP prefix resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The reason why resource is in failed state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.failedReason", access = JsonProperty.Access.WRITE_ONLY)
     private String failedReason;
 
     /*
      * The provisioning state of the custom IP prefix resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

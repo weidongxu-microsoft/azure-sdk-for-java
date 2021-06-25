@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** VirtualWAN Resource. */
-@JsonFlatten
 @Fluent
-public class VirtualWanInner extends Resource {
+public final class VirtualWanInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualWanInner.class);
 
     /*
@@ -31,48 +30,56 @@ public class VirtualWanInner extends Resource {
     /*
      * Vpn encryption to be disabled or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.disableVpnEncryption")
     private Boolean disableVpnEncryption;
 
     /*
      * List of VirtualHubs in the VirtualWAN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHubs", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> virtualHubs;
 
     /*
      * List of VpnSites in the VirtualWAN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnSites", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> vpnSites;
 
     /*
      * True if branch to branch traffic is allowed.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowBranchToBranchTraffic")
     private Boolean allowBranchToBranchTraffic;
 
     /*
      * True if Vnet to Vnet traffic is allowed.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowVnetToVnetTraffic")
     private Boolean allowVnetToVnetTraffic;
 
     /*
      * The office local breakout category.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.office365LocalBreakoutCategory", access = JsonProperty.Access.WRITE_ONLY)
     private OfficeTrafficCategory office365LocalBreakoutCategory;
 
     /*
      * The provisioning state of the virtual WAN resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The type of the VirtualWAN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.type")
     private String typePropertiesType;
 

@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** IpAllocation resource. */
-@JsonFlatten
 @Fluent
-public class IpAllocationInner extends Resource {
+public final class IpAllocationInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(IpAllocationInner.class);
 
     /*
@@ -30,48 +29,56 @@ public class IpAllocationInner extends Resource {
     /*
      * The Subnet that using the prefix of this IpAllocation resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource subnet;
 
     /*
      * The VirtualNetwork that using the prefix of this IpAllocation resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetwork", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource virtualNetwork;
 
     /*
      * The type for the IpAllocation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.type")
     private IpAllocationType typePropertiesType;
 
     /*
      * The address prefix for the IpAllocation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.prefix")
     private String prefix;
 
     /*
      * The address prefix length for the IpAllocation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.prefixLength")
     private Integer prefixLength;
 
     /*
      * The address prefix Type for the IpAllocation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.prefixType")
     private IpVersion prefixType;
 
     /*
      * The IPAM allocation ID.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipamAllocationId")
     private String ipamAllocationId;
 
     /*
      * IpAllocation tags.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allocationTags")
     private Map<String, String> allocationTags;
 

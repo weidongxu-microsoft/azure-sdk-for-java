@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Specifies information about the proximity placement group. */
-@JsonFlatten
 @Fluent
-public class ProximityPlacementGroupInner extends Resource {
+public final class ProximityPlacementGroupInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ProximityPlacementGroupInner.class);
 
     /*
@@ -27,6 +26,7 @@ public class ProximityPlacementGroupInner extends Resource {
      * values are: <br><br> **Standard** : Co-locate resources within an Azure
      * region or Availability Zone. <br><br> **Ultra** : For future use.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.proximityPlacementGroupType")
     private ProximityPlacementGroupType proximityPlacementGroupType;
 
@@ -34,6 +34,7 @@ public class ProximityPlacementGroupInner extends Resource {
      * A list of references to all virtual machines in the proximity placement
      * group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachines", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceWithColocationStatus> virtualMachines;
 
@@ -41,6 +42,7 @@ public class ProximityPlacementGroupInner extends Resource {
      * A list of references to all virtual machine scale sets in the proximity
      * placement group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachineScaleSets", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceWithColocationStatus> virtualMachineScaleSets;
 
@@ -48,12 +50,14 @@ public class ProximityPlacementGroupInner extends Resource {
      * A list of references to all availability sets in the proximity placement
      * group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availabilitySets", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceWithColocationStatus> availabilitySets;
 
     /*
      * Describes colocation status of the Proximity Placement Group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.colocationStatus")
     private InstanceViewStatus colocationStatus;
 

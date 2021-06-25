@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Specifies information about the SSH public key. */
-@JsonFlatten
 @Fluent
-public class SshPublicKeyResourceInner extends Resource {
+public final class SshPublicKeyResourceInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SshPublicKeyResourceInner.class);
 
     /*
@@ -25,6 +24,7 @@ public class SshPublicKeyResourceInner extends Resource {
      * If the public key is provided upon resource creation, the provided
      * public key needs to be at least 2048-bit and in ssh-rsa format.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicKey")
     private String publicKey;
 

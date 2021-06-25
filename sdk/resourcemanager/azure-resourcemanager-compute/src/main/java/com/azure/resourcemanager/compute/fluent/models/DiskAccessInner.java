@@ -4,7 +4,7 @@
 
 package com.azure.resourcemanager.compute.fluent.models;
 
-import com.azure.core.annotation.Immutable;
+import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.azure.core.util.logging.ClientLogger;
@@ -15,27 +15,29 @@ import java.util.List;
 import java.util.Map;
 
 /** disk access resource. */
-@JsonFlatten
-@Immutable
-public class DiskAccessInner extends Resource {
+@Fluent
+public final class DiskAccessInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DiskAccessInner.class);
 
     /*
      * A readonly collection of private endpoint connections created on the
      * disk. Currently only one endpoint connection is supported.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<PrivateEndpointConnectionInner> privateEndpointConnections;
 
     /*
      * The disk access resource provisioning state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /*
      * The time when the disk access was created.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.timeCreated", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime timeCreated;
 

@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** ExpressRouteConnection resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteConnectionInner extends SubResource {
+public final class ExpressRouteConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteConnectionInner.class);
 
     /*
@@ -29,36 +28,42 @@ public class ExpressRouteConnectionInner extends SubResource {
     /*
      * The provisioning state of the express route connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The ExpressRoute circuit peering.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteCircuitPeering")
     private ExpressRouteCircuitPeeringId expressRouteCircuitPeering;
 
     /*
      * Authorization key to establish the connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizationKey")
     private String authorizationKey;
 
     /*
      * The routing weight associated to the connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingWeight")
     private Integer routingWeight;
 
     /*
      * Enable internet security.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableInternetSecurity")
     private Boolean enableInternetSecurity;
 
     /*
      * Enable FastPath to vWan Firewall hub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteGatewayBypass")
     private Boolean expressRouteGatewayBypass;
 
@@ -66,6 +71,7 @@ public class ExpressRouteConnectionInner extends SubResource {
      * The Routing Configuration indicating the associated and propagated route
      * tables on this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingConfiguration")
     private RoutingConfiguration routingConfiguration;
 

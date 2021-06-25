@@ -25,9 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Describes a Virtual Machine Scale Set. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetInner extends Resource {
+public final class VirtualMachineScaleSetInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetInner.class);
 
     /*
@@ -70,24 +69,28 @@ public class VirtualMachineScaleSetInner extends Resource {
     /*
      * The upgrade policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.upgradePolicy")
     private UpgradePolicy upgradePolicy;
 
     /*
      * Policy for automatic repairs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.automaticRepairsPolicy")
     private AutomaticRepairsPolicy automaticRepairsPolicy;
 
     /*
      * The virtual machine profile.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachineProfile")
     private VirtualMachineScaleSetVMProfile virtualMachineProfile;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
@@ -95,6 +98,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * Specifies whether the Virtual Machine Scale Set should be
      * overprovisioned.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.overprovision")
     private Boolean overprovision;
 
@@ -103,12 +107,14 @@ public class VirtualMachineScaleSetInner extends Resource {
      * requested number of VMs which are finally kept. This property will hence
      * ensure that the extensions do not run on the extra overprovisioned VMs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.doNotRunExtensionsOnOverprovisionedVMs")
     private Boolean doNotRunExtensionsOnOverprovisionedVMs;
 
     /*
      * Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.uniqueId", access = JsonProperty.Access.WRITE_ONLY)
     private String uniqueId;
 
@@ -118,6 +124,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * be modified to false. However, if singlePlacementGroup is false, it may
      * not be modified to true.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.singlePlacementGroup")
     private Boolean singlePlacementGroup;
 
@@ -125,12 +132,14 @@ public class VirtualMachineScaleSetInner extends Resource {
      * Whether to force strictly even Virtual Machine distribution cross
      * x-zones in case there is zone outage.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.zoneBalance")
     private Boolean zoneBalance;
 
     /*
      * Fault Domain count for each placement group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomainCount")
     private Integer platformFaultDomainCount;
 
@@ -139,6 +148,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * virtual machine scale set should be assigned to. <br><br>Minimum
      * api-version: 2018-04-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.proximityPlacementGroup")
     private SubResource proximityPlacementGroup;
 
@@ -146,6 +156,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * Specifies information about the dedicated host group that the virtual
      * machine scale set resides in. <br><br>Minimum api-version: 2020-06-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostGroup")
     private SubResource hostGroup;
 
@@ -155,6 +166,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * Virtual Machines have the capability to support attaching managed data
      * disks with UltraSSD_LRS storage account type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.additionalCapabilities")
     private AdditionalCapabilities additionalCapabilities;
 
@@ -162,12 +174,14 @@ public class VirtualMachineScaleSetInner extends Resource {
      * Specifies the scale-in policy that decides which virtual machines are
      * chosen for removal when a Virtual Machine Scale Set is scaled-in.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.scaleInPolicy")
     private ScaleInPolicy scaleInPolicy;
 
     /*
      * Specifies the orchestration mode for the virtual machine scale set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.orchestrationMode")
     private OrchestrationMode orchestrationMode;
 

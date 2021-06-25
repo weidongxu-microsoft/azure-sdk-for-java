@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Virtual Network resource. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkInner extends Resource {
+public final class VirtualNetworkInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkInner.class);
 
     /*
@@ -41,6 +40,7 @@ public class VirtualNetworkInner extends Resource {
      * The AddressSpace that contains an array of IP address ranges that can be
      * used by subnets.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressSpace")
     private AddressSpace addressSpace;
 
@@ -48,36 +48,42 @@ public class VirtualNetworkInner extends Resource {
      * The dhcpOptions that contains an array of DNS servers available to VMs
      * deployed in the virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dhcpOptions")
     private DhcpOptions dhcpOptions;
 
     /*
      * The FlowTimeout value (in minutes) for the Virtual Network
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.flowTimeoutInMinutes")
     private Integer flowTimeoutInMinutes;
 
     /*
      * A list of subnets in a Virtual Network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnets")
     private List<SubnetInner> subnets;
 
     /*
      * A list of peerings in a Virtual Network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetworkPeerings")
     private List<VirtualNetworkPeeringInner> virtualNetworkPeerings;
 
     /*
      * The resourceGuid property of the Virtual Network resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the virtual network resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -86,6 +92,7 @@ public class VirtualNetworkInner extends Resource {
      * in the virtual network. It requires a DDoS protection plan associated
      * with the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableDdosProtection")
     private Boolean enableDdosProtection;
 
@@ -93,12 +100,14 @@ public class VirtualNetworkInner extends Resource {
      * Indicates if VM protection is enabled for all the subnets in the virtual
      * network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableVmProtection")
     private Boolean enableVmProtection;
 
     /*
      * The DDoS protection plan associated with the virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ddosProtectionPlan")
     private SubResource ddosProtectionPlan;
 
@@ -106,12 +115,14 @@ public class VirtualNetworkInner extends Resource {
      * Bgp Communities sent over ExpressRoute with each route corresponding to
      * a prefix in this VNET.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpCommunities")
     private VirtualNetworkBgpCommunities bgpCommunities;
 
     /*
      * Array of IpAllocation which reference this VNET.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAllocations")
     private List<SubResource> ipAllocations;
 

@@ -20,9 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Subnet in a virtual network resource. */
-@JsonFlatten
 @Fluent
-public class SubnetInner extends SubResource {
+public final class SubnetInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SubnetInner.class);
 
     /*
@@ -47,48 +46,56 @@ public class SubnetInner extends SubResource {
     /*
      * The address prefix for the subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
 
     /*
      * List of address prefixes for the subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefixes")
     private List<String> addressPrefixes;
 
     /*
      * The reference to the NetworkSecurityGroup resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkSecurityGroup")
     private NetworkSecurityGroupInner networkSecurityGroup;
 
     /*
      * The reference to the RouteTable resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routeTable")
     private RouteTableInner routeTable;
 
     /*
      * Nat gateway associated with this subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.natGateway")
     private SubResource natGateway;
 
     /*
      * An array of service endpoints.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceEndpoints")
     private List<ServiceEndpointPropertiesFormat> serviceEndpoints;
 
     /*
      * An array of service endpoint policies.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceEndpointPolicies")
     private List<ServiceEndpointPolicyInner> serviceEndpointPolicies;
 
     /*
      * An array of references to private endpoints.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpoints", access = JsonProperty.Access.WRITE_ONLY)
     private List<PrivateEndpointInner> privateEndpoints;
 
@@ -96,36 +103,42 @@ public class SubnetInner extends SubResource {
      * An array of references to the network interface IP configurations using
      * subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<IpConfigurationInner> ipConfigurations;
 
     /*
      * Array of IP configuration profiles which reference this subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurationProfiles", access = JsonProperty.Access.WRITE_ONLY)
     private List<IpConfigurationProfileInner> ipConfigurationProfiles;
 
     /*
      * Array of IpAllocation which reference this subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAllocations")
     private List<SubResource> ipAllocations;
 
     /*
      * An array of references to the external resources using subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceNavigationLinks", access = JsonProperty.Access.WRITE_ONLY)
     private List<ResourceNavigationLink> resourceNavigationLinks;
 
     /*
      * An array of references to services injecting into this subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceAssociationLinks", access = JsonProperty.Access.WRITE_ONLY)
     private List<ServiceAssociationLink> serviceAssociationLinks;
 
     /*
      * An array of references to the delegations on the subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.delegations")
     private List<Delegation> delegations;
 
@@ -133,12 +146,14 @@ public class SubnetInner extends SubResource {
      * A read-only string identifying the intention of use for this subnet
      * based on delegations and other user-defined properties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.purpose", access = JsonProperty.Access.WRITE_ONLY)
     private String purpose;
 
     /*
      * The provisioning state of the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -146,6 +161,7 @@ public class SubnetInner extends SubResource {
      * Enable or Disable apply network policies on private end point in the
      * subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpointNetworkPolicies")
     private VirtualNetworkPrivateEndpointNetworkPolicies privateEndpointNetworkPolicies;
 
@@ -153,12 +169,14 @@ public class SubnetInner extends SubResource {
      * Enable or Disable apply network policies on private link service in the
      * subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkServiceNetworkPolicies")
     private VirtualNetworkPrivateLinkServiceNetworkPolicies privateLinkServiceNetworkPolicies;
 
     /*
      * Application gateway IP configurations of virtual network resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationGatewayIpConfigurations")
     private List<ApplicationGatewayIpConfigurationInner> applicationGatewayIpConfigurations;
 

@@ -17,26 +17,28 @@ import java.util.List;
 import java.util.Map;
 
 /** Describes a Virtual Machine run command. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineRunCommandInner extends Resource {
+public final class VirtualMachineRunCommandInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineRunCommandInner.class);
 
     /*
      * The source of the run command script.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.source")
     private VirtualMachineRunCommandScriptSource source;
 
     /*
      * The parameters used by the script.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.parameters")
     private List<RunCommandInputParameter> parameters;
 
     /*
      * The parameters used by the script.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protectedParameters")
     private List<RunCommandInputParameter> protectedParameters;
 
@@ -44,12 +46,14 @@ public class VirtualMachineRunCommandInner extends Resource {
      * Optional. If set to true, provisioning will complete as soon as the
      * script starts and will not wait for script to complete.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.asyncExecution")
     private Boolean asyncExecution;
 
     /*
      * Specifies the user account on the VM when executing the run command.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.runAsUser")
     private String runAsUser;
 
@@ -57,12 +61,14 @@ public class VirtualMachineRunCommandInner extends Resource {
      * Specifies the user account password on the VM when executing the run
      * command.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.runAsPassword")
     private String runAsPassword;
 
     /*
      * The timeout in seconds to execute the run command.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.timeoutInSeconds")
     private Integer timeoutInSeconds;
 
@@ -70,6 +76,7 @@ public class VirtualMachineRunCommandInner extends Resource {
      * Specifies the Azure storage blob where script output stream will be
      * uploaded.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outputBlobUri")
     private String outputBlobUri;
 
@@ -77,18 +84,21 @@ public class VirtualMachineRunCommandInner extends Resource {
      * Specifies the Azure storage blob where script error stream will be
      * uploaded.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.errorBlobUri")
     private String errorBlobUri;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /*
      * The virtual machine run command instance view.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private VirtualMachineRunCommandInstanceView instanceView;
 

@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** HubVirtualNetworkConnection Resource. */
-@JsonFlatten
 @Fluent
-public class HubVirtualNetworkConnectionInner extends SubResource {
+public final class HubVirtualNetworkConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(HubVirtualNetworkConnectionInner.class);
 
     /*
@@ -35,24 +34,28 @@ public class HubVirtualNetworkConnectionInner extends SubResource {
     /*
      * Reference to the remote virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.remoteVirtualNetwork")
     private SubResource remoteVirtualNetwork;
 
     /*
      * Deprecated: VirtualHub to RemoteVnet transit to enabled or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowHubToRemoteVnetTransit")
     private Boolean allowHubToRemoteVnetTransit;
 
     /*
      * Deprecated: Allow RemoteVnet to use Virtual Hub's gateways.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowRemoteVnetToUseHubVnetGateways")
     private Boolean allowRemoteVnetToUseHubVnetGateways;
 
     /*
      * Enable internet security.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableInternetSecurity")
     private Boolean enableInternetSecurity;
 
@@ -60,12 +63,14 @@ public class HubVirtualNetworkConnectionInner extends SubResource {
      * The Routing Configuration indicating the associated and propagated route
      * tables on this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingConfiguration")
     private RoutingConfiguration routingConfiguration;
 
     /*
      * The provisioning state of the hub virtual network connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

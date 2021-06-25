@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a virtual machine scale set network profile's network configurations. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
+public final class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetNetworkConfiguration.class);
 
     /*
@@ -28,6 +27,7 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
      * Specifies the primary network interface in case the virtual machine has
      * more than 1 network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
@@ -35,42 +35,49 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
      * Specifies whether the network interface is accelerated
      * networking-enabled.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableAcceleratedNetworking")
     private Boolean enableAcceleratedNetworking;
 
     /*
      * Specifies whether the network interface is FPGA networking-enabled.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableFpga")
     private Boolean enableFpga;
 
     /*
      * The network security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkSecurityGroup")
     private SubResource networkSecurityGroup;
 
     /*
      * The dns settings to be applied on the network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private VirtualMachineScaleSetNetworkConfigurationDnsSettings dnsSettings;
 
     /*
      * Specifies the IP configurations of the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<VirtualMachineScaleSetIpConfiguration> ipConfigurations;
 
     /*
      * Whether IP forwarding enabled on this NIC.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableIPForwarding")
     private Boolean enableIpForwarding;
 
     /*
      * Specify what happens to the network interface when the VM is deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 

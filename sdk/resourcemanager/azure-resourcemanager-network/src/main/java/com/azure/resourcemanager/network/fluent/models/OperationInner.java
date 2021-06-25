@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Network REST API operation definition. */
-@JsonFlatten
 @Fluent
-public class OperationInner {
+public final class OperationInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(OperationInner.class);
 
     /*
@@ -39,6 +38,7 @@ public class OperationInner {
     /*
      * Specification of the service.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceSpecification")
     private OperationPropertiesFormatServiceSpecification serviceSpecification;
 

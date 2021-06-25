@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** VPN client revoked certificate of virtual network gateway. */
-@JsonFlatten
 @Fluent
-public class VpnClientRevokedCertificate extends SubResource {
+public final class VpnClientRevokedCertificate extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnClientRevokedCertificate.class);
 
     /*
@@ -33,12 +32,14 @@ public class VpnClientRevokedCertificate extends SubResource {
     /*
      * The revoked VPN client certificate thumbprint.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.thumbprint")
     private String thumbprint;
 
     /*
      * The provisioning state of the VPN client revoked certificate resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

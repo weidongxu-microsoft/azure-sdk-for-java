@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteCircuitConnectionInner extends SubResource {
+public final class ExpressRouteCircuitConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteCircuitConnectionInner.class);
 
     /*
@@ -43,6 +42,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      * Reference to Express Route Circuit Private Peering Resource of the
      * circuit initiating connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteCircuitPeering")
     private SubResource expressRouteCircuitPeering;
 
@@ -50,36 +50,42 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
      * Reference to Express Route Circuit Private Peering Resource of the
      * peered circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerExpressRouteCircuitPeering")
     private SubResource peerExpressRouteCircuitPeering;
 
     /*
      * /29 IP address space to carve out Customer addresses for tunnels.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
 
     /*
      * The authorization key.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizationKey")
     private String authorizationKey;
 
     /*
      * IPv6 Address PrefixProperties of the express route circuit connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipv6CircuitConnectionConfig")
     private Ipv6CircuitConnectionConfig ipv6CircuitConnectionConfig;
 
     /*
      * Express Route Circuit connection state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.circuitConnectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private CircuitConnectionStatus circuitConnectionStatus;
 
     /*
      * The provisioning state of the express route circuit connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

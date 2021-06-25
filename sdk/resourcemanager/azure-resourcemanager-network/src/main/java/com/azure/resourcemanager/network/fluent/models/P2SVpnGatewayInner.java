@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** P2SVpnGateway Resource. */
-@JsonFlatten
 @Fluent
-public class P2SVpnGatewayInner extends Resource {
+public final class P2SVpnGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(P2SVpnGatewayInner.class);
 
     /*
@@ -32,42 +31,49 @@ public class P2SVpnGatewayInner extends Resource {
     /*
      * The VirtualHub to which the gateway belongs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHub")
     private SubResource virtualHub;
 
     /*
      * List of all p2s connection configurations of the gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.p2SConnectionConfigurations")
     private List<P2SConnectionConfiguration> p2SConnectionConfigurations;
 
     /*
      * The provisioning state of the P2S VPN gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The scale unit for this p2s vpn gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnGatewayScaleUnit")
     private Integer vpnGatewayScaleUnit;
 
     /*
      * The VpnServerConfiguration to which the p2sVpnGateway is attached to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnServerConfiguration")
     private SubResource vpnServerConfiguration;
 
     /*
      * All P2S VPN clients' connection health status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnClientConnectionHealth", access = JsonProperty.Access.WRITE_ONLY)
     private VpnClientConnectionHealth vpnClientConnectionHealth;
 
     /*
      * List of all customer specified DNS servers IP addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customDnsServers")
     private List<String> customDnsServers;
 
@@ -75,6 +81,7 @@ public class P2SVpnGatewayInner extends Resource {
      * Enable Routing Preference property for the Public IP Interface of the
      * P2SVpnGateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.isRoutingPreferenceInternet")
     private Boolean isRoutingPreferenceInternet;
 

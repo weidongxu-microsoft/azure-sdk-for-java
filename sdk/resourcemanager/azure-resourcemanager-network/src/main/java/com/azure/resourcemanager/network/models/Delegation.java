@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Details the service to which the subnet is delegated. */
-@JsonFlatten
 @Fluent
-public class Delegation extends SubResource {
+public final class Delegation extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(Delegation.class);
 
     /*
@@ -41,18 +40,21 @@ public class Delegation extends SubResource {
      * The name of the service to whom the subnet should be delegated (e.g.
      * Microsoft.Sql/servers).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceName")
     private String serviceName;
 
     /*
      * The actions permitted to the service upon delegation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.actions", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> actions;
 
     /*
      * The provisioning state of the service delegation resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

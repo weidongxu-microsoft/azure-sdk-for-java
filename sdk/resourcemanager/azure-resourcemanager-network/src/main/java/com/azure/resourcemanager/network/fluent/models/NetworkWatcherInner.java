@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Network watcher in a resource group. */
-@JsonFlatten
 @Fluent
-public class NetworkWatcherInner extends Resource {
+public final class NetworkWatcherInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkWatcherInner.class);
 
     /*
@@ -28,6 +27,7 @@ public class NetworkWatcherInner extends Resource {
     /*
      * The provisioning state of the network watcher resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** ServiceAssociationLink resource. */
-@JsonFlatten
 @Fluent
-public class ServiceAssociationLink extends SubResource {
+public final class ServiceAssociationLink extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ServiceAssociationLink.class);
 
     /*
@@ -40,30 +39,35 @@ public class ServiceAssociationLink extends SubResource {
     /*
      * Resource type of the linked resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.linkedResourceType")
     private String linkedResourceType;
 
     /*
      * Link to the external resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.link")
     private String link;
 
     /*
      * The provisioning state of the service association link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * If true, the resource can be deleted.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowDelete")
     private Boolean allowDelete;
 
     /*
      * A list of locations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.locations")
     private List<String> locations;
 

@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** A load balancing rule for a load balancer. */
-@JsonFlatten
 @Fluent
-public class LoadBalancingRuleInner extends SubResource {
+public final class LoadBalancingRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(LoadBalancingRuleInner.class);
 
     /*
@@ -44,6 +43,7 @@ public class LoadBalancingRuleInner extends SubResource {
     /*
      * A reference to frontend IP addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendIPConfiguration")
     private SubResource frontendIpConfiguration;
 
@@ -51,12 +51,14 @@ public class LoadBalancingRuleInner extends SubResource {
      * A reference to a pool of DIPs. Inbound traffic is randomly load balanced
      * across IPs in the backend IPs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPool")
     private SubResource backendAddressPool;
 
     /*
      * An array of references to pool of DIPs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPools")
     private List<SubResource> backendAddressPools;
 
@@ -64,18 +66,21 @@ public class LoadBalancingRuleInner extends SubResource {
      * The reference to the load balancer probe used by the load balancing
      * rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.probe")
     private SubResource probe;
 
     /*
      * The reference to the transport protocol used by the load balancing rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private TransportProtocol protocol;
 
     /*
      * The load distribution policy for this rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadDistribution")
     private LoadDistribution loadDistribution;
 
@@ -84,6 +89,7 @@ public class LoadBalancingRuleInner extends SubResource {
      * unique within the Load Balancer. Acceptable values are between 0 and
      * 65534. Note that value 0 enables "Any Port".
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendPort")
     private Integer frontendPort;
 
@@ -91,6 +97,7 @@ public class LoadBalancingRuleInner extends SubResource {
      * The port used for internal connections on the endpoint. Acceptable
      * values are between 0 and 65535. Note that value 0 enables "Any Port".
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendPort")
     private Integer backendPort;
 
@@ -99,6 +106,7 @@ public class LoadBalancingRuleInner extends SubResource {
      * and 30 minutes. The default value is 4 minutes. This element is only
      * used when the protocol is set to TCP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
@@ -108,6 +116,7 @@ public class LoadBalancingRuleInner extends SubResource {
      * required when using the SQL AlwaysOn Availability Groups in SQL server.
      * This setting can't be changed after you create the endpoint.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableFloatingIP")
     private Boolean enableFloatingIp;
 
@@ -116,6 +125,7 @@ public class LoadBalancingRuleInner extends SubResource {
      * connection termination. This element is only used when the protocol is
      * set to TCP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableTcpReset")
     private Boolean enableTcpReset;
 
@@ -123,12 +133,14 @@ public class LoadBalancingRuleInner extends SubResource {
      * Configures SNAT for the VMs in the backend pool to use the publicIP
      * address specified in the frontend of the load balancing rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.disableOutboundSnat")
     private Boolean disableOutboundSnat;
 
     /*
      * The provisioning state of the load balancing rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

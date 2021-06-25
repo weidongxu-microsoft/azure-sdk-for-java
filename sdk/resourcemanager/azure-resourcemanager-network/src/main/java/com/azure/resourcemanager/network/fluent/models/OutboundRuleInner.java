@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Outbound rule of the load balancer. */
-@JsonFlatten
 @Fluent
-public class OutboundRuleInner extends SubResource {
+public final class OutboundRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(OutboundRuleInner.class);
 
     /*
@@ -42,12 +41,14 @@ public class OutboundRuleInner extends SubResource {
     /*
      * The number of outbound ports to be used for NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allocatedOutboundPorts")
     private Integer allocatedOutboundPorts;
 
     /*
      * The Frontend IP addresses of the load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendIPConfigurations")
     private List<SubResource> frontendIpConfigurations;
 
@@ -55,18 +56,21 @@ public class OutboundRuleInner extends SubResource {
      * A reference to a pool of DIPs. Outbound traffic is randomly load
      * balanced across IPs in the backend IPs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPool")
     private SubResource backendAddressPool;
 
     /*
      * The provisioning state of the outbound rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The protocol for the outbound rule in load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private LoadBalancerOutboundRuleProtocol protocol;
 
@@ -75,12 +79,14 @@ public class OutboundRuleInner extends SubResource {
      * connection termination. This element is only used when the protocol is
      * set to TCP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableTcpReset")
     private Boolean enableTcpReset;
 
     /*
      * The timeout for the TCP idle connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 

@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** ExpressRoutePort resource definition. */
-@JsonFlatten
 @Fluent
-public class ExpressRoutePortInner extends Resource {
+public final class ExpressRoutePortInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRoutePortInner.class);
 
     /*
@@ -39,36 +38,42 @@ public class ExpressRoutePortInner extends Resource {
      * The name of the peering location that the ExpressRoutePort is mapped to
      * physically.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeringLocation")
     private String peeringLocation;
 
     /*
      * Bandwidth of procured ports in Gbps.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bandwidthInGbps")
     private Integer bandwidthInGbps;
 
     /*
      * Aggregate Gbps of associated circuit bandwidths.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisionedBandwidthInGbps", access = JsonProperty.Access.WRITE_ONLY)
     private Float provisionedBandwidthInGbps;
 
     /*
      * Maximum transmission unit of the physical port pair(s).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.mtu", access = JsonProperty.Access.WRITE_ONLY)
     private String mtu;
 
     /*
      * Encapsulation method on physical ports.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.encapsulation")
     private ExpressRoutePortsEncapsulation encapsulation;
 
     /*
      * Ether type of the physical port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.etherType", access = JsonProperty.Access.WRITE_ONLY)
     private String etherType;
 
@@ -76,12 +81,14 @@ public class ExpressRoutePortInner extends Resource {
      * Date of the physical port allocation to be used in Letter of
      * Authorization.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allocationDate", access = JsonProperty.Access.WRITE_ONLY)
     private String allocationDate;
 
     /*
      * The set of physical links of the ExpressRoutePort resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.links")
     private List<ExpressRouteLinkInner> links;
 
@@ -89,18 +96,21 @@ public class ExpressRoutePortInner extends Resource {
      * Reference the ExpressRoute circuit(s) that are provisioned on this
      * ExpressRoutePort resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.circuits", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> circuits;
 
     /*
      * The provisioning state of the express route port resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The resource GUID property of the express route port resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 

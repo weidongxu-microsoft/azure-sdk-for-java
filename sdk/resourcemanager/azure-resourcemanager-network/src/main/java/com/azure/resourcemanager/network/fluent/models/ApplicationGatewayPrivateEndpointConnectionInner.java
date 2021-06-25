@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Private Endpoint connection on an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayPrivateEndpointConnectionInner extends SubResource {
+public final class ApplicationGatewayPrivateEndpointConnectionInner extends SubResource {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(ApplicationGatewayPrivateEndpointConnectionInner.class);
 
@@ -41,6 +40,7 @@ public class ApplicationGatewayPrivateEndpointConnectionInner extends SubResourc
     /*
      * The resource of private end point.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpoint", access = JsonProperty.Access.WRITE_ONLY)
     private PrivateEndpointInner privateEndpoint;
 
@@ -48,6 +48,7 @@ public class ApplicationGatewayPrivateEndpointConnectionInner extends SubResourc
      * A collection of information about the state of the connection between
      * service consumer and provider.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkServiceConnectionState")
     private PrivateLinkServiceConnectionState privateLinkServiceConnectionState;
 
@@ -55,12 +56,14 @@ public class ApplicationGatewayPrivateEndpointConnectionInner extends SubResourc
      * The provisioning state of the application gateway private endpoint
      * connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The consumer link id.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.linkIdentifier", access = JsonProperty.Access.WRITE_ONLY)
     private String linkIdentifier;
 

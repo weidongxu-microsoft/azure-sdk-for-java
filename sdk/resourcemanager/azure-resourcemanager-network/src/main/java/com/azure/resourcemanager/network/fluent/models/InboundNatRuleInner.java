@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Inbound NAT rule of the load balancer. */
-@JsonFlatten
 @Fluent
-public class InboundNatRuleInner extends SubResource {
+public final class InboundNatRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(InboundNatRuleInner.class);
 
     /*
@@ -42,6 +41,7 @@ public class InboundNatRuleInner extends SubResource {
     /*
      * A reference to frontend IP addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendIPConfiguration")
     private SubResource frontendIpConfiguration;
 
@@ -50,12 +50,14 @@ public class InboundNatRuleInner extends SubResource {
      * VM. Traffic sent to the frontend port of each of the frontend IP
      * configurations is forwarded to the backend IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendIPConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private NetworkInterfaceIpConfigurationInner backendIpConfiguration;
 
     /*
      * The reference to the transport protocol used by the load balancing rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private TransportProtocol protocol;
 
@@ -64,6 +66,7 @@ public class InboundNatRuleInner extends SubResource {
      * unique within the Load Balancer. Acceptable values range from 1 to
      * 65534.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendPort")
     private Integer frontendPort;
 
@@ -71,6 +74,7 @@ public class InboundNatRuleInner extends SubResource {
      * The port used for the internal endpoint. Acceptable values range from 1
      * to 65535.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendPort")
     private Integer backendPort;
 
@@ -79,6 +83,7 @@ public class InboundNatRuleInner extends SubResource {
      * and 30 minutes. The default value is 4 minutes. This element is only
      * used when the protocol is set to TCP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
@@ -88,6 +93,7 @@ public class InboundNatRuleInner extends SubResource {
      * required when using the SQL AlwaysOn Availability Groups in SQL server.
      * This setting can't be changed after you create the endpoint.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableFloatingIP")
     private Boolean enableFloatingIp;
 
@@ -96,12 +102,14 @@ public class InboundNatRuleInner extends SubResource {
      * connection termination. This element is only used when the protocol is
      * set to TCP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableTcpReset")
     private Boolean enableTcpReset;
 
     /*
      * The provisioning state of the inbound NAT rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

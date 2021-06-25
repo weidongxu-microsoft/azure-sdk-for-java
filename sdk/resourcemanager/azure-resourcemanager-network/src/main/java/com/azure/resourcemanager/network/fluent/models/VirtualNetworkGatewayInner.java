@@ -24,9 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /** A common class for general resource information. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkGatewayInner extends Resource {
+public final class VirtualNetworkGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkGatewayInner.class);
 
     /*
@@ -44,18 +43,21 @@ public class VirtualNetworkGatewayInner extends Resource {
     /*
      * IP configurations for virtual network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<VirtualNetworkGatewayIpConfigurationInner> ipConfigurations;
 
     /*
      * The type of this virtual network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayType")
     private VirtualNetworkGatewayType gatewayType;
 
     /*
      * The type of this virtual network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnType")
     private VpnType vpnType;
 
@@ -63,12 +65,14 @@ public class VirtualNetworkGatewayInner extends Resource {
      * The generation for this VirtualNetworkGateway. Must be None if
      * gatewayType is not VPN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnGatewayGeneration")
     private VpnGatewayGeneration vpnGatewayGeneration;
 
     /*
      * Whether BGP is enabled for this virtual network gateway or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableBgp")
     private Boolean enableBgp;
 
@@ -76,12 +80,14 @@ public class VirtualNetworkGatewayInner extends Resource {
      * Whether private IP needs to be enabled on this gateway for connections
      * or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enablePrivateIpAddress")
     private Boolean enablePrivateIpAddress;
 
     /*
      * ActiveActive flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.activeActive")
     private Boolean active;
 
@@ -90,6 +96,7 @@ public class VirtualNetworkGatewayInner extends Resource {
      * network site having default routes. Assign Null value in case of
      * removing existing default site setting.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayDefaultSite")
     private SubResource gatewayDefaultSite;
 
@@ -97,6 +104,7 @@ public class VirtualNetworkGatewayInner extends Resource {
      * The reference to the VirtualNetworkGatewaySku resource which represents
      * the SKU selected for Virtual network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sku")
     private VirtualNetworkGatewaySku sku;
 
@@ -104,12 +112,14 @@ public class VirtualNetworkGatewayInner extends Resource {
      * The reference to the VpnClientConfiguration resource which represents
      * the P2S VpnClient configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnClientConfiguration")
     private VpnClientConfiguration vpnClientConfiguration;
 
     /*
      * Virtual network gateway's BGP speaker settings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpSettings")
     private BgpSettings bgpSettings;
 
@@ -118,24 +128,28 @@ public class VirtualNetworkGatewayInner extends Resource {
      * routes address space specified by the customer for virtual network
      * gateway and VpnClient.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customRoutes")
     private AddressSpace customRoutes;
 
     /*
      * The resource GUID property of the virtual network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the virtual network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Whether dns forwarding is enabled or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableDnsForwarding")
     private Boolean enableDnsForwarding;
 
@@ -143,6 +157,7 @@ public class VirtualNetworkGatewayInner extends Resource {
      * The IP address allocated by the gateway to which dns requests can be
      * sent.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.inboundDnsForwardingEndpoint", access = JsonProperty.Access.WRITE_ONLY)
     private String inboundDnsForwardingEndpoint;
 
@@ -150,18 +165,21 @@ public class VirtualNetworkGatewayInner extends Resource {
      * Customer vnet resource id. VirtualNetworkGateway of type local gateway
      * is associated with the customer vnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vNetExtendedLocationResourceId")
     private String vNetExtendedLocationResourceId;
 
     /*
      * NatRules for virtual network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.natRules")
     private List<VirtualNetworkGatewayNatRuleInner> natRules;
 
     /*
      * EnableBgpRouteTranslationForNat flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableBgpRouteTranslationForNat")
     private Boolean enableBgpRouteTranslationForNat;
 

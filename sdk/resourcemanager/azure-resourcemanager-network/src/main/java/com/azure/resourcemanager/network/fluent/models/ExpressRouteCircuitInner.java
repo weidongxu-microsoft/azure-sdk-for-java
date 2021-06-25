@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /** ExpressRouteCircuit resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteCircuitInner extends Resource {
+public final class ExpressRouteCircuitInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteCircuitInner.class);
 
     /*
@@ -39,48 +38,56 @@ public class ExpressRouteCircuitInner extends Resource {
     /*
      * Allow classic operations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowClassicOperations")
     private Boolean allowClassicOperations;
 
     /*
      * The CircuitProvisioningState state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.circuitProvisioningState")
     private String circuitProvisioningState;
 
     /*
      * The ServiceProviderProvisioningState state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceProviderProvisioningState")
     private ServiceProviderProvisioningState serviceProviderProvisioningState;
 
     /*
      * The list of authorizations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authorizations")
     private List<ExpressRouteCircuitAuthorizationInner> authorizations;
 
     /*
      * The list of peerings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerings")
     private List<ExpressRouteCircuitPeeringInner> peerings;
 
     /*
      * The ServiceKey.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceKey")
     private String serviceKey;
 
     /*
      * The ServiceProviderNotes.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceProviderNotes")
     private String serviceProviderNotes;
 
     /*
      * The ServiceProviderProperties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceProviderProperties")
     private ExpressRouteCircuitServiceProviderProperties serviceProviderProperties;
 
@@ -88,6 +95,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * The reference to the ExpressRoutePort resource when the circuit is
      * provisioned on an ExpressRoutePort resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRoutePort")
     private SubResource expressRoutePort;
 
@@ -95,30 +103,35 @@ public class ExpressRouteCircuitInner extends Resource {
      * The bandwidth of the circuit when the circuit is provisioned on an
      * ExpressRoutePort resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bandwidthInGbps")
     private Float bandwidthInGbps;
 
     /*
      * The identifier of the circuit traffic. Outer tag for QinQ encapsulation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.stag", access = JsonProperty.Access.WRITE_ONLY)
     private Integer stag;
 
     /*
      * The provisioning state of the express route circuit resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The GatewayManager Etag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayManagerEtag")
     private String gatewayManagerEtag;
 
     /*
      * Flag denoting global reach status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.globalReachEnabled")
     private Boolean globalReachEnabled;
 

@@ -25,9 +25,8 @@ import java.util.Map;
  * Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) &lt;br&gt;&lt;br&gt; Currently, a
  * VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
  */
-@JsonFlatten
 @Fluent
-public class AvailabilitySetInner extends Resource {
+public final class AvailabilitySetInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AvailabilitySetInner.class);
 
     /*
@@ -42,18 +41,21 @@ public class AvailabilitySetInner extends Resource {
     /*
      * Update Domain count.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformUpdateDomainCount")
     private Integer platformUpdateDomainCount;
 
     /*
      * Fault Domain count.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomainCount")
     private Integer platformFaultDomainCount;
 
     /*
      * A list of references to all virtual machines in the availability set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachines")
     private List<SubResource> virtualMachines;
 
@@ -62,12 +64,14 @@ public class AvailabilitySetInner extends Resource {
      * availability set should be assigned to. <br><br>Minimum api-version:
      * 2018-04-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.proximityPlacementGroup")
     private SubResource proximityPlacementGroup;
 
     /*
      * The resource status information.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.statuses", access = JsonProperty.Access.WRITE_ONLY)
     private List<InstanceViewStatus> statuses;
 

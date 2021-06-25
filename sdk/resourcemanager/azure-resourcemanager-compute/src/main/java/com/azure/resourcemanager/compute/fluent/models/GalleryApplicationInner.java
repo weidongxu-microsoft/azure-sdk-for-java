@@ -15,33 +15,36 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 
 /** Specifies information about the gallery Application Definition that you want to create or update. */
-@JsonFlatten
 @Fluent
-public class GalleryApplicationInner extends Resource {
+public final class GalleryApplicationInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(GalleryApplicationInner.class);
 
     /*
      * The description of this gallery Application Definition resource. This
      * property is updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.description")
     private String description;
 
     /*
      * The Eula agreement for the gallery Application Definition.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.eula")
     private String eula;
 
     /*
      * The privacy statement uri.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privacyStatementUri")
     private String privacyStatementUri;
 
     /*
      * The release note uri.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.releaseNoteUri")
     private String releaseNoteUri;
 
@@ -50,6 +53,7 @@ public class GalleryApplicationInner extends Resource {
      * property can be used for decommissioning purposes. This property is
      * updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.endOfLifeDate")
     private OffsetDateTime endOfLifeDate;
 
@@ -58,6 +62,7 @@ public class GalleryApplicationInner extends Resource {
      * application is built for. <br><br> Possible values are: <br><br>
      * **Windows** <br><br> **Linux**
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.supportedOSType")
     private OperatingSystemTypes supportedOSType;
 

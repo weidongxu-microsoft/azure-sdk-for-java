@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** VpnGatewayNatRule Resource. */
-@JsonFlatten
 @Fluent
-public class VpnGatewayNatRuleInner extends SubResource {
+public final class VpnGatewayNatRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnGatewayNatRuleInner.class);
 
     /*
@@ -44,48 +43,56 @@ public class VpnGatewayNatRuleInner extends SubResource {
     /*
      * The provisioning state of the NAT Rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The type of NAT rule for VPN NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.type")
     private VpnNatRuleType typePropertiesType;
 
     /*
      * The Source NAT direction of a VPN NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.mode")
     private VpnNatRuleMode mode;
 
     /*
      * The private IP address internal mapping for NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.internalMappings")
     private List<VpnNatRuleMapping> internalMappings;
 
     /*
      * The private IP address external mapping for NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.externalMappings")
     private List<VpnNatRuleMapping> externalMappings;
 
     /*
      * The IP Configuration ID this NAT rule applies to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurationId")
     private String ipConfigurationId;
 
     /*
      * List of egress VpnSiteLinkConnections.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.egressVpnSiteLinkConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> egressVpnSiteLinkConnections;
 
     /*
      * List of ingress VpnSiteLinkConnections.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ingressVpnSiteLinkConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> ingressVpnSiteLinkConnections;
 

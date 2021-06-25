@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Request routing rule of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayRequestRoutingRuleInner extends SubResource {
+public final class ApplicationGatewayRequestRoutingRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayRequestRoutingRuleInner.class);
 
     /*
@@ -41,54 +40,63 @@ public class ApplicationGatewayRequestRoutingRuleInner extends SubResource {
     /*
      * Rule type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ruleType")
     private ApplicationGatewayRequestRoutingRuleType ruleType;
 
     /*
      * Priority of the request routing rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.priority")
     private Integer priority;
 
     /*
      * Backend address pool resource of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPool")
     private SubResource backendAddressPool;
 
     /*
      * Backend http settings resource of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendHttpSettings")
     private SubResource backendHttpSettings;
 
     /*
      * Http listener resource of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.httpListener")
     private SubResource httpListener;
 
     /*
      * URL path map resource of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.urlPathMap")
     private SubResource urlPathMap;
 
     /*
      * Rewrite Rule Set resource in Basic rule of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rewriteRuleSet")
     private SubResource rewriteRuleSet;
 
     /*
      * Redirect configuration resource of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.redirectConfiguration")
     private SubResource redirectConfiguration;
 
     /*
      * The provisioning state of the request routing rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

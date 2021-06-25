@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Nat Gateway resource. */
-@JsonFlatten
 @Fluent
-public class NatGatewayInner extends Resource {
+public final class NatGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NatGatewayInner.class);
 
     /*
@@ -44,6 +43,7 @@ public class NatGatewayInner extends Resource {
     /*
      * The idle timeout of the nat gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
@@ -51,30 +51,35 @@ public class NatGatewayInner extends Resource {
      * An array of public ip addresses associated with the nat gateway
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIpAddresses")
     private List<SubResource> publicIpAddresses;
 
     /*
      * An array of public ip prefixes associated with the nat gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIpPrefixes")
     private List<SubResource> publicIpPrefixes;
 
     /*
      * An array of references to the subnets using this nat gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnets", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> subnets;
 
     /*
      * The resource GUID property of the NAT gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the NAT gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

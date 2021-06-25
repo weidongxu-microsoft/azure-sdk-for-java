@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** ExpressRouteCrossConnection resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteCrossConnectionInner extends Resource {
+public final class ExpressRouteCrossConnectionInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteCrossConnectionInner.class);
 
     /*
@@ -31,36 +30,42 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /*
      * The name of the primary port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primaryAzurePort", access = JsonProperty.Access.WRITE_ONLY)
     private String primaryAzurePort;
 
     /*
      * The name of the secondary port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.secondaryAzurePort", access = JsonProperty.Access.WRITE_ONLY)
     private String secondaryAzurePort;
 
     /*
      * The identifier of the circuit traffic.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sTag", access = JsonProperty.Access.WRITE_ONLY)
     private Integer stag;
 
     /*
      * The peering location of the ExpressRoute circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeringLocation", access = JsonProperty.Access.WRITE_ONLY)
     private String peeringLocation;
 
     /*
      * The circuit bandwidth In Mbps.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bandwidthInMbps", access = JsonProperty.Access.WRITE_ONLY)
     private Integer bandwidthInMbps;
 
     /*
      * The ExpressRouteCircuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteCircuit")
     private ExpressRouteCircuitReference expressRouteCircuit;
 
@@ -68,24 +73,28 @@ public class ExpressRouteCrossConnectionInner extends Resource {
      * The provisioning state of the circuit in the connectivity provider
      * system.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceProviderProvisioningState")
     private ServiceProviderProvisioningState serviceProviderProvisioningState;
 
     /*
      * Additional read only notes set by the connectivity provider.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceProviderNotes")
     private String serviceProviderNotes;
 
     /*
      * The provisioning state of the express route cross connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The list of peerings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerings")
     private List<ExpressRouteCrossConnectionPeeringInner> peerings;
 

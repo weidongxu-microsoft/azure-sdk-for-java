@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Network profile resource. */
-@JsonFlatten
 @Fluent
-public class NetworkProfileInner extends Resource {
+public final class NetworkProfileInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkProfileInner.class);
 
     /*
@@ -31,24 +30,28 @@ public class NetworkProfileInner extends Resource {
     /*
      * List of child container network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.containerNetworkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
     private List<ContainerNetworkInterface> containerNetworkInterfaces;
 
     /*
      * List of chid container network interface configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.containerNetworkInterfaceConfigurations")
     private List<ContainerNetworkInterfaceConfiguration> containerNetworkInterfaceConfigurations;
 
     /*
      * The resource GUID property of the network profile resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the network profile resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

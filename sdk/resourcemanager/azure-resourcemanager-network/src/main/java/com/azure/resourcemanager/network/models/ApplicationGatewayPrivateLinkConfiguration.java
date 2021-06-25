@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Private Link Configuration on an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayPrivateLinkConfiguration extends SubResource {
+public final class ApplicationGatewayPrivateLinkConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayPrivateLinkConfiguration.class);
 
     /*
@@ -40,6 +39,7 @@ public class ApplicationGatewayPrivateLinkConfiguration extends SubResource {
     /*
      * An array of application gateway private link ip configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<ApplicationGatewayPrivateLinkIpConfiguration> ipConfigurations;
 
@@ -47,6 +47,7 @@ public class ApplicationGatewayPrivateLinkConfiguration extends SubResource {
      * The provisioning state of the application gateway private link
      * configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

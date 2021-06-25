@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Tap configuration in a Network Interface. */
-@JsonFlatten
 @Fluent
-public class NetworkInterfaceTapConfigurationInner extends SubResource {
+public final class NetworkInterfaceTapConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkInterfaceTapConfigurationInner.class);
 
     /*
@@ -40,6 +39,7 @@ public class NetworkInterfaceTapConfigurationInner extends SubResource {
     /*
      * The reference to the Virtual Network Tap resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetworkTap")
     private VirtualNetworkTapInner virtualNetworkTap;
 
@@ -47,6 +47,7 @@ public class NetworkInterfaceTapConfigurationInner extends SubResource {
      * The provisioning state of the network interface tap configuration
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

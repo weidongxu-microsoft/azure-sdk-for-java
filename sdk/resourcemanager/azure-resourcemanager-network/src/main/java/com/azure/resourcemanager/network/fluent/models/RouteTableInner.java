@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Route table resource. */
-@JsonFlatten
 @Fluent
-public class RouteTableInner extends Resource {
+public final class RouteTableInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(RouteTableInner.class);
 
     /*
@@ -29,12 +28,14 @@ public class RouteTableInner extends Resource {
     /*
      * Collection of routes contained within a route table.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routes")
     private List<RouteInner> routes;
 
     /*
      * A collection of references to subnets.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnets", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubnetInner> subnets;
 
@@ -42,18 +43,21 @@ public class RouteTableInner extends Resource {
      * Whether to disable the routes learned by BGP on that route table. True
      * means disable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.disableBgpRoutePropagation")
     private Boolean disableBgpRoutePropagation;
 
     /*
      * The provisioning state of the route table resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The resource GUID property of the route table.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 

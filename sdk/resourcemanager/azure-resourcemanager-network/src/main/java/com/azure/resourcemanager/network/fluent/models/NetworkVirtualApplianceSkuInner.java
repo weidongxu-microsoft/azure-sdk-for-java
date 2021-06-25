@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Definition of the NetworkVirtualApplianceSkus resource. */
-@JsonFlatten
 @Fluent
-public class NetworkVirtualApplianceSkuInner extends Resource {
+public final class NetworkVirtualApplianceSkuInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkVirtualApplianceSkuInner.class);
 
     /*
@@ -29,18 +28,21 @@ public class NetworkVirtualApplianceSkuInner extends Resource {
     /*
      * Network Virtual Appliance Sku vendor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vendor", access = JsonProperty.Access.WRITE_ONLY)
     private String vendor;
 
     /*
      * Available Network Virtual Appliance versions.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availableVersions", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> availableVersions;
 
     /*
      * The list of scale units available.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availableScaleUnits")
     private List<NetworkVirtualApplianceSkuInstances> availableScaleUnits;
 

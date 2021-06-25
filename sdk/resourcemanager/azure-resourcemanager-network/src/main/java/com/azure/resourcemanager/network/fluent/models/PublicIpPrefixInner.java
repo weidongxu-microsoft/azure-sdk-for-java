@@ -21,9 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Public IP prefix resource. */
-@JsonFlatten
 @Fluent
-public class PublicIpPrefixInner extends Resource {
+public final class PublicIpPrefixInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PublicIpPrefixInner.class);
 
     /*
@@ -54,30 +53,35 @@ public class PublicIpPrefixInner extends Resource {
     /*
      * The public IP address version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressVersion")
     private IpVersion publicIpAddressVersion;
 
     /*
      * The list of tags associated with the public IP prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipTags")
     private List<IpTag> ipTags;
 
     /*
      * The Length of the Public IP Prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.prefixLength")
     private Integer prefixLength;
 
     /*
      * The allocated Prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipPrefix", access = JsonProperty.Access.WRITE_ONLY)
     private String ipPrefix;
 
     /*
      * The list of all referenced PublicIPAddresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private List<ReferencedPublicIpAddress> publicIpAddresses;
 
@@ -85,30 +89,35 @@ public class PublicIpPrefixInner extends Resource {
      * The reference to load balancer frontend IP configuration associated with
      * the public IP prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerFrontendIpConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource loadBalancerFrontendIpConfiguration;
 
     /*
      * The customIpPrefix that this prefix is associated with.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customIPPrefix")
     private SubResource customIpPrefix;
 
     /*
      * The resource GUID property of the public IP prefix resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the public IP prefix resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * NatGateway of Public IP Prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.natGateway")
     private NatGatewayInner natGateway;
 

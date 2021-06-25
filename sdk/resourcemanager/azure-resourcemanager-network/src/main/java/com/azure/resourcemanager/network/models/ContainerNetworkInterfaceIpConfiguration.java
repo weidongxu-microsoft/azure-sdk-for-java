@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** The ip configuration for a container network interface. */
-@JsonFlatten
 @Fluent
-public class ContainerNetworkInterfaceIpConfiguration {
+public final class ContainerNetworkInterfaceIpConfiguration {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ContainerNetworkInterfaceIpConfiguration.class);
 
     /*
@@ -38,6 +37,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * The provisioning state of the container network interface IP
      * configuration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

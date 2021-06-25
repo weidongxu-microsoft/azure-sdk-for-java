@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Security Partner Provider resource. */
-@JsonFlatten
 @Fluent
-public class SecurityPartnerProviderInner extends Resource {
+public final class SecurityPartnerProviderInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SecurityPartnerProviderInner.class);
 
     /*
@@ -31,24 +30,28 @@ public class SecurityPartnerProviderInner extends Resource {
     /*
      * The provisioning state of the Security Partner Provider resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The security provider name.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.securityProviderName")
     private SecurityProviderName securityProviderName;
 
     /*
      * The connection status with the Security Partner Provider.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private SecurityPartnerProviderConnectionStatus connectionStatus;
 
     /*
      * The virtualHub to which the Security Partner Provider belongs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHub")
     private SubResource virtualHub;
 

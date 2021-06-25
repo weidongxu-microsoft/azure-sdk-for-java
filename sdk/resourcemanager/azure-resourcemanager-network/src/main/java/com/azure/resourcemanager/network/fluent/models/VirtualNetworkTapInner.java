@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Virtual Network Tap resource. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkTapInner extends Resource {
+public final class VirtualNetworkTapInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkTapInner.class);
 
     /*
@@ -30,18 +29,21 @@ public class VirtualNetworkTapInner extends Resource {
      * Specifies the list of resource IDs for the network interface IP
      * configuration that needs to be tapped.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkInterfaceTapConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceTapConfigurationInner> networkInterfaceTapConfigurations;
 
     /*
      * The resource GUID property of the virtual network tap resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the virtual network tap resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -49,6 +51,7 @@ public class VirtualNetworkTapInner extends Resource {
      * The reference to the private IP Address of the collector nic that will
      * receive the tap.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationNetworkInterfaceIPConfiguration")
     private NetworkInterfaceIpConfigurationInner destinationNetworkInterfaceIpConfiguration;
 
@@ -56,12 +59,14 @@ public class VirtualNetworkTapInner extends Resource {
      * The reference to the private IP address on the internal Load Balancer
      * that will receive the tap.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationLoadBalancerFrontEndIPConfiguration")
     private FrontendIpConfigurationInner destinationLoadBalancerFrontEndIpConfiguration;
 
     /*
      * The VXLAN destination port that will receive the tapped traffic.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationPort")
     private Integer destinationPort;
 

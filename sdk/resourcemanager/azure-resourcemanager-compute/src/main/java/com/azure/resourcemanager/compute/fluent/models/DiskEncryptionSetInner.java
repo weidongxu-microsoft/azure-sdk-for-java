@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** disk encryption set resource. */
-@JsonFlatten
 @Fluent
-public class DiskEncryptionSetInner extends Resource {
+public final class DiskEncryptionSetInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DiskEncryptionSetInner.class);
 
     /*
@@ -33,12 +32,14 @@ public class DiskEncryptionSetInner extends Resource {
     /*
      * The type of key used to encrypt the data of the disk.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.encryptionType")
     private DiskEncryptionSetType encryptionType;
 
     /*
      * The key vault key which is currently used by this disk encryption set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.activeKey")
     private KeyForDiskEncryptionSet activeKey;
 
@@ -47,12 +48,14 @@ public class DiskEncryptionSetInner extends Resource {
      * encryption set while a key rotation is in progress. It will be empty if
      * there is no ongoing key rotation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.previousKeys", access = JsonProperty.Access.WRITE_ONLY)
     private List<KeyForDiskEncryptionSet> previousKeys;
 
     /*
      * The disk encryption set provisioning state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
@@ -60,12 +63,14 @@ public class DiskEncryptionSetInner extends Resource {
      * Set this flag to true to enable auto-updating of this disk encryption
      * set to the latest key version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rotationToLatestKeyVersionEnabled")
     private Boolean rotationToLatestKeyVersionEnabled;
 
     /*
      * The time when the active key of this disk encryption set was updated.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.lastKeyRotationTimestamp", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime lastKeyRotationTimestamp;
 

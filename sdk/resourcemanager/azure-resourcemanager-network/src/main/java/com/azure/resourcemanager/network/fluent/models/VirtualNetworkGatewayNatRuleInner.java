@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** VirtualNetworkGatewayNatRule Resource. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkGatewayNatRuleInner extends SubResource {
+public final class VirtualNetworkGatewayNatRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkGatewayNatRuleInner.class);
 
     /*
@@ -44,36 +43,42 @@ public class VirtualNetworkGatewayNatRuleInner extends SubResource {
     /*
      * The provisioning state of the NAT Rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The type of NAT rule for VPN NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.type")
     private VpnNatRuleType typePropertiesType;
 
     /*
      * The Source NAT direction of a VPN NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.mode")
     private VpnNatRuleMode mode;
 
     /*
      * The private IP address internal mapping for NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.internalMappings")
     private List<VpnNatRuleMapping> internalMappings;
 
     /*
      * The private IP address external mapping for NAT.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.externalMappings")
     private List<VpnNatRuleMapping> externalMappings;
 
     /*
      * The IP Configuration ID this NAT rule applies to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurationId")
     private String ipConfigurationId;
 

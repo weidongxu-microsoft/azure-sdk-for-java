@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** disk encryption set update resource. */
-@JsonFlatten
 @Fluent
-public class DiskEncryptionSetUpdate {
+public final class DiskEncryptionSetUpdate {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DiskEncryptionSetUpdate.class);
 
     /*
@@ -33,6 +32,7 @@ public class DiskEncryptionSetUpdate {
     /*
      * The type of key used to encrypt the data of the disk.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.encryptionType")
     private DiskEncryptionSetType encryptionType;
 
@@ -40,6 +40,7 @@ public class DiskEncryptionSetUpdate {
      * Key Vault Key Url to be used for server side encryption of Managed Disks
      * and Snapshots
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.activeKey")
     private KeyForDiskEncryptionSet activeKey;
 
@@ -47,6 +48,7 @@ public class DiskEncryptionSetUpdate {
      * Set this flag to true to enable auto-updating of this disk encryption
      * set to the latest key version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rotationToLatestKeyVersionEnabled")
     private Boolean rotationToLatestKeyVersionEnabled;
 

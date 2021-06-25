@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** RouteTable resource in a virtual hub. */
-@JsonFlatten
 @Fluent
-public class HubRouteTableInner extends SubResource {
+public final class HubRouteTableInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(HubRouteTableInner.class);
 
     /*
@@ -42,30 +41,35 @@ public class HubRouteTableInner extends SubResource {
     /*
      * List of all routes.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routes")
     private List<HubRoute> routes;
 
     /*
      * List of labels associated with this route table.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.labels")
     private List<String> labels;
 
     /*
      * List of all connections associated with this route table.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.associatedConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> associatedConnections;
 
     /*
      * List of all connections that advertise to this route table.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.propagatingConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> propagatingConnections;
 
     /*
      * The provisioning state of the RouteTable resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

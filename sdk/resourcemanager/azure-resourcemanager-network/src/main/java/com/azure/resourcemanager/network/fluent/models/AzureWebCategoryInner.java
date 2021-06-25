@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Azure Web Category Resource. */
-@JsonFlatten
 @Fluent
-public class AzureWebCategoryInner {
+public final class AzureWebCategoryInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AzureWebCategoryInner.class);
 
     /*
@@ -43,6 +42,7 @@ public class AzureWebCategoryInner {
     /*
      * The name of the group that the category belongs to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.group", access = JsonProperty.Access.WRITE_ONLY)
     private String group;
 

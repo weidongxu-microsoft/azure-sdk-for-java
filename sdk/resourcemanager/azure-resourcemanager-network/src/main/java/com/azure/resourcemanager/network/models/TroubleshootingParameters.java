@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Parameters that define the resource to troubleshoot. */
-@JsonFlatten
 @Fluent
-public class TroubleshootingParameters {
+public final class TroubleshootingParameters {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(TroubleshootingParameters.class);
 
     /*
@@ -25,12 +24,14 @@ public class TroubleshootingParameters {
     /*
      * The ID for the storage account to save the troubleshoot result.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageId", required = true)
     private String storageId;
 
     /*
      * The path to the blob to save the troubleshoot result in.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storagePath", required = true)
     private String storagePath;
 

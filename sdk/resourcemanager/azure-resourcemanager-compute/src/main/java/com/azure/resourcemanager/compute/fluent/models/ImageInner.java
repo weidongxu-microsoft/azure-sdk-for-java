@@ -20,9 +20,8 @@ import java.util.Map;
  * The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual
  * machine. If SourceImage is provided, the destination virtual hard drive must not exist.
  */
-@JsonFlatten
 @Fluent
-public class ImageInner extends Resource {
+public final class ImageInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ImageInner.class);
 
     /*
@@ -34,18 +33,21 @@ public class ImageInner extends Resource {
     /*
      * The source virtual machine from which Image is created.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourceVirtualMachine")
     private SubResource sourceVirtualMachine;
 
     /*
      * Specifies the storage settings for the virtual machine disks.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageProfile")
     private ImageStorageProfile storageProfile;
 
     /*
      * The provisioning state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
@@ -56,6 +58,7 @@ public class ImageInner extends Resource {
      * resource like disk or snapshot, we may require the user to specify the
      * property if we cannot deduce it from the source managed resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGenerationTypes hyperVGeneration;
 

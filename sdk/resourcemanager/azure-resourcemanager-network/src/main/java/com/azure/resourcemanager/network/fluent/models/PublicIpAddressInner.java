@@ -25,9 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Public IP address resource. */
-@JsonFlatten
 @Fluent
-public class PublicIpAddressInner extends Resource {
+public final class PublicIpAddressInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PublicIpAddressInner.class);
 
     /*
@@ -58,90 +57,105 @@ public class PublicIpAddressInner extends Resource {
     /*
      * The public IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAllocationMethod")
     private IpAllocationMethod publicIpAllocationMethod;
 
     /*
      * The public IP address version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressVersion")
     private IpVersion publicIpAddressVersion;
 
     /*
      * The IP configuration associated with the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private IpConfigurationInner ipConfiguration;
 
     /*
      * The FQDN of the DNS record associated with the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private PublicIpAddressDnsSettings dnsSettings;
 
     /*
      * The DDoS protection custom policy associated with the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ddosSettings")
     private DdosSettings ddosSettings;
 
     /*
      * The list of tags associated with the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipTags")
     private List<IpTag> ipTags;
 
     /*
      * The IP address associated with the public IP address resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAddress")
     private String ipAddress;
 
     /*
      * The Public IP Prefix this Public IP Address should be allocated from.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPPrefix")
     private SubResource publicIpPrefix;
 
     /*
      * The idle timeout of the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
     /*
      * The resource GUID property of the public IP address resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the public IP address resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The service public IP address of the public IP address resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.servicePublicIPAddress")
     private PublicIpAddressInner servicePublicIpAddress;
 
     /*
      * The NatGateway for the Public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.natGateway")
     private NatGatewayInner natGateway;
 
     /*
      * Migration phase of Public IP Address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.migrationPhase")
     private PublicIpAddressMigrationPhase migrationPhase;
 
     /*
      * The linked public IP address of the public IP address resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.linkedPublicIPAddress")
     private PublicIpAddressInner linkedPublicIpAddress;
 
@@ -149,6 +163,7 @@ public class PublicIpAddressInner extends Resource {
      * Specify what happens to the public IP address when the VM using it is
      * deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 

@@ -20,9 +20,8 @@ import java.util.Map;
  * &lt;br&gt;&lt;br&gt; Currently, a dedicated host can only be added to a dedicated host group at creation time. An
  * existing dedicated host cannot be added to another dedicated host group.
  */
-@JsonFlatten
 @Fluent
-public class DedicatedHostGroupInner extends Resource {
+public final class DedicatedHostGroupInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DedicatedHostGroupInner.class);
 
     /*
@@ -37,12 +36,14 @@ public class DedicatedHostGroupInner extends Resource {
     /*
      * Number of fault domains that the host group can span.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomainCount")
     private Integer platformFaultDomainCount;
 
     /*
      * A list of references to all dedicated hosts in the dedicated host group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hosts", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceReadOnly> hosts;
 
@@ -50,6 +51,7 @@ public class DedicatedHostGroupInner extends Resource {
      * The dedicated host group instance view, which has the list of instance
      * view of the dedicated hosts under the dedicated host group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private DedicatedHostGroupInstanceView instanceView;
 
@@ -60,6 +62,7 @@ public class DedicatedHostGroupInner extends Resource {
      * Azure, under the dedicated host group. The value is defaulted to 'false'
      * when not provided. <br><br>Minimum api-version: 2020-06-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.supportAutomaticPlacement")
     private Boolean supportAutomaticPlacement;
 

@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetPublicIpAddressConfiguration {
+public final class VirtualMachineScaleSetPublicIpAddressConfiguration {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetPublicIpAddressConfiguration.class);
 
@@ -34,24 +33,28 @@ public class VirtualMachineScaleSetPublicIpAddressConfiguration {
     /*
      * The idle timeout of the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
     /*
      * The dns settings to be applied on the publicIP addresses .
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private VirtualMachineScaleSetPublicIpAddressConfigurationDnsSettings dnsSettings;
 
     /*
      * The list of IP tags associated with the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipTags")
     private List<VirtualMachineScaleSetIpTag> ipTags;
 
     /*
      * The PublicIPPrefix from which to allocate publicIP addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPPrefix")
     private SubResource publicIpPrefix;
 
@@ -60,12 +63,14 @@ public class VirtualMachineScaleSetPublicIpAddressConfiguration {
      * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
      * Possible values are: 'IPv4' and 'IPv6'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressVersion")
     private IpVersion publicIpAddressVersion;
 
     /*
      * Specify what happens to the public IP when the VM is deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 

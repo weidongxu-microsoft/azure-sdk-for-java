@@ -16,9 +16,8 @@ import java.util.List;
  * Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be
  * modified as long as the original subnet and the new subnet are in the same virtual network.
  */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetUpdateIpConfiguration extends SubResource {
+public final class VirtualMachineScaleSetUpdateIpConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetUpdateIpConfiguration.class);
 
     /*
@@ -30,6 +29,7 @@ public class VirtualMachineScaleSetUpdateIpConfiguration extends SubResource {
     /*
      * The subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private ApiEntityReference subnet;
 
@@ -37,12 +37,14 @@ public class VirtualMachineScaleSetUpdateIpConfiguration extends SubResource {
      * Specifies the primary IP Configuration in case the network interface has
      * more than one IP Configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
     /*
      * The publicIPAddressConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressConfiguration")
     private VirtualMachineScaleSetUpdatePublicIpAddressConfiguration publicIpAddressConfiguration;
 
@@ -51,30 +53,35 @@ public class VirtualMachineScaleSetUpdateIpConfiguration extends SubResource {
      * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
      * Possible values are: 'IPv4' and 'IPv6'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IpVersion privateIpAddressVersion;
 
     /*
      * The application gateway backend address pools.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<SubResource> applicationGatewayBackendAddressPools;
 
     /*
      * Specifies an array of references to application security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationSecurityGroups")
     private List<SubResource> applicationSecurityGroups;
 
     /*
      * The load balancer backend address pools.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerBackendAddressPools")
     private List<SubResource> loadBalancerBackendAddressPools;
 
     /*
      * The load balancer inbound nat pools.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerInboundNatPools")
     private List<SubResource> loadBalancerInboundNatPools;
 

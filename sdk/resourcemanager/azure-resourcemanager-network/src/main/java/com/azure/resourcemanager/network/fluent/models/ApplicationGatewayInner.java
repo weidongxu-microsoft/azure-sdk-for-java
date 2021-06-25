@@ -33,9 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Application gateway resource. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayInner extends Resource {
+public final class ApplicationGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayInner.class);
 
     /*
@@ -60,18 +59,21 @@ public class ApplicationGatewayInner extends Resource {
     /*
      * SKU of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sku")
     private ApplicationGatewaySku sku;
 
     /*
      * SSL policy of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sslPolicy")
     private ApplicationGatewaySslPolicy sslPolicy;
 
     /*
      * Operational state of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.operationalState", access = JsonProperty.Access.WRITE_ONLY)
     private ApplicationGatewayOperationalState operationalState;
 
@@ -80,6 +82,7 @@ public class ApplicationGatewayInner extends Resource {
      * [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayIPConfigurations")
     private List<ApplicationGatewayIpConfigurationInner> gatewayIpConfigurations;
 
@@ -88,6 +91,7 @@ public class ApplicationGatewayInner extends Resource {
      * default limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authenticationCertificates")
     private List<ApplicationGatewayAuthenticationCertificateInner> authenticationCertificates;
 
@@ -96,6 +100,7 @@ public class ApplicationGatewayInner extends Resource {
      * default limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.trustedRootCertificates")
     private List<ApplicationGatewayTrustedRootCertificate> trustedRootCertificates;
 
@@ -104,6 +109,7 @@ public class ApplicationGatewayInner extends Resource {
      * default limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.trustedClientCertificates")
     private List<ApplicationGatewayTrustedClientCertificate> trustedClientCertificates;
 
@@ -112,6 +118,7 @@ public class ApplicationGatewayInner extends Resource {
      * limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sslCertificates")
     private List<ApplicationGatewaySslCertificateInner> sslCertificates;
 
@@ -120,6 +127,7 @@ public class ApplicationGatewayInner extends Resource {
      * limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendIPConfigurations")
     private List<ApplicationGatewayFrontendIpConfiguration> frontendIpConfigurations;
 
@@ -128,12 +136,14 @@ public class ApplicationGatewayInner extends Resource {
      * see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendPorts")
     private List<ApplicationGatewayFrontendPort> frontendPorts;
 
     /*
      * Probes of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.probes")
     private List<ApplicationGatewayProbeInner> probes;
 
@@ -142,6 +152,7 @@ public class ApplicationGatewayInner extends Resource {
      * limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPools")
     private List<ApplicationGatewayBackendAddressPool> backendAddressPools;
 
@@ -150,6 +161,7 @@ public class ApplicationGatewayInner extends Resource {
      * limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendHttpSettingsCollection")
     private List<ApplicationGatewayBackendHttpSettings> backendHttpSettingsCollection;
 
@@ -158,6 +170,7 @@ public class ApplicationGatewayInner extends Resource {
      * see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.httpListeners")
     private List<ApplicationGatewayHttpListener> httpListeners;
 
@@ -166,6 +179,7 @@ public class ApplicationGatewayInner extends Resource {
      * see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sslProfiles")
     private List<ApplicationGatewaySslProfile> sslProfiles;
 
@@ -174,18 +188,21 @@ public class ApplicationGatewayInner extends Resource {
      * see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.urlPathMaps")
     private List<ApplicationGatewayUrlPathMapInner> urlPathMaps;
 
     /*
      * Request routing rules of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requestRoutingRules")
     private List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules;
 
     /*
      * Rewrite rules for the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rewriteRuleSets")
     private List<ApplicationGatewayRewriteRuleSet> rewriteRuleSets;
 
@@ -194,66 +211,77 @@ public class ApplicationGatewayInner extends Resource {
      * limits, see [Application Gateway
      * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.redirectConfigurations")
     private List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations;
 
     /*
      * Web application firewall configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.webApplicationFirewallConfiguration")
     private ApplicationGatewayWebApplicationFirewallConfiguration webApplicationFirewallConfiguration;
 
     /*
      * Reference to the FirewallPolicy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewallPolicy")
     private SubResource firewallPolicy;
 
     /*
      * Whether HTTP2 is enabled on the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableHttp2")
     private Boolean enableHttp2;
 
     /*
      * Whether FIPS is enabled on the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableFips")
     private Boolean enableFips;
 
     /*
      * Autoscale Configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoscaleConfiguration")
     private ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration;
 
     /*
      * PrivateLink configurations on application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkConfigurations")
     private List<ApplicationGatewayPrivateLinkConfiguration> privateLinkConfigurations;
 
     /*
      * Private Endpoint connections on application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<ApplicationGatewayPrivateEndpointConnectionInner> privateEndpointConnections;
 
     /*
      * The resource GUID property of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Custom error configurations of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customErrorConfigurations")
     private List<ApplicationGatewayCustomError> customErrorConfigurations;
 
@@ -261,6 +289,7 @@ public class ApplicationGatewayInner extends Resource {
      * If true, associates a firewall policy with an application gateway
      * regardless whether the policy differs from the WAF Config.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.forceFirewallPolicyAssociation")
     private Boolean forceFirewallPolicyAssociation;
 

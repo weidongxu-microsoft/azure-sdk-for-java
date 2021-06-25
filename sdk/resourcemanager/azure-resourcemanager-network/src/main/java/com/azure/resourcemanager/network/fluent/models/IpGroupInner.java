@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /** The IpGroups resource information. */
-@JsonFlatten
 @Fluent
-public class IpGroupInner extends Resource {
+public final class IpGroupInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(IpGroupInner.class);
 
     /*
@@ -30,12 +29,14 @@ public class IpGroupInner extends Resource {
     /*
      * The provisioning state of the IpGroups resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * IpAddresses/IpAddressPrefixes in the IpGroups resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAddresses")
     private List<String> ipAddresses;
 
@@ -43,6 +44,7 @@ public class IpGroupInner extends Resource {
      * List of references to Firewall resources that this IpGroups is
      * associated with.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewalls", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> firewalls;
 
@@ -50,6 +52,7 @@ public class IpGroupInner extends Resource {
      * List of references to Firewall Policies resources that this IpGroups is
      * associated with.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewallPolicies", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> firewallPolicies;
 

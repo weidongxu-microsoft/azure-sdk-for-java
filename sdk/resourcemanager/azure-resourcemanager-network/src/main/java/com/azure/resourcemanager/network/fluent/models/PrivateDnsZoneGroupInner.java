@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Private dns zone group resource. */
-@JsonFlatten
 @Fluent
-public class PrivateDnsZoneGroupInner extends SubResource {
+public final class PrivateDnsZoneGroupInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateDnsZoneGroupInner.class);
 
     /*
@@ -36,6 +35,7 @@ public class PrivateDnsZoneGroupInner extends SubResource {
     /*
      * The provisioning state of the private dns zone group resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -43,6 +43,7 @@ public class PrivateDnsZoneGroupInner extends SubResource {
      * A collection of private dns zone configurations of the private dns zone
      * group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateDnsZoneConfigs")
     private List<PrivateDnsZoneConfig> privateDnsZoneConfigs;
 

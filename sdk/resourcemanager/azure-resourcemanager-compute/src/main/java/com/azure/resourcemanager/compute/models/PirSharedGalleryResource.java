@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Base information about the shared gallery resource in pir. */
-@JsonFlatten
 @Fluent
 public class PirSharedGalleryResource extends PirResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PirSharedGalleryResource.class);
@@ -19,6 +18,7 @@ public class PirSharedGalleryResource extends PirResource {
     /*
      * The unique id of this shared gallery.
      */
+    @JsonFlatten
     @JsonProperty(value = "identifier.uniqueId")
     private String uniqueId;
 

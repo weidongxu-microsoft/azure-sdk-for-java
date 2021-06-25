@@ -24,9 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Azure Firewall resource. */
-@JsonFlatten
 @Fluent
-public class AzureFirewallInner extends Resource {
+public final class AzureFirewallInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AzureFirewallInner.class);
 
     /*
@@ -45,78 +44,91 @@ public class AzureFirewallInner extends Resource {
     /*
      * Collection of application rule collections used by Azure Firewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationRuleCollections")
     private List<AzureFirewallApplicationRuleCollection> applicationRuleCollections;
 
     /*
      * Collection of NAT rule collections used by Azure Firewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.natRuleCollections")
     private List<AzureFirewallNatRuleCollection> natRuleCollections;
 
     /*
      * Collection of network rule collections used by Azure Firewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkRuleCollections")
     private List<AzureFirewallNetworkRuleCollection> networkRuleCollections;
 
     /*
      * IP configuration of the Azure Firewall resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<AzureFirewallIpConfiguration> ipConfigurations;
 
     /*
      * IP configuration of the Azure Firewall used for management traffic.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.managementIpConfiguration")
     private AzureFirewallIpConfiguration managementIpConfiguration;
 
     /*
      * The provisioning state of the Azure firewall resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The operation mode for Threat Intelligence.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.threatIntelMode")
     private AzureFirewallThreatIntelMode threatIntelMode;
 
     /*
      * The virtualHub to which the firewall belongs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHub")
     private SubResource virtualHub;
 
     /*
      * The firewallPolicy associated with this azure firewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewallPolicy")
     private SubResource firewallPolicy;
 
     /*
      * IP addresses associated with AzureFirewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hubIPAddresses")
     private HubIpAddresses hubIpAddresses;
 
     /*
      * IpGroups associated with AzureFirewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipGroups", access = JsonProperty.Access.WRITE_ONLY)
     private List<AzureFirewallIpGroups> ipGroups;
 
     /*
      * The Azure Firewall Resource SKU.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sku")
     private AzureFirewallSku sku;
 
     /*
      * The additional properties used to further config this azure firewall.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.additionalProperties")
     private Map<String, String> additionalProperties;
 

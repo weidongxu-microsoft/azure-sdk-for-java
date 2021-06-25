@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Backend Address Pool of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayBackendAddressPool extends SubResource {
+public final class ApplicationGatewayBackendAddressPool extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayBackendAddressPool.class);
 
     /*
@@ -41,18 +40,21 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /*
      * Collection of references to IPs defined in network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendIPConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceIpConfigurationInner> backendIpConfigurations;
 
     /*
      * Backend addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddresses")
     private List<ApplicationGatewayBackendAddress> backendAddresses;
 
     /*
      * The provisioning state of the backend address pool resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

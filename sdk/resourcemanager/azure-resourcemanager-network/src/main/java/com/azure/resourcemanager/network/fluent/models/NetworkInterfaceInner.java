@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /** A network interface in a resource group. */
-@JsonFlatten
 @Fluent
-public class NetworkInterfaceInner extends Resource {
+public final class NetworkInterfaceInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkInterfaceInner.class);
 
     /*
@@ -40,12 +39,14 @@ public class NetworkInterfaceInner extends Resource {
     /*
      * The reference to a virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachine", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource virtualMachine;
 
     /*
      * The reference to the NetworkSecurityGroup resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkSecurityGroup")
     private NetworkSecurityGroupInner networkSecurityGroup;
 
@@ -53,54 +54,63 @@ public class NetworkInterfaceInner extends Resource {
      * A reference to the private endpoint to which the network interface is
      * linked.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpoint", access = JsonProperty.Access.WRITE_ONLY)
     private PrivateEndpointInner privateEndpoint;
 
     /*
      * A list of IPConfigurations of the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<NetworkInterfaceIpConfigurationInner> ipConfigurations;
 
     /*
      * A list of TapConfigurations of the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.tapConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceTapConfigurationInner> tapConfigurations;
 
     /*
      * The DNS settings in network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private NetworkInterfaceDnsSettings dnsSettings;
 
     /*
      * The MAC address of the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.macAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String macAddress;
 
     /*
      * Whether this is a primary network interface on a virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean primary;
 
     /*
      * If the network interface is accelerated networking enabled.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableAcceleratedNetworking")
     private Boolean enableAcceleratedNetworking;
 
     /*
      * Indicates whether IP forwarding is enabled on this network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableIPForwarding")
     private Boolean enableIpForwarding;
 
     /*
      * A list of references to linked BareMetal resources.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostedWorkloads", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> hostedWorkloads;
 
@@ -108,42 +118,49 @@ public class NetworkInterfaceInner extends Resource {
      * A reference to the dscp configuration to which the network interface is
      * linked.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dscpConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource dscpConfiguration;
 
     /*
      * The resource GUID property of the network interface resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the network interface resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * WorkloadType of the NetworkInterface for BareMetal resources
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.workloadType")
     private String workloadType;
 
     /*
      * Type of Network Interface resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.nicType")
     private NetworkInterfaceNicType nicType;
 
     /*
      * Privatelinkservice of the network interface resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkService")
     private PrivateLinkServiceInner privateLinkService;
 
     /*
      * Migration phase of Network Interface resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.migrationPhase")
     private NetworkInterfaceMigrationPhase migrationPhase;
 

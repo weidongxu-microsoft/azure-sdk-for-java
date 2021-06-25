@@ -18,9 +18,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** IPConfiguration in a network interface. */
-@JsonFlatten
 @Fluent
-public class NetworkInterfaceIpConfigurationInner extends SubResource {
+public final class NetworkInterfaceIpConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkInterfaceIpConfigurationInner.class);
 
     /*
@@ -45,84 +44,98 @@ public class NetworkInterfaceIpConfigurationInner extends SubResource {
     /*
      * The reference to gateway load balancer frontend IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayLoadBalancer")
     private SubResource gatewayLoadBalancer;
 
     /*
      * The reference to Virtual Network Taps.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetworkTaps")
     private List<VirtualNetworkTapInner> virtualNetworkTaps;
 
     /*
      * The reference to ApplicationGatewayBackendAddressPool resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<ApplicationGatewayBackendAddressPool> applicationGatewayBackendAddressPools;
 
     /*
      * The reference to LoadBalancerBackendAddressPool resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerBackendAddressPools")
     private List<BackendAddressPoolInner> loadBalancerBackendAddressPools;
 
     /*
      * A list of references of LoadBalancerInboundNatRules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerInboundNatRules")
     private List<InboundNatRuleInner> loadBalancerInboundNatRules;
 
     /*
      * Private IP address of the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress")
     private String privateIpAddress;
 
     /*
      * The private IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
     /*
      * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IpVersion privateIpAddressVersion;
 
     /*
      * Subnet bound to the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /*
      * Whether this is a primary customer address on the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
     /*
      * Public IP address bound to the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private PublicIpAddressInner publicIpAddress;
 
     /*
      * Application security groups in which the IP configuration is included.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationSecurityGroups")
     private List<ApplicationSecurityGroupInner> applicationSecurityGroups;
 
     /*
      * The provisioning state of the network interface IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * PrivateLinkConnection properties for the network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkConnectionProperties", access = JsonProperty.Access.WRITE_ONLY)
     private NetworkInterfaceIpConfigurationPrivateLinkConnectionProperties privateLinkConnectionProperties;
 

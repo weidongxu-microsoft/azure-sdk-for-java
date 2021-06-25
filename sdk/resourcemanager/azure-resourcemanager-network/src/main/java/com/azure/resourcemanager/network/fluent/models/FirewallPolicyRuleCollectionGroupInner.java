@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Rule Collection Group resource. */
-@JsonFlatten
 @Fluent
-public class FirewallPolicyRuleCollectionGroupInner extends SubResource {
+public final class FirewallPolicyRuleCollectionGroupInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(FirewallPolicyRuleCollectionGroupInner.class);
 
     /*
@@ -42,12 +41,14 @@ public class FirewallPolicyRuleCollectionGroupInner extends SubResource {
     /*
      * Priority of the Firewall Policy Rule Collection Group resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.priority")
     private Integer priority;
 
     /*
      * Group of Firewall Policy rule collections.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ruleCollections")
     private List<FirewallPolicyRuleCollection> ruleCollections;
 
@@ -55,6 +56,7 @@ public class FirewallPolicyRuleCollectionGroupInner extends SubResource {
      * The provisioning state of the firewall policy rule collection group
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

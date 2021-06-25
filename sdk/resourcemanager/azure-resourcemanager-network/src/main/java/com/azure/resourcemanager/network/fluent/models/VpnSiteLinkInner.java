@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** VpnSiteLink Resource. */
-@JsonFlatten
 @Fluent
-public class VpnSiteLinkInner extends SubResource {
+public final class VpnSiteLinkInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnSiteLinkInner.class);
 
     /*
@@ -42,30 +41,35 @@ public class VpnSiteLinkInner extends SubResource {
     /*
      * The link provider properties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.linkProperties")
     private VpnLinkProviderProperties linkProperties;
 
     /*
      * The ip-address for the vpn-site-link.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAddress")
     private String ipAddress;
 
     /*
      * FQDN of vpn-site-link.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.fqdn")
     private String fqdn;
 
     /*
      * The set of bgp properties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpProperties")
     private VpnLinkBgpSettings bgpProperties;
 
     /*
      * The provisioning state of the VPN site link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

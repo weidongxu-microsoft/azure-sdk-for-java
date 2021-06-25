@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Route resource. */
-@JsonFlatten
 @Fluent
-public class RouteInner extends SubResource {
+public final class RouteInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(RouteInner.class);
 
     /*
@@ -41,12 +40,14 @@ public class RouteInner extends SubResource {
     /*
      * The destination CIDR to which the route applies.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
 
     /*
      * The type of Azure hop the packet should be sent to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.nextHopType")
     private RouteNextHopType nextHopType;
 
@@ -54,12 +55,14 @@ public class RouteInner extends SubResource {
      * The IP address packets should be forwarded to. Next hop values are only
      * allowed in routes where the next hop type is VirtualAppliance.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.nextHopIpAddress")
     private String nextHopIpAddress;
 
     /*
      * The provisioning state of the route resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -67,6 +70,7 @@ public class RouteInner extends SubResource {
      * A value indicating whether this route overrides overlapping BGP routes
      * regardless of LPM.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hasBgpOverride")
     private Boolean hasBgpOverride;
 

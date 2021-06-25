@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Application rule collection resource. */
-@JsonFlatten
 @Fluent
-public class AzureFirewallApplicationRuleCollection extends SubResource {
+public final class AzureFirewallApplicationRuleCollection extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AzureFirewallApplicationRuleCollection.class);
 
     /*
@@ -34,24 +33,28 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
     /*
      * Priority of the application rule collection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.priority")
     private Integer priority;
 
     /*
      * The action type of a rule collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.action")
     private AzureFirewallRCAction action;
 
     /*
      * Collection of rules used by a application rule collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rules")
     private List<AzureFirewallApplicationRule> rules;
 
     /*
      * The provisioning state of the application rule collection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

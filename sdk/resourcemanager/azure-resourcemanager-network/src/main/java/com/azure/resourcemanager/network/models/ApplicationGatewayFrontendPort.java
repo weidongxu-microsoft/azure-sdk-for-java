@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Frontend port of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayFrontendPort extends SubResource {
+public final class ApplicationGatewayFrontendPort extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayFrontendPort.class);
 
     /*
@@ -38,12 +37,14 @@ public class ApplicationGatewayFrontendPort extends SubResource {
     /*
      * Frontend port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.port")
     private Integer port;
 
     /*
      * The provisioning state of the frontend port resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

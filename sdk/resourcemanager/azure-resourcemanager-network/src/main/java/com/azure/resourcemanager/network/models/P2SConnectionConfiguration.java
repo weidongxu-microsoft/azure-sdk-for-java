@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** P2SConnectionConfiguration Resource. */
-@JsonFlatten
 @Fluent
-public class P2SConnectionConfiguration extends SubResource {
+public final class P2SConnectionConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(P2SConnectionConfiguration.class);
 
     /*
@@ -34,6 +33,7 @@ public class P2SConnectionConfiguration extends SubResource {
      * The reference to the address space resource which represents Address
      * space for P2S VpnClient.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnClientAddressPool")
     private AddressSpace vpnClientAddressPool;
 
@@ -41,6 +41,7 @@ public class P2SConnectionConfiguration extends SubResource {
      * The Routing Configuration indicating the associated and propagated route
      * tables on this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingConfiguration")
     private RoutingConfiguration routingConfiguration;
 
@@ -48,12 +49,14 @@ public class P2SConnectionConfiguration extends SubResource {
      * Flag indicating whether the enable internet security flag is turned on
      * for the P2S Connections or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableInternetSecurity")
     private Boolean enableInternetSecurity;
 
     /*
      * The provisioning state of the P2SConnectionConfiguration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Network security rule. */
-@JsonFlatten
 @Fluent
-public class SecurityRuleInner extends SubResource {
+public final class SecurityRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SecurityRuleInner.class);
 
     /*
@@ -44,12 +43,14 @@ public class SecurityRuleInner extends SubResource {
     /*
      * A description for this rule. Restricted to 140 chars.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.description")
     private String description;
 
     /*
      * Network protocol this rule applies to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private SecurityRuleProtocol protocol;
 
@@ -57,6 +58,7 @@ public class SecurityRuleInner extends SubResource {
      * The source port or range. Integer or range between 0 and 65535. Asterisk
      * '*' can also be used to match all ports.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourcePortRange")
     private String sourcePortRange;
 
@@ -64,6 +66,7 @@ public class SecurityRuleInner extends SubResource {
      * The destination port or range. Integer or range between 0 and 65535.
      * Asterisk '*' can also be used to match all ports.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationPortRange")
     private String destinationPortRange;
 
@@ -73,18 +76,21 @@ public class SecurityRuleInner extends SubResource {
      * and 'Internet' can also be used. If this is an ingress rule, specifies
      * where network traffic originates from.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourceAddressPrefix")
     private String sourceAddressPrefix;
 
     /*
      * The CIDR or source IP ranges.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourceAddressPrefixes")
     private List<String> sourceAddressPrefixes;
 
     /*
      * The application security group specified as source.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourceApplicationSecurityGroups")
     private List<ApplicationSecurityGroupInner> sourceApplicationSecurityGroups;
 
@@ -93,36 +99,42 @@ public class SecurityRuleInner extends SubResource {
      * '*' can also be used to match all source IPs. Default tags such as
      * 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationAddressPrefix")
     private String destinationAddressPrefix;
 
     /*
      * The destination address prefixes. CIDR or destination IP ranges.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationAddressPrefixes")
     private List<String> destinationAddressPrefixes;
 
     /*
      * The application security group specified as destination.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationApplicationSecurityGroups")
     private List<ApplicationSecurityGroupInner> destinationApplicationSecurityGroups;
 
     /*
      * The source port ranges.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourcePortRanges")
     private List<String> sourcePortRanges;
 
     /*
      * The destination port ranges.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destinationPortRanges")
     private List<String> destinationPortRanges;
 
     /*
      * The network traffic is allowed or denied.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.access")
     private SecurityRuleAccess access;
 
@@ -131,6 +143,7 @@ public class SecurityRuleInner extends SubResource {
      * priority number must be unique for each rule in the collection. The
      * lower the priority number, the higher the priority of the rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.priority")
     private Integer priority;
 
@@ -138,12 +151,14 @@ public class SecurityRuleInner extends SubResource {
      * The direction of the rule. The direction specifies if rule will be
      * evaluated on incoming or outgoing traffic.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.direction")
     private SecurityRuleDirection direction;
 
     /*
      * The provisioning state of the security rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

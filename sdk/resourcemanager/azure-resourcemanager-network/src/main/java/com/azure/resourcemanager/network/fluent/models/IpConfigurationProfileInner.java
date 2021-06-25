@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** IP configuration profile child resource. */
-@JsonFlatten
 @Fluent
-public class IpConfigurationProfileInner extends SubResource {
+public final class IpConfigurationProfileInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(IpConfigurationProfileInner.class);
 
     /*
@@ -40,12 +39,14 @@ public class IpConfigurationProfileInner extends SubResource {
      * The reference to the subnet resource to create a container network
      * interface ip configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /*
      * The provisioning state of the IP configuration profile resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

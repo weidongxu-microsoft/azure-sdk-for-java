@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Private link service resource. */
-@JsonFlatten
 @Fluent
-public class PrivateLinkServiceInner extends Resource {
+public final class PrivateLinkServiceInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateLinkServiceInner.class);
 
     /*
@@ -38,12 +37,14 @@ public class PrivateLinkServiceInner extends Resource {
     /*
      * An array of references to the load balancer IP configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerFrontendIpConfigurations")
     private List<FrontendIpConfigurationInner> loadBalancerFrontendIpConfigurations;
 
     /*
      * An array of private link service IP configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<PrivateLinkServiceIpConfigurationInner> ipConfigurations;
 
@@ -51,48 +52,56 @@ public class PrivateLinkServiceInner extends Resource {
      * An array of references to the network interfaces created for this
      * private link service.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceInner> networkInterfaces;
 
     /*
      * The provisioning state of the private link service resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * An array of list about connections to the private endpoint.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<PrivateEndpointConnectionInner> privateEndpointConnections;
 
     /*
      * The visibility list of the private link service.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.visibility")
     private PrivateLinkServicePropertiesVisibility visibility;
 
     /*
      * The auto-approval list of the private link service.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoApproval")
     private PrivateLinkServicePropertiesAutoApproval autoApproval;
 
     /*
      * The list of Fqdn.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.fqdns")
     private List<String> fqdns;
 
     /*
      * The alias of the private link service.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.alias", access = JsonProperty.Access.WRITE_ONLY)
     private String alias;
 
     /*
      * Whether the private link service is enabled for proxy protocol or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableProxyProtocol")
     private Boolean enableProxyProtocol;
 

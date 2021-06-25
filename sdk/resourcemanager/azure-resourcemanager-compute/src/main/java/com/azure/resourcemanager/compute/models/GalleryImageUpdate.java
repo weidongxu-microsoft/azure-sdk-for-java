@@ -14,33 +14,36 @@ import java.util.List;
 import java.util.Map;
 
 /** Specifies information about the gallery image definition that you want to update. */
-@JsonFlatten
 @Fluent
-public class GalleryImageUpdate extends UpdateResourceDefinition {
+public final class GalleryImageUpdate extends UpdateResourceDefinition {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(GalleryImageUpdate.class);
 
     /*
      * The description of this gallery image definition resource. This property
      * is updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.description")
     private String description;
 
     /*
      * The Eula agreement for the gallery image definition.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.eula")
     private String eula;
 
     /*
      * The privacy statement uri.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privacyStatementUri")
     private String privacyStatementUri;
 
     /*
      * The release note uri.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.releaseNoteUri")
     private String releaseNoteUri;
 
@@ -49,6 +52,7 @@ public class GalleryImageUpdate extends UpdateResourceDefinition {
      * in the disk when creating a VM from a managed image. <br><br> Possible
      * values are: <br><br> **Windows** <br><br> **Linux**
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osType")
     private OperatingSystemTypes osType;
 
@@ -56,6 +60,7 @@ public class GalleryImageUpdate extends UpdateResourceDefinition {
      * This property allows the user to specify whether the virtual machines
      * created under this image are 'Generalized' or 'Specialized'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osState")
     private OperatingSystemStateTypes osState;
 
@@ -63,6 +68,7 @@ public class GalleryImageUpdate extends UpdateResourceDefinition {
      * The hypervisor generation of the Virtual Machine. Applicable to OS disks
      * only.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGeneration hyperVGeneration;
 
@@ -70,12 +76,14 @@ public class GalleryImageUpdate extends UpdateResourceDefinition {
      * The end of life date of the gallery image definition. This property can
      * be used for decommissioning purposes. This property is updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.endOfLifeDate")
     private OffsetDateTime endOfLifeDate;
 
     /*
      * This is the gallery image definition identifier.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.identifier")
     private GalleryImageIdentifier identifier;
 
@@ -83,12 +91,14 @@ public class GalleryImageUpdate extends UpdateResourceDefinition {
      * The properties describe the recommended machine configuration for this
      * Image Definition. These properties are updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.recommended")
     private RecommendedMachineConfiguration recommended;
 
     /*
      * Describes the disallowed disk types.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.disallowed")
     private Disallowed disallowed;
 
@@ -96,18 +106,21 @@ public class GalleryImageUpdate extends UpdateResourceDefinition {
      * Describes the gallery image definition purchase plan. This is used by
      * marketplace images.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.purchasePlan")
     private ImagePurchasePlan purchasePlan;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private GalleryImagePropertiesProvisioningState provisioningState;
 
     /*
      * A list of gallery image features.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.features")
     private List<GalleryImageFeature> features;
 

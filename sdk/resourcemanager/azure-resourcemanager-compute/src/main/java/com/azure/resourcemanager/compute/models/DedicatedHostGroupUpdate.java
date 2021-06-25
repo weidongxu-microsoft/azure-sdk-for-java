@@ -16,9 +16,8 @@ import java.util.Map;
  * Specifies information about the dedicated host group that the dedicated host should be assigned to. Only tags may be
  * updated.
  */
-@JsonFlatten
 @Fluent
-public class DedicatedHostGroupUpdate extends UpdateResource {
+public final class DedicatedHostGroupUpdate extends UpdateResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DedicatedHostGroupUpdate.class);
 
     /*
@@ -33,12 +32,14 @@ public class DedicatedHostGroupUpdate extends UpdateResource {
     /*
      * Number of fault domains that the host group can span.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomainCount")
     private Integer platformFaultDomainCount;
 
     /*
      * A list of references to all dedicated hosts in the dedicated host group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hosts", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceReadOnly> hosts;
 
@@ -46,6 +47,7 @@ public class DedicatedHostGroupUpdate extends UpdateResource {
      * The dedicated host group instance view, which has the list of instance
      * view of the dedicated hosts under the dedicated host group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private DedicatedHostGroupInstanceView instanceView;
 
@@ -56,6 +58,7 @@ public class DedicatedHostGroupUpdate extends UpdateResource {
      * Azure, under the dedicated host group. The value is defaulted to 'false'
      * when not provided. <br><br>Minimum api-version: 2020-06-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.supportAutomaticPlacement")
     private Boolean supportAutomaticPlacement;
 

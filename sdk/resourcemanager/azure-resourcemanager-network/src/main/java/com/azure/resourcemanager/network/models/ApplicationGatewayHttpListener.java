@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Http listener of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayHttpListener extends SubResource {
+public final class ApplicationGatewayHttpListener extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayHttpListener.class);
 
     /*
@@ -39,60 +38,70 @@ public class ApplicationGatewayHttpListener extends SubResource {
     /*
      * Frontend IP configuration resource of an application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendIPConfiguration")
     private SubResource frontendIpConfiguration;
 
     /*
      * Frontend port resource of an application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendPort")
     private SubResource frontendPort;
 
     /*
      * Protocol of the HTTP listener.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private ApplicationGatewayProtocol protocol;
 
     /*
      * Host name of HTTP listener.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostName")
     private String hostname;
 
     /*
      * SSL certificate resource of an application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sslCertificate")
     private SubResource sslCertificate;
 
     /*
      * SSL profile resource of the application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sslProfile")
     private SubResource sslProfile;
 
     /*
      * Applicable only if protocol is https. Enables SNI for multi-hosting.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requireServerNameIndication")
     private Boolean requireServerNameIndication;
 
     /*
      * The provisioning state of the HTTP listener resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Custom error configurations of the HTTP listener.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customErrorConfigurations")
     private List<ApplicationGatewayCustomError> customErrorConfigurations;
 
     /*
      * Reference to the FirewallPolicy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewallPolicy")
     private SubResource firewallPolicy;
 
@@ -100,6 +109,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * List of Host names for HTTP Listener that allows special wildcard
      * characters as well.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostNames")
     private List<String> hostNames;
 

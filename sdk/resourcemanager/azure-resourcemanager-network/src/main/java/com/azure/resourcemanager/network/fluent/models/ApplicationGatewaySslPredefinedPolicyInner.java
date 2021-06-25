@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** An Ssl predefined policy. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
+public final class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewaySslPredefinedPolicyInner.class);
 
     /*
@@ -30,12 +29,14 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
      * Ssl cipher suites to be enabled in the specified order for application
      * gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.cipherSuites")
     private List<ApplicationGatewaySslCipherSuite> cipherSuites;
 
     /*
      * Minimum version of Ssl protocol to be supported on application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.minProtocolVersion")
     private ApplicationGatewaySslProtocol minProtocolVersion;
 

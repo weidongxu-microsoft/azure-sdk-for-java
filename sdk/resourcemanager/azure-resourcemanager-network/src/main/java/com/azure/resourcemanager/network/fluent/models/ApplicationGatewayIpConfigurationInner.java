@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayIpConfigurationInner extends SubResource {
+public final class ApplicationGatewayIpConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayIpConfigurationInner.class);
 
     /*
@@ -41,6 +40,7 @@ public class ApplicationGatewayIpConfigurationInner extends SubResource {
      * Reference to the subnet resource. A subnet from where application
      * gateway gets its private address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
@@ -48,6 +48,7 @@ public class ApplicationGatewayIpConfigurationInner extends SubResource {
      * The provisioning state of the application gateway IP configuration
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Describes the properties of a Compute Operation value. */
-@JsonFlatten
 @Immutable
-public class ComputeOperationValueInner {
+public final class ComputeOperationValueInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ComputeOperationValueInner.class);
 
     /*
@@ -31,24 +30,28 @@ public class ComputeOperationValueInner {
     /*
      * The display name of the compute operation.
      */
+    @JsonFlatten
     @JsonProperty(value = "display.operation", access = JsonProperty.Access.WRITE_ONLY)
     private String operation;
 
     /*
      * The display name of the resource the operation applies to.
      */
+    @JsonFlatten
     @JsonProperty(value = "display.resource", access = JsonProperty.Access.WRITE_ONLY)
     private String resource;
 
     /*
      * The description of the operation.
      */
+    @JsonFlatten
     @JsonProperty(value = "display.description", access = JsonProperty.Access.WRITE_ONLY)
     private String description;
 
     /*
      * The resource provider for the operation.
      */
+    @JsonFlatten
     @JsonProperty(value = "display.provider", access = JsonProperty.Access.WRITE_ONLY)
     private String provider;
 

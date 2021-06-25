@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Peerings in a virtual network resource. */
-@JsonFlatten
 @Fluent
-public class VirtualNetworkPeeringInner extends SubResource {
+public final class VirtualNetworkPeeringInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualNetworkPeeringInner.class);
 
     /*
@@ -45,6 +44,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * Whether the VMs in the local virtual network space would be able to
      * access the VMs in remote virtual network space.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowVirtualNetworkAccess")
     private Boolean allowVirtualNetworkAccess;
 
@@ -52,6 +52,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * Whether the forwarded traffic from the VMs in the local virtual network
      * will be allowed/disallowed in remote virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowForwardedTraffic")
     private Boolean allowForwardedTraffic;
 
@@ -59,6 +60,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * If gateway links can be used in remote virtual networking to link to
      * this virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowGatewayTransit")
     private Boolean allowGatewayTransit;
 
@@ -69,6 +71,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * Only one peering can have this flag set to true. This flag cannot be set
      * if virtual network already has a gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.useRemoteGateways")
     private Boolean useRemoteGateways;
 
@@ -78,6 +81,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * for the preview and learn more
      * (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.remoteVirtualNetwork")
     private SubResource remoteVirtualNetwork;
 
@@ -85,6 +89,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * The reference to the address space peered with the remote virtual
      * network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.remoteAddressSpace")
     private AddressSpace remoteAddressSpace;
 
@@ -92,42 +97,49 @@ public class VirtualNetworkPeeringInner extends SubResource {
      * The reference to the current address space of the remote virtual
      * network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.remoteVirtualNetworkAddressSpace")
     private AddressSpace remoteVirtualNetworkAddressSpace;
 
     /*
      * The reference to the remote virtual network's Bgp Communities.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.remoteBgpCommunities")
     private VirtualNetworkBgpCommunities remoteBgpCommunities;
 
     /*
      * The status of the virtual network peering.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeringState")
     private VirtualNetworkPeeringState peeringState;
 
     /*
      * The peering sync status of the virtual network peering.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeringSyncLevel")
     private VirtualNetworkPeeringLevel peeringSyncLevel;
 
     /*
      * The provisioning state of the virtual network peering resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * If we need to verify the provisioning state of the remote gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.doNotVerifyRemoteGateways")
     private Boolean doNotVerifyRemoteGateways;
 
     /*
      * The resourceGuid property of the Virtual Network peering resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 

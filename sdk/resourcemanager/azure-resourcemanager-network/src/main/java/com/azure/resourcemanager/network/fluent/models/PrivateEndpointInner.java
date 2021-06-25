@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Private endpoint resource. */
-@JsonFlatten
 @Fluent
-public class PrivateEndpointInner extends Resource {
+public final class PrivateEndpointInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateEndpointInner.class);
 
     /*
@@ -38,6 +37,7 @@ public class PrivateEndpointInner extends Resource {
     /*
      * The ID of the subnet from which the private IP will be allocated.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
@@ -45,18 +45,21 @@ public class PrivateEndpointInner extends Resource {
      * An array of references to the network interfaces created for this
      * private endpoint.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceInner> networkInterfaces;
 
     /*
      * The provisioning state of the private endpoint resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * A grouping of information about the connection to the remote resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkServiceConnections")
     private List<PrivateLinkServiceConnection> privateLinkServiceConnections;
 
@@ -65,12 +68,14 @@ public class PrivateEndpointInner extends Resource {
      * Used when the network admin does not have access to approve connections
      * to the remote resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.manualPrivateLinkServiceConnections")
     private List<PrivateLinkServiceConnection> manualPrivateLinkServiceConnections;
 
     /*
      * An array of custom dns configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customDnsConfigs")
     private List<CustomDnsConfigPropertiesFormat> customDnsConfigs;
 

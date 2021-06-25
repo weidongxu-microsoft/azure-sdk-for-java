@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** PrivateLinkServiceConnection resource. */
-@JsonFlatten
 @Fluent
-public class PrivateLinkServiceConnection extends SubResource {
+public final class PrivateLinkServiceConnection extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateLinkServiceConnection.class);
 
     /*
@@ -40,12 +39,14 @@ public class PrivateLinkServiceConnection extends SubResource {
     /*
      * The provisioning state of the private link service connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The resource id of private link service.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkServiceId")
     private String privateLinkServiceId;
 
@@ -53,6 +54,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * The ID(s) of the group(s) obtained from the remote resource that this
      * private endpoint should connect to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.groupIds")
     private List<String> groupIds;
 
@@ -60,6 +62,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * A message passed to the owner of the remote resource with this
      * connection request. Restricted to 140 chars.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requestMessage")
     private String requestMessage;
 
@@ -67,6 +70,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * A collection of read-only information about the state of the connection
      * to the remote resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkServiceConnectionState")
     private PrivateLinkServiceConnectionState privateLinkServiceConnectionState;
 

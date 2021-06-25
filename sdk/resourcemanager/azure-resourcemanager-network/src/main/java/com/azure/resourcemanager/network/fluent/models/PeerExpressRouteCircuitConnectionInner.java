@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Peer Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
-@JsonFlatten
 @Fluent
-public class PeerExpressRouteCircuitConnectionInner extends SubResource {
+public final class PeerExpressRouteCircuitConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PeerExpressRouteCircuitConnectionInner.class);
 
     /*
@@ -42,6 +41,7 @@ public class PeerExpressRouteCircuitConnectionInner extends SubResource {
      * Reference to Express Route Circuit Private Peering Resource of the
      * circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteCircuitPeering")
     private SubResource expressRouteCircuitPeering;
 
@@ -49,24 +49,28 @@ public class PeerExpressRouteCircuitConnectionInner extends SubResource {
      * Reference to Express Route Circuit Private Peering Resource of the
      * peered circuit.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerExpressRouteCircuitPeering")
     private SubResource peerExpressRouteCircuitPeering;
 
     /*
      * /29 IP address space to carve out Customer addresses for tunnels.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
 
     /*
      * Express Route Circuit connection state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.circuitConnectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private CircuitConnectionStatus circuitConnectionStatus;
 
     /*
      * The name of the express route circuit connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionName")
     private String connectionName;
 
@@ -74,6 +78,7 @@ public class PeerExpressRouteCircuitConnectionInner extends SubResource {
      * The resource guid of the authorization used for the express route
      * circuit connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.authResourceGuid")
     private String authResourceGuid;
 
@@ -81,6 +86,7 @@ public class PeerExpressRouteCircuitConnectionInner extends SubResource {
      * The provisioning state of the peer express route circuit connection
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

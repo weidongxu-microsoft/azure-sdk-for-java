@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Bastion Host resource. */
-@JsonFlatten
 @Fluent
-public class BastionHostInner extends Resource {
+public final class BastionHostInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(BastionHostInner.class);
 
     /*
@@ -37,18 +36,21 @@ public class BastionHostInner extends Resource {
     /*
      * IP configuration of the Bastion Host resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<BastionHostIpConfiguration> ipConfigurations;
 
     /*
      * FQDN for the endpoint on which bastion host is accessible.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsName")
     private String dnsName;
 
     /*
      * The provisioning state of the bastion host resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

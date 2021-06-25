@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Information about packet capture session. */
-@JsonFlatten
 @Fluent
-public class PacketCaptureResultInner {
+public final class PacketCaptureResultInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PacketCaptureResultInner.class);
 
     /*
@@ -41,42 +40,49 @@ public class PacketCaptureResultInner {
     /*
      * The ID of the targeted resource, only VM is currently supported.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.target")
     private String target;
 
     /*
      * Number of bytes captured per packet, the remaining bytes are truncated.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bytesToCapturePerPacket")
     private Long bytesToCapturePerPacket;
 
     /*
      * Maximum size of the capture output.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.totalBytesPerSession")
     private Long totalBytesPerSession;
 
     /*
      * Maximum duration of the capture session in seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.timeLimitInSeconds")
     private Integer timeLimitInSeconds;
 
     /*
      * The storage location for a packet capture session.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageLocation")
     private PacketCaptureStorageLocation storageLocation;
 
     /*
      * A list of packet capture filters.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.filters")
     private List<PacketCaptureFilter> filters;
 
     /*
      * The provisioning state of the packet capture session.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

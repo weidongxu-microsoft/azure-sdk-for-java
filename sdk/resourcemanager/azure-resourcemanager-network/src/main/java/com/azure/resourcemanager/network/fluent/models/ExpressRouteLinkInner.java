@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** ExpressRouteLink child resource definition. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteLinkInner extends SubResource {
+public final class ExpressRouteLinkInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteLinkInner.class);
 
     /*
@@ -37,48 +36,56 @@ public class ExpressRouteLinkInner extends SubResource {
     /*
      * Name of Azure router associated with physical port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routerName", access = JsonProperty.Access.WRITE_ONLY)
     private String routerName;
 
     /*
      * Name of Azure router interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.interfaceName", access = JsonProperty.Access.WRITE_ONLY)
     private String interfaceName;
 
     /*
      * Mapping between physical port to patch panel port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.patchPanelId", access = JsonProperty.Access.WRITE_ONLY)
     private String patchPanelId;
 
     /*
      * Mapping of physical patch panel to rack.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rackId", access = JsonProperty.Access.WRITE_ONLY)
     private String rackId;
 
     /*
      * Physical fiber port type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectorType", access = JsonProperty.Access.WRITE_ONLY)
     private ExpressRouteLinkConnectorType connectorType;
 
     /*
      * Administrative state of the physical port.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.adminState")
     private ExpressRouteLinkAdminState adminState;
 
     /*
      * The provisioning state of the express route link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * MacSec configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.macSecConfig")
     private ExpressRouteLinkMacSecConfig macSecConfig;
 

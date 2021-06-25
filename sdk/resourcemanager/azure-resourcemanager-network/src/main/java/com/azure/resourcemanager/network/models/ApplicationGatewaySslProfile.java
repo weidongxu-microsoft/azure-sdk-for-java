@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** SSL profile of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewaySslProfile extends SubResource {
+public final class ApplicationGatewaySslProfile extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewaySslProfile.class);
 
     /*
@@ -39,24 +38,28 @@ public class ApplicationGatewaySslProfile extends SubResource {
     /*
      * Array of references to application gateway trusted client certificates.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.trustedClientCertificates")
     private List<SubResource> trustedClientCertificates;
 
     /*
      * SSL policy of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sslPolicy")
     private ApplicationGatewaySslPolicy sslPolicy;
 
     /*
      * Client authentication configuration of the application gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.clientAuthConfiguration")
     private ApplicationGatewayClientAuthConfiguration clientAuthConfiguration;
 
     /*
      * The provisioning state of the HTTP listener resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

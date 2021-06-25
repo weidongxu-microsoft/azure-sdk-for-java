@@ -18,14 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 /** Response for ApplicationGatewayAvailableSslOptions API service call. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayAvailableSslOptionsInner extends Resource {
+public final class ApplicationGatewayAvailableSslOptionsInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayAvailableSslOptionsInner.class);
 
     /*
      * List of available Ssl predefined policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.predefinedPolicies")
     private List<SubResource> predefinedPolicies;
 
@@ -33,18 +33,21 @@ public class ApplicationGatewayAvailableSslOptionsInner extends Resource {
      * Name of the Ssl predefined policy applied by default to application
      * gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.defaultPolicy")
     private ApplicationGatewaySslPolicyName defaultPolicy;
 
     /*
      * List of available Ssl cipher suites.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availableCipherSuites")
     private List<ApplicationGatewaySslCipherSuite> availableCipherSuites;
 
     /*
      * List of available Ssl protocols.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availableProtocols")
     private List<ApplicationGatewaySslProtocol> availableProtocols;
 

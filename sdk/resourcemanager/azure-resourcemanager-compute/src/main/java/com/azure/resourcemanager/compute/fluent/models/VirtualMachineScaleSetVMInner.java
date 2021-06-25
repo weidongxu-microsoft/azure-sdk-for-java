@@ -26,9 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Describes a virtual machine scale set virtual machine. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetVMInner extends Resource {
+public final class VirtualMachineScaleSetVMInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetVMInner.class);
 
     /*
@@ -71,30 +70,35 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * Specifies whether the latest model has been applied to the virtual
      * machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.latestModelApplied", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean latestModelApplied;
 
     /*
      * Azure VM unique ID.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vmId", access = JsonProperty.Access.WRITE_ONLY)
     private String vmId;
 
     /*
      * The virtual machine instance view.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private VirtualMachineScaleSetVMInstanceViewInner instanceView;
 
     /*
      * Specifies the hardware settings for the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hardwareProfile")
     private HardwareProfile hardwareProfile;
 
     /*
      * Specifies the storage settings for the virtual machine disks.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageProfile")
     private StorageProfile storageProfile;
 
@@ -104,30 +108,35 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * the capability to support attaching managed data disks with UltraSSD_LRS
      * storage account type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.additionalCapabilities")
     private AdditionalCapabilities additionalCapabilities;
 
     /*
      * Specifies the operating system settings for the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osProfile")
     private OSProfile osProfile;
 
     /*
      * Specifies the Security related profile settings for the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.securityProfile")
     private SecurityProfile securityProfile;
 
     /*
      * Specifies the network interfaces of the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkProfile")
     private NetworkProfile networkProfile;
 
     /*
      * Specifies the network profile configuration of the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkProfileConfiguration")
     private VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration;
 
@@ -135,6 +144,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * Specifies the boot diagnostic settings state. <br><br>Minimum
      * api-version: 2015-06-15.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.diagnosticsProfile")
     private DiagnosticsProfile diagnosticsProfile;
 
@@ -151,12 +161,14 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * <br><br> Currently, a VM can only be added to availability set at
      * creation time. An existing VM cannot be added to an availability set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availabilitySet")
     private SubResource availabilitySet;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
@@ -172,6 +184,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
      * <br><br> Minimum api-version: 2015-06-15
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.licenseType")
     private String licenseType;
 
@@ -180,12 +193,14 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * of the virtual machine scale set or the customized model for the virtual
      * machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.modelDefinitionApplied", access = JsonProperty.Access.WRITE_ONLY)
     private String modelDefinitionApplied;
 
     /*
      * Specifies the protection policy of the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protectionPolicy")
     private VirtualMachineScaleSetVMProtectionPolicy protectionPolicy;
 
@@ -193,6 +208,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * UserData for the VM, which must be base-64 encoded. Customer should not
      * pass any secrets in here. <br><br>Minimum api-version: 2021-03-01
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.userData")
     private String userData;
 

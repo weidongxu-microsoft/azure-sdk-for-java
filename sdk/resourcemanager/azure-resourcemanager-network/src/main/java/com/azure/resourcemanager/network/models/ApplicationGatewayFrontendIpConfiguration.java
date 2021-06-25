@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Frontend IP configuration of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayFrontendIpConfiguration extends SubResource {
+public final class ApplicationGatewayFrontendIpConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayFrontendIpConfiguration.class);
 
     /*
@@ -39,36 +38,42 @@ public class ApplicationGatewayFrontendIpConfiguration extends SubResource {
     /*
      * PrivateIPAddress of the network interface IP Configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress")
     private String privateIpAddress;
 
     /*
      * The private IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
     /*
      * Reference to the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /*
      * Reference to the PublicIP resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIpAddress;
 
     /*
      * Reference to the application gateway private link configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateLinkConfiguration")
     private SubResource privateLinkConfiguration;
 
     /*
      * The provisioning state of the frontend IP configuration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

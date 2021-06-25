@@ -19,9 +19,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** VpnConnection Resource. */
-@JsonFlatten
 @Fluent
-public class VpnConnectionInner extends SubResource {
+public final class VpnConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnConnectionInner.class);
 
     /*
@@ -40,108 +39,126 @@ public class VpnConnectionInner extends SubResource {
     /*
      * Id of the connected vpn site.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.remoteVpnSite")
     private SubResource remoteVpnSite;
 
     /*
      * Routing weight for vpn connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingWeight")
     private Integer routingWeight;
 
     /*
      * DPD timeout in seconds for vpn connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dpdTimeoutSeconds")
     private Integer dpdTimeoutSeconds;
 
     /*
      * The connection status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private VpnConnectionStatus connectionStatus;
 
     /*
      * Connection protocol used for this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnConnectionProtocolType")
     private VirtualNetworkGatewayConnectionProtocol vpnConnectionProtocolType;
 
     /*
      * Ingress bytes transferred.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ingressBytesTransferred", access = JsonProperty.Access.WRITE_ONLY)
     private Long ingressBytesTransferred;
 
     /*
      * Egress bytes transferred.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.egressBytesTransferred", access = JsonProperty.Access.WRITE_ONLY)
     private Long egressBytesTransferred;
 
     /*
      * Expected bandwidth in MBPS.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionBandwidth")
     private Integer connectionBandwidth;
 
     /*
      * SharedKey for the vpn connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sharedKey")
     private String sharedKey;
 
     /*
      * EnableBgp flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableBgp")
     private Boolean enableBgp;
 
     /*
      * Enable policy-based traffic selectors.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.usePolicyBasedTrafficSelectors")
     private Boolean usePolicyBasedTrafficSelectors;
 
     /*
      * The IPSec Policies to be considered by this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipsecPolicies")
     private List<IpsecPolicy> ipsecPolicies;
 
     /*
      * The Traffic Selector Policies to be considered by this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.trafficSelectorPolicies")
     private List<TrafficSelectorPolicy> trafficSelectorPolicies;
 
     /*
      * EnableBgp flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableRateLimiting")
     private Boolean enableRateLimiting;
 
     /*
      * Enable internet security.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableInternetSecurity")
     private Boolean enableInternetSecurity;
 
     /*
      * Use local azure ip to initiate connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.useLocalAzureIpAddress")
     private Boolean useLocalAzureIpAddress;
 
     /*
      * The provisioning state of the VPN connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * List of all vpn site link connections to the gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnLinkConnections")
     private List<VpnSiteLinkConnectionInner> vpnLinkConnections;
 
@@ -149,6 +166,7 @@ public class VpnConnectionInner extends SubResource {
      * The Routing Configuration indicating the associated and propagated route
      * tables on this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingConfiguration")
     private RoutingConfiguration routingConfiguration;
 

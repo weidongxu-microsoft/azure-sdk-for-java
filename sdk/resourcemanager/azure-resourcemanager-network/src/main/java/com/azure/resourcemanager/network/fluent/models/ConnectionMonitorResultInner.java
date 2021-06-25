@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Information about the connection monitor. */
-@JsonFlatten
 @Fluent
-public class ConnectionMonitorResultInner extends Resource {
+public final class ConnectionMonitorResultInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ConnectionMonitorResultInner.class);
 
     /*
@@ -37,12 +36,14 @@ public class ConnectionMonitorResultInner extends Resource {
     /*
      * Describes the source of connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.source")
     private ConnectionMonitorSource source;
 
     /*
      * Describes the destination of connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destination")
     private ConnectionMonitorDestination destination;
 
@@ -50,66 +51,77 @@ public class ConnectionMonitorResultInner extends Resource {
      * Determines if the connection monitor will start automatically once
      * created.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoStart")
     private Boolean autoStart;
 
     /*
      * Monitoring interval in seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.monitoringIntervalInSeconds")
     private Integer monitoringIntervalInSeconds;
 
     /*
      * List of connection monitor endpoints.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.endpoints")
     private List<ConnectionMonitorEndpoint> endpoints;
 
     /*
      * List of connection monitor test configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.testConfigurations")
     private List<ConnectionMonitorTestConfiguration> testConfigurations;
 
     /*
      * List of connection monitor test groups.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.testGroups")
     private List<ConnectionMonitorTestGroup> testGroups;
 
     /*
      * List of connection monitor outputs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outputs")
     private List<ConnectionMonitorOutput> outputs;
 
     /*
      * Optional notes to be associated with the connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.notes")
     private String notes;
 
     /*
      * The provisioning state of the connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The date and time when the connection monitor was started.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.startTime", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime startTime;
 
     /*
      * The monitoring status of the connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.monitoringStatus", access = JsonProperty.Access.WRITE_ONLY)
     private String monitoringStatus;
 
     /*
      * Type of connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionMonitorType", access = JsonProperty.Access.WRITE_ONLY)
     private ConnectionMonitorType connectionMonitorType;
 

@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Describes a Virtual Machine Scale Set. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetUpdate extends UpdateResource {
+public final class VirtualMachineScaleSetUpdate extends UpdateResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetUpdate.class);
 
     /*
@@ -40,18 +39,21 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
     /*
      * The upgrade policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.upgradePolicy")
     private UpgradePolicy upgradePolicy;
 
     /*
      * Policy for automatic repairs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.automaticRepairsPolicy")
     private AutomaticRepairsPolicy automaticRepairsPolicy;
 
     /*
      * The virtual machine profile.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachineProfile")
     private VirtualMachineScaleSetUpdateVMProfile virtualMachineProfile;
 
@@ -59,6 +61,7 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      * Specifies whether the Virtual Machine Scale Set should be
      * overprovisioned.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.overprovision")
     private Boolean overprovision;
 
@@ -67,6 +70,7 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      * requested number of VMs which are finally kept. This property will hence
      * ensure that the extensions do not run on the extra overprovisioned VMs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.doNotRunExtensionsOnOverprovisionedVMs")
     private Boolean doNotRunExtensionsOnOverprovisionedVMs;
 
@@ -76,6 +80,7 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      * be modified to false. However, if singlePlacementGroup is false, it may
      * not be modified to true.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.singlePlacementGroup")
     private Boolean singlePlacementGroup;
 
@@ -85,6 +90,7 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      * Virtual Machines have the capability to support attaching managed data
      * disks with UltraSSD_LRS storage account type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.additionalCapabilities")
     private AdditionalCapabilities additionalCapabilities;
 
@@ -92,6 +98,7 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      * Specifies the scale-in policy that decides which virtual machines are
      * chosen for removal when a Virtual Machine Scale Set is scaled-in.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.scaleInPolicy")
     private ScaleInPolicy scaleInPolicy;
 
@@ -100,6 +107,7 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      * virtual machine scale set should be assigned to. <br><br>Minimum
      * api-version: 2018-04-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.proximityPlacementGroup")
     private SubResource proximityPlacementGroup;
 

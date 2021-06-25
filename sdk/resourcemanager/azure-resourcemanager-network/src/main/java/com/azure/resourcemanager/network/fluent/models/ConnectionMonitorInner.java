@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Parameters that define the operation to create a connection monitor. */
-@JsonFlatten
 @Fluent
-public class ConnectionMonitorInner {
+public final class ConnectionMonitorInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ConnectionMonitorInner.class);
 
     /*
@@ -39,12 +38,14 @@ public class ConnectionMonitorInner {
     /*
      * Describes the source of connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.source")
     private ConnectionMonitorSource source;
 
     /*
      * Describes the destination of connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.destination")
     private ConnectionMonitorDestination destination;
 
@@ -52,42 +53,49 @@ public class ConnectionMonitorInner {
      * Determines if the connection monitor will start automatically once
      * created.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoStart")
     private Boolean autoStart;
 
     /*
      * Monitoring interval in seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.monitoringIntervalInSeconds")
     private Integer monitoringIntervalInSeconds;
 
     /*
      * List of connection monitor endpoints.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.endpoints")
     private List<ConnectionMonitorEndpoint> endpoints;
 
     /*
      * List of connection monitor test configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.testConfigurations")
     private List<ConnectionMonitorTestConfiguration> testConfigurations;
 
     /*
      * List of connection monitor test groups.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.testGroups")
     private List<ConnectionMonitorTestGroup> testGroups;
 
     /*
      * List of connection monitor outputs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outputs")
     private List<ConnectionMonitorOutput> outputs;
 
     /*
      * Optional notes to be associated with the connection monitor.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.notes")
     private String notes;
 

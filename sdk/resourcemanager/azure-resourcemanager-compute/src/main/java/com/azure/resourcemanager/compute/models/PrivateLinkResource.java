@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** A private link resource. */
-@JsonFlatten
 @Fluent
-public class PrivateLinkResource {
+public final class PrivateLinkResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateLinkResource.class);
 
     /*
@@ -38,18 +37,21 @@ public class PrivateLinkResource {
     /*
      * The private link resource group id.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.groupId", access = JsonProperty.Access.WRITE_ONLY)
     private String groupId;
 
     /*
      * The private link resource required member names.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requiredMembers", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> requiredMembers;
 
     /*
      * The private link resource DNS zone name.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requiredZoneNames")
     private List<String> requiredZoneNames;
 

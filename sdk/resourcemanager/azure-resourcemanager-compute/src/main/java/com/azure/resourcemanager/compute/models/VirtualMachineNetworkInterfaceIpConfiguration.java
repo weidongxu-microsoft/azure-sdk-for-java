@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a virtual machine network profile's IP configuration. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineNetworkInterfaceIpConfiguration {
+public final class VirtualMachineNetworkInterfaceIpConfiguration {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(VirtualMachineNetworkInterfaceIpConfiguration.class);
 
@@ -28,6 +27,7 @@ public class VirtualMachineNetworkInterfaceIpConfiguration {
     /*
      * Specifies the identifier of the subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
@@ -35,12 +35,14 @@ public class VirtualMachineNetworkInterfaceIpConfiguration {
      * Specifies the primary network interface in case the virtual machine has
      * more than 1 network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
     /*
      * The publicIPAddressConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressConfiguration")
     private VirtualMachinePublicIpAddressConfiguration publicIpAddressConfiguration;
 
@@ -49,12 +51,14 @@ public class VirtualMachineNetworkInterfaceIpConfiguration {
      * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
      * Possible values are: 'IPv4' and 'IPv6'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IpVersions privateIpAddressVersion;
 
     /*
      * Specifies an array of references to application security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationSecurityGroups")
     private List<SubResource> applicationSecurityGroups;
 
@@ -64,6 +68,7 @@ public class VirtualMachineNetworkInterfaceIpConfiguration {
      * multiple application gateways. Multiple virtual machines cannot use the
      * same application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<SubResource> applicationGatewayBackendAddressPools;
 
@@ -73,6 +78,7 @@ public class VirtualMachineNetworkInterfaceIpConfiguration {
      * public and one internal load balancer. [Multiple virtual machines cannot
      * use the same basic sku load balancer].
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerBackendAddressPools")
     private List<SubResource> loadBalancerBackendAddressPools;
 

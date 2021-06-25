@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
 /** Specifies information about the gallery image version that you want to create or update. */
-@JsonFlatten
 @Fluent
-public class SharedGalleryImageVersionInner extends PirSharedGalleryResource {
+public final class SharedGalleryImageVersionInner extends PirSharedGalleryResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SharedGalleryImageVersionInner.class);
 
     /*
@@ -23,6 +22,7 @@ public class SharedGalleryImageVersionInner extends PirSharedGalleryResource {
      * property can be used for decommissioning purposes. This property is
      * updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publishedDate")
     private OffsetDateTime publishedDate;
 
@@ -31,6 +31,7 @@ public class SharedGalleryImageVersionInner extends PirSharedGalleryResource {
      * property can be used for decommissioning purposes. This property is
      * updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.endOfLifeDate")
     private OffsetDateTime endOfLifeDate;
 

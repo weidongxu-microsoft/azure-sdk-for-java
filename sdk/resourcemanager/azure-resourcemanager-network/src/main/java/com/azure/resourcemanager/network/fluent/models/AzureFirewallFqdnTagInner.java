@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Azure Firewall FQDN Tag Resource. */
-@JsonFlatten
 @Fluent
-public class AzureFirewallFqdnTagInner extends Resource {
+public final class AzureFirewallFqdnTagInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AzureFirewallFqdnTagInner.class);
 
     /*
@@ -28,12 +27,14 @@ public class AzureFirewallFqdnTagInner extends Resource {
     /*
      * The provisioning state of the Azure firewall FQDN tag resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The name of this FQDN Tag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.fqdnTagName", access = JsonProperty.Access.WRITE_ONLY)
     private String fqdnTagName;
 

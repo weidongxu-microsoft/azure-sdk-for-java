@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** A common class for general resource information. */
-@JsonFlatten
 @Fluent
-public class LocalNetworkGatewayInner extends Resource {
+public final class LocalNetworkGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(LocalNetworkGatewayInner.class);
 
     /*
@@ -30,36 +29,42 @@ public class LocalNetworkGatewayInner extends Resource {
     /*
      * Local network site address space.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.localNetworkAddressSpace")
     private AddressSpace localNetworkAddressSpace;
 
     /*
      * IP address of local network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayIpAddress")
     private String gatewayIpAddress;
 
     /*
      * FQDN of local network gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.fqdn")
     private String fqdn;
 
     /*
      * Local network gateway's BGP speaker settings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpSettings")
     private BgpSettings bgpSettings;
 
     /*
      * The resource GUID property of the local network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the local network gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

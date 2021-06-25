@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** PrivateDnsZoneConfig resource. */
-@JsonFlatten
 @Fluent
-public class PrivateDnsZoneConfig {
+public final class PrivateDnsZoneConfig {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateDnsZoneConfig.class);
 
     /*
@@ -27,6 +26,7 @@ public class PrivateDnsZoneConfig {
     /*
      * The resource id of the private dns zone.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateDnsZoneId")
     private String privateDnsZoneId;
 
@@ -34,6 +34,7 @@ public class PrivateDnsZoneConfig {
      * A collection of information regarding a recordSet, holding information
      * to identify private resources.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.recordSets", access = JsonProperty.Access.WRITE_ONLY)
     private List<RecordSet> recordSets;
 

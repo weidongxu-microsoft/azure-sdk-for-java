@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Redirect configuration of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayRedirectConfigurationInner extends SubResource {
+public final class ApplicationGatewayRedirectConfigurationInner extends SubResource {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(ApplicationGatewayRedirectConfigurationInner.class);
 
@@ -42,48 +41,56 @@ public class ApplicationGatewayRedirectConfigurationInner extends SubResource {
     /*
      * HTTP redirection type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.redirectType")
     private ApplicationGatewayRedirectType redirectType;
 
     /*
      * Reference to a listener to redirect the request to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.targetListener")
     private SubResource targetListener;
 
     /*
      * Url to redirect the request to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.targetUrl")
     private String targetUrl;
 
     /*
      * Include path in the redirected url.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.includePath")
     private Boolean includePath;
 
     /*
      * Include query string in the redirected url.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.includeQueryString")
     private Boolean includeQueryString;
 
     /*
      * Request routing specifying redirect configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requestRoutingRules")
     private List<SubResource> requestRoutingRules;
 
     /*
      * Url path maps specifying default redirect configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.urlPathMaps")
     private List<SubResource> urlPathMaps;
 
     /*
      * Path rules specifying redirect configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.pathRules")
     private List<SubResource> pathRules;
 

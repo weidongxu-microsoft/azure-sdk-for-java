@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /** VpnServerConfiguration Resource. */
-@JsonFlatten
 @Fluent
-public class VpnServerConfigurationInner extends Resource {
+public final class VpnServerConfigurationInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnServerConfigurationInner.class);
 
     /*
@@ -38,48 +37,56 @@ public class VpnServerConfigurationInner extends Resource {
      * The name of the VpnServerConfiguration that is unique within a resource
      * group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.name")
     private String namePropertiesName;
 
     /*
      * VPN protocols for the VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnProtocols")
     private List<VpnGatewayTunnelingProtocol> vpnProtocols;
 
     /*
      * VPN authentication types for the VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnAuthenticationTypes")
     private List<VpnAuthenticationType> vpnAuthenticationTypes;
 
     /*
      * VPN client root certificate of VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnClientRootCertificates")
     private List<VpnServerConfigVpnClientRootCertificate> vpnClientRootCertificates;
 
     /*
      * VPN client revoked certificate of VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnClientRevokedCertificates")
     private List<VpnServerConfigVpnClientRevokedCertificate> vpnClientRevokedCertificates;
 
     /*
      * Radius Server root certificate of VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.radiusServerRootCertificates")
     private List<VpnServerConfigRadiusServerRootCertificate> radiusServerRootCertificates;
 
     /*
      * Radius client root certificate of VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.radiusClientRootCertificates")
     private List<VpnServerConfigRadiusClientRootCertificate> radiusClientRootCertificates;
 
     /*
      * VpnClientIpsecPolicies for VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnClientIpsecPolicies")
     private List<IpsecPolicy> vpnClientIpsecPolicies;
 
@@ -87,6 +94,7 @@ public class VpnServerConfigurationInner extends Resource {
      * The radius server address property of the VpnServerConfiguration
      * resource for point to site client connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.radiusServerAddress")
     private String radiusServerAddress;
 
@@ -94,18 +102,21 @@ public class VpnServerConfigurationInner extends Resource {
      * The radius secret property of the VpnServerConfiguration resource for
      * point to site client connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.radiusServerSecret")
     private String radiusServerSecret;
 
     /*
      * Multiple Radius Server configuration for VpnServerConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.radiusServers")
     private List<RadiusServer> radiusServers;
 
     /*
      * The set of aad vpn authentication parameters.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.aadAuthenticationParameters")
     private AadAuthenticationParameters aadAuthenticationParameters;
 
@@ -113,18 +124,21 @@ public class VpnServerConfigurationInner extends Resource {
      * The provisioning state of the VpnServerConfiguration resource. Possible
      * values are: 'Updating', 'Deleting', and 'Failed'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /*
      * List of references to P2SVpnGateways.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.p2SVpnGateways", access = JsonProperty.Access.WRITE_ONLY)
     private List<P2SVpnGatewayInner> p2SVpnGateways;
 
     /*
      * A unique read-only string that changes whenever the resource is updated.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etagPropertiesEtag;
 

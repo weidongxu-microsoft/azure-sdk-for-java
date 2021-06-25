@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Pool of backend IP addresses. */
-@JsonFlatten
 @Fluent
-public class BackendAddressPoolInner extends SubResource {
+public final class BackendAddressPoolInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(BackendAddressPoolInner.class);
 
     /*
@@ -44,24 +43,28 @@ public class BackendAddressPoolInner extends SubResource {
     /*
      * The location of the backend address pool.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.location")
     private String location;
 
     /*
      * An array of gateway load balancer tunnel interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.tunnelInterfaces")
     private List<GatewayLoadBalancerTunnelInterface> tunnelInterfaces;
 
     /*
      * An array of backend addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerBackendAddresses")
     private List<LoadBalancerBackendAddress> loadBalancerBackendAddresses;
 
     /*
      * An array of references to IP addresses defined in network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendIPConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceIpConfigurationInner> backendIpConfigurations;
 
@@ -69,12 +72,14 @@ public class BackendAddressPoolInner extends SubResource {
      * An array of references to load balancing rules that use this backend
      * address pool.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancingRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> loadBalancingRules;
 
     /*
      * A reference to an outbound rule that uses this backend address pool.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outboundRule", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource outboundRule;
 
@@ -82,12 +87,14 @@ public class BackendAddressPoolInner extends SubResource {
      * An array of references to outbound rules that use this backend address
      * pool.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outboundRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> outboundRules;
 
     /*
      * The provisioning state of the backend address pool resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

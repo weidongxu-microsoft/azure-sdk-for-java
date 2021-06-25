@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Probe of the application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayProbeInner extends SubResource {
+public final class ApplicationGatewayProbeInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayProbeInner.class);
 
     /*
@@ -41,12 +40,14 @@ public class ApplicationGatewayProbeInner extends SubResource {
     /*
      * The protocol used for the probe.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocol")
     private ApplicationGatewayProtocol protocol;
 
     /*
      * Host name to send the probe to.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.host")
     private String host;
 
@@ -54,6 +55,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * Relative path of probe. Valid path starts from '/'. Probe is sent to
      * <Protocol>://<host>:<port><path>.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.path")
     private String path;
 
@@ -62,6 +64,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * consecutive probes. Acceptable values are from 1 second to 86400
      * seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.interval")
     private Integer interval;
 
@@ -70,6 +73,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * is not received with this timeout period. Acceptable values are from 1
      * second to 86400 seconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.timeout")
     private Integer timeout;
 
@@ -78,6 +82,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * probe failure count reaches UnhealthyThreshold. Acceptable values are
      * from 1 second to 20.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.unhealthyThreshold")
     private Integer unhealthyThreshold;
 
@@ -85,6 +90,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * Whether the host header should be picked from the backend http settings.
      * Default value is false.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.pickHostNameFromBackendHttpSettings")
     private Boolean pickHostnameFromBackendHttpSettings;
 
@@ -92,18 +98,21 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * Minimum number of servers that are always marked healthy. Default value
      * is 0.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.minServers")
     private Integer minServers;
 
     /*
      * Criterion for classifying a healthy probe response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.match")
     private ApplicationGatewayProbeHealthResponseMatch match;
 
     /*
      * The provisioning state of the probe resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -113,6 +122,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
      * settings will be used. This property is valid for Standard_v2 and WAF_v2
      * only.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.port")
     private Integer port;
 

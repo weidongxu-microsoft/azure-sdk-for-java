@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /** NetworkSecurityGroup resource. */
-@JsonFlatten
 @Fluent
-public class NetworkSecurityGroupInner extends Resource {
+public final class NetworkSecurityGroupInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkSecurityGroupInner.class);
 
     /*
@@ -29,42 +28,49 @@ public class NetworkSecurityGroupInner extends Resource {
     /*
      * A collection of security rules of the network security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.securityRules")
     private List<SecurityRuleInner> securityRules;
 
     /*
      * The default security rules of network security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.defaultSecurityRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SecurityRuleInner> defaultSecurityRules;
 
     /*
      * A collection of references to network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceInner> networkInterfaces;
 
     /*
      * A collection of references to subnets.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnets", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubnetInner> subnets;
 
     /*
      * A collection of references to flow log resources.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.flowLogs", access = JsonProperty.Access.WRITE_ONLY)
     private List<FlowLogInner> flowLogs;
 
     /*
      * The resource GUID property of the network security group resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the network security group resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

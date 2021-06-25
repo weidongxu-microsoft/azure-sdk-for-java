@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Virtual Appliance Site resource. */
-@JsonFlatten
 @Fluent
-public class VirtualApplianceSiteInner extends SubResource {
+public final class VirtualApplianceSiteInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualApplianceSiteInner.class);
 
     /*
@@ -40,18 +39,21 @@ public class VirtualApplianceSiteInner extends SubResource {
     /*
      * Address Prefix.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
 
     /*
      * Office 365 Policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.o365Policy")
     private Office365PolicyProperties o365Policy;
 
     /*
      * The provisioning state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Snapshot update resource. */
-@JsonFlatten
 @Fluent
-public class SnapshotUpdate {
+public final class SnapshotUpdate {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(SnapshotUpdate.class);
 
     /*
@@ -35,6 +34,7 @@ public class SnapshotUpdate {
     /*
      * the Operating System type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osType")
     private OperatingSystemTypes osType;
 
@@ -45,6 +45,7 @@ public class SnapshotUpdate {
      * are only allowed if the disk is not attached to a running VM, and can
      * only increase the disk's size.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.diskSizeGB")
     private Integer diskSizeGB;
 
@@ -52,6 +53,7 @@ public class SnapshotUpdate {
      * Encryption settings collection used be Azure Disk Encryption, can
      * contain multiple encryption settings per disk or snapshot.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.encryptionSettingsCollection")
     private EncryptionSettingsCollection encryptionSettingsCollection;
 
@@ -59,24 +61,28 @@ public class SnapshotUpdate {
      * Encryption property can be used to encrypt data at rest with customer
      * managed keys or platform managed keys.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.encryption")
     private Encryption encryption;
 
     /*
      * Policy for accessing the disk via network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkAccessPolicy")
     private NetworkAccessPolicy networkAccessPolicy;
 
     /*
      * ARM id of the DiskAccess resource for using private endpoints on disks.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.diskAccessId")
     private String diskAccessId;
 
     /*
      * Indicates the OS on a snapshot supports hibernation.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.supportsHibernation")
     private Boolean supportsHibernation;
 

@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** An application security group in a resource group. */
-@JsonFlatten
 @Fluent
-public class ApplicationSecurityGroupInner extends Resource {
+public final class ApplicationSecurityGroupInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationSecurityGroupInner.class);
 
     /*
@@ -30,12 +29,14 @@ public class ApplicationSecurityGroupInner extends Resource {
      * It uniquely identifies a resource, even if the user changes its name or
      * migrate the resource across subscriptions or resource groups.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the application security group resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Virtual Router Peering resource. */
-@JsonFlatten
 @Fluent
-public class VirtualRouterPeeringInner extends SubResource {
+public final class VirtualRouterPeeringInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualRouterPeeringInner.class);
 
     /*
@@ -40,18 +39,21 @@ public class VirtualRouterPeeringInner extends SubResource {
     /*
      * Peer ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerAsn")
     private Long peerAsn;
 
     /*
      * Peer IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerIp")
     private String peerIp;
 
     /*
      * The provisioning state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

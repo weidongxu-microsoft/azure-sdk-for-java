@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** SSL certificates of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewaySslCertificateInner extends SubResource {
+public final class ApplicationGatewaySslCertificateInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewaySslCertificateInner.class);
 
     /*
@@ -40,6 +39,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     /*
      * Base-64 encoded pfx certificate. Only applicable in PUT Request.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.data")
     private String data;
 
@@ -47,6 +47,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
      * Password for the pfx file specified in data. Only applicable in PUT
      * request.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.password")
     private String password;
 
@@ -54,6 +55,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
      * Base-64 encoded Public cert data corresponding to pfx specified in data.
      * Only applicable in GET request.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicCertData", access = JsonProperty.Access.WRITE_ONLY)
     private String publicCertData;
 
@@ -61,12 +63,14 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
      * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate'
      * object stored in KeyVault.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.keyVaultSecretId")
     private String keyVaultSecretId;
 
     /*
      * The provisioning state of the SSL certificate resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

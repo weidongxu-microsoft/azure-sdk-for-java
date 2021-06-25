@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Trusted client certificates of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayTrustedClientCertificate extends SubResource {
+public final class ApplicationGatewayTrustedClientCertificate extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayTrustedClientCertificate.class);
 
     /*
@@ -39,24 +38,28 @@ public class ApplicationGatewayTrustedClientCertificate extends SubResource {
     /*
      * Certificate public data.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.data")
     private String data;
 
     /*
      * Validated certificate data.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.validatedCertData", access = JsonProperty.Access.WRITE_ONLY)
     private String validatedCertData;
 
     /*
      * Distinguished name of client certificate issuer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.clientCertIssuerDN", access = JsonProperty.Access.WRITE_ONLY)
     private String clientCertIssuerDN;
 
     /*
      * The provisioning state of the trusted client certificate resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

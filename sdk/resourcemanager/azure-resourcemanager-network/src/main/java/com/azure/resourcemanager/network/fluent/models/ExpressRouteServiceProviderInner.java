@@ -16,26 +16,28 @@ import java.util.List;
 import java.util.Map;
 
 /** A ExpressRouteResourceProvider object. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteServiceProviderInner extends Resource {
+public final class ExpressRouteServiceProviderInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteServiceProviderInner.class);
 
     /*
      * A list of peering locations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peeringLocations")
     private List<String> peeringLocations;
 
     /*
      * A list of bandwidths offered.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bandwidthsOffered")
     private List<ExpressRouteServiceProviderBandwidthsOffered> bandwidthsOffered;
 
     /*
      * The provisioning state of the express route service provider resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Path rule of URL path map of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayPathRuleInner extends SubResource {
+public final class ApplicationGatewayPathRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayPathRuleInner.class);
 
     /*
@@ -40,42 +39,49 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     /*
      * Path rules of URL path map.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.paths")
     private List<String> paths;
 
     /*
      * Backend address pool resource of URL path map path rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPool")
     private SubResource backendAddressPool;
 
     /*
      * Backend http settings resource of URL path map path rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendHttpSettings")
     private SubResource backendHttpSettings;
 
     /*
      * Redirect configuration resource of URL path map path rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.redirectConfiguration")
     private SubResource redirectConfiguration;
 
     /*
      * Rewrite rule set resource of URL path map path rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rewriteRuleSet")
     private SubResource rewriteRuleSet;
 
     /*
      * The provisioning state of the path rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Reference to the FirewallPolicy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.firewallPolicy")
     private SubResource firewallPolicy;
 

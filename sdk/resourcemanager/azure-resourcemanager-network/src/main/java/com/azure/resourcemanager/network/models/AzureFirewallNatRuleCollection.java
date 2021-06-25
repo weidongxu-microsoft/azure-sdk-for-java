@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** NAT rule collection resource. */
-@JsonFlatten
 @Fluent
-public class AzureFirewallNatRuleCollection extends SubResource {
+public final class AzureFirewallNatRuleCollection extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AzureFirewallNatRuleCollection.class);
 
     /*
@@ -34,24 +33,28 @@ public class AzureFirewallNatRuleCollection extends SubResource {
     /*
      * Priority of the NAT rule collection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.priority")
     private Integer priority;
 
     /*
      * The action type of a NAT rule collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.action")
     private AzureFirewallNatRCAction action;
 
     /*
      * Collection of rules used by a NAT rule collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rules")
     private List<AzureFirewallNatRule> rules;
 
     /*
      * The provisioning state of the NAT rule collection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

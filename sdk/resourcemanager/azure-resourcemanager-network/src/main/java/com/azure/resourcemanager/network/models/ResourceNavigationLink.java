@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** ResourceNavigationLink resource. */
-@JsonFlatten
 @Fluent
-public class ResourceNavigationLink extends SubResource {
+public final class ResourceNavigationLink extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ResourceNavigationLink.class);
 
     /*
@@ -39,18 +38,21 @@ public class ResourceNavigationLink extends SubResource {
     /*
      * Resource type of the linked resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.linkedResourceType")
     private String linkedResourceType;
 
     /*
      * Link to the external resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.link")
     private String link;
 
     /*
      * The provisioning state of the resource navigation link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

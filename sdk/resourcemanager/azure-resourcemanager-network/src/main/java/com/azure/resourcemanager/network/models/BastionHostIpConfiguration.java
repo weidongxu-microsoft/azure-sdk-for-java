@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** IP configuration of an Bastion Host. */
-@JsonFlatten
 @Fluent
-public class BastionHostIpConfiguration extends SubResource {
+public final class BastionHostIpConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(BastionHostIpConfiguration.class);
 
     /*
@@ -39,24 +38,28 @@ public class BastionHostIpConfiguration extends SubResource {
     /*
      * Reference of the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /*
      * Reference of the PublicIP resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIpAddress;
 
     /*
      * The provisioning state of the bastion host IP configuration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Private IP allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 

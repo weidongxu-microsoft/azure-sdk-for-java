@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** The application gateway private link ip configuration. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
+public final class ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(ApplicationGatewayPrivateLinkIpConfiguration.class);
 
@@ -39,24 +38,28 @@ public class ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
     /*
      * The private IP address of the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress")
     private String privateIpAddress;
 
     /*
      * The private IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
     /*
      * Reference to the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /*
      * Whether the ip configuration is primary or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
@@ -64,6 +67,7 @@ public class ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
      * The provisioning state of the application gateway private link IP
      * configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

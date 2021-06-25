@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** UrlPathMaps give a url path to the backend mapping information for PathBasedRouting. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayUrlPathMapInner extends SubResource {
+public final class ApplicationGatewayUrlPathMapInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayUrlPathMapInner.class);
 
     /*
@@ -40,36 +39,42 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     /*
      * Default backend address pool resource of URL path map.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.defaultBackendAddressPool")
     private SubResource defaultBackendAddressPool;
 
     /*
      * Default backend http settings resource of URL path map.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.defaultBackendHttpSettings")
     private SubResource defaultBackendHttpSettings;
 
     /*
      * Default Rewrite rule set resource of URL path map.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.defaultRewriteRuleSet")
     private SubResource defaultRewriteRuleSet;
 
     /*
      * Default redirect configuration resource of URL path map.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.defaultRedirectConfiguration")
     private SubResource defaultRedirectConfiguration;
 
     /*
      * Path rule of URL path map resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.pathRules")
     private List<ApplicationGatewayPathRuleInner> pathRules;
 
     /*
      * The provisioning state of the URL path map resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

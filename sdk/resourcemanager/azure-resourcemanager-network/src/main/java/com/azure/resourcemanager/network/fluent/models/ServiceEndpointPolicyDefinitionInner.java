@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Service Endpoint policy definitions. */
-@JsonFlatten
 @Fluent
-public class ServiceEndpointPolicyDefinitionInner extends SubResource {
+public final class ServiceEndpointPolicyDefinitionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ServiceEndpointPolicyDefinitionInner.class);
 
     /*
@@ -35,18 +34,21 @@ public class ServiceEndpointPolicyDefinitionInner extends SubResource {
     /*
      * A description for this rule. Restricted to 140 chars.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.description")
     private String description;
 
     /*
      * Service endpoint name.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.service")
     private String service;
 
     /*
      * A list of service resources.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceResources")
     private List<String> serviceResources;
 
@@ -54,6 +56,7 @@ public class ServiceEndpointPolicyDefinitionInner extends SubResource {
      * The provisioning state of the service endpoint policy definition
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Information on the configuration of flow log and traffic analytics (optional) . */
-@JsonFlatten
 @Fluent
-public class FlowLogInformationInner {
+public final class FlowLogInformationInner {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(FlowLogInformationInner.class);
 
     /*
@@ -35,24 +34,28 @@ public class FlowLogInformationInner {
     /*
      * ID of the storage account which is used to store the flow log.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageId", required = true)
     private String storageId;
 
     /*
      * Flag to enable/disable flow logging.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enabled", required = true)
     private boolean enabled;
 
     /*
      * Parameters that define the retention policy for flow log.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.retentionPolicy")
     private RetentionPolicyParameters retentionPolicy;
 
     /*
      * Parameters that define the flow log format.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.format")
     private FlowLogFormatParameters format;
 

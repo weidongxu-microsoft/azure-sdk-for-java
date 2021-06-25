@@ -13,20 +13,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Describes a Virtual Machine Extension Image. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineExtensionImageInner extends Resource {
+public final class VirtualMachineExtensionImageInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineExtensionImageInner.class);
 
     /*
      * The operating system this extension supports.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.operatingSystem")
     private String operatingSystem;
 
     /*
      * The type of role (IaaS or PaaS) this extension supports.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.computeRole")
     private String computeRole;
 
@@ -34,6 +35,7 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * The schema defined by publisher, where extension consumers should
      * provide settings in a matching schema.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.handlerSchema")
     private String handlerSchema;
 
@@ -43,12 +45,14 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * where a publisher wants to explicitly indicate the extension is only
      * enabled for CRP VMs but not VMSS.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vmScaleSetEnabled")
     private Boolean vmScaleSetEnabled;
 
     /*
      * Whether the handler can support multiple extensions.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.supportsMultipleExtensions")
     private Boolean supportsMultipleExtensions;
 

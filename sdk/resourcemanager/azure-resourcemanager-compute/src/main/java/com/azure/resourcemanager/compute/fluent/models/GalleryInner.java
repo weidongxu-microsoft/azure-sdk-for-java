@@ -16,33 +16,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Specifies information about the Shared Image Gallery that you want to create or update. */
-@JsonFlatten
 @Fluent
-public class GalleryInner extends Resource {
+public final class GalleryInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(GalleryInner.class);
 
     /*
      * The description of this Shared Image Gallery resource. This property is
      * updatable.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.description")
     private String description;
 
     /*
      * Describes the gallery unique name.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.identifier")
     private GalleryIdentifier identifier;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private GalleryPropertiesProvisioningState provisioningState;
 
     /*
      * Profile for gallery sharing to subscription or tenant
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sharingProfile")
     private SharingProfile sharingProfile;
 

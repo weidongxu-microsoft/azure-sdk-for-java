@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Load balancer backend addresses. */
-@JsonFlatten
 @Fluent
-public class LoadBalancerBackendAddress {
+public final class LoadBalancerBackendAddress {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(LoadBalancerBackendAddress.class);
 
     /*
@@ -26,24 +25,28 @@ public class LoadBalancerBackendAddress {
     /*
      * Reference to an existing virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetwork")
     private SubResource virtualNetwork;
 
     /*
      * Reference to an existing subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /*
      * IP Address belonging to the referenced virtual network.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAddress")
     private String ipAddress;
 
     /*
      * Reference to IP address defined in network interfaces.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkInterfaceIPConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource networkInterfaceIpConfiguration;
 
@@ -51,6 +54,7 @@ public class LoadBalancerBackendAddress {
      * Reference to the frontend ip address configuration defined in regional
      * loadbalancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerFrontendIPConfiguration")
     private SubResource loadBalancerFrontendIpConfiguration;
 

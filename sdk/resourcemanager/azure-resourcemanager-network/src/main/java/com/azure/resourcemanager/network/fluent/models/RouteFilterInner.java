@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Route Filter Resource. */
-@JsonFlatten
 @Fluent
-public class RouteFilterInner extends Resource {
+public final class RouteFilterInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(RouteFilterInner.class);
 
     /*
@@ -29,24 +28,28 @@ public class RouteFilterInner extends Resource {
     /*
      * Collection of RouteFilterRules contained within a route filter.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rules")
     private List<RouteFilterRuleInner> rules;
 
     /*
      * A collection of references to express route circuit peerings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerings", access = JsonProperty.Access.WRITE_ONLY)
     private List<ExpressRouteCircuitPeeringInner> peerings;
 
     /*
      * A collection of references to express route circuit ipv6 peerings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipv6Peerings", access = JsonProperty.Access.WRITE_ONLY)
     private List<ExpressRouteCircuitPeeringInner> ipv6Peerings;
 
     /*
      * The provisioning state of the route filter resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

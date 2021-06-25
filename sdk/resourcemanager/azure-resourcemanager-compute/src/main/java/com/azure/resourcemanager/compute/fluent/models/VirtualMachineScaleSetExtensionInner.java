@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a Virtual Machine Scale Set Extension. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
+public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetExtensionInner.class);
 
     /*
@@ -35,12 +34,14 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * extension handler will be forced to update even if the extension
      * configuration has not changed.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.forceUpdateTag")
     private String forceUpdateTag;
 
     /*
      * The name of the extension handler publisher.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publisher")
     private String publisher;
 
@@ -48,12 +49,14 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * Specifies the type of the extension; an example is
      * "CustomScriptExtension".
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.type")
     private String typePropertiesType;
 
     /*
      * Specifies the version of the script handler.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.typeHandlerVersion")
     private String typeHandlerVersion;
 
@@ -63,6 +66,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * will not upgrade minor versions unless redeployed, even with this
      * property set to true.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoUpgradeMinorVersion")
     private Boolean autoUpgradeMinorVersion;
 
@@ -70,12 +74,14 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * Indicates whether the extension should be automatically upgraded by the
      * platform if there is a newer version of the extension available.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableAutomaticUpgrade")
     private Boolean enableAutomaticUpgrade;
 
     /*
      * Json formatted public settings for the extension.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.settings")
     private Object settings;
 
@@ -83,12 +89,14 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * The extension can contain either protectedSettings or
      * protectedSettingsFromKeyVault or no protected settings at all.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protectedSettings")
     private Object protectedSettings;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
@@ -96,6 +104,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * Collection of extension names after which this extension needs to be
      * provisioned.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisionAfterExtensions")
     private List<String> provisionAfterExtensions;
 

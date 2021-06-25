@@ -17,9 +17,8 @@ import java.util.Map;
  * Specifies information about the availability set that the virtual machine should be assigned to. Only tags may be
  * updated.
  */
-@JsonFlatten
 @Fluent
-public class AvailabilitySetUpdate extends UpdateResource {
+public final class AvailabilitySetUpdate extends UpdateResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AvailabilitySetUpdate.class);
 
     /*
@@ -31,18 +30,21 @@ public class AvailabilitySetUpdate extends UpdateResource {
     /*
      * Update Domain count.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformUpdateDomainCount")
     private Integer platformUpdateDomainCount;
 
     /*
      * Fault Domain count.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomainCount")
     private Integer platformFaultDomainCount;
 
     /*
      * A list of references to all virtual machines in the availability set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachines")
     private List<SubResource> virtualMachines;
 
@@ -51,12 +53,14 @@ public class AvailabilitySetUpdate extends UpdateResource {
      * availability set should be assigned to. <br><br>Minimum api-version:
      * 2018-04-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.proximityPlacementGroup")
     private SubResource proximityPlacementGroup;
 
     /*
      * The resource status information.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.statuses", access = JsonProperty.Access.WRITE_ONLY)
     private List<InstanceViewStatus> statuses;
 

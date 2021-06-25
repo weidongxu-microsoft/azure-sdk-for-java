@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** ExpressRoute gateway resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRouteGatewayInner extends Resource {
+public final class ExpressRouteGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRouteGatewayInner.class);
 
     /*
@@ -31,24 +30,28 @@ public class ExpressRouteGatewayInner extends Resource {
     /*
      * Configuration for auto scaling.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoScaleConfiguration")
     private ExpressRouteGatewayPropertiesAutoScaleConfiguration autoScaleConfiguration;
 
     /*
      * List of ExpressRoute connections to the ExpressRoute gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<ExpressRouteConnectionInner> expressRouteConnections;
 
     /*
      * The provisioning state of the express route gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The Virtual Hub where the ExpressRoute gateway is or will be deployed.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHub")
     private VirtualHubId virtualHub;
 

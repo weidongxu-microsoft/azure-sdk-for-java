@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /** VirtualHub Resource. */
-@JsonFlatten
 @Fluent
-public class VirtualHubInner extends Resource {
+public final class VirtualHubInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualHubInner.class);
 
     /*
@@ -33,114 +32,133 @@ public class VirtualHubInner extends Resource {
     /*
      * The VirtualWAN to which the VirtualHub belongs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualWan")
     private SubResource virtualWan;
 
     /*
      * The VpnGateway associated with this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnGateway")
     private SubResource vpnGateway;
 
     /*
      * The P2SVpnGateway associated with this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.p2SVpnGateway")
     private SubResource p2SVpnGateway;
 
     /*
      * The expressRouteGateway associated with this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.expressRouteGateway")
     private SubResource expressRouteGateway;
 
     /*
      * The azureFirewall associated with this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.azureFirewall")
     private SubResource azureFirewall;
 
     /*
      * The securityPartnerProvider associated with this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.securityPartnerProvider")
     private SubResource securityPartnerProvider;
 
     /*
      * Address-prefix for this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
 
     /*
      * The routeTable associated with this virtual hub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routeTable")
     private VirtualHubRouteTable routeTable;
 
     /*
      * The provisioning state of the virtual hub resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The Security Provider name.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.securityProviderName")
     private String securityProviderName;
 
     /*
      * List of all virtual hub route table v2s associated with this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHubRouteTableV2s")
     private List<VirtualHubRouteTableV2Inner> virtualHubRouteTableV2S;
 
     /*
      * The sku of this VirtualHub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sku")
     private String sku;
 
     /*
      * The routing state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingState", access = JsonProperty.Access.WRITE_ONLY)
     private RoutingState routingState;
 
     /*
      * List of references to Bgp Connections.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> bgpConnections;
 
     /*
      * List of references to IpConfigurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> ipConfigurations;
 
     /*
      * VirtualRouter ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualRouterAsn")
     private Long virtualRouterAsn;
 
     /*
      * VirtualRouter IPs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualRouterIps")
     private List<String> virtualRouterIps;
 
     /*
      * Flag to control transit for VirtualRouter hub.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.allowBranchToBranchTraffic")
     private Boolean allowBranchToBranchTraffic;
 
     /*
      * The preferred gateway to route on-prem traffic
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.preferredRoutingGateway")
     private PreferredRoutingGateway preferredRoutingGateway;
 

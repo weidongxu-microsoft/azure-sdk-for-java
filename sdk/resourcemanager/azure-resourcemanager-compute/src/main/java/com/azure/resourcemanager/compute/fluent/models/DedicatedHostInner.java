@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Specifies information about the Dedicated host. */
-@JsonFlatten
 @Fluent
-public class DedicatedHostInner extends Resource {
+public final class DedicatedHostInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DedicatedHostInner.class);
 
     /*
@@ -35,6 +34,7 @@ public class DedicatedHostInner extends Resource {
     /*
      * Fault domain of the dedicated host within a dedicated host group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomain")
     private Integer platformFaultDomain;
 
@@ -42,6 +42,7 @@ public class DedicatedHostInner extends Resource {
      * Specifies whether the dedicated host should be replaced automatically in
      * case of a failure. The value is defaulted to 'true' when not provided.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoReplaceOnFailure")
     private Boolean autoReplaceOnFailure;
 
@@ -49,12 +50,14 @@ public class DedicatedHostInner extends Resource {
      * A unique id generated and assigned to the dedicated host by the
      * platform. <br><br> Does not change throughout the lifetime of the host.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostId", access = JsonProperty.Access.WRITE_ONLY)
     private String hostId;
 
     /*
      * A list of references to all virtual machines in the Dedicated Host.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachines", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceReadOnly> virtualMachines;
 
@@ -64,24 +67,28 @@ public class DedicatedHostInner extends Resource {
      * **None** <br><br> **Windows_Server_Hybrid** <br><br>
      * **Windows_Server_Perpetual** <br><br> Default: **None**
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.licenseType")
     private DedicatedHostLicenseTypes licenseType;
 
     /*
      * The date when the host was first provisioned.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningTime", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime provisioningTime;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /*
      * The dedicated host instance view.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private DedicatedHostInstanceView instanceView;
 

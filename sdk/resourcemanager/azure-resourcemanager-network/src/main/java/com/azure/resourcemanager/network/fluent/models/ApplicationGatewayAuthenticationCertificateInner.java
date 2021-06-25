@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Authentication certificates of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayAuthenticationCertificateInner extends SubResource {
+public final class ApplicationGatewayAuthenticationCertificateInner extends SubResource {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(ApplicationGatewayAuthenticationCertificateInner.class);
 
@@ -41,12 +40,14 @@ public class ApplicationGatewayAuthenticationCertificateInner extends SubResourc
     /*
      * Certificate public data.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.data")
     private String data;
 
     /*
      * The provisioning state of the authentication certificate resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

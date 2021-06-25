@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Container network interface configuration child resource. */
-@JsonFlatten
 @Fluent
-public class ContainerNetworkInterfaceConfiguration extends SubResource {
+public final class ContainerNetworkInterfaceConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ContainerNetworkInterfaceConfiguration.class);
 
     /*
@@ -41,6 +40,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * A list of ip configurations of the container network interface
      * configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations")
     private List<IpConfigurationProfileInner> ipConfigurations;
 
@@ -48,6 +48,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * A list of container network interfaces created from this container
      * network interface configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.containerNetworkInterfaces")
     private List<SubResource> containerNetworkInterfaces;
 
@@ -55,6 +56,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * The provisioning state of the container network interface configuration
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

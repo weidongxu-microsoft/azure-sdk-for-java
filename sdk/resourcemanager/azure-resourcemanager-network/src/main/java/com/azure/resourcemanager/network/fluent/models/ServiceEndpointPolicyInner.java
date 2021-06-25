@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Service End point policy resource. */
-@JsonFlatten
 @Fluent
-public class ServiceEndpointPolicyInner extends Resource {
+public final class ServiceEndpointPolicyInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ServiceEndpointPolicyInner.class);
 
     /*
@@ -37,24 +36,28 @@ public class ServiceEndpointPolicyInner extends Resource {
      * A collection of service endpoint policy definitions of the service
      * endpoint policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceEndpointPolicyDefinitions")
     private List<ServiceEndpointPolicyDefinitionInner> serviceEndpointPolicyDefinitions;
 
     /*
      * A collection of references to subnets.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnets", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubnetInner> subnets;
 
     /*
      * The resource GUID property of the service endpoint policy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the service endpoint policy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

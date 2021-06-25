@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** LoadBalancer resource. */
-@JsonFlatten
 @Fluent
-public class LoadBalancerInner extends Resource {
+public final class LoadBalancerInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(LoadBalancerInner.class);
 
     /*
@@ -44,12 +43,14 @@ public class LoadBalancerInner extends Resource {
     /*
      * Object representing the frontend IPs to be used for the load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.frontendIPConfigurations")
     private List<FrontendIpConfigurationInner> frontendIpConfigurations;
 
     /*
      * Collection of backend address pools used by a load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.backendAddressPools")
     private List<BackendAddressPoolInner> backendAddressPools;
 
@@ -57,12 +58,14 @@ public class LoadBalancerInner extends Resource {
      * Object collection representing the load balancing rules Gets the
      * provisioning.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancingRules")
     private List<LoadBalancingRuleInner> loadBalancingRules;
 
     /*
      * Collection of probe objects used in the load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.probes")
     private List<ProbeInner> probes;
 
@@ -74,6 +77,7 @@ public class LoadBalancerInner extends Resource {
      * virtual machines cannot reference an Inbound NAT pool. They have to
      * reference individual inbound NAT rules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.inboundNatRules")
     private List<InboundNatRuleInner> inboundNatRules;
 
@@ -87,24 +91,28 @@ public class LoadBalancerInner extends Resource {
      * associated with individual virtual machines cannot reference an inbound
      * NAT pool. They have to reference individual inbound NAT rules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.inboundNatPools")
     private List<InboundNatPool> inboundNatPools;
 
     /*
      * The outbound rules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outboundRules")
     private List<OutboundRuleInner> outboundRules;
 
     /*
      * The resource GUID property of the load balancer resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the load balancer resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -28,9 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Describes a Virtual Machine Update. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineUpdateInner extends UpdateResource {
+public final class VirtualMachineUpdateInner extends UpdateResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineUpdateInner.class);
 
     /*
@@ -60,12 +59,14 @@ public class VirtualMachineUpdateInner extends UpdateResource {
     /*
      * Specifies the hardware settings for the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hardwareProfile")
     private HardwareProfile hardwareProfile;
 
     /*
      * Specifies the storage settings for the virtual machine disks.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageProfile")
     private StorageProfile storageProfile;
 
@@ -73,6 +74,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Specifies additional capabilities enabled or disabled on the virtual
      * machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.additionalCapabilities")
     private AdditionalCapabilities additionalCapabilities;
 
@@ -80,18 +82,21 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Specifies the operating system settings used while creating the virtual
      * machine. Some of the settings cannot be changed once VM is provisioned.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.osProfile")
     private OSProfile osProfile;
 
     /*
      * Specifies the network interfaces of the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.networkProfile")
     private NetworkProfile networkProfile;
 
     /*
      * Specifies the Security related profile settings for the virtual machine.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.securityProfile")
     private SecurityProfile securityProfile;
 
@@ -99,6 +104,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Specifies the boot diagnostic settings state. <br><br>Minimum
      * api-version: 2015-06-15.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.diagnosticsProfile")
     private DiagnosticsProfile diagnosticsProfile;
 
@@ -119,6 +125,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * <br><br>This property cannot exist along with a non-null
      * properties.virtualMachineScaleSet reference.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availabilitySet")
     private SubResource availabilitySet;
 
@@ -132,6 +139,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * a non-null properties.availabilitySet reference. <br><br>Minimum
      * api‐version: 2019‐03‐01
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualMachineScaleSet")
     private SubResource virtualMachineScaleSet;
 
@@ -140,6 +148,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * virtual machine should be assigned to. <br><br>Minimum api-version:
      * 2018-04-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.proximityPlacementGroup")
     private SubResource proximityPlacementGroup;
 
@@ -147,6 +156,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Specifies the priority for the virtual machine. <br><br>Minimum
      * api-version: 2019-03-01
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.priority")
     private VirtualMachinePriorityTypes priority;
 
@@ -158,6 +168,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * 'Delete' are supported and the minimum api-version is
      * 2017-10-30-preview.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.evictionPolicy")
     private VirtualMachineEvictionPolicyTypes evictionPolicy;
 
@@ -165,6 +176,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Specifies the billing related details of a Azure Spot virtual machine.
      * <br><br>Minimum api-version: 2019-03-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.billingProfile")
     private BillingProfile billingProfile;
 
@@ -172,6 +184,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Specifies information about the dedicated host that the virtual machine
      * resides in. <br><br>Minimum api-version: 2018-10-01.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.host")
     private SubResource host;
 
@@ -180,18 +193,21 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * machine resides in. <br><br>Minimum api-version: 2020-06-01.
      * <br><br>NOTE: User cannot specify both host and hostGroup properties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostGroup")
     private SubResource hostGroup;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /*
      * The virtual machine instance view.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
     private VirtualMachineInstanceViewInner instanceView;
 
@@ -207,6 +223,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
      * <br><br> Minimum api-version: 2015-06-15
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.licenseType")
     private String licenseType;
 
@@ -215,6 +232,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * encoded and stored in all Azure IaaS VMs SMBIOS and can be read using
      * platform BIOS commands.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vmId", access = JsonProperty.Access.WRITE_ONLY)
     private String vmId;
 
@@ -224,6 +242,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * should be specified in ISO 8601 format. The default value is 90 minutes
      * (PT1H30M). <br><br> Minimum api-version: 2020-06-01
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.extensionsTimeBudget")
     private String extensionsTimeBudget;
 
@@ -239,12 +258,14 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * viewed in the Virtual Machine Instance View.<br><br>Minimum api‐version:
      * 2020‐12‐01
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.platformFaultDomain")
     private Integer platformFaultDomain;
 
     /*
      * Specifies Scheduled Event related configurations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.scheduledEventsProfile")
     private ScheduledEventsProfile scheduledEventsProfile;
 
@@ -252,6 +273,7 @@ public class VirtualMachineUpdateInner extends UpdateResource {
      * UserData for the VM, which must be base-64 encoded. Customer should not
      * pass any secrets in here. <br><br>Minimum api-version: 2021-03-01
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.userData")
     private String userData;
 

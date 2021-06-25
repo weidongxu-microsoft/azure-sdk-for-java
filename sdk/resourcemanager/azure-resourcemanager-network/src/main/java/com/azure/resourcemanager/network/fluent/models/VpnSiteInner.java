@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /** VpnSite Resource. */
-@JsonFlatten
 @Fluent
-public class VpnSiteInner extends Resource {
+public final class VpnSiteInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnSiteInner.class);
 
     /*
@@ -34,60 +33,70 @@ public class VpnSiteInner extends Resource {
     /*
      * The VirtualWAN to which the vpnSite belongs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualWan")
     private SubResource virtualWan;
 
     /*
      * The device properties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deviceProperties")
     private DeviceProperties deviceProperties;
 
     /*
      * The ip-address for the vpn-site.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipAddress")
     private String ipAddress;
 
     /*
      * The key for vpn-site that can be used for connections.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.siteKey")
     private String siteKey;
 
     /*
      * The AddressSpace that contains an array of IP address ranges.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.addressSpace")
     private AddressSpace addressSpace;
 
     /*
      * The set of bgp properties.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpProperties")
     private BgpSettings bgpProperties;
 
     /*
      * The provisioning state of the VPN site resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * IsSecuritySite flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.isSecuritySite")
     private Boolean isSecuritySite;
 
     /*
      * List of all vpn site links.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnSiteLinks")
     private List<VpnSiteLinkInner> vpnSiteLinks;
 
     /*
      * Office365 Policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.o365Policy")
     private O365PolicyProperties o365Policy;
 

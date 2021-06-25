@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** IP configuration. */
-@JsonFlatten
 @Fluent
-public class IpConfigurationInner extends SubResource {
+public final class IpConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(IpConfigurationInner.class);
 
     /*
@@ -35,30 +34,35 @@ public class IpConfigurationInner extends SubResource {
     /*
      * The private IP address of the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress")
     private String privateIpAddress;
 
     /*
      * The private IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
     /*
      * The reference to the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /*
      * The reference to the public IP resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private PublicIpAddressInner publicIpAddress;
 
     /*
      * The provisioning state of the IP configuration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

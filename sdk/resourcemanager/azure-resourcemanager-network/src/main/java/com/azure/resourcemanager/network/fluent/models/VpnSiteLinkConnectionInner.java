@@ -18,9 +18,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** VpnSiteLinkConnection Resource. */
-@JsonFlatten
 @Fluent
-public class VpnSiteLinkConnectionInner extends SubResource {
+public final class VpnSiteLinkConnectionInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnSiteLinkConnectionInner.class);
 
     /*
@@ -45,102 +44,119 @@ public class VpnSiteLinkConnectionInner extends SubResource {
     /*
      * Id of the connected vpn site link.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnSiteLink")
     private SubResource vpnSiteLink;
 
     /*
      * Routing weight for vpn connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routingWeight")
     private Integer routingWeight;
 
     /*
      * Vpn link connection mode.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnLinkConnectionMode")
     private VpnLinkConnectionMode vpnLinkConnectionMode;
 
     /*
      * The connection status.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionStatus", access = JsonProperty.Access.WRITE_ONLY)
     private VpnConnectionStatus connectionStatus;
 
     /*
      * Connection protocol used for this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnConnectionProtocolType")
     private VirtualNetworkGatewayConnectionProtocol vpnConnectionProtocolType;
 
     /*
      * Ingress bytes transferred.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ingressBytesTransferred", access = JsonProperty.Access.WRITE_ONLY)
     private Long ingressBytesTransferred;
 
     /*
      * Egress bytes transferred.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.egressBytesTransferred", access = JsonProperty.Access.WRITE_ONLY)
     private Long egressBytesTransferred;
 
     /*
      * Expected bandwidth in MBPS.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connectionBandwidth")
     private Integer connectionBandwidth;
 
     /*
      * SharedKey for the vpn connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sharedKey")
     private String sharedKey;
 
     /*
      * EnableBgp flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableBgp")
     private Boolean enableBgp;
 
     /*
      * Enable policy-based traffic selectors.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.usePolicyBasedTrafficSelectors")
     private Boolean usePolicyBasedTrafficSelectors;
 
     /*
      * The IPSec Policies to be considered by this connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipsecPolicies")
     private List<IpsecPolicy> ipsecPolicies;
 
     /*
      * EnableBgp flag.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableRateLimiting")
     private Boolean enableRateLimiting;
 
     /*
      * Use local azure ip to initiate connection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.useLocalAzureIpAddress")
     private Boolean useLocalAzureIpAddress;
 
     /*
      * The provisioning state of the VPN site link connection resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * List of ingress NatRules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ingressNatRules")
     private List<SubResource> ingressNatRules;
 
     /*
      * List of egress NatRules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.egressNatRules")
     private List<SubResource> egressNatRules;
 

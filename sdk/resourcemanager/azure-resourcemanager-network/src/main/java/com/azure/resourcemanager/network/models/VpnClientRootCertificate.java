@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** VPN client root certificate of virtual network gateway. */
-@JsonFlatten
 @Fluent
-public class VpnClientRootCertificate extends SubResource {
+public final class VpnClientRootCertificate extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnClientRootCertificate.class);
 
     /*
@@ -33,12 +32,14 @@ public class VpnClientRootCertificate extends SubResource {
     /*
      * The certificate public data.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicCertData", required = true)
     private String publicCertData;
 
     /*
      * The provisioning state of the VPN client root certificate resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -12,21 +12,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Describes a network interface reference. */
-@JsonFlatten
 @Fluent
-public class NetworkInterfaceReference extends SubResource {
+public final class NetworkInterfaceReference extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(NetworkInterfaceReference.class);
 
     /*
      * Specifies the primary network interface in case the virtual machine has
      * more than 1 network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
     /*
      * Specify what happens to the network interface when the VM is deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 

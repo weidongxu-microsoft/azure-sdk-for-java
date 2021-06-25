@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /** VirtualRouter Resource. */
-@JsonFlatten
 @Fluent
-public class VirtualRouterInner extends Resource {
+public final class VirtualRouterInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualRouterInner.class);
 
     /*
@@ -30,36 +29,42 @@ public class VirtualRouterInner extends Resource {
     /*
      * VirtualRouter ASN.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualRouterAsn")
     private Long virtualRouterAsn;
 
     /*
      * VirtualRouter IPs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualRouterIps")
     private List<String> virtualRouterIps;
 
     /*
      * The Subnet on which VirtualRouter is hosted.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostedSubnet")
     private SubResource hostedSubnet;
 
     /*
      * The Gateway on which VirtualRouter is hosted.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hostedGateway")
     private SubResource hostedGateway;
 
     /*
      * List of references to VirtualRouterPeerings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.peerings", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> peerings;
 
     /*
      * The provisioning state of the resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -12,21 +12,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Describes a Virtual Machine Extension. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineExtensionUpdate extends UpdateResource {
+public final class VirtualMachineExtensionUpdate extends UpdateResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineExtensionUpdate.class);
 
     /*
      * How the extension handler should be forced to update even if the
      * extension configuration has not changed.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.forceUpdateTag")
     private String forceUpdateTag;
 
     /*
      * The name of the extension handler publisher.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publisher")
     private String publisher;
 
@@ -34,12 +35,14 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
      * Specifies the type of the extension; an example is
      * "CustomScriptExtension".
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.type")
     private String type;
 
     /*
      * Specifies the version of the script handler.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.typeHandlerVersion")
     private String typeHandlerVersion;
 
@@ -49,6 +52,7 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
      * will not upgrade minor versions unless redeployed, even with this
      * property set to true.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.autoUpgradeMinorVersion")
     private Boolean autoUpgradeMinorVersion;
 
@@ -56,12 +60,14 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
      * Indicates whether the extension should be automatically upgraded by the
      * platform if there is a newer version of the extension available.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.enableAutomaticUpgrade")
     private Boolean enableAutomaticUpgrade;
 
     /*
      * Json formatted public settings for the extension.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.settings")
     private Object settings;
 
@@ -69,6 +75,7 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
      * The extension can contain either protectedSettings or
      * protectedSettingsFromKeyVault or no protected settings at all.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protectedSettings")
     private Object protectedSettings;
 

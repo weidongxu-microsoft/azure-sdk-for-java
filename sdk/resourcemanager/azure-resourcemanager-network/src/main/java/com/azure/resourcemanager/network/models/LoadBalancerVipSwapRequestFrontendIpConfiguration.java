@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** VIP swap request's frontend IP configuration object. */
-@JsonFlatten
 @Fluent
-public class LoadBalancerVipSwapRequestFrontendIpConfiguration {
+public final class LoadBalancerVipSwapRequestFrontendIpConfiguration {
     @JsonIgnore
     private final ClientLogger logger = new ClientLogger(LoadBalancerVipSwapRequestFrontendIpConfiguration.class);
 
@@ -27,6 +26,7 @@ public class LoadBalancerVipSwapRequestFrontendIpConfiguration {
     /*
      * A reference to public IP address resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIpAddress;
 

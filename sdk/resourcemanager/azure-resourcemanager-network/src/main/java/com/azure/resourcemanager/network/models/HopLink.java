@@ -13,9 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Hop link. */
-@JsonFlatten
 @Immutable
-public class HopLink {
+public final class HopLink {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(HopLink.class);
 
     /*
@@ -51,18 +50,21 @@ public class HopLink {
     /*
      * Minimum roundtrip time in milliseconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.roundTripTimeMin", access = JsonProperty.Access.WRITE_ONLY)
     private Long roundTripTimeMin;
 
     /*
      * Average roundtrip time in milliseconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.roundTripTimeAvg", access = JsonProperty.Access.WRITE_ONLY)
     private Long roundTripTimeAvg;
 
     /*
      * Maximum roundtrip time in milliseconds.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.roundTripTimeMax", access = JsonProperty.Access.WRITE_ONLY)
     private Long roundTripTimeMax;
 

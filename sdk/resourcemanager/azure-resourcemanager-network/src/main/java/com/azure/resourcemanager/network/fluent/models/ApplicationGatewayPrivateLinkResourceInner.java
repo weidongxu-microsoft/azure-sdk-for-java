@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** PrivateLink Resource of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayPrivateLinkResourceInner extends SubResource {
+public final class ApplicationGatewayPrivateLinkResourceInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayPrivateLinkResourceInner.class);
 
     /*
@@ -40,18 +39,21 @@ public class ApplicationGatewayPrivateLinkResourceInner extends SubResource {
     /*
      * Group identifier of private link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.groupId", access = JsonProperty.Access.WRITE_ONLY)
     private String groupId;
 
     /*
      * Required member names of private link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requiredMembers", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> requiredMembers;
 
     /*
      * Required DNS zone names of the the private link resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.requiredZoneNames")
     private List<String> requiredZoneNames;
 

@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** IP configuration of an Azure Firewall. */
-@JsonFlatten
 @Fluent
-public class AzureFirewallIpConfiguration extends SubResource {
+public final class AzureFirewallIpConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(AzureFirewallIpConfiguration.class);
 
     /*
@@ -40,6 +39,7 @@ public class AzureFirewallIpConfiguration extends SubResource {
      * The Firewall Internal Load Balancer IP to be used as the next hop in
      * User Defined Routes.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String privateIpAddress;
 
@@ -47,6 +47,7 @@ public class AzureFirewallIpConfiguration extends SubResource {
      * Reference to the subnet resource. This resource must be named
      * 'AzureFirewallSubnet' or 'AzureFirewallManagementSubnet'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
@@ -54,12 +55,14 @@ public class AzureFirewallIpConfiguration extends SubResource {
      * Reference to the PublicIP resource. This field is a mandatory input if
      * subnet is not null.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIpAddress;
 
     /*
      * The provisioning state of the Azure firewall IP configuration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

@@ -13,26 +13,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** The source user image virtual hard disk. Only tags may be updated. */
-@JsonFlatten
 @Fluent
-public class ImageUpdate extends UpdateResource {
+public final class ImageUpdate extends UpdateResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ImageUpdate.class);
 
     /*
      * The source virtual machine from which Image is created.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.sourceVirtualMachine")
     private SubResource sourceVirtualMachine;
 
     /*
      * Specifies the storage settings for the virtual machine disks.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageProfile")
     private ImageStorageProfile storageProfile;
 
     /*
      * The provisioning state.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
@@ -43,6 +45,7 @@ public class ImageUpdate extends UpdateResource {
      * resource like disk or snapshot, we may require the user to specify the
      * property if we cannot deduce it from the source managed resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGenerationTypes hyperVGeneration;
 

@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /** A DDoS custom policy in a resource group. */
-@JsonFlatten
 @Fluent
-public class DdosCustomPolicyInner extends Resource {
+public final class DdosCustomPolicyInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DdosCustomPolicyInner.class);
 
     /*
@@ -33,12 +32,14 @@ public class DdosCustomPolicyInner extends Resource {
      * uniquely identifies the resource, even if the user changes its name or
      * migrate the resource across subscriptions or resource groups.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the DDoS custom policy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -46,12 +47,14 @@ public class DdosCustomPolicyInner extends Resource {
      * The list of public IPs associated with the DDoS custom policy resource.
      * This list is read-only.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> publicIpAddresses;
 
     /*
      * The protocol-specific DDoS policy customization parameters.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.protocolCustomSettings")
     private List<ProtocolCustomSettingsFormat> protocolCustomSettings;
 

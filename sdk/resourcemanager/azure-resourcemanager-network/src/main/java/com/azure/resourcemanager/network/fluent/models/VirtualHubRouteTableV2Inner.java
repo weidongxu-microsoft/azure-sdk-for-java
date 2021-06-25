@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** VirtualHubRouteTableV2 Resource. */
-@JsonFlatten
 @Fluent
-public class VirtualHubRouteTableV2Inner extends SubResource {
+public final class VirtualHubRouteTableV2Inner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualHubRouteTableV2Inner.class);
 
     /*
@@ -36,18 +35,21 @@ public class VirtualHubRouteTableV2Inner extends SubResource {
     /*
      * List of all routes.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routes")
     private List<VirtualHubRouteV2> routes;
 
     /*
      * List of all connections attached to this route table v2.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.attachedConnections")
     private List<String> attachedConnections;
 
     /*
      * The provisioning state of the virtual hub route table v2 resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

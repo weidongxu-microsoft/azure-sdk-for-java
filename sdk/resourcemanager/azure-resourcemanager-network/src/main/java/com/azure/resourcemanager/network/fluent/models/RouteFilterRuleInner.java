@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Route Filter Rule Resource. */
-@JsonFlatten
 @Fluent
-public class RouteFilterRuleInner extends SubResource {
+public final class RouteFilterRuleInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(RouteFilterRuleInner.class);
 
     /*
@@ -43,12 +42,14 @@ public class RouteFilterRuleInner extends SubResource {
     /*
      * The access type of the rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.access")
     private Access access;
 
     /*
      * The rule type of the rule.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.routeFilterRuleType")
     private RouteFilterRuleType routeFilterRuleType;
 
@@ -56,12 +57,14 @@ public class RouteFilterRuleInner extends SubResource {
      * The collection for bgp community values to filter on. e.g.
      * ['12076:5010','12076:5020'].
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.communities")
     private List<String> communities;
 
     /*
      * The provisioning state of the route filter rule resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

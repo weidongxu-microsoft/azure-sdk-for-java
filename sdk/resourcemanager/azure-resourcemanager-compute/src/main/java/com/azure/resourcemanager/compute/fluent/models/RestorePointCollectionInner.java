@@ -15,27 +15,29 @@ import java.util.List;
 import java.util.Map;
 
 /** Create or update Restore Point collection parameters. */
-@JsonFlatten
 @Fluent
-public class RestorePointCollectionInner extends Resource {
+public final class RestorePointCollectionInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(RestorePointCollectionInner.class);
 
     /*
      * The properties of the source resource that this restore point collection
      * is created from.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.source")
     private RestorePointCollectionSourceProperties source;
 
     /*
      * The provisioning state of the restore point collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
     /*
      * The unique id of the restore point collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.restorePointCollectionId", access = JsonProperty.Access.WRITE_ONLY)
     private String restorePointCollectionId;
 
@@ -43,6 +45,7 @@ public class RestorePointCollectionInner extends Resource {
      * A list containing all restore points created under this restore point
      * collection.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.restorePoints", access = JsonProperty.Access.WRITE_ONLY)
     private List<RestorePointInner> restorePoints;
 

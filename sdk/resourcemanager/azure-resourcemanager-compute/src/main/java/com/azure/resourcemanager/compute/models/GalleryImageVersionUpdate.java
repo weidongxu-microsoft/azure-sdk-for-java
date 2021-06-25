@@ -12,32 +12,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /** Specifies information about the gallery image version that you want to update. */
-@JsonFlatten
 @Fluent
-public class GalleryImageVersionUpdate extends UpdateResourceDefinition {
+public final class GalleryImageVersionUpdate extends UpdateResourceDefinition {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(GalleryImageVersionUpdate.class);
 
     /*
      * The publishing profile of a gallery image Version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publishingProfile")
     private GalleryImageVersionPublishingProfile publishingProfile;
 
     /*
      * The provisioning state, which only appears in the response.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private GalleryImageVersionPropertiesProvisioningState provisioningState;
 
     /*
      * This is the storage profile of a Gallery Image Version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.storageProfile")
     private GalleryImageVersionStorageProfile storageProfile;
 
     /*
      * This is the replication status of the gallery image version.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.replicationStatus", access = JsonProperty.Access.WRITE_ONLY)
     private ReplicationStatus replicationStatus;
 

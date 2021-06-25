@@ -15,20 +15,21 @@ import java.util.List;
 import java.util.Map;
 
 /** Service Community Properties. */
-@JsonFlatten
 @Fluent
-public class BgpServiceCommunityInner extends Resource {
+public final class BgpServiceCommunityInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(BgpServiceCommunityInner.class);
 
     /*
      * The name of the bgp community. e.g. Skype.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.serviceName")
     private String serviceName;
 
     /*
      * A list of bgp communities.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpCommunities")
     private List<BgpCommunity> bgpCommunities;
 

@@ -16,32 +16,35 @@ import java.util.List;
 import java.util.Map;
 
 /** Definition of the ExpressRoutePorts peering location resource. */
-@JsonFlatten
 @Fluent
-public class ExpressRoutePortsLocationInner extends Resource {
+public final class ExpressRoutePortsLocationInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ExpressRoutePortsLocationInner.class);
 
     /*
      * Address of peering location.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.address", access = JsonProperty.Access.WRITE_ONLY)
     private String address;
 
     /*
      * Contact details of peering locations.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.contact", access = JsonProperty.Access.WRITE_ONLY)
     private String contact;
 
     /*
      * The inventory of available ExpressRoutePort bandwidths.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.availableBandwidths")
     private List<ExpressRoutePortsLocationBandwidths> availableBandwidths;
 
     /*
      * The provisioning state of the express route port location resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

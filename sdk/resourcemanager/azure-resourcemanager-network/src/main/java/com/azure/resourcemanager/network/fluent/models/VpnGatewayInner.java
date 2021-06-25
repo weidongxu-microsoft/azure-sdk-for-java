@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /** VpnGateway Resource. */
-@JsonFlatten
 @Fluent
-public class VpnGatewayInner extends Resource {
+public final class VpnGatewayInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VpnGatewayInner.class);
 
     /*
@@ -32,36 +31,42 @@ public class VpnGatewayInner extends Resource {
     /*
      * The VirtualHub to which the gateway belongs.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualHub")
     private SubResource virtualHub;
 
     /*
      * List of all vpn connections to the gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.connections")
     private List<VpnConnectionInner> connections;
 
     /*
      * Local network gateway's BGP speaker settings.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.bgpSettings")
     private BgpSettings bgpSettings;
 
     /*
      * The provisioning state of the VPN gateway resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The scale unit for this vpn gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.vpnGatewayScaleUnit")
     private Integer vpnGatewayScaleUnit;
 
     /*
      * List of all IPs configured on the gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<VpnGatewayIpConfiguration> ipConfigurations;
 
@@ -69,12 +74,14 @@ public class VpnGatewayInner extends Resource {
      * Enable Routing Preference property for the Public IP Interface of the
      * VpnGateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.isRoutingPreferenceInternet")
     private Boolean isRoutingPreferenceInternet;
 
     /*
      * List of all the nat Rules associated with the gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.natRules")
     private List<VpnGatewayNatRuleInner> natRules;
 

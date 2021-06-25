@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Rewrite rule set of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayRewriteRuleSet extends SubResource {
+public final class ApplicationGatewayRewriteRuleSet extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayRewriteRuleSet.class);
 
     /*
@@ -34,12 +33,14 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
     /*
      * Rewrite rules in the rewrite rule set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.rewriteRules")
     private List<ApplicationGatewayRewriteRule> rewriteRules;
 
     /*
      * The provisioning state of the rewrite rule set resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

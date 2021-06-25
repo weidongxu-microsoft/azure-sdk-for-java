@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /** Defines web application firewall policy. */
-@JsonFlatten
 @Fluent
-public class WebApplicationFirewallPolicyInner extends Resource {
+public final class WebApplicationFirewallPolicyInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(WebApplicationFirewallPolicyInner.class);
 
     /*
@@ -34,48 +33,56 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     /*
      * The PolicySettings for policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.policySettings")
     private PolicySettings policySettings;
 
     /*
      * The custom rules inside the policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.customRules")
     private List<WebApplicationFirewallCustomRule> customRules;
 
     /*
      * A collection of references to application gateways.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationGateways", access = JsonProperty.Access.WRITE_ONLY)
     private List<ApplicationGatewayInner> applicationGateways;
 
     /*
      * The provisioning state of the web application firewall policy resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Resource status of the policy.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceState", access = JsonProperty.Access.WRITE_ONLY)
     private WebApplicationFirewallPolicyResourceState resourceState;
 
     /*
      * Describes the managedRules structure.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.managedRules")
     private ManagedRulesDefinition managedRules;
 
     /*
      * A collection of references to application gateway http listeners.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.httpListeners", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> httpListeners;
 
     /*
      * A collection of references to application gateway path rules.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.pathBasedRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> pathBasedRules;
 

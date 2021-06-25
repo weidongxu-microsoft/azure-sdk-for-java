@@ -14,32 +14,35 @@ import java.util.List;
 import java.util.Map;
 
 /** A web application firewall rule set. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayFirewallRuleSet extends Resource {
+public final class ApplicationGatewayFirewallRuleSet extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayFirewallRuleSet.class);
 
     /*
      * The provisioning state of the web application firewall rule set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * The type of the web application firewall rule set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ruleSetType")
     private String ruleSetType;
 
     /*
      * The version of the web application firewall rule set type.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ruleSetVersion")
     private String ruleSetVersion;
 
     /*
      * The rule groups of the web application firewall rule set.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ruleGroups")
     private List<ApplicationGatewayFirewallRuleGroup> ruleGroups;
 

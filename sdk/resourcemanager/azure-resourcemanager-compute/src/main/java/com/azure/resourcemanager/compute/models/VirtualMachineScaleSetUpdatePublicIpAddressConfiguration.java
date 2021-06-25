@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetUpdatePublicIpAddressConfiguration {
+public final class VirtualMachineScaleSetUpdatePublicIpAddressConfiguration {
     @JsonIgnore
     private final ClientLogger logger =
         new ClientLogger(VirtualMachineScaleSetUpdatePublicIpAddressConfiguration.class);
@@ -27,18 +26,21 @@ public class VirtualMachineScaleSetUpdatePublicIpAddressConfiguration {
     /*
      * The idle timeout of the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
     /*
      * The dns settings to be applied on the publicIP addresses .
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private VirtualMachineScaleSetPublicIpAddressConfigurationDnsSettings dnsSettings;
 
     /*
      * Specify what happens to the public IP when the VM is deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 

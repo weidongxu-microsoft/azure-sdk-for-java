@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a virtual machine scale set network profile's IP configuration. */
-@JsonFlatten
 @Fluent
-public class VirtualMachineScaleSetIpConfiguration extends SubResource {
+public final class VirtualMachineScaleSetIpConfiguration extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachineScaleSetIpConfiguration.class);
 
     /*
@@ -27,6 +26,7 @@ public class VirtualMachineScaleSetIpConfiguration extends SubResource {
     /*
      * Specifies the identifier of the subnet.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private ApiEntityReference subnet;
 
@@ -34,12 +34,14 @@ public class VirtualMachineScaleSetIpConfiguration extends SubResource {
      * Specifies the primary network interface in case the virtual machine has
      * more than 1 network interface.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
     /*
      * The publicIPAddressConfiguration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressConfiguration")
     private VirtualMachineScaleSetPublicIpAddressConfiguration publicIpAddressConfiguration;
 
@@ -48,6 +50,7 @@ public class VirtualMachineScaleSetIpConfiguration extends SubResource {
      * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
      * Possible values are: 'IPv4' and 'IPv6'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IpVersion privateIpAddressVersion;
 
@@ -57,12 +60,14 @@ public class VirtualMachineScaleSetIpConfiguration extends SubResource {
      * application gateways. Multiple scale sets cannot use the same
      * application gateway.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<SubResource> applicationGatewayBackendAddressPools;
 
     /*
      * Specifies an array of references to application security group.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.applicationSecurityGroups")
     private List<SubResource> applicationSecurityGroups;
 
@@ -72,6 +77,7 @@ public class VirtualMachineScaleSetIpConfiguration extends SubResource {
      * and one internal load balancer. Multiple scale sets cannot use the same
      * basic sku load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerBackendAddressPools")
     private List<SubResource> loadBalancerBackendAddressPools;
 
@@ -81,6 +87,7 @@ public class VirtualMachineScaleSetIpConfiguration extends SubResource {
      * one internal load balancer. Multiple scale sets cannot use the same
      * basic sku load balancer.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancerInboundNatPools")
     private List<SubResource> loadBalancerInboundNatPools;
 

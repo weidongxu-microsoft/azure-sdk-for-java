@@ -4,7 +4,7 @@
 
 package com.azure.resourcemanager.network.fluent.models;
 
-import com.azure.core.annotation.Immutable;
+import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.azure.core.management.SubResource;
@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /** A DDoS protection plan in a resource group. */
-@JsonFlatten
-@Immutable
-public class DdosProtectionPlanInner extends Resource {
+@Fluent
+public final class DdosProtectionPlanInner extends Resource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(DdosProtectionPlanInner.class);
 
     /*
@@ -32,12 +31,14 @@ public class DdosProtectionPlanInner extends Resource {
      * uniquely identifies the resource, even if the user changes its name or
      * migrate the resource across subscriptions or resource groups.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
      * The provisioning state of the DDoS protection plan resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
@@ -45,6 +46,7 @@ public class DdosProtectionPlanInner extends Resource {
      * The list of virtual networks associated with the DDoS protection plan
      * resource. This list is read-only.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.virtualNetworks", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> virtualNetworks;
 

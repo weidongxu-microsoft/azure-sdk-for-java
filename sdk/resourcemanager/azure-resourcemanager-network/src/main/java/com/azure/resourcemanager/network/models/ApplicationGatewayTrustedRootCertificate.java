@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Trusted Root certificates of an application gateway. */
-@JsonFlatten
 @Fluent
-public class ApplicationGatewayTrustedRootCertificate extends SubResource {
+public final class ApplicationGatewayTrustedRootCertificate extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(ApplicationGatewayTrustedRootCertificate.class);
 
     /*
@@ -39,6 +38,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /*
      * Certificate public data.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.data")
     private String data;
 
@@ -46,12 +46,14 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate'
      * object stored in KeyVault.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.keyVaultSecretId")
     private String keyVaultSecretId;
 
     /*
      * The provisioning state of the trusted root certificate resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

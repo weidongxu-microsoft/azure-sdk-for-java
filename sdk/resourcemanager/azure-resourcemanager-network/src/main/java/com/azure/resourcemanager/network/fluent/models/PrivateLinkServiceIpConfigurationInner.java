@@ -15,9 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** The private link service ip configuration. */
-@JsonFlatten
 @Fluent
-public class PrivateLinkServiceIpConfigurationInner extends SubResource {
+public final class PrivateLinkServiceIpConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(PrivateLinkServiceIpConfigurationInner.class);
 
     /*
@@ -41,24 +40,28 @@ public class PrivateLinkServiceIpConfigurationInner extends SubResource {
     /*
      * The private IP address of the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress")
     private String privateIpAddress;
 
     /*
      * The private IP address allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
     /*
      * The reference to the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /*
      * Whether the ip configuration is primary or not.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.primary")
     private Boolean primary;
 
@@ -66,12 +69,14 @@ public class PrivateLinkServiceIpConfigurationInner extends SubResource {
      * The provisioning state of the private link service IP configuration
      * resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /*
      * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IpVersion privateIpAddressVersion;
 

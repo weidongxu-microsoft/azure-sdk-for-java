@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Frontend IP address of the load balancer. */
-@JsonFlatten
 @Fluent
-public class FrontendIpConfigurationInner extends SubResource {
+public final class FrontendIpConfigurationInner extends SubResource {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(FrontendIpConfigurationInner.class);
 
     /*
@@ -51,18 +50,21 @@ public class FrontendIpConfigurationInner extends SubResource {
     /*
      * An array of references to inbound rules that use this frontend IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.inboundNatRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> inboundNatRules;
 
     /*
      * An array of references to inbound pools that use this frontend IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.inboundNatPools", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> inboundNatPools;
 
     /*
      * An array of references to outbound rules that use this frontend IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.outboundRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> outboundRules;
 
@@ -70,18 +72,21 @@ public class FrontendIpConfigurationInner extends SubResource {
      * An array of references to load balancing rules that use this frontend
      * IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.loadBalancingRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> loadBalancingRules;
 
     /*
      * The private IP address of the IP configuration.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddress")
     private String privateIpAddress;
 
     /*
      * The Private IP allocation method.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
@@ -89,36 +94,42 @@ public class FrontendIpConfigurationInner extends SubResource {
      * Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken
      * as IPv4.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IpVersion privateIpAddressVersion;
 
     /*
      * The reference to the subnet resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /*
      * The reference to the Public IP resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddress")
     private PublicIpAddressInner publicIpAddress;
 
     /*
      * The reference to the Public IP Prefix resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPPrefix")
     private SubResource publicIpPrefix;
 
     /*
      * The reference to gateway load balancer frontend IP.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.gatewayLoadBalancer")
     private SubResource gatewayLoadBalancer;
 
     /*
      * The provisioning state of the frontend IP configuration resource.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 

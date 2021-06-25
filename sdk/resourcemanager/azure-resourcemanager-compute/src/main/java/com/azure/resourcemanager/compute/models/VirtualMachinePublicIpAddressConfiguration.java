@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Describes a virtual machines IP Configuration's PublicIPAddress configuration. */
-@JsonFlatten
 @Fluent
-public class VirtualMachinePublicIpAddressConfiguration {
+public final class VirtualMachinePublicIpAddressConfiguration {
     @JsonIgnore private final ClientLogger logger = new ClientLogger(VirtualMachinePublicIpAddressConfiguration.class);
 
     /*
@@ -33,30 +32,35 @@ public class VirtualMachinePublicIpAddressConfiguration {
     /*
      * The idle timeout of the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
     private Integer idleTimeoutInMinutes;
 
     /*
      * Specify what happens to the public IP address when the VM is deleted
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.deleteOption")
     private DeleteOptions deleteOption;
 
     /*
      * The dns settings to be applied on the publicIP addresses .
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.dnsSettings")
     private VirtualMachinePublicIpAddressDnsSettingsConfiguration dnsSettings;
 
     /*
      * The list of IP tags associated with the public IP address.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.ipTags")
     private List<VirtualMachineIpTag> ipTags;
 
     /*
      * The PublicIPPrefix from which to allocate publicIP addresses.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPPrefix")
     private SubResource publicIpPrefix;
 
@@ -65,12 +69,14 @@ public class VirtualMachinePublicIpAddressConfiguration {
      * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
      * Possible values are: 'IPv4' and 'IPv6'.
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAddressVersion")
     private IpVersions publicIpAddressVersion;
 
     /*
      * Specify the public IP allocation type
      */
+    @JsonFlatten
     @JsonProperty(value = "properties.publicIPAllocationMethod")
     private PublicIpAllocationMethod publicIpAllocationMethod;
 
