@@ -9044,7 +9044,7 @@ public final class GlossariesImpl {
                 () ->
                         this.importGlossaryTermsViaCsvByGlossaryNameWithResponseAsync(
                                 glossaryName, file, requestOptions, context),
-                new DefaultPollingStrategy<>(this.client.getHttpPipeline()),
+                new CatalogLocationPollingStrategy<>(this.client.getHttpPipeline()),
                 new TypeReference<BinaryData>() {},
                 new TypeReference<BinaryData>() {});
     }
