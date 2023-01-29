@@ -13,8 +13,8 @@ import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.websocket.DecodeException;
-import jakarta.websocket.Decoder;
+import javax.websocket.DecodeException;
+import javax.websocket.Decoder;
 import org.glassfish.tyrus.core.coder.CoderAdapter;
 
 import java.io.IOException;

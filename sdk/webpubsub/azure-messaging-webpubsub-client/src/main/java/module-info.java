@@ -4,9 +4,9 @@
 module azure.messaging.webpubsub.client {
     requires transitive com.azure.core;
 
-    requires jakarta.websocket;
-    requires org.glassfish.tyrus.core;
-    requires org.glassfish.tyrus.client;
+    requires javax.websocket.api;
+    requires tyrus.core;
+    requires tyrus.client;
 
     exports com.azure.messaging.webpubsub.client;
     exports com.azure.messaging.webpubsub.client.models;
@@ -15,5 +15,8 @@ module azure.messaging.webpubsub.client {
 
     opens com.azure.messaging.webpubsub.client.implementation to
         com.azure.core,
-        com.fasterxml.jackson.databind;
+        com.fasterxml.jackson.databind,
+        javax.websocket.api,
+        tyrus.core,
+        tyrus.client;
 }
