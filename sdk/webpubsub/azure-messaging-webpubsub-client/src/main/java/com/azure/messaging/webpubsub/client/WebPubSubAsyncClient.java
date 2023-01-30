@@ -626,7 +626,7 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
                     Schedulers.DEFAULT_POOL_SIZE, Schedulers.DEFAULT_POOL_SIZE)
                     .subscribeOn(Schedulers.boundedElastic()).subscribe(null, thr -> {
                         logger.atWarning()
-                            .log("Failed to close session: " + thr.getMessage());
+                            .log("Failed to auto restore group: " + thr.getMessage());
                     });
             }
         }
