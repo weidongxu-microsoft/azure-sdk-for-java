@@ -239,21 +239,24 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
             groups.clear();
 
             if (session != null && session.isOpen()) {
+                // should be CONNECTED
                 return Mono.fromCallable(() -> {
                     session.close(CloseReasons.NO_STATUS_CODE.getCloseReason());
                     return (Void) null;
                 }).subscribeOn(Schedulers.boundedElastic());
             } else {
-                if (clientState.clientState.get() == WebPubSubClientState.STOPPED) {
+                if (clientState.get() == WebPubSubClientState.STOPPED) {
                     // already STOPPED
                     return Mono.empty();
                 } else if (clientState.changeStateOn(WebPubSubClientState.DISCONNECTED, WebPubSubClientState.STOPPED)) {
-                    // handle transient state DISCONNECTED, directly change to STOPPED, avoid RECOVERING
+                    // handle transient state DISCONNECTED, directly change to STOPPED,
+                    // avoid RECOVERING via handleRecovery
+                    // or CONNECTING via handleNoRecovery when autoReconnect=true
                     handleClientStop();
                     return Mono.empty();
                 } else {
                     // handle transient state e.g. CONNECTING, RECOVERING
-                    // isStoppedByUserMono will be signaled in handleSessionOpen when isStoppedByUser
+                    // isStoppedByUserMono will be signaled in handleSessionOpen when isStoppedByUser=true
                     Sinks.Empty<Void> sink = Sinks.empty();
                     isStoppedByUserMono.set(sink);
                     return sink.asMono();
