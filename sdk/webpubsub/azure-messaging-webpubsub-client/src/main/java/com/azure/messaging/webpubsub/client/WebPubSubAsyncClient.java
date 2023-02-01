@@ -401,7 +401,7 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
 
         Mono<Void> sendMessageMono = sendMessage(message);
         Mono<WebPubSubResult> responseMono = options.getFireAndForget()
-            ? sendMessageMono.then(Mono.just(new WebPubSubResult(null)))
+            ? sendMessageMono.then(Mono.just(new WebPubSubResult(null, false)))
             : sendMessageMono.then(waitForAckMessage(ackId));
         return responseMono.retryWhen(sendMessageRetrySpec);
     }
@@ -449,7 +449,7 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
 
         Mono<Void> sendMessageMono = sendMessage(message);
         Mono<WebPubSubResult> responseMono = options.getFireAndForget()
-            ? sendMessageMono.then(Mono.just(new WebPubSubResult(null)))
+            ? sendMessageMono.then(Mono.just(new WebPubSubResult(null, false)))
             : sendMessageMono.then(waitForAckMessage(ackId));
         return responseMono.retryWhen(sendMessageRetrySpec);
     }
@@ -570,7 +570,7 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
             // error from AckMessage
             .flatMap(m -> {
                 if (m.isSuccess() || (m.getError() != null && "Duplicate".equals(m.getError().getName()))) {
-                    return Mono.just(new WebPubSubResult(m.getAckId()));
+                    return Mono.just(new WebPubSubResult(m.getAckId(), true));
                 } else {
                     return Mono.error(logSendMessageFailedException(
                         "Received non-success acknowledge from the service.", null, false, ackId, m.getError()));

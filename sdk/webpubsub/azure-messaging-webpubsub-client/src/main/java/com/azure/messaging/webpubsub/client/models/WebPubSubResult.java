@@ -12,14 +12,17 @@ import com.azure.core.annotation.Immutable;
 public final class WebPubSubResult {
 
     private final Long ackId;
+    private final boolean isDuplicated;
 
     /**
      * Creates a new instance of WebPubSubResult.
      *
      * @param ackId the ackId.
+     * @param isDuplicated whether the message is duplicated.
      */
-    public WebPubSubResult(Long ackId) {
+    public WebPubSubResult(Long ackId, boolean isDuplicated) {
         this.ackId = ackId;
+        this.isDuplicated = isDuplicated;
     }
 
     /**
@@ -29,5 +32,14 @@ public final class WebPubSubResult {
      */
     public Long getAckId() {
         return ackId;
+    }
+
+    /**
+     * Gets whether the message is duplicated.
+     *
+     * @return whether the message is duplicated.
+     */
+    public boolean isDuplicated() {
+        return isDuplicated;
     }
 }
