@@ -15,6 +15,15 @@ public class WebPubSubClientCredential {
     /**
      * Creates a new instance of WebPubSubClientCredential.
      *
+     * @param clientAccessUri the client access URI.
+     */
+    public WebPubSubClientCredential(String clientAccessUri) {
+        this.clientAccessUriProvider = Mono.just(clientAccessUri);
+    }
+
+    /**
+     * Creates a new instance of WebPubSubClientCredential.
+     *
      * @param clientAccessUriProvider the provider for client access URI.
      */
     public WebPubSubClientCredential(Mono<String> clientAccessUriProvider) {
