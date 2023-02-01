@@ -7,9 +7,17 @@ import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
 
 public final class ConnectedMessage extends WebPubSubMessage {
 
+    private final String connectionId;
     private String userId;
-    private String connectionId;
     private String reconnectionToken;
+
+    public ConnectedMessage(String connectionId) {
+        this.connectionId = connectionId;
+    }
+
+    public String getConnectionId() {
+        return connectionId;
+    }
 
     public String getUserId() {
         return userId;
@@ -17,15 +25,6 @@ public final class ConnectedMessage extends WebPubSubMessage {
 
     public ConnectedMessage setUserId(String userId) {
         this.userId = userId;
-        return this;
-    }
-
-    public String getConnectionId() {
-        return connectionId;
-    }
-
-    public ConnectedMessage setConnectionId(String connectionId) {
-        this.connectionId = connectionId;
         return this;
     }
 

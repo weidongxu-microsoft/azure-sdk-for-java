@@ -62,7 +62,7 @@ public final class MessageDecoder extends CoderAdapter implements Decoder.Text<W
                     jsonNode.get("group").asText(),
                     type,
                     data,
-                    jsonNode.get("fromUserId").asText(),
+                    jsonNode.has("fromUserId") ? jsonNode.get("fromUserId").asText() : null,
                     jsonNode.has("sequenceId") ? jsonNode.get("sequenceId").asLong() : null
                 );
                 break;
@@ -85,12 +85,13 @@ public final class MessageDecoder extends CoderAdapter implements Decoder.Text<W
         WebPubSubMessage msg = null;
         switch (jsonNode.get("event").asText()) {
             case "connected":
-                ConnectedMessage connectedMessage = new ConnectedMessage()
-                    .setUserId(jsonNode.get("userId").asText())
-                    .setConnectionId(jsonNode.get("connectionId").asText());
+                ConnectedMessage connectedMessage = new ConnectedMessage(jsonNode.get("connectionId").asText());
 
                 if (jsonNode.has("reconnectionToken")) {
                     connectedMessage.setReconnectionToken(jsonNode.get("reconnectionToken").asText());
+                }
+                if (jsonNode.has("userId")) {
+                    connectedMessage.setUserId(jsonNode.get("userId").asText());
                 }
                 msg = connectedMessage;
                 break;
