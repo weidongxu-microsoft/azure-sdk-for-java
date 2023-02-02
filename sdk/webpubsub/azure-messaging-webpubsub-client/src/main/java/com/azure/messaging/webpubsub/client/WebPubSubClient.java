@@ -17,11 +17,13 @@ import com.azure.messaging.webpubsub.client.models.StoppedEvent;
 import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
 import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
 
+import java.io.Closeable;
+
 /**
  * The WebPubSubAsync client.
  */
 @ServiceClient(builder = WebPubSubClientBuilder.class)
-public class WebPubSubClient implements AutoCloseable {
+public class WebPubSubClient implements Closeable {
 
     private final WebPubSubAsyncClient client;
 
@@ -57,7 +59,7 @@ public class WebPubSubClient implements AutoCloseable {
      */
     @Override
     public void close() {
-        client.closeAsync().block();
+        client.close();
     }
 
     /**

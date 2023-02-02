@@ -5,7 +5,6 @@ package com.azure.messaging.webpubsub.client;
 
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.http.policy.RetryStrategy;
-import com.azure.core.util.AsyncCloseable;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.UrlBuilder;
 import com.azure.core.util.logging.ClientLogger;
@@ -57,6 +56,7 @@ import reactor.core.scheduler.Schedulers;
 import reactor.util.concurrent.Queues;
 import reactor.util.retry.Retry;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.URI;
 import java.time.Duration;
@@ -77,7 +77,7 @@ import java.util.stream.Collectors;
  * The WebPubSubAsync client.
  */
 @ServiceClient(builder = WebPubSubClientBuilder.class)
-public class WebPubSubAsyncClient implements AsyncCloseable {
+public class WebPubSubAsyncClient implements Closeable {
 
     // logging
     private ClientLogger logger;
@@ -267,14 +267,13 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
 
     /**
      * Closes the client.
-     *
-     * @return the task.
      */
-    public Mono<Void> closeAsync() {
+    @Override
+    public void close() {
         if (this.isDisposed.getAndSet(true)) {
-            return this.isClosedMono.asMono();
+            this.isClosedMono.asMono().block();
         } else {
-            return stop().then(Mono.fromRunnable(() -> {
+            stop().then(Mono.fromRunnable(() -> {
                 this.clientState.changeState(WebPubSubClientState.CLOSED);
 
                 groupMessageEventSink.emitComplete(
@@ -289,7 +288,7 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
                     emitFailureHandler("Unable to emit Complete to disconnectedEventSink"));
 
                 isClosedMono.emitEmpty(emitFailureHandler("Unable to emit Close"));
-            }));
+            })).block();
         }
     }
 

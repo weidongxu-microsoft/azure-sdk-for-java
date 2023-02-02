@@ -17,6 +17,8 @@ public class HelloWorldSample {
 
     public static void main(String[] args) throws Exception {
 
+        // browser https://learn.microsoft.com/azure/azure-web-pubsub/quickstart-live-demo
+
         // prepare the clientCredential
         WebPubSubServiceAsyncClient serviceClient = new WebPubSubServiceClientBuilder()
             .connectionString(Configuration.getGlobalConfiguration().get("CONNECTION_STRING"))
@@ -46,8 +48,7 @@ public class HelloWorldSample {
                     if ("exit".equals(text) || "\"exit\"".equals(text)) {
                         // asked to exit
                         return client.sendToGroup(group, BinaryData.fromString("Goodbye."), WebPubSubDataType.TEXT)
-                            .then(client.stop())
-                            .then(client.closeAsync());
+                            .then(client.stop());
                     } else {
                         return client.sendToGroup(group, BinaryData.fromString("Received: " + text), WebPubSubDataType.TEXT);
                     }
@@ -64,5 +65,6 @@ public class HelloWorldSample {
 
         // wait for client to stop
         client.receiveStoppedEvents().blockFirst();
+        client.close();
     }
 }

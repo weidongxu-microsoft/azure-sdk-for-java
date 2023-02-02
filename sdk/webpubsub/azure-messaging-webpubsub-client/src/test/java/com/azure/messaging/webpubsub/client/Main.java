@@ -120,7 +120,7 @@ public class Main extends TestBase {
 
 
         // close
-        asyncClient.closeAsync().block();
+        asyncClient.close();
     }
 
     private static BinaryData getJsonData(String key, String value) {
