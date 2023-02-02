@@ -538,11 +538,11 @@ public class WebPubSubAsyncClient implements AsyncCloseable {
 
     private Mono<Void> checkStateBeforeSend() {
         return Mono.defer(() -> {
-            if (isDisposed.get()) {
+            WebPubSubClientState state = clientState.get();
+            if (state == WebPubSubClientState.CLOSED) {
                 return Mono.error(logger.logExceptionAsError(
                     new IllegalStateException("Failed to send message. WebPubSubClient is CLOSED.")));
             }
-            WebPubSubClientState state = clientState.get();
             if (state != WebPubSubClientState.CONNECTED) {
                 return Mono.error(logSendMessageFailedException(
                     "Failed to send message. Client is " + state.name() + ".",
