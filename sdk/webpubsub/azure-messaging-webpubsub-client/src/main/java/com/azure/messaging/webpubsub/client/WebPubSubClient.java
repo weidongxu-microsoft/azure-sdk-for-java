@@ -16,19 +16,54 @@ import com.azure.messaging.webpubsub.client.models.ServerMessageEvent;
 import com.azure.messaging.webpubsub.client.models.StoppedEvent;
 import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
 import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
+import reactor.core.scheduler.Schedulers;
 
-import java.io.Closeable;
+import java.util.function.Consumer;
 
 /**
  * The WebPubSubAsync client.
  */
 @ServiceClient(builder = WebPubSubClientBuilder.class)
-public class WebPubSubClient implements Closeable {
+public class WebPubSubClient {
 
     private final WebPubSubAsyncClient client;
 
-    WebPubSubClient(WebPubSubAsyncClient client) {
+//    WebPubSubClient(WebPubSubAsyncClient client) {
+//        this.client = client;
+//    }
+
+    WebPubSubClient(WebPubSubAsyncClient client,
+                    Consumer<GroupMessageEvent> processGroupMessageEvent,
+                    Consumer<ServerMessageEvent> processServerMessageEvent,
+                    Consumer<ConnectedEvent> processConnectedEvent,
+                    Consumer<DisconnectedEvent> processDisconnectedEvent,
+                    Consumer<StoppedEvent> processStoppedEvent) {
         this.client = client;
+        if (processGroupMessageEvent != null) {
+            client.receiveGroupMessageEvents()
+                .publishOn(Schedulers.boundedElastic())
+                .subscribe(processGroupMessageEvent);
+        }
+        if (processServerMessageEvent != null) {
+            client.receiveServerMessageEvents()
+                .publishOn(Schedulers.boundedElastic())
+                .subscribe(processServerMessageEvent);
+        }
+        if (processConnectedEvent != null) {
+            client.receiveConnectedEvents()
+                .publishOn(Schedulers.boundedElastic())
+                .subscribe(processConnectedEvent);
+        }
+        if (processDisconnectedEvent != null) {
+            client.receiveDisconnectedEvents()
+                .publishOn(Schedulers.boundedElastic())
+                .subscribe(processDisconnectedEvent);
+        }
+        if (processStoppedEvent != null) {
+            client.receiveStoppedEvents()
+                .publishOn(Schedulers.boundedElastic())
+                .subscribe(processStoppedEvent);
+        }
     }
 
     /**
@@ -54,13 +89,13 @@ public class WebPubSubClient implements Closeable {
         client.stop().block();
     }
 
-    /**
-     * Closes the client.
-     */
-    @Override
-    public void close() {
-        client.close();
-    }
+//    /**
+//     * Closes the client.
+//     */
+//    @Override
+//    public void close() {
+//        client.close();
+//    }
 
     /**
      * Joins a group.
@@ -161,7 +196,7 @@ public class WebPubSubClient implements Closeable {
      *
      * @return the Stream of group message events.
      */
-    public IterableStream<GroupMessageEvent> receiveGroupMessageEvents() {
+    IterableStream<GroupMessageEvent> receiveGroupMessageEvents() {
         return new IterableStream<>(client.receiveGroupMessageEvents());
     }
 
@@ -170,7 +205,7 @@ public class WebPubSubClient implements Closeable {
      *
      * @return the Stream of server message events.
      */
-    public IterableStream<ServerMessageEvent> receiveServerMessageEvents() {
+    IterableStream<ServerMessageEvent> receiveServerMessageEvents() {
         return new IterableStream<>(client.receiveServerMessageEvents());
     }
 
@@ -179,7 +214,7 @@ public class WebPubSubClient implements Closeable {
      *
      * @return the Stream of connected events.
      */
-    public IterableStream<ConnectedEvent> receiveConnectedEvents() {
+    IterableStream<ConnectedEvent> receiveConnectedEvents() {
         return new IterableStream<>(client.receiveConnectedEvents());
     }
 
@@ -188,7 +223,7 @@ public class WebPubSubClient implements Closeable {
      *
      * @return the Stream of disconnected events.
      */
-    public IterableStream<DisconnectedEvent> receiveDisconnectedEvents() {
+    IterableStream<DisconnectedEvent> receiveDisconnectedEvents() {
         return new IterableStream<>(client.receiveDisconnectedEvents());
     }
 
@@ -197,7 +232,7 @@ public class WebPubSubClient implements Closeable {
      *
      * @return the Stream of stopped events.
      */
-    public IterableStream<StoppedEvent> receiveStoppedEvents() {
+    IterableStream<StoppedEvent> receiveStoppedEvents() {
         return new IterableStream<>(client.receiveStoppedEvents());
     }
 

@@ -6,7 +6,7 @@ package com.azure.messaging.webpubsub.client;
 import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubClientState;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
+//import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
@@ -40,17 +40,17 @@ public class ClientTests extends TestBase {
         Assertions.assertEquals(WebPubSubClientState.STOPPED, asyncClient.getClientState());
     }
 
-    @Test
-    @DoNotRecord(skipInPlayback = true)
-    @Order(1000)    // last
-    public void testClosed() {
-        WebPubSubClient client = getClient();
-
-        Assertions.assertEquals(WebPubSubClientState.STOPPED, client.getClientState());
-
-        client.close();
-        Assertions.assertEquals(WebPubSubClientState.CLOSED, client.getClientState());
-
-        Assertions.assertThrows(IllegalStateException.class, () -> client.joinGroup("group"));
-    }
+//    @Test
+//    @DoNotRecord(skipInPlayback = true)
+//    @Order(1000)    // last
+//    public void testClosed() {
+//        WebPubSubClient client = getClient();
+//
+//        Assertions.assertEquals(WebPubSubClientState.STOPPED, client.getClientState());
+//
+//        client.close();
+//        Assertions.assertEquals(WebPubSubClientState.CLOSED, client.getClientState());
+//
+//        Assertions.assertThrows(IllegalStateException.class, () -> client.joinGroup("group"));
+//    }
 }

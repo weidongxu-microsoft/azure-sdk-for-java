@@ -49,7 +49,7 @@ public class Main extends TestBase {
 
         client.leaveGroup("group1");
 
-        client.close();
+//        client.close();
 
         receiveThread.join();
         connectThread.join();

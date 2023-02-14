@@ -77,7 +77,7 @@ import java.util.stream.Collectors;
  * The WebPubSubAsync client.
  */
 @ServiceClient(builder = WebPubSubClientBuilder.class)
-public class WebPubSubAsyncClient implements Closeable {
+class WebPubSubAsyncClient implements Closeable {
 
     // logging
     private ClientLogger logger;

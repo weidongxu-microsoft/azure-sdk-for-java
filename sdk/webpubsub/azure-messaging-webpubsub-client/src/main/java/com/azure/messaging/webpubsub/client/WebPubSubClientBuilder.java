@@ -9,10 +9,16 @@ import com.azure.core.http.policy.FixedDelay;
 import com.azure.core.http.policy.RetryOptions;
 import com.azure.core.http.policy.RetryStrategy;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.messaging.webpubsub.client.models.ConnectedEvent;
+import com.azure.messaging.webpubsub.client.models.DisconnectedEvent;
+import com.azure.messaging.webpubsub.client.models.GroupMessageEvent;
+import com.azure.messaging.webpubsub.client.models.ServerMessageEvent;
+import com.azure.messaging.webpubsub.client.models.StoppedEvent;
 import com.azure.messaging.webpubsub.client.protocol.WebPubSubJsonReliableProtocol;
 import com.azure.messaging.webpubsub.client.protocol.WebPubSubProtocol;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * The builder of WebPubSub client.
@@ -31,6 +37,12 @@ public class WebPubSubClientBuilder {
     private boolean autoReconnect = true;
 
     private boolean autoRestoreGroup = true;
+
+    private Consumer<GroupMessageEvent> processGroupMessageEvent;
+    private Consumer<ServerMessageEvent> processServerMessageEvent;
+    private Consumer<ConnectedEvent> processConnectedEvent;
+    private Consumer<DisconnectedEvent> processDisconnectedEvent;
+    private Consumer<StoppedEvent> processStoppedEvent;
 
     /**
      * Creates a new instance of WebPubSubClientBuilder.
@@ -94,12 +106,73 @@ public class WebPubSubClientBuilder {
     }
 
     /**
+     * The function that is called for each group message event received by this client.
+     *
+     * @param processGroupMessageEvent the callback that is called when a group message event is received.
+     * @return itself.
+     */
+    public WebPubSubClientBuilder processGroupMessageEvent(Consumer<GroupMessageEvent> processGroupMessageEvent) {
+        this.processGroupMessageEvent = Objects.requireNonNull(processGroupMessageEvent);
+        return this;
+    }
+
+    /**
+     * The function that is called for each server message event received by this client.
+     *
+     * @param processServerMessageEvent the callback that is called when a server message event is received.
+     * @return itself.
+     */
+    public WebPubSubClientBuilder processServerMessageEvent(Consumer<ServerMessageEvent> processServerMessageEvent) {
+        this.processServerMessageEvent = Objects.requireNonNull(processServerMessageEvent);
+        return this;
+    }
+
+    /**
+     * The function that is called for each connected event received by this client.
+     *
+     * @param processConnectedEvent the callback that is called when a connected event is received.
+     * @return itself.
+     */
+    public WebPubSubClientBuilder processConnectedEvent(Consumer<ConnectedEvent> processConnectedEvent) {
+        this.processConnectedEvent = Objects.requireNonNull(processConnectedEvent);
+        return this;
+    }
+
+    /**
+     * The function that is called for each disconnected event.
+     *
+     * @param processDisconnectedEvent the callback that is called when a disconnected event is received.
+     * @return itself.
+     */
+    public WebPubSubClientBuilder processDisconnectedEvent(Consumer<DisconnectedEvent> processDisconnectedEvent) {
+        this.processDisconnectedEvent = Objects.requireNonNull(processDisconnectedEvent);
+        return this;
+    }
+
+    /**
+     * The function that is called for each stopped event.
+     *
+     * @param processStoppedEvent the callback that is called when a stopped event is received.
+     * @return itself.
+     */
+    public WebPubSubClientBuilder processStoppedEvent(Consumer<StoppedEvent> processStoppedEvent) {
+        this.processStoppedEvent = Objects.requireNonNull(processStoppedEvent);
+        return this;
+    }
+
+    /**
      * Builds the client.
      *
      * @return the client.
      */
     public WebPubSubClient buildClient() {
-        return new WebPubSubClient(this.buildAsyncClient());
+        return new WebPubSubClient(
+            this.buildAsyncClient(),
+            processGroupMessageEvent,
+            processServerMessageEvent,
+            processConnectedEvent,
+            processDisconnectedEvent,
+            processStoppedEvent);
     }
 
     /**
@@ -107,7 +180,7 @@ public class WebPubSubClientBuilder {
      *
      * @return the asynchronous client.
      */
-    public WebPubSubAsyncClient buildAsyncClient() {
+    WebPubSubAsyncClient buildAsyncClient() {
         RetryStrategy retryStrategy;
         if (retryOptions != null) {
             if (retryOptions.getExponentialBackoffOptions() != null) {
