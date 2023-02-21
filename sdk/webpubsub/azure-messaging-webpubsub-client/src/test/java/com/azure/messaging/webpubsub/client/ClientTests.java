@@ -4,13 +4,16 @@
 package com.azure.messaging.webpubsub.client;
 
 import com.azure.core.test.annotation.DoNotRecord;
+import com.azure.core.util.BinaryData;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubClientState;
+import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
 import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class ClientTests extends TestBase {
 
@@ -38,6 +41,38 @@ public class ClientTests extends TestBase {
         Assertions.assertEquals(WebPubSubClientState.CONNECTED, asyncClient.getClientState());
         asyncClient.stop().block();
         Assertions.assertEquals(WebPubSubClientState.STOPPED, asyncClient.getClientState());
+    }
+
+    @Test
+    @DoNotRecord(skipInPlayback = true)
+    public void testTwoClients() throws InterruptedException {
+        String groupName = "group1";
+        CountDownLatch latch = new CountDownLatch(1);
+
+        WebPubSubClient client1 = getClientBuilder("user1")
+            .processGroupMessageEvent(event -> {
+                latch.countDown();
+            })
+            .buildClient();
+
+        WebPubSubClient client2 = getClientBuilder("user2")
+            .buildClient();
+
+        client1.start();
+        client2.start();
+
+        client1.joinGroup(groupName);
+        client2.joinGroup(groupName);
+
+        client2.sendToGroup(groupName, BinaryData.fromString("hello"), WebPubSubDataType.TEXT);
+
+        client2.stop();
+
+        boolean success = latch.await(10, TimeUnit.SECONDS);
+        client1.stop();
+
+        Assertions.assertTrue(success);
+        Assertions.assertEquals(0, latch.getCount());
     }
 
 //    @Test
