@@ -14,8 +14,9 @@ import com.azure.messaging.webpubsub.client.models.DisconnectedEvent;
 import com.azure.messaging.webpubsub.client.models.GroupMessageEvent;
 import com.azure.messaging.webpubsub.client.models.ServerMessageEvent;
 import com.azure.messaging.webpubsub.client.models.StoppedEvent;
-import com.azure.messaging.webpubsub.client.protocol.WebPubSubJsonReliableProtocol;
-import com.azure.messaging.webpubsub.client.protocol.WebPubSubProtocol;
+import com.azure.messaging.webpubsub.client.models.WebPubSubClientCredential;
+import com.azure.messaging.webpubsub.client.models.WebPubSubJsonReliableProtocol;
+import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
 
 import java.util.Objects;
 import java.util.function.Consumer;

@@ -5,7 +5,7 @@ package com.azure.messaging.webpubsub.client;
 
 import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.core.util.BinaryData;
-import com.azure.messaging.webpubsub.client.exception.SendMessageFailedException;
+import com.azure.messaging.webpubsub.client.models.SendMessageFailedException;
 import com.azure.messaging.webpubsub.client.models.SendToGroupOptions;
 import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
 import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
