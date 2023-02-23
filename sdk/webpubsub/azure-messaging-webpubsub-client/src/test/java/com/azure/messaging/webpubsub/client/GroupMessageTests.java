@@ -17,13 +17,14 @@ import java.util.Random;
 public class GroupMessageTests extends TestBase {
 
     private static final String GROUP = "group";
-    private static final BinaryData HELLO = BinaryData.fromString("hello");
+    private static final String HELLO = "hello";
+    private static final BinaryData HELLO_DATA = BinaryData.fromString(HELLO);
 
     @Test
     @DoNotRecord(skipInPlayback = true)
     public void testSendMessageBeforeStart() {
         WebPubSubClient client = getClient();
-        Assertions.assertThrows(SendMessageFailedException.class, () -> client.sendToGroup(GROUP, HELLO, WebPubSubDataType.TEXT));
+        Assertions.assertThrows(SendMessageFailedException.class, () -> client.sendToGroup(GROUP, HELLO));
     }
 
     @Test
@@ -33,12 +34,12 @@ public class GroupMessageTests extends TestBase {
         try {
             client.start();
 
-            WebPubSubResult result = client.sendToGroup(GROUP, HELLO, WebPubSubDataType.TEXT);
+            WebPubSubResult result = client.sendToGroup(GROUP, HELLO);
             Assertions.assertNotNull(result.getAckId());
 
             // send with explicit ackId
             long ackId = new Random().nextLong() & Long.MAX_VALUE;
-            result = client.sendToGroup(GROUP, HELLO, WebPubSubDataType.TEXT, new SendToGroupOptions().setAckId(ackId));
+            result = client.sendToGroup(GROUP, HELLO_DATA, WebPubSubDataType.TEXT, new SendToGroupOptions().setAckId(ackId));
             Assertions.assertEquals(ackId, result.getAckId());
         } finally {
             client.stop();

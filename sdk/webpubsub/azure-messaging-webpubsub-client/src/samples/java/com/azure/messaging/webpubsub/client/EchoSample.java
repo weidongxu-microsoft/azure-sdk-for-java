@@ -3,7 +3,6 @@
 
 package com.azure.messaging.webpubsub.client;
 
-import com.azure.core.util.BinaryData;
 import com.azure.core.util.Configuration;
 import com.azure.messaging.webpubsub.WebPubSubServiceAsyncClient;
 import com.azure.messaging.webpubsub.WebPubSubServiceClientBuilder;
@@ -54,11 +53,11 @@ public class EchoSample {
                     String text = parseMessage(event.getMessage());
                     if ("exit".equals(text)) {
                         // asked to exit
-                        self.get().sendToGroup(group, BinaryData.fromString("Goodbye."), WebPubSubDataType.TEXT);
+                        self.get().sendToGroup(group, "Goodbye.");
                         self.get().stop();
                     } else {
                         // echo the message text
-                        self.get().sendToGroup(group, BinaryData.fromString("Received: " + text), WebPubSubDataType.TEXT);
+                        self.get().sendToGroup(group, "Received: " + text);
                     }
                 }
             })
@@ -72,7 +71,7 @@ public class EchoSample {
         // start client, join group and send "Hello"
         client.start();
         client.joinGroup(groupName);
-        client.sendToGroup(groupName, BinaryData.fromString("Hello."), WebPubSubDataType.TEXT);
+        client.sendToGroup(groupName, "Hello.");
 
         // wait for client to stop
         clientStopped.get();

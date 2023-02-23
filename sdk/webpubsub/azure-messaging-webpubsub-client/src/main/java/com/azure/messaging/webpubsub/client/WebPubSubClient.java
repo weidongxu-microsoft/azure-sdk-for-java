@@ -143,6 +143,29 @@ public class WebPubSubClient {
      * Sends message to group.
      *
      * @param group the group name.
+     * @param content the data as WebPubSubDataType.TEXT.
+     * @return the result.
+     */
+    public WebPubSubResult sendToGroup(String group, String content) {
+        return sendToGroup(group, BinaryData.fromString(content), WebPubSubDataType.TEXT);
+    }
+
+    /**
+     * Sends message to group.
+     *
+     * @param group the group name.
+     * @param content the data as WebPubSubDataType.TEXT.
+     * @param options the options.
+     * @return the result.
+     */
+    public WebPubSubResult sendToGroup(String group, String content, SendToGroupOptions options) {
+        return sendToGroup(group, BinaryData.fromString(content), WebPubSubDataType.TEXT, options);
+    }
+
+    /**
+     * Sends message to group.
+     *
+     * @param group the group name.
      * @param content the data.
      * @param dataType the data type.
      * @return the result.
