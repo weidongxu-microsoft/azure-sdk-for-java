@@ -3,8 +3,6 @@
 
 package com.azure.messaging.webpubsub.client.implementation;
 
-import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
-
 public final class ConnectedMessage extends WebPubSubMessage {
 
     private final String connectionId;

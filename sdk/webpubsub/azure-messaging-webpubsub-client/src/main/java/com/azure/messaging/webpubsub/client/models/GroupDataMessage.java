@@ -10,7 +10,7 @@ import com.azure.core.util.BinaryData;
  * The message of group data.
  */
 @Immutable
-public final class GroupDataMessage extends WebPubSubMessage {
+public final class GroupDataMessage {
 
     private final String group;
     private final WebPubSubDataType dataType;

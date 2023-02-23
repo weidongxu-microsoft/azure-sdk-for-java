@@ -3,7 +3,6 @@
 
 package com.azure.messaging.webpubsub.client.implementation;
 
-import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 public final class SequenceAckMessage extends WebPubSubMessage {

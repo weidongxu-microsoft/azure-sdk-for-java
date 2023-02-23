@@ -37,7 +37,7 @@ import com.azure.messaging.webpubsub.client.models.ServerDataMessage;
 import com.azure.messaging.webpubsub.client.models.ServerMessageEvent;
 import com.azure.messaging.webpubsub.client.models.StoppedEvent;
 import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
-import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
+import com.azure.messaging.webpubsub.client.implementation.WebPubSubMessage;
 import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
 import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
 import javax.websocket.ClientEndpointConfig;
@@ -786,10 +786,10 @@ class WebPubSubAsyncClient implements Closeable {
         public void onOpen(Session session, EndpointConfig endpointConfig) {
             logger.atVerbose().log("Session opened");
 
-            session.addMessageHandler(new MessageHandler.Whole<WebPubSubMessage>() {
+            session.addMessageHandler(new MessageHandler.Whole<Object>() {
 
                 @Override
-                public void onMessage(WebPubSubMessage webPubSubMessage) {
+                public void onMessage(Object webPubSubMessage) {
                     if (logger.canLogAtLevel(LogLevel.VERBOSE)) {
                         try {
                             String json = JacksonAdapter.createDefaultSerializerAdapter()

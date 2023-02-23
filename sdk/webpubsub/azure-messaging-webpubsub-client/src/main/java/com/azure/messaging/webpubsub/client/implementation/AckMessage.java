@@ -4,7 +4,6 @@
 package com.azure.messaging.webpubsub.client.implementation;
 
 import com.azure.messaging.webpubsub.client.models.AckMessageError;
-import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
 
 public final class AckMessage extends WebPubSubMessage {
 

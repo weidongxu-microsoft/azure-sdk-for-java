@@ -9,7 +9,7 @@ import com.azure.core.annotation.Immutable;
  * The message of disconnected.
  */
 @Immutable
-public final class DisconnectedMessage extends WebPubSubMessage {
+public final class DisconnectedMessage {
 
     private final String reason;
 

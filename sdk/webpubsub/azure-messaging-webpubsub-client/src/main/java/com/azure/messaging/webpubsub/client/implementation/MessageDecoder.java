@@ -9,7 +9,6 @@ import com.azure.messaging.webpubsub.client.models.DisconnectedMessage;
 import com.azure.messaging.webpubsub.client.models.GroupDataMessage;
 import com.azure.messaging.webpubsub.client.models.ServerDataMessage;
 import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
-import com.azure.messaging.webpubsub.client.models.WebPubSubMessage;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,13 +20,13 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Locale;
 
-public final class MessageDecoder extends CoderAdapter implements Decoder.Text<WebPubSubMessage> {
+public final class MessageDecoder extends CoderAdapter implements Decoder.Text<Object> {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
-    public WebPubSubMessage decode(String s) throws DecodeException {
-        WebPubSubMessage msg = null;
+    public Object decode(String s) throws DecodeException {
+        Object msg = null;
         try (JsonParser parser = OBJECT_MAPPER.createParser(s)) {
             JsonNode jsonNode = OBJECT_MAPPER.readTree(parser);
             switch (jsonNode.get("type").asText()) {
@@ -52,8 +51,8 @@ public final class MessageDecoder extends CoderAdapter implements Decoder.Text<W
         }
     }
 
-    private static WebPubSubMessage parseMessage(JsonNode jsonNode) throws IOException {
-        WebPubSubMessage msg = null;
+    private static Object parseMessage(JsonNode jsonNode) throws IOException {
+        Object msg = null;
         WebPubSubDataType type = WebPubSubDataType.valueOf(jsonNode.get("dataType").asText().toUpperCase(Locale.ROOT));
         BinaryData data = parseData(jsonNode, type);
         switch (jsonNode.get("from").asText()) {
@@ -81,8 +80,8 @@ public final class MessageDecoder extends CoderAdapter implements Decoder.Text<W
         return msg;
     }
 
-    private static WebPubSubMessage parseSystem(JsonNode jsonNode) throws IOException {
-        WebPubSubMessage msg = null;
+    private static Object parseSystem(JsonNode jsonNode) throws IOException {
+        Object msg = null;
         switch (jsonNode.get("event").asText()) {
             case "connected":
                 ConnectedMessage connectedMessage = new ConnectedMessage(jsonNode.get("connectionId").asText());
