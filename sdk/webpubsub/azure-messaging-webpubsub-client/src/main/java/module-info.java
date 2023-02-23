@@ -10,8 +10,6 @@ module azure.messaging.webpubsub.client {
 
     exports com.azure.messaging.webpubsub.client;
     exports com.azure.messaging.webpubsub.client.models;
-    exports com.azure.messaging.webpubsub.client.protocol;
-    exports com.azure.messaging.webpubsub.client.exception;
 
     opens com.azure.messaging.webpubsub.client.implementation to
         com.azure.core,

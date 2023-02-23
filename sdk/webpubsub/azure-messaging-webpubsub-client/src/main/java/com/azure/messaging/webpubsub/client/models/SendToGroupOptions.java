@@ -12,8 +12,8 @@ import com.azure.core.annotation.Fluent;
 public final class SendToGroupOptions {
 
     private Long ackId;
-    private Boolean noEcho = false;
-    private Boolean fireAndForget = false;
+    private boolean noEcho = false;
+    private boolean fireAndForget = false;
 
     /**
      * Creates a new instance of SendToGroupOptions.
@@ -46,7 +46,7 @@ public final class SendToGroupOptions {
      *
      * @return the noEcho option.
      */
-    public Boolean getNoEcho() {
+    public Boolean isNoEcho() {
         return noEcho;
     }
 
@@ -66,7 +66,7 @@ public final class SendToGroupOptions {
      *
      * @return the fireAndForget option.
      */
-    public boolean getFireAndForget() {
+    public boolean isFireAndForget() {
         return fireAndForget;
     }
 

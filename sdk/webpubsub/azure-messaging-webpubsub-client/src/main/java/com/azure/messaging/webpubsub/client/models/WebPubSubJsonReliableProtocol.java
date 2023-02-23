@@ -6,7 +6,7 @@ package com.azure.messaging.webpubsub.client.models;
 /**
  * The protocol of json.reliable.webpubsub.azure.v1
  */
-public class WebPubSubJsonReliableProtocol extends WebPubSubProtocol {
+public final class WebPubSubJsonReliableProtocol extends WebPubSubProtocol {
 
     /**
      * {@inheritDoc}

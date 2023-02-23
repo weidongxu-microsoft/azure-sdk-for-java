@@ -3,39 +3,32 @@
 
 package com.azure.messaging.webpubsub.client.models;
 
+import com.azure.core.annotation.Immutable;
 import reactor.core.publisher.Mono;
 
 /**
  * The credential for WebPubSub client.
  */
+@Immutable
 public class WebPubSubClientCredential {
 
-    private final Mono<String> clientAccessUriProvider;
+    private final Mono<String> clientAccessUrlProvider;
 
     /**
      * Creates a new instance of WebPubSubClientCredential.
      *
-     * @param clientAccessUri the client access URI.
+     * @param clientAccessUrlProvider the provider for client access URL.
      */
-    public WebPubSubClientCredential(String clientAccessUri) {
-        this.clientAccessUriProvider = Mono.just(clientAccessUri);
+    public WebPubSubClientCredential(Mono<String> clientAccessUrlProvider) {
+        this.clientAccessUrlProvider = clientAccessUrlProvider;
     }
 
     /**
-     * Creates a new instance of WebPubSubClientCredential.
+     * Gets the provider for client access URL.
      *
-     * @param clientAccessUriProvider the provider for client access URI.
+     * @return the provider for client access URL.
      */
-    public WebPubSubClientCredential(Mono<String> clientAccessUriProvider) {
-        this.clientAccessUriProvider = clientAccessUriProvider;
-    }
-
-    /**
-     * Gets the provider for client access URI.
-     *
-     * @return the provider for client access URI.
-     */
-    public Mono<String> getClientAccessUriAsync() {
-        return clientAccessUriProvider;
+    public Mono<String> getClientAccessUrl() {
+        return clientAccessUrlProvider;
     }
 }

@@ -83,7 +83,7 @@ class WebPubSubAsyncClient implements Closeable {
     private ClientLogger logger;
 
     // options
-    private final Mono<String> clientAccessUriProvider;
+    private final Mono<String> clientAccessUrlProvider;
     private final WebPubSubProtocol webPubSubProtocol;
 //    private final RetryStrategy retryStrategy;
     private final boolean autoReconnect;
@@ -143,7 +143,7 @@ class WebPubSubAsyncClient implements Closeable {
         Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
             .filter(thr -> !(thr instanceof StopReconnectException));
 
-    WebPubSubAsyncClient(Mono<String> clientAccessUriProvider,
+    WebPubSubAsyncClient(Mono<String> clientAccessUrlProvider,
                          WebPubSubProtocol webPubSubProtocol,
                          RetryStrategy retryStrategy,
                          boolean autoReconnect,
@@ -151,7 +151,7 @@ class WebPubSubAsyncClient implements Closeable {
 
         this.logger = new ClientLogger(WebPubSubAsyncClient.class);
 
-        this.clientAccessUriProvider = Objects.requireNonNull(clientAccessUriProvider);
+        this.clientAccessUrlProvider = Objects.requireNonNull(clientAccessUrlProvider);
         this.webPubSubProtocol = Objects.requireNonNull(webPubSubProtocol);
         this.autoReconnect = autoReconnect;
         this.autoRestoreGroup = autoRestoreGroup;
@@ -208,14 +208,14 @@ class WebPubSubAsyncClient implements Closeable {
             } else {
                 return Mono.empty();
             }
-        }).then(clientAccessUriProvider.flatMap(uri -> Mono.fromCallable(() -> {
+        }).then(clientAccessUrlProvider.flatMap(url -> Mono.fromCallable(() -> {
             this.endpoint = new ClientEndpoint();
             ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
                 .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
                 .encoders(Collections.singletonList(MessageEncoder.class))
                 .decoders(Collections.singletonList(MessageDecoder.class))
                 .build();
-            this.session = clientManager.connectToServer(endpoint, config, new URI(uri));
+            this.session = clientManager.connectToServer(endpoint, config, new URI(url));
             return (Void) null;
         }).subscribeOn(Schedulers.boundedElastic()))).doOnError(error -> {
             handleClientStop();
@@ -396,10 +396,10 @@ class WebPubSubAsyncClient implements Closeable {
             .setData(data)
             .setDataType(dataType.name().toLowerCase(Locale.ROOT))
             .setAckId(ackId)
-            .setNoEcho(options.getNoEcho());
+            .setNoEcho(options.isNoEcho());
 
         Mono<Void> sendMessageMono = sendMessage(message);
-        Mono<WebPubSubResult> responseMono = options.getFireAndForget()
+        Mono<WebPubSubResult> responseMono = options.isFireAndForget()
             ? sendMessageMono.then(Mono.just(new WebPubSubResult(null, false)))
             : sendMessageMono.then(waitForAckMessage(ackId));
         return responseMono.retryWhen(sendMessageRetrySpec);
@@ -447,7 +447,7 @@ class WebPubSubAsyncClient implements Closeable {
             .setAckId(ackId);
 
         Mono<Void> sendMessageMono = sendMessage(message);
-        Mono<WebPubSubResult> responseMono = options.getFireAndForget()
+        Mono<WebPubSubResult> responseMono = options.isFireAndForget()
             ? sendMessageMono.then(Mono.just(new WebPubSubResult(null, false)))
             : sendMessageMono.then(waitForAckMessage(ackId));
         return responseMono.retryWhen(sendMessageRetrySpec);
@@ -686,14 +686,14 @@ class WebPubSubAsyncClient implements Closeable {
                     } else {
                         return Mono.empty();
                     }
-                }).then(clientAccessUriProvider.flatMap(uri -> Mono.fromCallable(() -> {
+                }).then(clientAccessUrlProvider.flatMap(url -> Mono.fromCallable(() -> {
                     this.endpoint = new ClientEndpoint();
                     ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
                         .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
                         .encoders(Collections.singletonList(MessageEncoder.class))
                         .decoders(Collections.singletonList(MessageDecoder.class))
                         .build();
-                    this.session = clientManager.connectToServer(endpoint, config, new URI(uri));
+                    this.session = clientManager.connectToServer(endpoint, config, new URI(url));
                     return (Void) null;
                 }).subscribeOn(Schedulers.boundedElastic()))).retryWhen(RECONNECT_RETRY_SPEC).doOnError(error -> {
                     // stopped by user
@@ -729,8 +729,8 @@ class WebPubSubAsyncClient implements Closeable {
                     } else {
                         return Mono.empty();
                     }
-                }).then(clientAccessUriProvider.flatMap(uri -> Mono.fromCallable(() -> {
-                    String recoveryUri = UrlBuilder.parse(uri)
+                }).then(clientAccessUrlProvider.flatMap(url -> Mono.fromCallable(() -> {
+                    String recoveryUrl = UrlBuilder.parse(url)
                         .addQueryParameter("awps_connection_id", connectionId)
                         .addQueryParameter("awps_reconnection_token", reconnectionToken)
                         .toString();
@@ -741,7 +741,7 @@ class WebPubSubAsyncClient implements Closeable {
                         .encoders(Collections.singletonList(MessageEncoder.class))
                         .decoders(Collections.singletonList(MessageDecoder.class))
                         .build();
-                    this.session = clientManager.connectToServer(endpoint, config, new URI(recoveryUri));
+                    this.session = clientManager.connectToServer(endpoint, config, new URI(recoveryUrl));
                     return (Void) null;
                 }).subscribeOn(Schedulers.boundedElastic()))).retryWhen(RECONNECT_RETRY_SPEC).doOnError(error -> {
                     // stopped by user

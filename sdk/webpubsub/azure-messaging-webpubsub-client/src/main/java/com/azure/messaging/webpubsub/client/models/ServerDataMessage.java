@@ -10,7 +10,7 @@ import com.azure.core.util.BinaryData;
  * The message of server.
  */
 @Immutable
-public class ServerDataMessage extends WebPubSubMessage {
+public final class ServerDataMessage extends WebPubSubMessage {
 
     private final WebPubSubDataType dataType;
     private final BinaryData data;

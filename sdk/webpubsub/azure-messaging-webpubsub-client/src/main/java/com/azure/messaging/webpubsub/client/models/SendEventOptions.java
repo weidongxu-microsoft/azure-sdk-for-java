@@ -12,7 +12,7 @@ import com.azure.core.annotation.Fluent;
 public final class SendEventOptions {
 
     private Long ackId;
-    private Boolean fireAndForget = false;
+    private boolean fireAndForget = false;
 
     /**
      * Creates a new instance of SendEventOptions.
@@ -45,7 +45,7 @@ public final class SendEventOptions {
      *
      * @return the fireAndForget option.
      */
-    public boolean getFireAndForget() {
+    public boolean isFireAndForget() {
         return fireAndForget;
     }
 

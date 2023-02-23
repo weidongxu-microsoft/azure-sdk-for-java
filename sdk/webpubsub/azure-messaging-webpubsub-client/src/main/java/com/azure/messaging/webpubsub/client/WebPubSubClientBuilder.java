@@ -17,6 +17,7 @@ import com.azure.messaging.webpubsub.client.models.StoppedEvent;
 import com.azure.messaging.webpubsub.client.models.WebPubSubClientCredential;
 import com.azure.messaging.webpubsub.client.models.WebPubSubJsonReliableProtocol;
 import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -30,6 +31,7 @@ public class WebPubSubClientBuilder {
     private final ClientLogger logger = new ClientLogger(WebPubSubClientBuilder.class);
 
     private WebPubSubClientCredential credential;
+    private String clientAccessUrl;
 
     private WebPubSubProtocol webPubSubProtocol = new WebPubSubJsonReliableProtocol();
 
@@ -52,13 +54,24 @@ public class WebPubSubClientBuilder {
     }
 
     /**
-     * Sets the credential as the provider for client access URI.
+     * Sets the credential as the provider for client access URL.
      *
-     * @param credential the credential as the provider for client access URI.
+     * @param credential the credential as the provider for client access URL.
      * @return itself.
      */
     public WebPubSubClientBuilder credential(WebPubSubClientCredential credential) {
         this.credential = Objects.requireNonNull(credential);
+        return this;
+    }
+
+    /**
+     * Sets the credential as the provider for client access URL.
+     *
+     * @param clientAccessUrl the client access URL.
+     * @return itself.
+     */
+    public WebPubSubClientBuilder clientAccessUrl(String clientAccessUrl) {
+        this.clientAccessUrl = Objects.requireNonNull(clientAccessUrl);
         return this;
     }
 
@@ -68,7 +81,7 @@ public class WebPubSubClientBuilder {
      * @param webPubSubProtocol the protocol.
      * @return itself.
      */
-    public WebPubSubClientBuilder webPubSubProtocol(WebPubSubProtocol webPubSubProtocol) {
+    public WebPubSubClientBuilder protocol(WebPubSubProtocol webPubSubProtocol) {
         this.webPubSubProtocol = Objects.requireNonNull(webPubSubProtocol);
         return this;
     }
@@ -195,7 +208,17 @@ public class WebPubSubClientBuilder {
         } else {
             retryStrategy = new ExponentialBackoff();
         }
+        Mono<String> clientAccessUrlProvider = null;
+        if (credential != null) {
+            clientAccessUrlProvider = credential.getClientAccessUrl();
+        } else if (clientAccessUrl != null) {
+            clientAccessUrlProvider = Mono.just(clientAccessUrl);
+        } else {
+            throw logger.logExceptionAsError(
+                new IllegalArgumentException("Credentials have not been set. "
+                    + "They can be set using: clientAccessUrl(String), credential(WebPubSubClientCredential)"));
+        }
         return new WebPubSubAsyncClient(
-            credential.getClientAccessUriAsync(), webPubSubProtocol, retryStrategy, autoReconnect, autoRestoreGroup);
+            clientAccessUrlProvider, webPubSubProtocol, retryStrategy, autoReconnect, autoRestoreGroup);
     }
 }

@@ -4,12 +4,11 @@
 package com.azure.messaging.webpubsub.client.models;
 
 import com.azure.core.exception.AzureException;
-import com.azure.messaging.webpubsub.client.models.AckMessageError;
 
 /**
  * The SendMessageFailedException.
  */
-public class SendMessageFailedException extends AzureException {
+public final class SendMessageFailedException extends AzureException {
 
     /**
      * whether the exception is transient.
