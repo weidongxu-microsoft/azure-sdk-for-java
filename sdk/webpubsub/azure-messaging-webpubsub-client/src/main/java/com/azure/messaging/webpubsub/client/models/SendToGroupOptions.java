@@ -46,7 +46,7 @@ public final class SendToGroupOptions {
      *
      * @return the noEcho option.
      */
-    public Boolean isNoEcho() {
+    public boolean isNoEcho() {
         return noEcho;
     }
 
