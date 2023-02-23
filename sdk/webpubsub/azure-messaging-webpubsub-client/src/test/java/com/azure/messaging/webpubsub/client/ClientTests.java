@@ -75,6 +75,14 @@ public class ClientTests extends TestBase {
         Assertions.assertEquals(0, latch.getCount());
     }
 
+    @Test
+    @DoNotRecord(skipInPlayback = true)
+    public void testNoCredential() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            WebPubSubClient client = new WebPubSubClientBuilder().buildClient();
+        });
+    }
+
 //    @Test
 //    @DoNotRecord(skipInPlayback = true)
 //    @Order(1000)    // last
