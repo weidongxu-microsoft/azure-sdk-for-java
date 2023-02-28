@@ -954,6 +954,7 @@
         "OIDC",
         "qpid",
         "reqoest",
+        "signin",
         "Spel",
         "sqldb",
         "SQLDB",
