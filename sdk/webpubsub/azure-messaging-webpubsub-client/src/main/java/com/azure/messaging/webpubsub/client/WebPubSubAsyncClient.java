@@ -44,7 +44,6 @@ import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
 import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
-import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
 import javax.websocket.Session;
 import reactor.core.Disposable;
