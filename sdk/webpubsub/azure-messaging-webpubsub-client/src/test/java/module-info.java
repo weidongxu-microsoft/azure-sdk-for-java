@@ -24,4 +24,6 @@ module azure.messaging.webpubsub.client {
     requires org.junit.jupiter.engine;
     requires org.junit.jupiter.params;
     requires org.mockito;
+    requires net.bytebuddy;
+    requires net.bytebuddy.agent;
 }
