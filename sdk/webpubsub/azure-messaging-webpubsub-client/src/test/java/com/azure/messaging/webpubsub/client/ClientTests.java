@@ -5,8 +5,14 @@ package com.azure.messaging.webpubsub.client;
 
 import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.core.util.BinaryData;
+import com.azure.core.util.Configuration;
+import com.azure.messaging.webpubsub.WebPubSubServiceAsyncClient;
+import com.azure.messaging.webpubsub.WebPubSubServiceClientBuilder;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubClientState;
+import com.azure.messaging.webpubsub.client.models.ConnectFailedException;
 import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
+import com.azure.messaging.webpubsub.models.GetClientAccessTokenOptions;
+import com.azure.messaging.webpubsub.models.WebPubSubClientAccessToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
@@ -80,6 +86,30 @@ public class ClientTests extends TestBase {
     public void testNoCredential() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             WebPubSubClient client = new WebPubSubClientBuilder().buildClient();
+        });
+    }
+
+    @Test
+    @DoNotRecord(skipInPlayback = true)
+    public void testInvalidCredential() {
+        WebPubSubServiceAsyncClient client = new WebPubSubServiceClientBuilder()
+            .connectionString(Configuration.getGlobalConfiguration().get("CONNECTION_STRING"))
+            .hub("hub1")
+            .buildAsyncClient();
+
+        Mono<WebPubSubClientAccessToken> accessToken = client.getClientAccessToken(new GetClientAccessTokenOptions()
+            .setUserId("user1")
+            .addRole("webpubsub.joinLeaveGroup")
+            .addRole("webpubsub.sendToGroup"));
+
+        String invalidClientAccessUrl = accessToken.block().getUrl() + "invalid";
+
+        Assertions.assertThrows(ConnectFailedException.class, () -> {
+            WebPubSubClient c = new WebPubSubClientBuilder()
+                .clientAccessUrl(invalidClientAccessUrl)
+                .buildClient();
+
+            c.start();
         });
     }
 

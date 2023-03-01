@@ -56,7 +56,6 @@ import reactor.util.retry.Retry;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.URI;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Collections;
@@ -208,15 +207,14 @@ class WebPubSubAsyncClient implements Closeable {
             } else {
                 return Mono.empty();
             }
-        }).then(clientAccessUrlProvider.flatMap(url -> Mono.fromCallable(() -> {
+        }).then(clientAccessUrlProvider.flatMap(url -> Mono.<Void>fromRunnable(() -> {
             ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
                 .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
                 .encoders(Collections.singletonList(MessageEncoder.class))
                 .decoders(Collections.singletonList(MessageDecoder.class))
                 .build();
-            this.session = clientManager.connectToServer(config, new URI(url),
+            this.session = clientManager.connectToServer(config, url, logger,
                 this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
-            return (Void) null;
         }).subscribeOn(Schedulers.boundedElastic()))).doOnError(error -> {
             handleClientStop();
         });
@@ -760,15 +758,14 @@ class WebPubSubAsyncClient implements Closeable {
                     } else {
                         return Mono.empty();
                     }
-                }).then(clientAccessUrlProvider.flatMap(url -> Mono.fromCallable(() -> {
+                }).then(clientAccessUrlProvider.flatMap(url -> Mono.<Void>fromRunnable(() -> {
                     ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
                         .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
                         .encoders(Collections.singletonList(MessageEncoder.class))
                         .decoders(Collections.singletonList(MessageDecoder.class))
                         .build();
-                    this.session = clientManager.connectToServer(config, new URI(url),
+                    this.session = clientManager.connectToServer(config, url, logger,
                         this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
-                    return (Void) null;
                 }).subscribeOn(Schedulers.boundedElastic()))).retryWhen(RECONNECT_RETRY_SPEC).doOnError(error -> {
                     // stopped by user
                     handleClientStop();
@@ -803,7 +800,7 @@ class WebPubSubAsyncClient implements Closeable {
                     } else {
                         return Mono.empty();
                     }
-                }).then(clientAccessUrlProvider.flatMap(url -> Mono.fromCallable(() -> {
+                }).then(clientAccessUrlProvider.flatMap(url -> Mono.<Void>fromRunnable(() -> {
                     String recoveryUrl = UrlBuilder.parse(url)
                         .addQueryParameter("awps_connection_id", connectionId)
                         .addQueryParameter("awps_reconnection_token", reconnectionToken)
@@ -814,9 +811,8 @@ class WebPubSubAsyncClient implements Closeable {
                         .encoders(Collections.singletonList(MessageEncoder.class))
                         .decoders(Collections.singletonList(MessageDecoder.class))
                         .build();
-                    this.session = clientManager.connectToServer(config, new URI(recoveryUrl),
+                    this.session = clientManager.connectToServer(config, recoveryUrl, logger,
                         this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
-                    return (Void) null;
                 }).subscribeOn(Schedulers.boundedElastic()))).retryWhen(RECONNECT_RETRY_SPEC).doOnError(error -> {
                     // stopped by user
                     handleClientStop();
