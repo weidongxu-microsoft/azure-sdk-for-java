@@ -9,6 +9,7 @@ import com.azure.core.http.policy.FixedDelay;
 import com.azure.core.http.policy.RetryOptions;
 import com.azure.core.http.policy.RetryStrategy;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.messaging.webpubsub.client.implementation.ws.Client;
 import com.azure.messaging.webpubsub.client.models.ConnectedEvent;
 import com.azure.messaging.webpubsub.client.models.DisconnectedEvent;
 import com.azure.messaging.webpubsub.client.models.GroupMessageEvent;
@@ -46,6 +47,8 @@ public class WebPubSubClientBuilder {
     private Consumer<ConnectedEvent> processConnectedEvent;
     private Consumer<DisconnectedEvent> processDisconnectedEvent;
     private Consumer<StoppedEvent> processStoppedEvent;
+
+    Client client;
 
     /**
      * Creates a new instance of WebPubSubClientBuilder.
@@ -219,6 +222,6 @@ public class WebPubSubClientBuilder {
                     + "They can be set using: clientAccessUrl(String), credential(WebPubSubClientCredential)"));
         }
         return new WebPubSubAsyncClient(
-            clientAccessUrlProvider, webPubSubProtocol, retryStrategy, autoReconnect, autoRestoreGroup);
+            client, clientAccessUrlProvider, webPubSubProtocol, retryStrategy, autoReconnect, autoRestoreGroup);
     }
 }

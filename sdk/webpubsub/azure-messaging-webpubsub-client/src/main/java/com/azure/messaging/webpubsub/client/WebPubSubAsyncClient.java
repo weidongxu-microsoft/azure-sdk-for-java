@@ -142,7 +142,8 @@ class WebPubSubAsyncClient implements Closeable {
         Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
             .filter(thr -> !(thr instanceof StopReconnectException));
 
-    WebPubSubAsyncClient(Mono<String> clientAccessUrlProvider,
+    WebPubSubAsyncClient(Client client,
+                         Mono<String> clientAccessUrlProvider,
                          WebPubSubProtocol webPubSubProtocol,
                          RetryStrategy retryStrategy,
                          boolean autoReconnect,
@@ -155,7 +156,7 @@ class WebPubSubAsyncClient implements Closeable {
         this.autoReconnect = autoReconnect;
         this.autoRestoreGroup = autoRestoreGroup;
 
-        this.clientManager = new ClientImpl();
+        this.clientManager = client == null ? new ClientImpl() : client;
 
         Objects.requireNonNull(retryStrategy);
         this.sendMessageRetrySpec = Retry.from(signals -> {
