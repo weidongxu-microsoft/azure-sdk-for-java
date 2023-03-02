@@ -9,12 +9,8 @@ import org.glassfish.tyrus.client.ClientManager;
 
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
-import javax.websocket.DeploymentException;
 import javax.websocket.EndpointConfig;
-import javax.websocket.Session;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -33,11 +29,11 @@ public final class ClientImpl implements Client {
                                    BiConsumer<Session, EndpointConfig> openHandler,
                                    BiConsumer<Session, CloseReason> closeHandler) {
 
-        ClientEndpoint endpoint = new ClientEndpoint(messageHandler, openHandler, closeHandler);
+        ClientEndpoint endpoint = new ClientEndpoint(logger, messageHandler, openHandler, closeHandler);
 
         try {
-            return clientManager.connectToServer(endpoint, cec, new URI(path));
-        } catch (URISyntaxException | DeploymentException | IOException e) {
+            return new SessionImpl(clientManager.connectToServer(endpoint, cec, new URI(path)), logger);
+        } catch (Exception e) {
             throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         }
     }

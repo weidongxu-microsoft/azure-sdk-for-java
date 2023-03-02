@@ -8,7 +8,6 @@ import com.azure.core.util.logging.ClientLogger;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
-import javax.websocket.Session;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 

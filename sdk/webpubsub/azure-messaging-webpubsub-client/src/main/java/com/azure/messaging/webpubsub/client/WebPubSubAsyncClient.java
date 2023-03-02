@@ -13,6 +13,7 @@ import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.messaging.webpubsub.client.implementation.ws.Client;
 import com.azure.messaging.webpubsub.client.implementation.ws.ClientImpl;
+import com.azure.messaging.webpubsub.client.implementation.ws.Session;
 import com.azure.messaging.webpubsub.client.models.SendMessageFailedException;
 import com.azure.messaging.webpubsub.client.implementation.AckMessage;
 import com.azure.messaging.webpubsub.client.implementation.ConnectedMessage;
@@ -45,7 +46,6 @@ import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
-import javax.websocket.Session;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -546,7 +546,7 @@ class WebPubSubAsyncClient implements Closeable {
                 }
             }
 
-            session.getAsyncRemote().sendObject(message, sendResult -> {
+            session.sendObject(message, sendResult -> {
                 if (sendResult.isOK()) {
                     sink.success();
                 } else {
