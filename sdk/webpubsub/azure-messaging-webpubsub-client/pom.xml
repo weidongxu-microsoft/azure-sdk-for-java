@@ -45,6 +45,12 @@
     </dependency>
 
     <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-codec-http</artifactId>
+      <version>4.1.89.Final</version> <!-- {x-version-update;io.netty:netty-codec-http;external_dependency} -->
+    </dependency>
+
+    <dependency>
       <groupId>javax.websocket</groupId>
       <artifactId>javax.websocket-api</artifactId>
       <version>1.1</version> <!-- {x-version-update;javax.websocket:javax.websocket-api;external_dependency} -->
@@ -122,6 +128,7 @@
           <rules>
             <bannedDependencies>
               <includes combine.children="append">
+                <include>io.netty:netty-codec-http:[4.1.89.Final]</include> <!-- {x-include-update;io.netty:netty-codec-http;external_dependency} -->
                 <include>javax.websocket:javax.websocket-api:[1.1]</include> <!-- {x-include-update;javax.websocket:javax.websocket-api;external_dependency} -->
                 <include>org.glassfish.tyrus:tyrus-client:[1.16]</include> <!-- {x-include-update;org.glassfish.tyrus:tyrus-client;external_dependency} -->
                 <include>org.glassfish.tyrus:tyrus-container-grizzly-client:[1.16]</include> <!-- {x-include-update;org.glassfish.tyrus:tyrus-container-grizzly-client;external_dependency} -->

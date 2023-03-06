@@ -12,7 +12,7 @@ import com.azure.core.util.logging.LogLevel;
 import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.messaging.webpubsub.client.implementation.ws.Client;
-import com.azure.messaging.webpubsub.client.implementation.ws.ClientImpl;
+import com.azure.messaging.webpubsub.client.implementation.ws.ClientNettyImpl;
 import com.azure.messaging.webpubsub.client.implementation.ws.Session;
 import com.azure.messaging.webpubsub.client.models.SendMessageFailedException;
 import com.azure.messaging.webpubsub.client.implementation.AckMessage;
@@ -156,7 +156,7 @@ class WebPubSubAsyncClient implements Closeable {
         this.autoReconnect = autoReconnect;
         this.autoRestoreGroup = autoRestoreGroup;
 
-        this.clientManager = client == null ? new ClientImpl() : client;
+        this.clientManager = client == null ? new ClientNettyImpl() : client;
 
         Objects.requireNonNull(retryStrategy);
         this.sendMessageRetrySpec = Retry.from(signals -> {
