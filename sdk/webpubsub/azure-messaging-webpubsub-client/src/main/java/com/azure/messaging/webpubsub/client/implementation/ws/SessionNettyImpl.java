@@ -41,7 +41,6 @@ import java.util.function.Consumer;
 public final class SessionNettyImpl implements Session {
 
     private final ClientLogger logger;
-    private final BiConsumer<Session, CloseReason> closeHandler;
 
     private static final MessageEncoder ENCODER = new MessageEncoder();
 
@@ -54,7 +53,6 @@ public final class SessionNettyImpl implements Session {
                             BiConsumer<Session, EndpointConfig> openHandler,
                             BiConsumer<Session, CloseReason> closeHandler) {
         this.logger = logger;
-        this.closeHandler = closeHandler;
 
         try {
             URI uri = new URI(path);
@@ -110,11 +108,9 @@ public final class SessionNettyImpl implements Session {
                 });
 
             ch = b.connect(uri.getHost(), port).sync().channel();
-            handler.handshakeFuture().addListener(future -> {
-                if (future.isSuccess()) {
-                    openHandler.accept(this, null);
-                }
-            }).sync();
+            handler.handshakeFuture().sync();
+
+            openHandler.accept(this, null);
         } catch (Exception e) {
             if (group != null) {
                 group.shutdownGracefully();
@@ -156,11 +152,7 @@ public final class SessionNettyImpl implements Session {
             try {
                 if (ch != null && ch.isOpen()) {
                     ch.writeAndFlush(new CloseWebSocketFrame());
-                    ch.closeFuture().addListener(future -> {
-                        if (future.isSuccess()) {
-                            closeHandler.accept(this, closeReason);
-                        }
-                    }).sync();
+                    ch.closeFuture().sync();
                 }
 
                 group.shutdownGracefully();
