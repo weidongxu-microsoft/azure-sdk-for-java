@@ -28,6 +28,7 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
+import javax.net.ssl.SSLException;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
@@ -35,6 +36,7 @@ import javax.websocket.EndpointConfig;
 import javax.websocket.SendHandler;
 import javax.websocket.SendResult;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -45,7 +47,35 @@ public final class SessionNettyImpl implements Session {
     private static final MessageEncoder ENCODER = new MessageEncoder();
 
     private EventLoopGroup group;
-    private Channel ch;
+    private final Channel ch;
+
+    private static final class WebSocketChannelHandler extends ChannelInitializer<SocketChannel> {
+
+        private final String host;
+        private final int port;
+        private final SslContext sslCtx;
+        private final WebSocketClientHandler handler;
+
+        private WebSocketChannelHandler(String host, int port, SslContext sslCtx, WebSocketClientHandler handler) {
+            this.host = host;
+            this.port = port;
+            this.sslCtx = sslCtx;
+            this.handler = handler;
+        }
+
+        @Override
+        protected void initChannel(SocketChannel ch) {
+            ChannelPipeline p = ch.pipeline();
+            if (sslCtx != null) {
+                p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
+            }
+            p.addLast(
+                new HttpClientCodec(),
+                new HttpObjectAggregator(8192),
+                WebSocketClientCompressionHandler.INSTANCE,
+                handler);
+        }
+    }
 
     public SessionNettyImpl(ClientEndpointConfig cec, String path,
                             ClientLogger logger,
@@ -92,25 +122,18 @@ public final class SessionNettyImpl implements Session {
             Bootstrap b = new Bootstrap();
             b.group(group)
                 .channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel ch) {
-                        ChannelPipeline p = ch.pipeline();
-                        if (sslCtx != null) {
-                            p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
-                        }
-                        p.addLast(
-                            new HttpClientCodec(),
-                            new HttpObjectAggregator(8192),
-                            WebSocketClientCompressionHandler.INSTANCE,
-                            handler);
-                    }
-                });
+                .handler(new WebSocketChannelHandler(host, port, sslCtx, handler));
 
             ch = b.connect(uri.getHost(), port).sync().channel();
             handler.handshakeFuture().sync();
 
             openHandler.accept(this, null);
+        } catch (SSLException | InterruptedException | URISyntaxException e) {
+            if (group != null) {
+                group.shutdownGracefully();
+            }
+
+            throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         } catch (Exception e) {
             if (group != null) {
                 group.shutdownGracefully();
@@ -157,7 +180,7 @@ public final class SessionNettyImpl implements Session {
 
                 group.shutdownGracefully();
             } catch (Exception e) {
-                throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
+                throw logger.logExceptionAsError(new ConnectFailedException("Failed to disconnect", e));
             }
         }
     }
