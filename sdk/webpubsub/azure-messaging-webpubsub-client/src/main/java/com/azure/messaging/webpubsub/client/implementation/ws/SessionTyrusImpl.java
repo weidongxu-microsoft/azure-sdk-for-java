@@ -9,12 +9,12 @@ import com.azure.messaging.webpubsub.client.models.ConnectFailedException;
 import javax.websocket.CloseReason;
 import javax.websocket.SendHandler;
 
-public final class SessionImpl implements Session {
+public final class SessionTyrusImpl implements Session {
 
     private final javax.websocket.Session session;
     private final ClientLogger logger;
 
-    public SessionImpl(javax.websocket.Session session, ClientLogger logger) {
+    public SessionTyrusImpl(javax.websocket.Session session, ClientLogger logger) {
         this.session = session;
         this.logger = logger;
     }

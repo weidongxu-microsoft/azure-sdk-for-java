@@ -17,9 +17,10 @@ public final class LoggingUtils {
     }
 
     public static Map<String, Object> createContextWithConnectionId(String connectionId) {
-        Objects.requireNonNull(connectionId, "'connectionId' cannot be null.");
         Map<String, Object> globalLoggingContext = new HashMap<>(1);
-        globalLoggingContext.put("connectionId", connectionId);
+        if (connectionId != null) {
+            globalLoggingContext.put("connectionId", connectionId);
+        }
         return globalLoggingContext;
     }
 

@@ -844,6 +844,8 @@ class WebPubSubAsyncClient implements Closeable {
         }
 
         stoppedEventSink.emitNext(new StoppedEvent(), emitFailureHandler("Unable to emit StoppedEvent"));
+
+        updateLogger(null);
     }
 
     private void updateLogger(String connectionId) {

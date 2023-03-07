@@ -81,6 +81,47 @@ public class ClientTests extends TestBase {
         Assertions.assertEquals(0, latch.getCount());
     }
 
+
+    @Test
+    @DoNotRecord(skipInPlayback = true)
+    public void testStopAndStart() throws InterruptedException {
+        String groupName = "group1";
+        CountDownLatch latch1 = new CountDownLatch(1);
+        CountDownLatch latch2 = new CountDownLatch(1);
+
+        WebPubSubClient client = getClientBuilder("user1")
+            .processGroupMessageEvent(event -> {
+                if (latch1.getCount() > 0) {
+                    latch1.countDown();
+                }
+                if (latch2.getCount() > 0) {
+                    latch2.countDown();
+                }
+            })
+            .buildClient();
+
+        // start and stop
+        client.start();
+        client.joinGroup(groupName);
+        client.sendToGroup(groupName, BinaryData.fromString("hello"), WebPubSubDataType.TEXT);
+
+        boolean success = latch2.await(10, TimeUnit.SECONDS);
+        client.stop();
+
+        Assertions.assertTrue(success);
+        Assertions.assertEquals(0, latch1.getCount());
+
+        client.start();
+        client.joinGroup(groupName);
+        client.sendToGroup(groupName, BinaryData.fromString("hello"), WebPubSubDataType.TEXT);
+
+        success = latch2.await(10, TimeUnit.SECONDS);
+        client.stop();
+
+        Assertions.assertTrue(success);
+        Assertions.assertEquals(0, latch2.getCount());
+    }
+
     @Test
     @DoNotRecord(skipInPlayback = true)
     public void testNoCredential() {

@@ -33,11 +33,11 @@ public final class ClientEndpoint extends Endpoint {
     public void onOpen(javax.websocket.Session session, EndpointConfig config) {
         session.addMessageHandler((MessageHandler.Whole<Object>) messageHandler::accept);
 
-        openHandler.accept(new SessionImpl(session, logger), config);
+        openHandler.accept(new SessionTyrusImpl(session, logger), config);
     }
 
     @Override
     public void onClose(javax.websocket.Session session, CloseReason closeReason) {
-        closeHandler.accept(new SessionImpl(session, logger), closeReason);
+        closeHandler.accept(new SessionTyrusImpl(session, logger), closeReason);
     }
 }

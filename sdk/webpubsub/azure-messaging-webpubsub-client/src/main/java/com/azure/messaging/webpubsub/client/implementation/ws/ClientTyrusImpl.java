@@ -14,11 +14,11 @@ import java.net.URI;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public final class ClientImpl implements Client {
+public final class ClientTyrusImpl implements Client {
 
     private final ClientManager clientManager;
 
-    public ClientImpl() {
+    public ClientTyrusImpl() {
         clientManager = ClientManager.createClient();
     }
 
@@ -32,7 +32,7 @@ public final class ClientImpl implements Client {
         ClientEndpoint endpoint = new ClientEndpoint(logger, messageHandler, openHandler, closeHandler);
 
         try {
-            return new SessionImpl(clientManager.connectToServer(endpoint, cec, new URI(path)), logger);
+            return new SessionTyrusImpl(clientManager.connectToServer(endpoint, cec, new URI(path)), logger);
         } catch (Exception e) {
             throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         }
