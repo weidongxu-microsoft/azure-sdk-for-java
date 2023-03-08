@@ -3,7 +3,6 @@
 
 package com.azure.messaging.webpubsub.client.implementation.ws;
 
-import javax.websocket.CloseReason;
 import javax.websocket.SendHandler;
 
 public interface Session {
@@ -12,5 +11,5 @@ public interface Session {
 
     void sendObjectAsync(Object data, SendHandler handler);
 
-    void close(CloseReason closeReason);
+    void close();
 }

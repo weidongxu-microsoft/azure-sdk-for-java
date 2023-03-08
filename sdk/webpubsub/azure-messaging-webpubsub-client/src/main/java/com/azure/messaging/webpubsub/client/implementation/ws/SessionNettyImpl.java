@@ -5,6 +5,7 @@ package com.azure.messaging.webpubsub.client.implementation.ws;
 
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.messaging.webpubsub.client.implementation.MessageDecoder;
 import com.azure.messaging.webpubsub.client.implementation.MessageEncoder;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubMessage;
 import com.azure.messaging.webpubsub.client.models.ConnectFailedException;
@@ -29,24 +30,30 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
+import javax.net.ssl.SSLException;
 import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
-import javax.websocket.EndpointConfig;
 import javax.websocket.SendHandler;
 import javax.websocket.SendResult;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public final class SessionNettyImpl implements Session {
+final class SessionNettyImpl implements Session {
 
     private final AtomicReference<ClientLogger> loggerReference;
-
     private final MessageEncoder messageEncoder;
+    private final MessageDecoder messageDecoder;
+    private final String path;
+    private final String protocol;
+    private final String userAgent;
+    private final Consumer<Object> messageHandler;
+    private final Consumer<Session> openHandler;
+    private final Consumer<CloseReason> closeHandler;
 
     private EventLoopGroup group;
-    private final Channel ch;
+    private Channel ch;
 
     private static final class WebSocketChannelHandler extends ChannelInitializer<SocketChannel> {
 
@@ -76,76 +83,74 @@ public final class SessionNettyImpl implements Session {
         }
     }
 
-    public SessionNettyImpl(ClientEndpointConfiguration cec, String path,
+    SessionNettyImpl(ClientEndpointConfiguration cec, String path,
                             AtomicReference<ClientLogger> loggerReference,
                             Consumer<Object> messageHandler,
-                            BiConsumer<Session, EndpointConfig> openHandler,
-                            BiConsumer<Session, CloseReason> closeHandler) {
+                            Consumer<Session> openHandler,
+                            Consumer<CloseReason> closeHandler) {
+        this.path = path;
         this.loggerReference = loggerReference;
         this.messageEncoder = cec.getMessageEncoder();
+        this.messageDecoder = cec.getMessageDecoder();
+        this.protocol = cec.getProtocol();
+        this.userAgent = cec.getUserAgent();
+        this.messageHandler = messageHandler;
+        this.openHandler = openHandler;
+        this.closeHandler = closeHandler;
+    }
 
-        try {
-            URI uri = new URI(path);
-            String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
-            final String host = uri.getHost() == null ? "127.0.0.1" : uri.getHost();
-            final int port;
-            if (uri.getPort() == -1) {
-                if ("ws".equalsIgnoreCase(scheme)) {
-                    port = 80;
-                } else if ("wss".equalsIgnoreCase(scheme)) {
-                    port = 443;
-                } else {
-                    port = -1;
-                }
+    void connect() throws URISyntaxException, SSLException, InterruptedException {
+        URI uri = new URI(path);
+        String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
+        final String host = uri.getHost() == null ? "127.0.0.1" : uri.getHost();
+        final int port;
+        if (uri.getPort() == -1) {
+            if ("ws".equalsIgnoreCase(scheme)) {
+                port = 80;
+            } else if ("wss".equalsIgnoreCase(scheme)) {
+                port = 443;
             } else {
-                port = uri.getPort();
+                port = -1;
             }
-
-            if (!"ws".equalsIgnoreCase(scheme) && !"wss".equalsIgnoreCase(scheme)) {
-                throw new IllegalArgumentException("Only WS(S) is supported.");
-            }
-
-            final boolean ssl = "wss".equalsIgnoreCase(scheme);
-            final SslContext sslCtx;
-            if (ssl) {
-                sslCtx = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
-            } else {
-                sslCtx = null;
-            }
-
-            String subProtocol = cec.getProtocol();
-
-            group = new NioEventLoopGroup();
-
-            final WebSocketClientHandler handler =
-                new WebSocketClientHandler(
-                    WebSocketClientHandshakerFactory.newHandshaker(
-                        uri, WebSocketVersion.V13, subProtocol, true,
-                        new DefaultHttpHeaders().add(HttpHeaderName.USER_AGENT.getCaseInsensitiveName(), cec.getUserAgent())),
-                    loggerReference,
-                    cec.getMessageDecoder(), messageHandler, closeHandler);
-
-            Bootstrap b = new Bootstrap();
-            b.group(group)
-                .channel(NioSocketChannel.class)
-                .handler(new WebSocketChannelHandler(host, port, sslCtx, handler));
-
-            ch = b.connect(uri.getHost(), port).sync().channel();
-            handler.handshakeFuture().sync();
-
-            openHandler.accept(this, null);
-        } catch (Exception e) {
-            if (group != null) {
-                group.shutdownGracefully();
-            }
-
-            throw loggerReference.get().logExceptionAsError(new ConnectFailedException("Failed to connect", e));
+        } else {
+            port = uri.getPort();
         }
+
+        if (!"ws".equalsIgnoreCase(scheme) && !"wss".equalsIgnoreCase(scheme)) {
+            throw new IllegalArgumentException("Only WS(S) is supported.");
+        }
+
+        final boolean ssl = "wss".equalsIgnoreCase(scheme);
+        final SslContext sslCtx;
+        if (ssl) {
+            sslCtx = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+        } else {
+            sslCtx = null;
+        }
+
+        group = new NioEventLoopGroup();
+
+        final WebSocketClientHandler handler =
+            new WebSocketClientHandler(
+                WebSocketClientHandshakerFactory.newHandshaker(
+                    uri, WebSocketVersion.V13, protocol, true,
+                    new DefaultHttpHeaders().add(HttpHeaderName.USER_AGENT.getCaseInsensitiveName(), userAgent)),
+                loggerReference, messageDecoder, messageHandler, closeHandler);
+
+        Bootstrap b = new Bootstrap();
+        b.group(group)
+            .channel(NioSocketChannel.class)
+            .handler(new WebSocketChannelHandler(host, port, sslCtx, handler));
+
+        ch = b.connect(uri.getHost(), port).sync().channel();
+        handler.handshakeFuture().sync();
+
+        openHandler.accept(this);
     }
 
     @Override
     public boolean isOpen() {
-        return ch.isOpen();
+        return ch != null && ch.isOpen();
     }
 
     @Override
@@ -170,7 +175,7 @@ public final class SessionNettyImpl implements Session {
     }
 
     @Override
-    public void close(CloseReason closeReason) {
+    public void close() {
         if (group != null) {
             try {
                 if (ch != null && ch.isOpen()) {

@@ -22,10 +22,9 @@ import io.netty.util.CharsetUtil;
 
 import javax.websocket.CloseReason;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public final class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
+final class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
 
     private final WebSocketClientHandshaker handshaker;
     private ChannelPromise handshakeFuture;
@@ -33,13 +32,13 @@ public final class WebSocketClientHandler extends SimpleChannelInboundHandler<Ob
     private final AtomicReference<ClientLogger> loggerReference;
     private final MessageDecoder messageDecoder;
     private final Consumer<Object> messageHandler;
-    private final BiConsumer<Session, CloseReason> closeHandler;
+    private final Consumer<CloseReason> closeHandler;
 
-    public WebSocketClientHandler(WebSocketClientHandshaker handshaker,
+    WebSocketClientHandler(WebSocketClientHandshaker handshaker,
                                   AtomicReference<ClientLogger> loggerReference,
                                   MessageDecoder messageDecoder,
                                   Consumer<Object> messageHandler,
-                                  BiConsumer<Session, CloseReason> closeHandler) {
+                                  Consumer<CloseReason> closeHandler) {
         this.handshaker = handshaker;
         this.loggerReference = loggerReference;
         this.messageDecoder = messageDecoder;
@@ -47,7 +46,7 @@ public final class WebSocketClientHandler extends SimpleChannelInboundHandler<Ob
         this.closeHandler = closeHandler;
     }
 
-    public ChannelFuture handshakeFuture() {
+    ChannelFuture handshakeFuture() {
         return handshakeFuture;
     }
 
@@ -81,23 +80,29 @@ public final class WebSocketClientHandler extends SimpleChannelInboundHandler<Ob
 
         WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {
-            loggerReference.get().atVerbose().log("Received TextWebSocketFrame");
             // Text
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
+            loggerReference.get().atVerbose()
+                .addKeyValue("text", textFrame.text())
+                .log("Received TextWebSocketFrame");
             Object wpsMessage = messageDecoder.decode(textFrame.text());
             messageHandler.accept(wpsMessage);
         } else if (frame instanceof PingWebSocketFrame) {
+            // Ping, reply Pong
             loggerReference.get().atVerbose().log("Received PingWebSocketFrame");
-            // reply Pong to Ping
             ch.writeAndFlush(new PongWebSocketFrame());
         } else if (frame instanceof PongWebSocketFrame) {
+            // Pong
             loggerReference.get().atVerbose().log("Received PongWebSocketFrame");
         } else if (frame instanceof CloseWebSocketFrame) {
-            loggerReference.get().atVerbose().log("Received CloseWebSocketFrame");
             // Close
             CloseWebSocketFrame closeFrame = (CloseWebSocketFrame) frame;
+            loggerReference.get().atVerbose()
+                .addKeyValue("statusCode", closeFrame.statusCode())
+                .addKeyValue("reasonText", closeFrame.reasonText())
+                .log("Received CloseWebSocketFrame");
             ch.close().addListener(future -> {
-                closeHandler.accept(null, new CloseReason(CloseReason.CloseCodes.getCloseCode(closeFrame.statusCode()), closeFrame.reasonText()));
+                closeHandler.accept(new CloseReason(CloseReason.CloseCodes.getCloseCode(closeFrame.statusCode()), closeFrame.reasonText()));
             });
         }
     }

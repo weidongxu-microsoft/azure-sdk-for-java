@@ -10,20 +10,19 @@ import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
 import javax.websocket.MessageHandler;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public final class ClientEndpoint extends Endpoint {
+final class ClientEndpoint extends Endpoint {
 
     private final Consumer<Object> messageHandler;
-    private final BiConsumer<Session, EndpointConfig> openHandler;
-    private final BiConsumer<Session, CloseReason> closeHandler;
+    private final Consumer<Session> openHandler;
+    private final Consumer<CloseReason> closeHandler;
     private final AtomicReference<ClientLogger> loggerReference;
 
-    public ClientEndpoint(AtomicReference<ClientLogger> loggerReference,
+    ClientEndpoint(AtomicReference<ClientLogger> loggerReference,
                           Consumer<Object> messageHandler,
-                          BiConsumer<Session, EndpointConfig> openHandler,
-                          BiConsumer<Session, CloseReason> closeHandler) {
+                          Consumer<Session> openHandler,
+                          Consumer<CloseReason> closeHandler) {
         this.messageHandler = messageHandler;
         this.openHandler = openHandler;
         this.closeHandler = closeHandler;
@@ -34,11 +33,11 @@ public final class ClientEndpoint extends Endpoint {
     public void onOpen(javax.websocket.Session session, EndpointConfig config) {
         session.addMessageHandler((MessageHandler.Whole<Object>) messageHandler::accept);
 
-        openHandler.accept(new SessionTyrusImpl(session, loggerReference), config);
+        openHandler.accept(new SessionTyrusImpl(session, loggerReference));
     }
 
     @Override
     public void onClose(javax.websocket.Session session, CloseReason closeReason) {
-        closeHandler.accept(new SessionTyrusImpl(session, loggerReference), closeReason);
+        closeHandler.accept(closeReason);
     }
 }

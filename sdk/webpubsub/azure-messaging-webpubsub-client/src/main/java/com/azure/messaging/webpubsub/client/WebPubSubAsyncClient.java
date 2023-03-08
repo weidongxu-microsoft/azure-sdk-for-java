@@ -43,7 +43,6 @@ import com.azure.messaging.webpubsub.client.implementation.WebPubSubMessage;
 import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
 import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
 import javax.websocket.CloseReason;
-import javax.websocket.EndpointConfig;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -72,9 +71,6 @@ import java.util.stream.Collectors;
  */
 @ServiceClient(builder = WebPubSubClientBuilder.class)
 class WebPubSubAsyncClient implements Closeable {
-
-    private static final CloseReason NO_STATUS_CODE = new CloseReason(
-        CloseReason.CloseCodes.NO_STATUS_CODE, "No status code.");
 
     // logging
     private ClientLogger logger;
@@ -242,7 +238,7 @@ class WebPubSubAsyncClient implements Closeable {
             if (session != null && session.isOpen()) {
                 // should be CONNECTED
                 return Mono.fromCallable(() -> {
-                    session.close(NO_STATUS_CODE);
+                    session.close();
                     return (Void) null;
                 }).subscribeOn(Schedulers.boundedElastic());
             } else {
@@ -605,7 +601,7 @@ class WebPubSubAsyncClient implements Closeable {
                 "Acknowledge from the service not received.", null, true, ackId))));
     }
 
-    private void handleSessionOpen(Session session, EndpointConfig endpointConfig) {
+    private void handleSessionOpen(Session session) {
         logger.atVerbose().log("Session opened");
 
         clientState.changeState(WebPubSubClientState.CONNECTED);
@@ -614,7 +610,7 @@ class WebPubSubAsyncClient implements Closeable {
             // user intended to stop, but issued when session is not OPEN or STOPPED, e.g. CONNECTING, RECOVERING
             Mono.fromCallable(() -> {
                 if (session != null && session.isOpen()) {
-                    session.close(NO_STATUS_CODE);
+                    session.close();
                 }
                 return (Void) null;
             }).subscribeOn(Schedulers.boundedElastic()).subscribe(null, thr -> {
@@ -660,7 +656,7 @@ class WebPubSubAsyncClient implements Closeable {
         }
     }
 
-    private void handleSessionClose(Session session, CloseReason closeReason) {
+    private void handleSessionClose(CloseReason closeReason) {
         logger.atVerbose().addKeyValue("code", closeReason.getCloseCode()).log("Session closed");
 
         clientState.changeState(WebPubSubClientState.DISCONNECTED);

@@ -18,13 +18,11 @@ import reactor.core.scheduler.Schedulers;
 
 import javax.websocket.CloseReason;
 import javax.websocket.DeploymentException;
-import javax.websocket.EndpointConfig;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @SuppressWarnings("unchecked")
@@ -35,8 +33,8 @@ public class MockClientTests {
     @Test
     public void testConnectFailure() {
         ArgumentCaptor<Consumer<Object>> messageCaptor = ArgumentCaptor.forClass(Consumer.class);
-        ArgumentCaptor<BiConsumer<Session, EndpointConfig>> openCaptor = ArgumentCaptor.forClass(BiConsumer.class);
-        ArgumentCaptor<BiConsumer<Session, CloseReason>> closeCaptor = ArgumentCaptor.forClass(BiConsumer.class);
+        ArgumentCaptor<Consumer<Session>> openCaptor = ArgumentCaptor.forClass(Consumer.class);
+        ArgumentCaptor<Consumer<CloseReason>> closeCaptor = ArgumentCaptor.forClass(Consumer.class);
 
         Client mockWsClient = Mockito.mock(Client.class);
         Mockito.when(mockWsClient.connectToServer(Mockito.any(), Mockito.any(), Mockito.any(),
@@ -55,15 +53,15 @@ public class MockClientTests {
     @Test
     public void testConnect() throws InterruptedException {
         ArgumentCaptor<Consumer<Object>> messageCaptor = ArgumentCaptor.forClass(Consumer.class);
-        ArgumentCaptor<BiConsumer<Session, EndpointConfig>> openCaptor = ArgumentCaptor.forClass(BiConsumer.class);
-        ArgumentCaptor<BiConsumer<Session, CloseReason>> closeCaptor = ArgumentCaptor.forClass(BiConsumer.class);
+        ArgumentCaptor<Consumer<Session>> openCaptor = ArgumentCaptor.forClass(Consumer.class);
+        ArgumentCaptor<Consumer<CloseReason>> closeCaptor = ArgumentCaptor.forClass(Consumer.class);
 
         Session mockWsSession = Mockito.mock(Session.class);
         Client mockWsClient = Mockito.mock(Client.class);
         Mockito.when(mockWsClient.connectToServer(Mockito.any(), Mockito.any(), Mockito.any(),
                 messageCaptor.capture(), openCaptor.capture(), closeCaptor.capture()))
             .thenAnswer(invocation -> {
-                openCaptor.getValue().accept(mockWsSession, Mockito.any());
+                openCaptor.getValue().accept(mockWsSession);
                 sendConnectedEvent(messageCaptor.getValue());
                 return mockWsSession;
             });

@@ -11,11 +11,9 @@ import org.glassfish.tyrus.client.ClientManager;
 
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
-import javax.websocket.EndpointConfig;
 import java.net.URI;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public final class ClientTyrusImpl implements Client {
@@ -30,8 +28,8 @@ public final class ClientTyrusImpl implements Client {
     public Session connectToServer(ClientEndpointConfiguration cec, String path,
                                    AtomicReference<ClientLogger> loggerReference,
                                    Consumer<Object> messageHandler,
-                                   BiConsumer<Session, EndpointConfig> openHandler,
-                                   BiConsumer<Session, CloseReason> closeHandler) {
+                                   Consumer<Session> openHandler,
+                                   Consumer<CloseReason> closeHandler) {
 
         ClientEndpoint endpoint = new ClientEndpoint(loggerReference, messageHandler, openHandler, closeHandler);
 

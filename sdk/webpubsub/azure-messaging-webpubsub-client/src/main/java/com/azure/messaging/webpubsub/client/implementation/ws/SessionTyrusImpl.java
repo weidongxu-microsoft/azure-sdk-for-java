@@ -5,17 +5,17 @@ package com.azure.messaging.webpubsub.client.implementation.ws;
 
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.messaging.webpubsub.client.models.ConnectFailedException;
+import org.glassfish.tyrus.core.CloseReasons;
 
-import javax.websocket.CloseReason;
 import javax.websocket.SendHandler;
 import java.util.concurrent.atomic.AtomicReference;
 
-public final class SessionTyrusImpl implements Session {
+final class SessionTyrusImpl implements Session {
 
     private final javax.websocket.Session session;
     private final AtomicReference<ClientLogger> loggerReference;
 
-    public SessionTyrusImpl(javax.websocket.Session session, AtomicReference<ClientLogger> loggerReference) {
+    SessionTyrusImpl(javax.websocket.Session session, AtomicReference<ClientLogger> loggerReference) {
         this.session = session;
         this.loggerReference = loggerReference;
     }
@@ -31,9 +31,9 @@ public final class SessionTyrusImpl implements Session {
     }
 
     @Override
-    public void close(CloseReason closeReason) {
+    public void close() {
         try {
-            session.close(closeReason);
+            session.close(CloseReasons.NORMAL_CLOSURE.getCloseReason());
         } catch (Exception e) {
             throw loggerReference.get().logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         }
