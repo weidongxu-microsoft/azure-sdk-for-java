@@ -215,7 +215,7 @@ class WebPubSubAsyncClient implements Closeable {
                 clientEndpointConfiguration, url, loggerReference,
                 this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
         }).subscribeOn(Schedulers.boundedElastic()))).doOnError(error -> {
-            handleClientStop();
+            handleClientStop(false);
         });
     }
 
@@ -237,6 +237,7 @@ class WebPubSubAsyncClient implements Closeable {
 
             if (session != null && session.isOpen()) {
                 // should be CONNECTED
+                clientState.changeState(WebPubSubClientState.STOPPING);
                 return Mono.fromCallable(() -> {
                     session.close();
                     return (Void) null;
@@ -252,8 +253,8 @@ class WebPubSubAsyncClient implements Closeable {
                     handleClientStop();
                     return Mono.empty();
                 } else {
-                    // handle transient state e.g. CONNECTING, RECOVERING
-                    // isStoppedByUserMono will be signaled in handleSessionOpen when isStoppedByUser=true
+                    // handle transient state e.g. CONNECTING, RECOVERING, RECONNECTING, STOPPING
+                    // isStoppedByUserMono will be signaled in handleClientStop
                     Sinks.Empty<Void> sink = Sinks.empty();
                     isStoppedByUserMono.set(sink);
                     return sink.asMono();
@@ -607,7 +608,7 @@ class WebPubSubAsyncClient implements Closeable {
         clientState.changeState(WebPubSubClientState.CONNECTED);
 
         if (isStoppedByUser.compareAndSet(true, false)) {
-            // user intended to stop, but issued when session is not OPEN or STOPPED, e.g. CONNECTING, RECOVERING
+            // user intended to stop, but issued when session is not OPEN or STOPPED, e.g. CONNECTING, RECOVERING, RECONNECTING
             Mono.fromCallable(() -> {
                 if (session != null && session.isOpen()) {
                     session.close();
@@ -659,9 +660,12 @@ class WebPubSubAsyncClient implements Closeable {
     private void handleSessionClose(CloseReason closeReason) {
         logger.atVerbose().addKeyValue("code", closeReason.getCloseCode()).log("Session closed");
 
-        clientState.changeState(WebPubSubClientState.DISCONNECTED);
+        if (clientState.get() == WebPubSubClientState.STOPPED) {
+            return;
+        }
 
-        if (isStoppedByUser.compareAndSet(true, false)) {
+        if (isStoppedByUser.compareAndSet(true, false)
+            || clientState.get() != WebPubSubClientState.STOPPING) {
             // stopped by user
             handleClientStop();
         } else if (closeReason.getCloseCode() == CloseReason.CloseCodes.VIOLATED_POLICY) {
@@ -669,6 +673,8 @@ class WebPubSubAsyncClient implements Closeable {
             handleClientStop();
         } else {
             if (!webPubSubProtocol.isReliable() || reconnectionToken == null || connectionId == null) {
+                clientState.changeState(WebPubSubClientState.DISCONNECTED);
+
                 handleNoRecovery().subscribe(null, thr -> {
                     logger.atWarning()
                         .log("Failed to auto reconnect session: " + thr.getMessage());
@@ -781,12 +787,11 @@ class WebPubSubAsyncClient implements Closeable {
             } else {
                 // try recovery
 
-                boolean success = clientState.changeStateOn(WebPubSubClientState.DISCONNECTED,
-                    WebPubSubClientState.RECOVERING);
-                if (!success) {
-                    return Mono.error(logger.logExceptionAsError(
-                        new StopReconnectException("Failed to recover. Client is not DISCONNECTED.")));
-                }
+                clientState.changeState(WebPubSubClientState.RECOVERING);
+//                if (!success) {
+//                    return Mono.error(logger.logExceptionAsError(
+//                        new StopReconnectException("Failed to recover. Client is not DISCONNECTED.")));
+//                }
 
                 return Mono.defer(() -> {
                     if (isStoppedByUser.compareAndSet(true, false)) {
@@ -813,6 +818,10 @@ class WebPubSubAsyncClient implements Closeable {
     }
 
     private void handleClientStop() {
+        handleClientStop(true);
+    }
+
+    private void handleClientStop(boolean sendStoppedEvent) {
         clientState.changeState(WebPubSubClientState.STOPPED);
 
         session = null;
@@ -823,17 +832,22 @@ class WebPubSubAsyncClient implements Closeable {
         ackMessageSink.emitComplete(emitFailureHandler("Unable to emit Complete to ackMessageSink"));
         ackMessageSink = Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
 
+        // clear isStoppedByUserMono
         Sinks.Empty<Void> mono = isStoppedByUserMono.getAndSet(null);
         if (mono != null) {
             mono.emitEmpty(emitFailureHandler("Unable to emit Stopped"));
         }
 
+        // stop sequenceAckTask
         Disposable task = sequenceAckTask.getAndSet(null);
         if (task != null) {
             task.dispose();
         }
 
-        stoppedEventSink.emitNext(new StoppedEvent(), emitFailureHandler("Unable to emit StoppedEvent"));
+        // send StoppedEvent
+        if (sendStoppedEvent) {
+            stoppedEventSink.emitNext(new StoppedEvent(), emitFailureHandler("Unable to emit StoppedEvent"));
+        }
 
         updateLogger(applicationId, null);
     }

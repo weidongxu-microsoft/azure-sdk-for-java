@@ -29,6 +29,7 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketCl
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import org.glassfish.tyrus.core.CloseReasons;
 
 import javax.net.ssl.SSLException;
 import javax.websocket.CloseReason;
@@ -181,6 +182,8 @@ final class SessionNettyImpl implements Session {
                 if (ch != null && ch.isOpen()) {
                     ch.writeAndFlush(new CloseWebSocketFrame());
                     ch.closeFuture().sync();
+
+                    closeHandler.accept(CloseReasons.NORMAL_CLOSURE.getCloseReason());
                 }
 
                 group.shutdownGracefully();

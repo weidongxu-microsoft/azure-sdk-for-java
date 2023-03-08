@@ -21,6 +21,7 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientTests extends TestBase {
 
@@ -81,7 +82,6 @@ public class ClientTests extends TestBase {
         Assertions.assertTrue(success);
         Assertions.assertEquals(0, latch.getCount());
     }
-
 
     @Test
     @DoNotRecord(skipInPlayback = true)
@@ -146,14 +146,21 @@ public class ClientTests extends TestBase {
 
         String invalidClientAccessUrl = accessToken.block().getUrl() + "invalid";
 
+        AtomicBoolean stoppedEventReceived = new AtomicBoolean(false);
+
         Assertions.assertThrows(ConnectFailedException.class, () -> {
             WebPubSubClient c = new WebPubSubClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId("AppInvalidCredential"))
                 .clientAccessUrl(invalidClientAccessUrl)
+                .processStoppedEvent(stoppedEvent -> {
+                    stoppedEventReceived.set(true);
+                })
                 .buildClient();
 
             c.start();
         });
+
+        Assertions.assertFalse(stoppedEventReceived.get());
     }
 
 //    @Test

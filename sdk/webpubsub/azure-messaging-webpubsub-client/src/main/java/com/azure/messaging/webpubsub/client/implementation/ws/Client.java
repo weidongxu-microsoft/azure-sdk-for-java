@@ -11,8 +11,6 @@ import java.util.function.Consumer;
 
 public interface Client {
 
-    // Session requires isOpen, close, sendObject
-
     Session connectToServer(ClientEndpointConfiguration cec, String path,
                             AtomicReference<ClientLogger> loggerReference,
                             Consumer<Object> messageHandler,

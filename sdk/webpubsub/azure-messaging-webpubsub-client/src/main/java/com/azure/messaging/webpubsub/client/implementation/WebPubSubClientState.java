@@ -9,7 +9,6 @@ public enum WebPubSubClientState {
     DISCONNECTED,
 
     // connectToServer called but not completed, either change to STOPPED if error, or to CONNECTED
-    // or DISCONNECTED then automatically reconnecting (when autoReconnect=true)
     CONNECTING,
 
     // session connected
@@ -22,5 +21,11 @@ public enum WebPubSubClientState {
     STOPPED,
 
     // client closed, resource released
-    CLOSED
+    CLOSED,
+
+    // DISCONNECTED then automatically reconnecting (when autoReconnect=true)
+    RECONNECTING,
+
+    // close (stop on client) called but not completed
+    STOPPING,
 }
