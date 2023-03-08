@@ -12,6 +12,7 @@ import com.azure.core.util.logging.LogLevel;
 import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.messaging.webpubsub.client.implementation.ws.Client;
+import com.azure.messaging.webpubsub.client.implementation.ws.ClientEndpointConfiguration;
 import com.azure.messaging.webpubsub.client.implementation.ws.ClientNettyImpl;
 import com.azure.messaging.webpubsub.client.implementation.ws.Session;
 import com.azure.messaging.webpubsub.client.models.SendMessageFailedException;
@@ -25,8 +26,6 @@ import com.azure.messaging.webpubsub.client.implementation.WebPubSubGroup;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubMessageAck;
 import com.azure.messaging.webpubsub.client.models.AckMessageError;
 import com.azure.messaging.webpubsub.client.models.DisconnectedMessage;
-import com.azure.messaging.webpubsub.client.implementation.MessageDecoder;
-import com.azure.messaging.webpubsub.client.implementation.MessageEncoder;
 import com.azure.messaging.webpubsub.client.implementation.JoinGroupMessage;
 import com.azure.messaging.webpubsub.client.implementation.LeaveGroupMessage;
 import com.azure.messaging.webpubsub.client.implementation.SendToGroupMessage;
@@ -43,7 +42,6 @@ import com.azure.messaging.webpubsub.client.models.WebPubSubDataType;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubMessage;
 import com.azure.messaging.webpubsub.client.models.WebPubSubResult;
 import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
-import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
 import reactor.core.Disposable;
@@ -58,7 +56,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -81,13 +78,17 @@ class WebPubSubAsyncClient implements Closeable {
 
     // logging
     private ClientLogger logger;
+    private final AtomicReference<ClientLogger> loggerReference = new AtomicReference<>();
 
     // options
     private final Mono<String> clientAccessUrlProvider;
     private final WebPubSubProtocol webPubSubProtocol;
-//    private final RetryStrategy retryStrategy;
     private final boolean autoReconnect;
     private final boolean autoRestoreGroup;
+
+    // client
+    private final String applicationId;
+    private final ClientEndpointConfiguration clientEndpointConfiguration;
 
     // websocket client
     private final Client clientManager;
@@ -145,11 +146,16 @@ class WebPubSubAsyncClient implements Closeable {
     WebPubSubAsyncClient(Client client,
                          Mono<String> clientAccessUrlProvider,
                          WebPubSubProtocol webPubSubProtocol,
+                         String applicationId, String userAgent,
                          RetryStrategy retryStrategy,
                          boolean autoReconnect,
                          boolean autoRestoreGroup) {
 
-        this.logger = new ClientLogger(WebPubSubAsyncClient.class);
+        updateLogger(applicationId, null);
+
+        this.applicationId = applicationId;
+
+        this.clientEndpointConfiguration = new ClientEndpointConfiguration(webPubSubProtocol.getName(), userAgent);
 
         this.clientAccessUrlProvider = Objects.requireNonNull(clientAccessUrlProvider);
         this.webPubSubProtocol = Objects.requireNonNull(webPubSubProtocol);
@@ -209,12 +215,8 @@ class WebPubSubAsyncClient implements Closeable {
                 return Mono.empty();
             }
         }).then(clientAccessUrlProvider.flatMap(url -> Mono.<Void>fromRunnable(() -> {
-            ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
-                .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
-                .encoders(Collections.singletonList(MessageEncoder.class))
-                .decoders(Collections.singletonList(MessageDecoder.class))
-                .build();
-            this.session = clientManager.connectToServer(config, url, logger,
+            this.session = clientManager.connectToServer(
+                clientEndpointConfiguration, url, loggerReference,
                 this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
         }).subscribeOn(Schedulers.boundedElastic()))).doOnError(error -> {
             handleClientStop();
@@ -546,7 +548,7 @@ class WebPubSubAsyncClient implements Closeable {
                 }
             }
 
-            session.sendObject(message, sendResult -> {
+            session.sendObjectAsync(message, sendResult -> {
                 if (sendResult.isOK()) {
                     sink.success();
                 } else {
@@ -722,7 +724,7 @@ class WebPubSubAsyncClient implements Closeable {
             connectionId = connectedMessage.getConnectionId();
             reconnectionToken = connectedMessage.getReconnectionToken();
 
-            updateLogger(connectionId);
+            updateLogger(applicationId, connectionId);
 
             connectedEventSink.emitNext(new ConnectedEvent(
                     connectionId,
@@ -760,12 +762,8 @@ class WebPubSubAsyncClient implements Closeable {
                         return Mono.empty();
                     }
                 }).then(clientAccessUrlProvider.flatMap(url -> Mono.<Void>fromRunnable(() -> {
-                    ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
-                        .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
-                        .encoders(Collections.singletonList(MessageEncoder.class))
-                        .decoders(Collections.singletonList(MessageDecoder.class))
-                        .build();
-                    this.session = clientManager.connectToServer(config, url, logger,
+                    this.session = clientManager.connectToServer(
+                        clientEndpointConfiguration, url, loggerReference,
                         this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
                 }).subscribeOn(Schedulers.boundedElastic()))).retryWhen(RECONNECT_RETRY_SPEC).doOnError(error -> {
                     // stopped by user
@@ -807,12 +805,8 @@ class WebPubSubAsyncClient implements Closeable {
                         .addQueryParameter("awps_reconnection_token", reconnectionToken)
                         .toString();
 
-                    ClientEndpointConfig config = ClientEndpointConfig.Builder.create()
-                        .preferredSubprotocols(Collections.singletonList(webPubSubProtocol.getName()))
-                        .encoders(Collections.singletonList(MessageEncoder.class))
-                        .decoders(Collections.singletonList(MessageDecoder.class))
-                        .build();
-                    this.session = clientManager.connectToServer(config, recoveryUrl, logger,
+                    this.session = clientManager.connectToServer(
+                        clientEndpointConfiguration, recoveryUrl, loggerReference,
                         this::handleMessage, this::handleSessionOpen, this::handleSessionClose);
                 }).subscribeOn(Schedulers.boundedElastic()))).retryWhen(RECONNECT_RETRY_SPEC).doOnError(error -> {
                     // stopped by user
@@ -845,12 +839,13 @@ class WebPubSubAsyncClient implements Closeable {
 
         stoppedEventSink.emitNext(new StoppedEvent(), emitFailureHandler("Unable to emit StoppedEvent"));
 
-        updateLogger(null);
+        updateLogger(applicationId, null);
     }
 
-    private void updateLogger(String connectionId) {
+    private void updateLogger(String applicationId, String connectionId) {
         logger = new ClientLogger(WebPubSubAsyncClient.class,
-            LoggingUtils.createContextWithConnectionId(connectionId));
+            LoggingUtils.createContextWithConnectionId(applicationId, connectionId));
+        loggerReference.set(logger);
     }
 
     private static final class StopReconnectException extends RuntimeException {

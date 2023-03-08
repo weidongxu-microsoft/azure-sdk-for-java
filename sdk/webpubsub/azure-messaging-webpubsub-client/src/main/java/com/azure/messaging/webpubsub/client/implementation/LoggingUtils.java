@@ -9,15 +9,17 @@ import reactor.core.publisher.Sinks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public final class LoggingUtils {
 
     private LoggingUtils() {
     }
 
-    public static Map<String, Object> createContextWithConnectionId(String connectionId) {
-        Map<String, Object> globalLoggingContext = new HashMap<>(1);
+    public static Map<String, Object> createContextWithConnectionId(String applicationId, String connectionId) {
+        Map<String, Object> globalLoggingContext = new HashMap<>(2);
+        if (applicationId != null) {
+            globalLoggingContext.put("applicationId", applicationId);
+        }
         if (connectionId != null) {
             globalLoggingContext.put("connectionId", connectionId);
         }

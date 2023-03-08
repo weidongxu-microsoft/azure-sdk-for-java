@@ -4,10 +4,16 @@
 package com.azure.messaging.webpubsub.client;
 
 import com.azure.core.annotation.ServiceClientBuilder;
+import com.azure.core.client.traits.ConfigurationTrait;
 import com.azure.core.http.policy.ExponentialBackoff;
 import com.azure.core.http.policy.FixedDelay;
 import com.azure.core.http.policy.RetryOptions;
 import com.azure.core.http.policy.RetryStrategy;
+import com.azure.core.util.ClientOptions;
+import com.azure.core.util.Configuration;
+import com.azure.core.util.CoreUtils;
+import com.azure.core.util.HttpClientOptions;
+import com.azure.core.util.UserAgentUtil;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.messaging.webpubsub.client.implementation.ws.Client;
 import com.azure.messaging.webpubsub.client.models.ConnectedEvent;
@@ -20,6 +26,7 @@ import com.azure.messaging.webpubsub.client.models.WebPubSubJsonReliableProtocol
 import com.azure.messaging.webpubsub.client.models.WebPubSubProtocol;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -27,19 +34,25 @@ import java.util.function.Consumer;
  * The builder of WebPubSub client.
  */
 @ServiceClientBuilder(serviceClients = {WebPubSubAsyncClient.class, WebPubSubClient.class})
-public class WebPubSubClientBuilder {
+public class WebPubSubClientBuilder implements ConfigurationTrait<WebPubSubClientBuilder> {
 
     private final ClientLogger logger = new ClientLogger(WebPubSubClientBuilder.class);
+
+    private static final String PROPERTIES = "azure-messaging-webpubsub-client.properties";
+    private static final String SDK_NAME = "name";
+    private static final String SDK_VERSION = "version";
 
     private WebPubSubClientCredential credential;
     private String clientAccessUrl;
 
     private WebPubSubProtocol webPubSubProtocol = new WebPubSubJsonReliableProtocol();
 
+    private ClientOptions clientOptions;
+    private Configuration configuration;
+    private final Map<String, String> properties;
+
     private RetryOptions retryOptions = null;
-
     private boolean autoReconnect = true;
-
     private boolean autoRestoreGroup = true;
 
     private Consumer<GroupMessageEvent> processGroupMessageEvent;
@@ -54,6 +67,7 @@ public class WebPubSubClientBuilder {
      * Creates a new instance of WebPubSubClientBuilder.
      */
     public WebPubSubClientBuilder() {
+        properties = CoreUtils.getProperties(PROPERTIES);
     }
 
     /**
@@ -97,6 +111,27 @@ public class WebPubSubClientBuilder {
      */
     public WebPubSubClientBuilder retryOptions(RetryOptions retryOptions) {
         this.retryOptions = Objects.requireNonNull(retryOptions);
+        return this;
+    }
+
+    /**
+     * Allows for setting common properties such as application ID, headers, proxy configuration, etc.
+     *
+     * @param clientOptions A configured instance of {@link HttpClientOptions}.
+     * @return Returns the same concrete type with the appropriate properties updated, to allow for fluent chaining of
+     *      operations.
+     */
+    public WebPubSubClientBuilder clientOptions(ClientOptions clientOptions) {
+        this.clientOptions = clientOptions;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WebPubSubClientBuilder configuration(final Configuration configuration) {
+        this.configuration = configuration;
         return this;
     }
 
@@ -198,6 +233,7 @@ public class WebPubSubClientBuilder {
      * @return the asynchronous client.
      */
     WebPubSubAsyncClient buildAsyncClient() {
+        // retryOptions
         RetryStrategy retryStrategy;
         if (retryOptions != null) {
             if (retryOptions.getExponentialBackoffOptions() != null) {
@@ -211,6 +247,8 @@ public class WebPubSubClientBuilder {
         } else {
             retryStrategy = new ExponentialBackoff();
         }
+
+        // credential
         Mono<String> clientAccessUrlProvider = null;
         if (credential != null) {
             clientAccessUrlProvider = credential.getClientAccessUrl();
@@ -221,7 +259,17 @@ public class WebPubSubClientBuilder {
                 new IllegalArgumentException("Credentials have not been set. "
                     + "They can be set using: clientAccessUrl(String), credential(WebPubSubClientCredential)"));
         }
+
+        // user-agent
+        final String clientName = properties.getOrDefault(SDK_NAME, "UnknownName");
+        final String clientVersion = properties.getOrDefault(SDK_VERSION, "UnknownVersion");
+        String applicationId = CoreUtils.getApplicationId(clientOptions, null);
+        String userAgent = UserAgentUtil.toUserAgentString(applicationId, clientName, clientVersion,
+            configuration == null ? Configuration.getGlobalConfiguration() : configuration);
+
         return new WebPubSubAsyncClient(
-            client, clientAccessUrlProvider, webPubSubProtocol, retryStrategy, autoReconnect, autoRestoreGroup);
+            client, clientAccessUrlProvider, webPubSubProtocol,
+            applicationId, userAgent,
+            retryStrategy, autoReconnect, autoRestoreGroup);
     }
 }

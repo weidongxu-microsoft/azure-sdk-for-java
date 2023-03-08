@@ -5,6 +5,7 @@ package com.azure.messaging.webpubsub.client;
 
 import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.core.util.BinaryData;
+import com.azure.core.util.ClientOptions;
 import com.azure.core.util.Configuration;
 import com.azure.messaging.webpubsub.WebPubSubServiceAsyncClient;
 import com.azure.messaging.webpubsub.WebPubSubServiceClientBuilder;
@@ -147,6 +148,7 @@ public class ClientTests extends TestBase {
 
         Assertions.assertThrows(ConnectFailedException.class, () -> {
             WebPubSubClient c = new WebPubSubClientBuilder()
+                .clientOptions(new ClientOptions().setApplicationId("AppInvalidCredential"))
                 .clientAccessUrl(invalidClientAccessUrl)
                 .buildClient();
 

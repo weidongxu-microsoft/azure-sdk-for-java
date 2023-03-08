@@ -10,7 +10,7 @@ public interface Session {
 
     boolean isOpen();
 
-    void sendObject(Object data, SendHandler handler);
+    void sendObjectAsync(Object data, SendHandler handler);
 
     void close(CloseReason closeReason);
 }

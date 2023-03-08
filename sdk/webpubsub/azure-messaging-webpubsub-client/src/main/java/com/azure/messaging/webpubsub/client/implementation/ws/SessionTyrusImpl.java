@@ -8,15 +8,16 @@ import com.azure.messaging.webpubsub.client.models.ConnectFailedException;
 
 import javax.websocket.CloseReason;
 import javax.websocket.SendHandler;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class SessionTyrusImpl implements Session {
 
     private final javax.websocket.Session session;
-    private final ClientLogger logger;
+    private final AtomicReference<ClientLogger> loggerReference;
 
-    public SessionTyrusImpl(javax.websocket.Session session, ClientLogger logger) {
+    public SessionTyrusImpl(javax.websocket.Session session, AtomicReference<ClientLogger> loggerReference) {
         this.session = session;
-        this.logger = logger;
+        this.loggerReference = loggerReference;
     }
 
     @Override
@@ -25,7 +26,7 @@ public final class SessionTyrusImpl implements Session {
     }
 
     @Override
-    public void sendObject(Object data, SendHandler handler) {
+    public void sendObjectAsync(Object data, SendHandler handler) {
         session.getAsyncRemote().sendObject(data, handler);
     }
 
@@ -34,7 +35,7 @@ public final class SessionTyrusImpl implements Session {
         try {
             session.close(closeReason);
         } catch (Exception e) {
-            throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
+            throw loggerReference.get().logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         }
     }
 }

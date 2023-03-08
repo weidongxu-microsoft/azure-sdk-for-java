@@ -3,6 +3,7 @@
 
 package com.azure.messaging.webpubsub.client.implementation.ws;
 
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.messaging.webpubsub.client.implementation.MessageDecoder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -20,22 +21,28 @@ import io.netty.handler.codec.http.websocketx.WebSocketHandshakeException;
 import io.netty.util.CharsetUtil;
 
 import javax.websocket.CloseReason;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public final class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
 
     private final WebSocketClientHandshaker handshaker;
-    private final Consumer<Object> messageHandler;
-    private final BiConsumer<Session, CloseReason> closeHandler;
     private ChannelPromise handshakeFuture;
 
-    private static final MessageDecoder DECODER = new MessageDecoder();
+    private final AtomicReference<ClientLogger> loggerReference;
+    private final MessageDecoder messageDecoder;
+    private final Consumer<Object> messageHandler;
+    private final BiConsumer<Session, CloseReason> closeHandler;
 
     public WebSocketClientHandler(WebSocketClientHandshaker handshaker,
+                                  AtomicReference<ClientLogger> loggerReference,
+                                  MessageDecoder messageDecoder,
                                   Consumer<Object> messageHandler,
                                   BiConsumer<Session, CloseReason> closeHandler) {
         this.handshaker = handshaker;
+        this.loggerReference = loggerReference;
+        this.messageDecoder = messageDecoder;
         this.messageHandler = messageHandler;
         this.closeHandler = closeHandler;
     }
@@ -69,20 +76,24 @@ public final class WebSocketClientHandler extends SimpleChannelInboundHandler<Ob
 
         if (msg instanceof FullHttpResponse) {
             FullHttpResponse response = (FullHttpResponse) msg;
-            throw new IllegalStateException(
-                "Unexpected FullHttpResponse (getStatus=" + response.status() + ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')');
+            throw loggerReference.get().logExceptionAsError(new IllegalStateException("Unexpected FullHttpResponse (getStatus=" + response.status() + ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')'));
         }
 
         WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {
+            loggerReference.get().atVerbose().log("Received TextWebSocketFrame");
             // Text
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-            Object wpsMessage = DECODER.decode(textFrame.text());
+            Object wpsMessage = messageDecoder.decode(textFrame.text());
             messageHandler.accept(wpsMessage);
         } else if (frame instanceof PingWebSocketFrame) {
+            loggerReference.get().atVerbose().log("Received PingWebSocketFrame");
             // reply Pong to Ping
             ch.writeAndFlush(new PongWebSocketFrame());
+        } else if (frame instanceof PongWebSocketFrame) {
+            loggerReference.get().atVerbose().log("Received PongWebSocketFrame");
         } else if (frame instanceof CloseWebSocketFrame) {
+            loggerReference.get().atVerbose().log("Received CloseWebSocketFrame");
             // Close
             CloseWebSocketFrame closeFrame = (CloseWebSocketFrame) frame;
             ch.close().addListener(future -> {

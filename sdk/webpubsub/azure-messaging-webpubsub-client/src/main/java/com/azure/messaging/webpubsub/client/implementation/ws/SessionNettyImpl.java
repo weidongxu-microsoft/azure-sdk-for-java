@@ -3,6 +3,7 @@
 
 package com.azure.messaging.webpubsub.client.implementation.ws;
 
+import com.azure.core.http.HttpHeaderName;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.messaging.webpubsub.client.implementation.MessageEncoder;
 import com.azure.messaging.webpubsub.client.implementation.WebPubSubMessage;
@@ -28,23 +29,21 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
-import javax.net.ssl.SSLException;
-import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
 import javax.websocket.EndpointConfig;
 import javax.websocket.SendHandler;
 import javax.websocket.SendResult;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public final class SessionNettyImpl implements Session {
 
-    private final ClientLogger logger;
+    private final AtomicReference<ClientLogger> loggerReference;
 
-    private static final MessageEncoder ENCODER = new MessageEncoder();
+    private final MessageEncoder messageEncoder;
 
     private EventLoopGroup group;
     private final Channel ch;
@@ -77,12 +76,13 @@ public final class SessionNettyImpl implements Session {
         }
     }
 
-    public SessionNettyImpl(ClientEndpointConfig cec, String path,
-                            ClientLogger logger,
+    public SessionNettyImpl(ClientEndpointConfiguration cec, String path,
+                            AtomicReference<ClientLogger> loggerReference,
                             Consumer<Object> messageHandler,
                             BiConsumer<Session, EndpointConfig> openHandler,
                             BiConsumer<Session, CloseReason> closeHandler) {
-        this.logger = logger;
+        this.loggerReference = loggerReference;
+        this.messageEncoder = cec.getMessageEncoder();
 
         try {
             URI uri = new URI(path);
@@ -101,6 +101,10 @@ public final class SessionNettyImpl implements Session {
                 port = uri.getPort();
             }
 
+            if (!"ws".equalsIgnoreCase(scheme) && !"wss".equalsIgnoreCase(scheme)) {
+                throw new IllegalArgumentException("Only WS(S) is supported.");
+            }
+
             final boolean ssl = "wss".equalsIgnoreCase(scheme);
             final SslContext sslCtx;
             if (ssl) {
@@ -109,15 +113,17 @@ public final class SessionNettyImpl implements Session {
                 sslCtx = null;
             }
 
-            String subProtocol = cec.getPreferredSubprotocols().iterator().next();
+            String subProtocol = cec.getProtocol();
 
             group = new NioEventLoopGroup();
 
             final WebSocketClientHandler handler =
                 new WebSocketClientHandler(
                     WebSocketClientHandshakerFactory.newHandshaker(
-                        uri, WebSocketVersion.V13, subProtocol, true, new DefaultHttpHeaders()),
-                    messageHandler, closeHandler);
+                        uri, WebSocketVersion.V13, subProtocol, true,
+                        new DefaultHttpHeaders().add(HttpHeaderName.USER_AGENT.getCaseInsensitiveName(), cec.getUserAgent())),
+                    loggerReference,
+                    cec.getMessageDecoder(), messageHandler, closeHandler);
 
             Bootstrap b = new Bootstrap();
             b.group(group)
@@ -128,18 +134,12 @@ public final class SessionNettyImpl implements Session {
             handler.handshakeFuture().sync();
 
             openHandler.accept(this, null);
-        } catch (SSLException | InterruptedException | URISyntaxException e) {
-            if (group != null) {
-                group.shutdownGracefully();
-            }
-
-            throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         } catch (Exception e) {
             if (group != null) {
                 group.shutdownGracefully();
             }
 
-            throw logger.logExceptionAsError(new ConnectFailedException("Failed to connect", e));
+            throw loggerReference.get().logExceptionAsError(new ConnectFailedException("Failed to connect", e));
         }
     }
 
@@ -149,10 +149,10 @@ public final class SessionNettyImpl implements Session {
     }
 
     @Override
-    public void sendObject(Object data, SendHandler handler) {
+    public void sendObjectAsync(Object data, SendHandler handler) {
         if (ch != null && ch.isOpen()) {
             try {
-                String msg = ENCODER.encode((WebPubSubMessage) data);
+                String msg = messageEncoder.encode((WebPubSubMessage) data);
                 WebSocketFrame frame = new TextWebSocketFrame(msg);
                 ch.writeAndFlush(frame).addListener(future -> {
                     if (future.isSuccess()) {
@@ -180,7 +180,7 @@ public final class SessionNettyImpl implements Session {
 
                 group.shutdownGracefully();
             } catch (Exception e) {
-                throw logger.logExceptionAsError(new ConnectFailedException("Failed to disconnect", e));
+                throw loggerReference.get().logExceptionAsError(new ConnectFailedException("Failed to disconnect", e));
             }
         }
     }
