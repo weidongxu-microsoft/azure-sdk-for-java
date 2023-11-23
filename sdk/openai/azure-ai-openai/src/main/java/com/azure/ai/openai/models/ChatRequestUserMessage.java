@@ -5,12 +5,14 @@ package com.azure.ai.openai.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.Generated;
+import com.azure.core.util.BinaryData;
+import com.azure.core.util.serializer.TypeReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A request chat message representing user input to the assistant.
@@ -25,7 +27,7 @@ public final class ChatRequestUserMessage extends ChatRequestMessage {
      */
     @Generated
     @JsonProperty(value = "content")
-    private List<ChatMessageContentItem> content;
+    private BinaryData content;
 
     /*
      * An optional name for the participant.
@@ -39,10 +41,13 @@ public final class ChatRequestUserMessage extends ChatRequestMessage {
      *
      * @param content the content value to set.
      */
-    @Generated
     @JsonCreator
-    public ChatRequestUserMessage(@JsonProperty(value = "content") List<ChatMessageContentItem> content) {
+    private ChatRequestUserMessage(@JsonProperty(value = "content") BinaryData content) {
         this.content = content;
+    }
+
+    public ChatRequestUserMessage(@JsonProperty(value = "content") List<ChatMessageContentItem> content) {
+        this(BinaryData.fromObject(content.stream().map(BinaryData::fromObject).collect(Collectors.toList())));
     }
 
     /**
@@ -51,9 +56,9 @@ public final class ChatRequestUserMessage extends ChatRequestMessage {
      *
      * @return the content value.
      */
-    @Generated
     public List<ChatMessageContentItem> getContent() {
-        return this.content;
+        return this.content.toObject(new TypeReference<List<ChatMessageContentItem>>() {
+        }.getJavaClass());
     }
 
     /**
