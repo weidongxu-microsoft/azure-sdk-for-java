@@ -4,6 +4,7 @@
 
 package com.azure.ai.openai.assistants.implementation.models;
 
+import com.azure.ai.openai.assistants.models.FileDetails;
 import com.azure.ai.openai.assistants.models.FilePurpose;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.Generated;
