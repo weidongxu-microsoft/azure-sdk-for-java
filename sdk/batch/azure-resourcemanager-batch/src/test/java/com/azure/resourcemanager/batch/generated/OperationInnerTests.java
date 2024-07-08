@@ -8,46 +8,35 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.fluent.models.OperationInner;
 import com.azure.resourcemanager.batch.models.OperationDisplay;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class OperationInnerTests {
-    @Test
-    public void testDeserialize() {
-        OperationInner model =
-            BinaryData
-                .fromString(
-                    "{\"name\":\"fhyhltrpmopjmcma\",\"isDataAction\":false,\"display\":{\"provider\":\"hfuiuaodsfc\",\"operation\":\"vxodpu\",\"resource\":\"myzydagfuaxbez\",\"description\":\"uokktwhrdxwz\"},\"origin\":\"q\",\"properties\":\"databsureximo\"}")
-                .toObject(OperationInner.class);
-        Assertions.assertEquals("fhyhltrpmopjmcma", model.name());
-        Assertions.assertEquals(false, model.isDataAction());
-        Assertions.assertEquals("hfuiuaodsfc", model.display().provider());
-        Assertions.assertEquals("vxodpu", model.display().operation());
-        Assertions.assertEquals("myzydagfuaxbez", model.display().resource());
-        Assertions.assertEquals("uokktwhrdxwz", model.display().description());
-        Assertions.assertEquals("q", model.origin());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        OperationInner model = BinaryData.fromString(
+            "{\"name\":\"lnwsubisn\",\"isDataAction\":true,\"display\":{\"provider\":\"ngnzscxaqwoochc\",\"operation\":\"nqvpkvlrxnje\",\"resource\":\"eipheoflokeyy\",\"description\":\"nj\"},\"origin\":\"lwtgrhpdj\",\"properties\":\"dataumasxazjpq\"}")
+            .toObject(OperationInner.class);
+        Assertions.assertEquals("lnwsubisn", model.name());
+        Assertions.assertEquals(true, model.isDataAction());
+        Assertions.assertEquals("ngnzscxaqwoochc", model.display().provider());
+        Assertions.assertEquals("nqvpkvlrxnje", model.display().operation());
+        Assertions.assertEquals("eipheoflokeyy", model.display().resource());
+        Assertions.assertEquals("nj", model.display().description());
+        Assertions.assertEquals("lwtgrhpdj", model.origin());
     }
 
-    @Test
-    public void testSerialize() {
-        OperationInner model =
-            new OperationInner()
-                .withName("fhyhltrpmopjmcma")
-                .withIsDataAction(false)
-                .withDisplay(
-                    new OperationDisplay()
-                        .withProvider("hfuiuaodsfc")
-                        .withOperation("vxodpu")
-                        .withResource("myzydagfuaxbez")
-                        .withDescription("uokktwhrdxwz"))
-                .withOrigin("q")
-                .withProperties("databsureximo");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        OperationInner model = new OperationInner().withName("lnwsubisn").withIsDataAction(true)
+            .withDisplay(new OperationDisplay().withProvider("ngnzscxaqwoochc").withOperation("nqvpkvlrxnje")
+                .withResource("eipheoflokeyy").withDescription("nj"))
+            .withOrigin("lwtgrhpdj").withProperties("dataumasxazjpq");
         model = BinaryData.fromObject(model).toObject(OperationInner.class);
-        Assertions.assertEquals("fhyhltrpmopjmcma", model.name());
-        Assertions.assertEquals(false, model.isDataAction());
-        Assertions.assertEquals("hfuiuaodsfc", model.display().provider());
-        Assertions.assertEquals("vxodpu", model.display().operation());
-        Assertions.assertEquals("myzydagfuaxbez", model.display().resource());
-        Assertions.assertEquals("uokktwhrdxwz", model.display().description());
-        Assertions.assertEquals("q", model.origin());
+        Assertions.assertEquals("lnwsubisn", model.name());
+        Assertions.assertEquals(true, model.isDataAction());
+        Assertions.assertEquals("ngnzscxaqwoochc", model.display().provider());
+        Assertions.assertEquals("nqvpkvlrxnje", model.display().operation());
+        Assertions.assertEquals("eipheoflokeyy", model.display().resource());
+        Assertions.assertEquals("nj", model.display().description());
+        Assertions.assertEquals("lwtgrhpdj", model.origin());
     }
 }

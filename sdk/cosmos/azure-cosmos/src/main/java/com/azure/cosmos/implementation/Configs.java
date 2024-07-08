@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLException;
-
 import java.time.Duration;
 import java.util.Locale;
 
@@ -50,6 +49,19 @@ public class Configs {
     private static final String MAX_HTTP_HEADER_SIZE_IN_BYTES = "COSMOS.MAX_HTTP_HEADER_SIZE_IN_BYTES";
     private static final String MAX_DIRECT_HTTPS_POOL_SIZE = "COSMOS.MAX_DIRECT_HTTP_CONNECTION_LIMIT";
     private static final String HTTP_RESPONSE_TIMEOUT_IN_SECONDS = "COSMOS.HTTP_RESPONSE_TIMEOUT_IN_SECONDS";
+
+    public static final int DEFAULT_HTTP_DEFAULT_CONNECTION_POOL_SIZE = 1000;
+    public static final String HTTP_DEFAULT_CONNECTION_POOL_SIZE = "COSMOS.DEFAULT_HTTP_CONNECTION_POOL_SIZE";
+    public static final String HTTP_DEFAULT_CONNECTION_POOL_SIZE_VARIABLE = "COSMOS_DEFAULT_HTTP_CONNECTION_POOL_SIZE";
+
+    public static final boolean DEFAULT_E2E_FOR_NON_POINT_DISABLED_DEFAULT = false;
+    public static final String DEFAULT_E2E_FOR_NON_POINT_DISABLED = "COSMOS.E2E_FOR_NON_POINT_DISABLED";
+    public static final String DEFAULT_E2E_FOR_NON_POINT_DISABLED_VARIABLE = "COSMOS_E2E_FOR_NON_POINT_DISABLED";
+
+    public static final int DEFAULT_HTTP_MAX_REQUEST_TIMEOUT = 60;
+    public static final String HTTP_MAX_REQUEST_TIMEOUT = "COSMOS.HTTP_MAX_REQUEST_TIMEOUT";
+    public static final String HTTP_MAX_REQUEST_TIMEOUT_VARIABLE = "COSMOS_HTTP_MAX_REQUEST_TIMEOUT";
+
     private static final String QUERY_PLAN_RESPONSE_TIMEOUT_IN_SECONDS = "COSMOS.QUERY_PLAN_RESPONSE_TIMEOUT_IN_SECONDS";
     private static final String ADDRESS_REFRESH_RESPONSE_TIMEOUT_IN_SECONDS = "COSMOS.ADDRESS_REFRESH_RESPONSE_TIMEOUT_IN_SECONDS";
 
@@ -93,24 +105,37 @@ public class Configs {
     //  Reactor Netty Constants
     private static final Duration MAX_IDLE_CONNECTION_TIMEOUT = Duration.ofSeconds(60);
     private static final Duration CONNECTION_ACQUIRE_TIMEOUT = Duration.ofSeconds(45);
-    private static final int REACTOR_NETTY_MAX_CONNECTION_POOL_SIZE = 1000;
     private static final String REACTOR_NETTY_CONNECTION_POOL_NAME = "reactor-netty-connection-pool";
     private static final int DEFAULT_HTTP_RESPONSE_TIMEOUT_IN_SECONDS = 60;
     private static final int DEFAULT_QUERY_PLAN_RESPONSE_TIMEOUT_IN_SECONDS = 5;
     private static final int DEFAULT_ADDRESS_REFRESH_RESPONSE_TIMEOUT_IN_SECONDS = 5;
 
     // SessionTokenMismatchRetryPolicy Constants
-    private static final String DEFAULT_SESSION_TOKEN_MISMATCH_WAIT_TIME_IN_MILLISECONDS_NAME =
+    public static final String DEFAULT_SESSION_TOKEN_MISMATCH_WAIT_TIME_IN_MILLISECONDS_NAME =
         "COSMOS.DEFAULT_SESSION_TOKEN_MISMATCH_WAIT_TIME_IN_MILLISECONDS";
     private static final int DEFAULT_SESSION_TOKEN_MISMATCH_WAIT_TIME_IN_MILLISECONDS = 5000;
 
-    private static final String DEFAULT_SESSION_TOKEN_MISMATCH_INITIAL_BACKOFF_TIME_IN_MILLISECONDS_NAME =
+    public static final String DEFAULT_SESSION_TOKEN_MISMATCH_INITIAL_BACKOFF_TIME_IN_MILLISECONDS_NAME =
         "COSMOS.DEFAULT_SESSION_TOKEN_MISMATCH_INITIAL_BACKOFF_TIME_IN_MILLISECONDS";
     private static final int DEFAULT_SESSION_TOKEN_MISMATCH_INITIAL_BACKOFF_TIME_IN_MILLISECONDS = 5;
 
-    private static final String DEFAULT_SESSION_TOKEN_MISMATCH_MAXIMUM_BACKOFF_TIME_IN_MILLISECONDS_NAME =
+    public static final String DEFAULT_SESSION_TOKEN_MISMATCH_MAXIMUM_BACKOFF_TIME_IN_MILLISECONDS_NAME =
         "COSMOS.DEFAULT_SESSION_TOKEN_MISMATCH_MAXIMUM_BACKOFF_TIME_IN_MILLISECONDS";
     private static final int DEFAULT_SESSION_TOKEN_MISMATCH_MAXIMUM_BACKOFF_TIME_IN_MILLISECONDS = 500;
+
+    public static final int MIN_MIN_IN_REGION_RETRY_TIME_FOR_WRITES_MS = 100;
+
+    private static final String DEFAULT_MIN_IN_REGION_RETRY_TIME_FOR_WRITES_MS_NAME =
+        "COSMOS.DEFAULT_SESSION_TOKEN_MISMATCH_IN_REGION-RETRY_TIME_IN_MILLISECONDS";
+    private static final int DEFAULT_MIN_IN_REGION_RETRY_TIME_FOR_WRITES_MS = 500;
+
+    // RegionScopedSessionContainer related constants
+    public static final String SESSION_CAPTURING_TYPE = "COSMOS.SESSION_CAPTURING_TYPE";
+    public static final String DEFAULT_SESSION_CAPTURING_TYPE = StringUtils.EMPTY;
+    public static final String PK_BASED_BLOOM_FILTER_EXPECTED_INSERTION_COUNT_NAME = "COSMOS.PK_BASED_BLOOM_FILTER_EXPECTED_INSERTION_COUNT";
+    private static final long DEFAULT_PK_BASED_BLOOM_FILTER_EXPECTED_INSERTION_COUNT = 5_000_000;
+    public static final String PK_BASED_BLOOM_FILTER_EXPECTED_FFP_RATE_NAME = "COSMOS.PK_BASED_BLOOM_FILTER_EXPECTED_FFP_RATE";
+    private static final double DEFAULT_PK_BASED_BLOOM_FILTER_EXPECTED_FFP_RATE = 0.001;
 
     // Whether to process the response on a different thread
     private static final String SWITCH_OFF_IO_THREAD_FOR_RESPONSE_NAME = "COSMOS.SWITCH_OFF_IO_THREAD_FOR_RESPONSE";
@@ -135,14 +160,48 @@ public class Configs {
     private static final String MIN_CONNECTION_POOL_SIZE_PER_ENDPOINT = "COSMOS.MIN_CONNECTION_POOL_SIZE_PER_ENDPOINT";
     private static final int DEFAULT_MIN_CONNECTION_POOL_SIZE_PER_ENDPOINT = 1;
 
+    private static final String MAX_TRACE_MESSAGE_LENGTH = "COSMOS.MAX_TRACE_MESSAGE_LENGTH";
+    private static final int DEFAULT_MAX_TRACE_MESSAGE_LENGTH = 32 * 1024;
+
+    private static final int MIN_MAX_TRACE_MESSAGE_LENGTH = 8 * 1024;
+
     private static final String AGGRESSIVE_WARMUP_CONCURRENCY = "COSMOS.AGGRESSIVE_WARMUP_CONCURRENCY";
     private static final int DEFAULT_AGGRESSIVE_WARMUP_CONCURRENCY = Configs.getCPUCnt();
 
     private static final String OPEN_CONNECTIONS_CONCURRENCY = "COSMOS.OPEN_CONNECTIONS_CONCURRENCY";
     private static final int DEFAULT_OPEN_CONNECTIONS_CONCURRENCY = 1;
 
-    private static final String MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED = "COSMOS.MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED";
+    public static final String MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED = "COSMOS.MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED";
     private static final int DEFAULT_MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED = 1;
+
+    private static final String MAX_ITEM_COUNT_FOR_VECTOR_SEARCH = "COSMOS.MAX_ITEM_SIZE_FOR_VECTOR_SEARCH";
+    public static final int DEFAULT_MAX_ITEM_COUNT_FOR_VECTOR_SEARCH = 50000;
+
+    private static final String AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY = "COSMOS.AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY";
+
+    private static final boolean DEFAULT_AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY = false;
+
+    public static final int MIN_MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED = 1;
+
+    public static final String TCP_CONNECTION_ACQUISITION_TIMEOUT_IN_MS = "COSMOS.TCP_CONNECTION_ACQUISITION_TIMEOUT_IN_MS";
+
+    // Error handling strategy in diagnostics provider
+    public static final String DIAGNOSTICS_PROVIDER_SYSTEM_EXIT_ON_ERROR = "COSMOS.DIAGNOSTICS_PROVIDER_SYSTEM_EXIT_ON_ERROR";
+    public static final boolean DEFAULT_DIAGNOSTICS_PROVIDER_SYSTEM_EXIT_ON_ERROR = true;
+
+
+    // Metrics
+    // Samples:
+    //            System.setProperty(
+    //                "COSMOS.METRICS_CONFIG",
+    //                "{\"metricCategories\":\"[OperationSummary, RequestSummary]\","
+    //                + "\"tagNames\":\"[Container, Operation]\","
+    //                + "\"sampleRate\":0.5,"
+    //                + "\"percentiles\":[0.90,0.99],"
+    //                + "\"enableHistograms\":false,"
+    //                + "\"applyDiagnosticThresholdsForTransportLevelMeters\":true}");
+    public static final String METRICS_CONFIG = "COSMOS.METRICS_CONFIG";
+    public static final String DEFAULT_METRICS_CONFIG = CosmosMicrometerMetricsConfig.DEFAULT.toJson();
 
     public Configs() {
         this.sslContext = sslContextInit();
@@ -254,10 +313,6 @@ public class Configs {
         return CONNECTION_ACQUIRE_TIMEOUT;
     }
 
-    public int getReactorNettyMaxConnectionPoolSize() {
-        return REACTOR_NETTY_MAX_CONNECTION_POOL_SIZE;
-    }
-
     public static int getHttpResponseTimeoutInSeconds() {
         return getJVMConfigAsInt(HTTP_RESPONSE_TIMEOUT_IN_SECONDS, DEFAULT_HTTP_RESPONSE_TIMEOUT_IN_SECONDS);
     }
@@ -281,6 +336,48 @@ public class Configs {
         }
 
         return System.getenv(NON_IDEMPOTENT_WRITE_RETRY_POLICY_VARIABLE);
+    }
+
+    public static int getDefaultHttpPoolSize() {
+        String valueFromSystemProperty = System.getProperty(HTTP_DEFAULT_CONNECTION_POOL_SIZE);
+        if (valueFromSystemProperty != null && !valueFromSystemProperty.isEmpty()) {
+            return Integer.valueOf(valueFromSystemProperty);
+        }
+
+        String valueFromEnvVariable = System.getenv(HTTP_DEFAULT_CONNECTION_POOL_SIZE_VARIABLE);
+        if (valueFromEnvVariable != null && !valueFromEnvVariable.isEmpty()) {
+            return Integer.valueOf(valueFromEnvVariable);
+        }
+
+        return DEFAULT_HTTP_DEFAULT_CONNECTION_POOL_SIZE;
+    }
+
+    public static boolean isDefaultE2ETimeoutDisabledForNonPointOperations() {
+        String valueFromSystemProperty = System.getProperty(DEFAULT_E2E_FOR_NON_POINT_DISABLED);
+        if (valueFromSystemProperty != null && !valueFromSystemProperty.isEmpty()) {
+            return Boolean.valueOf(valueFromSystemProperty);
+        }
+
+        String valueFromEnvVariable = System.getenv(DEFAULT_E2E_FOR_NON_POINT_DISABLED_VARIABLE);
+        if (valueFromEnvVariable != null && !valueFromEnvVariable.isEmpty()) {
+            return Boolean.valueOf(valueFromEnvVariable);
+        }
+
+        return DEFAULT_E2E_FOR_NON_POINT_DISABLED_DEFAULT;
+    }
+
+    public static int getMaxHttpRequestTimeout() {
+        String valueFromSystemProperty = System.getProperty(HTTP_MAX_REQUEST_TIMEOUT);
+        if (valueFromSystemProperty != null && !valueFromSystemProperty.isEmpty()) {
+            return Integer.valueOf(valueFromSystemProperty);
+        }
+
+        String valueFromEnvVariable = System.getenv(HTTP_MAX_REQUEST_TIMEOUT_VARIABLE);
+        if (valueFromEnvVariable != null && !valueFromEnvVariable.isEmpty()) {
+            return Integer.valueOf(valueFromEnvVariable);
+        }
+
+        return DEFAULT_HTTP_MAX_REQUEST_TIMEOUT;
     }
 
     public static String getEnvironmentName() {
@@ -395,7 +492,112 @@ public class Configs {
     }
 
     public static int getMaxRetriesInLocalRegionWhenRemoteRegionPreferred() {
-        return getIntValue(System.getProperty(MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED),
-            DEFAULT_MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED);
+        return
+            Math.max(
+                getIntValue(
+                    System.getProperty(MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED),
+                    DEFAULT_MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED),
+                MIN_MAX_RETRIES_IN_LOCAL_REGION_WHEN_REMOTE_REGION_PREFERRED);
+    }
+
+    public static int getMaxItemCountForVectorSearch() {
+        return Integer.parseInt(System.getProperty(MAX_ITEM_COUNT_FOR_VECTOR_SEARCH,
+             firstNonNull(
+                emptyToNull(System.getenv().get(MAX_ITEM_COUNT_FOR_VECTOR_SEARCH)),
+                String.valueOf(DEFAULT_MAX_ITEM_COUNT_FOR_VECTOR_SEARCH))));
+    }
+
+    public static boolean getAzureCosmosNonStreamingOrderByDisabled() {
+        if(logger.isTraceEnabled()) {
+            logger.trace(
+                "AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY property is: {}",
+                System.getProperty(AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY));
+            logger.trace(
+                "AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY env variable is: {}",
+                System.getenv().get(AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY));
+        }
+        return Boolean.parseBoolean(System.getProperty(AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY,
+            firstNonNull(
+                emptyToNull(System.getenv().get(AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY)),
+                String.valueOf(DEFAULT_AZURE_COSMOS_DISABLE_NON_STREAMING_ORDER_BY))));
+    }
+
+    public static Duration getMinRetryTimeInLocalRegionWhenRemoteRegionPreferred() {
+        return
+            Duration.ofMillis(Math.max(
+                getIntValue(
+                    System.getProperty(DEFAULT_MIN_IN_REGION_RETRY_TIME_FOR_WRITES_MS_NAME),
+                    DEFAULT_MIN_IN_REGION_RETRY_TIME_FOR_WRITES_MS),
+                MIN_MIN_IN_REGION_RETRY_TIME_FOR_WRITES_MS));
+    }
+
+    public static int getMaxTraceMessageLength() {
+        return
+            Math.max(
+                getIntValue(
+                    System.getProperty(MAX_TRACE_MESSAGE_LENGTH),
+                    DEFAULT_MAX_TRACE_MESSAGE_LENGTH),
+                MIN_MAX_TRACE_MESSAGE_LENGTH);
+    }
+
+    public static Duration getTcpConnectionAcquisitionTimeout(int defaultValueInMs) {
+        return Duration.ofMillis(
+            getIntValue(
+                System.getProperty(TCP_CONNECTION_ACQUISITION_TIMEOUT_IN_MS),
+                defaultValueInMs
+            )
+        );
+    }
+
+    public static String getSessionCapturingType() {
+
+        return System.getProperty(
+            SESSION_CAPTURING_TYPE,
+            firstNonNull(
+                emptyToNull(System.getenv().get(SESSION_CAPTURING_TYPE)),
+                DEFAULT_SESSION_CAPTURING_TYPE));
+    }
+
+    public static long getPkBasedBloomFilterExpectedInsertionCount() {
+
+        String pkBasedBloomFilterExpectedInsertionCount = System.getProperty(
+            PK_BASED_BLOOM_FILTER_EXPECTED_INSERTION_COUNT_NAME,
+            firstNonNull(
+                emptyToNull(System.getenv().get(PK_BASED_BLOOM_FILTER_EXPECTED_INSERTION_COUNT_NAME)),
+                String.valueOf(DEFAULT_PK_BASED_BLOOM_FILTER_EXPECTED_INSERTION_COUNT)));
+
+        return Long.parseLong(pkBasedBloomFilterExpectedInsertionCount);
+    }
+
+    public static double getPkBasedBloomFilterExpectedFfpRate() {
+        String pkBasedBloomFilterExpectedFfpRate = System.getProperty(
+            PK_BASED_BLOOM_FILTER_EXPECTED_FFP_RATE_NAME,
+            firstNonNull(
+                emptyToNull(System.getenv().get(PK_BASED_BLOOM_FILTER_EXPECTED_FFP_RATE_NAME)),
+                String.valueOf(DEFAULT_PK_BASED_BLOOM_FILTER_EXPECTED_FFP_RATE)));
+
+        return Double.parseDouble(pkBasedBloomFilterExpectedFfpRate);
+    }
+
+    public static boolean shouldDiagnosticsProviderSystemExitOnError() {
+        String shouldSystemExit =
+            System.getProperty(
+                DIAGNOSTICS_PROVIDER_SYSTEM_EXIT_ON_ERROR,
+                firstNonNull(
+                    emptyToNull(System.getenv().get(DIAGNOSTICS_PROVIDER_SYSTEM_EXIT_ON_ERROR)),
+                    String.valueOf(DEFAULT_DIAGNOSTICS_PROVIDER_SYSTEM_EXIT_ON_ERROR)));
+
+        return Boolean.parseBoolean(shouldSystemExit);
+    }
+
+    public static CosmosMicrometerMetricsConfig getMetricsConfig() {
+        String metricsConfig =
+            System.getProperty(
+                METRICS_CONFIG,
+                firstNonNull(
+                    emptyToNull(System.getenv().get(METRICS_CONFIG)),
+                    DEFAULT_METRICS_CONFIG));
+
+        return CosmosMicrometerMetricsConfig.fromJsonString(metricsConfig);
     }
 }

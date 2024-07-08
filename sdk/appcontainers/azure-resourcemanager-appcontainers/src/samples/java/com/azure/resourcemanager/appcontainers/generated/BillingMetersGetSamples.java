@@ -4,14 +4,17 @@
 
 package com.azure.resourcemanager.appcontainers.generated;
 
-/** Samples for BillingMeters Get. */
+/**
+ * Samples for BillingMeters Get.
+ */
 public final class BillingMetersGetSamples {
     /*
-     * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/BillingMeters_Get.json
+     * x-ms-original-file:
+     * specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/BillingMeters_Get.json
      */
     /**
      * Sample code: BillingMeters_Get.
-     *
+     * 
      * @param manager Entry point to ContainerAppsApiManager.
      */
     public static void billingMetersGet(com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {

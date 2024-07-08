@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.CsmPublishingCredentialsPoliciesEntityInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Publishing Credentials Policies entity collection ARM resource. */
+/**
+ * Publishing Credentials Policies entity collection ARM resource.
+ */
 @Fluent
 public final class PublishingCredentialsPoliciesCollection {
     /*
@@ -25,7 +28,9 @@ public final class PublishingCredentialsPoliciesCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of PublishingCredentialsPoliciesCollection class. */
+    /**
+     * Creates an instance of PublishingCredentialsPoliciesCollection class.
+     */
     public PublishingCredentialsPoliciesCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class PublishingCredentialsPoliciesCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model PublishingCredentialsPoliciesCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model PublishingCredentialsPoliciesCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

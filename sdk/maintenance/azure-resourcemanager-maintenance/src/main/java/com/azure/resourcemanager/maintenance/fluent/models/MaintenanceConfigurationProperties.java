@@ -5,13 +5,16 @@
 package com.azure.resourcemanager.maintenance.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.resourcemanager.maintenance.models.InputPatchConfiguration;
 import com.azure.resourcemanager.maintenance.models.MaintenanceScope;
 import com.azure.resourcemanager.maintenance.models.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-/** Properties for maintenance configuration. */
+/**
+ * Properties for maintenance configuration.
+ */
 @Fluent
 public final class MaintenanceConfigurationProperties {
     /*
@@ -45,13 +48,21 @@ public final class MaintenanceConfigurationProperties {
     @JsonProperty(value = "visibility")
     private Visibility visibility;
 
-    /** Creates an instance of MaintenanceConfigurationProperties class. */
+    /*
+     * The input parameters to be passed to the patch run operation.
+     */
+    @JsonProperty(value = "installPatches")
+    private InputPatchConfiguration installPatches;
+
+    /**
+     * Creates an instance of MaintenanceConfigurationProperties class.
+     */
     public MaintenanceConfigurationProperties() {
     }
 
     /**
      * Get the namespace property: Gets or sets namespace of the resource.
-     *
+     * 
      * @return the namespace value.
      */
     public String namespace() {
@@ -60,7 +71,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Set the namespace property: Gets or sets namespace of the resource.
-     *
+     * 
      * @param namespace the namespace value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -71,7 +82,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Get the extensionProperties property: Gets or sets extensionProperties of the maintenanceConfiguration.
-     *
+     * 
      * @return the extensionProperties value.
      */
     public Map<String, String> extensionProperties() {
@@ -80,7 +91,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Set the extensionProperties property: Gets or sets extensionProperties of the maintenanceConfiguration.
-     *
+     * 
      * @param extensionProperties the extensionProperties value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -91,7 +102,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Get the maintenanceScope property: Gets or sets maintenanceScope of the configuration.
-     *
+     * 
      * @return the maintenanceScope value.
      */
     public MaintenanceScope maintenanceScope() {
@@ -100,7 +111,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Set the maintenanceScope property: Gets or sets maintenanceScope of the configuration.
-     *
+     * 
      * @param maintenanceScope the maintenanceScope value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -111,7 +122,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Get the innerMaintenanceWindow property: Definition of a MaintenanceWindow.
-     *
+     * 
      * @return the innerMaintenanceWindow value.
      */
     private MaintenanceWindow innerMaintenanceWindow() {
@@ -120,7 +131,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Get the visibility property: Gets or sets the visibility of the configuration. The default value is 'Custom'.
-     *
+     * 
      * @return the visibility value.
      */
     public Visibility visibility() {
@@ -129,7 +140,7 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Set the visibility property: Gets or sets the visibility of the configuration. The default value is 'Custom'.
-     *
+     * 
      * @param visibility the visibility value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -139,10 +150,30 @@ public final class MaintenanceConfigurationProperties {
     }
 
     /**
+     * Get the installPatches property: The input parameters to be passed to the patch run operation.
+     * 
+     * @return the installPatches value.
+     */
+    public InputPatchConfiguration installPatches() {
+        return this.installPatches;
+    }
+
+    /**
+     * Set the installPatches property: The input parameters to be passed to the patch run operation.
+     * 
+     * @param installPatches the installPatches value to set.
+     * @return the MaintenanceConfigurationProperties object itself.
+     */
+    public MaintenanceConfigurationProperties withInstallPatches(InputPatchConfiguration installPatches) {
+        this.installPatches = installPatches;
+        return this;
+    }
+
+    /**
      * Get the startDateTime property: Effective start date of the maintenance window in YYYY-MM-DD hh:mm format. The
      * start date can be set to either the current date or future date. The window will be created in the time zone
      * provided and adjusted to daylight savings according to that time zone.
-     *
+     * 
      * @return the startDateTime value.
      */
     public String startDateTime() {
@@ -153,7 +184,7 @@ public final class MaintenanceConfigurationProperties {
      * Set the startDateTime property: Effective start date of the maintenance window in YYYY-MM-DD hh:mm format. The
      * start date can be set to either the current date or future date. The window will be created in the time zone
      * provided and adjusted to daylight savings according to that time zone.
-     *
+     * 
      * @param startDateTime the startDateTime value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -170,7 +201,7 @@ public final class MaintenanceConfigurationProperties {
      * format. The window will be created in the time zone provided and adjusted to daylight savings according to that
      * time zone. Expiration date must be set to a future date. If not provided, it will be set to the maximum datetime
      * 9999-12-31 23:59:59.
-     *
+     * 
      * @return the expirationDateTime value.
      */
     public String expirationDateTime() {
@@ -182,7 +213,7 @@ public final class MaintenanceConfigurationProperties {
      * format. The window will be created in the time zone provided and adjusted to daylight savings according to that
      * time zone. Expiration date must be set to a future date. If not provided, it will be set to the maximum datetime
      * 9999-12-31 23:59:59.
-     *
+     * 
      * @param expirationDateTime the expirationDateTime value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -197,7 +228,7 @@ public final class MaintenanceConfigurationProperties {
     /**
      * Get the duration property: Duration of the maintenance window in HH:mm format. If not provided, default value
      * will be used based on maintenance scope provided. Example: 05:00.
-     *
+     * 
      * @return the duration value.
      */
     public String duration() {
@@ -207,7 +238,7 @@ public final class MaintenanceConfigurationProperties {
     /**
      * Set the duration property: Duration of the maintenance window in HH:mm format. If not provided, default value
      * will be used based on maintenance scope provided. Example: 05:00.
-     *
+     * 
      * @param duration the duration value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -223,7 +254,7 @@ public final class MaintenanceConfigurationProperties {
      * Get the timeZone property: Name of the timezone. List of timezones can be obtained by executing
      * [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. Example: Pacific Standard Time, UTC, W. Europe
      * Standard Time, Korea Standard Time, Cen. Australia Standard Time.
-     *
+     * 
      * @return the timeZone value.
      */
     public String timeZone() {
@@ -234,7 +265,7 @@ public final class MaintenanceConfigurationProperties {
      * Set the timeZone property: Name of the timezone. List of timezones can be obtained by executing
      * [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. Example: Pacific Standard Time, UTC, W. Europe
      * Standard Time, Korea Standard Time, Cen. Australia Standard Time.
-     *
+     * 
      * @param timeZone the timeZone value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -254,10 +285,11 @@ public final class MaintenanceConfigurationProperties {
      * integer]['Week(s)'] [Optional comma separated list of weekdays Monday-Sunday]. Weekly schedule examples are
      * recurEvery: 3Weeks, recurEvery: Week Saturday,Sunday. Monthly schedules are formatted as [Frequency as
      * integer]['Month(s)'] [Comma separated list of month days] or [Frequency as integer]['Month(s)'] [Week of Month
-     * (First, Second, Third, Fourth, Last)] [Weekday Monday-Sunday]. Monthly schedule examples are recurEvery: Month,
-     * recurEvery: 2Months, recurEvery: Month day23,day24, recurEvery: Month Last Sunday, recurEvery: Month Fourth
-     * Monday.
-     *
+     * (First, Second, Third, Fourth, Last)] [Weekday Monday-Sunday] [Optional Offset(No. of days)]. Offset value must
+     * be between -6 to 6 inclusive. Monthly schedule examples are recurEvery: Month, recurEvery: 2Months, recurEvery:
+     * Month day23,day24, recurEvery: Month Last Sunday, recurEvery: Month Fourth Monday, recurEvery: Month Last Sunday
+     * Offset-3, recurEvery: Month Third Sunday Offset6.
+     * 
      * @return the recurEvery value.
      */
     public String recurEvery() {
@@ -272,10 +304,11 @@ public final class MaintenanceConfigurationProperties {
      * integer]['Week(s)'] [Optional comma separated list of weekdays Monday-Sunday]. Weekly schedule examples are
      * recurEvery: 3Weeks, recurEvery: Week Saturday,Sunday. Monthly schedules are formatted as [Frequency as
      * integer]['Month(s)'] [Comma separated list of month days] or [Frequency as integer]['Month(s)'] [Week of Month
-     * (First, Second, Third, Fourth, Last)] [Weekday Monday-Sunday]. Monthly schedule examples are recurEvery: Month,
-     * recurEvery: 2Months, recurEvery: Month day23,day24, recurEvery: Month Last Sunday, recurEvery: Month Fourth
-     * Monday.
-     *
+     * (First, Second, Third, Fourth, Last)] [Weekday Monday-Sunday] [Optional Offset(No. of days)]. Offset value must
+     * be between -6 to 6 inclusive. Monthly schedule examples are recurEvery: Month, recurEvery: 2Months, recurEvery:
+     * Month day23,day24, recurEvery: Month Last Sunday, recurEvery: Month Fourth Monday, recurEvery: Month Last Sunday
+     * Offset-3, recurEvery: Month Third Sunday Offset6.
+     * 
      * @param recurEvery the recurEvery value to set.
      * @return the MaintenanceConfigurationProperties object itself.
      */
@@ -289,12 +322,15 @@ public final class MaintenanceConfigurationProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (innerMaintenanceWindow() != null) {
             innerMaintenanceWindow().validate();
+        }
+        if (installPatches() != null) {
+            installPatches().validate();
         }
     }
 }

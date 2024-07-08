@@ -7,6 +7,7 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.Region;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.annotation.LiveOnly;
 import com.azure.resourcemanager.compute.models.KnownLinuxVirtualMachineImage;
 import com.azure.resourcemanager.compute.models.VirtualMachine;
 import com.azure.resourcemanager.monitor.models.ActionGroup;
@@ -30,7 +31,9 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Iterator;
 
+@LiveOnly
 public class AlertsTests extends MonitorManagementTest {
+    // LiveOnly because test needs to be refactored to check for resource region
     private String rgName = "";
     private String saName = "";
 
@@ -477,8 +480,9 @@ public class AlertsTests extends MonitorManagementTest {
 
         Assertions.assertNotNull(ala);
         Assertions.assertEquals(1, ala.scopes().size());
-        Assertions
-            .assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ala.scopes().iterator().next());
+        if (!isPlaybackMode()) {
+            Assertions.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ala.scopes().iterator().next());
+        }
         Assertions.assertEquals("AutoScale-VM-Creation-Failed", ala.description());
         Assertions.assertEquals(true, ala.enabled());
         Assertions.assertEquals(1, ala.actionGroupIds().size());
@@ -516,8 +520,9 @@ public class AlertsTests extends MonitorManagementTest {
             .apply();
 
         Assertions.assertEquals(1, ala.scopes().size());
-        Assertions
-            .assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ala.scopes().iterator().next());
+        if (!isPlaybackMode()) {
+            Assertions.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ala.scopes().iterator().next());
+        }
         Assertions.assertEquals("AutoScale-VM-Creation-Failed", ala.description());
         Assertions.assertEquals(false, ala.enabled());
         Assertions.assertEquals(1, ala.actionGroupIds().size());

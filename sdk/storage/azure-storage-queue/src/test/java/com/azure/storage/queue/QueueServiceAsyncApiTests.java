@@ -5,7 +5,10 @@ package com.azure.storage.queue;
 
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.storage.common.test.shared.extensions.LiveOnly;
+import com.azure.storage.common.test.shared.extensions.RequiredServiceVersion;
 import com.azure.storage.queue.models.QueueAnalyticsLogging;
+import com.azure.storage.queue.models.QueueAudience;
 import com.azure.storage.queue.models.QueueErrorCode;
 import com.azure.storage.queue.models.QueueItem;
 import com.azure.storage.queue.models.QueueMetrics;
@@ -32,6 +35,7 @@ import static com.azure.storage.queue.QueueTestHelper.assertExceptionStatusCodeA
 import static com.azure.storage.queue.QueueTestHelper.assertQueueServicePropertiesAreEqual;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -127,7 +131,7 @@ public class QueueServiceAsyncApiTests extends QueueTestBase {
         QueuesSegmentOptions options = new QueuesSegmentOptions().setPrefix(prefix);
         String queueName = getRandomName(60);
         for (int i = 0; i < 3; i++) {
-            primaryQueueServiceAsyncClient.createQueueWithResponse(queueName + i, null, null).block();
+            primaryQueueServiceAsyncClient.createQueueWithResponse(queueName + i, null).block();
         }
 
         Flux<PagedResponse<QueueItem>> listQueuesResult = primaryQueueServiceAsyncClient.listQueues(options).byPage(2);
@@ -199,5 +203,57 @@ public class QueueServiceAsyncApiTests extends QueueTestBase {
 
         StepVerifier.create(queueServiceAsyncClient.getPropertiesWithResponse()).assertNext(queuePropertiesResponse ->
             assertEquals("2017-11-09", queuePropertiesResponse.getHeaders().getValue("x-ms-version"))).verifyComplete();
+    }
+
+    @Test
+    public void defaultAudience() {
+        QueueServiceAsyncClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(null) // should default to "https://storage.azure.com/"
+            .buildAsyncClient();
+
+        StepVerifier.create(aadService.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
+    }
+
+    @Test
+    public void storageAccountAudience() {
+        QueueServiceAsyncClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(QueueAudience.createQueueServiceAccountAudience(primaryQueueServiceAsyncClient.getAccountName()))
+            .buildAsyncClient();
+
+        StepVerifier.create(aadService.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
+    }
+
+    @RequiredServiceVersion(clazz = QueueServiceVersion.class, min = "2024-08-04")
+    @LiveOnly
+    @Test
+    /* This test tests if the bearer challenge is working properly. A bad audience is passed in, the service returns
+    the default audience, and the request gets retried with this default audience, making the call function as expected.
+     */
+    public void audienceErrorBearerChallengeRetry() {
+        QueueServiceAsyncClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(QueueAudience.createQueueServiceAccountAudience("badaudience"))
+            .buildAsyncClient();
+
+        StepVerifier.create(aadService.getProperties())
+                .assertNext(r -> assertNotNull(r))
+                .verifyComplete();
+    }
+
+    @Test
+    public void audienceFromString() {
+        String url = String.format("https://%s.queue.core.windows.net/", primaryQueueServiceAsyncClient.getAccountName());
+        QueueAudience audience = QueueAudience.fromString(url);
+
+        QueueServiceAsyncClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(audience)
+            .buildAsyncClient();
+
+        StepVerifier.create(aadService.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
     }
 }

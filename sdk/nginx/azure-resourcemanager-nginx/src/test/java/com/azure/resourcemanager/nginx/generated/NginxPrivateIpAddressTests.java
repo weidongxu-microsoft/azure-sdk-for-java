@@ -8,31 +8,27 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.nginx.models.NginxPrivateIpAddress;
 import com.azure.resourcemanager.nginx.models.NginxPrivateIpAllocationMethod;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class NginxPrivateIpAddressTests {
-    @Test
-    public void testDeserialize() {
-        NginxPrivateIpAddress model =
-            BinaryData
-                .fromString(
-                    "{\"privateIPAddress\":\"vbqid\",\"privateIPAllocationMethod\":\"Static\",\"subnetId\":\"zyulp\"}")
-                .toObject(NginxPrivateIpAddress.class);
-        Assertions.assertEquals("vbqid", model.privateIpAddress());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        NginxPrivateIpAddress model = BinaryData
+            .fromString(
+                "{\"privateIPAddress\":\"vyvdcs\",\"privateIPAllocationMethod\":\"Static\",\"subnetId\":\"naamde\"}")
+            .toObject(NginxPrivateIpAddress.class);
+        Assertions.assertEquals("vyvdcs", model.privateIpAddress());
         Assertions.assertEquals(NginxPrivateIpAllocationMethod.STATIC, model.privateIpAllocationMethod());
-        Assertions.assertEquals("zyulp", model.subnetId());
+        Assertions.assertEquals("naamde", model.subnetId());
     }
 
-    @Test
-    public void testSerialize() {
-        NginxPrivateIpAddress model =
-            new NginxPrivateIpAddress()
-                .withPrivateIpAddress("vbqid")
-                .withPrivateIpAllocationMethod(NginxPrivateIpAllocationMethod.STATIC)
-                .withSubnetId("zyulp");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        NginxPrivateIpAddress model = new NginxPrivateIpAddress().withPrivateIpAddress("vyvdcs")
+            .withPrivateIpAllocationMethod(NginxPrivateIpAllocationMethod.STATIC)
+            .withSubnetId("naamde");
         model = BinaryData.fromObject(model).toObject(NginxPrivateIpAddress.class);
-        Assertions.assertEquals("vbqid", model.privateIpAddress());
+        Assertions.assertEquals("vyvdcs", model.privateIpAddress());
         Assertions.assertEquals(NginxPrivateIpAllocationMethod.STATIC, model.privateIpAllocationMethod());
-        Assertions.assertEquals("zyulp", model.subnetId());
+        Assertions.assertEquals("naamde", model.subnetId());
     }
 }

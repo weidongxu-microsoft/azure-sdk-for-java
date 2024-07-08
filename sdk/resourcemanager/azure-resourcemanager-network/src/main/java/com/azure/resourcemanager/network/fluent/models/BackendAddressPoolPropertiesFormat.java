@@ -9,10 +9,14 @@ import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.models.GatewayLoadBalancerTunnelInterface;
 import com.azure.resourcemanager.network.models.LoadBalancerBackendAddress;
 import com.azure.resourcemanager.network.models.ProvisioningState;
+import com.azure.resourcemanager.network.models.SyncMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of the backend address pool. */
+/**
+ * Properties of the backend address pool.
+ */
 @Fluent
 public final class BackendAddressPoolPropertiesFormat {
     /*
@@ -81,7 +85,15 @@ public final class BackendAddressPoolPropertiesFormat {
     @JsonProperty(value = "virtualNetwork")
     private SubResource virtualNetwork;
 
-    /** Creates an instance of BackendAddressPoolPropertiesFormat class. */
+    /*
+     * Backend address synchronous mode for the backend pool
+     */
+    @JsonProperty(value = "syncMode")
+    private SyncMode syncMode;
+
+    /**
+     * Creates an instance of BackendAddressPoolPropertiesFormat class.
+     */
     public BackendAddressPoolPropertiesFormat() {
     }
 
@@ -120,8 +132,8 @@ public final class BackendAddressPoolPropertiesFormat {
      * @param tunnelInterfaces the tunnelInterfaces value to set.
      * @return the BackendAddressPoolPropertiesFormat object itself.
      */
-    public BackendAddressPoolPropertiesFormat withTunnelInterfaces(
-        List<GatewayLoadBalancerTunnelInterface> tunnelInterfaces) {
+    public BackendAddressPoolPropertiesFormat
+        withTunnelInterfaces(List<GatewayLoadBalancerTunnelInterface> tunnelInterfaces) {
         this.tunnelInterfaces = tunnelInterfaces;
         return this;
     }
@@ -141,8 +153,8 @@ public final class BackendAddressPoolPropertiesFormat {
      * @param loadBalancerBackendAddresses the loadBalancerBackendAddresses value to set.
      * @return the BackendAddressPoolPropertiesFormat object itself.
      */
-    public BackendAddressPoolPropertiesFormat withLoadBalancerBackendAddresses(
-        List<LoadBalancerBackendAddress> loadBalancerBackendAddresses) {
+    public BackendAddressPoolPropertiesFormat
+        withLoadBalancerBackendAddresses(List<LoadBalancerBackendAddress> loadBalancerBackendAddresses) {
         this.loadBalancerBackendAddresses = loadBalancerBackendAddresses;
         return this;
     }
@@ -241,6 +253,26 @@ public final class BackendAddressPoolPropertiesFormat {
      */
     public BackendAddressPoolPropertiesFormat withVirtualNetwork(SubResource virtualNetwork) {
         this.virtualNetwork = virtualNetwork;
+        return this;
+    }
+
+    /**
+     * Get the syncMode property: Backend address synchronous mode for the backend pool.
+     *
+     * @return the syncMode value.
+     */
+    public SyncMode syncMode() {
+        return this.syncMode;
+    }
+
+    /**
+     * Set the syncMode property: Backend address synchronous mode for the backend pool.
+     *
+     * @param syncMode the syncMode value to set.
+     * @return the BackendAddressPoolPropertiesFormat object itself.
+     */
+    public BackendAddressPoolPropertiesFormat withSyncMode(SyncMode syncMode) {
+        this.syncMode = syncMode;
         return this;
     }
 

@@ -5,71 +5,78 @@
 package com.azure.communication.callautomation.implementation.models;
 
 import com.azure.core.annotation.Fluent;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+import java.io.IOException;
 import java.util.List;
 
-/** The request payload for creating the call. */
+/**
+ * The request payload for creating the call.
+ */
 @Fluent
-public final class CreateCallRequestInternal {
+public final class CreateCallRequestInternal implements JsonSerializable<CreateCallRequestInternal> {
     /*
      * The targets of the call.
      */
-    @JsonProperty(value = "targets", required = true)
     private List<CommunicationIdentifierModel> targets;
 
     /*
-     * The source caller Id, a phone number, that's shown to the PSTN
-     * participant being invited.
+     * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
      * Required only when calling a PSTN callee.
      */
-    @JsonProperty(value = "sourceCallerIdNumber")
     private PhoneNumberIdentifierModel sourceCallerIdNumber;
 
     /*
      * Display name of the call if dialing out to a pstn number
      */
-    @JsonProperty(value = "sourceDisplayName")
     private String sourceDisplayName;
 
     /*
      * The identifier of the source of the call
      */
-    @JsonProperty(value = "sourceIdentity")
-    private CommunicationUserIdentifierModel sourceIdentity;
+    private CommunicationUserIdentifierModel source;
 
     /*
      * A customer set value used to track the answering of a call.
      */
-    @JsonProperty(value = "operationContext")
     private String operationContext;
 
     /*
      * The callback URI.
      */
-    @JsonProperty(value = "callbackUri", required = true)
     private String callbackUri;
 
     /*
      * Media Streaming Configuration.
      */
-    @JsonProperty(value = "mediaStreamingConfiguration")
     private MediaStreamingConfigurationInternal mediaStreamingConfiguration;
 
     /*
-     * The identifier of the Cognitive Service resource assigned to this call.
+     * Live Transcription Configuration.
      */
-    @JsonProperty(value = "azureCognitiveServicesEndpointUrl")
-    private String azureCognitiveServicesEndpointUrl;
+    private TranscriptionConfigurationInternal transcriptionConfiguration;
 
     /*
-     * Used by customer to send custom context to targets
+     * AI options for the call.
      */
-    @JsonProperty(value = "customContext")
-    private CustomContext customContext;
+    private CallIntelligenceOptionsInternal callIntelligenceOptions;
+
+    /*
+     * Used by customer to send custom calling context to targets
+     */
+    private CustomCallingContext customCallingContext;
+
+    /**
+     * Creates an instance of CreateCallRequestInternal class.
+     */
+    public CreateCallRequestInternal() {
+    }
 
     /**
      * Get the targets property: The targets of the call.
-     *
+     * 
      * @return the targets value.
      */
     public List<CommunicationIdentifierModel> getTargets() {
@@ -78,7 +85,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Set the targets property: The targets of the call.
-     *
+     * 
      * @param targets the targets value to set.
      * @return the CreateCallRequestInternal object itself.
      */
@@ -89,8 +96,9 @@ public final class CreateCallRequestInternal {
 
     /**
      * Get the sourceCallerIdNumber property: The source caller Id, a phone number, that's shown to the PSTN participant
-     * being invited. Required only when calling a PSTN callee.
-     *
+     * being invited.
+     * Required only when calling a PSTN callee.
+     * 
      * @return the sourceCallerIdNumber value.
      */
     public PhoneNumberIdentifierModel getSourceCallerIdNumber() {
@@ -99,8 +107,9 @@ public final class CreateCallRequestInternal {
 
     /**
      * Set the sourceCallerIdNumber property: The source caller Id, a phone number, that's shown to the PSTN participant
-     * being invited. Required only when calling a PSTN callee.
-     *
+     * being invited.
+     * Required only when calling a PSTN callee.
+     * 
      * @param sourceCallerIdNumber the sourceCallerIdNumber value to set.
      * @return the CreateCallRequestInternal object itself.
      */
@@ -111,7 +120,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Get the sourceDisplayName property: Display name of the call if dialing out to a pstn number.
-     *
+     * 
      * @return the sourceDisplayName value.
      */
     public String getSourceDisplayName() {
@@ -120,7 +129,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Set the sourceDisplayName property: Display name of the call if dialing out to a pstn number.
-     *
+     * 
      * @param sourceDisplayName the sourceDisplayName value to set.
      * @return the CreateCallRequestInternal object itself.
      */
@@ -130,28 +139,28 @@ public final class CreateCallRequestInternal {
     }
 
     /**
-     * Get the sourceIdentity property: The identifier of the source of the call.
-     *
-     * @return the sourceIdentity value.
+     * Get the source property: The identifier of the source of the call.
+     * 
+     * @return the source value.
      */
-    public CommunicationUserIdentifierModel getSourceIdentity() {
-        return this.sourceIdentity;
+    public CommunicationUserIdentifierModel getSource() {
+        return this.source;
     }
 
     /**
-     * Set the sourceIdentity property: The identifier of the source of the call.
-     *
-     * @param sourceIdentity the sourceIdentity value to set.
+     * Set the source property: The identifier of the source of the call.
+     * 
+     * @param source the source value to set.
      * @return the CreateCallRequestInternal object itself.
      */
-    public CreateCallRequestInternal setSourceIdentity(CommunicationUserIdentifierModel sourceIdentity) {
-        this.sourceIdentity = sourceIdentity;
+    public CreateCallRequestInternal setSource(CommunicationUserIdentifierModel source) {
+        this.source = source;
         return this;
     }
 
     /**
      * Get the operationContext property: A customer set value used to track the answering of a call.
-     *
+     * 
      * @return the operationContext value.
      */
     public String getOperationContext() {
@@ -160,7 +169,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Set the operationContext property: A customer set value used to track the answering of a call.
-     *
+     * 
      * @param operationContext the operationContext value to set.
      * @return the CreateCallRequestInternal object itself.
      */
@@ -171,7 +180,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Get the callbackUri property: The callback URI.
-     *
+     * 
      * @return the callbackUri value.
      */
     public String getCallbackUri() {
@@ -180,7 +189,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Set the callbackUri property: The callback URI.
-     *
+     * 
      * @param callbackUri the callbackUri value to set.
      * @return the CreateCallRequestInternal object itself.
      */
@@ -191,7 +200,7 @@ public final class CreateCallRequestInternal {
 
     /**
      * Get the mediaStreamingConfiguration property: Media Streaming Configuration.
-     *
+     * 
      * @return the mediaStreamingConfiguration value.
      */
     public MediaStreamingConfigurationInternal getMediaStreamingConfiguration() {
@@ -200,55 +209,145 @@ public final class CreateCallRequestInternal {
 
     /**
      * Set the mediaStreamingConfiguration property: Media Streaming Configuration.
-     *
+     * 
      * @param mediaStreamingConfiguration the mediaStreamingConfiguration value to set.
      * @return the CreateCallRequestInternal object itself.
      */
-    public CreateCallRequestInternal setMediaStreamingConfiguration(
-            MediaStreamingConfigurationInternal mediaStreamingConfiguration) {
+    public CreateCallRequestInternal
+        setMediaStreamingConfiguration(MediaStreamingConfigurationInternal mediaStreamingConfiguration) {
         this.mediaStreamingConfiguration = mediaStreamingConfiguration;
         return this;
     }
 
     /**
-     * Get the azureCognitiveServicesEndpointUrl property: The identifier of the Cognitive Service resource assigned to
-     * this call.
-     *
-     * @return the azureCognitiveServicesEndpointUrl value.
+     * Get the transcriptionConfiguration property: Live Transcription Configuration.
+     * 
+     * @return the transcriptionConfiguration value.
      */
-    public String getAzureCognitiveServicesEndpointUrl() {
-        return this.azureCognitiveServicesEndpointUrl;
+    public TranscriptionConfigurationInternal getTranscriptionConfiguration() {
+        return this.transcriptionConfiguration;
     }
 
     /**
-     * Set the azureCognitiveServicesEndpointUrl property: The identifier of the Cognitive Service resource assigned to
-     * this call.
-     *
-     * @param azureCognitiveServicesEndpointUrl the azureCognitiveServicesEndpointUrl value to set.
+     * Set the transcriptionConfiguration property: Live Transcription Configuration.
+     * 
+     * @param transcriptionConfiguration the transcriptionConfiguration value to set.
      * @return the CreateCallRequestInternal object itself.
      */
-    public CreateCallRequestInternal setAzureCognitiveServicesEndpointUrl(String azureCognitiveServicesEndpointUrl) {
-        this.azureCognitiveServicesEndpointUrl = azureCognitiveServicesEndpointUrl;
+    public CreateCallRequestInternal
+        setTranscriptionConfiguration(TranscriptionConfigurationInternal transcriptionConfiguration) {
+        this.transcriptionConfiguration = transcriptionConfiguration;
         return this;
     }
 
     /**
-     * Get the customContext property: Used by customer to send custom context to targets.
-     *
-     * @return the customContext value.
+     * Get the callIntelligenceOptions property: AI options for the call.
+     * 
+     * @return the callIntelligenceOptions value.
      */
-    public CustomContext getCustomContext() {
-        return this.customContext;
+    public CallIntelligenceOptionsInternal getCallIntelligenceOptions() {
+        return this.callIntelligenceOptions;
     }
 
     /**
-     * Set the customContext property: Used by customer to send custom context to targets.
-     *
-     * @param customContext the customContext value to set.
+     * Set the callIntelligenceOptions property: AI options for the call.
+     * 
+     * @param callIntelligenceOptions the callIntelligenceOptions value to set.
      * @return the CreateCallRequestInternal object itself.
      */
-    public CreateCallRequestInternal setCustomContext(CustomContext customContext) {
-        this.customContext = customContext;
+    public CreateCallRequestInternal
+        setCallIntelligenceOptions(CallIntelligenceOptionsInternal callIntelligenceOptions) {
+        this.callIntelligenceOptions = callIntelligenceOptions;
         return this;
+    }
+
+    /**
+     * Get the customCallingContext property: Used by customer to send custom calling context to targets.
+     * 
+     * @return the customCallingContext value.
+     */
+    public CustomCallingContext getCustomCallingContext() {
+        return this.customCallingContext;
+    }
+
+    /**
+     * Set the customCallingContext property: Used by customer to send custom calling context to targets.
+     * 
+     * @param customCallingContext the customCallingContext value to set.
+     * @return the CreateCallRequestInternal object itself.
+     */
+    public CreateCallRequestInternal setCustomCallingContext(CustomCallingContext customCallingContext) {
+        this.customCallingContext = customCallingContext;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeArrayField("targets", this.targets, (writer, element) -> writer.writeJson(element));
+        jsonWriter.writeStringField("callbackUri", this.callbackUri);
+        jsonWriter.writeJsonField("sourceCallerIdNumber", this.sourceCallerIdNumber);
+        jsonWriter.writeStringField("sourceDisplayName", this.sourceDisplayName);
+        jsonWriter.writeJsonField("source", this.source);
+        jsonWriter.writeStringField("operationContext", this.operationContext);
+        jsonWriter.writeJsonField("mediaStreamingConfiguration", this.mediaStreamingConfiguration);
+        jsonWriter.writeJsonField("transcriptionConfiguration", this.transcriptionConfiguration);
+        jsonWriter.writeJsonField("callIntelligenceOptions", this.callIntelligenceOptions);
+        jsonWriter.writeJsonField("customCallingContext", this.customCallingContext);
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an instance of CreateCallRequestInternal from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of CreateCallRequestInternal if the JsonReader was pointing to an instance of it, or null if
+     * it was pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
+     * @throws IOException If an error occurs while reading the CreateCallRequestInternal.
+     */
+    public static CreateCallRequestInternal fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            CreateCallRequestInternal deserializedCreateCallRequestInternal = new CreateCallRequestInternal();
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("targets".equals(fieldName)) {
+                    List<CommunicationIdentifierModel> targets
+                        = reader.readArray(reader1 -> CommunicationIdentifierModel.fromJson(reader1));
+                    deserializedCreateCallRequestInternal.targets = targets;
+                } else if ("callbackUri".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.callbackUri = reader.getString();
+                } else if ("sourceCallerIdNumber".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.sourceCallerIdNumber
+                        = PhoneNumberIdentifierModel.fromJson(reader);
+                } else if ("sourceDisplayName".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.sourceDisplayName = reader.getString();
+                } else if ("source".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.source = CommunicationUserIdentifierModel.fromJson(reader);
+                } else if ("operationContext".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.operationContext = reader.getString();
+                } else if ("mediaStreamingConfiguration".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.mediaStreamingConfiguration
+                        = MediaStreamingConfigurationInternal.fromJson(reader);
+                } else if ("transcriptionConfiguration".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.transcriptionConfiguration
+                        = TranscriptionConfigurationInternal.fromJson(reader);
+                } else if ("callIntelligenceOptions".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.callIntelligenceOptions
+                        = CallIntelligenceOptionsInternal.fromJson(reader);
+                } else if ("customCallingContext".equals(fieldName)) {
+                    deserializedCreateCallRequestInternal.customCallingContext = CustomCallingContext.fromJson(reader);
+                } else {
+                    reader.skipChildren();
+                }
+            }
+
+            return deserializedCreateCallRequestInternal;
+        });
     }
 }

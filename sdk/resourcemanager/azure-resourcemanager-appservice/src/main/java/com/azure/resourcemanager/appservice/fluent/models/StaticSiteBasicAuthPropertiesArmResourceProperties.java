@@ -7,9 +7,12 @@ package com.azure.resourcemanager.appservice.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** StaticSiteBasicAuthPropertiesARMResource resource specific properties. */
+/**
+ * StaticSiteBasicAuthPropertiesARMResource resource specific properties.
+ */
 @Fluent
 public final class StaticSiteBasicAuthPropertiesArmResourceProperties {
     /*
@@ -42,7 +45,9 @@ public final class StaticSiteBasicAuthPropertiesArmResourceProperties {
     @JsonProperty(value = "secretState", access = JsonProperty.Access.WRITE_ONLY)
     private String secretState;
 
-    /** Creates an instance of StaticSiteBasicAuthPropertiesArmResourceProperties class. */
+    /**
+     * Creates an instance of StaticSiteBasicAuthPropertiesArmResourceProperties class.
+     */
     public StaticSiteBasicAuthPropertiesArmResourceProperties() {
     }
 
@@ -103,8 +108,8 @@ public final class StaticSiteBasicAuthPropertiesArmResourceProperties {
      * @param applicableEnvironmentsMode the applicableEnvironmentsMode value to set.
      * @return the StaticSiteBasicAuthPropertiesArmResourceProperties object itself.
      */
-    public StaticSiteBasicAuthPropertiesArmResourceProperties withApplicableEnvironmentsMode(
-        String applicableEnvironmentsMode) {
+    public StaticSiteBasicAuthPropertiesArmResourceProperties
+        withApplicableEnvironmentsMode(String applicableEnvironmentsMode) {
         this.applicableEnvironmentsMode = applicableEnvironmentsMode;
         return this;
     }
@@ -147,14 +152,12 @@ public final class StaticSiteBasicAuthPropertiesArmResourceProperties {
      */
     public void validate() {
         if (applicableEnvironmentsMode() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property applicableEnvironmentsMode in model"
-                            + " StaticSiteBasicAuthPropertiesArmResourceProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property applicableEnvironmentsMode in model StaticSiteBasicAuthPropertiesArmResourceProperties"));
         }
     }
 
-    private static final ClientLogger LOGGER =
-        new ClientLogger(StaticSiteBasicAuthPropertiesArmResourceProperties.class);
+    private static final ClientLogger LOGGER
+        = new ClientLogger(StaticSiteBasicAuthPropertiesArmResourceProperties.class);
 }

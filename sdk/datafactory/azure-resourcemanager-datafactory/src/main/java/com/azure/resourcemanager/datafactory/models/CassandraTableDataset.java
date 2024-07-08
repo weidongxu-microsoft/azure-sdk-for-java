@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.CassandraTableDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Cassandra database dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Cassandra database dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = CassandraTableDataset.class, visible = true)
 @JsonTypeName("CassandraTable")
 @Fluent
 public final class CassandraTableDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "CassandraTable";
+
     /*
      * Cassandra dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private CassandraTableDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of CassandraTableDataset class. */
+    /**
+     * Creates an instance of CassandraTableDataset class.
+     */
     public CassandraTableDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Cassandra dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private CassandraTableDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraTableDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class CassandraTableDataset extends Dataset {
     /**
      * Get the tableName property: The table name of the Cassandra database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -98,7 +134,7 @@ public final class CassandraTableDataset extends Dataset {
     /**
      * Set the tableName property: The table name of the Cassandra database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the CassandraTableDataset object itself.
      */
@@ -113,7 +149,7 @@ public final class CassandraTableDataset extends Dataset {
     /**
      * Get the keyspace property: The keyspace of the Cassandra database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the keyspace value.
      */
     public Object keyspace() {
@@ -123,7 +159,7 @@ public final class CassandraTableDataset extends Dataset {
     /**
      * Set the keyspace property: The keyspace of the Cassandra database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param keyspace the keyspace value to set.
      * @return the CassandraTableDataset object itself.
      */
@@ -137,7 +173,7 @@ public final class CassandraTableDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

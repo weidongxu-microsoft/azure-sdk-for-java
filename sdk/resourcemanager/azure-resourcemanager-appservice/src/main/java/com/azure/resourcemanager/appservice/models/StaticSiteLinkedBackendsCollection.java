@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.StaticSiteLinkedBackendArmResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of static site linked backends. */
+/**
+ * Collection of static site linked backends.
+ */
 @Fluent
 public final class StaticSiteLinkedBackendsCollection {
     /*
@@ -25,7 +28,9 @@ public final class StaticSiteLinkedBackendsCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of StaticSiteLinkedBackendsCollection class. */
+    /**
+     * Creates an instance of StaticSiteLinkedBackendsCollection class.
+     */
     public StaticSiteLinkedBackendsCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class StaticSiteLinkedBackendsCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model StaticSiteLinkedBackendsCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model StaticSiteLinkedBackendsCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

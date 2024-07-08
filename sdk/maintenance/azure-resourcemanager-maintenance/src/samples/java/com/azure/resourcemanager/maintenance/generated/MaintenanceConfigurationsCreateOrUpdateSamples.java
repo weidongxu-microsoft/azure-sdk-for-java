@@ -7,25 +7,26 @@ package com.azure.resourcemanager.maintenance.generated;
 import com.azure.resourcemanager.maintenance.models.MaintenanceScope;
 import com.azure.resourcemanager.maintenance.models.Visibility;
 
-/** Samples for MaintenanceConfigurations CreateOrUpdate. */
+/**
+ * Samples for MaintenanceConfigurations CreateOrUpdate.
+ */
 public final class MaintenanceConfigurationsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2021-05-01/examples/MaintenanceConfigurations_CreateOrUpdateForResource.json
+     * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_CreateOrUpdateForResource.json
      */
     /**
      * Sample code: MaintenanceConfigurations_CreateOrUpdateForResource.
-     *
+     * 
      * @param manager Entry point to MaintenanceManager.
      */
     public static void maintenanceConfigurationsCreateOrUpdateForResource(
         com.azure.resourcemanager.maintenance.MaintenanceManager manager) {
-        manager
-            .maintenanceConfigurations()
+        manager.maintenanceConfigurations()
             .define("configuration1")
             .withExistingResourceGroup("examplerg")
             .withRegion("westus2")
             .withNamespace("Microsoft.Maintenance")
-            .withMaintenanceScope(MaintenanceScope.HOST)
+            .withMaintenanceScope(MaintenanceScope.OSIMAGE)
             .withVisibility(Visibility.CUSTOM)
             .withStartDateTime("2020-04-30 08:00")
             .withExpirationDateTime("9999-12-31 00:00")

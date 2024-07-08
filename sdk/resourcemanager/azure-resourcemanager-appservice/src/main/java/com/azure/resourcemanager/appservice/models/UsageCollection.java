@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.UsageInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of usages. */
+/**
+ * Collection of usages.
+ */
 @Fluent
 public final class UsageCollection {
     /*
@@ -25,7 +28,9 @@ public final class UsageCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of UsageCollection class. */
+    /**
+     * Creates an instance of UsageCollection class.
+     */
     public UsageCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class UsageCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model UsageCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model UsageCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

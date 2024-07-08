@@ -8,13 +8,17 @@ import com.azure.core.management.Region;
 import com.azure.core.management.SystemData;
 import com.azure.core.util.Context;
 import com.azure.resourcemanager.healthcareapis.fluent.models.DicomServiceInner;
+import com.azure.resourcemanager.healthcareapis.models.CorsConfiguration;
 import com.azure.resourcemanager.healthcareapis.models.DicomService;
 import com.azure.resourcemanager.healthcareapis.models.DicomServiceAuthenticationConfiguration;
 import com.azure.resourcemanager.healthcareapis.models.DicomServicePatchResource;
+import com.azure.resourcemanager.healthcareapis.models.Encryption;
 import com.azure.resourcemanager.healthcareapis.models.PrivateEndpointConnection;
 import com.azure.resourcemanager.healthcareapis.models.ProvisioningState;
 import com.azure.resourcemanager.healthcareapis.models.PublicNetworkAccess;
+import com.azure.resourcemanager.healthcareapis.models.ServiceEventState;
 import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityIdentity;
+import com.azure.resourcemanager.healthcareapis.models.StorageConfiguration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +73,10 @@ public final class DicomServiceImpl implements DicomService, DicomService.Defini
         return this.innerModel().authenticationConfiguration();
     }
 
+    public CorsConfiguration corsConfiguration() {
+        return this.innerModel().corsConfiguration();
+    }
+
     public String serviceUrl() {
         return this.innerModel().serviceUrl();
     }
@@ -86,12 +94,32 @@ public final class DicomServiceImpl implements DicomService, DicomService.Defini
         return this.innerModel().publicNetworkAccess();
     }
 
+    public ServiceEventState eventState() {
+        return this.innerModel().eventState();
+    }
+
+    public Encryption encryption() {
+        return this.innerModel().encryption();
+    }
+
+    public StorageConfiguration storageConfiguration() {
+        return this.innerModel().storageConfiguration();
+    }
+
+    public Boolean enableDataPartitions() {
+        return this.innerModel().enableDataPartitions();
+    }
+
     public Region region() {
         return Region.fromName(this.regionName());
     }
 
     public String regionName() {
         return this.location();
+    }
+
+    public String resourceGroupName() {
+        return resourceGroupName;
     }
 
     public DicomServiceInner innerModel() {
@@ -117,20 +145,16 @@ public final class DicomServiceImpl implements DicomService, DicomService.Defini
     }
 
     public DicomService create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDicomServices()
-                .createOrUpdate(resourceGroupName, workspaceName, dicomServiceName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getDicomServices()
+            .createOrUpdate(resourceGroupName, workspaceName, dicomServiceName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public DicomService create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDicomServices()
-                .createOrUpdate(resourceGroupName, workspaceName, dicomServiceName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient()
+            .getDicomServices()
+            .createOrUpdate(resourceGroupName, workspaceName, dicomServiceName, this.innerModel(), context);
         return this;
     }
 
@@ -146,50 +170,41 @@ public final class DicomServiceImpl implements DicomService, DicomService.Defini
     }
 
     public DicomService apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDicomServices()
-                .update(
-                    resourceGroupName, dicomServiceName, workspaceName, updateDicomservicePatchResource, Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getDicomServices()
+            .update(resourceGroupName, dicomServiceName, workspaceName, updateDicomservicePatchResource, Context.NONE);
         return this;
     }
 
     public DicomService apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDicomServices()
-                .update(resourceGroupName, dicomServiceName, workspaceName, updateDicomservicePatchResource, context);
+        this.innerObject = serviceManager.serviceClient()
+            .getDicomServices()
+            .update(resourceGroupName, dicomServiceName, workspaceName, updateDicomservicePatchResource, context);
         return this;
     }
 
-    DicomServiceImpl(
-        DicomServiceInner innerObject, com.azure.resourcemanager.healthcareapis.HealthcareApisManager serviceManager) {
+    DicomServiceImpl(DicomServiceInner innerObject,
+        com.azure.resourcemanager.healthcareapis.HealthcareApisManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.dicomServiceName = Utils.getValueFromIdByName(innerObject.id(), "dicomservices");
-        this.workspaceName = Utils.getValueFromIdByName(innerObject.id(), "workspaces");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.dicomServiceName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "dicomservices");
+        this.workspaceName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "workspaces");
     }
 
     public DicomService refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDicomServices()
-                .getWithResponse(resourceGroupName, workspaceName, dicomServiceName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getDicomServices()
+            .getWithResponse(resourceGroupName, workspaceName, dicomServiceName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public DicomService refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDicomServices()
-                .getWithResponse(resourceGroupName, workspaceName, dicomServiceName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getDicomServices()
+            .getWithResponse(resourceGroupName, workspaceName, dicomServiceName, context)
+            .getValue();
         return this;
     }
 
@@ -228,14 +243,34 @@ public final class DicomServiceImpl implements DicomService, DicomService.Defini
         }
     }
 
-    public DicomServiceImpl withAuthenticationConfiguration(
-        DicomServiceAuthenticationConfiguration authenticationConfiguration) {
+    public DicomServiceImpl
+        withAuthenticationConfiguration(DicomServiceAuthenticationConfiguration authenticationConfiguration) {
         this.innerModel().withAuthenticationConfiguration(authenticationConfiguration);
+        return this;
+    }
+
+    public DicomServiceImpl withCorsConfiguration(CorsConfiguration corsConfiguration) {
+        this.innerModel().withCorsConfiguration(corsConfiguration);
         return this;
     }
 
     public DicomServiceImpl withPublicNetworkAccess(PublicNetworkAccess publicNetworkAccess) {
         this.innerModel().withPublicNetworkAccess(publicNetworkAccess);
+        return this;
+    }
+
+    public DicomServiceImpl withEncryption(Encryption encryption) {
+        this.innerModel().withEncryption(encryption);
+        return this;
+    }
+
+    public DicomServiceImpl withStorageConfiguration(StorageConfiguration storageConfiguration) {
+        this.innerModel().withStorageConfiguration(storageConfiguration);
+        return this;
+    }
+
+    public DicomServiceImpl withEnableDataPartitions(Boolean enableDataPartitions) {
+        this.innerModel().withEnableDataPartitions(enableDataPartitions);
         return this;
     }
 

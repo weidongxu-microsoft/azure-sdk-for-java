@@ -38,6 +38,7 @@ import com.azure.storage.file.datalake.implementation.models.PathSetAccessContro
 import com.azure.storage.file.datalake.implementation.models.PathsSetAccessControlRecursiveHeaders;
 import com.azure.storage.file.datalake.implementation.models.SetAccessControlRecursiveResponse;
 import com.azure.storage.file.datalake.implementation.models.SourceModifiedAccessConditions;
+import com.azure.storage.file.datalake.implementation.util.BuilderHelper;
 import com.azure.storage.file.datalake.implementation.util.DataLakeImplUtils;
 import com.azure.storage.file.datalake.implementation.util.DataLakeSasImplUtil;
 import com.azure.storage.file.datalake.implementation.util.ModelHelper;
@@ -62,18 +63,16 @@ import com.azure.storage.file.datalake.models.PathRemoveAccessControlEntry;
 import com.azure.storage.file.datalake.models.UserDelegationKey;
 import com.azure.storage.file.datalake.options.DataLakePathCreateOptions;
 import com.azure.storage.file.datalake.options.DataLakePathDeleteOptions;
+import com.azure.storage.file.datalake.options.PathGetPropertiesOptions;
 import com.azure.storage.file.datalake.options.PathRemoveAccessControlRecursiveOptions;
 import com.azure.storage.file.datalake.options.PathSetAccessControlRecursiveOptions;
 import com.azure.storage.file.datalake.options.PathUpdateAccessControlRecursiveOptions;
 import com.azure.storage.file.datalake.sas.DataLakeServiceSasSignatureValues;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -99,6 +98,7 @@ public class DataLakePathAsyncClient {
     private final String accountName;
     private final String fileSystemName;
     final String pathName;
+    private final String objectName;
     private final DataLakeServiceVersion serviceVersion;
     private final CpkInfo customerProvidedKey;
 
@@ -107,6 +107,8 @@ public class DataLakePathAsyncClient {
     final BlockBlobAsyncClient blockBlobAsyncClient;
 
     private final AzureSasCredential sasToken;
+
+    private final boolean isTokenCredentialAuthenticated;
 
     /**
      * Package-private constructor for use by {@link DataLakePathClientBuilder}.
@@ -122,10 +124,10 @@ public class DataLakePathAsyncClient {
     DataLakePathAsyncClient(HttpPipeline pipeline, String url, DataLakeServiceVersion serviceVersion,
         String accountName, String fileSystemName, String pathName, PathResourceType pathResourceType,
         BlockBlobAsyncClient blockBlobAsyncClient, AzureSasCredential sasToken,
-        CpkInfo customerProvidedKey) {
+        CpkInfo customerProvidedKey, boolean isTokenCredentialAuthenticated) {
         this.accountName = accountName;
         this.fileSystemName = fileSystemName;
-        this.pathName = Utility.urlDecode(pathName);
+        this.pathName = pathName;
         this.pathResourceType = pathResourceType;
         this.blockBlobAsyncClient = blockBlobAsyncClient;
         this.sasToken = sasToken;
@@ -155,41 +157,12 @@ public class DataLakePathAsyncClient {
             .buildClient();
 
         this.customerProvidedKey = customerProvidedKey;
-    }
+        this.isTokenCredentialAuthenticated = isTokenCredentialAuthenticated;
 
-    /**
-     * Converts the metadata into a string of format "key1=value1, key2=value2" and Base64 encodes the values.
-     *
-     * @param metadata The metadata.
-     *
-     * @return The metadata represented as a String.
-     */
-    static String buildMetadataString(Map<String, String> metadata) {
-        if (!CoreUtils.isNullOrEmpty(metadata)) {
-            StringBuilder sb = new StringBuilder();
-            for (final Map.Entry<String, String> entry : metadata.entrySet()) {
-                if (Objects.isNull(entry.getKey()) || entry.getKey().isEmpty()) {
-                    throw new IllegalArgumentException("The key for one of the metadata key-value pairs is null, "
-                        + "empty, or whitespace.");
-                } else if (Objects.isNull(entry.getValue()) || entry.getValue().isEmpty()) {
-                    throw new IllegalArgumentException("The value for one of the metadata key-value pairs is null, "
-                        + "empty, or whitespace.");
-                }
-
-                /*
-                The service has an internal base64 decode when metadata is copied from ADLS to Storage, so getMetadata
-                will work as normal. Doing this encoding for the customers preserves the existing behavior of
-                metadata.
-                 */
-                sb.append(entry.getKey()).append('=')
-                    .append(new String(Base64.getEncoder().encode(entry.getValue().getBytes(StandardCharsets.UTF_8)),
-                        StandardCharsets.UTF_8)).append(',');
-            }
-            sb.deleteCharAt(sb.length() - 1); // Remove the extraneous "," after the last element.
-            return sb.toString();
-        } else {
-            return null;
-        }
+        // Split on / in the path
+        String[] pathParts = pathName.split("/");
+        // Grab last part of path
+        this.objectName = pathParts[pathParts.length - 1];
     }
 
     /**
@@ -243,10 +216,7 @@ public class DataLakePathAsyncClient {
      * @return The name of the object.
      */
     String getObjectName() {
-        // Split on / in the path
-        String[] pathParts = getObjectPath().split("/");
-        // Return last part of path
-        return pathParts[pathParts.length - 1];
+        return this.objectName;
     }
 
     /**
@@ -284,6 +254,10 @@ public class DataLakePathAsyncClient {
         return this.customerProvidedKey;
     }
 
+    boolean isTokenCredentialAuthenticated() {
+        return this.isTokenCredentialAuthenticated;
+    }
+
     /**
      * Creates a new {@link DataLakePathAsyncClient} with the specified {@code customerProvidedKey}.
      *
@@ -301,7 +275,7 @@ public class DataLakePathAsyncClient {
         }
         return new DataLakePathAsyncClient(getHttpPipeline(), getAccountUrl(), getServiceVersion(), getAccountName(),
             getFileSystemName(), getObjectPath(), this.pathResourceType, this.blockBlobAsyncClient, getSasToken(),
-            finalCustomerProvidedKey);
+            finalCustomerProvidedKey, isTokenCredentialAuthenticated());
     }
 
     /**
@@ -423,7 +397,7 @@ public class DataLakePathAsyncClient {
      * String umask = &quot;umask&quot;;
      * String owner = &quot;rwx&quot;;
      * String group = &quot;r--&quot;;
-     * String leaseId = UUID.randomUUID&#40;&#41;.toString&#40;&#41;;
+     * String leaseId = CoreUtils.randomUuid&#40;&#41;.toString&#40;&#41;;
      * Integer duration = 15;
      * DataLakePathCreateOptions options = new DataLakePathCreateOptions&#40;&#41;
      *     .setPermissions&#40;permissions&#41;
@@ -460,7 +434,8 @@ public class DataLakePathAsyncClient {
 
     Mono<Response<PathInfo>> createWithResponse(DataLakePathCreateOptions options, Context context) {
         options = options == null ? new DataLakePathCreateOptions() : options;
-        DataLakeRequestConditions requestConditions = options.getRequestConditions() == null ? new DataLakeRequestConditions() : options.getRequestConditions();
+        DataLakeRequestConditions requestConditions = options.getRequestConditions() == null
+            ? new DataLakeRequestConditions() : options.getRequestConditions();
 
         LeaseAccessConditions lac = new LeaseAccessConditions().setLeaseId(requestConditions.getLeaseId());
         ModifiedAccessConditions mac = new ModifiedAccessConditions()
@@ -471,7 +446,7 @@ public class DataLakePathAsyncClient {
 
         String acl = options.getAccessControlList() != null ? PathAccessControlEntry
             .serializeList(options.getAccessControlList()) : null;
-        PathExpiryOptions expiryOptions = setFieldsIfNull(options);
+        PathExpiryOptions expiryOptions = ModelHelper.setFieldsIfNull(options, pathResourceType);
 
         String expiresOnString = null; // maybe return string instead and do check for expiryOptions in here
         if (options.getScheduleDeletionOptions() != null && options.getScheduleDeletionOptions().getExpiresOn() != null) {
@@ -484,43 +459,16 @@ public class DataLakePathAsyncClient {
 
         context = context == null ? Context.NONE : context;
         return this.dataLakeStorage.getPaths().createWithResponseAsync(null, null, pathResourceType, null, null, null,
-                options.getSourceLeaseId(), buildMetadataString(options.getMetadata()), options.getPermissions(),
-                options.getUmask(), options.getOwner(), options.getGroup(), acl, options.getProposedLeaseId(),
-                leaseDuration, expiryOptions, expiresOnString, options.getEncryptionContext(), options.getPathHttpHeaders(),
-                lac, mac, null, customerProvidedKey, context)
-            .map(response -> new SimpleResponse<>(response, new PathInfo(response.getDeserializedHeaders().getETag(),
+                options.getSourceLeaseId(), ModelHelper.buildMetadataString(options.getMetadata()),
+                options.getPermissions(), options.getUmask(), options.getOwner(), options.getGroup(), acl,
+                options.getProposedLeaseId(), leaseDuration, expiryOptions, expiresOnString,
+                options.getEncryptionContext(), options.getPathHttpHeaders(), lac, mac, null, customerProvidedKey,
+                context)
+            .map(response -> new SimpleResponse<>(response, new PathInfo(
+                response.getDeserializedHeaders().getETag(),
                 response.getDeserializedHeaders().getLastModified(),
                 response.getDeserializedHeaders().isXMsRequestServerEncrypted() != null,
                 response.getDeserializedHeaders().getXMsEncryptionKeySha256())));
-    }
-
-    PathExpiryOptions setFieldsIfNull(DataLakePathCreateOptions options) {
-        if (pathResourceType == PathResourceType.DIRECTORY) {
-            if (options.getProposedLeaseId() != null) {
-                throw LOGGER.logExceptionAsError(new IllegalArgumentException("ProposedLeaseId does not apply to directories."));
-            }
-            if (options.getLeaseDuration() != null) {
-                throw LOGGER.logExceptionAsError(new IllegalArgumentException("LeaseDuration does not apply to directories."));
-            }
-            if (options.getScheduleDeletionOptions() != null && options.getScheduleDeletionOptions().getTimeToExpire() != null) {
-                throw LOGGER.logExceptionAsError(new IllegalArgumentException("TimeToExpire does not apply to directories."));
-            }
-            if (options.getScheduleDeletionOptions() != null && options.getScheduleDeletionOptions().getExpiresOn() != null) {
-                throw LOGGER.logExceptionAsError(new IllegalArgumentException("ExpiresOn does not apply to directories."));
-            }
-        }
-        if (options.getScheduleDeletionOptions() == null) {
-            return null;
-        }
-        if (options.getScheduleDeletionOptions().getTimeToExpire() != null && options.getScheduleDeletionOptions().getExpiresOn() != null) {
-            throw LOGGER.logExceptionAsError(new IllegalArgumentException("TimeToExpire and ExpiresOn both cannot be set."));
-        }
-        if (options.getScheduleDeletionOptions().getTimeToExpire() != null) {
-            return PathExpiryOptions.RELATIVE_TO_NOW;
-        } else if (options.getScheduleDeletionOptions().getExpiresOn() != null) {
-            return PathExpiryOptions.ABSOLUTE;
-        }
-        return null;
     }
 
     /**
@@ -630,9 +578,24 @@ public class DataLakePathAsyncClient {
             .setIfModifiedSince(requestConditions.getIfModifiedSince())
             .setIfUnmodifiedSince(requestConditions.getIfUnmodifiedSince());
 
-        context = context == null ? Context.NONE : context;
-        return this.dataLakeStorage.getPaths().deleteWithResponseAsync(null, null, recursive, null, lac, mac, context)
-            .map(response -> new SimpleResponse<>(response, null));
+        // Pagination only applies to service version 2023-08-03 and later, when using OAuth.
+        Boolean paginated = (getServiceVersion().ordinal() >= DataLakeServiceVersion.V2023_08_03.ordinal()
+            && Boolean.TRUE.equals(recursive) // only applies to directories
+            && isTokenCredentialAuthenticated()) ? true : null;
+
+        Context finalContext = context == null ? Context.NONE : context;
+        return this.dataLakeStorage.getPaths()
+            .deleteNoCustomHeadersWithResponseAsync(null, null, recursive, null, paginated, lac, mac, context)
+            .expand(resp -> {
+                String continuation = resp.getHeaders().getValue(Transforms.X_MS_CONTINUATION);
+                if (continuation != null && !continuation.isEmpty()) {
+                    return this.dataLakeStorage.getPaths().deleteNoCustomHeadersWithResponseAsync(null, null, recursive,
+                        continuation, paginated, lac, mac, finalContext);
+                } else {
+                    return Mono.empty();
+                }
+            })
+            .last();
     }
 
     /**
@@ -859,6 +822,31 @@ public class DataLakePathAsyncClient {
      *
      * <p><strong>Code Samples</strong></p>
      *
+     * <!-- src_embed com.azure.storage.file.datalake.DataLakePathAsyncClient.getProperties#PathGetPropertiesOptions -->
+     * <pre>
+     * PathGetPropertiesOptions options = new PathGetPropertiesOptions&#40;&#41;.setUserPrincipalName&#40;true&#41;;
+     *
+     * client.getProperties&#40;options&#41;.subscribe&#40;response -&gt;
+     *     System.out.printf&#40;&quot;Creation Time: %s, Size: %d%n&quot;, response.getCreationTime&#40;&#41;, response.getFileSize&#40;&#41;&#41;&#41;;
+     * </pre>
+     * <!-- end com.azure.storage.file.datalake.DataLakePathAsyncClient.getProperties#PathGetPropertiesOptions -->
+     *
+     * <p>For more information, see the
+     * <a href="https://docs.microsoft.com/rest/api/storageservices/get-blob-properties">Azure Docs</a></p>
+     *
+     * @param options {@link PathGetPropertiesOptions}
+     * @return A reactive response containing the resource's properties and metadata.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PathProperties> getProperties(PathGetPropertiesOptions options) {
+        return getPropertiesUsingOptionsWithResponse(options).flatMap(FluxUtil::toMono);
+    }
+
+    /**
+     * Returns the resource's metadata and properties.
+     *
+     * <p><strong>Code Samples</strong></p>
+     *
      * <!-- src_embed com.azure.storage.file.datalake.DataLakePathAsyncClient.getPropertiesWithResponse#DataLakeRequestConditions -->
      * <pre>
      * DataLakeRequestConditions requestConditions = new DataLakeRequestConditions&#40;&#41;.setLeaseId&#40;leaseId&#41;;
@@ -878,6 +866,25 @@ public class DataLakePathAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<PathProperties>> getPropertiesWithResponse(DataLakeRequestConditions requestConditions) {
         return blockBlobAsyncClient.getPropertiesWithResponse(Transforms.toBlobRequestConditions(requestConditions))
+            .onErrorMap(DataLakeImplUtils::transformBlobStorageException)
+            .map(response -> new SimpleResponse<>(response, Transforms.toPathProperties(response.getValue(), response)));
+    }
+
+    /**
+     * Returns the resource's metadata and properties.
+     *
+     * <p>For more information, see the
+     * <a href="https://docs.microsoft.com/rest/api/storageservices/get-blob-properties">Azure Docs</a></p>
+     *
+     * @param options {@link PathGetPropertiesOptions}
+     * @return A reactive response containing the resource's properties and metadata.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<PathProperties>> getPropertiesUsingOptionsWithResponse(PathGetPropertiesOptions options) {
+        Context context = BuilderHelper.addUpnHeader(() -> (options == null) ? null : options.isUserPrincipalName(), null);
+
+        return blockBlobAsyncClient.getPropertiesWithResponse(Transforms.toBlobRequestConditions(options.getRequestConditions()))
+            .contextWrite(FluxUtil.toReactorContext(context))
             .onErrorMap(DataLakeImplUtils::transformBlobStorageException)
             .map(response -> new SimpleResponse<>(response, Transforms.toPathProperties(response.getValue(), response)));
     }
@@ -1633,6 +1640,7 @@ public class DataLakePathAsyncClient {
         DataLakePathAsyncClient dataLakePathAsyncClient = getPathAsyncClient(destinationFileSystem, destinationPath);
 
         String renameSource = "/" + this.fileSystemName + "/" + Utility.urlEncode(pathName);
+        //String renameSource = "/" + this.fileSystemName + "/" + pathName;
 
         String signature = null;
         if (this.sasToken != null) {
@@ -1673,7 +1681,7 @@ public class DataLakePathAsyncClient {
         return new DataLakePathAsyncClient(getHttpPipeline(), getAccountUrl(), serviceVersion, accountName,
             destinationFileSystem, destinationPath, pathResourceType,
             prepareBuilderReplacePath(destinationFileSystem, destinationPath).buildBlockBlobAsyncClient(), sasToken,
-            customerProvidedKey);
+            customerProvidedKey, isTokenCredentialAuthenticated());
     }
 
     /**
@@ -1688,11 +1696,12 @@ public class DataLakePathAsyncClient {
         }
         // Get current Blob URL and replace current path with user provided path
         String newBlobEndpoint = BlobUrlParts.parse(DataLakeImplUtils.endpointToDesiredEndpoint(getPathUrl(),
-            "blob", "dfs")).setBlobName(destinationPath).setContainerName(destinationFileSystem).toUrl().toString();
+            "blob", "dfs")).setContainerName(destinationFileSystem).toUrl().toString();
 
         return new SpecializedBlobClientBuilder()
             .pipeline(getHttpPipeline())
             .endpoint(newBlobEndpoint)
+            .blobName(destinationPath)
             .serviceVersion(TransformUtils.toBlobServiceVersion(getServiceVersion()));
     }
 

@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.ResourceMetricDefinitionInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of metric definitions. */
+/**
+ * Collection of metric definitions.
+ */
 @Fluent
 public final class ResourceMetricDefinitionCollection {
     /*
@@ -25,7 +28,9 @@ public final class ResourceMetricDefinitionCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ResourceMetricDefinitionCollection class. */
+    /**
+     * Creates an instance of ResourceMetricDefinitionCollection class.
+     */
     public ResourceMetricDefinitionCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class ResourceMetricDefinitionCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model ResourceMetricDefinitionCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model ResourceMetricDefinitionCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

@@ -6,14 +6,28 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The location of Google Cloud Storage dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The location of Google Cloud Storage dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = GoogleCloudStorageLocation.class,
+    visible = true)
 @JsonTypeName("GoogleCloudStorageLocation")
 @Fluent
 public final class GoogleCloudStorageLocation extends DatasetLocation {
+    /*
+     * Type of dataset storage location.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "GoogleCloudStorageLocation";
+
     /*
      * Specify the bucketName of Google Cloud Storage. Type: string (or Expression with resultType string)
      */
@@ -26,14 +40,26 @@ public final class GoogleCloudStorageLocation extends DatasetLocation {
     @JsonProperty(value = "version")
     private Object version;
 
-    /** Creates an instance of GoogleCloudStorageLocation class. */
+    /**
+     * Creates an instance of GoogleCloudStorageLocation class.
+     */
     public GoogleCloudStorageLocation() {
+    }
+
+    /**
+     * Get the type property: Type of dataset storage location.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the bucketName property: Specify the bucketName of Google Cloud Storage. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the bucketName value.
      */
     public Object bucketName() {
@@ -43,7 +69,7 @@ public final class GoogleCloudStorageLocation extends DatasetLocation {
     /**
      * Set the bucketName property: Specify the bucketName of Google Cloud Storage. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param bucketName the bucketName value to set.
      * @return the GoogleCloudStorageLocation object itself.
      */
@@ -55,7 +81,7 @@ public final class GoogleCloudStorageLocation extends DatasetLocation {
     /**
      * Get the version property: Specify the version of Google Cloud Storage. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the version value.
      */
     public Object version() {
@@ -65,7 +91,7 @@ public final class GoogleCloudStorageLocation extends DatasetLocation {
     /**
      * Set the version property: Specify the version of Google Cloud Storage. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param version the version value to set.
      * @return the GoogleCloudStorageLocation object itself.
      */
@@ -74,14 +100,18 @@ public final class GoogleCloudStorageLocation extends DatasetLocation {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GoogleCloudStorageLocation withFolderPath(Object folderPath) {
         super.withFolderPath(folderPath);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GoogleCloudStorageLocation withFileName(Object fileName) {
         super.withFileName(fileName);
@@ -90,7 +120,7 @@ public final class GoogleCloudStorageLocation extends DatasetLocation {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

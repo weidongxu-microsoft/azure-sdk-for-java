@@ -8,70 +8,122 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.GetMetadataActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Activity to get metadata of dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Activity to get metadata of dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = GetMetadataActivity.class, visible = true)
 @JsonTypeName("GetMetadata")
 @Fluent
 public final class GetMetadataActivity extends ExecutionActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "GetMetadata";
+
     /*
      * GetMetadata activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private GetMetadataActivityTypeProperties innerTypeProperties = new GetMetadataActivityTypeProperties();
 
-    /** Creates an instance of GetMetadataActivity class. */
+    /**
+     * Creates an instance of GetMetadataActivity class.
+     */
     public GetMetadataActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: GetMetadata activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private GetMetadataActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GetMetadataActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GetMetadataActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GetMetadataActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GetMetadataActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GetMetadataActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GetMetadataActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GetMetadataActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GetMetadataActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -80,7 +132,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Get the dataset property: GetMetadata activity dataset reference.
-     *
+     * 
      * @return the dataset value.
      */
     public DatasetReference dataset() {
@@ -89,7 +141,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Set the dataset property: GetMetadata activity dataset reference.
-     *
+     * 
      * @param dataset the dataset value to set.
      * @return the GetMetadataActivity object itself.
      */
@@ -103,7 +155,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Get the fieldList property: Fields of metadata to get from dataset.
-     *
+     * 
      * @return the fieldList value.
      */
     public List<Object> fieldList() {
@@ -112,7 +164,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Set the fieldList property: Fields of metadata to get from dataset.
-     *
+     * 
      * @param fieldList the fieldList value to set.
      * @return the GetMetadataActivity object itself.
      */
@@ -126,7 +178,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Get the storeSettings property: GetMetadata activity store settings.
-     *
+     * 
      * @return the storeSettings value.
      */
     public StoreReadSettings storeSettings() {
@@ -135,7 +187,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Set the storeSettings property: GetMetadata activity store settings.
-     *
+     * 
      * @param storeSettings the storeSettings value to set.
      * @return the GetMetadataActivity object itself.
      */
@@ -149,7 +201,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Get the formatSettings property: GetMetadata activity format settings.
-     *
+     * 
      * @return the formatSettings value.
      */
     public FormatReadSettings formatSettings() {
@@ -158,7 +210,7 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Set the formatSettings property: GetMetadata activity format settings.
-     *
+     * 
      * @param formatSettings the formatSettings value to set.
      * @return the GetMetadataActivity object itself.
      */
@@ -172,17 +224,16 @@ public final class GetMetadataActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model GetMetadataActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model GetMetadataActivity"));
         } else {
             innerTypeProperties().validate();
         }

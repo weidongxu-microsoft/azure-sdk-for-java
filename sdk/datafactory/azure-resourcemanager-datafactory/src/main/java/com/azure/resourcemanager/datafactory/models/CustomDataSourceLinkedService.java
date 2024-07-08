@@ -7,29 +7,55 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Custom linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Custom linked service.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = CustomDataSourceLinkedService.class,
+    visible = true)
 @JsonTypeName("CustomDataSource")
 @Fluent
 public final class CustomDataSourceLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "CustomDataSource";
+
     /*
      * Custom linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private Object typeProperties;
 
-    /** Creates an instance of CustomDataSourceLinkedService class. */
+    /**
+     * Creates an instance of CustomDataSourceLinkedService class.
+     */
     public CustomDataSourceLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the typeProperties property: Custom linked service properties.
-     *
+     * 
      * @return the typeProperties value.
      */
     public Object typeProperties() {
@@ -38,7 +64,7 @@ public final class CustomDataSourceLinkedService extends LinkedService {
 
     /**
      * Set the typeProperties property: Custom linked service properties.
-     *
+     * 
      * @param typeProperties the typeProperties value to set.
      * @return the CustomDataSourceLinkedService object itself.
      */
@@ -47,28 +73,36 @@ public final class CustomDataSourceLinkedService extends LinkedService {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CustomDataSourceLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CustomDataSourceLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CustomDataSourceLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CustomDataSourceLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -77,17 +111,16 @@ public final class CustomDataSourceLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (typeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property typeProperties in model CustomDataSourceLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property typeProperties in model CustomDataSourceLinkedService"));
         }
     }
 

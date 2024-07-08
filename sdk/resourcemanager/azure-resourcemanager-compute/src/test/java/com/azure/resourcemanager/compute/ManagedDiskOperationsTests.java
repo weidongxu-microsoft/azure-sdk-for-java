@@ -7,12 +7,15 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.Region;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.resourcemanager.compute.models.CreationSourceType;
 import com.azure.resourcemanager.compute.models.Disk;
 import com.azure.resourcemanager.compute.models.DiskCreateOption;
 import com.azure.resourcemanager.compute.models.DiskSkuTypes;
+import com.azure.resourcemanager.compute.models.HyperVGeneration;
 import com.azure.resourcemanager.compute.models.Snapshot;
 import com.azure.resourcemanager.compute.models.SnapshotSkuType;
+import com.azure.resourcemanager.compute.models.PublicNetworkAccess;
 import com.azure.resourcemanager.resources.models.ResourceGroup;
 import com.azure.resourcemanager.test.utils.TestUtilities;
 import org.junit.jupiter.api.Assertions;
@@ -143,7 +146,7 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
         Assertions.assertNull(disk.osType());
         Assertions.assertNotNull(disk.source());
         Assertions.assertEquals(disk.source().type(), CreationSourceType.COPIED_FROM_DISK);
-        Assertions.assertTrue(disk.source().sourceId().equalsIgnoreCase(emptyDisk.id()));
+        assertResourceIdEquals(disk.source().sourceId(), emptyDisk.id());
 
         computeManager.disks().deleteById(emptyDisk.id());
         computeManager.disks().deleteById(disk.id());
@@ -221,7 +224,7 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
         Assertions.assertNull(snapshot.osType());
         Assertions.assertNotNull(snapshot.source());
         Assertions.assertEquals(snapshot.source().type(), CreationSourceType.COPIED_FROM_DISK);
-        Assertions.assertTrue(snapshot.source().sourceId().equalsIgnoreCase(emptyDisk.id()));
+        assertResourceIdEquals(snapshot.source().sourceId(), emptyDisk.id());
 
         Disk fromSnapshotDisk =
             computeManager
@@ -242,9 +245,12 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
         Assertions.assertNull(fromSnapshotDisk.osType());
         Assertions.assertNotNull(fromSnapshotDisk.source());
         Assertions.assertEquals(fromSnapshotDisk.source().type(), CreationSourceType.COPIED_FROM_SNAPSHOT);
-        Assertions.assertTrue(fromSnapshotDisk.source().sourceId().equalsIgnoreCase(snapshot.id()));
+        assertResourceIdEquals(snapshot.source().sourceId(), emptyDisk.id());
     }
 
+    // test-proxy playback
+    // reactor.core.Exceptions$OverflowException: Could not emit tick 256 due to lack of requests (interval doesn't support small downstream requests that replenish slower than the ticks)
+    @DoNotRecord(skipInPlayback = true)
     @Test
     public void canCopyStartIncrementalSnapshot() {
         rgName2 = generateRandomResourceName("rg", 15);
@@ -399,5 +405,56 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
 
         Assertions.assertEquals(DiskSkuTypes.PREMIUM_V2_LRS, disk.sku());
         Assertions.assertEquals(512, disk.logicalSectorSizeInBytes());
+    }
+
+    @Test
+    public void canCreateAndUpdateManagedDiskWithHyperVGeneration() {
+        Disk disk =
+            computeManager
+                .disks()
+                .define(generateRandomResourceName("disk", 15))
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(rgName)
+                .withData()
+                .withSizeInGB(1)
+                .withSku(DiskSkuTypes.STANDARD_LRS)
+                .withHyperVGeneration(HyperVGeneration.V1)
+                .create();
+        disk.refresh();
+        Assertions.assertEquals(disk.hyperVGeneration(), HyperVGeneration.V1);
+
+        disk.update().withHyperVGeneration(HyperVGeneration.V2).apply();
+        disk.refresh();
+        Assertions.assertEquals(disk.hyperVGeneration(), HyperVGeneration.V2);
+    }
+
+    @Test
+    public void canCreateAndUpdatePublicNetworkAccess() {
+        final String diskName1 = generateRandomResourceName("md-1", 20);
+        ResourceGroup resourceGroup = resourceManager.resourceGroups().define(rgName).withRegion(region).create();
+
+        // Create an empty  managed disk
+        //
+        Disk disk =
+            computeManager
+                .disks()
+                .define(diskName1)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup.name())
+                .withData()
+                .withSizeInGB(100)
+                .disablePublicNetworkAccess()
+                .create();
+
+        disk.refresh();
+        Assertions.assertEquals(PublicNetworkAccess.DISABLED, disk.publicNetworkAccess());
+
+        disk.update().enablePublicNetworkAccess().apply();
+        disk.refresh();
+        Assertions.assertEquals(PublicNetworkAccess.ENABLED, disk.publicNetworkAccess());
+
+        disk.update().disablePublicNetworkAccess().apply();
+        disk.refresh();
+        Assertions.assertEquals(PublicNetworkAccess.DISABLED, disk.publicNetworkAccess());
     }
 }

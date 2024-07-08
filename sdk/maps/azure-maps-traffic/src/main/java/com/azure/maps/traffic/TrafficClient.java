@@ -9,22 +9,20 @@ import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.http.rest.Response;
-import com.azure.core.http.rest.SimpleResponse;
-import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.maps.traffic.implementation.models.ErrorResponseException;
 import com.azure.maps.traffic.models.TrafficFlowSegmentData;
-import com.azure.maps.traffic.models.TrafficIncidentDetail;
-import com.azure.maps.traffic.models.TrafficIncidentViewport;
 import com.azure.maps.traffic.models.TrafficFlowSegmentOptions;
 import com.azure.maps.traffic.models.TrafficFlowTileOptions;
+import com.azure.maps.traffic.models.TrafficIncidentDetail;
 import com.azure.maps.traffic.models.TrafficIncidentDetailOptions;
 import com.azure.maps.traffic.models.TrafficIncidentTileOptions;
+import com.azure.maps.traffic.models.TrafficIncidentViewport;
 import com.azure.maps.traffic.models.TrafficIncidentViewportOptions;
 
-/** Initializes a new instance of the synchronous TrafficClient type. 
+/** Initializes a new instance of the synchronous TrafficClient type.
  * {@link TrafficClient} instances are created via the {@link TrafficClientBuilder}, as shown below.
  * Creating a sync client using a {@link AzureKeyCredential}:
  * <!-- src_embed com.azure.maps.traffic.sync.builder.key.instantiation -->
@@ -46,8 +44,6 @@ import com.azure.maps.traffic.models.TrafficIncidentViewportOptions;
 public final class TrafficClient {
      /**
      * Initializes an instance of TrafficClient client.
-     *
-     * @param serviceClient the service client implementation.
      */
     private final TrafficAsyncClient asyncClient;
 
@@ -56,7 +52,7 @@ public final class TrafficClient {
     /**
      * Initializes an instance of Traffic client.
      *
-     * @param serviceClient the service client implementation.
+     * @param asyncClient the service client implementation.
      */
     TrafficClient(TrafficAsyncClient asyncClient) {
         this.asyncClient = asyncClient;
@@ -64,7 +60,7 @@ public final class TrafficClient {
 
     /**
      * __Traffic Flow Tile__
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_flow_tile -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Flow Tile:&quot;&#41;;
@@ -103,7 +99,7 @@ public final class TrafficClient {
 
     /**
      * Get traffic flow tile with response
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_flow_tile -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Flow Tile:&quot;&#41;;
@@ -121,24 +117,19 @@ public final class TrafficClient {
      *         .setTileIndex&#40;new TileIndex&#40;&#41;.setX&#40;1022&#41;.setY&#40;680&#41;&#41;.setThickness&#40;10&#41;&#41;;
      * </pre>
      * <!-- end com.azure.maps.traffic.sync.get_traffic_flow_tile -->
-     * 
+     *
      * @param context The context to associate with this operation.
      * @param options {@link TrafficFlowTileOptions} the options to be used in this search.
      * @return the response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<BinaryData> getTrafficFlowTileWithResponse(TrafficFlowTileOptions options, Context context) {
-        StreamResponse response = this.asyncClient.getTrafficFlowTileWithResponse(options, context).block();
-        if (response != null) {
-            return new SimpleResponse<BinaryData>(response.getRequest(), response.getStatusCode(), response.getHeaders(), BinaryData.fromFlux(response.getValue()).block());
-        } else {
-            throw LOGGER.logExceptionAsError(new NullPointerException("Response is null"));
-        }
-    } 
+        return this.asyncClient.getTrafficFlowTileWithResponse(options, context).block();
+    }
 
     /**
      * __Traffic Flow Segment__
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_flow_segment -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Flow Segment:&quot;&#41;;
@@ -175,10 +166,10 @@ public final class TrafficClient {
     public TrafficFlowSegmentData getTrafficFlowSegment(TrafficFlowSegmentOptions options) {
         return this.asyncClient.getTrafficFlowSegment(options).block();
     }
-    
+
     /**
      * Get traffic flow segment with response
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_flow_segment -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Flow Segment:&quot;&#41;;
@@ -197,19 +188,20 @@ public final class TrafficClient {
      *         .setThickness&#40;2&#41;.setUnit&#40;SpeedUnit.MPH&#41;&#41;;
      * </pre>
      * <!-- end com.azure.maps.traffic.sync.get_traffic_flow_segment -->
-     * 
+     *
      * @param context The context to associate with this operation.
      * @param options {@link TrafficFlowSegmentOptions} the options to be used in this search.
      * @return the response
-     */    
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<TrafficFlowSegmentData> getTrafficFlowSegmentWithResponse(TrafficFlowSegmentOptions options, Context context) {
+    public Response<TrafficFlowSegmentData> getTrafficFlowSegmentWithResponse(TrafficFlowSegmentOptions options,
+        Context context) {
         return this.asyncClient.getTrafficFlowSegmentWithResponse(options, context).block();
     }
 
     /**
      * __Traffic Incident Tile__
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_incident_tile -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Incident Tile:&quot;&#41;;
@@ -247,7 +239,7 @@ public final class TrafficClient {
 
     /**
      * Traffic Incident Tile
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_incident_tile -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Incident Tile:&quot;&#41;;
@@ -265,24 +257,20 @@ public final class TrafficClient {
      *         .setZoom&#40;10&#41;.setTileIndex&#40;new TileIndex&#40;&#41;.setX&#40;175&#41;.setY&#40;408&#41;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.maps.traffic.sync.get_traffic_incident_tile -->
-     * 
+     *
      * @param context The context to associate with this operation.
      * @param options {@link TrafficIncidentTileOptions} the options to be used in this search.
      * @return the response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<BinaryData> getTrafficIncidentTileWithResponse(TrafficIncidentTileOptions options, Context context) {
-        StreamResponse response = this.asyncClient.getTrafficIncidentTileWithResponse(options, context).block();
-        if (response != null) {
-            return new SimpleResponse<BinaryData>(response.getRequest(), response.getStatusCode(), response.getHeaders(), BinaryData.fromFlux(response.getValue()).block());
-        } else {
-            throw LOGGER.logExceptionAsError(new NullPointerException("Response is null"));
-        }
-    } 
-    
+    public Response<BinaryData> getTrafficIncidentTileWithResponse(TrafficIncidentTileOptions options,
+        Context context) {
+        return this.asyncClient.getTrafficIncidentTileWithResponse(options, context).block();
+    }
+
     /**
      * __Traffic Incident Detail__
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_incident_detail -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Incident Detail:&quot;&#41;;
@@ -327,7 +315,7 @@ public final class TrafficClient {
 
     /**
      * Get traffic incident detail with response
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_incident_detail -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Incident Detail:&quot;&#41;;
@@ -349,19 +337,20 @@ public final class TrafficClient {
      *         .setExpandCluster&#40;false&#41;.setOriginalPosition&#40;false&#41;&#41;;
      * </pre>
      * <!-- end com.azure.maps.traffic.sync.get_traffic_incident_detail -->
-     * 
+     *
      * @param context The context to associate with this operation.
      * @param options {@link TrafficIncidentDetailOptions} the options to be used in this search.
      * @return the response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<TrafficIncidentDetail> getTrafficIncidentDetailWithResponse(TrafficIncidentDetailOptions options, Context context) {
+    public Response<TrafficIncidentDetail> getTrafficIncidentDetailWithResponse(TrafficIncidentDetailOptions options,
+        Context context) {
         return this.asyncClient.getTrafficIncidentDetailWithResponse(options, context).block();
     }
 
     /**
      * __Traffic Incident Viewport__
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_incident_viewport -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Incident Viewport:&quot;&#41;;
@@ -404,7 +393,7 @@ public final class TrafficClient {
 
     /**
      * Get traffic incident viewport with response
-     * 
+     *
      * <!-- src_embed com.azure.maps.traffic.sync.get_traffic_incident_viewport -->
      * <pre>
      * System.out.println&#40;&quot;Get Traffic Incident Viewport:&quot;&#41;;
@@ -424,13 +413,14 @@ public final class TrafficClient {
      *         .setOverviewZoom&#40;2&#41;.setCopyright&#40;true&#41;&#41;;
      * </pre>
      * <!-- end com.azure.maps.traffic.sync.get_traffic_incident_viewport -->
-     * 
+     *
      * @param context The context to associate with this operation.
      * @param options {@link TrafficIncidentViewportOptions} the options to be used in this search.
      * @return the response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<TrafficIncidentViewport> getTrafficIncidentViewportWithResponse(TrafficIncidentViewportOptions options, Context context) {
+    public Response<TrafficIncidentViewport> getTrafficIncidentViewportWithResponse(
+        TrafficIncidentViewportOptions options, Context context) {
         return this.asyncClient.getTrafficIncidentViewportWithResponse(options, context).block();
     }
 }

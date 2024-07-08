@@ -6,14 +6,17 @@ package com.azure.resourcemanager.support.implementation;
 
 import com.azure.resourcemanager.support.fluent.models.ProblemClassificationInner;
 import com.azure.resourcemanager.support.models.ProblemClassification;
+import com.azure.resourcemanager.support.models.SecondaryConsentEnabled;
+import java.util.Collections;
+import java.util.List;
 
 public final class ProblemClassificationImpl implements ProblemClassification {
     private ProblemClassificationInner innerObject;
 
     private final com.azure.resourcemanager.support.SupportManager serviceManager;
 
-    ProblemClassificationImpl(
-        ProblemClassificationInner innerObject, com.azure.resourcemanager.support.SupportManager serviceManager) {
+    ProblemClassificationImpl(ProblemClassificationInner innerObject,
+        com.azure.resourcemanager.support.SupportManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
     }
@@ -32,6 +35,15 @@ public final class ProblemClassificationImpl implements ProblemClassification {
 
     public String displayName() {
         return this.innerModel().displayName();
+    }
+
+    public List<SecondaryConsentEnabled> secondaryConsentEnabled() {
+        List<SecondaryConsentEnabled> inner = this.innerModel().secondaryConsentEnabled();
+        if (inner != null) {
+            return Collections.unmodifiableList(inner);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public ProblemClassificationInner innerModel() {

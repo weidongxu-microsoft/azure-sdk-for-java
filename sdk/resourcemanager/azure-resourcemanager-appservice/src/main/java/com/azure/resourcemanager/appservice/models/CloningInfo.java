@@ -8,10 +8,13 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 import java.util.UUID;
 
-/** Information needed for cloning operation. */
+/**
+ * Information needed for cloning operation.
+ */
 @Fluent
 public final class CloningInfo {
     /*
@@ -41,10 +44,8 @@ public final class CloningInfo {
 
     /*
      * ARM resource ID of the source app. App resource ID is of the form
-     * /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for
-     * production slots and
-     * /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
-     * for other slots.
+     * /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and
+     * /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.
      */
     @JsonProperty(value = "sourceWebAppId", required = true)
     private String sourceWebAppId;
@@ -83,13 +84,14 @@ public final class CloningInfo {
     private String trafficManagerProfileId;
 
     /*
-     * Name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already
-     * exist.
+     * Name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
      */
     @JsonProperty(value = "trafficManagerProfileName")
     private String trafficManagerProfileName;
 
-    /** Creates an instance of CloningInfo class. */
+    /**
+     * Creates an instance of CloningInfo class.
+     */
     public CloningInfo() {
     }
 
@@ -251,7 +253,8 @@ public final class CloningInfo {
 
     /**
      * Get the appSettingsOverrides property: Application setting overrides for cloned app. If specified, these settings
-     * override the settings cloned from source app. Otherwise, application settings from source app are retained.
+     * override the settings cloned
+     * from source app. Otherwise, application settings from source app are retained.
      *
      * @return the appSettingsOverrides value.
      */
@@ -261,7 +264,8 @@ public final class CloningInfo {
 
     /**
      * Set the appSettingsOverrides property: Application setting overrides for cloned app. If specified, these settings
-     * override the settings cloned from source app. Otherwise, application settings from source app are retained.
+     * override the settings cloned
+     * from source app. Otherwise, application settings from source app are retained.
      *
      * @param appSettingsOverrides the appSettingsOverrides value to set.
      * @return the CloningInfo object itself.
@@ -346,9 +350,8 @@ public final class CloningInfo {
      */
     public void validate() {
         if (sourceWebAppId() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property sourceWebAppId in model CloningInfo"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property sourceWebAppId in model CloningInfo"));
         }
     }
 

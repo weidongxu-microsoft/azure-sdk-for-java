@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.StaticSiteUserArmResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of static site custom users. */
+/**
+ * Collection of static site custom users.
+ */
 @Fluent
 public final class StaticSiteUserCollection {
     /*
@@ -25,7 +28,9 @@ public final class StaticSiteUserCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of StaticSiteUserCollection class. */
+    /**
+     * Creates an instance of StaticSiteUserCollection class.
+     */
     public StaticSiteUserCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class StaticSiteUserCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model StaticSiteUserCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model StaticSiteUserCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

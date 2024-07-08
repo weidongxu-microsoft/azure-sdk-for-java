@@ -7,9 +7,12 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.appservice.fluent.models.StaticSite;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** ARM resource for a static site when patching. */
+/**
+ * ARM resource for a static site when patching.
+ */
 @Fluent
 public final class StaticSitePatchResource extends ProxyOnlyResource {
     /*
@@ -18,7 +21,9 @@ public final class StaticSitePatchResource extends ProxyOnlyResource {
     @JsonProperty(value = "properties")
     private StaticSite innerProperties;
 
-    /** Creates an instance of StaticSitePatchResource class. */
+    /**
+     * Creates an instance of StaticSitePatchResource class.
+     */
     public StaticSitePatchResource() {
     }
 
@@ -31,7 +36,9 @@ public final class StaticSitePatchResource extends ProxyOnlyResource {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StaticSitePatchResource withKind(String kind) {
         super.withKind(kind);

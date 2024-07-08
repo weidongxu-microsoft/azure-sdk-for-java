@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.BackupItemInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of backup items. */
+/**
+ * Collection of backup items.
+ */
 @Fluent
 public final class BackupItemCollection {
     /*
@@ -25,7 +28,9 @@ public final class BackupItemCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of BackupItemCollection class. */
+    /**
+     * Creates an instance of BackupItemCollection class.
+     */
     public BackupItemCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class BackupItemCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model BackupItemCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model BackupItemCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

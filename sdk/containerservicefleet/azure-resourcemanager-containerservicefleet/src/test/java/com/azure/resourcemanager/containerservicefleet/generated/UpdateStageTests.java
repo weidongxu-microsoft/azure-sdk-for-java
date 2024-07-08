@@ -13,31 +13,23 @@ import org.junit.jupiter.api.Assertions;
 public final class UpdateStageTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        UpdateStage model =
-            BinaryData
-                .fromString(
-                    "{\"name\":\"kfthwxmntei\",\"groups\":[{\"name\":\"pvkmijcmmxdcuf\"},{\"name\":\"fsrpymzidnse\"},{\"name\":\"cxtbzsg\"}],\"afterStageWaitInSeconds\":121296393}")
-                .toObject(UpdateStage.class);
-        Assertions.assertEquals("kfthwxmntei", model.name());
-        Assertions.assertEquals("pvkmijcmmxdcuf", model.groups().get(0).name());
-        Assertions.assertEquals(121296393, model.afterStageWaitInSeconds());
+        UpdateStage model = BinaryData.fromString(
+            "{\"name\":\"enevfyexfwhybci\",\"groups\":[{\"name\":\"vdcsitynn\"},{\"name\":\"amdecte\"},{\"name\":\"f\"}],\"afterStageWaitInSeconds\":1860942440}")
+            .toObject(UpdateStage.class);
+        Assertions.assertEquals("enevfyexfwhybci", model.name());
+        Assertions.assertEquals("vdcsitynn", model.groups().get(0).name());
+        Assertions.assertEquals(1860942440, model.afterStageWaitInSeconds());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        UpdateStage model =
-            new UpdateStage()
-                .withName("kfthwxmntei")
-                .withGroups(
-                    Arrays
-                        .asList(
-                            new UpdateGroup().withName("pvkmijcmmxdcuf"),
-                            new UpdateGroup().withName("fsrpymzidnse"),
-                            new UpdateGroup().withName("cxtbzsg")))
-                .withAfterStageWaitInSeconds(121296393);
+        UpdateStage model = new UpdateStage().withName("enevfyexfwhybci")
+            .withGroups(Arrays.asList(new UpdateGroup().withName("vdcsitynn"), new UpdateGroup().withName("amdecte"),
+                new UpdateGroup().withName("f")))
+            .withAfterStageWaitInSeconds(1860942440);
         model = BinaryData.fromObject(model).toObject(UpdateStage.class);
-        Assertions.assertEquals("kfthwxmntei", model.name());
-        Assertions.assertEquals("pvkmijcmmxdcuf", model.groups().get(0).name());
-        Assertions.assertEquals(121296393, model.afterStageWaitInSeconds());
+        Assertions.assertEquals("enevfyexfwhybci", model.name());
+        Assertions.assertEquals("vdcsitynn", model.groups().get(0).name());
+        Assertions.assertEquals(1860942440, model.afterStageWaitInSeconds());
     }
 }

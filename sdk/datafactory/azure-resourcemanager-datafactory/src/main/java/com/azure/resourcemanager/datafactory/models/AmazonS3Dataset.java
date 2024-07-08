@@ -8,78 +8,114 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.AmazonS3DatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A single Amazon Simple Storage Service (S3) object or a set of S3 objects.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AmazonS3Dataset.class, visible = true)
 @JsonTypeName("AmazonS3Object")
 @Fluent
 public final class AmazonS3Dataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AmazonS3Object";
+
     /*
      * Amazon S3 dataset properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private AmazonS3DatasetTypeProperties innerTypeProperties = new AmazonS3DatasetTypeProperties();
 
-    /** Creates an instance of AmazonS3Dataset class. */
+    /**
+     * Creates an instance of AmazonS3Dataset class.
+     */
     public AmazonS3Dataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Amazon S3 dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AmazonS3DatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonS3Dataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -89,7 +125,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Get the bucketName property: The name of the Amazon S3 bucket. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the bucketName value.
      */
     public Object bucketName() {
@@ -99,7 +135,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Set the bucketName property: The name of the Amazon S3 bucket. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param bucketName the bucketName value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -113,7 +149,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Get the key property: The key of the Amazon S3 object. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the key value.
      */
     public Object key() {
@@ -122,7 +158,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Set the key property: The key of the Amazon S3 object. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param key the key value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -137,7 +173,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Get the prefix property: The prefix filter for the S3 object name. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the prefix value.
      */
     public Object prefix() {
@@ -147,7 +183,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Set the prefix property: The prefix filter for the S3 object name. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param prefix the prefix value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -161,7 +197,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Get the version property: The version for the S3 object. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the version value.
      */
     public Object version() {
@@ -170,7 +206,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Set the version property: The version for the S3 object. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param version the version value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -185,7 +221,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Get the modifiedDatetimeStart property: The start of S3 object's modified datetime. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the modifiedDatetimeStart value.
      */
     public Object modifiedDatetimeStart() {
@@ -195,7 +231,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Set the modifiedDatetimeStart property: The start of S3 object's modified datetime. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param modifiedDatetimeStart the modifiedDatetimeStart value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -210,7 +246,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Get the modifiedDatetimeEnd property: The end of S3 object's modified datetime. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the modifiedDatetimeEnd value.
      */
     public Object modifiedDatetimeEnd() {
@@ -220,7 +256,7 @@ public final class AmazonS3Dataset extends Dataset {
     /**
      * Set the modifiedDatetimeEnd property: The end of S3 object's modified datetime. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param modifiedDatetimeEnd the modifiedDatetimeEnd value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -234,7 +270,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Get the format property: The format of files.
-     *
+     * 
      * @return the format value.
      */
     public DatasetStorageFormat format() {
@@ -243,7 +279,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Set the format property: The format of files.
-     *
+     * 
      * @param format the format value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -257,7 +293,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Get the compression property: The data compression method used for the Amazon S3 object.
-     *
+     * 
      * @return the compression value.
      */
     public DatasetCompression compression() {
@@ -266,7 +302,7 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Set the compression property: The data compression method used for the Amazon S3 object.
-     *
+     * 
      * @param compression the compression value to set.
      * @return the AmazonS3Dataset object itself.
      */
@@ -280,17 +316,16 @@ public final class AmazonS3Dataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model AmazonS3Dataset"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model AmazonS3Dataset"));
         } else {
             innerTypeProperties().validate();
         }

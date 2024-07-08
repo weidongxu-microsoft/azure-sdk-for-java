@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 package com.azure.cosmos;
 
 import com.azure.cosmos.implementation.FailureValidator;
@@ -59,7 +61,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
             { UUID.randomUUID().toString()} ,
 
             // with special characters in the name.
-            {"+ -_,:.|~" + UUID.randomUUID().toString() + " +-_,:.|~"} ,
+            {"+ -_,:.|~" + UUID.randomUUID() + " +-_,:.|~"} ,
         };
     }
 
@@ -73,7 +75,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
             , documentId, uuid));
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void createCollectionWithSecondaryKey(String collectionName) throws InterruptedException {
         CosmosContainerProperties collectionDefinition = getCollectionDefinition(collectionName);
 
@@ -94,7 +96,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         safeDeleteAllCollections(database);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void readCollectionWithSecondaryKey(String collectionName) throws InterruptedException {
         CosmosContainerProperties collectionDefinition = getCollectionDefinition(collectionName);
 
@@ -117,7 +119,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         safeDeleteAllCollections(database);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void deleteCollectionWithSecondaryKey(String collectionName) throws InterruptedException {
         CosmosContainerProperties collectionDefinition = getCollectionDefinition(collectionName);
 
@@ -138,7 +140,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void replaceCollectionWithSecondaryKey(String collectionName) throws InterruptedException  {
         // create a collection
         CosmosContainerProperties collectionDefinition = getCollectionDefinition(collectionName);
@@ -170,7 +172,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         safeDeleteAllCollections(database);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void createDocumentWithSecondaryKey(String documentId) throws InterruptedException {
 
         // sanity check
@@ -191,7 +193,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void readDocumentWithSecondaryKey(String documentId) throws InterruptedException {
 
         // sanity check
@@ -205,9 +207,9 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         waitIfNeededForReplicasToCatchUp(getClientBuilder());
 
         CosmosItemRequestOptions options = new CosmosItemRequestOptions();
-        ModelBridgeInternal.setPartitionKey(options, new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(docDefinition, "mypk")));
+        ModelBridgeInternal.setPartitionKey(options, new PartitionKey(docDefinition.get("mypk")));
         Mono<CosmosItemResponse<InternalObjectNode>> readObservable = container.readItem(docDefinition.getId(),
-                                                                                                new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(docDefinition, "mypk")),
+                                                                                                new PartitionKey(docDefinition.get("mypk")),
                                                                                                 options,
                                                                                                 InternalObjectNode.class);
 
@@ -221,7 +223,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, dataProvider = "crudArgProvider", retryAnalyzer = RetryAnalyzer.class)
     public void deleteDocumentWithSecondaryKey(String documentId) throws InterruptedException {
 
         // sanity check
@@ -234,9 +236,9 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         container.createItem(docDefinition, new CosmosItemRequestOptions()).block();
 
         CosmosItemRequestOptions options = new CosmosItemRequestOptions();
-        ModelBridgeInternal.setPartitionKey(options, new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(docDefinition, "mypk")));
+        ModelBridgeInternal.setPartitionKey(options, new PartitionKey(docDefinition.get("mypk")));
         Mono<CosmosItemResponse<Object>> deleteObservable = container.deleteItem(docDefinition.getId(),
-                                                                              new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(docDefinition, "mypk")), options);
+                                                                              new PartitionKey(docDefinition.get("mypk")), options);
 
         CosmosItemResponseValidator validator =
             new CosmosItemResponseValidator.Builder<CosmosItemResponse<InternalObjectNode>>()
@@ -248,7 +250,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         waitIfNeededForReplicasToCatchUp(getClientBuilder());
 
         Mono<CosmosItemResponse<InternalObjectNode>> readObservable = container.readItem(documentId,
-                                                                          new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(docDefinition, "mypk")),
+                                                                          new PartitionKey(docDefinition.get("mypk")),
                                                                           options, InternalObjectNode.class);
         FailureValidator notFoundValidator = new FailureValidator.Builder().resourceNotFound().build();
         validateItemFailure(readObservable, notFoundValidator);
@@ -257,7 +259,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, retryAnalyzer = RetryAnalyzer.class)
     public void createDatabaseWithSecondaryKey() throws Exception {
         // sanity check
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.MASTER_KEY);
@@ -277,7 +279,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, retryAnalyzer = RetryAnalyzer.class)
     public void readDatabaseWithSecondaryKey() throws Exception {
         // sanity check
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.MASTER_KEY);
@@ -295,7 +297,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT, retryAnalyzer = RetryAnalyzer.class)
     public void deleteDatabaseWithSecondaryKey() throws Exception {
         // sanity check
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.MASTER_KEY);
@@ -319,7 +321,7 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         assertThat(client.credential().getKey()).isEqualTo(TestConfigurations.SECONDARY_MASTER_KEY);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT,
+    @Test(groups = { "fast" }, timeOut = TIMEOUT,
         expectedExceptions = IllegalArgumentException.class,
         expectedExceptionsMessageRegExp = "Illegal base64 character .*")
     public void invalidSecondaryKey() throws Exception {
@@ -334,20 +336,20 @@ public class AzureKeyCredentialTest extends TestSuiteBase {
         client.getDatabase(databaseDefinition.getId());
     }
 
-    @AfterMethod(groups = { "simple" }, timeOut = SETUP_TIMEOUT)
+    @AfterMethod(groups = { "fast" }, timeOut = SETUP_TIMEOUT)
     public void afterMethod() {
         //  Set back master getKey before every test
         credential.update(TestConfigurations.MASTER_KEY);
     }
 
-    @BeforeClass(groups = { "simple" }, timeOut = SETUP_TIMEOUT)
+    @BeforeClass(groups = { "fast" }, timeOut = SETUP_TIMEOUT)
     public void before_AzureKeyCredentialTest() {
         client = getClientBuilder().buildAsyncClient();
         database = createDatabase(client, databaseId);
         container = getSharedMultiPartitionCosmosContainer(client);
     }
 
-    @AfterClass(groups = { "simple" }, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
+    @AfterClass(groups = { "fast" }, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
     public void afterClass() {
         safeDeleteDatabase(database);
         for(String dbId: databases) {

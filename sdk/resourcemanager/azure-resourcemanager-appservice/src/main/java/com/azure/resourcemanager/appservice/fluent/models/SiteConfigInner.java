@@ -23,14 +23,18 @@ import com.azure.resourcemanager.appservice.models.SiteLimits;
 import com.azure.resourcemanager.appservice.models.SiteLoadBalancing;
 import com.azure.resourcemanager.appservice.models.SiteMachineKey;
 import com.azure.resourcemanager.appservice.models.SupportedTlsVersions;
+import com.azure.resourcemanager.appservice.models.TlsCipherSuites;
 import com.azure.resourcemanager.appservice.models.VirtualApplication;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Configuration of an App Service app. */
+/**
+ * Configuration of an App Service app.
+ */
 @Fluent
 public final class SiteConfigInner {
     /*
@@ -286,8 +290,7 @@ public final class SiteConfigInner {
     private String vnetName;
 
     /*
-     * Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and
-     * User Defined Routes applied.
+     * Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.
      */
     @JsonProperty(value = "vnetRouteAllEnabled")
     private Boolean vnetRouteAllEnabled;
@@ -395,6 +398,12 @@ public final class SiteConfigInner {
     private SupportedTlsVersions minTlsVersion;
 
     /*
+     * The minimum strength TLS cipher suite allowed for an application
+     */
+    @JsonProperty(value = "minTlsCipherSuite")
+    private TlsCipherSuites minTlsCipherSuite;
+
+    /*
      * ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
      */
     @JsonProperty(value = "scmMinTlsVersion")
@@ -442,11 +451,7 @@ public final class SiteConfigInner {
     private Boolean functionsRuntimeScaleMonitoringEnabled;
 
     /*
-     * Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows App Service. Setting
-     * the WEBSITE_TIME_ZONE app setting takes precedence over this config. For Linux, expects tz database values
-     * https://www.iana.org/time-zones (for a quick reference see
-     * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the time zones listed
-     * under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones
+     * Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows App Service. Setting the WEBSITE_TIME_ZONE app setting takes precedence over this config. For Linux, expects tz database values https://www.iana.org/time-zones (for a quick reference see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the time zones listed under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones
      */
     @JsonProperty(value = "websiteTimeZone")
     private String websiteTimeZone;
@@ -471,7 +476,9 @@ public final class SiteConfigInner {
     @JsonProperty(value = "publicNetworkAccess")
     private String publicNetworkAccess;
 
-    /** Creates an instance of SiteConfigInner class. */
+    /**
+     * Creates an instance of SiteConfigInner class.
+     */
     public SiteConfigInner() {
     }
 
@@ -1625,8 +1632,8 @@ public final class SiteConfigInner {
      * @param scmIpSecurityRestrictionsDefaultAction the scmIpSecurityRestrictionsDefaultAction value to set.
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withScmIpSecurityRestrictionsDefaultAction(
-        DefaultAction scmIpSecurityRestrictionsDefaultAction) {
+    public SiteConfigInner
+        withScmIpSecurityRestrictionsDefaultAction(DefaultAction scmIpSecurityRestrictionsDefaultAction) {
         this.scmIpSecurityRestrictionsDefaultAction = scmIpSecurityRestrictionsDefaultAction;
         return this;
     }
@@ -1692,6 +1699,26 @@ public final class SiteConfigInner {
     }
 
     /**
+     * Get the minTlsCipherSuite property: The minimum strength TLS cipher suite allowed for an application.
+     *
+     * @return the minTlsCipherSuite value.
+     */
+    public TlsCipherSuites minTlsCipherSuite() {
+        return this.minTlsCipherSuite;
+    }
+
+    /**
+     * Set the minTlsCipherSuite property: The minimum strength TLS cipher suite allowed for an application.
+     *
+     * @param minTlsCipherSuite the minTlsCipherSuite value to set.
+     * @return the SiteConfigInner object itself.
+     */
+    public SiteConfigInner withMinTlsCipherSuite(TlsCipherSuites minTlsCipherSuite) {
+        this.minTlsCipherSuite = minTlsCipherSuite;
+        return this;
+    }
+
+    /**
      * Get the scmMinTlsVersion property: ScmMinTlsVersion: configures the minimum version of TLS required for SSL
      * requests for SCM site.
      *
@@ -1734,8 +1761,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Get the preWarmedInstanceCount property: Number of preWarmed instances. This setting only applies to the
-     * Consumption and Elastic Plans.
+     * Get the preWarmedInstanceCount property: Number of preWarmed instances.
+     * This setting only applies to the Consumption and Elastic Plans.
      *
      * @return the preWarmedInstanceCount value.
      */
@@ -1744,8 +1771,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Set the preWarmedInstanceCount property: Number of preWarmed instances. This setting only applies to the
-     * Consumption and Elastic Plans.
+     * Set the preWarmedInstanceCount property: Number of preWarmed instances.
+     * This setting only applies to the Consumption and Elastic Plans.
      *
      * @param preWarmedInstanceCount the preWarmedInstanceCount value to set.
      * @return the SiteConfigInner object itself.
@@ -1756,8 +1783,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Get the functionAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting only
-     * applies to the Consumption and Elastic Premium Plans.
+     * Get the functionAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to the Consumption and Elastic Premium Plans.
      *
      * @return the functionAppScaleLimit value.
      */
@@ -1766,8 +1793,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Set the functionAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting only
-     * applies to the Consumption and Elastic Premium Plans.
+     * Set the functionAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to the Consumption and Elastic Premium Plans.
      *
      * @param functionAppScaleLimit the functionAppScaleLimit value to set.
      * @return the SiteConfigInner object itself.
@@ -1778,8 +1805,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Get the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting
-     * only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
+     * Get the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
      *
      * @return the elasticWebAppScaleLimit value.
      */
@@ -1788,8 +1815,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Set the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting
-     * only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
+     * Set the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
      *
      * @param elasticWebAppScaleLimit the elasticWebAppScaleLimit value to set.
      * @return the SiteConfigInner object itself.
@@ -1821,8 +1848,9 @@ public final class SiteConfigInner {
 
     /**
      * Get the functionsRuntimeScaleMonitoringEnabled property: Gets or sets a value indicating whether functions
-     * runtime scale monitoring is enabled. When enabled, the ScaleController will not monitor event sources directly,
-     * but will instead call to the runtime to get scale status.
+     * runtime scale monitoring is enabled. When enabled,
+     * the ScaleController will not monitor event sources directly, but will instead call to the
+     * runtime to get scale status.
      *
      * @return the functionsRuntimeScaleMonitoringEnabled value.
      */
@@ -1832,8 +1860,9 @@ public final class SiteConfigInner {
 
     /**
      * Set the functionsRuntimeScaleMonitoringEnabled property: Gets or sets a value indicating whether functions
-     * runtime scale monitoring is enabled. When enabled, the ScaleController will not monitor event sources directly,
-     * but will instead call to the runtime to get scale status.
+     * runtime scale monitoring is enabled. When enabled,
+     * the ScaleController will not monitor event sources directly, but will instead call to the
+     * runtime to get scale status.
      *
      * @param functionsRuntimeScaleMonitoringEnabled the functionsRuntimeScaleMonitoringEnabled value to set.
      * @return the SiteConfigInner object itself.
@@ -1872,8 +1901,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Get the minimumElasticInstanceCount property: Number of minimum instance count for a site This setting only
-     * applies to the Elastic Plans.
+     * Get the minimumElasticInstanceCount property: Number of minimum instance count for a site
+     * This setting only applies to the Elastic Plans.
      *
      * @return the minimumElasticInstanceCount value.
      */
@@ -1882,8 +1911,8 @@ public final class SiteConfigInner {
     }
 
     /**
-     * Set the minimumElasticInstanceCount property: Number of minimum instance count for a site This setting only
-     * applies to the Elastic Plans.
+     * Set the minimumElasticInstanceCount property: Number of minimum instance count for a site
+     * This setting only applies to the Elastic Plans.
      *
      * @param minimumElasticInstanceCount the minimumElasticInstanceCount value to set.
      * @return the SiteConfigInner object itself.
@@ -1985,14 +2014,11 @@ public final class SiteConfigInner {
             scmIpSecurityRestrictions().forEach(e -> e.validate());
         }
         if (azureStorageAccounts() != null) {
-            azureStorageAccounts()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            azureStorageAccounts().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
     }
 }

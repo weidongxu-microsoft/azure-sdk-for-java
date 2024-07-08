@@ -34,22 +34,28 @@ import com.azure.resourcemanager.batch.fluent.models.ApplicationInner;
 import com.azure.resourcemanager.batch.models.ListApplicationsResult;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in ApplicationsClient. */
+/**
+ * An instance of this class provides access to all the operations defined in ApplicationsClient.
+ */
 public final class ApplicationsClientImpl implements ApplicationsClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final ApplicationsService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final BatchManagementClientImpl client;
 
     /**
      * Initializes an instance of ApplicationsClientImpl.
-     *
+     * 
      * @param client the instance of the service client containing this operation class.
      */
     ApplicationsClientImpl(BatchManagementClientImpl client) {
-        this.service =
-            RestProxy.create(ApplicationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
+        this.service
+            = RestProxy.create(ApplicationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 
@@ -60,102 +66,66 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
     @Host("{$host}")
     @ServiceInterface(name = "BatchManagementClien")
     public interface ApplicationsService {
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts"
-                + "/{accountName}/applications/{applicationName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ApplicationInner>> create(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("applicationName") String applicationName,
-            @QueryParam("api-version") String apiVersion,
+        Mono<Response<ApplicationInner>> create(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("applicationName") String applicationName, @QueryParam("api-version") String apiVersion,
             @PathParam("subscriptionId") String subscriptionId,
-            @BodyParam("application/json") ApplicationInner parameters,
-            @HeaderParam("Accept") String accept,
+            @BodyParam("application/json") ApplicationInner parameters, @HeaderParam("Accept") String accept,
             Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts"
-                + "/{accountName}/applications/{applicationName}")
-        @ExpectedResponses({200, 204})
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        @ExpectedResponses({ 200, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Void>> delete(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("applicationName") String applicationName,
-            @QueryParam("api-version") String apiVersion,
+        Mono<Response<Void>> delete(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("applicationName") String applicationName, @QueryParam("api-version") String apiVersion,
+            @PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<ApplicationInner>> get(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("applicationName") String applicationName, @QueryParam("api-version") String apiVersion,
+            @PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<ApplicationInner>> update(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("applicationName") String applicationName, @QueryParam("api-version") String apiVersion,
             @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
+            @BodyParam("application/json") ApplicationInner parameters, @HeaderParam("Accept") String accept,
             Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts"
-                + "/{accountName}/applications/{applicationName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ApplicationInner>> get(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("applicationName") String applicationName,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<ListApplicationsResult>> list(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @QueryParam("maxresults") Integer maxresults, @QueryParam("api-version") String apiVersion,
+            @PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts"
-                + "/{accountName}/applications/{applicationName}")
-        @ExpectedResponses({200})
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ApplicationInner>> update(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("applicationName") String applicationName,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @BodyParam("application/json") ApplicationInner parameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
-
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts"
-                + "/{accountName}/applications")
-        @ExpectedResponses({200})
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ListApplicationsResult>> list(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @QueryParam("maxresults") Integer maxresults,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
-            Context context);
-
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ListApplicationsResult>> listNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<ListApplicationsResult>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("$host") String endpoint, @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
      * Adds an application to the specified Batch account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -164,16 +134,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return contains information about an application in a Batch account along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ApplicationInner>> createWithResponseAsync(
-        String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+    private Mono<Response<ApplicationInner>> createWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName, ApplicationInner parameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -187,10 +155,8 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (parameters != null) {
             parameters.validate();
@@ -198,24 +164,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
         final String accept = "application/json";
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .create(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            accountName,
-                            applicationName,
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            parameters,
-                            accept,
-                            context))
+                context -> service.create(this.client.getEndpoint(), resourceGroupName, accountName, applicationName,
+                    this.client.getApiVersion(), this.client.getSubscriptionId(), parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Adds an application to the specified Batch account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -225,20 +181,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return contains information about an application in a Batch account along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ApplicationInner>> createWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String applicationName,
-        ApplicationInner parameters,
-        Context context) {
+    private Mono<Response<ApplicationInner>> createWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName, ApplicationInner parameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -252,32 +202,21 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (parameters != null) {
             parameters.validate();
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .create(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                accountName,
-                applicationName,
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                parameters,
-                accept,
-                context);
+        return service.create(this.client.getEndpoint(), resourceGroupName, accountName, applicationName,
+            this.client.getApiVersion(), this.client.getSubscriptionId(), parameters, accept, context);
     }
 
     /**
      * Adds an application to the specified Batch account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -295,7 +234,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Adds an application to the specified Batch account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -307,18 +246,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return contains information about an application in a Batch account along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ApplicationInner> createWithResponse(
-        String resourceGroupName,
-        String accountName,
-        String applicationName,
-        ApplicationInner parameters,
-        Context context) {
+    public Response<ApplicationInner> createWithResponse(String resourceGroupName, String accountName,
+        String applicationName, ApplicationInner parameters, Context context) {
         return createWithResponseAsync(resourceGroupName, accountName, applicationName, parameters, context).block();
     }
 
     /**
      * Adds an application to the specified Batch account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -335,7 +270,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Deletes an application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -345,13 +280,11 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Void>> deleteWithResponseAsync(
-        String resourceGroupName, String accountName, String applicationName) {
+    private Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -365,31 +298,19 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .delete(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            accountName,
-                            applicationName,
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), resourceGroupName, accountName,
+                applicationName, this.client.getApiVersion(), this.client.getSubscriptionId(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Deletes an application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -400,13 +321,11 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Void>> deleteWithResponseAsync(
-        String resourceGroupName, String accountName, String applicationName, Context context) {
+    private Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -420,28 +339,18 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .delete(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                accountName,
-                applicationName,
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                accept,
-                context);
+        return service.delete(this.client.getEndpoint(), resourceGroupName, accountName, applicationName,
+            this.client.getApiVersion(), this.client.getSubscriptionId(), accept, context);
     }
 
     /**
      * Deletes an application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -458,7 +367,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Deletes an application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -469,14 +378,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return the {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> deleteWithResponse(
-        String resourceGroupName, String accountName, String applicationName, Context context) {
+    public Response<Void> deleteWithResponse(String resourceGroupName, String accountName, String applicationName,
+        Context context) {
         return deleteWithResponseAsync(resourceGroupName, accountName, applicationName, context).block();
     }
 
     /**
      * Deletes an application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -491,7 +400,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Gets information about the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -499,16 +408,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return information about the specified application along with {@link Response} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ApplicationInner>> getWithResponseAsync(
-        String resourceGroupName, String accountName, String applicationName) {
+    private Mono<Response<ApplicationInner>> getWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -522,31 +429,19 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .get(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            accountName,
-                            applicationName,
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
+            .withContext(context -> service.get(this.client.getEndpoint(), resourceGroupName, accountName,
+                applicationName, this.client.getApiVersion(), this.client.getSubscriptionId(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Gets information about the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -555,16 +450,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return information about the specified application along with {@link Response} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ApplicationInner>> getWithResponseAsync(
-        String resourceGroupName, String accountName, String applicationName, Context context) {
+    private Mono<Response<ApplicationInner>> getWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -578,28 +471,18 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .get(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                accountName,
-                applicationName,
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                accept,
-                context);
+        return service.get(this.client.getEndpoint(), resourceGroupName, accountName, applicationName,
+            this.client.getApiVersion(), this.client.getSubscriptionId(), accept, context);
     }
 
     /**
      * Gets information about the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -616,7 +499,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Gets information about the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -627,14 +510,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return information about the specified application along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ApplicationInner> getWithResponse(
-        String resourceGroupName, String accountName, String applicationName, Context context) {
+    public Response<ApplicationInner> getWithResponse(String resourceGroupName, String accountName,
+        String applicationName, Context context) {
         return getWithResponseAsync(resourceGroupName, accountName, applicationName, context).block();
     }
 
     /**
      * Gets information about the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -650,7 +533,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Updates settings for the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -659,16 +542,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return contains information about an application in a Batch account along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ApplicationInner>> updateWithResponseAsync(
-        String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+    private Mono<Response<ApplicationInner>> updateWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName, ApplicationInner parameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -682,10 +563,8 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (parameters == null) {
             return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
@@ -695,24 +574,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
         final String accept = "application/json";
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .update(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            accountName,
-                            applicationName,
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            parameters,
-                            accept,
-                            context))
+                context -> service.update(this.client.getEndpoint(), resourceGroupName, accountName, applicationName,
+                    this.client.getApiVersion(), this.client.getSubscriptionId(), parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Updates settings for the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -722,20 +591,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return contains information about an application in a Batch account along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ApplicationInner>> updateWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String applicationName,
-        ApplicationInner parameters,
-        Context context) {
+    private Mono<Response<ApplicationInner>> updateWithResponseAsync(String resourceGroupName, String accountName,
+        String applicationName, ApplicationInner parameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -749,10 +612,8 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
                 .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (parameters == null) {
             return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
@@ -761,22 +622,13 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .update(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                accountName,
-                applicationName,
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                parameters,
-                accept,
-                context);
+        return service.update(this.client.getEndpoint(), resourceGroupName, accountName, applicationName,
+            this.client.getApiVersion(), this.client.getSubscriptionId(), parameters, accept, context);
     }
 
     /**
      * Updates settings for the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -787,15 +639,15 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return contains information about an application in a Batch account on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ApplicationInner> updateAsync(
-        String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+    private Mono<ApplicationInner> updateAsync(String resourceGroupName, String accountName, String applicationName,
+        ApplicationInner parameters) {
         return updateWithResponseAsync(resourceGroupName, accountName, applicationName, parameters)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
 
     /**
      * Updates settings for the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -807,18 +659,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return contains information about an application in a Batch account along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ApplicationInner> updateWithResponse(
-        String resourceGroupName,
-        String accountName,
-        String applicationName,
-        ApplicationInner parameters,
-        Context context) {
+    public Response<ApplicationInner> updateWithResponse(String resourceGroupName, String accountName,
+        String applicationName, ApplicationInner parameters, Context context) {
         return updateWithResponseAsync(resourceGroupName, accountName, applicationName, parameters, context).block();
     }
 
     /**
      * Updates settings for the specified application.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param applicationName The name of the application. This must be unique within the account.
@@ -829,14 +677,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return contains information about an application in a Batch account.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ApplicationInner update(
-        String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+    public ApplicationInner update(String resourceGroupName, String accountName, String applicationName,
+        ApplicationInner parameters) {
         return updateWithResponse(resourceGroupName, accountName, applicationName, parameters, Context.NONE).getValue();
     }
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param maxresults The maximum number of items to return in the response.
@@ -844,16 +692,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the result of performing list applications along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ApplicationInner>> listSinglePageAsync(
-        String resourceGroupName, String accountName, Integer maxresults) {
+    private Mono<PagedResponse<ApplicationInner>> listSinglePageAsync(String resourceGroupName, String accountName,
+        Integer maxresults) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -863,40 +709,21 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
             return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .list(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            accountName,
-                            maxresults,
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
-            .<PagedResponse<ApplicationInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.list(this.client.getEndpoint(), resourceGroupName, accountName, maxresults,
+                this.client.getApiVersion(), this.client.getSubscriptionId(), accept, context))
+            .<PagedResponse<ApplicationInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param maxresults The maximum number of items to return in the response.
@@ -905,16 +732,14 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the result of performing list applications along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ApplicationInner>> listSinglePageAsync(
-        String resourceGroupName, String accountName, Integer maxresults, Context context) {
+    private Mono<PagedResponse<ApplicationInner>> listSinglePageAsync(String resourceGroupName, String accountName,
+        Integer maxresults, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -924,37 +749,21 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
             return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .list(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                accountName,
-                maxresults,
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .list(this.client.getEndpoint(), resourceGroupName, accountName, maxresults, this.client.getApiVersion(),
+                this.client.getSubscriptionId(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param maxresults The maximum number of items to return in the response.
@@ -965,14 +774,13 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<ApplicationInner> listAsync(String resourceGroupName, String accountName, Integer maxresults) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, accountName, maxresults),
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, accountName, maxresults),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -983,14 +791,13 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<ApplicationInner> listAsync(String resourceGroupName, String accountName) {
         final Integer maxresults = null;
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, accountName, maxresults),
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, accountName, maxresults),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param maxresults The maximum number of items to return in the response.
@@ -1001,16 +808,15 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return the result of performing list applications as paginated response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ApplicationInner> listAsync(
-        String resourceGroupName, String accountName, Integer maxresults, Context context) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, accountName, maxresults, context),
+    private PagedFlux<ApplicationInner> listAsync(String resourceGroupName, String accountName, Integer maxresults,
+        Context context) {
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, accountName, maxresults, context),
             nextLink -> listNextSinglePageAsync(nextLink, context));
     }
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1026,7 +832,7 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
 
     /**
      * Lists all of the applications in the specified account.
-     *
+     * 
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
      * @param maxresults The maximum number of items to return in the response.
@@ -1037,21 +843,22 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
      * @return the result of performing list applications as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ApplicationInner> list(
-        String resourceGroupName, String accountName, Integer maxresults, Context context) {
+    public PagedIterable<ApplicationInner> list(String resourceGroupName, String accountName, Integer maxresults,
+        Context context) {
         return new PagedIterable<>(listAsync(resourceGroupName, accountName, maxresults, context));
     }
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the result of performing list applications along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<ApplicationInner>> listNextSinglePageAsync(String nextLink) {
@@ -1059,37 +866,28 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<ApplicationInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+        return FluxUtil.withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
+            .<PagedResponse<ApplicationInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the result of performing list applications along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<ApplicationInner>> listNextSinglePageAsync(String nextLink, Context context) {
@@ -1097,23 +895,13 @@ public final class ApplicationsClientImpl implements ApplicationsClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 }

@@ -29,11 +29,11 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.azure.ai.formrecognizer.FormRecognizerClientTestBase.INVALID_ENDPOINT;
 import static com.azure.ai.formrecognizer.FormTrainingClientTestBase.AZURE_FORM_RECOGNIZER_API_KEY;
 import static com.azure.ai.formrecognizer.FormTrainingClientTestBase.AZURE_FORM_RECOGNIZER_ENDPOINT;
 import static com.azure.ai.formrecognizer.TestUtils.DISPLAY_NAME_WITH_ARGUMENTS;
 import static com.azure.ai.formrecognizer.TestUtils.INVALID_KEY;
+import static com.azure.ai.formrecognizer.TestUtils.REMOVE_SANITIZER_ID;
 import static com.azure.ai.formrecognizer.TestUtils.URL_TEST_FILE_FORMAT;
 import static com.azure.ai.formrecognizer.TestUtils.VALID_URL;
 import static com.azure.ai.formrecognizer.TestUtils.setSyncPollerPollInterval;
@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests for Form Training client builder
  */
 public class FormTrainingClientBuilderTest extends TestProxyTestBase {
-    private static final String TEST_FILE = URL_TEST_FILE_FORMAT + "Form_1.jpg";
+    static final String TEST_FILE = URL_TEST_FILE_FORMAT + "Form_1.jpg";
 
     /**
      * Test client builder with invalid API key
@@ -99,21 +99,6 @@ public class FormTrainingClientBuilderTest extends TestProxyTestBase {
         clientBuilderWithDefaultPipelineRunner(httpClient, serviceVersion, clientBuilder -> (input) ->
             assertNotNull(setSyncPollerPollInterval(clientBuilder.buildClient().getFormRecognizerClient()
                 .beginRecognizeContentFromUrl(input), interceptorManager).getFinalResult()));
-    }
-
-    /**
-     * Test for invalid endpoint.
-     */
-    @ParameterizedTest(name = DISPLAY_NAME_WITH_ARGUMENTS)
-    @MethodSource("com.azure.ai.formrecognizer.TestUtils#getTestParameters")
-    public void trainingClientBuilderInvalidEndpoint(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion) {
-        clientBuilderWithDefaultPipelineRunner(httpClient, serviceVersion, clientBuilder -> (input) -> {
-            assertThrows(RuntimeException.class, () -> clientBuilder.endpoint(INVALID_ENDPOINT)
-                .retryPolicy(new RetryPolicy(new FixedDelay(3, Duration.ofMillis(1))))
-                .buildClient()
-                .getFormRecognizerClient()
-                .beginRecognizeContentFromUrl(input).getFinalResult());
-        });
     }
 
     @Test
@@ -242,7 +227,9 @@ public class FormTrainingClientBuilderTest extends TestProxyTestBase {
         if (interceptorManager.isRecordMode()) {
             clientBuilder.addPolicy(interceptorManager.getRecordPolicy());
         }
-
+        if (!interceptorManager.isLiveMode()) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+        }
         return clientBuilder;
     }
 

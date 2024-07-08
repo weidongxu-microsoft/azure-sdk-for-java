@@ -7,7 +7,9 @@ package com.azure.resourcemanager.netapp.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Volume Export Policy Rule. */
+/**
+ * Volume Export Policy Rule.
+ */
 @Fluent
 public final class ExportPolicyRule {
     /*
@@ -95,19 +97,20 @@ public final class ExportPolicyRule {
     private Boolean hasRootAccess;
 
     /*
-     * This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can
-     * change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
+     * This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
      */
     @JsonProperty(value = "chownMode")
     private ChownMode chownMode;
 
-    /** Creates an instance of ExportPolicyRule class. */
+    /**
+     * Creates an instance of ExportPolicyRule class.
+     */
     public ExportPolicyRule() {
     }
 
     /**
      * Get the ruleIndex property: Order index.
-     *
+     * 
      * @return the ruleIndex value.
      */
     public Integer ruleIndex() {
@@ -116,7 +119,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the ruleIndex property: Order index.
-     *
+     * 
      * @param ruleIndex the ruleIndex value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -127,7 +130,7 @@ public final class ExportPolicyRule {
 
     /**
      * Get the unixReadOnly property: Read only access.
-     *
+     * 
      * @return the unixReadOnly value.
      */
     public Boolean unixReadOnly() {
@@ -136,7 +139,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the unixReadOnly property: Read only access.
-     *
+     * 
      * @param unixReadOnly the unixReadOnly value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -147,7 +150,7 @@ public final class ExportPolicyRule {
 
     /**
      * Get the unixReadWrite property: Read and write access.
-     *
+     * 
      * @return the unixReadWrite value.
      */
     public Boolean unixReadWrite() {
@@ -156,7 +159,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the unixReadWrite property: Read and write access.
-     *
+     * 
      * @param unixReadWrite the unixReadWrite value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -168,7 +171,7 @@ public final class ExportPolicyRule {
     /**
      * Get the kerberos5ReadOnly property: Kerberos5 Read only access. To be use with swagger version 2020-05-01 or
      * later.
-     *
+     * 
      * @return the kerberos5ReadOnly value.
      */
     public Boolean kerberos5ReadOnly() {
@@ -178,7 +181,7 @@ public final class ExportPolicyRule {
     /**
      * Set the kerberos5ReadOnly property: Kerberos5 Read only access. To be use with swagger version 2020-05-01 or
      * later.
-     *
+     * 
      * @param kerberos5ReadOnly the kerberos5ReadOnly value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -190,7 +193,7 @@ public final class ExportPolicyRule {
     /**
      * Get the kerberos5ReadWrite property: Kerberos5 Read and write access. To be use with swagger version 2020-05-01
      * or later.
-     *
+     * 
      * @return the kerberos5ReadWrite value.
      */
     public Boolean kerberos5ReadWrite() {
@@ -200,7 +203,7 @@ public final class ExportPolicyRule {
     /**
      * Set the kerberos5ReadWrite property: Kerberos5 Read and write access. To be use with swagger version 2020-05-01
      * or later.
-     *
+     * 
      * @param kerberos5ReadWrite the kerberos5ReadWrite value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -212,7 +215,7 @@ public final class ExportPolicyRule {
     /**
      * Get the kerberos5IReadOnly property: Kerberos5i Read only access. To be use with swagger version 2020-05-01 or
      * later.
-     *
+     * 
      * @return the kerberos5IReadOnly value.
      */
     public Boolean kerberos5IReadOnly() {
@@ -222,7 +225,7 @@ public final class ExportPolicyRule {
     /**
      * Set the kerberos5IReadOnly property: Kerberos5i Read only access. To be use with swagger version 2020-05-01 or
      * later.
-     *
+     * 
      * @param kerberos5IReadOnly the kerberos5IReadOnly value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -234,7 +237,7 @@ public final class ExportPolicyRule {
     /**
      * Get the kerberos5IReadWrite property: Kerberos5i Read and write access. To be use with swagger version 2020-05-01
      * or later.
-     *
+     * 
      * @return the kerberos5IReadWrite value.
      */
     public Boolean kerberos5IReadWrite() {
@@ -244,7 +247,7 @@ public final class ExportPolicyRule {
     /**
      * Set the kerberos5IReadWrite property: Kerberos5i Read and write access. To be use with swagger version 2020-05-01
      * or later.
-     *
+     * 
      * @param kerberos5IReadWrite the kerberos5IReadWrite value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -256,7 +259,7 @@ public final class ExportPolicyRule {
     /**
      * Get the kerberos5PReadOnly property: Kerberos5p Read only access. To be use with swagger version 2020-05-01 or
      * later.
-     *
+     * 
      * @return the kerberos5PReadOnly value.
      */
     public Boolean kerberos5PReadOnly() {
@@ -266,7 +269,7 @@ public final class ExportPolicyRule {
     /**
      * Set the kerberos5PReadOnly property: Kerberos5p Read only access. To be use with swagger version 2020-05-01 or
      * later.
-     *
+     * 
      * @param kerberos5PReadOnly the kerberos5PReadOnly value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -278,7 +281,7 @@ public final class ExportPolicyRule {
     /**
      * Get the kerberos5PReadWrite property: Kerberos5p Read and write access. To be use with swagger version 2020-05-01
      * or later.
-     *
+     * 
      * @return the kerberos5PReadWrite value.
      */
     public Boolean kerberos5PReadWrite() {
@@ -288,7 +291,7 @@ public final class ExportPolicyRule {
     /**
      * Set the kerberos5PReadWrite property: Kerberos5p Read and write access. To be use with swagger version 2020-05-01
      * or later.
-     *
+     * 
      * @param kerberos5PReadWrite the kerberos5PReadWrite value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -299,7 +302,7 @@ public final class ExportPolicyRule {
 
     /**
      * Get the cifs property: Allows CIFS protocol.
-     *
+     * 
      * @return the cifs value.
      */
     public Boolean cifs() {
@@ -308,7 +311,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the cifs property: Allows CIFS protocol.
-     *
+     * 
      * @param cifs the cifs value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -319,7 +322,7 @@ public final class ExportPolicyRule {
 
     /**
      * Get the nfsv3 property: Allows NFSv3 protocol. Enable only for NFSv3 type volumes.
-     *
+     * 
      * @return the nfsv3 value.
      */
     public Boolean nfsv3() {
@@ -328,7 +331,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the nfsv3 property: Allows NFSv3 protocol. Enable only for NFSv3 type volumes.
-     *
+     * 
      * @param nfsv3 the nfsv3 value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -339,7 +342,7 @@ public final class ExportPolicyRule {
 
     /**
      * Get the nfsv41 property: Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes.
-     *
+     * 
      * @return the nfsv41 value.
      */
     public Boolean nfsv41() {
@@ -348,7 +351,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the nfsv41 property: Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes.
-     *
+     * 
      * @param nfsv41 the nfsv41 value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -360,7 +363,7 @@ public final class ExportPolicyRule {
     /**
      * Get the allowedClients property: Client ingress specification as comma separated string with IPv4 CIDRs, IPv4
      * host addresses and host names.
-     *
+     * 
      * @return the allowedClients value.
      */
     public String allowedClients() {
@@ -370,7 +373,7 @@ public final class ExportPolicyRule {
     /**
      * Set the allowedClients property: Client ingress specification as comma separated string with IPv4 CIDRs, IPv4
      * host addresses and host names.
-     *
+     * 
      * @param allowedClients the allowedClients value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -381,7 +384,7 @@ public final class ExportPolicyRule {
 
     /**
      * Get the hasRootAccess property: Has root access to volume.
-     *
+     * 
      * @return the hasRootAccess value.
      */
     public Boolean hasRootAccess() {
@@ -390,7 +393,7 @@ public final class ExportPolicyRule {
 
     /**
      * Set the hasRootAccess property: Has root access to volume.
-     *
+     * 
      * @param hasRootAccess the hasRootAccess value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -403,7 +406,7 @@ public final class ExportPolicyRule {
      * Get the chownMode property: This parameter specifies who is authorized to change the ownership of a file.
      * restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change
      * ownership of files that they own.
-     *
+     * 
      * @return the chownMode value.
      */
     public ChownMode chownMode() {
@@ -414,7 +417,7 @@ public final class ExportPolicyRule {
      * Set the chownMode property: This parameter specifies who is authorized to change the ownership of a file.
      * restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change
      * ownership of files that they own.
-     *
+     * 
      * @param chownMode the chownMode value to set.
      * @return the ExportPolicyRule object itself.
      */
@@ -425,7 +428,7 @@ public final class ExportPolicyRule {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

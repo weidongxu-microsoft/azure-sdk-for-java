@@ -7,49 +7,77 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.MappingDataFlowTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Mapping data flow. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Mapping data flow.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = MappingDataFlow.class, visible = true)
 @JsonTypeName("MappingDataFlow")
 @Fluent
 public final class MappingDataFlow extends DataFlow {
+    /*
+     * Type of data flow.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "MappingDataFlow";
+
     /*
      * Mapping data flow type properties.
      */
     @JsonProperty(value = "typeProperties")
     private MappingDataFlowTypeProperties innerTypeProperties;
 
-    /** Creates an instance of MappingDataFlow class. */
+    /**
+     * Creates an instance of MappingDataFlow class.
+     */
     public MappingDataFlow() {
     }
 
     /**
+     * Get the type property: Type of data flow.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Mapping data flow type properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private MappingDataFlowTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MappingDataFlow withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MappingDataFlow withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MappingDataFlow withFolder(DataFlowFolder folder) {
         super.withFolder(folder);
@@ -58,7 +86,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Get the sources property: List of sources in data flow.
-     *
+     * 
      * @return the sources value.
      */
     public List<DataFlowSource> sources() {
@@ -67,7 +95,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Set the sources property: List of sources in data flow.
-     *
+     * 
      * @param sources the sources value to set.
      * @return the MappingDataFlow object itself.
      */
@@ -81,7 +109,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Get the sinks property: List of sinks in data flow.
-     *
+     * 
      * @return the sinks value.
      */
     public List<DataFlowSink> sinks() {
@@ -90,7 +118,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Set the sinks property: List of sinks in data flow.
-     *
+     * 
      * @param sinks the sinks value to set.
      * @return the MappingDataFlow object itself.
      */
@@ -104,7 +132,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Get the transformations property: List of transformations in data flow.
-     *
+     * 
      * @return the transformations value.
      */
     public List<Transformation> transformations() {
@@ -113,7 +141,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Set the transformations property: List of transformations in data flow.
-     *
+     * 
      * @param transformations the transformations value to set.
      * @return the MappingDataFlow object itself.
      */
@@ -127,7 +155,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Get the script property: DataFlow script.
-     *
+     * 
      * @return the script value.
      */
     public String script() {
@@ -136,7 +164,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Set the script property: DataFlow script.
-     *
+     * 
      * @param script the script value to set.
      * @return the MappingDataFlow object itself.
      */
@@ -150,7 +178,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Get the scriptLines property: Data flow script lines.
-     *
+     * 
      * @return the scriptLines value.
      */
     public List<String> scriptLines() {
@@ -159,7 +187,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Set the scriptLines property: Data flow script lines.
-     *
+     * 
      * @param scriptLines the scriptLines value to set.
      * @return the MappingDataFlow object itself.
      */
@@ -173,7 +201,7 @@ public final class MappingDataFlow extends DataFlow {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

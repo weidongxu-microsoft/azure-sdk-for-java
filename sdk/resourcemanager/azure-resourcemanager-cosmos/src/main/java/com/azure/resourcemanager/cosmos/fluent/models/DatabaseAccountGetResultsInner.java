@@ -29,10 +29,13 @@ import com.azure.resourcemanager.cosmos.models.PublicNetworkAccess;
 import com.azure.resourcemanager.cosmos.models.RestoreParameters;
 import com.azure.resourcemanager.cosmos.models.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** An Azure Cosmos DB database account. */
+/**
+ * An Azure Cosmos DB database account.
+ */
 @Fluent
 public final class DatabaseAccountGetResultsInner extends ArmResourceProperties {
     /*
@@ -59,7 +62,9 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of DatabaseAccountGetResultsInner class. */
+    /**
+     * Creates an instance of DatabaseAccountGetResultsInner class.
+     */
     public DatabaseAccountGetResultsInner() {
     }
 
@@ -121,14 +126,18 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
         return this.systemData;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabaseAccountGetResultsInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabaseAccountGetResultsInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -444,8 +453,8 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
      * @param disableKeyBasedMetadataWriteAccess the disableKeyBasedMetadataWriteAccess value to set.
      * @return the DatabaseAccountGetResultsInner object itself.
      */
-    public DatabaseAccountGetResultsInner withDisableKeyBasedMetadataWriteAccess(
-        Boolean disableKeyBasedMetadataWriteAccess) {
+    public DatabaseAccountGetResultsInner
+        withDisableKeyBasedMetadataWriteAccess(Boolean disableKeyBasedMetadataWriteAccess) {
         if (this.innerProperties() == null) {
             this.innerProperties = new DatabaseAccountGetProperties();
         }
@@ -610,8 +619,8 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
      * @param analyticalStorageConfiguration the analyticalStorageConfiguration value to set.
      * @return the DatabaseAccountGetResultsInner object itself.
      */
-    public DatabaseAccountGetResultsInner withAnalyticalStorageConfiguration(
-        AnalyticalStorageConfiguration analyticalStorageConfiguration) {
+    public DatabaseAccountGetResultsInner
+        withAnalyticalStorageConfiguration(AnalyticalStorageConfiguration analyticalStorageConfiguration) {
         if (this.innerProperties() == null) {
             this.innerProperties = new DatabaseAccountGetProperties();
         }
@@ -854,8 +863,8 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
     }
 
     /**
-     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @return the minimalTlsVersion value.
      */
@@ -864,8 +873,8 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
     }
 
     /**
-     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @param minimalTlsVersion the minimalTlsVersion value to set.
      * @return the DatabaseAccountGetResultsInner object itself.
@@ -875,6 +884,56 @@ public final class DatabaseAccountGetResultsInner extends ArmResourceProperties 
             this.innerProperties = new DatabaseAccountGetProperties();
         }
         this.innerProperties().withMinimalTlsVersion(minimalTlsVersion);
+        return this;
+    }
+
+    /**
+     * Get the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @return the enableBurstCapacity value.
+     */
+    public Boolean enableBurstCapacity() {
+        return this.innerProperties() == null ? null : this.innerProperties().enableBurstCapacity();
+    }
+
+    /**
+     * Set the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @param enableBurstCapacity the enableBurstCapacity value to set.
+     * @return the DatabaseAccountGetResultsInner object itself.
+     */
+    public DatabaseAccountGetResultsInner withEnableBurstCapacity(Boolean enableBurstCapacity) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new DatabaseAccountGetProperties();
+        }
+        this.innerProperties().withEnableBurstCapacity(enableBurstCapacity);
+        return this;
+    }
+
+    /**
+     * Get the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @return the customerManagedKeyStatus value.
+     */
+    public String customerManagedKeyStatus() {
+        return this.innerProperties() == null ? null : this.innerProperties().customerManagedKeyStatus();
+    }
+
+    /**
+     * Set the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @param customerManagedKeyStatus the customerManagedKeyStatus value to set.
+     * @return the DatabaseAccountGetResultsInner object itself.
+     */
+    public DatabaseAccountGetResultsInner withCustomerManagedKeyStatus(String customerManagedKeyStatus) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new DatabaseAccountGetProperties();
+        }
+        this.innerProperties().withCustomerManagedKeyStatus(customerManagedKeyStatus);
         return this;
     }
 

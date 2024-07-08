@@ -11,6 +11,7 @@ import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.annotation.LiveOnly;
 import com.azure.resourcemanager.authorization.models.BuiltInRole;
 import com.azure.resourcemanager.authorization.models.RoleAssignment;
 import com.azure.resourcemanager.msi.models.Identity;
@@ -20,7 +21,7 @@ import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.utils.HttpPipelineProvider;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
 import com.azure.resourcemanager.resources.models.ResourceGroup;
-import com.azure.resourcemanager.test.ResourceManagerTestBase;
+import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
 import com.azure.resourcemanager.test.utils.TestDelayProvider;
 import com.azure.resourcemanager.test.utils.TestIdentifierProvider;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class MSIIdentityManagementTests extends ResourceManagerTestBase {
+public class MSIIdentityManagementTests extends ResourceManagerTestProxyTestBase {
     private String rgName = "";
     private Region region = Region.fromName("West Central US");
 
@@ -125,6 +126,7 @@ public class MSIIdentityManagementTests extends ResourceManagerTestBase {
     }
 
     @Test
+    @LiveOnly
     public void canAssignCurrentResourceGroupAccessRoleToIdentity() throws Exception {
         rgName = generateRandomResourceName("javaismrg", 15);
         String identityName = generateRandomResourceName("msi-id", 15);

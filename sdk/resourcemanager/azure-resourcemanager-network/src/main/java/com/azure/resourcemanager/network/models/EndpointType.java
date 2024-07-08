@@ -6,33 +6,57 @@ package com.azure.resourcemanager.network.models;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
-/** The endpoint type. */
+/**
+ * The endpoint type.
+ */
 public final class EndpointType extends ExpandableStringEnum<EndpointType> {
-    /** Static value AzureVM for EndpointType. */
+    /**
+     * Static value AzureVM for EndpointType.
+     */
     public static final EndpointType AZURE_VM = fromString("AzureVM");
 
-    /** Static value AzureVNet for EndpointType. */
+    /**
+     * Static value AzureVNet for EndpointType.
+     */
     public static final EndpointType AZURE_VNET = fromString("AzureVNet");
 
-    /** Static value AzureSubnet for EndpointType. */
+    /**
+     * Static value AzureSubnet for EndpointType.
+     */
     public static final EndpointType AZURE_SUBNET = fromString("AzureSubnet");
 
-    /** Static value ExternalAddress for EndpointType. */
+    /**
+     * Static value ExternalAddress for EndpointType.
+     */
     public static final EndpointType EXTERNAL_ADDRESS = fromString("ExternalAddress");
 
-    /** Static value MMAWorkspaceMachine for EndpointType. */
+    /**
+     * Static value MMAWorkspaceMachine for EndpointType.
+     */
     public static final EndpointType MMAWORKSPACE_MACHINE = fromString("MMAWorkspaceMachine");
 
-    /** Static value MMAWorkspaceNetwork for EndpointType. */
+    /**
+     * Static value MMAWorkspaceNetwork for EndpointType.
+     */
     public static final EndpointType MMAWORKSPACE_NETWORK = fromString("MMAWorkspaceNetwork");
 
-    /** Static value AzureArcVM for EndpointType. */
+    /**
+     * Static value AzureArcVM for EndpointType.
+     */
     public static final EndpointType AZURE_ARC_VM = fromString("AzureArcVM");
 
-    /** Static value AzureVMSS for EndpointType. */
+    /**
+     * Static value AzureVMSS for EndpointType.
+     */
     public static final EndpointType AZURE_VMSS = fromString("AzureVMSS");
+
+    /**
+     * Static value AzureArcNetwork for EndpointType.
+     */
+    public static final EndpointType AZURE_ARC_NETWORK = fromString("AzureArcNetwork");
 
     /**
      * Creates a new instance of EndpointType value.

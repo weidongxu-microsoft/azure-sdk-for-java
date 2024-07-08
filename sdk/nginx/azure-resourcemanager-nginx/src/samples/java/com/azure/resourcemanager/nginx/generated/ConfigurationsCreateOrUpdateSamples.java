@@ -4,22 +4,32 @@
 
 package com.azure.resourcemanager.nginx.generated;
 
-/** Samples for Configurations CreateOrUpdate. */
+import com.azure.resourcemanager.nginx.models.NginxConfigurationFile;
+import com.azure.resourcemanager.nginx.models.NginxConfigurationPackage;
+import com.azure.resourcemanager.nginx.models.NginxConfigurationProperties;
+import java.util.Arrays;
+
+/**
+ * Samples for Configurations CreateOrUpdate.
+ */
 public final class ConfigurationsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_CreateOrUpdate.json
+     * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_CreateOrUpdate.json
      */
     /**
      * Sample code: Configurations_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to NginxManager.
      */
     public static void configurationsCreateOrUpdate(com.azure.resourcemanager.nginx.NginxManager manager) {
-        manager
-            .configurations()
+        manager.configurations()
             .define("default")
-            .withRegion((String) null)
             .withExistingNginxDeployment("myResourceGroup", "myDeployment")
+            .withProperties(new NginxConfigurationProperties()
+                .withFiles(Arrays.asList(
+                    new NginxConfigurationFile().withContent("ABCDEF==").withVirtualPath("/etc/nginx/nginx.conf")))
+                .withPackageProperty(new NginxConfigurationPackage())
+                .withRootFile("/etc/nginx/nginx.conf"))
             .create();
     }
 }

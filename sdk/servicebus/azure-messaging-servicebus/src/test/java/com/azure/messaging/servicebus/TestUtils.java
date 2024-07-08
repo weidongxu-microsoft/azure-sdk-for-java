@@ -8,6 +8,8 @@ import com.azure.core.amqp.implementation.ConnectionStringProperties;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
+import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.messaging.servicebus.administration.models.AccessRights;
 import com.azure.messaging.servicebus.administration.models.AuthorizationRule;
 import org.apache.qpid.proton.Proton;
@@ -46,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUtils {
+    private static final ClientLogger LOGGER = new ClientLogger(TestUtils.class);
 
     // System and application properties from the generated test message.
     static final Instant ENQUEUED_TIME = Instant.ofEpochSecond(1561344661);
@@ -85,6 +88,7 @@ public class TestUtils {
     static final int USE_CASE_MULTIPLE_SESSIONS1 = 29;
     static final int USE_CASE_MULTIPLE_SESSIONS2 = 30;
     static final int USE_CASE_MULTIPLE_SESSIONS3 = 31;
+    static final int USE_CASE_AUTO_RENEW_RECEIVE = 32;
     static final Configuration GLOBAL_CONFIGURATION = Configuration.getGlobalConfiguration();
 
     // An application property key to identify where in the stream this message was created.
@@ -99,7 +103,7 @@ public class TestUtils {
     /**
      * Namespace used to record tests.
      */
-    public static final String TEST_NAMESPACE = "sb-java-conniey-sba";
+    public static final String TEST_NAMESPACE = "sb-java-conniey-sb1";
 
     /**
      * Gets the namespace connection string.
@@ -145,7 +149,7 @@ public class TestUtils {
                 }
                 return String.format(connectionStringWithSasAndEntityFormat, endpoint, signatureValue, entityPath);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(LogLevel.VERBOSE, () -> "Error while getting connection string", e);
             }
         }
         return connectionString;

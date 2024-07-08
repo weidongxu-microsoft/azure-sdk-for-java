@@ -10,9 +10,9 @@ import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.AddDatePolicy;
+import com.azure.core.http.policy.AddHeadersFromContextPolicy;
 import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.AzureSasCredentialPolicy;
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
@@ -28,6 +28,7 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.tracing.Tracer;
 import com.azure.core.util.tracing.TracerProvider;
 import com.azure.storage.blob.BlobUrlParts;
+import com.azure.storage.blob.models.BlobAudience;
 import com.azure.storage.common.StorageSharedKeyCredential;
 import com.azure.storage.common.implementation.BuilderUtils;
 import com.azure.storage.common.implementation.Constants;
@@ -36,6 +37,7 @@ import com.azure.storage.common.policy.MetadataValidationPolicy;
 import com.azure.storage.common.policy.RequestRetryOptions;
 import com.azure.storage.common.policy.ResponseValidationPolicyBuilder;
 import com.azure.storage.common.policy.ScrubEtagPolicy;
+import com.azure.storage.common.policy.StorageBearerTokenChallengeAuthorizationPolicy;
 import com.azure.storage.common.policy.StorageSharedKeyCredentialPolicy;
 
 import java.net.MalformedURLException;
@@ -77,6 +79,7 @@ public final class BuilderHelper {
      * @param perRetryPolicies Additional {@link HttpPipelinePolicy policies} to set in the pipeline per retry.
      * @param configuration Configuration store contain environment settings.
      * @param logger {@link ClientLogger} used to log any exception.
+     * @param audience {@link BlobAudience} used to determine the audience of the blob.
      * @return A new {@link HttpPipeline} from the passed values.
      */
     public static HttpPipeline buildPipeline(
@@ -85,7 +88,7 @@ public final class BuilderHelper {
         RequestRetryOptions retryOptions, RetryOptions coreRetryOptions,
         HttpLogOptions logOptions, ClientOptions clientOptions, HttpClient httpClient,
         List<HttpPipelinePolicy> perCallPolicies, List<HttpPipelinePolicy> perRetryPolicies,
-        Configuration configuration, ClientLogger logger) {
+        Configuration configuration, BlobAudience audience, ClientLogger logger) {
 
         CredentialValidator.validateSingleCredentialIsPresent(
             storageSharedKeyCredential, tokenCredential, azureSasCredential, sasToken, logger);
@@ -102,6 +105,8 @@ public final class BuilderHelper {
 
         policies.add(new AddDatePolicy());
 
+        policies.add(new AddHeadersFromContextPolicy());
+
         // We need to place this policy right before the credential policy since headers may affect the string to sign
         // of the request.
         HttpHeaders headers = CoreUtils.createHttpHeadersFromClientOptions(clientOptions);
@@ -115,7 +120,10 @@ public final class BuilderHelper {
             credentialPolicy =  new StorageSharedKeyCredentialPolicy(storageSharedKeyCredential);
         } else if (tokenCredential != null) {
             httpsValidation(tokenCredential, "bearer token", endpoint, logger);
-            credentialPolicy =  new BearerTokenAuthenticationPolicy(tokenCredential, Constants.STORAGE_SCOPE);
+            String scope = audience != null
+                ? ((audience.toString().endsWith("/") ? audience + ".default" : audience + "/.default"))
+                : Constants.STORAGE_SCOPE;
+            credentialPolicy =  new StorageBearerTokenChallengeAuthorizationPolicy(tokenCredential, scope);
         } else if (azureSasCredential != null) {
             credentialPolicy = new AzureSasCredentialPolicy(azureSasCredential, false);
         } else if (sasToken != null) {

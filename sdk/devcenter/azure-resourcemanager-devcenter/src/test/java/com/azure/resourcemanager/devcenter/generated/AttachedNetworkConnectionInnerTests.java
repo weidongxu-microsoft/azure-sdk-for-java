@@ -11,11 +11,9 @@ import org.junit.jupiter.api.Assertions;
 public final class AttachedNetworkConnectionInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AttachedNetworkConnectionInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"provisioningState\":\"Created\",\"networkConnectionId\":\"qpteeh\",\"networkConnectionLocation\":\"vypyqrimzinpv\",\"healthCheckStatus\":\"Unknown\",\"domainJoinType\":\"AzureADJoin\"},\"id\":\"rsoodqxhcrmnoh\",\"name\":\"t\",\"type\":\"kwh\"}")
-                .toObject(AttachedNetworkConnectionInner.class);
+        AttachedNetworkConnectionInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Created\",\"networkConnectionId\":\"qpteeh\",\"networkConnectionLocation\":\"vypyqrimzinpv\",\"healthCheckStatus\":\"Unknown\",\"domainJoinType\":\"AzureADJoin\"},\"id\":\"rsoodqxhcrmnoh\",\"name\":\"t\",\"type\":\"kwh\"}")
+            .toObject(AttachedNetworkConnectionInner.class);
         Assertions.assertEquals("qpteeh", model.networkConnectionId());
     }
 

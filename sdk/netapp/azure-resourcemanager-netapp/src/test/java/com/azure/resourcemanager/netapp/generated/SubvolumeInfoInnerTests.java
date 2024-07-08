@@ -11,23 +11,21 @@ import org.junit.jupiter.api.Assertions;
 public final class SubvolumeInfoInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        SubvolumeInfoInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"path\":\"fq\",\"size\":3785815942098550285,\"parentPath\":\"htmdvy\",\"provisioningState\":\"ikdgszywkbir\"},\"id\":\"uzhlhkjoqrv\",\"name\":\"qaatjinrv\",\"type\":\"oupmfii\"}")
-                .toObject(SubvolumeInfoInner.class);
-        Assertions.assertEquals("fq", model.path());
-        Assertions.assertEquals(3785815942098550285L, model.size());
-        Assertions.assertEquals("htmdvy", model.parentPath());
+        SubvolumeInfoInner model = BinaryData.fromString(
+            "{\"properties\":{\"path\":\"ftul\",\"size\":9148960841724922095,\"parentPath\":\"ceamtm\",\"provisioningState\":\"u\"},\"id\":\"ejwcwwqiok\",\"name\":\"ssxmojms\",\"type\":\"p\"}")
+            .toObject(SubvolumeInfoInner.class);
+        Assertions.assertEquals("ftul", model.path());
+        Assertions.assertEquals(9148960841724922095L, model.size());
+        Assertions.assertEquals("ceamtm", model.parentPath());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SubvolumeInfoInner model =
-            new SubvolumeInfoInner().withPath("fq").withSize(3785815942098550285L).withParentPath("htmdvy");
+        SubvolumeInfoInner model
+            = new SubvolumeInfoInner().withPath("ftul").withSize(9148960841724922095L).withParentPath("ceamtm");
         model = BinaryData.fromObject(model).toObject(SubvolumeInfoInner.class);
-        Assertions.assertEquals("fq", model.path());
-        Assertions.assertEquals(3785815942098550285L, model.size());
-        Assertions.assertEquals("htmdvy", model.parentPath());
+        Assertions.assertEquals("ftul", model.path());
+        Assertions.assertEquals(9148960841724922095L, model.size());
+        Assertions.assertEquals("ceamtm", model.parentPath());
     }
 }

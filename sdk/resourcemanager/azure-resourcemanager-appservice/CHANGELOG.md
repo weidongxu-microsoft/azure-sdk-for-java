@@ -1,16 +1,135 @@
 # Release History
 
-## 2.29.0-beta.1 (Unreleased)
+## 2.41.0-beta.1 (Unreleased)
 
 ### Features Added
-
-- Supported `withContainerSize` for `FunctionApp`.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.40.0 (2024-06-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-12-01`.
+
+## 2.39.0 (2024-05-24)
+
+### Features Added
+
+- Supported disabling public network access in `FunctionApp` via `disablePublicNetworkAccess()`, for private link feature.
+- Supported disabling public network access in `DeploymentSlot` via `disablePublicNetworkAccess()`, for private link feature.
+- Supported disabling public network access in `FunctionDeploymentSlot` via `disablePublicNetworkAccess()`, for private link feature.
+- Added extra retry for Function App on ACA.
+
+## 2.38.0 (2024-04-16)
+
+### Features Added
+
+- Supported disabling public network access in `WebApp` via `disablePublicNetworkAccess()`, for private link feature.
+
+## 2.37.0 (2024-03-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.36.1 (2024-03-04)
+
+### Bugs Fixed
+
+- Fixed NullPointerException when updating Function App in Azure Container Apps.
+- Fixed a bug that `withPrivateRegistryImage` doesn't work as expected for Function App in Azure Container Apps.
+
+## 2.36.0 (2024-02-29)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.35.2 (2024-02-05)
+
+### Bugs Fixed
+
+- Fixed a bug that Function App in Azure Container Apps environment doesn't support creating from private container registry image.
+
+## 2.35.1 (2024-01-31)
+
+### Bugs Fixed
+
+- Mitigated backend error when creating Function App in Azure Container Apps environment.
+
+## 2.35.0 (2024-01-26)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.34.0 (2023-12-22)
+
+### Features Added
+
+- Supported Function App in Azure Container Apps environment.
+  - Supported `withManagedEnvironmentId` for `FunctionApp`.
+  - Supported `withMaxReplica` and `withMinReplica` for `FunctionApp`.
+
+## 2.33.0 (2023-11-24)
+
+### Bugs Fixed
+
+- Deprecated `RuntimeStack.TOMCAT_10_0_JRE11`. Please use `RuntimeStack.TOMCAT_10_0_JAVA11`.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-01-01`.
+
+## 2.32.0 (2023-10-27)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.31.0 (2023-09-28)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.30.0 (2023-08-25)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.29.0 (2023-07-28)
+
+### Features Added
+
+- Supported `withContainerSize` for `FunctionApp`.
+
+### Bugs Fixed
+
+- Updated SKU that automatically set Function App "Always On".
+Function App on `FREE`, `SHARED`, `DYNAMIC` (consumption plan), `ELASTIC_PREMIUM` (premium plan), `ELASTIC_ISOLATED` App Service has "Always On" turned off.
 
 ## 2.28.0 (2023-06-25)
 

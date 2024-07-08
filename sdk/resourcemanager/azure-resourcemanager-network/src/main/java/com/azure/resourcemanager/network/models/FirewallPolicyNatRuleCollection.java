@@ -6,15 +6,31 @@ package com.azure.resourcemanager.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.List;
 
-/** Firewall Policy NAT Rule Collection. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "ruleCollectionType")
+/**
+ * Firewall Policy NAT Rule Collection.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "ruleCollectionType",
+    defaultImpl = FirewallPolicyNatRuleCollection.class,
+    visible = true)
 @JsonTypeName("FirewallPolicyNatRuleCollection")
 @Fluent
 public final class FirewallPolicyNatRuleCollection extends FirewallPolicyRuleCollection {
+    /*
+     * The type of the rule collection.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "ruleCollectionType", required = true)
+    private FirewallPolicyRuleCollectionType ruleCollectionType
+        = FirewallPolicyRuleCollectionType.FIREWALL_POLICY_NAT_RULE_COLLECTION;
+
     /*
      * The action type of a Nat rule collection.
      */
@@ -27,8 +43,20 @@ public final class FirewallPolicyNatRuleCollection extends FirewallPolicyRuleCol
     @JsonProperty(value = "rules")
     private List<FirewallPolicyRule> rules;
 
-    /** Creates an instance of FirewallPolicyNatRuleCollection class. */
+    /**
+     * Creates an instance of FirewallPolicyNatRuleCollection class.
+     */
     public FirewallPolicyNatRuleCollection() {
+    }
+
+    /**
+     * Get the ruleCollectionType property: The type of the rule collection.
+     *
+     * @return the ruleCollectionType value.
+     */
+    @Override
+    public FirewallPolicyRuleCollectionType ruleCollectionType() {
+        return this.ruleCollectionType;
     }
 
     /**
@@ -71,14 +99,18 @@ public final class FirewallPolicyNatRuleCollection extends FirewallPolicyRuleCol
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FirewallPolicyNatRuleCollection withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FirewallPolicyNatRuleCollection withPriority(Integer priority) {
         super.withPriority(priority);

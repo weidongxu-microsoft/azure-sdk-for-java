@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.fluent.models.ApplicationGatewayBackendSettingsPropertiesFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Backend address pool settings of an application gateway. */
+/**
+ * Backend address pool settings of an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayBackendSettings extends SubResource {
     /*
@@ -37,7 +40,9 @@ public final class ApplicationGatewayBackendSettings extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewayBackendSettings class. */
+    /**
+     * Creates an instance of ApplicationGatewayBackendSettings class.
+     */
     public ApplicationGatewayBackendSettings() {
     }
 
@@ -88,7 +93,9 @@ public final class ApplicationGatewayBackendSettings extends SubResource {
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationGatewayBackendSettings withId(String id) {
         super.withId(id);
@@ -252,8 +259,8 @@ public final class ApplicationGatewayBackendSettings extends SubResource {
      * @param pickHostnameFromBackendAddress the pickHostnameFromBackendAddress value to set.
      * @return the ApplicationGatewayBackendSettings object itself.
      */
-    public ApplicationGatewayBackendSettings withPickHostnameFromBackendAddress(
-        Boolean pickHostnameFromBackendAddress) {
+    public ApplicationGatewayBackendSettings
+        withPickHostnameFromBackendAddress(Boolean pickHostnameFromBackendAddress) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayBackendSettingsPropertiesFormat();
         }

@@ -23,9 +23,15 @@ public final class ManagementPolicySchema {
     private List<ManagementPolicyRule> rules;
 
     /**
+     * Creates an instance of ManagementPolicySchema class.
+     */
+    public ManagementPolicySchema() {
+    }
+
+    /**
      * Get the rules property: The Storage Account ManagementPolicies Rules. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     *
+     * 
      * @return the rules value.
      */
     public List<ManagementPolicyRule> rules() {
@@ -35,7 +41,7 @@ public final class ManagementPolicySchema {
     /**
      * Set the rules property: The Storage Account ManagementPolicies Rules. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     *
+     * 
      * @param rules the rules value to set.
      * @return the ManagementPolicySchema object itself.
      */
@@ -46,14 +52,13 @@ public final class ManagementPolicySchema {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (rules() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property rules in model ManagementPolicySchema"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property rules in model ManagementPolicySchema"));
         } else {
             rules().forEach(e -> e.validate());
         }

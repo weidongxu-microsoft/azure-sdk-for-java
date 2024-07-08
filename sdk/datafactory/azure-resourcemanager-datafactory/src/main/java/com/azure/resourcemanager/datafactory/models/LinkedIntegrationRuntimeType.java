@@ -5,30 +5,51 @@
 package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Immutable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The base definition of a linked integration runtime. */
+/**
+ * The base definition of a linked integration runtime.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "authorizationType",
-    defaultImpl = LinkedIntegrationRuntimeType.class)
+    defaultImpl = LinkedIntegrationRuntimeType.class,
+    visible = true)
 @JsonTypeName("LinkedIntegrationRuntimeType")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "Key", value = LinkedIntegrationRuntimeKeyAuthorization.class),
-    @JsonSubTypes.Type(name = "RBAC", value = LinkedIntegrationRuntimeRbacAuthorization.class)
-})
+    @JsonSubTypes.Type(name = "RBAC", value = LinkedIntegrationRuntimeRbacAuthorization.class) })
 @Immutable
 public class LinkedIntegrationRuntimeType {
-    /** Creates an instance of LinkedIntegrationRuntimeType class. */
+    /*
+     * The authorization type for integration runtime sharing.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "authorizationType", required = true)
+    private String authorizationType = "LinkedIntegrationRuntimeType";
+
+    /**
+     * Creates an instance of LinkedIntegrationRuntimeType class.
+     */
     public LinkedIntegrationRuntimeType() {
     }
 
     /**
+     * Get the authorizationType property: The authorization type for integration runtime sharing.
+     * 
+     * @return the authorizationType value.
+     */
+    public String authorizationType() {
+        return this.authorizationType;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

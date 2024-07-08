@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for P2SVpnGateways GetP2SVpnConnectionHealth. */
+/**
+ * Samples for P2SVpnGateways GetP2SVpnConnectionHealth.
+ */
 public final class P2SVpnGatewaysGetP2SVpnConnectionHealthSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/P2SVpnGatewayGetConnectionHealth.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/P2SVpnGatewayGetConnectionHealth.json
      */
     /**
      * Sample code: P2SVpnGatewayGetConnectionHealth.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void p2SVpnGatewayGetConnectionHealth(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getP2SVpnGateways()

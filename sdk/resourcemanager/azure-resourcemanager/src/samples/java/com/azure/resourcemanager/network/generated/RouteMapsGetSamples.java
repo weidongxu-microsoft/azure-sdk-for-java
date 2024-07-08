@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for RouteMaps Get. */
+/**
+ * Samples for RouteMaps Get.
+ */
 public final class RouteMapsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteMapGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteMapGet.json
      */
     /**
      * Sample code: RouteMapGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void routeMapGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getRouteMaps()

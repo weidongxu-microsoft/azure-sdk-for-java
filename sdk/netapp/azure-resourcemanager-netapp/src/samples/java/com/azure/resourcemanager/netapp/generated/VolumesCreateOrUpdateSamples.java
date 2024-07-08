@@ -6,19 +6,20 @@ package com.azure.resourcemanager.netapp.generated;
 
 import com.azure.resourcemanager.netapp.models.ServiceLevel;
 
-/** Samples for Volumes CreateOrUpdate. */
+/**
+ * Samples for Volumes CreateOrUpdate.
+ */
 public final class VolumesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Volumes_CreateOrUpdate.json
+     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Volumes_CreateOrUpdate.json
      */
     /**
      * Sample code: Volumes_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to NetAppFilesManager.
      */
     public static void volumesCreateOrUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
-        manager
-            .volumes()
+        manager.volumes()
             .define("volume1")
             .withRegion("eastus")
             .withExistingCapacityPool("myRG", "account1", "pool1")

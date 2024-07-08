@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for AppServicePlans ListByResourceGroup. */
+/**
+ * Samples for AppServicePlans ListByResourceGroup.
+ */
 public final class AppServicePlansListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListAppServicePlansByResourceGroup.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListAppServicePlansByResourceGroup.json
      */
     /**
      * Sample code: List App Service plans by resource group.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listAppServicePlansByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getAppServicePlans()

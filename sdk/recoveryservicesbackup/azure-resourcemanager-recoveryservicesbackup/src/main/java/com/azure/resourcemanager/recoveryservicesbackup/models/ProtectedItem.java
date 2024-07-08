@@ -7,17 +7,20 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Base class for backup items. */
+/**
+ * Base class for backup items.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "protectedItemType",
-    defaultImpl = ProtectedItem.class)
+    defaultImpl = ProtectedItem.class,
+    visible = true)
 @JsonTypeName("ProtectedItem")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "AzureFileShareProtectedItem", value = AzureFileshareProtectedItem.class),
@@ -26,10 +29,16 @@ import java.util.List;
     @JsonSubTypes.Type(name = "AzureVmWorkloadProtectedItem", value = AzureVmWorkloadProtectedItem.class),
     @JsonSubTypes.Type(name = "DPMProtectedItem", value = DpmProtectedItem.class),
     @JsonSubTypes.Type(name = "GenericProtectedItem", value = GenericProtectedItem.class),
-    @JsonSubTypes.Type(name = "MabFileFolderProtectedItem", value = MabFileFolderProtectedItem.class)
-})
+    @JsonSubTypes.Type(name = "MabFileFolderProtectedItem", value = MabFileFolderProtectedItem.class) })
 @Fluent
 public class ProtectedItem {
+    /*
+     * backup item type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectedItemType", required = true)
+    private String protectedItemType;
+
     /*
      * Type of backup management for the backed up item.
      */
@@ -129,16 +138,34 @@ public class ProtectedItem {
     /*
      * Soft delete retention period in days
      */
-    @JsonProperty(value = "softDeleteRetentionPeriod")
+    @JsonProperty(value = "softDeleteRetentionPeriodInDays")
     private Integer softDeleteRetentionPeriod;
 
-    /** Creates an instance of ProtectedItem class. */
+    /*
+     * ID of the vault which protects this item
+     */
+    @JsonProperty(value = "vaultId", access = JsonProperty.Access.WRITE_ONLY)
+    private String vaultId;
+
+    /**
+     * Creates an instance of ProtectedItem class.
+     */
     public ProtectedItem() {
+        this.protectedItemType = "ProtectedItem";
+    }
+
+    /**
+     * Get the protectedItemType property: backup item type.
+     * 
+     * @return the protectedItemType value.
+     */
+    public String protectedItemType() {
+        return this.protectedItemType;
     }
 
     /**
      * Get the backupManagementType property: Type of backup management for the backed up item.
-     *
+     * 
      * @return the backupManagementType value.
      */
     public BackupManagementType backupManagementType() {
@@ -147,7 +174,7 @@ public class ProtectedItem {
 
     /**
      * Get the workloadType property: Type of workload this item represents.
-     *
+     * 
      * @return the workloadType value.
      */
     public DataSourceType workloadType() {
@@ -156,7 +183,7 @@ public class ProtectedItem {
 
     /**
      * Get the containerName property: Unique name of container.
-     *
+     * 
      * @return the containerName value.
      */
     public String containerName() {
@@ -165,7 +192,7 @@ public class ProtectedItem {
 
     /**
      * Set the containerName property: Unique name of container.
-     *
+     * 
      * @param containerName the containerName value to set.
      * @return the ProtectedItem object itself.
      */
@@ -176,7 +203,7 @@ public class ProtectedItem {
 
     /**
      * Get the sourceResourceId property: ARM ID of the resource to be backed up.
-     *
+     * 
      * @return the sourceResourceId value.
      */
     public String sourceResourceId() {
@@ -185,7 +212,7 @@ public class ProtectedItem {
 
     /**
      * Set the sourceResourceId property: ARM ID of the resource to be backed up.
-     *
+     * 
      * @param sourceResourceId the sourceResourceId value to set.
      * @return the ProtectedItem object itself.
      */
@@ -196,7 +223,7 @@ public class ProtectedItem {
 
     /**
      * Get the policyId property: ID of the backup policy with which this item is backed up.
-     *
+     * 
      * @return the policyId value.
      */
     public String policyId() {
@@ -205,7 +232,7 @@ public class ProtectedItem {
 
     /**
      * Set the policyId property: ID of the backup policy with which this item is backed up.
-     *
+     * 
      * @param policyId the policyId value to set.
      * @return the ProtectedItem object itself.
      */
@@ -217,7 +244,7 @@ public class ProtectedItem {
     /**
      * Get the lastRecoveryPoint property: Timestamp when the last (latest) backup copy was created for this backup
      * item.
-     *
+     * 
      * @return the lastRecoveryPoint value.
      */
     public OffsetDateTime lastRecoveryPoint() {
@@ -227,7 +254,7 @@ public class ProtectedItem {
     /**
      * Set the lastRecoveryPoint property: Timestamp when the last (latest) backup copy was created for this backup
      * item.
-     *
+     * 
      * @param lastRecoveryPoint the lastRecoveryPoint value to set.
      * @return the ProtectedItem object itself.
      */
@@ -238,7 +265,7 @@ public class ProtectedItem {
 
     /**
      * Get the backupSetName property: Name of the backup set the backup item belongs to.
-     *
+     * 
      * @return the backupSetName value.
      */
     public String backupSetName() {
@@ -247,7 +274,7 @@ public class ProtectedItem {
 
     /**
      * Set the backupSetName property: Name of the backup set the backup item belongs to.
-     *
+     * 
      * @param backupSetName the backupSetName value to set.
      * @return the ProtectedItem object itself.
      */
@@ -259,7 +286,7 @@ public class ProtectedItem {
     /**
      * Get the createMode property: Create mode to indicate recovery of existing soft deleted data source or creation of
      * new data source.
-     *
+     * 
      * @return the createMode value.
      */
     public CreateMode createMode() {
@@ -269,7 +296,7 @@ public class ProtectedItem {
     /**
      * Set the createMode property: Create mode to indicate recovery of existing soft deleted data source or creation of
      * new data source.
-     *
+     * 
      * @param createMode the createMode value to set.
      * @return the ProtectedItem object itself.
      */
@@ -280,7 +307,7 @@ public class ProtectedItem {
 
     /**
      * Get the deferredDeleteTimeInUtc property: Time for deferred deletion in UTC.
-     *
+     * 
      * @return the deferredDeleteTimeInUtc value.
      */
     public OffsetDateTime deferredDeleteTimeInUtc() {
@@ -289,7 +316,7 @@ public class ProtectedItem {
 
     /**
      * Set the deferredDeleteTimeInUtc property: Time for deferred deletion in UTC.
-     *
+     * 
      * @param deferredDeleteTimeInUtc the deferredDeleteTimeInUtc value to set.
      * @return the ProtectedItem object itself.
      */
@@ -300,7 +327,7 @@ public class ProtectedItem {
 
     /**
      * Get the isScheduledForDeferredDelete property: Flag to identify whether the DS is scheduled for deferred delete.
-     *
+     * 
      * @return the isScheduledForDeferredDelete value.
      */
     public Boolean isScheduledForDeferredDelete() {
@@ -309,7 +336,7 @@ public class ProtectedItem {
 
     /**
      * Set the isScheduledForDeferredDelete property: Flag to identify whether the DS is scheduled for deferred delete.
-     *
+     * 
      * @param isScheduledForDeferredDelete the isScheduledForDeferredDelete value to set.
      * @return the ProtectedItem object itself.
      */
@@ -321,7 +348,7 @@ public class ProtectedItem {
     /**
      * Get the deferredDeleteTimeRemaining property: Time remaining before the DS marked for deferred delete is
      * permanently deleted.
-     *
+     * 
      * @return the deferredDeleteTimeRemaining value.
      */
     public String deferredDeleteTimeRemaining() {
@@ -331,7 +358,7 @@ public class ProtectedItem {
     /**
      * Set the deferredDeleteTimeRemaining property: Time remaining before the DS marked for deferred delete is
      * permanently deleted.
-     *
+     * 
      * @param deferredDeleteTimeRemaining the deferredDeleteTimeRemaining value to set.
      * @return the ProtectedItem object itself.
      */
@@ -343,7 +370,7 @@ public class ProtectedItem {
     /**
      * Get the isDeferredDeleteScheduleUpcoming property: Flag to identify whether the deferred deleted DS is to be
      * purged soon.
-     *
+     * 
      * @return the isDeferredDeleteScheduleUpcoming value.
      */
     public Boolean isDeferredDeleteScheduleUpcoming() {
@@ -353,7 +380,7 @@ public class ProtectedItem {
     /**
      * Set the isDeferredDeleteScheduleUpcoming property: Flag to identify whether the deferred deleted DS is to be
      * purged soon.
-     *
+     * 
      * @param isDeferredDeleteScheduleUpcoming the isDeferredDeleteScheduleUpcoming value to set.
      * @return the ProtectedItem object itself.
      */
@@ -364,7 +391,7 @@ public class ProtectedItem {
 
     /**
      * Get the isRehydrate property: Flag to identify that deferred deleted DS is to be moved into Pause state.
-     *
+     * 
      * @return the isRehydrate value.
      */
     public Boolean isRehydrate() {
@@ -373,7 +400,7 @@ public class ProtectedItem {
 
     /**
      * Set the isRehydrate property: Flag to identify that deferred deleted DS is to be moved into Pause state.
-     *
+     * 
      * @param isRehydrate the isRehydrate value to set.
      * @return the ProtectedItem object itself.
      */
@@ -385,7 +412,7 @@ public class ProtectedItem {
     /**
      * Get the resourceGuardOperationRequests property: ResourceGuardOperationRequests on which LAC check will be
      * performed.
-     *
+     * 
      * @return the resourceGuardOperationRequests value.
      */
     public List<String> resourceGuardOperationRequests() {
@@ -395,7 +422,7 @@ public class ProtectedItem {
     /**
      * Set the resourceGuardOperationRequests property: ResourceGuardOperationRequests on which LAC check will be
      * performed.
-     *
+     * 
      * @param resourceGuardOperationRequests the resourceGuardOperationRequests value to set.
      * @return the ProtectedItem object itself.
      */
@@ -406,7 +433,7 @@ public class ProtectedItem {
 
     /**
      * Get the isArchiveEnabled property: Flag to identify whether datasource is protected in archive.
-     *
+     * 
      * @return the isArchiveEnabled value.
      */
     public Boolean isArchiveEnabled() {
@@ -415,7 +442,7 @@ public class ProtectedItem {
 
     /**
      * Set the isArchiveEnabled property: Flag to identify whether datasource is protected in archive.
-     *
+     * 
      * @param isArchiveEnabled the isArchiveEnabled value to set.
      * @return the ProtectedItem object itself.
      */
@@ -426,7 +453,7 @@ public class ProtectedItem {
 
     /**
      * Get the policyName property: Name of the policy used for protection.
-     *
+     * 
      * @return the policyName value.
      */
     public String policyName() {
@@ -435,7 +462,7 @@ public class ProtectedItem {
 
     /**
      * Set the policyName property: Name of the policy used for protection.
-     *
+     * 
      * @param policyName the policyName value to set.
      * @return the ProtectedItem object itself.
      */
@@ -446,7 +473,7 @@ public class ProtectedItem {
 
     /**
      * Get the softDeleteRetentionPeriod property: Soft delete retention period in days.
-     *
+     * 
      * @return the softDeleteRetentionPeriod value.
      */
     public Integer softDeleteRetentionPeriod() {
@@ -455,7 +482,7 @@ public class ProtectedItem {
 
     /**
      * Set the softDeleteRetentionPeriod property: Soft delete retention period in days.
-     *
+     * 
      * @param softDeleteRetentionPeriod the softDeleteRetentionPeriod value to set.
      * @return the ProtectedItem object itself.
      */
@@ -465,8 +492,17 @@ public class ProtectedItem {
     }
 
     /**
+     * Get the vaultId property: ID of the vault which protects this item.
+     * 
+     * @return the vaultId value.
+     */
+    public String vaultId() {
+        return this.vaultId;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -7,19 +7,20 @@ package com.azure.resourcemanager.eventgrid.generated;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for SystemTopics CreateOrUpdate. */
+/**
+ * Samples for SystemTopics CreateOrUpdate.
+ */
 public final class SystemTopicsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/SystemTopics_CreateOrUpdate.json
+     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/SystemTopics_CreateOrUpdate.json
      */
     /**
      * Sample code: SystemTopics_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to EventGridManager.
      */
     public static void systemTopicsCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
-        manager
-            .systemTopics()
+        manager.systemTopics()
             .define("exampleSystemTopic1")
             .withRegion("westus2")
             .withExistingResourceGroup("examplerg")
@@ -30,6 +31,7 @@ public final class SystemTopicsCreateOrUpdateSamples {
             .create();
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

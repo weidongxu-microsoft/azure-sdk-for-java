@@ -8,13 +8,15 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
 
-/** Resource collection API of RedisEnterprises. */
+/**
+ * Resource collection API of RedisEnterprises.
+ */
 public interface RedisEnterprises {
     /**
      * Deletes a RedisEnterprise cache cluster.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param clusterName The name of the RedisEnterprise cluster.
+     * @param clusterName The name of the Redis Enterprise cluster.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -23,9 +25,9 @@ public interface RedisEnterprises {
 
     /**
      * Deletes a RedisEnterprise cache cluster.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param clusterName The name of the RedisEnterprise cluster.
+     * @param clusterName The name of the Redis Enterprise cluster.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -35,9 +37,9 @@ public interface RedisEnterprises {
 
     /**
      * Gets information about a RedisEnterprise cluster.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param clusterName The name of the RedisEnterprise cluster.
+     * @param clusterName The name of the Redis Enterprise cluster.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -48,9 +50,9 @@ public interface RedisEnterprises {
 
     /**
      * Gets information about a RedisEnterprise cluster.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param clusterName The name of the RedisEnterprise cluster.
+     * @param clusterName The name of the Redis Enterprise cluster.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -60,7 +62,7 @@ public interface RedisEnterprises {
 
     /**
      * Lists all RedisEnterprise clusters in a resource group.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -71,7 +73,7 @@ public interface RedisEnterprises {
 
     /**
      * Lists all RedisEnterprise clusters in a resource group.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -83,29 +85,29 @@ public interface RedisEnterprises {
 
     /**
      * Gets all RedisEnterprise clusters in the specified subscription.
-     *
+     * 
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all RedisEnterprise clusters in the specified subscription as paginated response with {@link
-     *     PagedIterable}.
+     * @return all RedisEnterprise clusters in the specified subscription as paginated response with
+     * {@link PagedIterable}.
      */
     PagedIterable<Cluster> list();
 
     /**
      * Gets all RedisEnterprise clusters in the specified subscription.
-     *
+     * 
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all RedisEnterprise clusters in the specified subscription as paginated response with {@link
-     *     PagedIterable}.
+     * @return all RedisEnterprise clusters in the specified subscription as paginated response with
+     * {@link PagedIterable}.
      */
     PagedIterable<Cluster> list(Context context);
 
     /**
      * Gets information about a RedisEnterprise cluster.
-     *
+     * 
      * @param id the resource ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -116,7 +118,7 @@ public interface RedisEnterprises {
 
     /**
      * Gets information about a RedisEnterprise cluster.
-     *
+     * 
      * @param id the resource ID.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -128,7 +130,7 @@ public interface RedisEnterprises {
 
     /**
      * Deletes a RedisEnterprise cache cluster.
-     *
+     * 
      * @param id the resource ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -138,7 +140,7 @@ public interface RedisEnterprises {
 
     /**
      * Deletes a RedisEnterprise cache cluster.
-     *
+     * 
      * @param id the resource ID.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -149,7 +151,7 @@ public interface RedisEnterprises {
 
     /**
      * Begins definition for a new Cluster resource.
-     *
+     * 
      * @param name resource name.
      * @return the first stage of the new Cluster definition.
      */

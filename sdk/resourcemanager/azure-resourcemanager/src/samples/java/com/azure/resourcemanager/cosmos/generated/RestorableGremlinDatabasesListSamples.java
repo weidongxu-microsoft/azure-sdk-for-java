@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for RestorableGremlinDatabases List. */
+/**
+ * Samples for RestorableGremlinDatabases List.
+ */
 public final class RestorableGremlinDatabasesListSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBRestorableGremlinDatabaseList.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBRestorableGremlinDatabaseList.json
      */
     /**
      * Sample code: CosmosDBRestorableGremlinDatabaseList.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBRestorableGremlinDatabaseList(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getRestorableGremlinDatabases()

@@ -24,13 +24,17 @@ import com.azure.resourcemanager.appservice.models.SiteLimits;
 import com.azure.resourcemanager.appservice.models.SiteLoadBalancing;
 import com.azure.resourcemanager.appservice.models.SiteMachineKey;
 import com.azure.resourcemanager.appservice.models.SupportedTlsVersions;
+import com.azure.resourcemanager.appservice.models.TlsCipherSuites;
 import com.azure.resourcemanager.appservice.models.VirtualApplication;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Web app configuration ARM resource. */
+/**
+ * Web app configuration ARM resource.
+ */
 @Fluent
 public final class SiteConfigResourceInner extends ProxyOnlyResource {
     /*
@@ -39,7 +43,9 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     @JsonProperty(value = "properties")
     private SiteConfigInner innerProperties;
 
-    /** Creates an instance of SiteConfigResourceInner class. */
+    /**
+     * Creates an instance of SiteConfigResourceInner class.
+     */
     public SiteConfigResourceInner() {
     }
 
@@ -52,7 +58,9 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SiteConfigResourceInner withKind(String kind) {
         super.withKind(kind);
@@ -1326,8 +1334,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
      * @param ipSecurityRestrictionsDefaultAction the ipSecurityRestrictionsDefaultAction value to set.
      * @return the SiteConfigResourceInner object itself.
      */
-    public SiteConfigResourceInner withIpSecurityRestrictionsDefaultAction(
-        DefaultAction ipSecurityRestrictionsDefaultAction) {
+    public SiteConfigResourceInner
+        withIpSecurityRestrictionsDefaultAction(DefaultAction ipSecurityRestrictionsDefaultAction) {
         if (this.innerProperties() == null) {
             this.innerProperties = new SiteConfigInner();
         }
@@ -1350,8 +1358,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
      * @param scmIpSecurityRestrictions the scmIpSecurityRestrictions value to set.
      * @return the SiteConfigResourceInner object itself.
      */
-    public SiteConfigResourceInner withScmIpSecurityRestrictions(
-        List<IpSecurityRestriction> scmIpSecurityRestrictions) {
+    public SiteConfigResourceInner
+        withScmIpSecurityRestrictions(List<IpSecurityRestriction> scmIpSecurityRestrictions) {
         if (this.innerProperties() == null) {
             this.innerProperties = new SiteConfigInner();
         }
@@ -1376,8 +1384,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
      * @param scmIpSecurityRestrictionsDefaultAction the scmIpSecurityRestrictionsDefaultAction value to set.
      * @return the SiteConfigResourceInner object itself.
      */
-    public SiteConfigResourceInner withScmIpSecurityRestrictionsDefaultAction(
-        DefaultAction scmIpSecurityRestrictionsDefaultAction) {
+    public SiteConfigResourceInner
+        withScmIpSecurityRestrictionsDefaultAction(DefaultAction scmIpSecurityRestrictionsDefaultAction) {
         if (this.innerProperties() == null) {
             this.innerProperties = new SiteConfigInner();
         }
@@ -1455,6 +1463,29 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
+     * Get the minTlsCipherSuite property: The minimum strength TLS cipher suite allowed for an application.
+     *
+     * @return the minTlsCipherSuite value.
+     */
+    public TlsCipherSuites minTlsCipherSuite() {
+        return this.innerProperties() == null ? null : this.innerProperties().minTlsCipherSuite();
+    }
+
+    /**
+     * Set the minTlsCipherSuite property: The minimum strength TLS cipher suite allowed for an application.
+     *
+     * @param minTlsCipherSuite the minTlsCipherSuite value to set.
+     * @return the SiteConfigResourceInner object itself.
+     */
+    public SiteConfigResourceInner withMinTlsCipherSuite(TlsCipherSuites minTlsCipherSuite) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new SiteConfigInner();
+        }
+        this.innerProperties().withMinTlsCipherSuite(minTlsCipherSuite);
+        return this;
+    }
+
+    /**
      * Get the scmMinTlsVersion property: ScmMinTlsVersion: configures the minimum version of TLS required for SSL
      * requests for SCM site.
      *
@@ -1503,8 +1534,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the preWarmedInstanceCount property: Number of preWarmed instances. This setting only applies to the
-     * Consumption and Elastic Plans.
+     * Get the preWarmedInstanceCount property: Number of preWarmed instances.
+     * This setting only applies to the Consumption and Elastic Plans.
      *
      * @return the preWarmedInstanceCount value.
      */
@@ -1513,8 +1544,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the preWarmedInstanceCount property: Number of preWarmed instances. This setting only applies to the
-     * Consumption and Elastic Plans.
+     * Set the preWarmedInstanceCount property: Number of preWarmed instances.
+     * This setting only applies to the Consumption and Elastic Plans.
      *
      * @param preWarmedInstanceCount the preWarmedInstanceCount value to set.
      * @return the SiteConfigResourceInner object itself.
@@ -1528,8 +1559,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the functionAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting only
-     * applies to the Consumption and Elastic Premium Plans.
+     * Get the functionAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to the Consumption and Elastic Premium Plans.
      *
      * @return the functionAppScaleLimit value.
      */
@@ -1538,8 +1569,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the functionAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting only
-     * applies to the Consumption and Elastic Premium Plans.
+     * Set the functionAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to the Consumption and Elastic Premium Plans.
      *
      * @param functionAppScaleLimit the functionAppScaleLimit value to set.
      * @return the SiteConfigResourceInner object itself.
@@ -1553,8 +1584,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting
-     * only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
+     * Get the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
      *
      * @return the elasticWebAppScaleLimit value.
      */
@@ -1563,8 +1594,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to. This setting
-     * only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
+     * Set the elasticWebAppScaleLimit property: Maximum number of workers that a site can scale out to.
+     * This setting only applies to apps in plans where ElasticScaleEnabled is &lt;code&gt;true&lt;/code&gt;.
      *
      * @param elasticWebAppScaleLimit the elasticWebAppScaleLimit value to set.
      * @return the SiteConfigResourceInner object itself.
@@ -1602,8 +1633,9 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
 
     /**
      * Get the functionsRuntimeScaleMonitoringEnabled property: Gets or sets a value indicating whether functions
-     * runtime scale monitoring is enabled. When enabled, the ScaleController will not monitor event sources directly,
-     * but will instead call to the runtime to get scale status.
+     * runtime scale monitoring is enabled. When enabled,
+     * the ScaleController will not monitor event sources directly, but will instead call to the
+     * runtime to get scale status.
      *
      * @return the functionsRuntimeScaleMonitoringEnabled value.
      */
@@ -1613,14 +1645,15 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
 
     /**
      * Set the functionsRuntimeScaleMonitoringEnabled property: Gets or sets a value indicating whether functions
-     * runtime scale monitoring is enabled. When enabled, the ScaleController will not monitor event sources directly,
-     * but will instead call to the runtime to get scale status.
+     * runtime scale monitoring is enabled. When enabled,
+     * the ScaleController will not monitor event sources directly, but will instead call to the
+     * runtime to get scale status.
      *
      * @param functionsRuntimeScaleMonitoringEnabled the functionsRuntimeScaleMonitoringEnabled value to set.
      * @return the SiteConfigResourceInner object itself.
      */
-    public SiteConfigResourceInner withFunctionsRuntimeScaleMonitoringEnabled(
-        Boolean functionsRuntimeScaleMonitoringEnabled) {
+    public SiteConfigResourceInner
+        withFunctionsRuntimeScaleMonitoringEnabled(Boolean functionsRuntimeScaleMonitoringEnabled) {
         if (this.innerProperties() == null) {
             this.innerProperties = new SiteConfigInner();
         }
@@ -1660,8 +1693,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the minimumElasticInstanceCount property: Number of minimum instance count for a site This setting only
-     * applies to the Elastic Plans.
+     * Get the minimumElasticInstanceCount property: Number of minimum instance count for a site
+     * This setting only applies to the Elastic Plans.
      *
      * @return the minimumElasticInstanceCount value.
      */
@@ -1670,8 +1703,8 @@ public final class SiteConfigResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the minimumElasticInstanceCount property: Number of minimum instance count for a site This setting only
-     * applies to the Elastic Plans.
+     * Set the minimumElasticInstanceCount property: Number of minimum instance count for a site
+     * This setting only applies to the Elastic Plans.
      *
      * @param minimumElasticInstanceCount the minimumElasticInstanceCount value to set.
      * @return the SiteConfigResourceInner object itself.

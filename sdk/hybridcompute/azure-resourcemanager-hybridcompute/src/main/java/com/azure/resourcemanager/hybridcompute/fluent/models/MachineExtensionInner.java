@@ -11,7 +11,9 @@ import com.azure.resourcemanager.hybridcompute.models.MachineExtensionProperties
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-/** Describes a Machine Extension. */
+/**
+ * Describes a Machine Extension.
+ */
 @Fluent
 public final class MachineExtensionInner extends Resource {
     /*
@@ -21,18 +23,20 @@ public final class MachineExtensionInner extends Resource {
     private MachineExtensionProperties properties;
 
     /*
-     * The system meta data relating to this resource.
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of MachineExtensionInner class. */
+    /**
+     * Creates an instance of MachineExtensionInner class.
+     */
     public MachineExtensionInner() {
     }
 
     /**
      * Get the properties property: Describes Machine Extension Properties.
-     *
+     * 
      * @return the properties value.
      */
     public MachineExtensionProperties properties() {
@@ -41,7 +45,7 @@ public final class MachineExtensionInner extends Resource {
 
     /**
      * Set the properties property: Describes Machine Extension Properties.
-     *
+     * 
      * @param properties the properties value to set.
      * @return the MachineExtensionInner object itself.
      */
@@ -51,22 +55,26 @@ public final class MachineExtensionInner extends Resource {
     }
 
     /**
-     * Get the systemData property: The system meta data relating to this resource.
-     *
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
         return this.systemData;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MachineExtensionInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MachineExtensionInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -75,7 +83,7 @@ public final class MachineExtensionInner extends Resource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

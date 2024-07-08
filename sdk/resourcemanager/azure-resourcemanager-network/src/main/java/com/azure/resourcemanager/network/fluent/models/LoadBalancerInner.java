@@ -11,10 +11,13 @@ import com.azure.resourcemanager.network.models.InboundNatPool;
 import com.azure.resourcemanager.network.models.LoadBalancerSku;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** LoadBalancer resource. */
+/**
+ * LoadBalancer resource.
+ */
 @Fluent
 public final class LoadBalancerInner extends Resource {
     /*
@@ -47,7 +50,9 @@ public final class LoadBalancerInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of LoadBalancerInner class. */
+    /**
+     * Creates an instance of LoadBalancerInner class.
+     */
     public LoadBalancerInner() {
     }
 
@@ -129,14 +134,18 @@ public final class LoadBalancerInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LoadBalancerInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LoadBalancerInner withTags(Map<String, String> tags) {
         super.withTags(tags);

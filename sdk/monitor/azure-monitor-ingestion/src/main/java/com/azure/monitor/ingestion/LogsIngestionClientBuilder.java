@@ -20,14 +20,23 @@ import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.monitor.ingestion.implementation.IngestionUsingDataCollectionRulesClientBuilder;
 import com.azure.monitor.ingestion.implementation.IngestionUsingDataCollectionRulesServiceVersion;
+import com.azure.monitor.ingestion.models.LogsIngestionAudience;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Fluent builder for creating instances of {@link LogsIngestionClient} and {@link LogsIngestionAsyncClient}. To
- * create a client, {@link #endpoint data collection endpoint} and {@link #credential(TokenCredential)
- * AAD token} are required.
+ * Fluent builder for creating instances of {@link LogsIngestionClient} and {@link LogsIngestionAsyncClient}. The
+ * builder provides various options to customize the client as per your requirements.
+ *
+ * <p>There are two required properties that should be set to build a client:
+ * <ol>
+ * <li>{@code endpoint} - The <a href="https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview?tabs=portal#create-a-data-collection-endpoint">data collection endpoint</a>.
+ * See {@link LogsIngestionClientBuilder#endpoint(String) endpoint} method for more details.</li>
+ * <li>{@code credential} - The AAD authentication credential that has the "Monitoring Metrics Publisher" role assigned to it.
+ * <a href="https://learn.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable">Azure Identity</a>
+ * provides a variety of AAD credential types that can be used. See {@link LogsIngestionClientBuilder#credential(TokenCredential) credential } method for more details.</li>
+ * </ol>
  *
  * <p><strong>Instantiating an asynchronous Logs ingestion client</strong></p>
  * <!-- src_embed com.azure.monitor.ingestion.LogsIngestionAsyncClient.instantiation -->
@@ -58,9 +67,18 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     private String endpoint;
     private TokenCredential tokenCredential;
 
+
     /**
-     * Sets the log query endpoint.
-     * @param endpoint the host value.
+     * Creates a new instance of {@link LogsIngestionClientBuilder}.
+     */
+    public LogsIngestionClientBuilder() {
+
+    }
+
+
+    /**
+     * Sets the <a href="https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview?tabs=portal#create-a-data-collection-endpoint">data collection endpoint</a>.
+     * @param endpoint the data collection endpoint.
      * @return the updated {@link LogsIngestionClientBuilder}.
      */
     @Override
@@ -76,9 +94,7 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Sets The HTTP pipeline to send requests through.
-     * @param pipeline the pipeline value.
-     * @return the updated {@link LogsIngestionClientBuilder}.
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder pipeline(HttpPipeline pipeline) {
@@ -87,9 +103,7 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Sets The HTTP client used to send the request.
-     * @param httpClient the httpClient value.
-     * @return the updated {@link LogsIngestionClientBuilder}.
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder httpClient(HttpClient httpClient) {
@@ -98,9 +112,7 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Sets The configuration store that is used during construction of the service client.
-     * @param configuration the configuration value.
-     * @return the updated {@link LogsIngestionClientBuilder}.
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder configuration(Configuration configuration) {
@@ -109,9 +121,7 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Sets The logging configuration for HTTP requests and responses.
-     * @param httpLogOptions the httpLogOptions value.
-     * @return the updated {@link LogsIngestionClientBuilder}.
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder httpLogOptions(HttpLogOptions httpLogOptions) {
@@ -130,9 +140,7 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Adds a custom Http pipeline policy.
-     * @param customPolicy The custom Http pipeline policy to add.
-     * @return the updated {@link LogsIngestionClientBuilder}.
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder addPolicy(HttpPipelinePolicy customPolicy) {
@@ -141,9 +149,7 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Sets the retry options for this client.
-     * @param retryOptions the retry options for this client.
-     * @return the updated {@link LogsIngestionClientBuilder}.
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder retryOptions(RetryOptions retryOptions) {
@@ -152,7 +158,10 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * Sets The TokenCredential used for authentication.
+     * Sets the AAD authentication credential that has the "Monitoring Metrics Publisher" role assigned to it.
+     * <a href="https://learn.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable">Azure Identity</a>
+     * provides a variety of AAD credential types that can be used.
+     *
      * @param tokenCredential the tokenCredential value.
      * @return the updated {@link LogsIngestionClientBuilder}.
      */
@@ -163,10 +172,21 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
         return this;
     }
 
+
     /**
-     * Set the {@link ClientOptions} used for creating the client.
-     * @param clientOptions The {@link ClientOptions}.
+     * Sets the audience for the authorization scope of log ingestion clients. If this value is not set, the default
+     * audience will be the azure public cloud.
+     *
+     * @param audience the audience value.
      * @return the updated {@link LogsIngestionClientBuilder}.
+     */
+    public LogsIngestionClientBuilder audience(LogsIngestionAudience audience) {
+        innerLogBuilder.audience(audience);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public LogsIngestionClientBuilder clientOptions(ClientOptions clientOptions) {
@@ -175,7 +195,9 @@ public final class LogsIngestionClientBuilder implements ConfigurationTrait<Logs
     }
 
     /**
-     * The service version to use when creating the client.
+     * The service version to use when creating the client. By default, the latest service version is used.
+     * This is the value returned by the {@link LogsIngestionServiceVersion#getLatest() getLatest} method.
+     *
      * @param serviceVersion The {@link LogsIngestionServiceVersion}.
      * @return the updated {@link LogsIngestionClientBuilder}.
      */

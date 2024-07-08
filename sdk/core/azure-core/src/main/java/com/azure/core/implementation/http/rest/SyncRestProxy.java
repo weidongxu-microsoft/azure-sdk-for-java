@@ -10,6 +10,7 @@ import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.StreamResponse;
+import com.azure.core.implementation.ImplUtils;
 import com.azure.core.implementation.TypeUtil;
 import com.azure.core.implementation.serializer.HttpResponseDecoder;
 import com.azure.core.util.Base64Url;
@@ -18,6 +19,7 @@ import com.azure.core.util.Context;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.json.JsonSerializable;
+import com.azure.xml.XmlSerializable;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -29,7 +31,13 @@ import java.util.EnumSet;
 import java.util.function.Consumer;
 
 import static com.azure.core.implementation.ReflectionSerializable.serializeJsonSerializableToBytes;
+import static com.azure.core.implementation.ReflectionSerializable.serializeXmlSerializableToBytes;
+import static com.azure.core.implementation.ReflectionSerializable.supportsJsonSerializable;
+import static com.azure.core.implementation.ReflectionSerializable.supportsXmlSerializable;
 
+/**
+ * A synchronous REST proxy implementation.
+ */
 public class SyncRestProxy extends RestProxyBase {
     /**
      * Create a RestProxy.
@@ -54,14 +62,14 @@ public class SyncRestProxy extends RestProxyBase {
         return httpPipeline.sendSync(request, contextData);
     }
 
+    @SuppressWarnings({ "try", "unused" })
     @Override
     public Object invoke(Object proxy, Method method, RequestOptions options, EnumSet<ErrorOptions> errorOptions,
         Consumer<HttpRequest> requestCallback, SwaggerMethodParser methodParser, HttpRequest request, Context context) {
         HttpResponseDecoder.HttpDecodedResponse decodedResponse = null;
 
         context = startTracingSpan(methodParser, context);
-        AutoCloseable scope = tracer.makeSpanCurrent(context);
-        try {
+        try (AutoCloseable scope = tracer.makeSpanCurrent(context)) {
             // If there is 'RequestOptions' apply its request callback operations before validating the body.
             // This is because the callbacks may mutate the request body.
             if (options != null && requestCallback != null) {
@@ -75,27 +83,23 @@ public class SyncRestProxy extends RestProxyBase {
             final HttpResponse response = send(request, context);
             decodedResponse = this.decoder.decodeSync(response, methodParser);
 
-            int statusCode = decodedResponse.getSourceResponse().getStatusCode();
-            tracer.end(statusCode >= 400 ? "" : null, null, context);
+            Object result = handleRestReturnType(decodedResponse, methodParser, methodParser.getReturnType(), context,
+                options, errorOptions);
 
-            return handleRestReturnType(decodedResponse, methodParser, methodParser.getReturnType(), context, options,
-                errorOptions);
-        } catch (RuntimeException e) {
+            int statusCode = decodedResponse.getSourceResponse().getStatusCode();
+            tracer.end(statusCode >= 400 ? String.valueOf(statusCode) : null, null, context);
+            return result;
+        } catch (Exception e) {
             tracer.end(null, e, context);
-            throw LOGGER.logExceptionAsError(e);
-        } finally {
-            try {
-                scope.close();
-            } catch (Exception e) {
-                LOGGER.verbose("Failed to close scope");
-            }
+            ImplUtils.sneakyThrows(e);
+            return null;
         }
     }
 
     /**
      * Create a publisher that (1) emits error if the provided response {@code decodedResponse} has 'disallowed status
      * code' OR (2) emits provided response if it's status code ia allowed.
-     *
+     * <p>
      * 'disallowed status code' is one of the status code defined in the provided SwaggerMethodParser or is in the int[]
      * of additional allowed status codes.
      *
@@ -117,24 +121,17 @@ public class SyncRestProxy extends RestProxyBase {
         }
 
         // Otherwise, the response wasn't successful and the error object needs to be parsed.
-        Exception e;
         BinaryData responseData = decodedResponse.getSourceResponse().getBodyAsBinaryData();
         byte[] responseBytes = responseData == null ? null : responseData.toBytes();
         if (responseBytes == null || responseBytes.length == 0) {
-            //  No body, create exception empty content string no exception body object.
-            e = instantiateUnexpectedException(methodParser.getUnexpectedException(responseStatusCode),
+            // No body, create exception empty content string no exception body object.
+            throw instantiateUnexpectedException(methodParser.getUnexpectedException(responseStatusCode),
                 decodedResponse.getSourceResponse(), null, null);
         } else {
             Object decodedBody = decodedResponse.getDecodedBody(responseBytes);
             // create exception with un-decodable content string and without exception body object.
-            e = instantiateUnexpectedException(methodParser.getUnexpectedException(responseStatusCode),
+            throw instantiateUnexpectedException(methodParser.getUnexpectedException(responseStatusCode),
                 decodedResponse.getSourceResponse(), responseBytes, decodedBody);
-        }
-
-        if (e instanceof RuntimeException) {
-            throw LOGGER.logExceptionAsError((RuntimeException) e);
-        } else {
-            throw LOGGER.logExceptionAsError(new RuntimeException(e));
         }
     }
 
@@ -170,7 +167,7 @@ public class SyncRestProxy extends RestProxyBase {
         final Object result;
         if (httpMethod == HttpMethod.HEAD
             && (TypeUtil.isTypeOrSubTypeOf(entityType, Boolean.TYPE)
-            || TypeUtil.isTypeOrSubTypeOf(entityType, Boolean.class))) {
+                || TypeUtil.isTypeOrSubTypeOf(entityType, Boolean.class))) {
             result = (responseStatusCode / 100) == 2;
         } else if (TypeUtil.isTypeOrSubTypeOf(entityType, byte[].class)) {
             // byte[]
@@ -182,7 +179,8 @@ public class SyncRestProxy extends RestProxyBase {
             }
             result = responseBodyBytes != null ? (responseBodyBytes.length == 0 ? null : responseBodyBytes) : null;
         } else if (TypeUtil.isTypeOrSubTypeOf(entityType, InputStream.class)) {
-            result = response.getSourceResponse().getBodyAsInputStream();
+            // getBodyAsInputStream returns Mono<InputStream>. So, we block() here to get the InputStream.
+            result = response.getSourceResponse().getBodyAsInputStream().block();
         } else if (TypeUtil.isTypeOrSubTypeOf(entityType, BinaryData.class)) {
             // BinaryData
             // The raw response is directly used to create an instance of BinaryData which then provides
@@ -192,7 +190,7 @@ public class SyncRestProxy extends RestProxyBase {
             result = response.getSourceResponse().getBodyAsBinaryData();
         } else {
             // Object or Page<T>
-            result = response.getDecodedBody((byte[]) null);
+            result = response.getDecodedBody(null);
         }
         return result;
     }
@@ -209,12 +207,11 @@ public class SyncRestProxy extends RestProxyBase {
     private Object handleRestReturnType(HttpResponseDecoder.HttpDecodedResponse httpDecodedResponse,
         SwaggerMethodParser methodParser, Type returnType, Context context, RequestOptions options,
         EnumSet<ErrorOptions> errorOptions) {
-        final HttpResponseDecoder.HttpDecodedResponse expectedResponse =
-            ensureExpectedStatus(httpDecodedResponse, methodParser, options, errorOptions);
+        final HttpResponseDecoder.HttpDecodedResponse expectedResponse
+            = ensureExpectedStatus(httpDecodedResponse, methodParser, options, errorOptions);
         final Object result;
 
-        if (TypeUtil.isTypeOrSubTypeOf(returnType, void.class) || TypeUtil.isTypeOrSubTypeOf(returnType,
-            Void.class)) {
+        if (TypeUtil.isTypeOrSubTypeOf(returnType, void.class) || TypeUtil.isTypeOrSubTypeOf(returnType, Void.class)) {
             // ProxyMethod ReturnType: Void
             expectedResponse.close();
             result = null;
@@ -226,11 +223,16 @@ public class SyncRestProxy extends RestProxyBase {
         return result;
     }
 
-    public void updateRequest(RequestDataConfiguration requestDataConfiguration,
-        SerializerAdapter serializerAdapter) throws IOException {
+    @Override
+    public void updateRequest(RequestDataConfiguration requestDataConfiguration, SerializerAdapter serializerAdapter)
+        throws IOException {
         boolean isJson = requestDataConfiguration.isJson();
         HttpRequest request = requestDataConfiguration.getHttpRequest();
         Object bodyContentObject = requestDataConfiguration.getBodyContent();
+
+        if (bodyContentObject == null) {
+            return;
+        }
 
         // Attempt to use JsonSerializable or XmlSerializable in a separate block.
         if (supportsJsonSerializable(bodyContentObject.getClass())) {
@@ -239,7 +241,7 @@ public class SyncRestProxy extends RestProxyBase {
         }
 
         if (supportsXmlSerializable(bodyContentObject.getClass())) {
-            request.setBody(BinaryData.fromByteBuffer(serializeAsXmlSerializable(bodyContentObject)));
+            request.setBody(serializeXmlSerializableToBytes((XmlSerializable<?>) bodyContentObject));
             return;
         }
 
@@ -253,13 +255,9 @@ public class SyncRestProxy extends RestProxyBase {
                 request.setBody(bodyContentString);
             }
         } else if (bodyContentObject instanceof ByteBuffer) {
-            if (((ByteBuffer) bodyContentObject).hasArray()) {
-                request.setBody(((ByteBuffer) bodyContentObject).array());
-            } else {
-                byte[] array = new byte[((ByteBuffer) bodyContentObject).remaining()];
-                ((ByteBuffer) bodyContentObject).get(array);
-                request.setBody(array);
-            }
+            request.setBody(BinaryData.fromByteBuffer((ByteBuffer) bodyContentObject));
+        } else if (bodyContentObject instanceof InputStream) {
+            request.setBody(BinaryData.fromStream((InputStream) bodyContentObject));
         } else {
             SerializerEncoding encoding = SerializerEncoding.fromHeaders(request.getHeaders());
             request.setBody(serializerAdapter.serializeToBytes(bodyContentObject, encoding));

@@ -5,18 +5,19 @@
 package com.azure.resourcemanager.elasticsan.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.elasticsan.fluent.models.VolumeInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** List of Volumes. */
+/**
+ * List of Volumes.
+ */
 @Fluent
 public final class VolumeList {
     /*
      * An array of Volume objects.
      */
-    @JsonProperty(value = "value", required = true)
+    @JsonProperty(value = "value")
     private List<VolumeInner> value;
 
     /*
@@ -25,13 +26,15 @@ public final class VolumeList {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of VolumeList class. */
+    /**
+     * Creates an instance of VolumeList class.
+     */
     public VolumeList() {
     }
 
     /**
      * Get the value property: An array of Volume objects.
-     *
+     * 
      * @return the value value.
      */
     public List<VolumeInner> value() {
@@ -40,7 +43,7 @@ public final class VolumeList {
 
     /**
      * Set the value property: An array of Volume objects.
-     *
+     * 
      * @param value the value value to set.
      * @return the VolumeList object itself.
      */
@@ -51,7 +54,7 @@ public final class VolumeList {
 
     /**
      * Get the nextLink property: URI to fetch the next section of the paginated response.
-     *
+     * 
      * @return the nextLink value.
      */
     public String nextLink() {
@@ -60,18 +63,12 @@ public final class VolumeList {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
-        if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model VolumeList"));
-        } else {
+        if (value() != null) {
             value().forEach(e -> e.validate());
         }
     }
-
-    private static final ClientLogger LOGGER = new ClientLogger(VolumeList.class);
 }

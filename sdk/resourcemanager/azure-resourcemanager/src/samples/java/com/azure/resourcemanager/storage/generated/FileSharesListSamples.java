@@ -4,58 +4,58 @@
 
 package com.azure.resourcemanager.storage.generated;
 
-import com.azure.core.util.Context;
-
-/** Samples for FileShares List. */
+/**
+ * Samples for FileShares List.
+ */
 public final class FileSharesListSamples {
     /*
-     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesList.json
+     * x-ms-original-file:
+     * specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesList.json
      */
     /**
      * Sample code: ListShares.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listShares(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .storageAccounts()
+        azure.storageAccounts()
             .manager()
             .serviceClient()
             .getFileShares()
-            .list("res9290", "sto1590", null, null, null, Context.NONE);
+            .list("res9290", "sto1590", null, null, null, com.azure.core.util.Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/DeletedFileSharesList.json
+     * x-ms-original-file:
+     * specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedFileSharesList.json
      */
     /**
      * Sample code: ListDeletedShares.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listDeletedShares(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .storageAccounts()
+        azure.storageAccounts()
             .manager()
             .serviceClient()
             .getFileShares()
-            .list("res9290", "sto1590", null, null, "deleted", Context.NONE);
+            .list("res9290", "sto1590", null, null, "deleted", com.azure.core.util.Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileShareSnapshotsList.json
+     * x-ms-original-file:
+     * specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileShareSnapshotsList.json
      */
     /**
      * Sample code: ListShareSnapshots.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listShareSnapshots(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .storageAccounts()
+        azure.storageAccounts()
             .manager()
             .serviceClient()
             .getFileShares()
-            .list("res9290", "sto1590", null, null, "snapshots", Context.NONE);
+            .list("res9290", "sto1590", null, null, "snapshots", com.azure.core.util.Context.NONE);
     }
 }

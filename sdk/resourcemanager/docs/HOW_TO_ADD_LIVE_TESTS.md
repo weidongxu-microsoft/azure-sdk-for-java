@@ -7,10 +7,6 @@ Here is a guide to add live tests for management-plane SDK.
 Read [Developer Guide](https://github.com/Azure/azure-sdk-for-java/blob/main/CONTRIBUTING.md#developer-guide).
 It provides guide on how to build, run tests, and the context of live tests.
 
-## Sample PR
-
-Here is a [sample PR](https://github.com/Azure/azure-sdk-for-java/pull/35315) for adding live tests to databricks SDK.
-
 ## Add Test Dependencies
 
 Add following test dependencies to POM at `sdk/<service>/azure-resourcemanager-<service>/pom.xml`,
@@ -62,20 +58,20 @@ to update the versions in POM.
 
 ## Add Bicep Script for Test Environment
 
-Add a [bicep](https://github.com/Azure/bicep) script at `sdk/<service>/test-resources.bicep` ([example](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/mediaservices/test-resources.bicep)).
+Add a [bicep](https://github.com/Azure/bicep) script at `sdk/<service>/test-resources.bicep` ([example](https://github.com/azure/azure-sdk-for-java/blob/main/sdk/databricks/test-resources.bicep)).
 
 No change to the bicep script is required.
 
-- It adds [Contributor role](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#contributor) of the resource group to the service principal.
+- It adds [Contributor role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor) of the resource group to the service principal.
 - It provides the name of the resource group, as well as credentials for the live tests.
 
 ## Add Live Tests
 
-Add live tests ([example](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/mediaservices/azure-resourcemanager-mediaservices/src/test/java/com/azure/resourcemanager/mediaservices/MediaServicesTests.java)).
+Add live tests ([example](https://github.com/azure/azure-sdk-for-java/blob/main/sdk/databricks/azure-resourcemanager-databricks/src/test/java/com/azure/resourcemanager/databricks/DatabricksTests.java)).
 
-- `@DoNotRecord(skipInPlayback = true)` make it a live test, without recording and playback.
+- `@LiveOnly` make it a live test, without recording and playback.
 - It uses the `AZURE_RESOURCE_GROUP_NAME` environment variable if available.
-- The `DefaultAzureCredential` uses `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID` environment variable for credentials. 
+- It uses the `AzurePowerShellCredential` credential class. 
 
 All the environment variables are provided in live tests pipeline.
 
@@ -83,7 +79,7 @@ All the environment variables are provided in live tests pipeline.
 
 To verify your tests locally, one need to set these environment variables in local.
 
-For credentials, please refer to [guide on authentication](https://docs.microsoft.com/azure/developer/java/sdk/get-started#set-up-authentication).
+For credentials, please refer to [guide on authentication](https://learn.microsoft.com/azure/developer/java/sdk/get-started#set-up-authentication).
 
 For the resource group, one can create a resource group, and set its name to `AZURE_RESOURCE_GROUP_NAME` environment variable.
 Make sure your service principal above has Contributor role on the resource group.
@@ -96,7 +92,7 @@ mvn test -f sdk/<service>/azure-resourcemanager-<service>/pom.xml -DAZURE_TEST_M
 
 ## Add Pipeline Configuration
 
-Add a pipeline configuration for live tests at `sdk/<service>/tests.mgmt.yml` ([example](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/mediaservices/tests.mgmt.yml)).
+Add a pipeline configuration for live tests at `sdk/<service>/tests.mgmt.yml` ([example](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/databricks/tests.mgmt.yml)).
 
 ### Add Pipeline
 

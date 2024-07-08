@@ -8,57 +8,91 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.AppFiguresLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Linked service for AppFigures. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Linked service for AppFigures.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = AppFiguresLinkedService.class,
+    visible = true)
 @JsonTypeName("AppFigures")
 @Fluent
 public final class AppFiguresLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AppFigures";
+
     /*
      * AppFigures linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private AppFiguresLinkedServiceTypeProperties innerTypeProperties = new AppFiguresLinkedServiceTypeProperties();
 
-    /** Creates an instance of AppFiguresLinkedService class. */
+    /**
+     * Creates an instance of AppFiguresLinkedService class.
+     */
     public AppFiguresLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: AppFigures linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AppFiguresLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppFiguresLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppFiguresLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppFiguresLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppFiguresLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -66,8 +100,9 @@ public final class AppFiguresLinkedService extends LinkedService {
     }
 
     /**
-     * Get the username property: The username of the Appfigures source.
-     *
+     * Get the username property: The username of the Appfigures source. Type: string (or Expression with resultType
+     * string).
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -75,8 +110,9 @@ public final class AppFiguresLinkedService extends LinkedService {
     }
 
     /**
-     * Set the username property: The username of the Appfigures source.
-     *
+     * Set the username property: The username of the Appfigures source. Type: string (or Expression with resultType
+     * string).
+     * 
      * @param username the username value to set.
      * @return the AppFiguresLinkedService object itself.
      */
@@ -90,7 +126,7 @@ public final class AppFiguresLinkedService extends LinkedService {
 
     /**
      * Get the password property: The password of the AppFigures source.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -99,7 +135,7 @@ public final class AppFiguresLinkedService extends LinkedService {
 
     /**
      * Set the password property: The password of the AppFigures source.
-     *
+     * 
      * @param password the password value to set.
      * @return the AppFiguresLinkedService object itself.
      */
@@ -113,7 +149,7 @@ public final class AppFiguresLinkedService extends LinkedService {
 
     /**
      * Get the clientKey property: The client key for the AppFigures source.
-     *
+     * 
      * @return the clientKey value.
      */
     public SecretBase clientKey() {
@@ -122,7 +158,7 @@ public final class AppFiguresLinkedService extends LinkedService {
 
     /**
      * Set the clientKey property: The client key for the AppFigures source.
-     *
+     * 
      * @param clientKey the clientKey value to set.
      * @return the AppFiguresLinkedService object itself.
      */
@@ -136,17 +172,16 @@ public final class AppFiguresLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model AppFiguresLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model AppFiguresLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

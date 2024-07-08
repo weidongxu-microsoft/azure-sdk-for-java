@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Allows to disable rules within a rule group or an entire rule group. */
+/**
+ * Allows to disable rules within a rule group or an entire rule group.
+ */
 @Fluent
 public final class ApplicationGatewayFirewallDisabledRuleGroup {
     /*
@@ -24,7 +27,9 @@ public final class ApplicationGatewayFirewallDisabledRuleGroup {
     @JsonProperty(value = "rules")
     private List<Integer> rules;
 
-    /** Creates an instance of ApplicationGatewayFirewallDisabledRuleGroup class. */
+    /**
+     * Creates an instance of ApplicationGatewayFirewallDisabledRuleGroup class.
+     */
     public ApplicationGatewayFirewallDisabledRuleGroup() {
     }
 
@@ -77,11 +82,9 @@ public final class ApplicationGatewayFirewallDisabledRuleGroup {
      */
     public void validate() {
         if (ruleGroupName() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleGroupName in model"
-                            + " ApplicationGatewayFirewallDisabledRuleGroup"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleGroupName in model ApplicationGatewayFirewallDisabledRuleGroup"));
         }
     }
 

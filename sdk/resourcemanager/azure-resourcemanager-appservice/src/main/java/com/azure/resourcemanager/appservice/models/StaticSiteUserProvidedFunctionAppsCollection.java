@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.StaticSiteUserProvidedFunctionAppArmResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of static site user provided function apps. */
+/**
+ * Collection of static site user provided function apps.
+ */
 @Fluent
 public final class StaticSiteUserProvidedFunctionAppsCollection {
     /*
@@ -25,7 +28,9 @@ public final class StaticSiteUserProvidedFunctionAppsCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of StaticSiteUserProvidedFunctionAppsCollection class. */
+    /**
+     * Creates an instance of StaticSiteUserProvidedFunctionAppsCollection class.
+     */
     public StaticSiteUserProvidedFunctionAppsCollection() {
     }
 
@@ -44,8 +49,8 @@ public final class StaticSiteUserProvidedFunctionAppsCollection {
      * @param value the value value to set.
      * @return the StaticSiteUserProvidedFunctionAppsCollection object itself.
      */
-    public StaticSiteUserProvidedFunctionAppsCollection withValue(
-        List<StaticSiteUserProvidedFunctionAppArmResourceInner> value) {
+    public StaticSiteUserProvidedFunctionAppsCollection
+        withValue(List<StaticSiteUserProvidedFunctionAppArmResourceInner> value) {
         this.value = value;
         return this;
     }
@@ -66,10 +71,9 @@ public final class StaticSiteUserProvidedFunctionAppsCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model StaticSiteUserProvidedFunctionAppsCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model StaticSiteUserProvidedFunctionAppsCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

@@ -1,16 +1,158 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.2.0-beta.1 (Unreleased)
+
+- Introduced `TeamsRecordingStateChanged` and `TeamsComplianceRecordingStateChanged` events.
 
 ### Features Added
-- Start/Stop continuous DTMF recognition by subscribing/unsubscribing to tones.
-- Send DTMF tones to a participant in the call
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+
+## 1.2.2 (2024-06-27)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-communication-common` from `1.3.3` to version `1.3.4`.
+- Upgraded `azure-core` from `1.49.0` to version `1.49.1`.
+
+
+## 1.2.1 (2024-05-28)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-communication-common` from `1.3.2` to version `1.3.3`.
+- Upgraded `azure-core` from `1.48.0` to version `1.49.0`.
+
+
+## 1.2.0 (2024-05-01)
+
+### Features Added
+
+- Support for Bring Your Own Storage recording option
+- Support for PauseOnStart recording option
+- Support for Recording state change with new recording kind's
+
+### Other Changes
+
+- Support for MicrosoftTeamsAppIdentifier CommunicationIdentifier
+
+## 1.1.4 (2024-04-23)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.47.0` to version `1.48.0`.
+- Upgraded `azure-communication-common` from `1.3.1` to version `1.3.2`.
+
+
+## 1.1.3 (2024-03-20)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core-http-netty` from `1.14.0` to version `1.14.1`.
+- Upgraded `azure-core` from `1.46.0` to version `1.47.0`.
+- Upgraded `azure-communication-common` from `1.3.0` to version `1.3.1`.
+
+
+## 1.1.2 (2024-02-20)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.45.1` to version `1.46.0`.
+- Upgraded `azure-communication-common` from `1.2.15` to version `1.3.0`.
+
+
+## 1.1.1 (2023-12-06)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-communication-common` from `1.2.14` to version `1.2.15`.
+- Upgraded `azure-core` from `1.44.0` to version `1.45.1`.
+
+
+## 1.1.0 (2023-11-23)
+
+### Features Added
+
+- Mid-Call actions support overriding callback uri
+- Cancel adding Participant invitation
+- Support transfer a participant in a group call to another participant
+- Add Custom Context payload to Transfer and AddParticipant API
+
+### Other Changes
+
+- Dependency versions updated.
+
+## 1.1.0-beta.1 (2023-08-17)
+
+### Features Added
+
+- Play and recognize supports TTS and SSML source prompts.
+- Recognize supports choices and freeform speech.
+- Start/Stop continuous DTMF recognition by subscribing/unsubscribing to tones.
+- Send DTMF tones to a participant in the call.
+- Mute participants in the call.
+
+## 1.0.6 (2023-11-20)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.44.1` to version `1.45.0`.
+- Upgraded `azure-communication-common` from `1.2.13` to version `1.2.14`.
+
+## 1.0.5 (2023-10-20)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.43.0` to version `1.44.1`.
+- Upgraded `azure-communication-common` from `1.2.12` to version `1.2.13`.
+
+## 1.0.4 (2023-09-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.42.0` to version `1.43.0`.
+- Upgraded `azure-communication-common` from `1.2.11` to version `1.2.12`.
+
+## 1.0.3 (2023-08-18)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.41.0` to version `1.42.0`.
+
+## 1.0.2 (2023-07-25)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.40.0` to version `1.41.0`.
+- Upgraded `azure-communication-common` from `1.2.9` to version `1.2.10`.
+
 
 ## 1.0.1 (2023-06-21)
 

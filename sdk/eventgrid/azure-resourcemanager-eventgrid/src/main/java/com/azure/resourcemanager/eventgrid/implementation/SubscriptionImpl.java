@@ -4,15 +4,19 @@
 
 package com.azure.resourcemanager.eventgrid.implementation;
 
+import com.azure.core.http.rest.Response;
 import com.azure.core.management.SystemData;
 import com.azure.core.util.Context;
 import com.azure.resourcemanager.eventgrid.fluent.models.SubscriptionInner;
+import com.azure.resourcemanager.eventgrid.models.DeliveryAttributeListResult;
 import com.azure.resourcemanager.eventgrid.models.DeliveryConfiguration;
 import com.azure.resourcemanager.eventgrid.models.DeliverySchema;
 import com.azure.resourcemanager.eventgrid.models.FiltersConfiguration;
 import com.azure.resourcemanager.eventgrid.models.Subscription;
+import com.azure.resourcemanager.eventgrid.models.SubscriptionFullUrl;
 import com.azure.resourcemanager.eventgrid.models.SubscriptionProvisioningState;
 import com.azure.resourcemanager.eventgrid.models.SubscriptionUpdateParameters;
+import java.time.OffsetDateTime;
 
 public final class SubscriptionImpl implements Subscription, Subscription.Definition, Subscription.Update {
     private SubscriptionInner innerObject;
@@ -51,6 +55,10 @@ public final class SubscriptionImpl implements Subscription, Subscription.Defini
         return this.innerModel().filtersConfiguration();
     }
 
+    public OffsetDateTime expirationTimeUtc() {
+        return this.innerModel().expirationTimeUtc();
+    }
+
     public String resourceGroupName() {
         return resourceGroupName;
     }
@@ -81,27 +89,18 @@ public final class SubscriptionImpl implements Subscription, Subscription.Defini
     }
 
     public Subscription create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaceTopicEventSubscriptions()
-                .createOrUpdate(
-                    resourceGroupName,
-                    namespaceName,
-                    topicName,
-                    eventSubscriptionName,
-                    this.innerModel(),
-                    Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaceTopicEventSubscriptions()
+            .createOrUpdate(resourceGroupName, namespaceName, topicName, eventSubscriptionName, this.innerModel(),
+                Context.NONE);
         return this;
     }
 
     public Subscription create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaceTopicEventSubscriptions()
-                .createOrUpdate(
-                    resourceGroupName, namespaceName, topicName, eventSubscriptionName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaceTopicEventSubscriptions()
+            .createOrUpdate(resourceGroupName, namespaceName, topicName, eventSubscriptionName, this.innerModel(),
+                context);
         return this;
     }
 
@@ -117,63 +116,66 @@ public final class SubscriptionImpl implements Subscription, Subscription.Defini
     }
 
     public Subscription apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaceTopicEventSubscriptions()
-                .update(
-                    resourceGroupName,
-                    namespaceName,
-                    topicName,
-                    eventSubscriptionName,
-                    updateEventSubscriptionUpdateParameters,
-                    Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaceTopicEventSubscriptions()
+            .update(resourceGroupName, namespaceName, topicName, eventSubscriptionName,
+                updateEventSubscriptionUpdateParameters, Context.NONE);
         return this;
     }
 
     public Subscription apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaceTopicEventSubscriptions()
-                .update(
-                    resourceGroupName,
-                    namespaceName,
-                    topicName,
-                    eventSubscriptionName,
-                    updateEventSubscriptionUpdateParameters,
-                    context);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaceTopicEventSubscriptions()
+            .update(resourceGroupName, namespaceName, topicName, eventSubscriptionName,
+                updateEventSubscriptionUpdateParameters, context);
         return this;
     }
 
-    SubscriptionImpl(
-        SubscriptionInner innerObject, com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
+    SubscriptionImpl(SubscriptionInner innerObject,
+        com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.namespaceName = Utils.getValueFromIdByName(innerObject.id(), "namespaces");
-        this.topicName = Utils.getValueFromIdByName(innerObject.id(), "topics");
-        this.eventSubscriptionName = Utils.getValueFromIdByName(innerObject.id(), "eventSubscriptions");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.namespaceName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "namespaces");
+        this.topicName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "topics");
+        this.eventSubscriptionName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "eventSubscriptions");
     }
 
     public Subscription refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaceTopicEventSubscriptions()
-                .getWithResponse(resourceGroupName, namespaceName, topicName, eventSubscriptionName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaceTopicEventSubscriptions()
+            .getWithResponse(resourceGroupName, namespaceName, topicName, eventSubscriptionName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public Subscription refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaceTopicEventSubscriptions()
-                .getWithResponse(resourceGroupName, namespaceName, topicName, eventSubscriptionName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaceTopicEventSubscriptions()
+            .getWithResponse(resourceGroupName, namespaceName, topicName, eventSubscriptionName, context)
+            .getValue();
         return this;
+    }
+
+    public Response<DeliveryAttributeListResult> getDeliveryAttributesWithResponse(Context context) {
+        return serviceManager.namespaceTopicEventSubscriptions()
+            .getDeliveryAttributesWithResponse(resourceGroupName, namespaceName, topicName, eventSubscriptionName,
+                context);
+    }
+
+    public DeliveryAttributeListResult getDeliveryAttributes() {
+        return serviceManager.namespaceTopicEventSubscriptions()
+            .getDeliveryAttributes(resourceGroupName, namespaceName, topicName, eventSubscriptionName);
+    }
+
+    public Response<SubscriptionFullUrl> getFullUrlWithResponse(Context context) {
+        return serviceManager.namespaceTopicEventSubscriptions()
+            .getFullUrlWithResponse(resourceGroupName, namespaceName, topicName, eventSubscriptionName, context);
+    }
+
+    public SubscriptionFullUrl getFullUrl() {
+        return serviceManager.namespaceTopicEventSubscriptions()
+            .getFullUrl(resourceGroupName, namespaceName, topicName, eventSubscriptionName);
     }
 
     public SubscriptionImpl withDeliveryConfiguration(DeliveryConfiguration deliveryConfiguration) {
@@ -202,6 +204,16 @@ public final class SubscriptionImpl implements Subscription, Subscription.Defini
             return this;
         } else {
             this.updateEventSubscriptionUpdateParameters.withFiltersConfiguration(filtersConfiguration);
+            return this;
+        }
+    }
+
+    public SubscriptionImpl withExpirationTimeUtc(OffsetDateTime expirationTimeUtc) {
+        if (isInCreateMode()) {
+            this.innerModel().withExpirationTimeUtc(expirationTimeUtc);
+            return this;
+        } else {
+            this.updateEventSubscriptionUpdateParameters.withExpirationTimeUtc(expirationTimeUtc);
             return this;
         }
     }

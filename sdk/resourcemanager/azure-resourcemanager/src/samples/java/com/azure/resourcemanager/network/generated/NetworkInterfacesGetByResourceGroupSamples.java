@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for NetworkInterfaces GetByResourceGroup. */
+/**
+ * Samples for NetworkInterfaces GetByResourceGroup.
+ */
 public final class NetworkInterfacesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkInterfaceGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkInterfaceGet.json
      */
     /**
      * Sample code: Get network interface.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getNetworkInterface(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getNetworkInterfaces()

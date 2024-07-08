@@ -11,7 +11,6 @@ import com.azure.resourcemanager.hybridcompute.fluent.models.MachineExtensionInn
 import com.azure.resourcemanager.hybridcompute.models.MachineExtension;
 import com.azure.resourcemanager.hybridcompute.models.MachineExtensionProperties;
 import com.azure.resourcemanager.hybridcompute.models.MachineExtensionUpdate;
-import com.azure.resourcemanager.hybridcompute.models.MachineExtensionUpdateProperties;
 import java.util.Collections;
 import java.util.Map;
 
@@ -89,20 +88,16 @@ public final class MachineExtensionImpl
     }
 
     public MachineExtension create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMachineExtensions()
-                .createOrUpdate(resourceGroupName, machineName, extensionName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getMachineExtensions()
+            .createOrUpdate(resourceGroupName, machineName, extensionName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public MachineExtension create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMachineExtensions()
-                .createOrUpdate(resourceGroupName, machineName, extensionName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient()
+            .getMachineExtensions()
+            .createOrUpdate(resourceGroupName, machineName, extensionName, this.innerModel(), context);
         return this;
     }
 
@@ -118,50 +113,41 @@ public final class MachineExtensionImpl
     }
 
     public MachineExtension apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMachineExtensions()
-                .update(resourceGroupName, machineName, extensionName, updateExtensionParameters, Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getMachineExtensions()
+            .update(resourceGroupName, machineName, extensionName, updateExtensionParameters, Context.NONE);
         return this;
     }
 
     public MachineExtension apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMachineExtensions()
-                .update(resourceGroupName, machineName, extensionName, updateExtensionParameters, context);
+        this.innerObject = serviceManager.serviceClient()
+            .getMachineExtensions()
+            .update(resourceGroupName, machineName, extensionName, updateExtensionParameters, context);
         return this;
     }
 
-    MachineExtensionImpl(
-        MachineExtensionInner innerObject,
+    MachineExtensionImpl(MachineExtensionInner innerObject,
         com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.machineName = Utils.getValueFromIdByName(innerObject.id(), "machines");
-        this.extensionName = Utils.getValueFromIdByName(innerObject.id(), "extensions");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.machineName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "machines");
+        this.extensionName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "extensions");
     }
 
     public MachineExtension refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMachineExtensions()
-                .getWithResponse(resourceGroupName, machineName, extensionName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMachineExtensions()
+            .getWithResponse(resourceGroupName, machineName, extensionName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public MachineExtension refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMachineExtensions()
-                .getWithResponse(resourceGroupName, machineName, extensionName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMachineExtensions()
+            .getWithResponse(resourceGroupName, machineName, extensionName, context)
+            .getValue();
         return this;
     }
 
@@ -190,8 +176,43 @@ public final class MachineExtensionImpl
         return this;
     }
 
-    public MachineExtensionImpl withProperties(MachineExtensionUpdateProperties properties) {
-        this.updateExtensionParameters.withProperties(properties);
+    public MachineExtensionImpl withForceUpdateTag(String forceUpdateTag) {
+        this.updateExtensionParameters.withForceUpdateTag(forceUpdateTag);
+        return this;
+    }
+
+    public MachineExtensionImpl withPublisher(String publisher) {
+        this.updateExtensionParameters.withPublisher(publisher);
+        return this;
+    }
+
+    public MachineExtensionImpl withType(String type) {
+        this.updateExtensionParameters.withType(type);
+        return this;
+    }
+
+    public MachineExtensionImpl withTypeHandlerVersion(String typeHandlerVersion) {
+        this.updateExtensionParameters.withTypeHandlerVersion(typeHandlerVersion);
+        return this;
+    }
+
+    public MachineExtensionImpl withEnableAutomaticUpgrade(Boolean enableAutomaticUpgrade) {
+        this.updateExtensionParameters.withEnableAutomaticUpgrade(enableAutomaticUpgrade);
+        return this;
+    }
+
+    public MachineExtensionImpl withAutoUpgradeMinorVersion(Boolean autoUpgradeMinorVersion) {
+        this.updateExtensionParameters.withAutoUpgradeMinorVersion(autoUpgradeMinorVersion);
+        return this;
+    }
+
+    public MachineExtensionImpl withSettings(Map<String, Object> settings) {
+        this.updateExtensionParameters.withSettings(settings);
+        return this;
+    }
+
+    public MachineExtensionImpl withProtectedSettings(Map<String, Object> protectedSettings) {
+        this.updateExtensionParameters.withProtectedSettings(protectedSettings);
         return this;
     }
 

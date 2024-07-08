@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.hybridcompute.models.OperationValueDisplay;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Describes the properties of a Compute Operation value. */
+/**
+ * Describes the properties of a Compute Operation value.
+ */
 @Fluent
 public final class OperationValueInner {
     /*
@@ -29,13 +31,21 @@ public final class OperationValueInner {
     @JsonProperty(value = "display")
     private OperationValueDisplay display;
 
-    /** Creates an instance of OperationValueInner class. */
+    /*
+     * This property indicates if the operation is an action or a data action
+     */
+    @JsonProperty(value = "isDataAction", access = JsonProperty.Access.WRITE_ONLY)
+    private Boolean isDataAction;
+
+    /**
+     * Creates an instance of OperationValueInner class.
+     */
     public OperationValueInner() {
     }
 
     /**
      * Get the origin property: The origin of the compute operation.
-     *
+     * 
      * @return the origin value.
      */
     public String origin() {
@@ -44,7 +54,7 @@ public final class OperationValueInner {
 
     /**
      * Get the name property: The name of the compute operation.
-     *
+     * 
      * @return the name value.
      */
     public String name() {
@@ -53,7 +63,7 @@ public final class OperationValueInner {
 
     /**
      * Get the display property: Display properties.
-     *
+     * 
      * @return the display value.
      */
     public OperationValueDisplay display() {
@@ -62,7 +72,7 @@ public final class OperationValueInner {
 
     /**
      * Set the display property: Display properties.
-     *
+     * 
      * @param display the display value to set.
      * @return the OperationValueInner object itself.
      */
@@ -72,8 +82,17 @@ public final class OperationValueInner {
     }
 
     /**
+     * Get the isDataAction property: This property indicates if the operation is an action or a data action.
+     * 
+     * @return the isDataAction value.
+     */
+    public Boolean isDataAction() {
+        return this.isDataAction;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

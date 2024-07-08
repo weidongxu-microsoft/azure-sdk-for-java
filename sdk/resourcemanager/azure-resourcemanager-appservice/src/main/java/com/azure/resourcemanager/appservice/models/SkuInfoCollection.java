@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.SkuInfoInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of SKU information. */
+/**
+ * Collection of SKU information.
+ */
 @Fluent
 public final class SkuInfoCollection {
     /*
@@ -25,7 +28,9 @@ public final class SkuInfoCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of SkuInfoCollection class. */
+    /**
+     * Creates an instance of SkuInfoCollection class.
+     */
     public SkuInfoCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class SkuInfoCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model SkuInfoCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model SkuInfoCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

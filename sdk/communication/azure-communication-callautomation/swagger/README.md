@@ -26,9 +26,10 @@ autorest README.md --java --v4 --use=@autorest/java@4.0.20 --use=@autorest/model
 
 ### Code generation settings
 ``` yaml
-tag: package-2023-01-15-preview
+tag: package-2023-10-03-preview
+use: '@autorest/java@4.1.29'
 require:
-    - https://github.com/williamzhao87/azure-rest-api-specs/blob/e8612807fcc6148904e2ee316a2086a1db74f71c/specification/communication/data-plane/CallAutomation/readme.md
+    - https://github.com/Azure/azure-rest-api-specs/blob/156ff363e44f764ddd8a0a6adcd371610240ba15/specification/communication/data-plane/CallAutomation/readme.md
 java: true
 output-folder: ../
 license-header: MICROSOFT_MIT_SMALL
@@ -86,6 +87,9 @@ directive:
     from: AnswerCallRequest
     to: AnswerCallRequestInternal
 - rename-model:
+    from: CallIntelligenceOptions
+    to: CallIntelligenceOptionsInternal
+- rename-model:
     from: RedirectCallRequest
     to: RedirectCallRequestInternal
 - rename-model:
@@ -125,11 +129,14 @@ directive:
     from: ContinuousDtmfRecognitionOptions
     to: ContinuousDtmfRecognitionOptionsInternal
 - rename-model:
-    from: SendDtmfOptions
-    to: SendDtmfOptionsInternal
+    from: SendDtmfTonesOptions
+    to: SendDtmfTonesOptionsInternal
 - rename-model:
-    from: SendDtmfRequest
-    to: SendDtmfRequestInternal
+    from: SendDtmfTonesRequest
+    to: SendDtmfTonesRequestInternal
+- rename-model:
+    from: SendDtmfTonesResult
+    to: SendDtmfTonesResultInternal
 - rename-model:
     from: ChannelAffinity
     to: ChannelAffinityInternal
@@ -153,19 +160,25 @@ directive:
     to: RecognizeOptionsInternal
 - rename-model:
     from: Choice
-    to: RecognizeChoiceInternal
+    to: RecognitionChoiceInternal
 - rename-model:
     from: MuteParticipantsRequest
     to: MuteParticipantsRequestInternal
 - rename-model:
-    from: MuteParticipantsResponse
-    to: MuteParticipantsResponseInternal
+    from: MuteParticipantsResult
+    to: MuteParticipantsResultInternal
 - rename-model:
     from: UnmuteParticipantsRequest
     to: UnmuteParticipantsRequestInternal
 - rename-model:
     from: UnmuteParticipantsResponse
     to: UnmuteParticipantsResponseInternal
+- rename-model:
+    from: StartHoldMusicRequest
+    to: StartHoldMusicRequestInternal
+- rename-model:
+    from: StopHoldMusicRequest
+    to: StopHoldMusicRequestInternal
 - rename-model:
     from: CollectTonesResult
     to: CollectTonesResultInternal
@@ -177,7 +190,7 @@ directive:
     to: SpeechResultInternal
 - rename-model:
     from: ExternalStorage
-    to: ExternalStorageInternal
+    to: RecordingStorageInternal
 - rename-model:
     from: BlobStorage
     to: BlobStorageInternal
@@ -185,8 +198,20 @@ directive:
     from: ContinuousDtmfRecognitionRequest
     to: ContinuousDtmfRecognitionRequestInternal
 - rename-model:
-    from: SendDtmfRequest
-    to: SendDtmfRequestInternal
+    from: TranscriptionConfiguration
+    to: TranscriptionConfigurationInternal
+- rename-model:
+    from: StartTranscriptionRequest
+    to: StartTranscriptionRequestInternal
+- rename-model:
+    from: StopTranscriptionRequest
+    to: StopTranscriptionRequestInternal
+- rename-model:
+    from: UpdateTranscriptionRequest
+    to: UpdateTranscriptionRequestInternal
+- rename-model:
+    from: StartDialogRequest
+    to: StartDialogRequestInternal
 
 # Remove models
 - remove-model: AddParticipantFailed
@@ -205,11 +230,36 @@ directive:
 - remove-model: RecognizeFailed
 - remove-model: RecognizeCanceled
 - remove-model: ContinuousDtmfRecognitionToneReceived
-- remove-model: ToneInfo
 - remove-model: ContinuousDtmfRecognitionToneFailed
 - remove-model: ContinuousDtmfRecognitionStopped
-- remove-model: SendDtmfCompleted
-- remove-model: SendDtmfFailed
+- remove-model: SendDtmfTonesCompleted
+- remove-model: SendDtmfTonesFailed
+- remove-model: Choice
+- remove-model: ChoiceResult
+- remove-model: SpeechResult
+- remove-model: CancelAddParticipantSucceeded
+- remove-model: CancelAddParticipantFailed
+- remove-model: DialogCompleted
+- remove-model: DialogConsent
+- remove-model: DialogFailed
+- remove-model: DialogHangup
+- remove-model: DialogLanguageChange
+- remove-model: DialogSensitivityUpdate
+- remove-model: DialogStarted
+- remove-model: DialogTransfer
+- remove-model: DialogFailed
+- remove-model: TeamsComplianceRecordingStateChanged
+- remove-model: TeamsRecordingStateChanged
+- remove-model: TranscriptionStarted
+- remove-model: TranscriptionResumed
+- remove-model: TranscriptionStopped
+- remove-model: TranscriptionUpdated
+- remove-model: TranscriptionFailed
+- remove-model: MediaStreamingStarted
+- remove-model: MediaStreamingStopped
+- remove-model: MediaStreamingFailed
+
+
 ```
 
 ### Rename RecordingChannelType to RecordingChannelInternal
@@ -330,13 +380,22 @@ directive:
     $.name = "MediaStreamingContentTypeInternal";
 ```
 
-### Rename MediaStreamingTransportType to MediaStreamingTransportType
+### Rename MediaStreamingTransportType to MediaStreamingTransportTypeInternal
 ``` yaml
 directive:
 - from: swagger-document
   where: $.definitions.MediaStreamingTransportType["x-ms-enum"]
   transform: >
     $.name = "MediaStreamingTransportTypeInternal";
+```
+
+### Rename TranscriptionTransportType to TranscriptionTransportTypeInternal
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions.TranscriptionTransportType["x-ms-enum"]
+  transform: >
+    $.name = "TranscriptionTransportTypeInternal";
 ```
 
 ### Rename RecognitionType to RecognitionTypeInternal
@@ -366,13 +425,22 @@ directive:
     $.name = "DtmfOptionsInternal";
 ```
 
-### Rename Choice to GenderType
+### Rename CallIntelligenceOptions to CallIntelligenceOptionsInternal
 ``` yaml
 directive:
 - from: swagger-document
-  where: $.definitions.Gender["x-ms-enum"]
+  where: $.definitions.CallIntelligenceOptions["x-ms-enum"]
   transform: >
-    $.name = "GenderTypeInternal";
+    $.name = "CallIntelligenceOptionsInternal";
+```
+
+### Rename VoiceKind to VoiceKindInternal
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions.VoiceKind["x-ms-enum"]
+  transform: >
+    $.name = "VoiceKindInternal";
 ```
 
 ### Rename RecordingStorageType to RecordingStorageTypeInternal

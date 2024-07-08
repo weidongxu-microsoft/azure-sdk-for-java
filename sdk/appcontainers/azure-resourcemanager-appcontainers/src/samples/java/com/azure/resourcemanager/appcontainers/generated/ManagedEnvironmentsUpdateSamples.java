@@ -8,26 +8,29 @@ import com.azure.resourcemanager.appcontainers.models.ManagedEnvironment;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for ManagedEnvironments Update. */
+/**
+ * Samples for ManagedEnvironments Update.
+ */
 public final class ManagedEnvironmentsUpdateSamples {
     /*
-     * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ManagedEnvironments_Patch.json
+     * x-ms-original-file:
+     * specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironments_Patch.
+     * json
      */
     /**
      * Sample code: Patch Managed Environment.
-     *
+     * 
      * @param manager Entry point to ContainerAppsApiManager.
      */
-    public static void patchManagedEnvironment(
-        com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
-        ManagedEnvironment resource =
-            manager
-                .managedEnvironments()
-                .getByResourceGroupWithResponse("examplerg", "testcontainerenv", com.azure.core.util.Context.NONE)
-                .getValue();
+    public static void
+        patchManagedEnvironment(com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+        ManagedEnvironment resource = manager.managedEnvironments()
+            .getByResourceGroupWithResponse("examplerg", "testcontainerenv", com.azure.core.util.Context.NONE)
+            .getValue();
         resource.update().withTags(mapOf("tag1", "value1", "tag2", "value2")).apply();
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

@@ -14,8 +14,8 @@ public final class DiagnosticsImpl implements Diagnostics {
 
     private final com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager;
 
-    DiagnosticsImpl(
-        DiagnosticsInner innerObject, com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager) {
+    DiagnosticsImpl(DiagnosticsInner innerObject,
+        com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
     }

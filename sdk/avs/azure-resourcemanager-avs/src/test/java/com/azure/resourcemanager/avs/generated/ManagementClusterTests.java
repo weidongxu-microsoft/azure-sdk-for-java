@@ -12,23 +12,22 @@ import org.junit.jupiter.api.Assertions;
 public final class ManagementClusterTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ManagementCluster model =
-            BinaryData
-                .fromString(
-                    "{\"clusterSize\":497531730,\"provisioningState\":\"Canceled\",\"clusterId\":514021855,\"hosts\":[\"wdslfhotwmcy\",\"pwlbjnpg\",\"cftadeh\"]}")
-                .toObject(ManagementCluster.class);
-        Assertions.assertEquals(497531730, model.clusterSize());
-        Assertions.assertEquals("wdslfhotwmcy", model.hosts().get(0));
+        ManagementCluster model = BinaryData.fromString(
+            "{\"clusterSize\":223251370,\"provisioningState\":\"Succeeded\",\"clusterId\":1278778169,\"hosts\":[\"feusnhut\",\"eltmrldhugjzzdat\"],\"vsanDatastoreName\":\"hocdgeab\"}")
+            .toObject(ManagementCluster.class);
+        Assertions.assertEquals(223251370, model.clusterSize());
+        Assertions.assertEquals("feusnhut", model.hosts().get(0));
+        Assertions.assertEquals("hocdgeab", model.vsanDatastoreName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ManagementCluster model =
-            new ManagementCluster()
-                .withClusterSize(497531730)
-                .withHosts(Arrays.asList("wdslfhotwmcy", "pwlbjnpg", "cftadeh"));
+        ManagementCluster model = new ManagementCluster().withClusterSize(223251370)
+            .withHosts(Arrays.asList("feusnhut", "eltmrldhugjzzdat"))
+            .withVsanDatastoreName("hocdgeab");
         model = BinaryData.fromObject(model).toObject(ManagementCluster.class);
-        Assertions.assertEquals(497531730, model.clusterSize());
-        Assertions.assertEquals("wdslfhotwmcy", model.hosts().get(0));
+        Assertions.assertEquals(223251370, model.clusterSize());
+        Assertions.assertEquals("feusnhut", model.hosts().get(0));
+        Assertions.assertEquals("hocdgeab", model.vsanDatastoreName());
     }
 }

@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for SecurityAdminConfigurations Delete. */
+/**
+ * Samples for SecurityAdminConfigurations Delete.
+ */
 public final class SecurityAdminConfigurationsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
      */
     /**
      * Sample code: Delete network manager security admin configuration.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void deleteNetworkManagerSecurityAdminConfiguration(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+    public static void
+        deleteNetworkManagerSecurityAdminConfiguration(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.networks()
             .manager()
             .serviceClient()
             .getSecurityAdminConfigurations()

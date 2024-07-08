@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for FirewallPolicyIdpsSignaturesOverrides List. */
+/**
+ * Samples for FirewallPolicyIdpsSignaturesOverrides List.
+ */
 public final class FirewallPolicyIdpsSignaturesOverridesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicySignatureOverridesList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicySignatureOverridesList.json
      */
     /**
      * Sample code: get signature overrides.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getSignatureOverrides(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getFirewallPolicyIdpsSignaturesOverrides()

@@ -9,7 +9,9 @@ import com.azure.core.management.ProxyResource;
 import com.azure.core.management.SystemData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Billing meter. */
+/**
+ * Billing meter.
+ */
 @Fluent
 public final class BillingMeter extends ProxyResource {
     /*
@@ -30,13 +32,15 @@ public final class BillingMeter extends ProxyResource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of BillingMeter class. */
+    /**
+     * Creates an instance of BillingMeter class.
+     */
     public BillingMeter() {
     }
 
     /**
      * Get the location property: Region for the billing meter.
-     *
+     * 
      * @return the location value.
      */
     public String location() {
@@ -45,7 +49,7 @@ public final class BillingMeter extends ProxyResource {
 
     /**
      * Set the location property: Region for the billing meter.
-     *
+     * 
      * @param location the location value to set.
      * @return the BillingMeter object itself.
      */
@@ -56,7 +60,7 @@ public final class BillingMeter extends ProxyResource {
 
     /**
      * Get the properties property: Revision resource specific properties.
-     *
+     * 
      * @return the properties value.
      */
     public BillingMeterProperties properties() {
@@ -65,7 +69,7 @@ public final class BillingMeter extends ProxyResource {
 
     /**
      * Set the properties property: Revision resource specific properties.
-     *
+     * 
      * @param properties the properties value to set.
      * @return the BillingMeter object itself.
      */
@@ -76,7 +80,7 @@ public final class BillingMeter extends ProxyResource {
 
     /**
      * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-     *
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
@@ -85,7 +89,7 @@ public final class BillingMeter extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

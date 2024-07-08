@@ -8,28 +8,37 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Workload specific recovery point, specifically encapsulates full/diff recovery point. */
+/**
+ * Workload specific recovery point, specifically encapsulates full/diff recovery point.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "objectType",
-    defaultImpl = AzureWorkloadRecoveryPoint.class)
+    defaultImpl = AzureWorkloadRecoveryPoint.class,
+    visible = true)
 @JsonTypeName("AzureWorkloadRecoveryPoint")
 @JsonSubTypes({
     @JsonSubTypes.Type(
         name = "AzureWorkloadPointInTimeRecoveryPoint",
         value = AzureWorkloadPointInTimeRecoveryPoint.class),
     @JsonSubTypes.Type(name = "AzureWorkloadSAPHanaRecoveryPoint", value = AzureWorkloadSapHanaRecoveryPoint.class),
-    @JsonSubTypes.Type(name = "AzureWorkloadSQLRecoveryPoint", value = AzureWorkloadSqlRecoveryPoint.class)
-})
+    @JsonSubTypes.Type(name = "AzureWorkloadSQLRecoveryPoint", value = AzureWorkloadSqlRecoveryPoint.class) })
 @Fluent
 public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureWorkloadRecoveryPoint";
+
     /*
      * UTC time at which recovery point was created
      */
@@ -61,13 +70,26 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
     @JsonProperty(value = "recoveryPointProperties")
     private RecoveryPointProperties recoveryPointProperties;
 
-    /** Creates an instance of AzureWorkloadRecoveryPoint class. */
+    /**
+     * Creates an instance of AzureWorkloadRecoveryPoint class.
+     */
     public AzureWorkloadRecoveryPoint() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the recoveryPointTimeInUtc property: UTC time at which recovery point was created.
-     *
+     * 
      * @return the recoveryPointTimeInUtc value.
      */
     public OffsetDateTime recoveryPointTimeInUtc() {
@@ -76,7 +98,7 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointTimeInUtc property: UTC time at which recovery point was created.
-     *
+     * 
      * @param recoveryPointTimeInUtc the recoveryPointTimeInUtc value to set.
      * @return the AzureWorkloadRecoveryPoint object itself.
      */
@@ -87,7 +109,7 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the type property: Type of restore point.
-     *
+     * 
      * @return the type value.
      */
     public RestorePointType type() {
@@ -96,7 +118,7 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the type property: Type of restore point.
-     *
+     * 
      * @param type the type value to set.
      * @return the AzureWorkloadRecoveryPoint object itself.
      */
@@ -107,7 +129,7 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointTierDetails property: Recovery point tier information.
-     *
+     * 
      * @return the recoveryPointTierDetails value.
      */
     public List<RecoveryPointTierInformationV2> recoveryPointTierDetails() {
@@ -116,19 +138,19 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointTierDetails property: Recovery point tier information.
-     *
+     * 
      * @param recoveryPointTierDetails the recoveryPointTierDetails value to set.
      * @return the AzureWorkloadRecoveryPoint object itself.
      */
-    public AzureWorkloadRecoveryPoint withRecoveryPointTierDetails(
-        List<RecoveryPointTierInformationV2> recoveryPointTierDetails) {
+    public AzureWorkloadRecoveryPoint
+        withRecoveryPointTierDetails(List<RecoveryPointTierInformationV2> recoveryPointTierDetails) {
         this.recoveryPointTierDetails = recoveryPointTierDetails;
         return this;
     }
 
     /**
      * Get the recoveryPointMoveReadinessInfo property: Eligibility of RP to be moved to another tier.
-     *
+     * 
      * @return the recoveryPointMoveReadinessInfo value.
      */
     public Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo() {
@@ -137,19 +159,19 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointMoveReadinessInfo property: Eligibility of RP to be moved to another tier.
-     *
+     * 
      * @param recoveryPointMoveReadinessInfo the recoveryPointMoveReadinessInfo value to set.
      * @return the AzureWorkloadRecoveryPoint object itself.
      */
-    public AzureWorkloadRecoveryPoint withRecoveryPointMoveReadinessInfo(
-        Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo) {
+    public AzureWorkloadRecoveryPoint
+        withRecoveryPointMoveReadinessInfo(Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo) {
         this.recoveryPointMoveReadinessInfo = recoveryPointMoveReadinessInfo;
         return this;
     }
 
     /**
      * Get the recoveryPointProperties property: Properties of Recovery Point.
-     *
+     * 
      * @return the recoveryPointProperties value.
      */
     public RecoveryPointProperties recoveryPointProperties() {
@@ -158,7 +180,7 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointProperties property: Properties of Recovery Point.
-     *
+     * 
      * @param recoveryPointProperties the recoveryPointProperties value to set.
      * @return the AzureWorkloadRecoveryPoint object itself.
      */
@@ -169,7 +191,7 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
@@ -179,14 +201,11 @@ public class AzureWorkloadRecoveryPoint extends RecoveryPoint {
             recoveryPointTierDetails().forEach(e -> e.validate());
         }
         if (recoveryPointMoveReadinessInfo() != null) {
-            recoveryPointMoveReadinessInfo()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            recoveryPointMoveReadinessInfo().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
         if (recoveryPointProperties() != null) {
             recoveryPointProperties().validate();

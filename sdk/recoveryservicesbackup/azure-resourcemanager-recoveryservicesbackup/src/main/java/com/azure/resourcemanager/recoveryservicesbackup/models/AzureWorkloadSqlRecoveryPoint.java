@@ -7,26 +7,35 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** SQL specific recoverypoint, specifically encapsulates full/diff recoverypoint along with extended info. */
+/**
+ * SQL specific recoverypoint, specifically encapsulates full/diff recoverypoint along with extended info.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "objectType",
-    defaultImpl = AzureWorkloadSqlRecoveryPoint.class)
+    defaultImpl = AzureWorkloadSqlRecoveryPoint.class,
+    visible = true)
 @JsonTypeName("AzureWorkloadSQLRecoveryPoint")
 @JsonSubTypes({
     @JsonSubTypes.Type(
         name = "AzureWorkloadSQLPointInTimeRecoveryPoint",
-        value = AzureWorkloadSqlPointInTimeRecoveryPoint.class)
-})
+        value = AzureWorkloadSqlPointInTimeRecoveryPoint.class) })
 @Fluent
 public class AzureWorkloadSqlRecoveryPoint extends AzureWorkloadRecoveryPoint {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureWorkloadSQLRecoveryPoint";
+
     /*
      * Extended Info that provides data directory details. Will be populated in two cases:
      * When a specific recovery point is accessed using GetRecoveryPoint
@@ -35,15 +44,29 @@ public class AzureWorkloadSqlRecoveryPoint extends AzureWorkloadRecoveryPoint {
     @JsonProperty(value = "extendedInfo")
     private AzureWorkloadSqlRecoveryPointExtendedInfo extendedInfo;
 
-    /** Creates an instance of AzureWorkloadSqlRecoveryPoint class. */
+    /**
+     * Creates an instance of AzureWorkloadSqlRecoveryPoint class.
+     */
     public AzureWorkloadSqlRecoveryPoint() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the extendedInfo property: Extended Info that provides data directory details. Will be populated in two
-     * cases: When a specific recovery point is accessed using GetRecoveryPoint Or when ListRecoveryPoints is called for
-     * Log RP only with ExtendedInfo query filter.
-     *
+     * cases:
+     * When a specific recovery point is accessed using GetRecoveryPoint
+     * Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter.
+     * 
      * @return the extendedInfo value.
      */
     public AzureWorkloadSqlRecoveryPointExtendedInfo extendedInfo() {
@@ -52,9 +75,10 @@ public class AzureWorkloadSqlRecoveryPoint extends AzureWorkloadRecoveryPoint {
 
     /**
      * Set the extendedInfo property: Extended Info that provides data directory details. Will be populated in two
-     * cases: When a specific recovery point is accessed using GetRecoveryPoint Or when ListRecoveryPoints is called for
-     * Log RP only with ExtendedInfo query filter.
-     *
+     * cases:
+     * When a specific recovery point is accessed using GetRecoveryPoint
+     * Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter.
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the AzureWorkloadSqlRecoveryPoint object itself.
      */
@@ -63,37 +87,47 @@ public class AzureWorkloadSqlRecoveryPoint extends AzureWorkloadRecoveryPoint {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlRecoveryPoint withRecoveryPointTimeInUtc(OffsetDateTime recoveryPointTimeInUtc) {
         super.withRecoveryPointTimeInUtc(recoveryPointTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlRecoveryPoint withType(RestorePointType type) {
         super.withType(type);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSqlRecoveryPoint withRecoveryPointTierDetails(
-        List<RecoveryPointTierInformationV2> recoveryPointTierDetails) {
+    public AzureWorkloadSqlRecoveryPoint
+        withRecoveryPointTierDetails(List<RecoveryPointTierInformationV2> recoveryPointTierDetails) {
         super.withRecoveryPointTierDetails(recoveryPointTierDetails);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSqlRecoveryPoint withRecoveryPointMoveReadinessInfo(
-        Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo) {
+    public AzureWorkloadSqlRecoveryPoint
+        withRecoveryPointMoveReadinessInfo(Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo) {
         super.withRecoveryPointMoveReadinessInfo(recoveryPointMoveReadinessInfo);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlRecoveryPoint withRecoveryPointProperties(RecoveryPointProperties recoveryPointProperties) {
         super.withRecoveryPointProperties(recoveryPointProperties);
@@ -102,7 +136,7 @@ public class AzureWorkloadSqlRecoveryPoint extends AzureWorkloadRecoveryPoint {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

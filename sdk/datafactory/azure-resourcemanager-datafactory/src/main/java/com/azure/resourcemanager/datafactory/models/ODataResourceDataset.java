@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.ODataResourceDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Open Data Protocol (OData) resource dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Open Data Protocol (OData) resource dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ODataResourceDataset.class, visible = true)
 @JsonTypeName("ODataResource")
 @Fluent
 public final class ODataResourceDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ODataResource";
+
     /*
      * OData dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private ODataResourceDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of ODataResourceDataset class. */
+    /**
+     * Creates an instance of ODataResourceDataset class.
+     */
     public ODataResourceDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: OData dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ODataResourceDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataResourceDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class ODataResourceDataset extends Dataset {
 
     /**
      * Get the path property: The OData resource path. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the path value.
      */
     public Object path() {
@@ -96,7 +132,7 @@ public final class ODataResourceDataset extends Dataset {
 
     /**
      * Set the path property: The OData resource path. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param path the path value to set.
      * @return the ODataResourceDataset object itself.
      */
@@ -110,7 +146,7 @@ public final class ODataResourceDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

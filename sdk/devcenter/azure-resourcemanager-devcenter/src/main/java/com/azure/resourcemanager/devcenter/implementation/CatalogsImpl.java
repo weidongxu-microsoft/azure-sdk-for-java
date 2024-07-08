@@ -11,8 +11,11 @@ import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.devcenter.fluent.CatalogsClient;
 import com.azure.resourcemanager.devcenter.fluent.models.CatalogInner;
+import com.azure.resourcemanager.devcenter.fluent.models.SyncErrorDetailsInner;
 import com.azure.resourcemanager.devcenter.models.Catalog;
 import com.azure.resourcemanager.devcenter.models.Catalogs;
+import com.azure.resourcemanager.devcenter.models.CatalogUpdate;
+import com.azure.resourcemanager.devcenter.models.SyncErrorDetails;
 
 public final class CatalogsImpl implements Catalogs {
     private static final ClientLogger LOGGER = new ClientLogger(CatalogsImpl.class);
@@ -21,33 +24,30 @@ public final class CatalogsImpl implements Catalogs {
 
     private final com.azure.resourcemanager.devcenter.DevCenterManager serviceManager;
 
-    public CatalogsImpl(
-        CatalogsClient innerClient, com.azure.resourcemanager.devcenter.DevCenterManager serviceManager) {
+    public CatalogsImpl(CatalogsClient innerClient,
+        com.azure.resourcemanager.devcenter.DevCenterManager serviceManager) {
         this.innerClient = innerClient;
         this.serviceManager = serviceManager;
     }
 
     public PagedIterable<Catalog> listByDevCenter(String resourceGroupName, String devCenterName) {
         PagedIterable<CatalogInner> inner = this.serviceClient().listByDevCenter(resourceGroupName, devCenterName);
-        return Utils.mapPage(inner, inner1 -> new CatalogImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new CatalogImpl(inner1, this.manager()));
     }
 
-    public PagedIterable<Catalog> listByDevCenter(
-        String resourceGroupName, String devCenterName, Integer top, Context context) {
-        PagedIterable<CatalogInner> inner =
-            this.serviceClient().listByDevCenter(resourceGroupName, devCenterName, top, context);
-        return Utils.mapPage(inner, inner1 -> new CatalogImpl(inner1, this.manager()));
+    public PagedIterable<Catalog> listByDevCenter(String resourceGroupName, String devCenterName, Integer top,
+        Context context) {
+        PagedIterable<CatalogInner> inner
+            = this.serviceClient().listByDevCenter(resourceGroupName, devCenterName, top, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new CatalogImpl(inner1, this.manager()));
     }
 
-    public Response<Catalog> getWithResponse(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
-        Response<CatalogInner> inner =
-            this.serviceClient().getWithResponse(resourceGroupName, devCenterName, catalogName, context);
+    public Response<Catalog> getWithResponse(String resourceGroupName, String devCenterName, String catalogName,
+        Context context) {
+        Response<CatalogInner> inner
+            = this.serviceClient().getWithResponse(resourceGroupName, devCenterName, catalogName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new CatalogImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -63,12 +63,74 @@ public final class CatalogsImpl implements Catalogs {
         }
     }
 
+    public Catalog createOrUpdate(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogInner body) {
+        CatalogInner inner = this.serviceClient().createOrUpdate(resourceGroupName, devCenterName, catalogName, body);
+        if (inner != null) {
+            return new CatalogImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
+    public Catalog createOrUpdate(String resourceGroupName, String devCenterName, String catalogName, CatalogInner body,
+        Context context) {
+        CatalogInner inner
+            = this.serviceClient().createOrUpdate(resourceGroupName, devCenterName, catalogName, body, context);
+        if (inner != null) {
+            return new CatalogImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
+    public Catalog update(String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body) {
+        CatalogInner inner = this.serviceClient().update(resourceGroupName, devCenterName, catalogName, body);
+        if (inner != null) {
+            return new CatalogImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
+    public Catalog update(String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body,
+        Context context) {
+        CatalogInner inner = this.serviceClient().update(resourceGroupName, devCenterName, catalogName, body, context);
+        if (inner != null) {
+            return new CatalogImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
     public void delete(String resourceGroupName, String devCenterName, String catalogName) {
         this.serviceClient().delete(resourceGroupName, devCenterName, catalogName);
     }
 
     public void delete(String resourceGroupName, String devCenterName, String catalogName, Context context) {
         this.serviceClient().delete(resourceGroupName, devCenterName, catalogName, context);
+    }
+
+    public Response<SyncErrorDetails> getSyncErrorDetailsWithResponse(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
+        Response<SyncErrorDetailsInner> inner = this.serviceClient()
+            .getSyncErrorDetailsWithResponse(resourceGroupName, devCenterName, catalogName, context);
+        if (inner != null) {
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
+                new SyncErrorDetailsImpl(inner.getValue(), this.manager()));
+        } else {
+            return null;
+        }
+    }
+
+    public SyncErrorDetails getSyncErrorDetails(String resourceGroupName, String devCenterName, String catalogName) {
+        SyncErrorDetailsInner inner
+            = this.serviceClient().getSyncErrorDetails(resourceGroupName, devCenterName, catalogName);
+        if (inner != null) {
+            return new SyncErrorDetailsImpl(inner, this.manager());
+        } else {
+            return null;
+        }
     }
 
     public void sync(String resourceGroupName, String devCenterName, String catalogName) {
@@ -79,108 +141,12 @@ public final class CatalogsImpl implements Catalogs {
         this.serviceClient().sync(resourceGroupName, devCenterName, catalogName, context);
     }
 
-    public Catalog getById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
-        if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
-        }
-        String devCenterName = Utils.getValueFromIdByName(id, "devcenters");
-        if (devCenterName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'devcenters'.", id)));
-        }
-        String catalogName = Utils.getValueFromIdByName(id, "catalogs");
-        if (catalogName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'catalogs'.", id)));
-        }
-        return this.getWithResponse(resourceGroupName, devCenterName, catalogName, Context.NONE).getValue();
+    public void connect(String resourceGroupName, String devCenterName, String catalogName) {
+        this.serviceClient().connect(resourceGroupName, devCenterName, catalogName);
     }
 
-    public Response<Catalog> getByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
-        if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
-        }
-        String devCenterName = Utils.getValueFromIdByName(id, "devcenters");
-        if (devCenterName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'devcenters'.", id)));
-        }
-        String catalogName = Utils.getValueFromIdByName(id, "catalogs");
-        if (catalogName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'catalogs'.", id)));
-        }
-        return this.getWithResponse(resourceGroupName, devCenterName, catalogName, context);
-    }
-
-    public void deleteById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
-        if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
-        }
-        String devCenterName = Utils.getValueFromIdByName(id, "devcenters");
-        if (devCenterName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'devcenters'.", id)));
-        }
-        String catalogName = Utils.getValueFromIdByName(id, "catalogs");
-        if (catalogName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'catalogs'.", id)));
-        }
-        this.delete(resourceGroupName, devCenterName, catalogName, Context.NONE);
-    }
-
-    public void deleteByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
-        if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
-        }
-        String devCenterName = Utils.getValueFromIdByName(id, "devcenters");
-        if (devCenterName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'devcenters'.", id)));
-        }
-        String catalogName = Utils.getValueFromIdByName(id, "catalogs");
-        if (catalogName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'catalogs'.", id)));
-        }
-        this.delete(resourceGroupName, devCenterName, catalogName, context);
+    public void connect(String resourceGroupName, String devCenterName, String catalogName, Context context) {
+        this.serviceClient().connect(resourceGroupName, devCenterName, catalogName, context);
     }
 
     private CatalogsClient serviceClient() {
@@ -189,9 +155,5 @@ public final class CatalogsImpl implements Catalogs {
 
     private com.azure.resourcemanager.devcenter.DevCenterManager manager() {
         return this.serviceManager;
-    }
-
-    public CatalogImpl define(String name) {
-        return new CatalogImpl(name, this.manager());
     }
 }

@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.StampCapacityInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of stamp capacities. */
+/**
+ * Collection of stamp capacities.
+ */
 @Fluent
 public final class StampCapacityCollection {
     /*
@@ -25,7 +28,9 @@ public final class StampCapacityCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of StampCapacityCollection class. */
+    /**
+     * Creates an instance of StampCapacityCollection class.
+     */
     public StampCapacityCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class StampCapacityCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model StampCapacityCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model StampCapacityCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

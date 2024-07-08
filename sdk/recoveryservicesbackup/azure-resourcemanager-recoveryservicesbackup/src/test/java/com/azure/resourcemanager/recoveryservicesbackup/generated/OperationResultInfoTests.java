@@ -12,19 +12,17 @@ import org.junit.jupiter.api.Assertions;
 public final class OperationResultInfoTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        OperationResultInfo model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"OperationResultInfo\",\"jobList\":[\"tsysi\",\"fvcl\",\"lxnfuijtkbusqogs\",\"ikayiansharuj\"]}")
-                .toObject(OperationResultInfo.class);
-        Assertions.assertEquals("tsysi", model.jobList().get(0));
+        OperationResultInfo model = BinaryData.fromString(
+            "{\"objectType\":\"OperationResultInfo\",\"jobList\":[\"cjimryvwgcwwpbmz\",\"w\",\"sydsxwefohe\",\"bvopwndyqle\"]}")
+            .toObject(OperationResultInfo.class);
+        Assertions.assertEquals("cjimryvwgcwwpbmz", model.jobList().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        OperationResultInfo model =
-            new OperationResultInfo().withJobList(Arrays.asList("tsysi", "fvcl", "lxnfuijtkbusqogs", "ikayiansharuj"));
+        OperationResultInfo model = new OperationResultInfo()
+            .withJobList(Arrays.asList("cjimryvwgcwwpbmz", "w", "sydsxwefohe", "bvopwndyqle"));
         model = BinaryData.fromObject(model).toObject(OperationResultInfo.class);
-        Assertions.assertEquals("tsysi", model.jobList().get(0));
+        Assertions.assertEquals("cjimryvwgcwwpbmz", model.jobList().get(0));
     }
 }

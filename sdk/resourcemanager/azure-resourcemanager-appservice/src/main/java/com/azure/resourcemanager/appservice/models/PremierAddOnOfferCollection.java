@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.PremierAddOnOfferInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of premier add-on offers. */
+/**
+ * Collection of premier add-on offers.
+ */
 @Fluent
 public final class PremierAddOnOfferCollection {
     /*
@@ -25,7 +28,9 @@ public final class PremierAddOnOfferCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of PremierAddOnOfferCollection class. */
+    /**
+     * Creates an instance of PremierAddOnOfferCollection class.
+     */
     public PremierAddOnOfferCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class PremierAddOnOfferCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model PremierAddOnOfferCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model PremierAddOnOfferCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

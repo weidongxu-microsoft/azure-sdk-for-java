@@ -7,78 +7,118 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.AmazonRedshiftTableDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Amazon Redshift table dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Amazon Redshift table dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = AmazonRedshiftTableDataset.class,
+    visible = true)
 @JsonTypeName("AmazonRedshiftTable")
 @Fluent
 public final class AmazonRedshiftTableDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AmazonRedshiftTable";
+
     /*
      * Amazon Redshift table dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private AmazonRedshiftTableDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of AmazonRedshiftTableDataset class. */
+    /**
+     * Creates an instance of AmazonRedshiftTableDataset class.
+     */
     public AmazonRedshiftTableDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Amazon Redshift table dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AmazonRedshiftTableDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AmazonRedshiftTableDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +128,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
     /**
      * Get the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -98,7 +138,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
     /**
      * Set the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the AmazonRedshiftTableDataset object itself.
      */
@@ -112,7 +152,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
 
     /**
      * Get the table property: The Amazon Redshift table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the table value.
      */
     public Object table() {
@@ -121,7 +161,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
 
     /**
      * Set the table property: The Amazon Redshift table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param table the table value to set.
      * @return the AmazonRedshiftTableDataset object itself.
      */
@@ -135,7 +175,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
 
     /**
      * Get the schema property: The Amazon Redshift schema name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the schema value.
      */
     public Object schemaTypePropertiesSchema() {
@@ -144,7 +184,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
 
     /**
      * Set the schema property: The Amazon Redshift schema name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param schema the schema value to set.
      * @return the AmazonRedshiftTableDataset object itself.
      */
@@ -158,7 +198,7 @@ public final class AmazonRedshiftTableDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

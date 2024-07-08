@@ -3,15 +3,12 @@
 
 package com.azure.monitor.query;
 
-import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.test.TestMode;
 import com.azure.core.test.TestProxyTestBase;
 import com.azure.core.test.http.AssertingHttpClientBuilder;
-import com.azure.core.util.Configuration;
 import com.azure.core.util.Context;
-import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.monitor.query.models.AggregationType;
 import com.azure.monitor.query.models.MetricDefinition;
 import com.azure.monitor.query.models.MetricResult;
@@ -25,17 +22,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.azure.monitor.query.MonitorQueryTestUtils.getMetricResourceUri;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,10 +39,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Unit tests for {@link MetricsQueryAsyncClient}.
  */
 public class MetricsQueryAsyncClientTest extends TestProxyTestBase {
-    private static final String RESOURCE_URI = Configuration.getGlobalConfiguration()
-            .get("AZURE_MONITOR_METRICS_RESOURCE_URI",
-                    "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/srnagar-azuresdkgroup/providers/Microsoft.CognitiveServices/accounts/srnagara-textanalytics");
+
     private MetricsQueryAsyncClient client;
+
+    private String resourceUri;
 
     private static Stream<Arguments> getFilterPredicate() {
         return Arrays.asList(
@@ -85,17 +81,19 @@ public class MetricsQueryAsyncClientTest extends TestProxyTestBase {
 
     @BeforeEach
     public void setup() {
-        MetricsQueryClientBuilder clientBuilder = new MetricsQueryClientBuilder();
+        resourceUri = getMetricResourceUri(interceptorManager.isPlaybackMode());
+        TokenCredential credential = TestUtil.getTestTokenCredential(interceptorManager);
+
+        MetricsQueryClientBuilder clientBuilder = new MetricsQueryClientBuilder()
+            .credential(credential);
         if (getTestMode() == TestMode.PLAYBACK) {
             clientBuilder
-                    .credential(request -> Mono.just(new AccessToken("fakeToken", OffsetDateTime.now().plusDays(1))))
                     .httpClient(getAssertingHttpClient(interceptorManager.getPlaybackClient()));
         } else if (getTestMode() == TestMode.RECORD) {
             clientBuilder
-                    .addPolicy(interceptorManager.getRecordPolicy())
-                    .credential(getCredential());
+                .addPolicy(interceptorManager.getRecordPolicy());
         } else if (getTestMode() == TestMode.LIVE) {
-            clientBuilder.credential(getCredential());
+            clientBuilder.endpoint(MonitorQueryTestUtils.getMetricEndpoint());
         }
         this.client = clientBuilder
                 .buildAsyncClient();
@@ -108,16 +106,12 @@ public class MetricsQueryAsyncClientTest extends TestProxyTestBase {
                 .build();
     }
 
-    private TokenCredential getCredential() {
-        return new DefaultAzureCredentialBuilder().build();
-    }
-
     @Test
     public void testMetricsQuery() {
         StepVerifier.create(client
-                        .queryResourceWithResponse(RESOURCE_URI, Arrays.asList("SuccessfulCalls"),
+                        .queryResourceWithResponse(resourceUri, Arrays.asList("SuccessfulRequests"),
                                 new MetricsQueryOptions()
-                                        .setMetricNamespace("Microsoft.CognitiveServices/accounts")
+                                        .setMetricNamespace("Microsoft.EventHub/namespaces")
                                         .setTimeInterval(new QueryTimeInterval(Duration.ofDays(10)))
                                         .setGranularity(Duration.ofHours(1))
                                         .setTop(100)
@@ -130,7 +124,7 @@ public class MetricsQueryAsyncClientTest extends TestProxyTestBase {
 
                     assertEquals(1, metrics.size());
                     MetricResult successfulCallsMetric = metrics.get(0);
-                    assertEquals("SuccessfulCalls", successfulCallsMetric.getMetricName());
+                    assertEquals("SuccessfulRequests", successfulCallsMetric.getMetricName());
                     assertEquals("Microsoft.Insights/metrics", successfulCallsMetric.getResourceType());
                     assertEquals(1, successfulCallsMetric.getTimeSeries().size());
 
@@ -148,9 +142,9 @@ public class MetricsQueryAsyncClientTest extends TestProxyTestBase {
     @MethodSource("getFilterPredicate")
     public void testAggregation(AggregationType aggregationType, Predicate<MetricValue> metricValuePredicate) {
         StepVerifier.create(client
-                        .queryResourceWithResponse(RESOURCE_URI, Arrays.asList("SuccessfulCalls"),
+                        .queryResourceWithResponse(resourceUri, Arrays.asList("SuccessfulRequests"),
                                 new MetricsQueryOptions()
-                                        .setMetricNamespace("Microsoft.CognitiveServices/accounts")
+                                        .setMetricNamespace("Microsoft.EventHub/namespaces")
                                         .setTimeInterval(new QueryTimeInterval(Duration.ofDays(10)))
                                         .setGranularity(Duration.ofHours(1))
                                         .setTop(100)
@@ -172,34 +166,59 @@ public class MetricsQueryAsyncClientTest extends TestProxyTestBase {
     @Test
     public void testMetricsDefinition() {
         List<String> knownMetricsDefinitions = Arrays.asList(
-                "TotalCalls",
-                "SuccessfulCalls",
-                "TotalErrors",
-                "BlockedCalls",
-                "ServerErrors",
-                "ClientErrors",
-                "DataIn",
-                "DataOut",
-                "Latency",
-                "TotalTransactions",
-                "ProcessedTextRecords",
-                "ProcessedHealthTextRecords",
-                "QuestionAnsweringTextRecords"
+            "SuccessfulRequests",
+            "ServerErrors",
+            "UserErrors",
+            "QuotaExceededErrors",
+            "ThrottledRequests",
+            "IncomingRequests",
+            "IncomingMessages",
+            "OutgoingMessages",
+            "IncomingBytes",
+            "OutgoingBytes",
+            "ActiveConnections",
+            "ConnectionsOpened",
+            "ConnectionsClosed",
+            "CaptureBacklog",
+            "CapturedMessages",
+            "CapturedBytes",
+            "Size",
+            "INREQS",
+            "SUCCREQ",
+            "FAILREQ",
+            "SVRBSY",
+            "INTERR",
+            "MISCERR",
+            "INMSGS",
+            "EHINMSGS",
+            "OUTMSGS",
+            "EHOUTMSGS",
+            "EHINMBS",
+            "EHINBYTES",
+            "EHOUTMBS",
+            "EHOUTBYTES",
+            "EHABL",
+            "EHAMSGS",
+            "EHAMBS"
         );
 
         StepVerifier.create(client
-                        .listMetricDefinitions(RESOURCE_URI)
+                        .listMetricDefinitions(resourceUri)
                         .collectList())
-                .assertNext(metricDefinitions -> assertTrue(metricDefinitions.stream()
+                .assertNext(metricDefinitions -> {
+                    List<String> metricsDefinitionNames = metricDefinitions.stream()
                         .map(MetricDefinition::getName)
-                        .collect(Collectors.toList())
-                        .containsAll(knownMetricsDefinitions)))
+                        .collect(Collectors.toList());
+
+                    assertTrue(metricsDefinitionNames
+                            .containsAll(knownMetricsDefinitions));
+                })
                 .verifyComplete();
     }
 
     @Test
     public void testMetricsNamespaces() {
-        StepVerifier.create(client.listMetricNamespaces(RESOURCE_URI, null).collectList())
+        StepVerifier.create(client.listMetricNamespaces(resourceUri, null).collectList())
                 .assertNext(namespaces -> assertEquals(1, namespaces.size()))
                 .verifyComplete();
     }

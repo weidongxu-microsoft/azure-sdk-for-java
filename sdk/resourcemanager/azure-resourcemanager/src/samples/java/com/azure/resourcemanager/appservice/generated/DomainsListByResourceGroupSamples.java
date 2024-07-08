@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for Domains ListByResourceGroup. */
+/**
+ * Samples for Domains ListByResourceGroup.
+ */
 public final class DomainsListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/ListDomainsByResourceGroup.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListDomainsByResourceGroup.json
      */
     /**
      * Sample code: List domains by resource group.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listDomainsByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getDomains()

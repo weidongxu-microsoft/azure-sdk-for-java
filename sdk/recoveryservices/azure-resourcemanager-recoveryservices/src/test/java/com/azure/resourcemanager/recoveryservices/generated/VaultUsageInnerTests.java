@@ -14,37 +14,33 @@ import org.junit.jupiter.api.Assertions;
 public final class VaultUsageInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        VaultUsageInner model =
-            BinaryData
-                .fromString(
-                    "{\"unit\":\"Bytes\",\"quotaPeriod\":\"jbkcnxdhbttkph\",\"nextResetTime\":\"2021-04-14T06:41:24Z\",\"currentValue\":5517955949236106562,\"limit\":2567791736937591136,\"name\":{\"value\":\"rmclfplphoxu\",\"localizedValue\":\"rpabg\"}}")
-                .toObject(VaultUsageInner.class);
-        Assertions.assertEquals(UsagesUnit.BYTES, model.unit());
-        Assertions.assertEquals("jbkcnxdhbttkph", model.quotaPeriod());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-04-14T06:41:24Z"), model.nextResetTime());
-        Assertions.assertEquals(5517955949236106562L, model.currentValue());
-        Assertions.assertEquals(2567791736937591136L, model.limit());
-        Assertions.assertEquals("rmclfplphoxu", model.name().value());
-        Assertions.assertEquals("rpabg", model.name().localizedValue());
+        VaultUsageInner model = BinaryData.fromString(
+            "{\"unit\":\"Percent\",\"quotaPeriod\":\"isgwbnbbeldawkz\",\"nextResetTime\":\"2021-01-06T08:15:40Z\",\"currentValue\":489170478703847309,\"limit\":4089645691345581060,\"name\":{\"value\":\"auhashsfwx\",\"localizedValue\":\"owzxcu\"}}")
+            .toObject(VaultUsageInner.class);
+        Assertions.assertEquals(UsagesUnit.PERCENT, model.unit());
+        Assertions.assertEquals("isgwbnbbeldawkz", model.quotaPeriod());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-01-06T08:15:40Z"), model.nextResetTime());
+        Assertions.assertEquals(489170478703847309L, model.currentValue());
+        Assertions.assertEquals(4089645691345581060L, model.limit());
+        Assertions.assertEquals("auhashsfwx", model.name().value());
+        Assertions.assertEquals("owzxcu", model.name().localizedValue());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        VaultUsageInner model =
-            new VaultUsageInner()
-                .withUnit(UsagesUnit.BYTES)
-                .withQuotaPeriod("jbkcnxdhbttkph")
-                .withNextResetTime(OffsetDateTime.parse("2021-04-14T06:41:24Z"))
-                .withCurrentValue(5517955949236106562L)
-                .withLimit(2567791736937591136L)
-                .withName(new NameInfo().withValue("rmclfplphoxu").withLocalizedValue("rpabg"));
+        VaultUsageInner model = new VaultUsageInner().withUnit(UsagesUnit.PERCENT)
+            .withQuotaPeriod("isgwbnbbeldawkz")
+            .withNextResetTime(OffsetDateTime.parse("2021-01-06T08:15:40Z"))
+            .withCurrentValue(489170478703847309L)
+            .withLimit(4089645691345581060L)
+            .withName(new NameInfo().withValue("auhashsfwx").withLocalizedValue("owzxcu"));
         model = BinaryData.fromObject(model).toObject(VaultUsageInner.class);
-        Assertions.assertEquals(UsagesUnit.BYTES, model.unit());
-        Assertions.assertEquals("jbkcnxdhbttkph", model.quotaPeriod());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-04-14T06:41:24Z"), model.nextResetTime());
-        Assertions.assertEquals(5517955949236106562L, model.currentValue());
-        Assertions.assertEquals(2567791736937591136L, model.limit());
-        Assertions.assertEquals("rmclfplphoxu", model.name().value());
-        Assertions.assertEquals("rpabg", model.name().localizedValue());
+        Assertions.assertEquals(UsagesUnit.PERCENT, model.unit());
+        Assertions.assertEquals("isgwbnbbeldawkz", model.quotaPeriod());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-01-06T08:15:40Z"), model.nextResetTime());
+        Assertions.assertEquals(489170478703847309L, model.currentValue());
+        Assertions.assertEquals(4089645691345581060L, model.limit());
+        Assertions.assertEquals("auhashsfwx", model.name().value());
+        Assertions.assertEquals("owzxcu", model.name().localizedValue());
     }
 }

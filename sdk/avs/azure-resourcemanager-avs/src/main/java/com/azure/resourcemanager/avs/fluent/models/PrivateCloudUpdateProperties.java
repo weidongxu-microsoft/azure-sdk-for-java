@@ -5,54 +5,71 @@
 package com.azure.resourcemanager.avs.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.avs.models.AvailabilityProperties;
+import com.azure.resourcemanager.avs.models.DnsZoneType;
 import com.azure.resourcemanager.avs.models.Encryption;
 import com.azure.resourcemanager.avs.models.IdentitySource;
 import com.azure.resourcemanager.avs.models.InternetEnum;
 import com.azure.resourcemanager.avs.models.ManagementCluster;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
 import java.util.List;
 
-/** The properties of a private cloud resource that may be updated. */
+/**
+ * The properties of a private cloud resource that may be updated.
+ */
 @Fluent
-public class PrivateCloudUpdateProperties {
+public final class PrivateCloudUpdateProperties implements JsonSerializable<PrivateCloudUpdateProperties> {
     /*
      * The default cluster used for management
      */
-    @JsonProperty(value = "managementCluster")
     private ManagementCluster managementCluster;
 
     /*
      * Connectivity to internet is enabled or disabled
      */
-    @JsonProperty(value = "internet")
     private InternetEnum internet;
 
     /*
      * vCenter Single Sign On Identity Sources
      */
-    @JsonProperty(value = "identitySources")
     private List<IdentitySource> identitySources;
 
     /*
      * Properties describing how the cloud is distributed across availability zones
      */
-    @JsonProperty(value = "availability")
     private AvailabilityProperties availability;
 
     /*
      * Customer managed key encryption, can be enabled or disabled
      */
-    @JsonProperty(value = "encryption")
     private Encryption encryption;
 
-    /** Creates an instance of PrivateCloudUpdateProperties class. */
+    /*
+     * Array of additional networks noncontiguous with networkBlock. Networks must be
+     * unique and non-overlapping across VNet in your subscription, on-premise, and
+     * this privateCloud networkBlock attribute. Make sure the CIDR format conforms to
+     * (A.B.C.D/X).
+     */
+    private List<String> extendedNetworkBlocks;
+
+    /*
+     * The type of DNS zone to use.
+     */
+    private DnsZoneType dnsZoneType;
+
+    /**
+     * Creates an instance of PrivateCloudUpdateProperties class.
+     */
     public PrivateCloudUpdateProperties() {
     }
 
     /**
      * Get the managementCluster property: The default cluster used for management.
-     *
+     * 
      * @return the managementCluster value.
      */
     public ManagementCluster managementCluster() {
@@ -61,7 +78,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Set the managementCluster property: The default cluster used for management.
-     *
+     * 
      * @param managementCluster the managementCluster value to set.
      * @return the PrivateCloudUpdateProperties object itself.
      */
@@ -72,7 +89,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Get the internet property: Connectivity to internet is enabled or disabled.
-     *
+     * 
      * @return the internet value.
      */
     public InternetEnum internet() {
@@ -81,7 +98,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Set the internet property: Connectivity to internet is enabled or disabled.
-     *
+     * 
      * @param internet the internet value to set.
      * @return the PrivateCloudUpdateProperties object itself.
      */
@@ -92,7 +109,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Get the identitySources property: vCenter Single Sign On Identity Sources.
-     *
+     * 
      * @return the identitySources value.
      */
     public List<IdentitySource> identitySources() {
@@ -101,7 +118,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Set the identitySources property: vCenter Single Sign On Identity Sources.
-     *
+     * 
      * @param identitySources the identitySources value to set.
      * @return the PrivateCloudUpdateProperties object itself.
      */
@@ -112,7 +129,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Get the availability property: Properties describing how the cloud is distributed across availability zones.
-     *
+     * 
      * @return the availability value.
      */
     public AvailabilityProperties availability() {
@@ -121,7 +138,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Set the availability property: Properties describing how the cloud is distributed across availability zones.
-     *
+     * 
      * @param availability the availability value to set.
      * @return the PrivateCloudUpdateProperties object itself.
      */
@@ -132,7 +149,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Get the encryption property: Customer managed key encryption, can be enabled or disabled.
-     *
+     * 
      * @return the encryption value.
      */
     public Encryption encryption() {
@@ -141,7 +158,7 @@ public class PrivateCloudUpdateProperties {
 
     /**
      * Set the encryption property: Customer managed key encryption, can be enabled or disabled.
-     *
+     * 
      * @param encryption the encryption value to set.
      * @return the PrivateCloudUpdateProperties object itself.
      */
@@ -151,8 +168,56 @@ public class PrivateCloudUpdateProperties {
     }
 
     /**
+     * Get the extendedNetworkBlocks property: Array of additional networks noncontiguous with networkBlock. Networks
+     * must be
+     * unique and non-overlapping across VNet in your subscription, on-premise, and
+     * this privateCloud networkBlock attribute. Make sure the CIDR format conforms to
+     * (A.B.C.D/X).
+     * 
+     * @return the extendedNetworkBlocks value.
+     */
+    public List<String> extendedNetworkBlocks() {
+        return this.extendedNetworkBlocks;
+    }
+
+    /**
+     * Set the extendedNetworkBlocks property: Array of additional networks noncontiguous with networkBlock. Networks
+     * must be
+     * unique and non-overlapping across VNet in your subscription, on-premise, and
+     * this privateCloud networkBlock attribute. Make sure the CIDR format conforms to
+     * (A.B.C.D/X).
+     * 
+     * @param extendedNetworkBlocks the extendedNetworkBlocks value to set.
+     * @return the PrivateCloudUpdateProperties object itself.
+     */
+    public PrivateCloudUpdateProperties withExtendedNetworkBlocks(List<String> extendedNetworkBlocks) {
+        this.extendedNetworkBlocks = extendedNetworkBlocks;
+        return this;
+    }
+
+    /**
+     * Get the dnsZoneType property: The type of DNS zone to use.
+     * 
+     * @return the dnsZoneType value.
+     */
+    public DnsZoneType dnsZoneType() {
+        return this.dnsZoneType;
+    }
+
+    /**
+     * Set the dnsZoneType property: The type of DNS zone to use.
+     * 
+     * @param dnsZoneType the dnsZoneType value to set.
+     * @return the PrivateCloudUpdateProperties object itself.
+     */
+    public PrivateCloudUpdateProperties withDnsZoneType(DnsZoneType dnsZoneType) {
+        this.dnsZoneType = dnsZoneType;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
@@ -168,5 +233,64 @@ public class PrivateCloudUpdateProperties {
         if (encryption() != null) {
             encryption().validate();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeJsonField("managementCluster", this.managementCluster);
+        jsonWriter.writeStringField("internet", this.internet == null ? null : this.internet.toString());
+        jsonWriter.writeArrayField("identitySources", this.identitySources,
+            (writer, element) -> writer.writeJson(element));
+        jsonWriter.writeJsonField("availability", this.availability);
+        jsonWriter.writeJsonField("encryption", this.encryption);
+        jsonWriter.writeArrayField("extendedNetworkBlocks", this.extendedNetworkBlocks,
+            (writer, element) -> writer.writeString(element));
+        jsonWriter.writeStringField("dnsZoneType", this.dnsZoneType == null ? null : this.dnsZoneType.toString());
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an instance of PrivateCloudUpdateProperties from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of PrivateCloudUpdateProperties if the JsonReader was pointing to an instance of it, or null
+     * if it was pointing to JSON null.
+     * @throws IOException If an error occurs while reading the PrivateCloudUpdateProperties.
+     */
+    public static PrivateCloudUpdateProperties fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            PrivateCloudUpdateProperties deserializedPrivateCloudUpdateProperties = new PrivateCloudUpdateProperties();
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("managementCluster".equals(fieldName)) {
+                    deserializedPrivateCloudUpdateProperties.managementCluster = ManagementCluster.fromJson(reader);
+                } else if ("internet".equals(fieldName)) {
+                    deserializedPrivateCloudUpdateProperties.internet = InternetEnum.fromString(reader.getString());
+                } else if ("identitySources".equals(fieldName)) {
+                    List<IdentitySource> identitySources
+                        = reader.readArray(reader1 -> IdentitySource.fromJson(reader1));
+                    deserializedPrivateCloudUpdateProperties.identitySources = identitySources;
+                } else if ("availability".equals(fieldName)) {
+                    deserializedPrivateCloudUpdateProperties.availability = AvailabilityProperties.fromJson(reader);
+                } else if ("encryption".equals(fieldName)) {
+                    deserializedPrivateCloudUpdateProperties.encryption = Encryption.fromJson(reader);
+                } else if ("extendedNetworkBlocks".equals(fieldName)) {
+                    List<String> extendedNetworkBlocks = reader.readArray(reader1 -> reader1.getString());
+                    deserializedPrivateCloudUpdateProperties.extendedNetworkBlocks = extendedNetworkBlocks;
+                } else if ("dnsZoneType".equals(fieldName)) {
+                    deserializedPrivateCloudUpdateProperties.dnsZoneType = DnsZoneType.fromString(reader.getString());
+                } else {
+                    reader.skipChildren();
+                }
+            }
+
+            return deserializedPrivateCloudUpdateProperties;
+        });
     }
 }

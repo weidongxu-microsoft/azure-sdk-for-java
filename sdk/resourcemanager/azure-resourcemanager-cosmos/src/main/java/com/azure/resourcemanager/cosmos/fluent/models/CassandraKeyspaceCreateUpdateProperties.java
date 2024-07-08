@@ -10,7 +10,9 @@ import com.azure.resourcemanager.cosmos.models.CassandraKeyspaceResource;
 import com.azure.resourcemanager.cosmos.models.CreateUpdateOptions;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties to create and update Azure Cosmos DB Cassandra keyspace. */
+/**
+ * Properties to create and update Azure Cosmos DB Cassandra keyspace.
+ */
 @Fluent
 public final class CassandraKeyspaceCreateUpdateProperties {
     /*
@@ -20,19 +22,20 @@ public final class CassandraKeyspaceCreateUpdateProperties {
     private CassandraKeyspaceResource resource;
 
     /*
-     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-     * request.
+     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
      */
     @JsonProperty(value = "options")
     private CreateUpdateOptions options;
 
-    /** Creates an instance of CassandraKeyspaceCreateUpdateProperties class. */
+    /**
+     * Creates an instance of CassandraKeyspaceCreateUpdateProperties class.
+     */
     public CassandraKeyspaceCreateUpdateProperties() {
     }
 
     /**
      * Get the resource property: The standard JSON format of a Cassandra keyspace.
-     *
+     * 
      * @return the resource value.
      */
     public CassandraKeyspaceResource resource() {
@@ -41,7 +44,7 @@ public final class CassandraKeyspaceCreateUpdateProperties {
 
     /**
      * Set the resource property: The standard JSON format of a Cassandra keyspace.
-     *
+     * 
      * @param resource the resource value to set.
      * @return the CassandraKeyspaceCreateUpdateProperties object itself.
      */
@@ -53,7 +56,7 @@ public final class CassandraKeyspaceCreateUpdateProperties {
     /**
      * Get the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @return the options value.
      */
     public CreateUpdateOptions options() {
@@ -63,7 +66,7 @@ public final class CassandraKeyspaceCreateUpdateProperties {
     /**
      * Set the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @param options the options value to set.
      * @return the CassandraKeyspaceCreateUpdateProperties object itself.
      */
@@ -74,15 +77,14 @@ public final class CassandraKeyspaceCreateUpdateProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (resource() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property resource in model CassandraKeyspaceCreateUpdateProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property resource in model CassandraKeyspaceCreateUpdateProperties"));
         } else {
             resource().validate();
         }

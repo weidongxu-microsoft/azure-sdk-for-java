@@ -10,9 +10,12 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayFirewallRuleGr
 import com.azure.resourcemanager.network.models.ApplicationGatewayTierTypes;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of the web application firewall rule set. */
+/**
+ * Properties of the web application firewall rule set.
+ */
 @Fluent
 public final class ApplicationGatewayFirewallRuleSetPropertiesFormat {
     /*
@@ -45,7 +48,9 @@ public final class ApplicationGatewayFirewallRuleSetPropertiesFormat {
     @JsonProperty(value = "tiers")
     private List<ApplicationGatewayTierTypes> tiers;
 
-    /** Creates an instance of ApplicationGatewayFirewallRuleSetPropertiesFormat class. */
+    /**
+     * Creates an instance of ApplicationGatewayFirewallRuleSetPropertiesFormat class.
+     */
     public ApplicationGatewayFirewallRuleSetPropertiesFormat() {
     }
 
@@ -113,8 +118,8 @@ public final class ApplicationGatewayFirewallRuleSetPropertiesFormat {
      * @param ruleGroups the ruleGroups value to set.
      * @return the ApplicationGatewayFirewallRuleSetPropertiesFormat object itself.
      */
-    public ApplicationGatewayFirewallRuleSetPropertiesFormat withRuleGroups(
-        List<ApplicationGatewayFirewallRuleGroup> ruleGroups) {
+    public ApplicationGatewayFirewallRuleSetPropertiesFormat
+        withRuleGroups(List<ApplicationGatewayFirewallRuleGroup> ruleGroups) {
         this.ruleGroups = ruleGroups;
         return this;
     }
@@ -146,30 +151,24 @@ public final class ApplicationGatewayFirewallRuleSetPropertiesFormat {
      */
     public void validate() {
         if (ruleSetType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetType in model"
-                            + " ApplicationGatewayFirewallRuleSetPropertiesFormat"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetType in model ApplicationGatewayFirewallRuleSetPropertiesFormat"));
         }
         if (ruleSetVersion() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetVersion in model"
-                            + " ApplicationGatewayFirewallRuleSetPropertiesFormat"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetVersion in model ApplicationGatewayFirewallRuleSetPropertiesFormat"));
         }
         if (ruleGroups() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleGroups in model"
-                            + " ApplicationGatewayFirewallRuleSetPropertiesFormat"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleGroups in model ApplicationGatewayFirewallRuleSetPropertiesFormat"));
         } else {
             ruleGroups().forEach(e -> e.validate());
         }
     }
 
-    private static final ClientLogger LOGGER =
-        new ClientLogger(ApplicationGatewayFirewallRuleSetPropertiesFormat.class);
+    private static final ClientLogger LOGGER
+        = new ClientLogger(ApplicationGatewayFirewallRuleSetPropertiesFormat.class);
 }

@@ -8,58 +8,92 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.CosmosDbMongoDbApiLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Linked service for CosmosDB (MongoDB API) data source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Linked service for CosmosDB (MongoDB API) data source.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = CosmosDbMongoDbApiLinkedService.class,
+    visible = true)
 @JsonTypeName("CosmosDbMongoDbApi")
 @Fluent
 public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "CosmosDbMongoDbApi";
+
+    /*
      * CosmosDB (MongoDB API) linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private CosmosDbMongoDbApiLinkedServiceTypeProperties innerTypeProperties =
-        new CosmosDbMongoDbApiLinkedServiceTypeProperties();
+    private CosmosDbMongoDbApiLinkedServiceTypeProperties innerTypeProperties
+        = new CosmosDbMongoDbApiLinkedServiceTypeProperties();
 
-    /** Creates an instance of CosmosDbMongoDbApiLinkedService class. */
+    /**
+     * Creates an instance of CosmosDbMongoDbApiLinkedService class.
+     */
     public CosmosDbMongoDbApiLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: CosmosDB (MongoDB API) linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private CosmosDbMongoDbApiLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -69,7 +103,7 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /**
      * Get the isServerVersionAbove32 property: Whether the CosmosDB (MongoDB API) server version is higher than 3.2.
      * The default value is false. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the isServerVersionAbove32 value.
      */
     public Object isServerVersionAbove32() {
@@ -79,7 +113,7 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /**
      * Set the isServerVersionAbove32 property: Whether the CosmosDB (MongoDB API) server version is higher than 3.2.
      * The default value is false. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param isServerVersionAbove32 the isServerVersionAbove32 value to set.
      * @return the CosmosDbMongoDbApiLinkedService object itself.
      */
@@ -94,7 +128,7 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /**
      * Get the connectionString property: The CosmosDB (MongoDB API) connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
-     *
+     * 
      * @return the connectionString value.
      */
     public Object connectionString() {
@@ -104,7 +138,7 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /**
      * Set the connectionString property: The CosmosDB (MongoDB API) connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
-     *
+     * 
      * @param connectionString the connectionString value to set.
      * @return the CosmosDbMongoDbApiLinkedService object itself.
      */
@@ -119,7 +153,7 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /**
      * Get the database property: The name of the CosmosDB (MongoDB API) database that you want to access. Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @return the database value.
      */
     public Object database() {
@@ -129,7 +163,7 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
     /**
      * Set the database property: The name of the CosmosDB (MongoDB API) database that you want to access. Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @param database the database value to set.
      * @return the CosmosDbMongoDbApiLinkedService object itself.
      */
@@ -143,17 +177,16 @@ public final class CosmosDbMongoDbApiLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model CosmosDbMongoDbApiLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model CosmosDbMongoDbApiLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

@@ -6,48 +6,82 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
-/** Defines values for SkuName. */
+/**
+ * Defines values for SkuName.
+ */
 public final class SkuName extends ExpandableStringEnum<SkuName> {
-    /** Static value Free for SkuName. */
+    /**
+     * Static value Free for SkuName.
+     */
     public static final SkuName FREE = fromString("Free");
 
-    /** Static value Shared for SkuName. */
+    /**
+     * Static value Shared for SkuName.
+     */
     public static final SkuName SHARED = fromString("Shared");
 
-    /** Static value Basic for SkuName. */
+    /**
+     * Static value Basic for SkuName.
+     */
     public static final SkuName BASIC = fromString("Basic");
 
-    /** Static value Standard for SkuName. */
+    /**
+     * Static value Standard for SkuName.
+     */
     public static final SkuName STANDARD = fromString("Standard");
 
-    /** Static value Premium for SkuName. */
+    /**
+     * Static value Premium for SkuName.
+     */
     public static final SkuName PREMIUM = fromString("Premium");
 
-    /** Static value Dynamic for SkuName. */
+    /**
+     * Static value Dynamic for SkuName.
+     */
     public static final SkuName DYNAMIC = fromString("Dynamic");
 
-    /** Static value Isolated for SkuName. */
+    /**
+     * Static value Isolated for SkuName.
+     */
     public static final SkuName ISOLATED = fromString("Isolated");
 
-    /** Static value IsolatedV2 for SkuName. */
+    /**
+     * Static value IsolatedV2 for SkuName.
+     */
     public static final SkuName ISOLATED_V2 = fromString("IsolatedV2");
 
-    /** Static value PremiumV2 for SkuName. */
+    /**
+     * Static value PremiumV2 for SkuName.
+     */
     public static final SkuName PREMIUM_V2 = fromString("PremiumV2");
 
-    /** Static value PremiumV3 for SkuName. */
+    /**
+     * Static value PremiumV3 for SkuName.
+     */
     public static final SkuName PREMIUM_V3 = fromString("PremiumV3");
 
-    /** Static value PremiumContainer for SkuName. */
+    /**
+     * Static value PremiumContainer for SkuName.
+     */
     public static final SkuName PREMIUM_CONTAINER = fromString("PremiumContainer");
 
-    /** Static value ElasticPremium for SkuName. */
+    /**
+     * Static value ElasticPremium for SkuName.
+     */
     public static final SkuName ELASTIC_PREMIUM = fromString("ElasticPremium");
 
-    /** Static value ElasticIsolated for SkuName. */
+    /**
+     * Static value ElasticIsolated for SkuName.
+     */
     public static final SkuName ELASTIC_ISOLATED = fromString("ElasticIsolated");
+
+    /**
+     * Static value FlexConsumption for SkuName.
+     */
+    public static final SkuName FLEX_CONSUMPTION = fromString("FlexConsumption");
 
     /**
      * Creates a new instance of SkuName value.

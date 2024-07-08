@@ -7,40 +7,61 @@ package com.azure.resourcemanager.selfhelp.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.management.ProxyResource;
 import com.azure.core.management.SystemData;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+import com.azure.resourcemanager.selfhelp.models.SolutionMetadataProperties;
+import java.io.IOException;
 import java.util.List;
 
-/** Solution Metadata resource. */
+/**
+ * Metadata resource.
+ */
 @Fluent
 public final class SolutionMetadataResourceInner extends ProxyResource {
     /*
      * Solution metadata Resource properties.
      */
-    @JsonProperty(value = "properties")
-    private SolutionMetadataProperties innerProperties;
+    private Solutions innerProperties;
 
     /*
      * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
-    @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of SolutionMetadataResourceInner class. */
+    /*
+     * Fully qualified resource Id for the resource.
+     */
+    private String id;
+
+    /*
+     * The name of the resource.
+     */
+    private String name;
+
+    /*
+     * The type of the resource.
+     */
+    private String type;
+
+    /**
+     * Creates an instance of SolutionMetadataResourceInner class.
+     */
     public SolutionMetadataResourceInner() {
     }
 
     /**
      * Get the innerProperties property: Solution metadata Resource properties.
-     *
+     * 
      * @return the innerProperties value.
      */
-    private SolutionMetadataProperties innerProperties() {
+    private Solutions innerProperties() {
         return this.innerProperties;
     }
 
     /**
      * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-     *
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
@@ -48,105 +69,112 @@ public final class SolutionMetadataResourceInner extends ProxyResource {
     }
 
     /**
-     * Get the solutionId property: Solution Id.
-     *
-     * @return the solutionId value.
+     * Get the id property: Fully qualified resource Id for the resource.
+     * 
+     * @return the id value.
      */
-    public String solutionId() {
-        return this.innerProperties() == null ? null : this.innerProperties().solutionId();
+    @Override
+    public String id() {
+        return this.id;
     }
 
     /**
-     * Set the solutionId property: Solution Id.
-     *
-     * @param solutionId the solutionId value to set.
+     * Get the name property: The name of the resource.
+     * 
+     * @return the name value.
+     */
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the type property: The type of the resource.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * Get the solutions property: List of metadata.
+     * 
+     * @return the solutions value.
+     */
+    public List<SolutionMetadataProperties> solutions() {
+        return this.innerProperties() == null ? null : this.innerProperties().solutions();
+    }
+
+    /**
+     * Set the solutions property: List of metadata.
+     * 
+     * @param solutions the solutions value to set.
      * @return the SolutionMetadataResourceInner object itself.
      */
-    public SolutionMetadataResourceInner withSolutionId(String solutionId) {
+    public SolutionMetadataResourceInner withSolutions(List<SolutionMetadataProperties> solutions) {
         if (this.innerProperties() == null) {
-            this.innerProperties = new SolutionMetadataProperties();
+            this.innerProperties = new Solutions();
         }
-        this.innerProperties().withSolutionId(solutionId);
-        return this;
-    }
-
-    /**
-     * Get the solutionType property: Solution Type.
-     *
-     * @return the solutionType value.
-     */
-    public String solutionType() {
-        return this.innerProperties() == null ? null : this.innerProperties().solutionType();
-    }
-
-    /**
-     * Set the solutionType property: Solution Type.
-     *
-     * @param solutionType the solutionType value to set.
-     * @return the SolutionMetadataResourceInner object itself.
-     */
-    public SolutionMetadataResourceInner withSolutionType(String solutionType) {
-        if (this.innerProperties() == null) {
-            this.innerProperties = new SolutionMetadataProperties();
-        }
-        this.innerProperties().withSolutionType(solutionType);
-        return this;
-    }
-
-    /**
-     * Get the description property: A detailed description of solution.
-     *
-     * @return the description value.
-     */
-    public String description() {
-        return this.innerProperties() == null ? null : this.innerProperties().description();
-    }
-
-    /**
-     * Set the description property: A detailed description of solution.
-     *
-     * @param description the description value to set.
-     * @return the SolutionMetadataResourceInner object itself.
-     */
-    public SolutionMetadataResourceInner withDescription(String description) {
-        if (this.innerProperties() == null) {
-            this.innerProperties = new SolutionMetadataProperties();
-        }
-        this.innerProperties().withDescription(description);
-        return this;
-    }
-
-    /**
-     * Get the requiredParameterSets property: Required parameters for invoking this particular solution.
-     *
-     * @return the requiredParameterSets value.
-     */
-    public List<List<String>> requiredParameterSets() {
-        return this.innerProperties() == null ? null : this.innerProperties().requiredParameterSets();
-    }
-
-    /**
-     * Set the requiredParameterSets property: Required parameters for invoking this particular solution.
-     *
-     * @param requiredParameterSets the requiredParameterSets value to set.
-     * @return the SolutionMetadataResourceInner object itself.
-     */
-    public SolutionMetadataResourceInner withRequiredParameterSets(List<List<String>> requiredParameterSets) {
-        if (this.innerProperties() == null) {
-            this.innerProperties = new SolutionMetadataProperties();
-        }
-        this.innerProperties().withRequiredParameterSets(requiredParameterSets);
+        this.innerProperties().withSolutions(solutions);
         return this;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (innerProperties() != null) {
             innerProperties().validate();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeJsonField("properties", this.innerProperties);
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an instance of SolutionMetadataResourceInner from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of SolutionMetadataResourceInner if the JsonReader was pointing to an instance of it, or null
+     * if it was pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
+     * @throws IOException If an error occurs while reading the SolutionMetadataResourceInner.
+     */
+    public static SolutionMetadataResourceInner fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            SolutionMetadataResourceInner deserializedSolutionMetadataResourceInner
+                = new SolutionMetadataResourceInner();
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("id".equals(fieldName)) {
+                    deserializedSolutionMetadataResourceInner.id = reader.getString();
+                } else if ("name".equals(fieldName)) {
+                    deserializedSolutionMetadataResourceInner.name = reader.getString();
+                } else if ("type".equals(fieldName)) {
+                    deserializedSolutionMetadataResourceInner.type = reader.getString();
+                } else if ("properties".equals(fieldName)) {
+                    deserializedSolutionMetadataResourceInner.innerProperties = Solutions.fromJson(reader);
+                } else if ("systemData".equals(fieldName)) {
+                    deserializedSolutionMetadataResourceInner.systemData = SystemData.fromJson(reader);
+                } else {
+                    reader.skipChildren();
+                }
+            }
+
+            return deserializedSolutionMetadataResourceInner;
+        });
     }
 }

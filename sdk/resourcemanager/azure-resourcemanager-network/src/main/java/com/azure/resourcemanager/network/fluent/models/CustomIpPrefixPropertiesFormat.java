@@ -11,9 +11,12 @@ import com.azure.resourcemanager.network.models.CustomIpPrefixType;
 import com.azure.resourcemanager.network.models.Geo;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Custom IP prefix properties. */
+/**
+ * Custom IP prefix properties.
+ */
 @Fluent
 public final class CustomIpPrefixPropertiesFormat {
     /*
@@ -106,7 +109,9 @@ public final class CustomIpPrefixPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of CustomIpPrefixPropertiesFormat class. */
+    /**
+     * Creates an instance of CustomIpPrefixPropertiesFormat class.
+     */
     public CustomIpPrefixPropertiesFormat() {
     }
 

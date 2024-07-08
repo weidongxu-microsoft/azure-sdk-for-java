@@ -6,31 +6,53 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity source for an HTTP file. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity source for an HTTP file.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = HttpSource.class, visible = true)
 @JsonTypeName("HttpSource")
 @Fluent
 public final class HttpSource extends CopySource {
     /*
-     * Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default value is equivalent
-     * to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with resultType string), pattern:
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "HttpSource";
+
+    /*
+     * Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default value is equivalent to
+     * System.Net.HttpWebRequest.Timeout. Type: string (or Expression with resultType string), pattern:
      * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
      */
     @JsonProperty(value = "httpRequestTimeout")
     private Object httpRequestTimeout;
 
-    /** Creates an instance of HttpSource class. */
+    /**
+     * Creates an instance of HttpSource class.
+     */
     public HttpSource() {
+    }
+
+    /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the httpRequestTimeout property: Specifies the timeout for a HTTP client to get HTTP response from HTTP
      * server. The default value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with
      * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * 
      * @return the httpRequestTimeout value.
      */
     public Object httpRequestTimeout() {
@@ -41,7 +63,7 @@ public final class HttpSource extends CopySource {
      * Set the httpRequestTimeout property: Specifies the timeout for a HTTP client to get HTTP response from HTTP
      * server. The default value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with
      * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * 
      * @param httpRequestTimeout the httpRequestTimeout value to set.
      * @return the HttpSource object itself.
      */
@@ -50,28 +72,36 @@ public final class HttpSource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HttpSource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HttpSource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HttpSource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HttpSource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -80,7 +110,7 @@ public final class HttpSource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

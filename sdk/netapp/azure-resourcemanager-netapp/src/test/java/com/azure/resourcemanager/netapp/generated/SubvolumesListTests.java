@@ -13,33 +13,25 @@ import org.junit.jupiter.api.Assertions;
 public final class SubvolumesListTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        SubvolumesList model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"path\":\"elvezrypq\",\"size\":2764555725436180174,\"parentPath\":\"kerqwkyh\",\"provisioningState\":\"bopgxedkowepbqp\"},\"id\":\"fkbw\",\"name\":\"csnjvcdwxlpqekft\",\"type\":\"khtj\"}],\"nextLink\":\"i\"}")
-                .toObject(SubvolumesList.class);
-        Assertions.assertEquals("elvezrypq", model.value().get(0).path());
-        Assertions.assertEquals(2764555725436180174L, model.value().get(0).size());
-        Assertions.assertEquals("kerqwkyh", model.value().get(0).parentPath());
-        Assertions.assertEquals("i", model.nextLink());
+        SubvolumesList model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"path\":\"aeqphchqnr\",\"size\":4162908248726599775,\"parentPath\":\"huwrykqgaifm\",\"provisioningState\":\"klbydv\"},\"id\":\"bejdznxcv\",\"name\":\"srhnjivo\",\"type\":\"v\"}],\"nextLink\":\"ovqfzge\"}")
+            .toObject(SubvolumesList.class);
+        Assertions.assertEquals("aeqphchqnr", model.value().get(0).path());
+        Assertions.assertEquals(4162908248726599775L, model.value().get(0).size());
+        Assertions.assertEquals("huwrykqgaifm", model.value().get(0).parentPath());
+        Assertions.assertEquals("ovqfzge", model.nextLink());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SubvolumesList model =
-            new SubvolumesList()
-                .withValue(
-                    Arrays
-                        .asList(
-                            new SubvolumeInfoInner()
-                                .withPath("elvezrypq")
-                                .withSize(2764555725436180174L)
-                                .withParentPath("kerqwkyh")))
-                .withNextLink("i");
+        SubvolumesList model
+            = new SubvolumesList().withValue(Arrays.asList(new SubvolumeInfoInner().withPath("aeqphchqnr")
+                .withSize(4162908248726599775L)
+                .withParentPath("huwrykqgaifm"))).withNextLink("ovqfzge");
         model = BinaryData.fromObject(model).toObject(SubvolumesList.class);
-        Assertions.assertEquals("elvezrypq", model.value().get(0).path());
-        Assertions.assertEquals(2764555725436180174L, model.value().get(0).size());
-        Assertions.assertEquals("kerqwkyh", model.value().get(0).parentPath());
-        Assertions.assertEquals("i", model.nextLink());
+        Assertions.assertEquals("aeqphchqnr", model.value().get(0).path());
+        Assertions.assertEquals(4162908248726599775L, model.value().get(0).size());
+        Assertions.assertEquals("huwrykqgaifm", model.value().get(0).parentPath());
+        Assertions.assertEquals("ovqfzge", model.nextLink());
     }
 }

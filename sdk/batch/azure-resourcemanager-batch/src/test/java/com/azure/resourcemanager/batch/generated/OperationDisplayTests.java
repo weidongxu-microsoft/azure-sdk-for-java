@@ -7,34 +7,27 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.OperationDisplay;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class OperationDisplayTests {
-    @Test
-    public void testDeserialize() {
-        OperationDisplay model =
-            BinaryData
-                .fromString(
-                    "{\"provider\":\"ocfs\",\"operation\":\"s\",\"resource\":\"ddystkiiuxhqy\",\"description\":\"xorrqnb\"}")
-                .toObject(OperationDisplay.class);
-        Assertions.assertEquals("ocfs", model.provider());
-        Assertions.assertEquals("s", model.operation());
-        Assertions.assertEquals("ddystkiiuxhqy", model.resource());
-        Assertions.assertEquals("xorrqnb", model.description());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        OperationDisplay model = BinaryData.fromString(
+            "{\"provider\":\"gual\",\"operation\":\"xxhejjzzvd\",\"resource\":\"gwdslfhotwm\",\"description\":\"npwlbjnpg\"}")
+            .toObject(OperationDisplay.class);
+        Assertions.assertEquals("gual", model.provider());
+        Assertions.assertEquals("xxhejjzzvd", model.operation());
+        Assertions.assertEquals("gwdslfhotwm", model.resource());
+        Assertions.assertEquals("npwlbjnpg", model.description());
     }
 
-    @Test
-    public void testSerialize() {
-        OperationDisplay model =
-            new OperationDisplay()
-                .withProvider("ocfs")
-                .withOperation("s")
-                .withResource("ddystkiiuxhqy")
-                .withDescription("xorrqnb");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        OperationDisplay model = new OperationDisplay().withProvider("gual").withOperation("xxhejjzzvd")
+            .withResource("gwdslfhotwm").withDescription("npwlbjnpg");
         model = BinaryData.fromObject(model).toObject(OperationDisplay.class);
-        Assertions.assertEquals("ocfs", model.provider());
-        Assertions.assertEquals("s", model.operation());
-        Assertions.assertEquals("ddystkiiuxhqy", model.resource());
-        Assertions.assertEquals("xorrqnb", model.description());
+        Assertions.assertEquals("gual", model.provider());
+        Assertions.assertEquals("xxhejjzzvd", model.operation());
+        Assertions.assertEquals("gwdslfhotwm", model.resource());
+        Assertions.assertEquals("npwlbjnpg", model.description());
     }
 }

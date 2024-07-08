@@ -6,9 +6,12 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
-/** Web App runtime settings. */
+/**
+ * Web App runtime settings.
+ */
 @Immutable
 public final class WebAppRuntimeSettings {
     /*
@@ -71,7 +74,9 @@ public final class WebAppRuntimeSettings {
     @JsonProperty(value = "isEarlyAccess", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean isEarlyAccess;
 
-    /** Creates an instance of WebAppRuntimeSettings class. */
+    /**
+     * Creates an instance of WebAppRuntimeSettings class.
+     */
     public WebAppRuntimeSettings() {
     }
 

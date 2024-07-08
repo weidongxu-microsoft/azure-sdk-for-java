@@ -12,9 +12,12 @@ import com.azure.resourcemanager.network.models.SecurityConfigurationRuleAccess;
 import com.azure.resourcemanager.network.models.SecurityConfigurationRuleDirection;
 import com.azure.resourcemanager.network.models.SecurityConfigurationRuleProtocol;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Security admin rule resource. */
+/**
+ * Security admin rule resource.
+ */
 @Fluent
 public final class AdminPropertiesFormat {
     /*
@@ -60,8 +63,7 @@ public final class AdminPropertiesFormat {
     private SecurityConfigurationRuleAccess access;
 
     /*
-     * The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule
-     * in the collection. The lower the priority number, the higher the priority of the rule.
+     * The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
      */
     @JsonProperty(value = "priority", required = true)
     private int priority;
@@ -78,7 +80,15 @@ public final class AdminPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of AdminPropertiesFormat class. */
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
+
+    /**
+     * Creates an instance of AdminPropertiesFormat class.
+     */
     public AdminPropertiesFormat() {
     }
 
@@ -276,15 +286,23 @@ public final class AdminPropertiesFormat {
     }
 
     /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
+    }
+
+    /**
      * Validates the instance.
      *
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (protocol() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property protocol in model AdminPropertiesFormat"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property protocol in model AdminPropertiesFormat"));
         }
         if (sources() != null) {
             sources().forEach(e -> e.validate());
@@ -293,13 +311,12 @@ public final class AdminPropertiesFormat {
             destinations().forEach(e -> e.validate());
         }
         if (access() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property access in model AdminPropertiesFormat"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property access in model AdminPropertiesFormat"));
         }
         if (direction() == null) {
-            throw LOGGER
-                .logExceptionAsError(
+            throw LOGGER.atError()
+                .log(
                     new IllegalArgumentException("Missing required property direction in model AdminPropertiesFormat"));
         }
     }

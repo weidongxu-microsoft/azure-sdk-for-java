@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of the web application firewall rule set. */
+/**
+ * Properties of the web application firewall rule set.
+ */
 @Fluent
 public final class ApplicationGatewayFirewallManifestRuleSet {
     /*
@@ -42,7 +45,9 @@ public final class ApplicationGatewayFirewallManifestRuleSet {
     @JsonProperty(value = "ruleGroups", required = true)
     private List<ApplicationGatewayFirewallRuleGroup> ruleGroups;
 
-    /** Creates an instance of ApplicationGatewayFirewallManifestRuleSet class. */
+    /**
+     * Creates an instance of ApplicationGatewayFirewallManifestRuleSet class.
+     */
     public ApplicationGatewayFirewallManifestRuleSet() {
     }
 
@@ -141,8 +146,8 @@ public final class ApplicationGatewayFirewallManifestRuleSet {
      * @param ruleGroups the ruleGroups value to set.
      * @return the ApplicationGatewayFirewallManifestRuleSet object itself.
      */
-    public ApplicationGatewayFirewallManifestRuleSet withRuleGroups(
-        List<ApplicationGatewayFirewallRuleGroup> ruleGroups) {
+    public ApplicationGatewayFirewallManifestRuleSet
+        withRuleGroups(List<ApplicationGatewayFirewallRuleGroup> ruleGroups) {
         this.ruleGroups = ruleGroups;
         return this;
     }
@@ -154,22 +159,19 @@ public final class ApplicationGatewayFirewallManifestRuleSet {
      */
     public void validate() {
         if (ruleSetType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetType in model ApplicationGatewayFirewallManifestRuleSet"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetType in model ApplicationGatewayFirewallManifestRuleSet"));
         }
         if (ruleSetVersion() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetVersion in model ApplicationGatewayFirewallManifestRuleSet"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetVersion in model ApplicationGatewayFirewallManifestRuleSet"));
         }
         if (ruleGroups() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleGroups in model ApplicationGatewayFirewallManifestRuleSet"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleGroups in model ApplicationGatewayFirewallManifestRuleSet"));
         } else {
             ruleGroups().forEach(e -> e.validate());
         }

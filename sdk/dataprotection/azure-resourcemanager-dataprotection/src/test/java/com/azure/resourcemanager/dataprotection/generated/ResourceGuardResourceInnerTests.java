@@ -15,35 +15,30 @@ import org.junit.jupiter.api.Assertions;
 public final class ResourceGuardResourceInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ResourceGuardResourceInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"provisioningState\":\"Succeeded\",\"allowAutoApprovals\":false,\"resourceGuardOperations\":[{\"vaultCriticalOperation\":\"fb\",\"requestResourceType\":\"kcvqvpke\"},{\"vaultCriticalOperation\":\"cvdrhvoodsot\",\"requestResourceType\":\"bzdopcj\"},{\"vaultCriticalOperation\":\"nhdldwmgxcx\",\"requestResourceType\":\"lpmutwuoegrpkhj\"},{\"vaultCriticalOperation\":\"iyq\",\"requestResourceType\":\"uicpd\"}],\"vaultCriticalOperationExclusionList\":[\"zzlvmbmpaxmodfv\",\"efyw\",\"bpfvm\",\"yhrfouyftaakcpw\"],\"description\":\"zvqtmnubexkp\"},\"eTag\":\"smond\",\"location\":\"quxvypomgkop\",\"tags\":{\"qgxy\":\"ojvpa\",\"xozap\":\"mocmbqfqvmk\",\"dd\":\"helxprglya\",\"rjxgciqib\":\"kcbcue\"},\"id\":\"hos\",\"name\":\"sdqrhzoymibmrq\",\"type\":\"ibahwflus\"}")
-                .toObject(ResourceGuardResourceInner.class);
-        Assertions.assertEquals("quxvypomgkop", model.location());
-        Assertions.assertEquals("ojvpa", model.tags().get("qgxy"));
-        Assertions.assertEquals("smond", model.etag());
-        Assertions.assertEquals("zzlvmbmpaxmodfv", model.properties().vaultCriticalOperationExclusionList().get(0));
+        ResourceGuardResourceInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Updating\",\"allowAutoApprovals\":false,\"resourceGuardOperations\":[{\"vaultCriticalOperation\":\"bdunygaeqid\",\"requestResourceType\":\"fatpxllrxcyjmoa\"},{\"vaultCriticalOperation\":\"uvarmywdmjsjq\",\"requestResourceType\":\"hhyxxrw\"},{\"vaultCriticalOperation\":\"co\",\"requestResourceType\":\"hp\"}],\"vaultCriticalOperationExclusionList\":[\"gymare\",\"n\",\"jxqugjhky\",\"ubeddg\"],\"description\":\"ofwq\"},\"eTag\":\"qal\",\"location\":\"mnjijpxacqqudf\",\"tags\":{\"yffimrzrtuzqogs\":\"xbaaabjyv\",\"mewzsyyc\":\"xnevfdnwn\",\"judpfrxt\":\"uzsoi\",\"paxh\":\"thzvaytdwkqbrqu\"},\"id\":\"xiilivpdtiirqt\",\"name\":\"qoaxoruzfgs\",\"type\":\"uyfxrxxleptramxj\"}")
+            .toObject(ResourceGuardResourceInner.class);
+        Assertions.assertEquals("mnjijpxacqqudf", model.location());
+        Assertions.assertEquals("xbaaabjyv", model.tags().get("yffimrzrtuzqogs"));
+        Assertions.assertEquals("qal", model.etag());
+        Assertions.assertEquals("gymare", model.properties().vaultCriticalOperationExclusionList().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ResourceGuardResourceInner model =
-            new ResourceGuardResourceInner()
-                .withLocation("quxvypomgkop")
-                .withTags(mapOf("qgxy", "ojvpa", "xozap", "mocmbqfqvmk", "dd", "helxprglya", "rjxgciqib", "kcbcue"))
-                .withEtag("smond")
-                .withProperties(
-                    new ResourceGuard()
-                        .withVaultCriticalOperationExclusionList(
-                            Arrays.asList("zzlvmbmpaxmodfv", "efyw", "bpfvm", "yhrfouyftaakcpw")));
+        ResourceGuardResourceInner model = new ResourceGuardResourceInner().withLocation("mnjijpxacqqudf")
+            .withTags(mapOf("yffimrzrtuzqogs", "xbaaabjyv", "mewzsyyc", "xnevfdnwn", "judpfrxt", "uzsoi", "paxh",
+                "thzvaytdwkqbrqu"))
+            .withEtag("qal").withProperties(new ResourceGuard()
+                .withVaultCriticalOperationExclusionList(Arrays.asList("gymare", "n", "jxqugjhky", "ubeddg")));
         model = BinaryData.fromObject(model).toObject(ResourceGuardResourceInner.class);
-        Assertions.assertEquals("quxvypomgkop", model.location());
-        Assertions.assertEquals("ojvpa", model.tags().get("qgxy"));
-        Assertions.assertEquals("smond", model.etag());
-        Assertions.assertEquals("zzlvmbmpaxmodfv", model.properties().vaultCriticalOperationExclusionList().get(0));
+        Assertions.assertEquals("mnjijpxacqqudf", model.location());
+        Assertions.assertEquals("xbaaabjyv", model.tags().get("yffimrzrtuzqogs"));
+        Assertions.assertEquals("qal", model.etag());
+        Assertions.assertEquals("gymare", model.properties().vaultCriticalOperationExclusionList().get(0));
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

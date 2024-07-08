@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.fluent.models.HealthCheckStatusDetail
 public final class HealthCheckStatusDetailsInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        HealthCheckStatusDetailsInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"startDateTime\":\"2021-08-12T03:11:36Z\",\"endDateTime\":\"2021-01-12T10:38:40Z\",\"healthChecks\":[{\"status\":\"Unknown\",\"displayName\":\"nfd\",\"startDateTime\":\"2021-05-20T03:58:49Z\",\"endDateTime\":\"2021-09-02T09:18:32Z\",\"errorType\":\"tdlmkkzevd\",\"recommendedAction\":\"ewpusdsttwvogvb\",\"additionalDetails\":\"jdcngqqm\"},{\"status\":\"Warning\",\"displayName\":\"fgmjzrwrdgrt\",\"startDateTime\":\"2021-08-17T18:50:12Z\",\"endDateTime\":\"2021-01-31T20:09:39Z\",\"errorType\":\"zkopb\",\"recommendedAction\":\"nrfdw\",\"additionalDetails\":\"uhhziuiefozbhdm\"},{\"status\":\"Running\",\"displayName\":\"zqhof\",\"startDateTime\":\"2021-05-05T04:42:21Z\",\"endDateTime\":\"2021-11-16T17:43:34Z\",\"errorType\":\"u\",\"recommendedAction\":\"hxicslfaoqz\",\"additionalDetails\":\"yylhalnswhccsp\"},{\"status\":\"Running\",\"displayName\":\"vwitqscyw\",\"startDateTime\":\"2021-08-25T09:04:10Z\",\"endDateTime\":\"2021-02-13T16:07:26Z\",\"errorType\":\"uhczbwemh\",\"recommendedAction\":\"rsbrgzdwm\",\"additionalDetails\":\"eypqwdxggicccn\"}]},\"id\":\"huexmk\",\"name\":\"tlstvlzywem\",\"type\":\"zrncsdt\"}")
-                .toObject(HealthCheckStatusDetailsInner.class);
+        HealthCheckStatusDetailsInner model = BinaryData.fromString(
+            "{\"properties\":{\"startDateTime\":\"2021-06-14T22:10:19Z\",\"endDateTime\":\"2021-09-19T18:47:12Z\",\"healthChecks\":[{\"status\":\"Unknown\",\"displayName\":\"mpimaqxzhemjyh\",\"startDateTime\":\"2021-05-03T03:40:41Z\",\"endDateTime\":\"2021-02-04T05:09:41Z\",\"errorType\":\"t\",\"recommendedAction\":\"ozzwculkba\",\"additionalDetails\":\"fajnjwltlwtjjguk\"}]},\"id\":\"lhsnvkcdmx\",\"name\":\"rpoaimlnwi\",\"type\":\"aomylwea\"}")
+            .toObject(HealthCheckStatusDetailsInner.class);
     }
 
     @org.junit.jupiter.api.Test

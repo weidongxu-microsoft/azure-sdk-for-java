@@ -8,7 +8,9 @@ import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** The ListQueueServices model. */
+/**
+ * The ListQueueServices model.
+ */
 @Immutable
 public final class ListQueueServicesInner {
     /*
@@ -18,8 +20,14 @@ public final class ListQueueServicesInner {
     private List<QueueServicePropertiesInner> value;
 
     /**
+     * Creates an instance of ListQueueServicesInner class.
+     */
+    public ListQueueServicesInner() {
+    }
+
+    /**
      * Get the value property: List of queue services returned.
-     *
+     * 
      * @return the value value.
      */
     public List<QueueServicePropertiesInner> value() {
@@ -28,7 +36,7 @@ public final class ListQueueServicesInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

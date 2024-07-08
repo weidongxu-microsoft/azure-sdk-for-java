@@ -8,58 +8,92 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.AzureKeyVaultLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Azure Key Vault linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Azure Key Vault linked service.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = AzureKeyVaultLinkedService.class,
+    visible = true)
 @JsonTypeName("AzureKeyVault")
 @Fluent
 public final class AzureKeyVaultLinkedService extends LinkedService {
     /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureKeyVault";
+
+    /*
      * Azure Key Vault linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private AzureKeyVaultLinkedServiceTypeProperties innerTypeProperties =
-        new AzureKeyVaultLinkedServiceTypeProperties();
+    private AzureKeyVaultLinkedServiceTypeProperties innerTypeProperties
+        = new AzureKeyVaultLinkedServiceTypeProperties();
 
-    /** Creates an instance of AzureKeyVaultLinkedService class. */
+    /**
+     * Creates an instance of AzureKeyVaultLinkedService class.
+     */
     public AzureKeyVaultLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Azure Key Vault linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AzureKeyVaultLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureKeyVaultLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureKeyVaultLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureKeyVaultLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureKeyVaultLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -69,7 +103,7 @@ public final class AzureKeyVaultLinkedService extends LinkedService {
     /**
      * Get the baseUrl property: The base URL of the Azure Key Vault. e.g. https://myakv.vault.azure.net Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @return the baseUrl value.
      */
     public Object baseUrl() {
@@ -79,7 +113,7 @@ public final class AzureKeyVaultLinkedService extends LinkedService {
     /**
      * Set the baseUrl property: The base URL of the Azure Key Vault. e.g. https://myakv.vault.azure.net Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @param baseUrl the baseUrl value to set.
      * @return the AzureKeyVaultLinkedService object itself.
      */
@@ -93,7 +127,7 @@ public final class AzureKeyVaultLinkedService extends LinkedService {
 
     /**
      * Get the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @return the credential value.
      */
     public CredentialReference credential() {
@@ -102,7 +136,7 @@ public final class AzureKeyVaultLinkedService extends LinkedService {
 
     /**
      * Set the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @param credential the credential value to set.
      * @return the AzureKeyVaultLinkedService object itself.
      */
@@ -116,17 +150,16 @@ public final class AzureKeyVaultLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model AzureKeyVaultLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model AzureKeyVaultLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

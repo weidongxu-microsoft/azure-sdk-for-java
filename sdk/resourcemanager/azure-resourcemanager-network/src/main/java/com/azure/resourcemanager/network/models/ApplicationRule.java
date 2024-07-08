@@ -6,15 +6,26 @@ package com.azure.resourcemanager.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.List;
 
-/** Rule of type application. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "ruleType")
+/**
+ * Rule of type application.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "ruleType", defaultImpl = ApplicationRule.class, visible = true)
 @JsonTypeName("ApplicationRule")
 @Fluent
 public final class ApplicationRule extends FirewallPolicyRule {
+    /*
+     * Rule Type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "ruleType", required = true)
+    private FirewallPolicyRuleType ruleType = FirewallPolicyRuleType.APPLICATION_RULE;
+
     /*
      * List of source IP addresses for this rule.
      */
@@ -75,8 +86,20 @@ public final class ApplicationRule extends FirewallPolicyRule {
     @JsonProperty(value = "httpHeadersToInsert")
     private List<FirewallPolicyHttpHeaderToInsert> httpHeadersToInsert;
 
-    /** Creates an instance of ApplicationRule class. */
+    /**
+     * Creates an instance of ApplicationRule class.
+     */
     public ApplicationRule() {
+    }
+
+    /**
+     * Get the ruleType property: Rule Type.
+     *
+     * @return the ruleType value.
+     */
+    @Override
+    public FirewallPolicyRuleType ruleType() {
+        return this.ruleType;
     }
 
     /**
@@ -279,14 +302,18 @@ public final class ApplicationRule extends FirewallPolicyRule {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationRule withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationRule withDescription(String description) {
         super.withDescription(description);

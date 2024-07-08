@@ -21,21 +21,18 @@ public final class ClientGroupsImpl implements ClientGroups {
 
     private final com.azure.resourcemanager.eventgrid.EventGridManager serviceManager;
 
-    public ClientGroupsImpl(
-        ClientGroupsClient innerClient, com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
+    public ClientGroupsImpl(ClientGroupsClient innerClient,
+        com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
         this.innerClient = innerClient;
         this.serviceManager = serviceManager;
     }
 
-    public Response<ClientGroup> getWithResponse(
-        String resourceGroupName, String namespaceName, String clientGroupName, Context context) {
-        Response<ClientGroupInner> inner =
-            this.serviceClient().getWithResponse(resourceGroupName, namespaceName, clientGroupName, context);
+    public Response<ClientGroup> getWithResponse(String resourceGroupName, String namespaceName, String clientGroupName,
+        Context context) {
+        Response<ClientGroupInner> inner
+            = this.serviceClient().getWithResponse(resourceGroupName, namespaceName, clientGroupName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new ClientGroupImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -61,116 +58,88 @@ public final class ClientGroupsImpl implements ClientGroups {
 
     public PagedIterable<ClientGroup> listByNamespace(String resourceGroupName, String namespaceName) {
         PagedIterable<ClientGroupInner> inner = this.serviceClient().listByNamespace(resourceGroupName, namespaceName);
-        return Utils.mapPage(inner, inner1 -> new ClientGroupImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ClientGroupImpl(inner1, this.manager()));
     }
 
-    public PagedIterable<ClientGroup> listByNamespace(
-        String resourceGroupName, String namespaceName, String filter, Integer top, Context context) {
-        PagedIterable<ClientGroupInner> inner =
-            this.serviceClient().listByNamespace(resourceGroupName, namespaceName, filter, top, context);
-        return Utils.mapPage(inner, inner1 -> new ClientGroupImpl(inner1, this.manager()));
+    public PagedIterable<ClientGroup> listByNamespace(String resourceGroupName, String namespaceName, String filter,
+        Integer top, Context context) {
+        PagedIterable<ClientGroupInner> inner
+            = this.serviceClient().listByNamespace(resourceGroupName, namespaceName, filter, top, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ClientGroupImpl(inner1, this.manager()));
     }
 
     public ClientGroup getById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String namespaceName = Utils.getValueFromIdByName(id, "namespaces");
+        String namespaceName = ResourceManagerUtils.getValueFromIdByName(id, "namespaces");
         if (namespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
         }
-        String clientGroupName = Utils.getValueFromIdByName(id, "clientGroups");
+        String clientGroupName = ResourceManagerUtils.getValueFromIdByName(id, "clientGroups");
         if (clientGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
         }
         return this.getWithResponse(resourceGroupName, namespaceName, clientGroupName, Context.NONE).getValue();
     }
 
     public Response<ClientGroup> getByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String namespaceName = Utils.getValueFromIdByName(id, "namespaces");
+        String namespaceName = ResourceManagerUtils.getValueFromIdByName(id, "namespaces");
         if (namespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
         }
-        String clientGroupName = Utils.getValueFromIdByName(id, "clientGroups");
+        String clientGroupName = ResourceManagerUtils.getValueFromIdByName(id, "clientGroups");
         if (clientGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
         }
         return this.getWithResponse(resourceGroupName, namespaceName, clientGroupName, context);
     }
 
     public void deleteById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String namespaceName = Utils.getValueFromIdByName(id, "namespaces");
+        String namespaceName = ResourceManagerUtils.getValueFromIdByName(id, "namespaces");
         if (namespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
         }
-        String clientGroupName = Utils.getValueFromIdByName(id, "clientGroups");
+        String clientGroupName = ResourceManagerUtils.getValueFromIdByName(id, "clientGroups");
         if (clientGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
         }
         this.delete(resourceGroupName, namespaceName, clientGroupName, Context.NONE);
     }
 
     public void deleteByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String namespaceName = Utils.getValueFromIdByName(id, "namespaces");
+        String namespaceName = ResourceManagerUtils.getValueFromIdByName(id, "namespaces");
         if (namespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'namespaces'.", id)));
         }
-        String clientGroupName = Utils.getValueFromIdByName(id, "clientGroups");
+        String clientGroupName = ResourceManagerUtils.getValueFromIdByName(id, "clientGroups");
         if (clientGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'clientGroups'.", id)));
         }
         this.delete(resourceGroupName, namespaceName, clientGroupName, context);
     }

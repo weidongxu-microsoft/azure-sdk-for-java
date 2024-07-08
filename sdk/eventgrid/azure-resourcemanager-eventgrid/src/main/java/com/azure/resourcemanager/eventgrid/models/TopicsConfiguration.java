@@ -4,11 +4,14 @@
 
 package com.azure.resourcemanager.eventgrid.models;
 
-import com.azure.core.annotation.Immutable;
+import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-/** Properties of the Topics Configuration. */
-@Immutable
+/**
+ * Properties of the Topics Configuration.
+ */
+@Fluent
 public final class TopicsConfiguration {
     /*
      * The hostname for the topics configuration. This is a read-only property.
@@ -16,13 +19,21 @@ public final class TopicsConfiguration {
     @JsonProperty(value = "hostname", access = JsonProperty.Access.WRITE_ONLY)
     private String hostname;
 
-    /** Creates an instance of TopicsConfiguration class. */
+    /*
+     * List of custom domain configurations for the namespace.
+     */
+    @JsonProperty(value = "customDomains")
+    private List<CustomDomainConfiguration> customDomains;
+
+    /**
+     * Creates an instance of TopicsConfiguration class.
+     */
     public TopicsConfiguration() {
     }
 
     /**
      * Get the hostname property: The hostname for the topics configuration. This is a read-only property.
-     *
+     * 
      * @return the hostname value.
      */
     public String hostname() {
@@ -30,10 +41,33 @@ public final class TopicsConfiguration {
     }
 
     /**
+     * Get the customDomains property: List of custom domain configurations for the namespace.
+     * 
+     * @return the customDomains value.
+     */
+    public List<CustomDomainConfiguration> customDomains() {
+        return this.customDomains;
+    }
+
+    /**
+     * Set the customDomains property: List of custom domain configurations for the namespace.
+     * 
+     * @param customDomains the customDomains value to set.
+     * @return the TopicsConfiguration object itself.
+     */
+    public TopicsConfiguration withCustomDomains(List<CustomDomainConfiguration> customDomains) {
+        this.customDomains = customDomains;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (customDomains() != null) {
+            customDomains().forEach(e -> e.validate());
+        }
     }
 }

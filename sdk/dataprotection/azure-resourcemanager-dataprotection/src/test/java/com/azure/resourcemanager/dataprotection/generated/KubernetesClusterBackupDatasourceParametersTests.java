@@ -6,44 +6,49 @@ package com.azure.resourcemanager.dataprotection.generated;
 
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.dataprotection.models.KubernetesClusterBackupDatasourceParameters;
+import com.azure.resourcemanager.dataprotection.models.NamespacedNameResource;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 
 public final class KubernetesClusterBackupDatasourceParametersTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        KubernetesClusterBackupDatasourceParameters model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"KubernetesClusterBackupDatasourceParameters\",\"snapshotVolumes\":true,\"includeClusterScopeResources\":true,\"includedNamespaces\":[\"itqscywuggwoluhc\",\"bwemhairs\",\"rgzdwmsweyp\",\"w\"],\"excludedNamespaces\":[\"gicccnxqhuex\",\"ktt\",\"stvlzywemhzrnc\"],\"includedResourceTypes\":[\"clusiy\",\"bsfgytguslfea\",\"cy\",\"qukyhejhzi\"],\"excludedResourceTypes\":[\"fpel\",\"lppvksrpq\",\"ujzra\",\"htwdwrftswibyrcd\"],\"labelSelectors\":[\"shfwpracstwity\"]}")
-                .toObject(KubernetesClusterBackupDatasourceParameters.class);
+        KubernetesClusterBackupDatasourceParameters model = BinaryData.fromString(
+            "{\"objectType\":\"KubernetesClusterBackupDatasourceParameters\",\"snapshotVolumes\":true,\"includeClusterScopeResources\":false,\"includedNamespaces\":[\"qfi\",\"fxqknpirgneptt\",\"qmsniffcdmqnro\"],\"excludedNamespaces\":[\"ijnkrxfrdd\"],\"includedResourceTypes\":[\"atiz\",\"ronasxift\"],\"excludedResourceTypes\":[\"yzhftwesgogczh\",\"nnxk\"],\"labelSelectors\":[\"nyhmossxkkgthr\",\"gh\",\"jbdhqxvc\"],\"backupHookReferences\":[{\"name\":\"pdso\",\"namespace\":\"shrnsvbuswdvz\"},{\"name\":\"bycnunvjsrtkf\",\"namespace\":\"nopqgikyzirtx\"},{\"name\":\"uxzejntpsew\",\"namespace\":\"oi\"},{\"name\":\"ukry\",\"namespace\":\"tqmieox\"}]}")
+            .toObject(KubernetesClusterBackupDatasourceParameters.class);
         Assertions.assertEquals(true, model.snapshotVolumes());
-        Assertions.assertEquals(true, model.includeClusterScopeResources());
-        Assertions.assertEquals("itqscywuggwoluhc", model.includedNamespaces().get(0));
-        Assertions.assertEquals("gicccnxqhuex", model.excludedNamespaces().get(0));
-        Assertions.assertEquals("clusiy", model.includedResourceTypes().get(0));
-        Assertions.assertEquals("fpel", model.excludedResourceTypes().get(0));
-        Assertions.assertEquals("shfwpracstwity", model.labelSelectors().get(0));
+        Assertions.assertEquals(false, model.includeClusterScopeResources());
+        Assertions.assertEquals("qfi", model.includedNamespaces().get(0));
+        Assertions.assertEquals("ijnkrxfrdd", model.excludedNamespaces().get(0));
+        Assertions.assertEquals("atiz", model.includedResourceTypes().get(0));
+        Assertions.assertEquals("yzhftwesgogczh", model.excludedResourceTypes().get(0));
+        Assertions.assertEquals("nyhmossxkkgthr", model.labelSelectors().get(0));
+        Assertions.assertEquals("pdso", model.backupHookReferences().get(0).name());
+        Assertions.assertEquals("shrnsvbuswdvz", model.backupHookReferences().get(0).namespace());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        KubernetesClusterBackupDatasourceParameters model =
-            new KubernetesClusterBackupDatasourceParameters()
-                .withSnapshotVolumes(true)
-                .withIncludeClusterScopeResources(true)
-                .withIncludedNamespaces(Arrays.asList("itqscywuggwoluhc", "bwemhairs", "rgzdwmsweyp", "w"))
-                .withExcludedNamespaces(Arrays.asList("gicccnxqhuex", "ktt", "stvlzywemhzrnc"))
-                .withIncludedResourceTypes(Arrays.asList("clusiy", "bsfgytguslfea", "cy", "qukyhejhzi"))
-                .withExcludedResourceTypes(Arrays.asList("fpel", "lppvksrpq", "ujzra", "htwdwrftswibyrcd"))
-                .withLabelSelectors(Arrays.asList("shfwpracstwity"));
+        KubernetesClusterBackupDatasourceParameters model = new KubernetesClusterBackupDatasourceParameters()
+            .withSnapshotVolumes(true).withIncludeClusterScopeResources(false)
+            .withIncludedNamespaces(Arrays.asList("qfi", "fxqknpirgneptt", "qmsniffcdmqnro"))
+            .withExcludedNamespaces(Arrays.asList("ijnkrxfrdd"))
+            .withIncludedResourceTypes(Arrays.asList("atiz", "ronasxift"))
+            .withExcludedResourceTypes(Arrays.asList("yzhftwesgogczh", "nnxk"))
+            .withLabelSelectors(Arrays.asList("nyhmossxkkgthr", "gh", "jbdhqxvc")).withBackupHookReferences(
+                Arrays.asList(new NamespacedNameResource().withName("pdso").withNamespace("shrnsvbuswdvz"),
+                    new NamespacedNameResource().withName("bycnunvjsrtkf").withNamespace("nopqgikyzirtx"),
+                    new NamespacedNameResource().withName("uxzejntpsew").withNamespace("oi"),
+                    new NamespacedNameResource().withName("ukry").withNamespace("tqmieox")));
         model = BinaryData.fromObject(model).toObject(KubernetesClusterBackupDatasourceParameters.class);
         Assertions.assertEquals(true, model.snapshotVolumes());
-        Assertions.assertEquals(true, model.includeClusterScopeResources());
-        Assertions.assertEquals("itqscywuggwoluhc", model.includedNamespaces().get(0));
-        Assertions.assertEquals("gicccnxqhuex", model.excludedNamespaces().get(0));
-        Assertions.assertEquals("clusiy", model.includedResourceTypes().get(0));
-        Assertions.assertEquals("fpel", model.excludedResourceTypes().get(0));
-        Assertions.assertEquals("shfwpracstwity", model.labelSelectors().get(0));
+        Assertions.assertEquals(false, model.includeClusterScopeResources());
+        Assertions.assertEquals("qfi", model.includedNamespaces().get(0));
+        Assertions.assertEquals("ijnkrxfrdd", model.excludedNamespaces().get(0));
+        Assertions.assertEquals("atiz", model.includedResourceTypes().get(0));
+        Assertions.assertEquals("yzhftwesgogczh", model.excludedResourceTypes().get(0));
+        Assertions.assertEquals("nyhmossxkkgthr", model.labelSelectors().get(0));
+        Assertions.assertEquals("pdso", model.backupHookReferences().get(0).name());
+        Assertions.assertEquals("shrnsvbuswdvz", model.backupHookReferences().get(0).namespace());
     }
 }

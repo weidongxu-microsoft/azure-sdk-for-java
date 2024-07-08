@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ApplicationSecurityGroups Delete. */
+/**
+ * Samples for ApplicationSecurityGroups Delete.
+ */
 public final class ApplicationSecurityGroupsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationSecurityGroupDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationSecurityGroupDelete.json
      */
     /**
      * Sample code: Delete application security group.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteApplicationSecurityGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getApplicationSecurityGroups()

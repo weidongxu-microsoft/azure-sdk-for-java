@@ -5,26 +5,53 @@
 package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The location of HDFS. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The location of HDFS.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = HdfsLocation.class, visible = true)
 @JsonTypeName("HdfsLocation")
 @Fluent
 public final class HdfsLocation extends DatasetLocation {
-    /** Creates an instance of HdfsLocation class. */
+    /*
+     * Type of dataset storage location.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "HdfsLocation";
+
+    /**
+     * Creates an instance of HdfsLocation class.
+     */
     public HdfsLocation() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the type property: Type of dataset storage location.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HdfsLocation withFolderPath(Object folderPath) {
         super.withFolderPath(folderPath);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HdfsLocation withFileName(Object fileName) {
         super.withFileName(fileName);
@@ -33,7 +60,7 @@ public final class HdfsLocation extends DatasetLocation {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

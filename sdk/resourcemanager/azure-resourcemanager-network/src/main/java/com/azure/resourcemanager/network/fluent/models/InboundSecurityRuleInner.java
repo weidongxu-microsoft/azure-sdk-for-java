@@ -6,12 +6,16 @@ package com.azure.resourcemanager.network.fluent.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.management.SubResource;
+import com.azure.resourcemanager.network.models.InboundSecurityRuleType;
 import com.azure.resourcemanager.network.models.InboundSecurityRules;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** NVA Inbound Security Rule resource. */
+/**
+ * NVA Inbound Security Rule resource.
+ */
 @Fluent
 public final class InboundSecurityRuleInner extends SubResource {
     /*
@@ -38,7 +42,9 @@ public final class InboundSecurityRuleInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of InboundSecurityRuleInner class. */
+    /**
+     * Creates an instance of InboundSecurityRuleInner class.
+     */
     public InboundSecurityRuleInner() {
     }
 
@@ -89,10 +95,37 @@ public final class InboundSecurityRuleInner extends SubResource {
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InboundSecurityRuleInner withId(String id) {
         super.withId(id);
+        return this;
+    }
+
+    /**
+     * Get the ruleType property: Rule Type. This should be either AutoExpire or Permanent. Auto Expire Rule only
+     * creates NSG rules. Permanent Rule creates NSG rule and SLB LB Rule.
+     *
+     * @return the ruleType value.
+     */
+    public InboundSecurityRuleType ruleType() {
+        return this.innerProperties() == null ? null : this.innerProperties().ruleType();
+    }
+
+    /**
+     * Set the ruleType property: Rule Type. This should be either AutoExpire or Permanent. Auto Expire Rule only
+     * creates NSG rules. Permanent Rule creates NSG rule and SLB LB Rule.
+     *
+     * @param ruleType the ruleType value to set.
+     * @return the InboundSecurityRuleInner object itself.
+     */
+    public InboundSecurityRuleInner withRuleType(InboundSecurityRuleType ruleType) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new InboundSecurityRuleProperties();
+        }
+        this.innerProperties().withRuleType(ruleType);
         return this;
     }
 

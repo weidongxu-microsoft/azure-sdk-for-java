@@ -7,24 +7,21 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.EnvironmentSetting;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class EnvironmentSettingTests {
-    @Test
-    public void testDeserialize() {
-        EnvironmentSetting model =
-            BinaryData
-                .fromString("{\"name\":\"mypyynpcdpu\",\"value\":\"zgmwznmabikns\"}")
-                .toObject(EnvironmentSetting.class);
-        Assertions.assertEquals("mypyynpcdpu", model.name());
-        Assertions.assertEquals("zgmwznmabikns", model.value());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        EnvironmentSetting model = BinaryData.fromString("{\"name\":\"eqidbqfatpx\",\"value\":\"rxcyjmoad\"}")
+            .toObject(EnvironmentSetting.class);
+        Assertions.assertEquals("eqidbqfatpx", model.name());
+        Assertions.assertEquals("rxcyjmoad", model.value());
     }
 
-    @Test
-    public void testSerialize() {
-        EnvironmentSetting model = new EnvironmentSetting().withName("mypyynpcdpu").withValue("zgmwznmabikns");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        EnvironmentSetting model = new EnvironmentSetting().withName("eqidbqfatpx").withValue("rxcyjmoad");
         model = BinaryData.fromObject(model).toObject(EnvironmentSetting.class);
-        Assertions.assertEquals("mypyynpcdpu", model.name());
-        Assertions.assertEquals("zgmwznmabikns", model.value());
+        Assertions.assertEquals("eqidbqfatpx", model.name());
+        Assertions.assertEquals("rxcyjmoad", model.value());
     }
 }

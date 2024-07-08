@@ -7,16 +7,30 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Operation status extended info for list of jobs. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * Operation status extended info for list of jobs.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = OperationStatusJobsExtendedInfo.class,
+    visible = true)
 @JsonTypeName("OperationStatusJobsExtendedInfo")
 @Fluent
 public final class OperationStatusJobsExtendedInfo extends OperationStatusExtendedInfo {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "OperationStatusJobsExtendedInfo";
+
     /*
      * IDs of the jobs created for the protected item.
      */
@@ -30,13 +44,26 @@ public final class OperationStatusJobsExtendedInfo extends OperationStatusExtend
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> failedJobsError;
 
-    /** Creates an instance of OperationStatusJobsExtendedInfo class. */
+    /**
+     * Creates an instance of OperationStatusJobsExtendedInfo class.
+     */
     public OperationStatusJobsExtendedInfo() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the jobIds property: IDs of the jobs created for the protected item.
-     *
+     * 
      * @return the jobIds value.
      */
     public List<String> jobIds() {
@@ -45,7 +72,7 @@ public final class OperationStatusJobsExtendedInfo extends OperationStatusExtend
 
     /**
      * Set the jobIds property: IDs of the jobs created for the protected item.
-     *
+     * 
      * @param jobIds the jobIds value to set.
      * @return the OperationStatusJobsExtendedInfo object itself.
      */
@@ -56,7 +83,7 @@ public final class OperationStatusJobsExtendedInfo extends OperationStatusExtend
 
     /**
      * Get the failedJobsError property: Stores all the failed jobs along with the corresponding error codes.
-     *
+     * 
      * @return the failedJobsError value.
      */
     public Map<String, String> failedJobsError() {
@@ -65,7 +92,7 @@ public final class OperationStatusJobsExtendedInfo extends OperationStatusExtend
 
     /**
      * Set the failedJobsError property: Stores all the failed jobs along with the corresponding error codes.
-     *
+     * 
      * @param failedJobsError the failedJobsError value to set.
      * @return the OperationStatusJobsExtendedInfo object itself.
      */
@@ -76,7 +103,7 @@ public final class OperationStatusJobsExtendedInfo extends OperationStatusExtend
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.3.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,349 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.0 (2024-06-17)
+
+- Azure Resource Manager MobileNetwork client library for Java. This package contains Microsoft Azure SDK for MobileNetwork Management SDK. The resources in this API specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance. Package tag package-2024-04. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+
+### Features Added
+
+* `models.Ipv4Route` was added
+
+* `models.RoutingInfoModel` was added
+
+* `models.UserConsentConfiguration` was added
+
+* `models.SimMove` was added
+
+* `models.UserPlaneDataRoutesItem` was added
+
+* `models.Ipv4RouteNextHop` was added
+
+* `models.RoutingInfoListResult` was added
+
+* `models.SimGroupResourceId` was added
+
+* `models.NasEncryptionType` was added
+
+* `models.RoutingInfoes` was added
+
+* `models.SimClone` was added
+
+#### `models.ExtendedUeInfoProperties` was modified
+
+* `ratType()` was added
+
+#### `models.PacketCoreControlPlane` was modified
+
+* `userConsent()` was added
+
+#### `models.UeInfo4G` was modified
+
+* `ratType()` was added
+
+#### `models.Sims` was modified
+
+* `clone(java.lang.String,java.lang.String,models.SimClone)` was added
+* `move(java.lang.String,java.lang.String,models.SimMove,com.azure.core.util.Context)` was added
+* `move(java.lang.String,java.lang.String,models.SimMove)` was added
+* `clone(java.lang.String,java.lang.String,models.SimClone,com.azure.core.util.Context)` was added
+
+#### `models.Platform` was modified
+
+* `withHaUpgradesAvailable(java.util.List)` was added
+* `haUpgradesAvailable()` was added
+
+#### `models.UeInfo5G` was modified
+
+* `ratType()` was added
+
+#### `models.SignalingConfiguration` was modified
+
+* `nasEncryption()` was added
+* `withNasEncryption(java.util.List)` was added
+
+#### `models.MobileNetwork` was modified
+
+* `listSimGroups()` was added
+* `listSimGroups(com.azure.core.util.Context)` was added
+
+#### `models.MobileNetworks` was modified
+
+* `listSimGroups(java.lang.String,java.lang.String,com.azure.core.util.Context)` was added
+* `listSimGroups(java.lang.String,java.lang.String)` was added
+
+#### `MobileNetworkManager` was modified
+
+* `routingInfoes()` was added
+
+#### `models.PacketCoreControlPlane$Definition` was modified
+
+* `withUserConsent(models.UserConsentConfiguration)` was added
+
+#### `models.InterfaceProperties` was modified
+
+* `bfdIpv4Endpoints()` was added
+* `withIpv4AddressList(java.util.List)` was added
+* `withBfdIpv4Endpoints(java.util.List)` was added
+* `ipv4AddressList()` was added
+* `withVlanId(java.lang.Integer)` was added
+* `vlanId()` was added
+
+## 1.1.0 (2024-03-19)
+
+- Azure Resource Manager MobileNetwork client library for Java. This package contains Microsoft Azure SDK for MobileNetwork Management SDK. The resources in this API specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance. Package tag package-2024-02. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+
+### Features Added
+
+* `models.GlobalRanNodeId` was added
+
+* `models.UeInformations` was added
+
+* `models.HomeNetworkPrivateKeysProvisioning` was added
+
+* `models.UeIpAddress` was added
+
+* `models.PublicLandMobileNetworkHomeNetworkPublicKeys` was added
+
+* `models.UeInfo` was added
+
+* `models.RatType` was added
+
+* `models.AmfId` was added
+
+* `models.HomeNetworkPublicKey` was added
+
+* `models.ExtendedUeInfoProperties` was added
+
+* `models.UeInfo4GProperties` was added
+
+* `models.UeUsageSetting` was added
+
+* `models.UeSessionInfo5G` was added
+
+* `models.MmeId` was added
+
+* `models.UeSessionInfo4G` was added
+
+* `models.Guti5G` was added
+
+* `models.GNbId` was added
+
+* `models.ExtendedUeInformations` was added
+
+* `models.Guti4G` was added
+
+* `models.UeConnectionInfo5G` was added
+
+* `models.UeInfoList` was added
+
+* `models.UeInfo4G` was added
+
+* `models.UeConnectionInfo4G` was added
+
+* `models.UeInfo5G` was added
+
+* `models.UeQosFlow` was added
+
+* `models.UeState` was added
+
+* `models.UeInfo5GProperties` was added
+
+* `models.PublicLandMobileNetwork` was added
+
+* `models.PdnType` was added
+
+* `models.UeInfoPropertiesFormat` was added
+
+* `models.ExtendedUeInfo` was added
+
+* `models.HomeNetworkPrivateKeysProvisioningState` was added
+
+* `models.UeLocationInfo` was added
+
+* `models.RrcEstablishmentCause` was added
+
+* `models.DnnIpPair` was added
+
+#### `models.PacketCoreControlPlane` was modified
+
+* `homeNetworkPrivateKeysProvisioning()` was added
+
+#### `models.MobileNetwork$Definition` was modified
+
+* `withPublicLandMobileNetworks(java.util.List)` was added
+* `withIdentity(models.ManagedServiceIdentity)` was added
+
+#### `models.MobileNetwork$Update` was modified
+
+* `withIdentity(models.ManagedServiceIdentity)` was added
+
+#### `models.MobileNetwork` was modified
+
+* `publicLandMobileNetworks()` was added
+* `identity()` was added
+
+#### `MobileNetworkManager` was modified
+
+* `ueInformations()` was added
+* `extendedUeInformations()` was added
+
+## 1.0.0 (2023-11-15)
+
+- Azure Resource Manager MobileNetwork client library for Java. This package contains Microsoft Azure SDK for MobileNetwork Management SDK. The resources in this API specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance. Package tag package-2023-09. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+
+### Features Added
+
+* `models.SignalingConfiguration` was added
+
+* `models.NasRerouteConfiguration` was added
+
+* `models.EventHubConfiguration` was added
+
+#### `models.PacketCoreDataPlane$Definition` was modified
+
+* `withUserPlaneAccessVirtualIpv4Addresses(java.util.List)` was added
+
+#### `models.PacketCoreControlPlaneVersion` was modified
+
+* `systemData()` was added
+
+#### `models.PacketCoreControlPlane` was modified
+
+* `signaling()` was added
+* `controlPlaneAccessVirtualIpv4Addresses()` was added
+* `eventHub()` was added
+
+#### `models.Sim` was modified
+
+* `systemData()` was added
+
+#### `models.PacketCapture` was modified
+
+* `outputFiles()` was added
+* `systemData()` was added
+
+#### `models.PacketCoreDataPlane` was modified
+
+* `userPlaneAccessVirtualIpv4Addresses()` was added
+
+#### `models.PacketCoreControlPlane$Definition` was modified
+
+* `withEventHub(models.EventHubConfiguration)` was added
+* `withSignaling(models.SignalingConfiguration)` was added
+* `withControlPlaneAccessVirtualIpv4Addresses(java.util.List)` was added
+
+## 1.0.0-beta.6 (2023-07-19)
+
+- Azure Resource Manager MobileNetwork client library for Java. This package contains Microsoft Azure SDK for MobileNetwork Management SDK. The resources in this API specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance. Package tag package-2023-06. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+
+### Breaking Changes
+
+#### `models.ManagedServiceIdentity` was modified
+
+* `tenantId()` was removed
+* `principalId()` was removed
+
+#### `models.PacketCoreControlPlaneVersion` was modified
+
+* `systemData()` was removed
+
+#### `models.Sim` was modified
+
+* `systemData()` was removed
+
+#### `models.Installation` was modified
+
+* `withState(models.InstallationState)` was removed
+* `withOperation(models.AsyncOperationId)` was removed
+
+### Features Added
+
+* `models.DiagnosticsPackage` was added
+
+* `models.InstallationReason` was added
+
+* `models.PacketCapture$Definition` was added
+
+* `models.PacketCoreControlPlaneResourceId` was added
+
+* `models.ReinstallRequired` was added
+
+* `models.IdentityAndTagsObject` was added
+
+* `models.PacketCapture$UpdateStages` was added
+
+* `models.PacketCaptureStatus` was added
+
+* `models.PacketCapture$DefinitionStages` was added
+
+* `models.PacketCapture` was added
+
+* `models.PacketCapture$Update` was added
+
+* `models.DiagnosticsPackages` was added
+
+* `models.PacketCaptures` was added
+
+* `models.PacketCaptureListResult` was added
+
+* `models.DesiredInstallationState` was added
+
+* `models.SiteDeletePacketCore` was added
+
+* `models.DiagnosticsPackageStatus` was added
+
+* `models.DiagnosticsPackageListResult` was added
+
+* `models.DiagnosticsUploadConfiguration` was added
+
+#### `models.PacketCoreControlPlane$Update` was modified
+
+* `withIdentity(models.ManagedServiceIdentity)` was added
+
+#### `models.PacketCoreControlPlaneVersions` was modified
+
+* `getBySubscriptionWithResponse(java.lang.String,com.azure.core.util.Context)` was added
+* `listBySubscription()` was added
+* `listBySubscription(com.azure.core.util.Context)` was added
+* `getBySubscription(java.lang.String)` was added
+
+#### `models.PacketCoreControlPlane` was modified
+
+* `diagnosticsUpload()` was added
+* `installedVersion()` was added
+
+#### `models.Site` was modified
+
+* `deletePacketCore(models.SiteDeletePacketCore)` was added
+* `deletePacketCore(models.SiteDeletePacketCore,com.azure.core.util.Context)` was added
+
+#### `models.Sites` was modified
+
+* `deletePacketCore(java.lang.String,java.lang.String,java.lang.String,models.SiteDeletePacketCore)` was added
+* `deletePacketCore(java.lang.String,java.lang.String,java.lang.String,models.SiteDeletePacketCore,com.azure.core.util.Context)` was added
+
+#### `models.Installation` was modified
+
+* `withDesiredState(models.DesiredInstallationState)` was added
+* `reasons()` was added
+* `reinstallRequired()` was added
+* `desiredState()` was added
+
+#### `models.SimGroup$Update` was modified
+
+* `withIdentity(models.ManagedServiceIdentity)` was added
+
+#### `MobileNetworkManager` was modified
+
+* `diagnosticsPackages()` was added
+* `packetCaptures()` was added
+
+#### `models.PacketCoreControlPlane$Definition` was modified
+
+* `withInstallation(models.Installation)` was added
+* `withDiagnosticsUpload(models.DiagnosticsUploadConfiguration)` was added
 
 ## 1.0.0-beta.5 (2023-01-16)
 

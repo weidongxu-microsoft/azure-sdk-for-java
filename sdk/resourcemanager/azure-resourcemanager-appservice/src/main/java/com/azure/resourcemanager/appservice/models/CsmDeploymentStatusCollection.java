@@ -7,9 +7,12 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Deployment status collection ARM resource. */
+/**
+ * Deployment status collection ARM resource.
+ */
 @Fluent
 public final class CsmDeploymentStatusCollection {
     /*
@@ -24,7 +27,9 @@ public final class CsmDeploymentStatusCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of CsmDeploymentStatusCollection class. */
+    /**
+     * Creates an instance of CsmDeploymentStatusCollection class.
+     */
     public CsmDeploymentStatusCollection() {
     }
 
@@ -64,10 +69,9 @@ public final class CsmDeploymentStatusCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model CsmDeploymentStatusCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model CsmDeploymentStatusCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

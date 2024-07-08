@@ -10,7 +10,9 @@ import com.azure.core.management.SystemData;
 import com.azure.resourcemanager.hybridcompute.models.PrivateEndpointConnectionProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** A private endpoint connection. */
+/**
+ * A private endpoint connection.
+ */
 @Fluent
 public final class PrivateEndpointConnectionInner extends ProxyResource {
     /*
@@ -20,18 +22,20 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
     private PrivateEndpointConnectionProperties properties;
 
     /*
-     * The system meta data relating to this resource.
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of PrivateEndpointConnectionInner class. */
+    /**
+     * Creates an instance of PrivateEndpointConnectionInner class.
+     */
     public PrivateEndpointConnectionInner() {
     }
 
     /**
      * Get the properties property: Resource properties.
-     *
+     * 
      * @return the properties value.
      */
     public PrivateEndpointConnectionProperties properties() {
@@ -40,7 +44,7 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
 
     /**
      * Set the properties property: Resource properties.
-     *
+     * 
      * @param properties the properties value to set.
      * @return the PrivateEndpointConnectionInner object itself.
      */
@@ -50,8 +54,8 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
     }
 
     /**
-     * Get the systemData property: The system meta data relating to this resource.
-     *
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
@@ -60,7 +64,7 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

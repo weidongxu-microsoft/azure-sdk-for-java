@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity SQL Data Warehouse sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity SQL Data Warehouse sink.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SqlDWSink.class, visible = true)
 @JsonTypeName("SqlDWSink")
 @Fluent
 public final class SqlDWSink extends CopySink {
+    /*
+     * Copy sink type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SqlDWSink";
+
     /*
      * SQL pre-copy script. Type: string (or Expression with resultType string).
      */
@@ -21,8 +31,8 @@ public final class SqlDWSink extends CopySink {
     private Object preCopyScript;
 
     /*
-     * Indicates to use PolyBase to copy data into SQL Data Warehouse when applicable. Type: boolean (or Expression
-     * with resultType boolean).
+     * Indicates to use PolyBase to copy data into SQL Data Warehouse when applicable. Type: boolean (or Expression with
+     * resultType boolean).
      */
     @JsonProperty(value = "allowPolyBase")
     private Object allowPolyBase;
@@ -72,13 +82,25 @@ public final class SqlDWSink extends CopySink {
     @JsonProperty(value = "upsertSettings")
     private SqlDWUpsertSettings upsertSettings;
 
-    /** Creates an instance of SqlDWSink class. */
+    /**
+     * Creates an instance of SqlDWSink class.
+     */
     public SqlDWSink() {
     }
 
     /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the preCopyScript property: SQL pre-copy script. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the preCopyScript value.
      */
     public Object preCopyScript() {
@@ -87,7 +109,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Set the preCopyScript property: SQL pre-copy script. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param preCopyScript the preCopyScript value to set.
      * @return the SqlDWSink object itself.
      */
@@ -99,7 +121,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Get the allowPolyBase property: Indicates to use PolyBase to copy data into SQL Data Warehouse when applicable.
      * Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the allowPolyBase value.
      */
     public Object allowPolyBase() {
@@ -109,7 +131,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Set the allowPolyBase property: Indicates to use PolyBase to copy data into SQL Data Warehouse when applicable.
      * Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param allowPolyBase the allowPolyBase value to set.
      * @return the SqlDWSink object itself.
      */
@@ -120,7 +142,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Get the polyBaseSettings property: Specifies PolyBase-related settings when allowPolyBase is true.
-     *
+     * 
      * @return the polyBaseSettings value.
      */
     public PolybaseSettings polyBaseSettings() {
@@ -129,7 +151,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Set the polyBaseSettings property: Specifies PolyBase-related settings when allowPolyBase is true.
-     *
+     * 
      * @param polyBaseSettings the polyBaseSettings value to set.
      * @return the SqlDWSink object itself.
      */
@@ -141,7 +163,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Get the allowCopyCommand property: Indicates to use Copy Command to copy data into SQL Data Warehouse. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the allowCopyCommand value.
      */
     public Object allowCopyCommand() {
@@ -151,7 +173,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Set the allowCopyCommand property: Indicates to use Copy Command to copy data into SQL Data Warehouse. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param allowCopyCommand the allowCopyCommand value to set.
      * @return the SqlDWSink object itself.
      */
@@ -162,7 +184,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Get the copyCommandSettings property: Specifies Copy Command related settings when allowCopyCommand is true.
-     *
+     * 
      * @return the copyCommandSettings value.
      */
     public DWCopyCommandSettings copyCommandSettings() {
@@ -171,7 +193,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Set the copyCommandSettings property: Specifies Copy Command related settings when allowCopyCommand is true.
-     *
+     * 
      * @param copyCommandSettings the copyCommandSettings value to set.
      * @return the SqlDWSink object itself.
      */
@@ -183,7 +205,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Get the tableOption property: The option to handle sink table, such as autoCreate. For now only 'autoCreate'
      * value is supported. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the tableOption value.
      */
     public Object tableOption() {
@@ -193,7 +215,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Set the tableOption property: The option to handle sink table, such as autoCreate. For now only 'autoCreate'
      * value is supported. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param tableOption the tableOption value to set.
      * @return the SqlDWSink object itself.
      */
@@ -205,7 +227,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Get the sqlWriterUseTableLock property: Whether to use table lock during bulk copy. Type: boolean (or Expression
      * with resultType boolean).
-     *
+     * 
      * @return the sqlWriterUseTableLock value.
      */
     public Object sqlWriterUseTableLock() {
@@ -215,7 +237,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Set the sqlWriterUseTableLock property: Whether to use table lock during bulk copy. Type: boolean (or Expression
      * with resultType boolean).
-     *
+     * 
      * @param sqlWriterUseTableLock the sqlWriterUseTableLock value to set.
      * @return the SqlDWSink object itself.
      */
@@ -227,7 +249,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Get the writeBehavior property: Write behavior when copying data into azure SQL DW. Type: SqlDWWriteBehaviorEnum
      * (or Expression with resultType SqlDWWriteBehaviorEnum).
-     *
+     * 
      * @return the writeBehavior value.
      */
     public Object writeBehavior() {
@@ -237,7 +259,7 @@ public final class SqlDWSink extends CopySink {
     /**
      * Set the writeBehavior property: Write behavior when copying data into azure SQL DW. Type: SqlDWWriteBehaviorEnum
      * (or Expression with resultType SqlDWWriteBehaviorEnum).
-     *
+     * 
      * @param writeBehavior the writeBehavior value to set.
      * @return the SqlDWSink object itself.
      */
@@ -248,7 +270,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Get the upsertSettings property: SQL DW upsert settings.
-     *
+     * 
      * @return the upsertSettings value.
      */
     public SqlDWUpsertSettings upsertSettings() {
@@ -257,7 +279,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Set the upsertSettings property: SQL DW upsert settings.
-     *
+     * 
      * @param upsertSettings the upsertSettings value to set.
      * @return the SqlDWSink object itself.
      */
@@ -266,42 +288,54 @@ public final class SqlDWSink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlDWSink withWriteBatchSize(Object writeBatchSize) {
         super.withWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlDWSink withWriteBatchTimeout(Object writeBatchTimeout) {
         super.withWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlDWSink withSinkRetryCount(Object sinkRetryCount) {
         super.withSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlDWSink withSinkRetryWait(Object sinkRetryWait) {
         super.withSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlDWSink withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlDWSink withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -310,7 +344,7 @@ public final class SqlDWSink extends CopySink {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

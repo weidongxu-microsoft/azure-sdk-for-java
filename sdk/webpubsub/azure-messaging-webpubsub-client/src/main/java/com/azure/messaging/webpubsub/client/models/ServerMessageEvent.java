@@ -12,7 +12,7 @@ import com.azure.core.util.BinaryData;
 @Immutable
 public final class ServerMessageEvent {
 
-    private final WebPubSubDataType dataType;
+    private final WebPubSubDataFormat dataFormat;
     private final BinaryData data;
     private final Long sequenceId;
 
@@ -20,15 +20,14 @@ public final class ServerMessageEvent {
      * Creates a new instance of ServerMessageEvent.
      *
      * @param data the data.
-     * @param dataType the data type.
+     * @param dataFormat the data format.
      * @param sequenceId the sequenceId.
      */
-    public ServerMessageEvent(BinaryData data, WebPubSubDataType dataType, Long sequenceId) {
+    public ServerMessageEvent(BinaryData data, WebPubSubDataFormat dataFormat, Long sequenceId) {
         this.data = data;
-        this.dataType = dataType;
+        this.dataFormat = dataFormat;
         this.sequenceId = sequenceId;
     }
-
 
     /**
      * Gets the data.
@@ -40,12 +39,12 @@ public final class ServerMessageEvent {
     }
 
     /**
-     * Gets the data type.
+     * Gets the data format.
      *
-     * @return the data type.
+     * @return the data format.
      */
-    public WebPubSubDataType getDataType() {
-        return dataType;
+    public WebPubSubDataFormat getDataFormat() {
+        return dataFormat;
     }
 
     /**

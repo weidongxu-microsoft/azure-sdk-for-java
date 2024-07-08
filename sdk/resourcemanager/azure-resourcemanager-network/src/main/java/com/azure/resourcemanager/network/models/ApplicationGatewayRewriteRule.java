@@ -6,9 +6,12 @@ package com.azure.resourcemanager.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Rewrite rule of an application gateway. */
+/**
+ * Rewrite rule of an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayRewriteRule {
     /*
@@ -18,8 +21,7 @@ public final class ApplicationGatewayRewriteRule {
     private String name;
 
     /*
-     * Rule Sequence of the rewrite rule that determines the order of execution of a particular rule in a
-     * RewriteRuleSet.
+     * Rule Sequence of the rewrite rule that determines the order of execution of a particular rule in a RewriteRuleSet.
      */
     @JsonProperty(value = "ruleSequence")
     private Integer ruleSequence;
@@ -36,7 +38,9 @@ public final class ApplicationGatewayRewriteRule {
     @JsonProperty(value = "actionSet")
     private ApplicationGatewayRewriteRuleActionSet actionSet;
 
-    /** Creates an instance of ApplicationGatewayRewriteRule class. */
+    /**
+     * Creates an instance of ApplicationGatewayRewriteRule class.
+     */
     public ApplicationGatewayRewriteRule() {
     }
 

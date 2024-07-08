@@ -7,19 +7,20 @@ package com.azure.resourcemanager.netapp.generated;
 import com.azure.resourcemanager.netapp.models.QosType;
 import com.azure.resourcemanager.netapp.models.ServiceLevel;
 
-/** Samples for Pools CreateOrUpdate. */
+/**
+ * Samples for Pools CreateOrUpdate.
+ */
 public final class PoolsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Pools_CreateOrUpdate.json
+     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Pools_CreateOrUpdate.json
      */
     /**
      * Sample code: Pools_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to NetAppFilesManager.
      */
     public static void poolsCreateOrUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
-        manager
-            .pools()
+        manager.pools()
             .define("pool1")
             .withRegion("eastus")
             .withExistingNetAppAccount("myRG", "account1")

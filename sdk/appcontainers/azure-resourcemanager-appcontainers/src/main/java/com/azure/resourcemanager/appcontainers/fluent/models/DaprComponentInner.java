@@ -7,12 +7,15 @@ package com.azure.resourcemanager.appcontainers.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.management.ProxyResource;
 import com.azure.core.management.SystemData;
+import com.azure.resourcemanager.appcontainers.models.DaprComponentServiceBinding;
 import com.azure.resourcemanager.appcontainers.models.DaprMetadata;
 import com.azure.resourcemanager.appcontainers.models.Secret;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Dapr Component. */
+/**
+ * Dapr Component.
+ */
 @Fluent
 public final class DaprComponentInner extends ProxyResource {
     /*
@@ -27,13 +30,15 @@ public final class DaprComponentInner extends ProxyResource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of DaprComponentInner class. */
+    /**
+     * Creates an instance of DaprComponentInner class.
+     */
     public DaprComponentInner() {
     }
 
     /**
      * Get the innerProperties property: Dapr Component resource specific properties.
-     *
+     * 
      * @return the innerProperties value.
      */
     private DaprComponentProperties innerProperties() {
@@ -42,7 +47,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-     *
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
@@ -51,7 +56,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the componentType property: Component type.
-     *
+     * 
      * @return the componentType value.
      */
     public String componentType() {
@@ -60,7 +65,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the componentType property: Component type.
-     *
+     * 
      * @param componentType the componentType value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -74,7 +79,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the version property: Component version.
-     *
+     * 
      * @return the version value.
      */
     public String version() {
@@ -83,7 +88,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the version property: Component version.
-     *
+     * 
      * @param version the version value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -97,7 +102,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the ignoreErrors property: Boolean describing if the component errors are ignores.
-     *
+     * 
      * @return the ignoreErrors value.
      */
     public Boolean ignoreErrors() {
@@ -106,7 +111,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the ignoreErrors property: Boolean describing if the component errors are ignores.
-     *
+     * 
      * @param ignoreErrors the ignoreErrors value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -120,7 +125,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the initTimeout property: Initialization timeout.
-     *
+     * 
      * @return the initTimeout value.
      */
     public String initTimeout() {
@@ -129,7 +134,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the initTimeout property: Initialization timeout.
-     *
+     * 
      * @param initTimeout the initTimeout value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -143,7 +148,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the secrets property: Collection of secrets used by a Dapr component.
-     *
+     * 
      * @return the secrets value.
      */
     public List<Secret> secrets() {
@@ -152,7 +157,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the secrets property: Collection of secrets used by a Dapr component.
-     *
+     * 
      * @param secrets the secrets value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -166,7 +171,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the secretStoreComponent property: Name of a Dapr component to retrieve component secrets from.
-     *
+     * 
      * @return the secretStoreComponent value.
      */
     public String secretStoreComponent() {
@@ -175,7 +180,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the secretStoreComponent property: Name of a Dapr component to retrieve component secrets from.
-     *
+     * 
      * @param secretStoreComponent the secretStoreComponent value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -189,7 +194,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the metadata property: Component metadata.
-     *
+     * 
      * @return the metadata value.
      */
     public List<DaprMetadata> metadata() {
@@ -198,7 +203,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the metadata property: Component metadata.
-     *
+     * 
      * @param metadata the metadata value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -212,7 +217,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Get the scopes property: Names of container apps that can use this Dapr component.
-     *
+     * 
      * @return the scopes value.
      */
     public List<String> scopes() {
@@ -221,7 +226,7 @@ public final class DaprComponentInner extends ProxyResource {
 
     /**
      * Set the scopes property: Names of container apps that can use this Dapr component.
-     *
+     * 
      * @param scopes the scopes value to set.
      * @return the DaprComponentInner object itself.
      */
@@ -234,8 +239,31 @@ public final class DaprComponentInner extends ProxyResource {
     }
 
     /**
+     * Get the serviceComponentBind property: List of container app services that are bound to the Dapr component.
+     * 
+     * @return the serviceComponentBind value.
+     */
+    public List<DaprComponentServiceBinding> serviceComponentBind() {
+        return this.innerProperties() == null ? null : this.innerProperties().serviceComponentBind();
+    }
+
+    /**
+     * Set the serviceComponentBind property: List of container app services that are bound to the Dapr component.
+     * 
+     * @param serviceComponentBind the serviceComponentBind value to set.
+     * @return the DaprComponentInner object itself.
+     */
+    public DaprComponentInner withServiceComponentBind(List<DaprComponentServiceBinding> serviceComponentBind) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new DaprComponentProperties();
+        }
+        this.innerProperties().withServiceComponentBind(serviceComponentBind);
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

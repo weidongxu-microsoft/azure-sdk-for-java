@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.AvroDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Avro dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Avro dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AvroDataset.class, visible = true)
 @JsonTypeName("Avro")
 @Fluent
 public final class AvroDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Avro";
+
     /*
      * Avro dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private AvroDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of AvroDataset class. */
+    /**
+     * Creates an instance of AvroDataset class.
+     */
     public AvroDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Avro dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AvroDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class AvroDataset extends Dataset {
 
     /**
      * Get the location property: The location of the avro storage.
-     *
+     * 
      * @return the location value.
      */
     public DatasetLocation location() {
@@ -96,7 +132,7 @@ public final class AvroDataset extends Dataset {
 
     /**
      * Set the location property: The location of the avro storage.
-     *
+     * 
      * @param location the location value to set.
      * @return the AvroDataset object itself.
      */
@@ -111,7 +147,7 @@ public final class AvroDataset extends Dataset {
     /**
      * Get the avroCompressionCodec property: The data avroCompressionCodec. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the avroCompressionCodec value.
      */
     public Object avroCompressionCodec() {
@@ -121,7 +157,7 @@ public final class AvroDataset extends Dataset {
     /**
      * Set the avroCompressionCodec property: The data avroCompressionCodec. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param avroCompressionCodec the avroCompressionCodec value to set.
      * @return the AvroDataset object itself.
      */
@@ -135,7 +171,7 @@ public final class AvroDataset extends Dataset {
 
     /**
      * Get the avroCompressionLevel property: The avroCompressionLevel property.
-     *
+     * 
      * @return the avroCompressionLevel value.
      */
     public Integer avroCompressionLevel() {
@@ -144,7 +180,7 @@ public final class AvroDataset extends Dataset {
 
     /**
      * Set the avroCompressionLevel property: The avroCompressionLevel property.
-     *
+     * 
      * @param avroCompressionLevel the avroCompressionLevel value to set.
      * @return the AvroDataset object itself.
      */
@@ -158,7 +194,7 @@ public final class AvroDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

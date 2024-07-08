@@ -9,10 +9,13 @@ import com.azure.core.management.Resource;
 import com.azure.core.management.SystemData;
 import com.azure.resourcemanager.containerservicefleet.models.FleetHubProfile;
 import com.azure.resourcemanager.containerservicefleet.models.FleetProvisioningState;
+import com.azure.resourcemanager.containerservicefleet.models.ManagedServiceIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-/** The Fleet resource. */
+/**
+ * The Fleet resource.
+ */
 @Fluent
 public final class FleetInner extends Resource {
     /*
@@ -22,13 +25,16 @@ public final class FleetInner extends Resource {
     private FleetProperties innerProperties;
 
     /*
-     * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
-     * Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity
-     * tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section
-     * 14.27) header fields.
+     * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
      */
     @JsonProperty(value = "eTag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
+
+    /*
+     * Managed identity.
+     */
+    @JsonProperty(value = "identity")
+    private ManagedServiceIdentity identity;
 
     /*
      * Azure Resource Manager metadata containing createdBy and modifiedBy information.
@@ -36,13 +42,15 @@ public final class FleetInner extends Resource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of FleetInner class. */
+    /**
+     * Creates an instance of FleetInner class.
+     */
     public FleetInner() {
     }
 
     /**
      * Get the innerProperties property: The resource-specific properties for this resource.
-     *
+     * 
      * @return the innerProperties value.
      */
     private FleetProperties innerProperties() {
@@ -54,7 +62,7 @@ public final class FleetInner extends Resource {
      * normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource.
      * HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26),
      * and If-Range (section 14.27) header fields.
-     *
+     * 
      * @return the etag value.
      */
     public String etag() {
@@ -62,22 +70,46 @@ public final class FleetInner extends Resource {
     }
 
     /**
+     * Get the identity property: Managed identity.
+     * 
+     * @return the identity value.
+     */
+    public ManagedServiceIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity property: Managed identity.
+     * 
+     * @param identity the identity value to set.
+     * @return the FleetInner object itself.
+     */
+    public FleetInner withIdentity(ManagedServiceIdentity identity) {
+        this.identity = identity;
+        return this;
+    }
+
+    /**
      * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-     *
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
         return this.systemData;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FleetInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FleetInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -86,7 +118,7 @@ public final class FleetInner extends Resource {
 
     /**
      * Get the provisioningState property: The status of the last operation.
-     *
+     * 
      * @return the provisioningState value.
      */
     public FleetProvisioningState provisioningState() {
@@ -95,7 +127,7 @@ public final class FleetInner extends Resource {
 
     /**
      * Get the hubProfile property: The FleetHubProfile configures the Fleet's hub.
-     *
+     * 
      * @return the hubProfile value.
      */
     public FleetHubProfile hubProfile() {
@@ -104,7 +136,7 @@ public final class FleetInner extends Resource {
 
     /**
      * Set the hubProfile property: The FleetHubProfile configures the Fleet's hub.
-     *
+     * 
      * @param hubProfile the hubProfile value to set.
      * @return the FleetInner object itself.
      */
@@ -118,12 +150,15 @@ public final class FleetInner extends Resource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (innerProperties() != null) {
             innerProperties().validate();
+        }
+        if (identity() != null) {
+            identity().validate();
         }
     }
 }

@@ -6,28 +6,55 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 
-/** IaaS VM workload-specific backup request. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * IaaS VM workload-specific backup request.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = IaasVMBackupRequest.class,
+    visible = true)
 @JsonTypeName("IaasVMBackupRequest")
 @Fluent
 public final class IaasVMBackupRequest extends BackupRequest {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "IaasVMBackupRequest";
+
     /*
      * Backup copy will expire after the time specified (UTC).
      */
     @JsonProperty(value = "recoveryPointExpiryTimeInUTC")
     private OffsetDateTime recoveryPointExpiryTimeInUtc;
 
-    /** Creates an instance of IaasVMBackupRequest class. */
+    /**
+     * Creates an instance of IaasVMBackupRequest class.
+     */
     public IaasVMBackupRequest() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the recoveryPointExpiryTimeInUtc property: Backup copy will expire after the time specified (UTC).
-     *
+     * 
      * @return the recoveryPointExpiryTimeInUtc value.
      */
     public OffsetDateTime recoveryPointExpiryTimeInUtc() {
@@ -36,7 +63,7 @@ public final class IaasVMBackupRequest extends BackupRequest {
 
     /**
      * Set the recoveryPointExpiryTimeInUtc property: Backup copy will expire after the time specified (UTC).
-     *
+     * 
      * @param recoveryPointExpiryTimeInUtc the recoveryPointExpiryTimeInUtc value to set.
      * @return the IaasVMBackupRequest object itself.
      */
@@ -47,7 +74,7 @@ public final class IaasVMBackupRequest extends BackupRequest {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

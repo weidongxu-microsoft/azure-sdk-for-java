@@ -4,24 +4,24 @@
 
 package com.azure.resourcemanager.storage.generated;
 
-import com.azure.core.util.Context;
-
-/** Samples for StorageAccounts RevokeUserDelegationKeys. */
+/**
+ * Samples for StorageAccounts RevokeUserDelegationKeys.
+ */
 public final class StorageAccountsRevokeUserDelegationKeysSamples {
     /*
-     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountRevokeUserDelegationKeys.json
+     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/
+     * StorageAccountRevokeUserDelegationKeys.json
      */
     /**
      * Sample code: StorageAccountRevokeUserDelegationKeys.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void storageAccountRevokeUserDelegationKeys(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .storageAccounts()
+        azure.storageAccounts()
             .manager()
             .serviceClient()
             .getStorageAccounts()
-            .revokeUserDelegationKeysWithResponse("res4167", "sto3539", Context.NONE);
+            .revokeUserDelegationKeysWithResponse("res4167", "sto3539", com.azure.core.util.Context.NONE);
     }
 }

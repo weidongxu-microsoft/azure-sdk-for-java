@@ -6,26 +6,24 @@ package com.azure.resourcemanager.appservice.generated;
 
 import com.azure.resourcemanager.appservice.models.CertificatePatchResource;
 
-/** Samples for Certificates Update. */
+/**
+ * Samples for Certificates Update.
+ */
 public final class CertificatesUpdateSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/PatchCertificate.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/PatchCertificate.json
      */
     /**
      * Sample code: Patch Certificate.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void patchCertificate(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getCertificates()
-            .updateWithResponse(
-                "testrg123",
-                "testc6282",
-                new CertificatePatchResource().withPassword("fakeTokenPlaceholder"),
-                com.azure.core.util.Context.NONE);
+            .updateWithResponse("testrg123", "testc6282",
+                new CertificatePatchResource().withPassword("fakeTokenPlaceholder"), com.azure.core.util.Context.NONE);
     }
 }

@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualNetworkGateways GetBgpPeerStatus. */
+/**
+ * Samples for VirtualNetworkGateways GetBgpPeerStatus.
+ */
 public final class VirtualNetworkGatewaysGetBgpPeerStatusSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
      */
     /**
      * Sample code: GetVirtualNetworkGatewayBGPPeerStatus.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getVirtualNetworkGatewayBGPPeerStatus(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()

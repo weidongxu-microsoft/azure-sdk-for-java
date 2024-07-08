@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.VerticaLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Vertica linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Vertica linked service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = VerticaLinkedService.class, visible = true)
 @JsonTypeName("Vertica")
 @Fluent
 public final class VerticaLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Vertica";
+
     /*
      * Vertica linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private VerticaLinkedServiceTypeProperties innerTypeProperties = new VerticaLinkedServiceTypeProperties();
 
-    /** Creates an instance of VerticaLinkedService class. */
+    /**
+     * Creates an instance of VerticaLinkedService class.
+     */
     public VerticaLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Vertica linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private VerticaLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VerticaLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VerticaLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VerticaLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VerticaLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -68,7 +98,7 @@ public final class VerticaLinkedService extends LinkedService {
     /**
      * Get the connectionString property: An ODBC connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference.
-     *
+     * 
      * @return the connectionString value.
      */
     public Object connectionString() {
@@ -78,7 +108,7 @@ public final class VerticaLinkedService extends LinkedService {
     /**
      * Set the connectionString property: An ODBC connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference.
-     *
+     * 
      * @param connectionString the connectionString value to set.
      * @return the VerticaLinkedService object itself.
      */
@@ -92,7 +122,7 @@ public final class VerticaLinkedService extends LinkedService {
 
     /**
      * Get the pwd property: The Azure key vault secret reference of password in connection string.
-     *
+     * 
      * @return the pwd value.
      */
     public AzureKeyVaultSecretReference pwd() {
@@ -101,7 +131,7 @@ public final class VerticaLinkedService extends LinkedService {
 
     /**
      * Set the pwd property: The Azure key vault secret reference of password in connection string.
-     *
+     * 
      * @param pwd the pwd value to set.
      * @return the VerticaLinkedService object itself.
      */
@@ -115,22 +145,22 @@ public final class VerticaLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the VerticaLinkedService object itself.
      */
-    public VerticaLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public VerticaLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new VerticaLinkedServiceTypeProperties();
         }
@@ -140,17 +170,16 @@ public final class VerticaLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model VerticaLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model VerticaLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

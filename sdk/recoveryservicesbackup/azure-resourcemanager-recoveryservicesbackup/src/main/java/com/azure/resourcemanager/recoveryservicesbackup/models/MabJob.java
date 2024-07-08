@@ -6,17 +6,27 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** MAB workload-specific job. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jobType")
+/**
+ * MAB workload-specific job.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "jobType", defaultImpl = MabJob.class, visible = true)
 @JsonTypeName("MabJob")
 @Fluent
 public final class MabJob extends Job {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "jobType", required = true)
+    private String jobType = "MabJob";
+
     /*
      * Time taken by job to run.
      */
@@ -59,13 +69,26 @@ public final class MabJob extends Job {
     @JsonProperty(value = "extendedInfo")
     private MabJobExtendedInfo extendedInfo;
 
-    /** Creates an instance of MabJob class. */
+    /**
+     * Creates an instance of MabJob class.
+     */
     public MabJob() {
     }
 
     /**
+     * Get the jobType property: This property will be used as the discriminator for deciding the specific types in the
+     * polymorphic chain of types.
+     * 
+     * @return the jobType value.
+     */
+    @Override
+    public String jobType() {
+        return this.jobType;
+    }
+
+    /**
      * Get the duration property: Time taken by job to run.
-     *
+     * 
      * @return the duration value.
      */
     public Duration duration() {
@@ -74,7 +97,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the duration property: Time taken by job to run.
-     *
+     * 
      * @param duration the duration value to set.
      * @return the MabJob object itself.
      */
@@ -85,7 +108,7 @@ public final class MabJob extends Job {
 
     /**
      * Get the actionsInfo property: The state/actions applicable on jobs like cancel/retry.
-     *
+     * 
      * @return the actionsInfo value.
      */
     public List<JobSupportedAction> actionsInfo() {
@@ -94,7 +117,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the actionsInfo property: The state/actions applicable on jobs like cancel/retry.
-     *
+     * 
      * @param actionsInfo the actionsInfo value to set.
      * @return the MabJob object itself.
      */
@@ -105,7 +128,7 @@ public final class MabJob extends Job {
 
     /**
      * Get the mabServerName property: Name of server protecting the DS.
-     *
+     * 
      * @return the mabServerName value.
      */
     public String mabServerName() {
@@ -114,7 +137,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the mabServerName property: Name of server protecting the DS.
-     *
+     * 
      * @param mabServerName the mabServerName value to set.
      * @return the MabJob object itself.
      */
@@ -125,7 +148,7 @@ public final class MabJob extends Job {
 
     /**
      * Get the mabServerType property: Server type of MAB container.
-     *
+     * 
      * @return the mabServerType value.
      */
     public MabServerType mabServerType() {
@@ -134,7 +157,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the mabServerType property: Server type of MAB container.
-     *
+     * 
      * @param mabServerType the mabServerType value to set.
      * @return the MabJob object itself.
      */
@@ -145,7 +168,7 @@ public final class MabJob extends Job {
 
     /**
      * Get the workloadType property: Workload type of backup item.
-     *
+     * 
      * @return the workloadType value.
      */
     public WorkloadType workloadType() {
@@ -154,7 +177,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the workloadType property: Workload type of backup item.
-     *
+     * 
      * @param workloadType the workloadType value to set.
      * @return the MabJob object itself.
      */
@@ -165,7 +188,7 @@ public final class MabJob extends Job {
 
     /**
      * Get the errorDetails property: The errors.
-     *
+     * 
      * @return the errorDetails value.
      */
     public List<MabErrorInfo> errorDetails() {
@@ -174,7 +197,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the errorDetails property: The errors.
-     *
+     * 
      * @param errorDetails the errorDetails value to set.
      * @return the MabJob object itself.
      */
@@ -185,7 +208,7 @@ public final class MabJob extends Job {
 
     /**
      * Get the extendedInfo property: Additional information on the job.
-     *
+     * 
      * @return the extendedInfo value.
      */
     public MabJobExtendedInfo extendedInfo() {
@@ -194,7 +217,7 @@ public final class MabJob extends Job {
 
     /**
      * Set the extendedInfo property: Additional information on the job.
-     *
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the MabJob object itself.
      */
@@ -203,49 +226,63 @@ public final class MabJob extends Job {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withEntityFriendlyName(String entityFriendlyName) {
         super.withEntityFriendlyName(entityFriendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withBackupManagementType(BackupManagementType backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withOperation(String operation) {
         super.withOperation(operation);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withStatus(String status) {
         super.withStatus(status);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withStartTime(OffsetDateTime startTime) {
         super.withStartTime(startTime);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withEndTime(OffsetDateTime endTime) {
         super.withEndTime(endTime);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabJob withActivityId(String activityId) {
         super.withActivityId(activityId);
@@ -254,7 +291,7 @@ public final class MabJob extends Job {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

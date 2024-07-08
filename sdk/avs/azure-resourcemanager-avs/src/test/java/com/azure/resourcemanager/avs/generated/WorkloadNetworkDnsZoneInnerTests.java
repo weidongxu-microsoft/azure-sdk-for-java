@@ -12,35 +12,31 @@ import org.junit.jupiter.api.Assertions;
 public final class WorkloadNetworkDnsZoneInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkDnsZoneInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"displayName\":\"bwoenwashrt\",\"domain\":[\"cnqxwbpokulpi\",\"jwaa\",\"ipqiiobyuqerpq\"],\"dnsServerIps\":[\"wcciuqgbdbu\",\"auvfbtkuwhhmhyk\"],\"sourceIp\":\"oxafn\",\"dnsServices\":6257621363214543247,\"provisioningState\":\"Updating\",\"revision\":7042197231037180697},\"id\":\"ymkcdyhb\",\"name\":\"kkpwdreqnovvq\",\"type\":\"ovljxywsu\"}")
-                .toObject(WorkloadNetworkDnsZoneInner.class);
-        Assertions.assertEquals("bwoenwashrt", model.displayName());
-        Assertions.assertEquals("cnqxwbpokulpi", model.domain().get(0));
-        Assertions.assertEquals("wcciuqgbdbu", model.dnsServerIps().get(0));
-        Assertions.assertEquals("oxafn", model.sourceIp());
-        Assertions.assertEquals(6257621363214543247L, model.dnsServices());
-        Assertions.assertEquals(7042197231037180697L, model.revision());
+        WorkloadNetworkDnsZoneInner model = BinaryData.fromString(
+            "{\"properties\":{\"displayName\":\"whccs\",\"domain\":[\"aivwitqscywu\",\"gwol\"],\"dnsServerIps\":[\"zbwemh\",\"i\",\"sbrgz\",\"wmsweypqwd\"],\"sourceIp\":\"gicccnxqhuex\",\"dnsServices\":5852678166783434118,\"provisioningState\":\"Building\",\"revision\":3065309169479098927},\"id\":\"ywemhzrn\",\"name\":\"sdtclusiypbs\",\"type\":\"gytguslfead\"}")
+            .toObject(WorkloadNetworkDnsZoneInner.class);
+        Assertions.assertEquals("whccs", model.displayName());
+        Assertions.assertEquals("aivwitqscywu", model.domain().get(0));
+        Assertions.assertEquals("zbwemh", model.dnsServerIps().get(0));
+        Assertions.assertEquals("gicccnxqhuex", model.sourceIp());
+        Assertions.assertEquals(5852678166783434118L, model.dnsServices());
+        Assertions.assertEquals(3065309169479098927L, model.revision());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkDnsZoneInner model =
-            new WorkloadNetworkDnsZoneInner()
-                .withDisplayName("bwoenwashrt")
-                .withDomain(Arrays.asList("cnqxwbpokulpi", "jwaa", "ipqiiobyuqerpq"))
-                .withDnsServerIps(Arrays.asList("wcciuqgbdbu", "auvfbtkuwhhmhyk"))
-                .withSourceIp("oxafn")
-                .withDnsServices(6257621363214543247L)
-                .withRevision(7042197231037180697L);
+        WorkloadNetworkDnsZoneInner model = new WorkloadNetworkDnsZoneInner().withDisplayName("whccs")
+            .withDomain(Arrays.asList("aivwitqscywu", "gwol"))
+            .withDnsServerIps(Arrays.asList("zbwemh", "i", "sbrgz", "wmsweypqwd"))
+            .withSourceIp("gicccnxqhuex")
+            .withDnsServices(5852678166783434118L)
+            .withRevision(3065309169479098927L);
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkDnsZoneInner.class);
-        Assertions.assertEquals("bwoenwashrt", model.displayName());
-        Assertions.assertEquals("cnqxwbpokulpi", model.domain().get(0));
-        Assertions.assertEquals("wcciuqgbdbu", model.dnsServerIps().get(0));
-        Assertions.assertEquals("oxafn", model.sourceIp());
-        Assertions.assertEquals(6257621363214543247L, model.dnsServices());
-        Assertions.assertEquals(7042197231037180697L, model.revision());
+        Assertions.assertEquals("whccs", model.displayName());
+        Assertions.assertEquals("aivwitqscywu", model.domain().get(0));
+        Assertions.assertEquals("zbwemh", model.dnsServerIps().get(0));
+        Assertions.assertEquals("gicccnxqhuex", model.sourceIp());
+        Assertions.assertEquals(5852678166783434118L, model.dnsServices());
+        Assertions.assertEquals(3065309169479098927L, model.revision());
     }
 }

@@ -6,15 +6,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 
-/** Azure File Share workload specific backup copy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * Azure File Share workload specific backup copy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = AzureFileShareRecoveryPoint.class,
+    visible = true)
 @JsonTypeName("AzureFileShareRecoveryPoint")
 @Fluent
 public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureFileShareRecoveryPoint";
+
     /*
      * Type of the backup copy. Specifies whether it is a crash consistent backup or app consistent.
      */
@@ -45,14 +59,27 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
     @JsonProperty(value = "recoveryPointProperties")
     private RecoveryPointProperties recoveryPointProperties;
 
-    /** Creates an instance of AzureFileShareRecoveryPoint class. */
+    /**
+     * Creates an instance of AzureFileShareRecoveryPoint class.
+     */
     public AzureFileShareRecoveryPoint() {
+    }
+
+    /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
     }
 
     /**
      * Get the recoveryPointType property: Type of the backup copy. Specifies whether it is a crash consistent backup or
      * app consistent.
-     *
+     * 
      * @return the recoveryPointType value.
      */
     public String recoveryPointType() {
@@ -62,7 +89,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
     /**
      * Set the recoveryPointType property: Type of the backup copy. Specifies whether it is a crash consistent backup or
      * app consistent.
-     *
+     * 
      * @param recoveryPointType the recoveryPointType value to set.
      * @return the AzureFileShareRecoveryPoint object itself.
      */
@@ -73,7 +100,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointTime property: Time at which this backup copy was created.
-     *
+     * 
      * @return the recoveryPointTime value.
      */
     public OffsetDateTime recoveryPointTime() {
@@ -82,7 +109,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointTime property: Time at which this backup copy was created.
-     *
+     * 
      * @param recoveryPointTime the recoveryPointTime value to set.
      * @return the AzureFileShareRecoveryPoint object itself.
      */
@@ -93,7 +120,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the fileShareSnapshotUri property: Contains Url to the snapshot of fileshare, if applicable.
-     *
+     * 
      * @return the fileShareSnapshotUri value.
      */
     public String fileShareSnapshotUri() {
@@ -102,7 +129,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the fileShareSnapshotUri property: Contains Url to the snapshot of fileshare, if applicable.
-     *
+     * 
      * @param fileShareSnapshotUri the fileShareSnapshotUri value to set.
      * @return the AzureFileShareRecoveryPoint object itself.
      */
@@ -113,7 +140,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointSizeInGB property: Contains recovery point size.
-     *
+     * 
      * @return the recoveryPointSizeInGB value.
      */
     public Integer recoveryPointSizeInGB() {
@@ -122,7 +149,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointSizeInGB property: Contains recovery point size.
-     *
+     * 
      * @param recoveryPointSizeInGB the recoveryPointSizeInGB value to set.
      * @return the AzureFileShareRecoveryPoint object itself.
      */
@@ -133,7 +160,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointProperties property: Properties of Recovery Point.
-     *
+     * 
      * @return the recoveryPointProperties value.
      */
     public RecoveryPointProperties recoveryPointProperties() {
@@ -142,7 +169,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointProperties property: Properties of Recovery Point.
-     *
+     * 
      * @param recoveryPointProperties the recoveryPointProperties value to set.
      * @return the AzureFileShareRecoveryPoint object itself.
      */
@@ -153,7 +180,7 @@ public final class AzureFileShareRecoveryPoint extends RecoveryPoint {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

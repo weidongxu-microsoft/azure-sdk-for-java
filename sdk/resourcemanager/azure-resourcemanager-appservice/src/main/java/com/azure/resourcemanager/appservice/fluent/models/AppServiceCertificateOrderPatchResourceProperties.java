@@ -14,11 +14,14 @@ import com.azure.resourcemanager.appservice.models.ProvisioningState;
 import com.azure.resourcemanager.appservice.models.ResourceNotRenewableReason;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** AppServiceCertificateOrderPatchResource resource specific properties. */
+/**
+ * AppServiceCertificateOrderPatchResource resource specific properties.
+ */
 @Fluent
 public final class AppServiceCertificateOrderPatchResourceProperties {
     /*
@@ -59,8 +62,7 @@ public final class AppServiceCertificateOrderPatchResourceProperties {
     private CertificateProductType productType;
 
     /*
-     * <code>true</code> if the certificate should be automatically renewed when it expires; otherwise,
-     * <code>false</code>.
+     * <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.
      */
     @JsonProperty(value = "autoRenew")
     private Boolean autoRenew;
@@ -143,7 +145,9 @@ public final class AppServiceCertificateOrderPatchResourceProperties {
     @JsonProperty(value = "contact", access = JsonProperty.Access.WRITE_ONLY)
     private CertificateOrderContact contact;
 
-    /** Creates an instance of AppServiceCertificateOrderPatchResourceProperties class. */
+    /**
+     * Creates an instance of AppServiceCertificateOrderPatchResourceProperties class.
+     */
     public AppServiceCertificateOrderPatchResourceProperties() {
     }
 
@@ -162,8 +166,8 @@ public final class AppServiceCertificateOrderPatchResourceProperties {
      * @param certificates the certificates value to set.
      * @return the AppServiceCertificateOrderPatchResourceProperties object itself.
      */
-    public AppServiceCertificateOrderPatchResourceProperties withCertificates(
-        Map<String, AppServiceCertificateInner> certificates) {
+    public AppServiceCertificateOrderPatchResourceProperties
+        withCertificates(Map<String, AppServiceCertificateInner> certificates) {
         this.certificates = certificates;
         return this;
     }
@@ -416,21 +420,16 @@ public final class AppServiceCertificateOrderPatchResourceProperties {
      */
     public void validate() {
         if (certificates() != null) {
-            certificates()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            certificates().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
         if (productType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property productType in model"
-                            + " AppServiceCertificateOrderPatchResourceProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property productType in model AppServiceCertificateOrderPatchResourceProperties"));
         }
         if (signedCertificate() != null) {
             signedCertificate().validate();
@@ -446,6 +445,6 @@ public final class AppServiceCertificateOrderPatchResourceProperties {
         }
     }
 
-    private static final ClientLogger LOGGER =
-        new ClientLogger(AppServiceCertificateOrderPatchResourceProperties.class);
+    private static final ClientLogger LOGGER
+        = new ClientLogger(AppServiceCertificateOrderPatchResourceProperties.class);
 }

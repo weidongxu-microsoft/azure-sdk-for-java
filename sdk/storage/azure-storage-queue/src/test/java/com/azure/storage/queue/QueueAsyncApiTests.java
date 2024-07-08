@@ -6,8 +6,11 @@ package com.azure.storage.queue;
 import com.azure.core.util.BinaryData;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.storage.common.StorageSharedKeyCredential;
+import com.azure.storage.common.test.shared.extensions.LiveOnly;
+import com.azure.storage.common.test.shared.extensions.RequiredServiceVersion;
 import com.azure.storage.queue.models.PeekedMessageItem;
 import com.azure.storage.queue.models.QueueAccessPolicy;
+import com.azure.storage.queue.models.QueueAudience;
 import com.azure.storage.queue.models.QueueErrorCode;
 import com.azure.storage.queue.models.QueueMessageItem;
 import com.azure.storage.queue.models.QueueSignedIdentifier;
@@ -778,7 +781,7 @@ public class QueueAsyncApiTests extends QueueTestBase {
         QueueMessageItem dequeueMsg = queueAsyncClient.receiveMessage().block();
 
         assertAsyncResponseStatusCode(queueAsyncClient.updateMessageWithResponse(dequeueMsg.getMessageId(),
-            dequeueMsg.getPopReceipt(), null, Duration.ofSeconds(1), null), 204);
+            dequeueMsg.getPopReceipt(), null, Duration.ofSeconds(1)), 204);
 
         sleepIfRunningAgainstService(2000);
 
@@ -830,5 +833,65 @@ public class QueueAsyncApiTests extends QueueTestBase {
 
         StepVerifier.create(queueAsyncClient.getPropertiesWithResponse()).assertNext(queuePropertiesResponse ->
             assertEquals("2017-11-09", queuePropertiesResponse.getHeaders().getValue("x-ms-version"))).verifyComplete();
+    }
+
+    @Test
+    public void defaultAudience() {
+        queueAsyncClient.createIfNotExists().block();
+        QueueAsyncClient aadQueue = getOAuthQueueClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(null) // should default to "https://storage.azure.com/"
+            .queueName(queueAsyncClient.getQueueName())
+            .buildAsyncClient();
+
+        StepVerifier.create(aadQueue.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
+    }
+
+    @Test
+    public void storageAccountAudience() {
+        queueAsyncClient.createIfNotExists().block();
+        QueueAsyncClient aadQueue = getOAuthQueueClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(QueueAudience.createQueueServiceAccountAudience(queueAsyncClient.getAccountName()))
+            .queueName(queueAsyncClient.getQueueName())
+            .buildAsyncClient();
+
+        StepVerifier.create(aadQueue.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
+    }
+
+    @RequiredServiceVersion(clazz = QueueServiceVersion.class, min = "2024-08-04")
+    @LiveOnly
+    @Test
+    /* This test tests if the bearer challenge is working properly. A bad audience is passed in, the service returns
+    the default audience, and the request gets retried with this default audience, making the call function as expected.
+     */
+    public void audienceErrorBearerChallengeRetry() {
+        queueAsyncClient.createIfNotExists().block();
+        QueueAsyncClient aadQueue = getOAuthQueueClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .queueName(queueAsyncClient.getQueueName())
+            .audience(QueueAudience.createQueueServiceAccountAudience("badaudience"))
+            .buildAsyncClient();
+
+        StepVerifier.create(aadQueue.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
+    }
+
+    @Test
+    public void audienceFromString() {
+        String url = String.format("https://%s.queue.core.windows.net/", queueAsyncClient.getAccountName());
+        QueueAudience audience = QueueAudience.fromString(url);
+
+        queueAsyncClient.createIfNotExists().block();
+        QueueAsyncClient aadQueue = getOAuthQueueClientBuilder(primaryQueueServiceAsyncClient.getQueueServiceUrl())
+            .audience(audience)
+            .queueName(queueAsyncClient.getQueueName())
+            .buildAsyncClient();
+
+        StepVerifier.create(aadQueue.getProperties())
+            .assertNext(r -> assertNotNull(r))
+            .verifyComplete();
     }
 }

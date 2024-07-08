@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.CertificateInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of certificates. */
+/**
+ * Collection of certificates.
+ */
 @Fluent
 public final class CertificateCollection {
     /*
@@ -25,7 +28,9 @@ public final class CertificateCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of CertificateCollection class. */
+    /**
+     * Creates an instance of CertificateCollection class.
+     */
     public CertificateCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class CertificateCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model CertificateCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model CertificateCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

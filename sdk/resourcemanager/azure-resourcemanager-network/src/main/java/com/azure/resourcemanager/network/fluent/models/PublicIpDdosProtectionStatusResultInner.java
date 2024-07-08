@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.models.IsWorkloadProtected;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Response for GetPublicIpAddressDdosProtectionStatusOperation API service call. */
+/**
+ * Response for GetPublicIpAddressDdosProtectionStatusOperation API service call.
+ */
 @Fluent
 public final class PublicIpDdosProtectionStatusResultInner {
     /*
@@ -30,18 +32,20 @@ public final class PublicIpDdosProtectionStatusResultInner {
     private IsWorkloadProtected isWorkloadProtected;
 
     /*
-     * DDoS protection plan Resource Id of a if IP address is protected through a plan.
+     *  DDoS protection plan Resource Id of a if IP address is protected through a plan.
      */
     @JsonProperty(value = "ddosProtectionPlanId")
     private String ddosProtectionPlanId;
 
-    /** Creates an instance of PublicIpDdosProtectionStatusResultInner class. */
+    /**
+     * Creates an instance of PublicIpDdosProtectionStatusResultInner class.
+     */
     public PublicIpDdosProtectionStatusResultInner() {
     }
 
     /**
      * Get the publicIpAddressId property: Public IP ARM resource ID.
-     *
+     * 
      * @return the publicIpAddressId value.
      */
     public String publicIpAddressId() {
@@ -50,7 +54,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
 
     /**
      * Set the publicIpAddressId property: Public IP ARM resource ID.
-     *
+     * 
      * @param publicIpAddressId the publicIpAddressId value to set.
      * @return the PublicIpDdosProtectionStatusResultInner object itself.
      */
@@ -61,7 +65,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
 
     /**
      * Get the publicIpAddress property: IP Address of the Public IP Resource.
-     *
+     * 
      * @return the publicIpAddress value.
      */
     public String publicIpAddress() {
@@ -70,7 +74,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
 
     /**
      * Set the publicIpAddress property: IP Address of the Public IP Resource.
-     *
+     * 
      * @param publicIpAddress the publicIpAddress value to set.
      * @return the PublicIpDdosProtectionStatusResultInner object itself.
      */
@@ -81,7 +85,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
 
     /**
      * Get the isWorkloadProtected property: Value indicating whether the IP address is DDoS workload protected or not.
-     *
+     * 
      * @return the isWorkloadProtected value.
      */
     public IsWorkloadProtected isWorkloadProtected() {
@@ -90,7 +94,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
 
     /**
      * Set the isWorkloadProtected property: Value indicating whether the IP address is DDoS workload protected or not.
-     *
+     * 
      * @param isWorkloadProtected the isWorkloadProtected value to set.
      * @return the PublicIpDdosProtectionStatusResultInner object itself.
      */
@@ -102,7 +106,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
     /**
      * Get the ddosProtectionPlanId property: DDoS protection plan Resource Id of a if IP address is protected through a
      * plan.
-     *
+     * 
      * @return the ddosProtectionPlanId value.
      */
     public String ddosProtectionPlanId() {
@@ -112,7 +116,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
     /**
      * Set the ddosProtectionPlanId property: DDoS protection plan Resource Id of a if IP address is protected through a
      * plan.
-     *
+     * 
      * @param ddosProtectionPlanId the ddosProtectionPlanId value to set.
      * @return the PublicIpDdosProtectionStatusResultInner object itself.
      */
@@ -123,7 +127,7 @@ public final class PublicIpDdosProtectionStatusResultInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

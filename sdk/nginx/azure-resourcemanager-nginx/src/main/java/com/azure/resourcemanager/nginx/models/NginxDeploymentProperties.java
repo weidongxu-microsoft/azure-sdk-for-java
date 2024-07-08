@@ -7,7 +7,9 @@ package com.azure.resourcemanager.nginx.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The NginxDeploymentProperties model. */
+/**
+ * The NginxDeploymentProperties model.
+ */
 @Fluent
 public final class NginxDeploymentProperties {
     /*
@@ -52,13 +54,33 @@ public final class NginxDeploymentProperties {
     @JsonProperty(value = "logging")
     private NginxLogging logging;
 
-    /** Creates an instance of NginxDeploymentProperties class. */
+    /*
+     * Information on how the deployment will be scaled.
+     */
+    @JsonProperty(value = "scalingProperties")
+    private NginxDeploymentScalingProperties scalingProperties;
+
+    /*
+     * Autoupgrade settings of a deployment.
+     */
+    @JsonProperty(value = "autoUpgradeProfile")
+    private AutoUpgradeProfile autoUpgradeProfile;
+
+    /*
+     * The userProfile property.
+     */
+    @JsonProperty(value = "userProfile")
+    private NginxDeploymentUserProfile userProfile;
+
+    /**
+     * Creates an instance of NginxDeploymentProperties class.
+     */
     public NginxDeploymentProperties() {
     }
 
     /**
      * Get the provisioningState property: The provisioningState property.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
@@ -67,7 +89,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Get the nginxVersion property: The nginxVersion property.
-     *
+     * 
      * @return the nginxVersion value.
      */
     public String nginxVersion() {
@@ -77,7 +99,7 @@ public final class NginxDeploymentProperties {
     /**
      * Get the managedResourceGroup property: The managed resource group to deploy VNet injection related network
      * resources.
-     *
+     * 
      * @return the managedResourceGroup value.
      */
     public String managedResourceGroup() {
@@ -87,7 +109,7 @@ public final class NginxDeploymentProperties {
     /**
      * Set the managedResourceGroup property: The managed resource group to deploy VNet injection related network
      * resources.
-     *
+     * 
      * @param managedResourceGroup the managedResourceGroup value to set.
      * @return the NginxDeploymentProperties object itself.
      */
@@ -98,7 +120,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Get the networkProfile property: The networkProfile property.
-     *
+     * 
      * @return the networkProfile value.
      */
     public NginxNetworkProfile networkProfile() {
@@ -107,7 +129,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Set the networkProfile property: The networkProfile property.
-     *
+     * 
      * @param networkProfile the networkProfile value to set.
      * @return the NginxDeploymentProperties object itself.
      */
@@ -118,7 +140,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Get the ipAddress property: The IP address of the deployment.
-     *
+     * 
      * @return the ipAddress value.
      */
     public String ipAddress() {
@@ -127,7 +149,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Get the enableDiagnosticsSupport property: The enableDiagnosticsSupport property.
-     *
+     * 
      * @return the enableDiagnosticsSupport value.
      */
     public Boolean enableDiagnosticsSupport() {
@@ -136,7 +158,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Set the enableDiagnosticsSupport property: The enableDiagnosticsSupport property.
-     *
+     * 
      * @param enableDiagnosticsSupport the enableDiagnosticsSupport value to set.
      * @return the NginxDeploymentProperties object itself.
      */
@@ -147,7 +169,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Get the logging property: The logging property.
-     *
+     * 
      * @return the logging value.
      */
     public NginxLogging logging() {
@@ -156,7 +178,7 @@ public final class NginxDeploymentProperties {
 
     /**
      * Set the logging property: The logging property.
-     *
+     * 
      * @param logging the logging value to set.
      * @return the NginxDeploymentProperties object itself.
      */
@@ -166,8 +188,68 @@ public final class NginxDeploymentProperties {
     }
 
     /**
+     * Get the scalingProperties property: Information on how the deployment will be scaled.
+     * 
+     * @return the scalingProperties value.
+     */
+    public NginxDeploymentScalingProperties scalingProperties() {
+        return this.scalingProperties;
+    }
+
+    /**
+     * Set the scalingProperties property: Information on how the deployment will be scaled.
+     * 
+     * @param scalingProperties the scalingProperties value to set.
+     * @return the NginxDeploymentProperties object itself.
+     */
+    public NginxDeploymentProperties withScalingProperties(NginxDeploymentScalingProperties scalingProperties) {
+        this.scalingProperties = scalingProperties;
+        return this;
+    }
+
+    /**
+     * Get the autoUpgradeProfile property: Autoupgrade settings of a deployment.
+     * 
+     * @return the autoUpgradeProfile value.
+     */
+    public AutoUpgradeProfile autoUpgradeProfile() {
+        return this.autoUpgradeProfile;
+    }
+
+    /**
+     * Set the autoUpgradeProfile property: Autoupgrade settings of a deployment.
+     * 
+     * @param autoUpgradeProfile the autoUpgradeProfile value to set.
+     * @return the NginxDeploymentProperties object itself.
+     */
+    public NginxDeploymentProperties withAutoUpgradeProfile(AutoUpgradeProfile autoUpgradeProfile) {
+        this.autoUpgradeProfile = autoUpgradeProfile;
+        return this;
+    }
+
+    /**
+     * Get the userProfile property: The userProfile property.
+     * 
+     * @return the userProfile value.
+     */
+    public NginxDeploymentUserProfile userProfile() {
+        return this.userProfile;
+    }
+
+    /**
+     * Set the userProfile property: The userProfile property.
+     * 
+     * @param userProfile the userProfile value to set.
+     * @return the NginxDeploymentProperties object itself.
+     */
+    public NginxDeploymentProperties withUserProfile(NginxDeploymentUserProfile userProfile) {
+        this.userProfile = userProfile;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
@@ -176,6 +258,15 @@ public final class NginxDeploymentProperties {
         }
         if (logging() != null) {
             logging().validate();
+        }
+        if (scalingProperties() != null) {
+            scalingProperties().validate();
+        }
+        if (autoUpgradeProfile() != null) {
+            autoUpgradeProfile().validate();
+        }
+        if (userProfile() != null) {
+            userProfile().validate();
         }
     }
 }

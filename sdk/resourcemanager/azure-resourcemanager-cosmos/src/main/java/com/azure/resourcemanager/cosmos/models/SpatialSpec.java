@@ -6,14 +6,16 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** The SpatialSpec model. */
+/**
+ * The SpatialSpec model.
+ */
 @Fluent
 public final class SpatialSpec {
     /*
-     * The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-     * (/path/*)
+     * The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
      */
     @JsonProperty(value = "path")
     private String path;
@@ -24,7 +26,9 @@ public final class SpatialSpec {
     @JsonProperty(value = "types")
     private List<SpatialType> types;
 
-    /** Creates an instance of SpatialSpec class. */
+    /**
+     * Creates an instance of SpatialSpec class.
+     */
     public SpatialSpec() {
     }
 

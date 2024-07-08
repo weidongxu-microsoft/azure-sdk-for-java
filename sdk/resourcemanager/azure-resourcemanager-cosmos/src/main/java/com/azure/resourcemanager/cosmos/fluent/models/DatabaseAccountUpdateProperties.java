@@ -21,9 +21,12 @@ import com.azure.resourcemanager.cosmos.models.NetworkAclBypass;
 import com.azure.resourcemanager.cosmos.models.PublicNetworkAccess;
 import com.azure.resourcemanager.cosmos.models.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties to update Azure Cosmos DB database accounts. */
+/**
+ * Properties to update Azure Cosmos DB database accounts.
+ */
 @Fluent
 public final class DatabaseAccountUpdateProperties {
     /*
@@ -51,9 +54,7 @@ public final class DatabaseAccountUpdateProperties {
     private Boolean isVirtualNetworkFilterEnabled;
 
     /*
-     * Enables automatic failover of the write region in the rare event that the region is unavailable due to an
-     * outage. Automatic failover will result in a new write region for the account and is chosen based on the failover
-     * priorities configured for the account.
+     * Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
      */
     @JsonProperty(value = "enableAutomaticFailover")
     private Boolean enableAutomaticFailover;
@@ -101,8 +102,7 @@ public final class DatabaseAccountUpdateProperties {
     private String keyVaultKeyUri;
 
     /*
-     * The default identity for accessing key vault used in features like customer managed keys. The default identity
-     * needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
+     * The default identity for accessing key vault used in features like customer managed keys. The default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
      */
     @JsonProperty(value = "defaultIdentity")
     private String defaultIdentity;
@@ -174,8 +174,7 @@ public final class DatabaseAccountUpdateProperties {
     private Capacity capacity;
 
     /*
-     * This property is ignored during the update operation, as the metadata is read-only. The object represents the
-     * metadata for the Account Keys of the Cosmos DB account.
+     * This property is ignored during the update operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account.
      */
     @JsonProperty(value = "keysMetadata", access = JsonProperty.Access.WRITE_ONLY)
     private DatabaseAccountKeysMetadata keysMetadata;
@@ -187,13 +186,26 @@ public final class DatabaseAccountUpdateProperties {
     private Boolean enablePartitionMerge;
 
     /*
-     * Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which
-     * only work with Tls 1.2.
+     * Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2.
      */
     @JsonProperty(value = "minimalTlsVersion")
     private MinimalTlsVersion minimalTlsVersion;
 
-    /** Creates an instance of DatabaseAccountUpdateProperties class. */
+    /*
+     * Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account
+     */
+    @JsonProperty(value = "enableBurstCapacity")
+    private Boolean enableBurstCapacity;
+
+    /*
+     * Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance.
+     */
+    @JsonProperty(value = "customerManagedKeyStatus")
+    private String customerManagedKeyStatus;
+
+    /**
+     * Creates an instance of DatabaseAccountUpdateProperties class.
+     */
     public DatabaseAccountUpdateProperties() {
     }
 
@@ -422,8 +434,8 @@ public final class DatabaseAccountUpdateProperties {
      * @param disableKeyBasedMetadataWriteAccess the disableKeyBasedMetadataWriteAccess value to set.
      * @return the DatabaseAccountUpdateProperties object itself.
      */
-    public DatabaseAccountUpdateProperties withDisableKeyBasedMetadataWriteAccess(
-        Boolean disableKeyBasedMetadataWriteAccess) {
+    public DatabaseAccountUpdateProperties
+        withDisableKeyBasedMetadataWriteAccess(Boolean disableKeyBasedMetadataWriteAccess) {
         this.disableKeyBasedMetadataWriteAccess = disableKeyBasedMetadataWriteAccess;
         return this;
     }
@@ -567,8 +579,8 @@ public final class DatabaseAccountUpdateProperties {
      * @param analyticalStorageConfiguration the analyticalStorageConfiguration value to set.
      * @return the DatabaseAccountUpdateProperties object itself.
      */
-    public DatabaseAccountUpdateProperties withAnalyticalStorageConfiguration(
-        AnalyticalStorageConfiguration analyticalStorageConfiguration) {
+    public DatabaseAccountUpdateProperties
+        withAnalyticalStorageConfiguration(AnalyticalStorageConfiguration analyticalStorageConfiguration) {
         this.analyticalStorageConfiguration = analyticalStorageConfiguration;
         return this;
     }
@@ -732,8 +744,8 @@ public final class DatabaseAccountUpdateProperties {
     }
 
     /**
-     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @return the minimalTlsVersion value.
      */
@@ -742,14 +754,58 @@ public final class DatabaseAccountUpdateProperties {
     }
 
     /**
-     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @param minimalTlsVersion the minimalTlsVersion value to set.
      * @return the DatabaseAccountUpdateProperties object itself.
      */
     public DatabaseAccountUpdateProperties withMinimalTlsVersion(MinimalTlsVersion minimalTlsVersion) {
         this.minimalTlsVersion = minimalTlsVersion;
+        return this;
+    }
+
+    /**
+     * Get the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @return the enableBurstCapacity value.
+     */
+    public Boolean enableBurstCapacity() {
+        return this.enableBurstCapacity;
+    }
+
+    /**
+     * Set the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @param enableBurstCapacity the enableBurstCapacity value to set.
+     * @return the DatabaseAccountUpdateProperties object itself.
+     */
+    public DatabaseAccountUpdateProperties withEnableBurstCapacity(Boolean enableBurstCapacity) {
+        this.enableBurstCapacity = enableBurstCapacity;
+        return this;
+    }
+
+    /**
+     * Get the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @return the customerManagedKeyStatus value.
+     */
+    public String customerManagedKeyStatus() {
+        return this.customerManagedKeyStatus;
+    }
+
+    /**
+     * Set the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @param customerManagedKeyStatus the customerManagedKeyStatus value to set.
+     * @return the DatabaseAccountUpdateProperties object itself.
+     */
+    public DatabaseAccountUpdateProperties withCustomerManagedKeyStatus(String customerManagedKeyStatus) {
+        this.customerManagedKeyStatus = customerManagedKeyStatus;
         return this;
     }
 

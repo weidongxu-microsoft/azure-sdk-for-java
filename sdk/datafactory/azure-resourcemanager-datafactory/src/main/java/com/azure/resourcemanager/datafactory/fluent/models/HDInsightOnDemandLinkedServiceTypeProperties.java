@@ -13,12 +13,13 @@ import com.azure.resourcemanager.datafactory.models.SecretBase;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** HDInsight ondemand linked service properties. */
+/**
+ * HDInsight ondemand linked service properties.
+ */
 @Fluent
 public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /*
-     * Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType
-     * string).
+     * Number of worker/data nodes in the cluster. Suggestion value: 4. Type: int (or Expression with resultType int).
      */
     @JsonProperty(value = "clusterSize", required = true)
     private Object clusterSize;
@@ -181,10 +182,10 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /*
      * The encrypted credential used for authentication. Credentials are encrypted using the integration runtime
-     * credential manager. Type: string (or Expression with resultType string).
+     * credential manager. Type: string.
      */
     @JsonProperty(value = "encryptedCredential")
-    private Object encryptedCredential;
+    private String encryptedCredential;
 
     /*
      * Specifies the size of the head node for the HDInsight cluster.
@@ -206,7 +207,8 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /*
      * Custom script actions to run on HDI ondemand cluster once it's up. Please refer to
-     * https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
+     * https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%
+     * 2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
      */
     @JsonProperty(value = "scriptActions")
     private List<ScriptAction> scriptActions;
@@ -231,14 +233,16 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     @JsonProperty(value = "credential")
     private CredentialReference credential;
 
-    /** Creates an instance of HDInsightOnDemandLinkedServiceTypeProperties class. */
+    /**
+     * Creates an instance of HDInsightOnDemandLinkedServiceTypeProperties class.
+     */
     public HDInsightOnDemandLinkedServiceTypeProperties() {
     }
 
     /**
-     * Get the clusterSize property: Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or
-     * Expression with resultType string).
-     *
+     * Get the clusterSize property: Number of worker/data nodes in the cluster. Suggestion value: 4. Type: int (or
+     * Expression with resultType int).
+     * 
      * @return the clusterSize value.
      */
     public Object clusterSize() {
@@ -246,9 +250,9 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     }
 
     /**
-     * Set the clusterSize property: Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or
-     * Expression with resultType string).
-     *
+     * Set the clusterSize property: Number of worker/data nodes in the cluster. Suggestion value: 4. Type: int (or
+     * Expression with resultType int).
+     * 
      * @param clusterSize the clusterSize value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -261,7 +265,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
      * Get the timeToLive property: The allowed idle time for the on-demand HDInsight cluster. Specifies how long the
      * on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in
      * the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the timeToLive value.
      */
     public Object timeToLive() {
@@ -272,7 +276,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
      * Set the timeToLive property: The allowed idle time for the on-demand HDInsight cluster. Specifies how long the
      * on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in
      * the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param timeToLive the timeToLive value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -283,7 +287,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the version property: Version of the HDInsight cluster.  Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the version value.
      */
     public Object version() {
@@ -292,7 +296,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the version property: Version of the HDInsight cluster.  Type: string (or Expression with resultType string).
-     *
+     * 
      * @param version the version value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -304,7 +308,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the linkedServiceName property: Azure Storage linked service to be used by the on-demand cluster for storing
      * and processing data.
-     *
+     * 
      * @return the linkedServiceName value.
      */
     public LinkedServiceReference linkedServiceName() {
@@ -314,12 +318,12 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the linkedServiceName property: Azure Storage linked service to be used by the on-demand cluster for storing
      * and processing data.
-     *
+     * 
      * @param linkedServiceName the linkedServiceName value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
-    public HDInsightOnDemandLinkedServiceTypeProperties withLinkedServiceName(
-        LinkedServiceReference linkedServiceName) {
+    public HDInsightOnDemandLinkedServiceTypeProperties
+        withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         this.linkedServiceName = linkedServiceName;
         return this;
     }
@@ -327,7 +331,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the hostSubscriptionId property: The customer’s subscription to host the cluster. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the hostSubscriptionId value.
      */
     public Object hostSubscriptionId() {
@@ -337,7 +341,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the hostSubscriptionId property: The customer’s subscription to host the cluster. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param hostSubscriptionId the hostSubscriptionId value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -349,7 +353,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the servicePrincipalId property: The service principal id for the hostSubscriptionId. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the servicePrincipalId value.
      */
     public Object servicePrincipalId() {
@@ -359,7 +363,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the servicePrincipalId property: The service principal id for the hostSubscriptionId. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param servicePrincipalId the servicePrincipalId value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -370,7 +374,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the servicePrincipalKey property: The key for the service principal id.
-     *
+     * 
      * @return the servicePrincipalKey value.
      */
     public SecretBase servicePrincipalKey() {
@@ -379,7 +383,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the servicePrincipalKey property: The key for the service principal id.
-     *
+     * 
      * @param servicePrincipalKey the servicePrincipalKey value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -391,7 +395,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the tenant property: The Tenant id/name to which the service principal belongs. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the tenant value.
      */
     public Object tenant() {
@@ -401,7 +405,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the tenant property: The Tenant id/name to which the service principal belongs. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param tenant the tenant value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -413,7 +417,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the clusterResourceGroup property: The resource group where the cluster belongs. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the clusterResourceGroup value.
      */
     public Object clusterResourceGroup() {
@@ -423,7 +427,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the clusterResourceGroup property: The resource group where the cluster belongs. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param clusterResourceGroup the clusterResourceGroup value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -435,7 +439,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the clusterNamePrefix property: The prefix of cluster name, postfix will be distinct with timestamp. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @return the clusterNamePrefix value.
      */
     public Object clusterNamePrefix() {
@@ -445,7 +449,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the clusterNamePrefix property: The prefix of cluster name, postfix will be distinct with timestamp. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @param clusterNamePrefix the clusterNamePrefix value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -457,7 +461,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the clusterUsername property: The username to access the cluster. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the clusterUsername value.
      */
     public Object clusterUsername() {
@@ -467,7 +471,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the clusterUsername property: The username to access the cluster. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param clusterUsername the clusterUsername value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -478,7 +482,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the clusterPassword property: The password to access the cluster.
-     *
+     * 
      * @return the clusterPassword value.
      */
     public SecretBase clusterPassword() {
@@ -487,7 +491,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the clusterPassword property: The password to access the cluster.
-     *
+     * 
      * @param clusterPassword the clusterPassword value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -499,7 +503,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the clusterSshUsername property: The username to SSH remotely connect to cluster’s node (for Linux). Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @return the clusterSshUsername value.
      */
     public Object clusterSshUsername() {
@@ -509,7 +513,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the clusterSshUsername property: The username to SSH remotely connect to cluster’s node (for Linux). Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @param clusterSshUsername the clusterSshUsername value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -520,7 +524,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the clusterSshPassword property: The password to SSH remotely connect cluster’s node (for Linux).
-     *
+     * 
      * @return the clusterSshPassword value.
      */
     public SecretBase clusterSshPassword() {
@@ -529,7 +533,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the clusterSshPassword property: The password to SSH remotely connect cluster’s node (for Linux).
-     *
+     * 
      * @param clusterSshPassword the clusterSshPassword value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -541,7 +545,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the additionalLinkedServiceNames property: Specifies additional storage accounts for the HDInsight linked
      * service so that the Data Factory service can register them on your behalf.
-     *
+     * 
      * @return the additionalLinkedServiceNames value.
      */
     public List<LinkedServiceReference> additionalLinkedServiceNames() {
@@ -551,12 +555,12 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the additionalLinkedServiceNames property: Specifies additional storage accounts for the HDInsight linked
      * service so that the Data Factory service can register them on your behalf.
-     *
+     * 
      * @param additionalLinkedServiceNames the additionalLinkedServiceNames value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
-    public HDInsightOnDemandLinkedServiceTypeProperties withAdditionalLinkedServiceNames(
-        List<LinkedServiceReference> additionalLinkedServiceNames) {
+    public HDInsightOnDemandLinkedServiceTypeProperties
+        withAdditionalLinkedServiceNames(List<LinkedServiceReference> additionalLinkedServiceNames) {
         this.additionalLinkedServiceNames = additionalLinkedServiceNames;
         return this;
     }
@@ -564,7 +568,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the hcatalogLinkedServiceName property: The name of Azure SQL linked service that point to the HCatalog
      * database. The on-demand HDInsight cluster is created by using the Azure SQL database as the metastore.
-     *
+     * 
      * @return the hcatalogLinkedServiceName value.
      */
     public LinkedServiceReference hcatalogLinkedServiceName() {
@@ -574,19 +578,19 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the hcatalogLinkedServiceName property: The name of Azure SQL linked service that point to the HCatalog
      * database. The on-demand HDInsight cluster is created by using the Azure SQL database as the metastore.
-     *
+     * 
      * @param hcatalogLinkedServiceName the hcatalogLinkedServiceName value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
-    public HDInsightOnDemandLinkedServiceTypeProperties withHcatalogLinkedServiceName(
-        LinkedServiceReference hcatalogLinkedServiceName) {
+    public HDInsightOnDemandLinkedServiceTypeProperties
+        withHcatalogLinkedServiceName(LinkedServiceReference hcatalogLinkedServiceName) {
         this.hcatalogLinkedServiceName = hcatalogLinkedServiceName;
         return this;
     }
 
     /**
      * Get the clusterType property: The cluster type. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the clusterType value.
      */
     public Object clusterType() {
@@ -595,7 +599,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the clusterType property: The cluster type. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param clusterType the clusterType value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -607,7 +611,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the sparkVersion property: The version of spark if the cluster type is 'spark'. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the sparkVersion value.
      */
     public Object sparkVersion() {
@@ -617,7 +621,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the sparkVersion property: The version of spark if the cluster type is 'spark'. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param sparkVersion the sparkVersion value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -629,7 +633,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the coreConfiguration property: Specifies the core configuration parameters (as in core-site.xml) for the
      * HDInsight cluster to be created.
-     *
+     * 
      * @return the coreConfiguration value.
      */
     public Object coreConfiguration() {
@@ -639,7 +643,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the coreConfiguration property: Specifies the core configuration parameters (as in core-site.xml) for the
      * HDInsight cluster to be created.
-     *
+     * 
      * @param coreConfiguration the coreConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -651,7 +655,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the hBaseConfiguration property: Specifies the HBase configuration parameters (hbase-site.xml) for the
      * HDInsight cluster.
-     *
+     * 
      * @return the hBaseConfiguration value.
      */
     public Object hBaseConfiguration() {
@@ -661,7 +665,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the hBaseConfiguration property: Specifies the HBase configuration parameters (hbase-site.xml) for the
      * HDInsight cluster.
-     *
+     * 
      * @param hBaseConfiguration the hBaseConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -673,7 +677,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the hdfsConfiguration property: Specifies the HDFS configuration parameters (hdfs-site.xml) for the HDInsight
      * cluster.
-     *
+     * 
      * @return the hdfsConfiguration value.
      */
     public Object hdfsConfiguration() {
@@ -683,7 +687,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the hdfsConfiguration property: Specifies the HDFS configuration parameters (hdfs-site.xml) for the HDInsight
      * cluster.
-     *
+     * 
      * @param hdfsConfiguration the hdfsConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -695,7 +699,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the hiveConfiguration property: Specifies the hive configuration parameters (hive-site.xml) for the HDInsight
      * cluster.
-     *
+     * 
      * @return the hiveConfiguration value.
      */
     public Object hiveConfiguration() {
@@ -705,7 +709,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the hiveConfiguration property: Specifies the hive configuration parameters (hive-site.xml) for the HDInsight
      * cluster.
-     *
+     * 
      * @param hiveConfiguration the hiveConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -717,7 +721,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the mapReduceConfiguration property: Specifies the MapReduce configuration parameters (mapred-site.xml) for
      * the HDInsight cluster.
-     *
+     * 
      * @return the mapReduceConfiguration value.
      */
     public Object mapReduceConfiguration() {
@@ -727,7 +731,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the mapReduceConfiguration property: Specifies the MapReduce configuration parameters (mapred-site.xml) for
      * the HDInsight cluster.
-     *
+     * 
      * @param mapReduceConfiguration the mapReduceConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -739,7 +743,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the oozieConfiguration property: Specifies the Oozie configuration parameters (oozie-site.xml) for the
      * HDInsight cluster.
-     *
+     * 
      * @return the oozieConfiguration value.
      */
     public Object oozieConfiguration() {
@@ -749,7 +753,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the oozieConfiguration property: Specifies the Oozie configuration parameters (oozie-site.xml) for the
      * HDInsight cluster.
-     *
+     * 
      * @param oozieConfiguration the oozieConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -761,7 +765,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the stormConfiguration property: Specifies the Storm configuration parameters (storm-site.xml) for the
      * HDInsight cluster.
-     *
+     * 
      * @return the stormConfiguration value.
      */
     public Object stormConfiguration() {
@@ -771,7 +775,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the stormConfiguration property: Specifies the Storm configuration parameters (storm-site.xml) for the
      * HDInsight cluster.
-     *
+     * 
      * @param stormConfiguration the stormConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -783,7 +787,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the yarnConfiguration property: Specifies the Yarn configuration parameters (yarn-site.xml) for the HDInsight
      * cluster.
-     *
+     * 
      * @return the yarnConfiguration value.
      */
     public Object yarnConfiguration() {
@@ -793,7 +797,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the yarnConfiguration property: Specifies the Yarn configuration parameters (yarn-site.xml) for the HDInsight
      * cluster.
-     *
+     * 
      * @param yarnConfiguration the yarnConfiguration value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -804,29 +808,29 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.encryptedCredential;
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
-    public HDInsightOnDemandLinkedServiceTypeProperties withEncryptedCredential(Object encryptedCredential) {
+    public HDInsightOnDemandLinkedServiceTypeProperties withEncryptedCredential(String encryptedCredential) {
         this.encryptedCredential = encryptedCredential;
         return this;
     }
 
     /**
      * Get the headNodeSize property: Specifies the size of the head node for the HDInsight cluster.
-     *
+     * 
      * @return the headNodeSize value.
      */
     public Object headNodeSize() {
@@ -835,7 +839,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the headNodeSize property: Specifies the size of the head node for the HDInsight cluster.
-     *
+     * 
      * @param headNodeSize the headNodeSize value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -846,7 +850,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the dataNodeSize property: Specifies the size of the data node for the HDInsight cluster.
-     *
+     * 
      * @return the dataNodeSize value.
      */
     public Object dataNodeSize() {
@@ -855,7 +859,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the dataNodeSize property: Specifies the size of the data node for the HDInsight cluster.
-     *
+     * 
      * @param dataNodeSize the dataNodeSize value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -866,7 +870,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the zookeeperNodeSize property: Specifies the size of the Zoo Keeper node for the HDInsight cluster.
-     *
+     * 
      * @return the zookeeperNodeSize value.
      */
     public Object zookeeperNodeSize() {
@@ -875,7 +879,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the zookeeperNodeSize property: Specifies the size of the Zoo Keeper node for the HDInsight cluster.
-     *
+     * 
      * @param zookeeperNodeSize the zookeeperNodeSize value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -888,7 +892,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
      * Get the scriptActions property: Custom script actions to run on HDI ondemand cluster once it's up. Please refer
      * to
      * https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&amp;bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
-     *
+     * 
      * @return the scriptActions value.
      */
     public List<ScriptAction> scriptActions() {
@@ -899,7 +903,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
      * Set the scriptActions property: Custom script actions to run on HDI ondemand cluster once it's up. Please refer
      * to
      * https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&amp;bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
-     *
+     * 
      * @param scriptActions the scriptActions value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -911,7 +915,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the virtualNetworkId property: The ARM resource ID for the vNet to which the cluster should be joined after
      * creation. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the virtualNetworkId value.
      */
     public Object virtualNetworkId() {
@@ -921,7 +925,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the virtualNetworkId property: The ARM resource ID for the vNet to which the cluster should be joined after
      * creation. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param virtualNetworkId the virtualNetworkId value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -933,7 +937,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Get the subnetName property: The ARM resource ID for the subnet in the vNet. If virtualNetworkId was specified,
      * then this property is required. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the subnetName value.
      */
     public Object subnetName() {
@@ -943,7 +947,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
     /**
      * Set the subnetName property: The ARM resource ID for the subnet in the vNet. If virtualNetworkId was specified,
      * then this property is required. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param subnetName the subnetName value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -954,7 +958,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Get the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @return the credential value.
      */
     public CredentialReference credential() {
@@ -963,7 +967,7 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Set the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @param credential the credential value to set.
      * @return the HDInsightOnDemandLinkedServiceTypeProperties object itself.
      */
@@ -974,59 +978,49 @@ public final class HDInsightOnDemandLinkedServiceTypeProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (clusterSize() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property clusterSize in model HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property clusterSize in model HDInsightOnDemandLinkedServiceTypeProperties"));
         }
         if (timeToLive() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property timeToLive in model HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property timeToLive in model HDInsightOnDemandLinkedServiceTypeProperties"));
         }
         if (version() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property version in model HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property version in model HDInsightOnDemandLinkedServiceTypeProperties"));
         }
         if (linkedServiceName() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property linkedServiceName in model"
-                            + " HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property linkedServiceName in model HDInsightOnDemandLinkedServiceTypeProperties"));
         } else {
             linkedServiceName().validate();
         }
         if (hostSubscriptionId() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property hostSubscriptionId in model"
-                            + " HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property hostSubscriptionId in model HDInsightOnDemandLinkedServiceTypeProperties"));
         }
         if (servicePrincipalKey() != null) {
             servicePrincipalKey().validate();
         }
         if (tenant() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property tenant in model HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property tenant in model HDInsightOnDemandLinkedServiceTypeProperties"));
         }
         if (clusterResourceGroup() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property clusterResourceGroup in model"
-                            + " HDInsightOnDemandLinkedServiceTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property clusterResourceGroup in model HDInsightOnDemandLinkedServiceTypeProperties"));
         }
         if (clusterPassword() != null) {
             clusterPassword().validate();

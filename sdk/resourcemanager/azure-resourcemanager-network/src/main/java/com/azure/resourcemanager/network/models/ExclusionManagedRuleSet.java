@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Defines a managed rule set for Exclusions. */
+/**
+ * Defines a managed rule set for Exclusions.
+ */
 @Fluent
 public final class ExclusionManagedRuleSet {
     /*
@@ -30,7 +33,9 @@ public final class ExclusionManagedRuleSet {
     @JsonProperty(value = "ruleGroups")
     private List<ExclusionManagedRuleGroup> ruleGroups;
 
-    /** Creates an instance of ExclusionManagedRuleSet class. */
+    /**
+     * Creates an instance of ExclusionManagedRuleSet class.
+     */
     public ExclusionManagedRuleSet() {
     }
 
@@ -101,16 +106,14 @@ public final class ExclusionManagedRuleSet {
      */
     public void validate() {
         if (ruleSetType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetType in model ExclusionManagedRuleSet"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetType in model ExclusionManagedRuleSet"));
         }
         if (ruleSetVersion() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetVersion in model ExclusionManagedRuleSet"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetVersion in model ExclusionManagedRuleSet"));
         }
         if (ruleGroups() != null) {
             ruleGroups().forEach(e -> e.validate());

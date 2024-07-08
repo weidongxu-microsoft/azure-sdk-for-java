@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 package com.azure.cosmos.implementation.query;
 
-import com.azure.cosmos.BridgeInternal;
 import com.azure.cosmos.ConsistencyLevel;
 import com.azure.cosmos.CosmosEndToEndOperationLatencyPolicyConfig;
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.implementation.DiagnosticsClientContext;
 import com.azure.cosmos.implementation.HttpConstants;
 import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
-import com.azure.cosmos.implementation.JsonSerializable;
 import com.azure.cosmos.implementation.OperationType;
 import com.azure.cosmos.implementation.ReplicatedResourceClientUtils;
 import com.azure.cosmos.implementation.ResourceType;
@@ -21,14 +20,13 @@ import com.azure.cosmos.implementation.feedranges.FeedRangeInternal;
 import com.azure.cosmos.implementation.feedranges.FeedRangePartitionKeyImpl;
 import com.azure.cosmos.implementation.routing.PartitionKeyInternal;
 import com.azure.cosmos.implementation.spark.OperationContextAndListenerTuple;
-import com.azure.cosmos.models.CosmosChangeFeedRequestOptions;
 import com.azure.cosmos.models.CosmosQueryRequestOptions;
 import com.azure.cosmos.models.FeedRange;
 import com.azure.cosmos.models.FeedResponse;
 import com.azure.cosmos.models.ModelBridgeInternal;
+import com.azure.cosmos.models.PartitionKeyDefinition;
 import com.azure.cosmos.models.SqlParameter;
 import com.azure.cosmos.models.SqlQuerySpec;
-import com.fasterxml.jackson.databind.JsonNode;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 /**
@@ -45,6 +43,13 @@ import java.util.function.Supplier;
  */
 public abstract class DocumentQueryExecutionContextBase<T>
 implements IDocumentQueryExecutionContext<T> {
+
+    private static final ImplementationBridgeHelpers.CosmosQueryRequestOptionsHelper.CosmosQueryRequestOptionsAccessor qryOptAccessor =
+        ImplementationBridgeHelpers.CosmosQueryRequestOptionsHelper.getCosmosQueryRequestOptionsAccessor();
+
+    private static final ImplementationBridgeHelpers.FeedResponseHelper.FeedResponseAccessor feedResponseAccessor =
+        ImplementationBridgeHelpers.FeedResponseHelper.getFeedResponseAccessor();
+
     protected final DiagnosticsClientContext diagnosticsClientContext;
     protected ResourceType resourceTypeEnum;
     protected String resourceLink;
@@ -56,11 +61,12 @@ implements IDocumentQueryExecutionContext<T> {
     protected boolean shouldExecuteQueryRequest;
     private Supplier<String> operationContextTextProvider;
     private final OperationContextAndListenerTuple operationContext;
+    private final AtomicBoolean isQueryCancelledOnTimeout;
 
     protected DocumentQueryExecutionContextBase(DiagnosticsClientContext diagnosticsClientContext,
                                                 IDocumentQueryClient client, ResourceType resourceTypeEnum,
                                                 Class<T> resourceType, SqlQuerySpec query, CosmosQueryRequestOptions cosmosQueryRequestOptions, String resourceLink,
-                                                UUID correlatedActivityId) {
+                                                UUID correlatedActivityId, AtomicBoolean isQueryCancelledOnTimeout) {
 
         // TODO: validate args are not null: client and feedOption should not be null
         this.client = client;
@@ -72,10 +78,10 @@ implements IDocumentQueryExecutionContext<T> {
         this.resourceLink = resourceLink;
         this.correlatedActivityId = correlatedActivityId;
         this.diagnosticsClientContext = diagnosticsClientContext;
-        this.operationContext = ImplementationBridgeHelpers
-            .CosmosQueryRequestOptionsHelper
-            .getCosmosQueryRequestOptionsAccessor()
-            .getOperationContext(cosmosQueryRequestOptions);
+        this.operationContext = qryOptAccessor
+            .getImpl(cosmosQueryRequestOptions)
+            .getOperationContextAndListenerTuple();
+        this.isQueryCancelledOnTimeout = isQueryCancelledOnTimeout;
         this.operationContextTextProvider = () -> {
             String operationContextText = operationContext != null && operationContext.getOperationContext() != null ?
                 operationContext.getOperationContext().toString() : "n/a";
@@ -89,13 +95,14 @@ implements IDocumentQueryExecutionContext<T> {
 
     public RxDocumentServiceRequest createDocumentServiceRequest(Map<String, String> requestHeaders,
                                                                  SqlQuerySpec querySpec,
-                                                                 PartitionKeyInternal partitionKey) {
+                                                                 PartitionKeyInternal partitionKey,
+                                                                 PartitionKeyDefinition partitionKeyDefinition) {
 
         RxDocumentServiceRequest request = querySpec != null
                 ? this.createQueryDocumentServiceRequest(requestHeaders, querySpec)
                 : this.createReadFeedDocumentServiceRequest(requestHeaders);
 
-        this.populatePartitionKeyInfo(request, partitionKey);
+        this.populatePartitionKeyInfo(request, partitionKey, partitionKeyDefinition);
 
         return request;
     }
@@ -121,52 +128,52 @@ implements IDocumentQueryExecutionContext<T> {
         }
 
         request.applyFeedRangeFilter(FeedRangeInternal.convert(feedRange));
-
-        CosmosEndToEndOperationLatencyPolicyConfig endToEndOperationLatencyConfig =
-            ImplementationBridgeHelpers.CosmosQueryRequestOptionsHelper.
-                getCosmosQueryRequestOptionsAccessor()
-                .getEndToEndOperationLatencyPolicyConfig(cosmosQueryRequestOptions);
+        CosmosEndToEndOperationLatencyPolicyConfig endToEndOperationLatencyConfig = qryOptAccessor
+            .getImpl(cosmosQueryRequestOptions)
+            .getCosmosEndToEndLatencyPolicyConfig();
 
         if (endToEndOperationLatencyConfig != null) {
             request.requestContext.setEndToEndOperationLatencyPolicyConfig(endToEndOperationLatencyConfig);
         }
-        request.requestContext.setExcludeRegions( ImplementationBridgeHelpers.CosmosQueryRequestOptionsHelper.
-            getCosmosQueryRequestOptionsAccessor().getExcludeRegions(cosmosQueryRequestOptions));
+        request.requestContext.setExcludeRegions(
+            qryOptAccessor.getImpl(cosmosQueryRequestOptions).getExcludedRegions());
 
+        request.requestContext.setIsRequestCancelledOnTimeout(this.isQueryCancelledOnTimeout);
         return request;
     }
 
     public Mono<FeedResponse<T>> executeRequestAsync(
-        Function<JsonNode, T> factoryMethod,
+        CosmosItemSerializer itemSerializer,
         RxDocumentServiceRequest request) {
 
-        return (this.shouldExecuteQueryRequest ? this.executeQueryRequestAsync(factoryMethod, request)
-                : this.executeReadFeedRequestAsync(factoryMethod, request));
+        return (this.shouldExecuteQueryRequest ? this.executeQueryRequestAsync(itemSerializer, request)
+                : this.executeReadFeedRequestAsync(itemSerializer, request));
     }
 
     public Mono<FeedResponse<T>> executeQueryRequestAsync(
-        Function<JsonNode, T> factoryMethod,
+        CosmosItemSerializer itemSerializer,
         RxDocumentServiceRequest request) {
 
-        return this.getFeedResponse(factoryMethod, this.executeQueryRequestInternalAsync(request));
+        return this.getFeedResponse(itemSerializer, this.executeQueryRequestInternalAsync(request));
     }
 
     public Mono<FeedResponse<T>> executeReadFeedRequestAsync(
-        Function<JsonNode, T> factoryMethod,
+        CosmosItemSerializer itemSerializer,
         RxDocumentServiceRequest request) {
 
-        return this.getFeedResponse(factoryMethod, this.client.readFeedAsync(request));
+        return this.getFeedResponse(itemSerializer, this.client.readFeedAsync(request));
     }
 
     protected Mono<FeedResponse<T>> getFeedResponse(
-        Function<JsonNode, T> factoryMethod,
+        CosmosItemSerializer itemSerializer,
         Mono<RxDocumentServiceResponse> response) {
 
-        return response.map(resp -> BridgeInternal.toFeedResponsePage(resp, factoryMethod, resourceType));
+        return response.map(resp -> feedResponseAccessor.createFeedResponse(resp, itemSerializer, resourceType));
     }
 
     public CosmosQueryRequestOptions getFeedOptions(String continuationToken, Integer maxPageSize) {
-        CosmosQueryRequestOptions options = ModelBridgeInternal.createQueryRequestOptions(this.cosmosQueryRequestOptions);
+        CosmosQueryRequestOptions options =
+            qryOptAccessor.clone(this.cosmosQueryRequestOptions);
         ModelBridgeInternal.setQueryRequestOptionsContinuationTokenAndMaxItemCount(options, continuationToken, maxPageSize);
         return options;
     }
@@ -214,18 +221,16 @@ implements IDocumentQueryExecutionContext<T> {
             }
         }
 
-        Map<String, String> customOptions = ImplementationBridgeHelpers
-            .CosmosQueryRequestOptionsHelper
-            .getCosmosQueryRequestOptionsAccessor()
-            .getHeader(cosmosQueryRequestOptions);
+        Map<String, String> customOptions = qryOptAccessor
+            .getImpl(cosmosQueryRequestOptions)
+            .getHeaders();
         if(customOptions != null) {
             requestHeaders.putAll(customOptions);
         }
 
-        UUID correlationActivityId = ImplementationBridgeHelpers
-            .CosmosQueryRequestOptionsHelper
-            .getCosmosQueryRequestOptionsAccessor()
-            .getCorrelationActivityId(cosmosQueryRequestOptions);
+        UUID correlationActivityId = qryOptAccessor
+            .getImpl(cosmosQueryRequestOptions)
+            .getCorrelationActivityId();
         if (correlationActivityId != null) {
             requestHeaders.put(HttpConstants.HttpHeaders.CORRELATED_ACTIVITY_ID, correlationActivityId.toString());
         }
@@ -256,10 +261,15 @@ implements IDocumentQueryExecutionContext<T> {
             requestHeaders.put(HttpConstants.HttpHeaders.POPULATE_QUERY_METRICS, String.valueOf(cosmosQueryRequestOptions.isQueryMetricsEnabled()));
         }
 
-        if (cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions() != null &&
-            cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions().getMaxIntegratedCacheStaleness() != null) {
-            requestHeaders.put(HttpConstants.HttpHeaders.DEDICATED_GATEWAY_PER_REQUEST_CACHE_STALENESS,
-                String.valueOf(Utils.getMaxIntegratedCacheStalenessInMillis(cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions())));
+        if (cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions() != null) {
+            if (cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions().getMaxIntegratedCacheStaleness() != null) {
+                requestHeaders.put(HttpConstants.HttpHeaders.DEDICATED_GATEWAY_PER_REQUEST_CACHE_STALENESS,
+                    String.valueOf(Utils.getMaxIntegratedCacheStalenessInMillis(cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions())));
+            }
+            if (cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions().isIntegratedCacheBypassed()) {
+                requestHeaders.put(HttpConstants.HttpHeaders.DEDICATED_GATEWAY_PER_REQUEST_BYPASS_CACHE,
+                    String.valueOf(cosmosQueryRequestOptions.getDedicatedGatewayRequestOptions().isIntegratedCacheBypassed()));
+            }
         }
 
         if (cosmosQueryRequestOptions.isIndexMetricsEnabled()) {
@@ -269,7 +279,7 @@ implements IDocumentQueryExecutionContext<T> {
         return requestHeaders;
     }
 
-    private void populatePartitionKeyInfo(RxDocumentServiceRequest request, PartitionKeyInternal partitionKey) {
+    private void populatePartitionKeyInfo(RxDocumentServiceRequest request, PartitionKeyInternal partitionKey, PartitionKeyDefinition partitionKeyDefinition) {
         if (request == null) {
             throw new NullPointerException("request");
         }
@@ -277,6 +287,7 @@ implements IDocumentQueryExecutionContext<T> {
         if (this.resourceTypeEnum.isPartitioned()) {
             if (partitionKey != null) {
                 request.setPartitionKeyInternal(partitionKey);
+                request.setPartitionKeyDefinition(partitionKeyDefinition);
                 request.getHeaders().put(HttpConstants.HttpHeaders.PARTITION_KEY, partitionKey.toJson());
             }
         }
@@ -315,13 +326,16 @@ implements IDocumentQueryExecutionContext<T> {
                 this.resourceLink,
                     // AuthorizationTokenType.PrimaryMasterKey,
                 requestHeaders);
-            CosmosEndToEndOperationLatencyPolicyConfig endToEndOperationLatencyConfig =
-                ImplementationBridgeHelpers.CosmosQueryRequestOptionsHelper.
-                    getCosmosQueryRequestOptionsAccessor()
-                    .getEndToEndOperationLatencyPolicyConfig(cosmosQueryRequestOptions);
+            CosmosEndToEndOperationLatencyPolicyConfig endToEndOperationLatencyConfig = qryOptAccessor
+                .getImpl(cosmosQueryRequestOptions)
+                .getCosmosEndToEndLatencyPolicyConfig();
             if (endToEndOperationLatencyConfig != null) {
                 executeQueryRequest.requestContext.setEndToEndOperationLatencyPolicyConfig(endToEndOperationLatencyConfig);
             }
+
+            executeQueryRequest.setPartitionKeyDefinition(qryOptAccessor.getPartitionKeyDefinition(this.cosmosQueryRequestOptions));
+
+            executeQueryRequest.requestContext.setIsRequestCancelledOnTimeout(this.isQueryCancelledOnTimeout);
             executeQueryRequest.getHeaders().put(HttpConstants.HttpHeaders.CONTENT_TYPE, MediaTypes.QUERY_JSON);
             executeQueryRequest.setByteBuffer(ModelBridgeInternal.serializeJsonToByteBuffer(querySpec));
             break;
@@ -342,49 +356,5 @@ implements IDocumentQueryExecutionContext<T> {
                     // AuthorizationTokenType.PrimaryMasterKey,
                     requestHeaders);
         }
-    }
-
-    public static <T> Function<JsonNode, T> getEffectiveFactoryMethod(
-        CosmosQueryRequestOptions cosmosQueryRequestOptions,
-        boolean hasSelectValue,
-        Class<T> classOfT) {
-
-        Function<JsonNode, T> factoryMethodFromRequestOptions = cosmosQueryRequestOptions == null ?
-            null:
-            ImplementationBridgeHelpers
-                .CosmosQueryRequestOptionsHelper
-                .getCosmosQueryRequestOptionsAccessor()
-                .getItemFactoryMethod(cosmosQueryRequestOptions, classOfT);
-
-        return getEffectiveFactoryMethod(factoryMethodFromRequestOptions, hasSelectValue, classOfT);
-    }
-
-    public static <T> Function<JsonNode, T> getEffectiveFactoryMethod(
-        CosmosChangeFeedRequestOptions cosmosChangeFeedRequestOptions,
-        Class<T> classOfT) {
-
-        Function<JsonNode, T> factoryMethodFromRequestOptions = cosmosChangeFeedRequestOptions == null ?
-            null:
-            ImplementationBridgeHelpers
-                .CosmosChangeFeedRequestOptionsHelper
-                .getCosmosChangeFeedRequestOptionsAccessor()
-                .getItemFactoryMethod(cosmosChangeFeedRequestOptions, classOfT);
-
-        return getEffectiveFactoryMethod(factoryMethodFromRequestOptions, false, classOfT);
-    }
-
-    private static <T> Function<JsonNode, T> getEffectiveFactoryMethod(
-        Function<JsonNode, T> factoryMethodFromRequestOptions,
-        boolean hasSelectValue,
-        Class<T> classOfT) {
-
-        return (node) -> {
-            if (factoryMethodFromRequestOptions != null) {
-                return factoryMethodFromRequestOptions.apply(node);
-            }
-
-            return JsonSerializable.toObjectFromObjectNode(
-                node, hasSelectValue, classOfT);
-        };
     }
 }

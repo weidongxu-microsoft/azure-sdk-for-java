@@ -7,12 +7,13 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The configuration settings of the Apple provider. */
+/**
+ * The configuration settings of the Apple provider.
+ */
 @Fluent
 public final class Apple {
     /*
-     * <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise,
-     * <code>true</code>.
+     * <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise, <code>true</code>.
      */
     @JsonProperty(value = "enabled")
     private Boolean enabled;
@@ -29,14 +30,16 @@ public final class Apple {
     @JsonProperty(value = "login")
     private LoginScopes login;
 
-    /** Creates an instance of Apple class. */
+    /**
+     * Creates an instance of Apple class.
+     */
     public Apple() {
     }
 
     /**
      * Get the enabled property: &lt;code&gt;false&lt;/code&gt; if the Apple provider should not be enabled despite the
      * set registration; otherwise, &lt;code&gt;true&lt;/code&gt;.
-     *
+     * 
      * @return the enabled value.
      */
     public Boolean enabled() {
@@ -46,7 +49,7 @@ public final class Apple {
     /**
      * Set the enabled property: &lt;code&gt;false&lt;/code&gt; if the Apple provider should not be enabled despite the
      * set registration; otherwise, &lt;code&gt;true&lt;/code&gt;.
-     *
+     * 
      * @param enabled the enabled value to set.
      * @return the Apple object itself.
      */
@@ -57,7 +60,7 @@ public final class Apple {
 
     /**
      * Get the registration property: The configuration settings of the Apple registration.
-     *
+     * 
      * @return the registration value.
      */
     public AppleRegistration registration() {
@@ -66,7 +69,7 @@ public final class Apple {
 
     /**
      * Set the registration property: The configuration settings of the Apple registration.
-     *
+     * 
      * @param registration the registration value to set.
      * @return the Apple object itself.
      */
@@ -77,7 +80,7 @@ public final class Apple {
 
     /**
      * Get the login property: The configuration settings of the login flow.
-     *
+     * 
      * @return the login value.
      */
     public LoginScopes login() {
@@ -86,7 +89,7 @@ public final class Apple {
 
     /**
      * Set the login property: The configuration settings of the login flow.
-     *
+     * 
      * @param login the login value to set.
      * @return the Apple object itself.
      */
@@ -97,7 +100,7 @@ public final class Apple {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

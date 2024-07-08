@@ -8,25 +8,22 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.elasticsan.models.SourceCreationData;
 import com.azure.resourcemanager.elasticsan.models.VolumeCreateOption;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class SourceCreationDataTests {
-    @Test
-    public void testDeserialize() {
-        SourceCreationData model =
-            BinaryData
-                .fromString("{\"createSource\":\"None\",\"sourceUri\":\"lokeyy\"}")
-                .toObject(SourceCreationData.class);
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        SourceCreationData model = BinaryData.fromString("{\"createSource\":\"None\",\"sourceId\":\"trcvpnazzmh\"}")
+            .toObject(SourceCreationData.class);
         Assertions.assertEquals(VolumeCreateOption.NONE, model.createSource());
-        Assertions.assertEquals("lokeyy", model.sourceUri());
+        Assertions.assertEquals("trcvpnazzmh", model.sourceId());
     }
 
-    @Test
-    public void testSerialize() {
-        SourceCreationData model =
-            new SourceCreationData().withCreateSource(VolumeCreateOption.NONE).withSourceUri("lokeyy");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        SourceCreationData model
+            = new SourceCreationData().withCreateSource(VolumeCreateOption.NONE).withSourceId("trcvpnazzmh");
         model = BinaryData.fromObject(model).toObject(SourceCreationData.class);
         Assertions.assertEquals(VolumeCreateOption.NONE, model.createSource());
-        Assertions.assertEquals("lokeyy", model.sourceUri());
+        Assertions.assertEquals("trcvpnazzmh", model.sourceId());
     }
 }

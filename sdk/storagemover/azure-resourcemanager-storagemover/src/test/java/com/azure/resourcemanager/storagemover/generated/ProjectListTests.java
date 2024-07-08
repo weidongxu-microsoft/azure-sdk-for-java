@@ -10,11 +10,9 @@ import com.azure.resourcemanager.storagemover.models.ProjectList;
 public final class ProjectListTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ProjectList model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"description\":\"rcjxvsnbyxqabn\",\"provisioningState\":\"Succeeded\"},\"id\":\"cyshurzafbljjgp\",\"name\":\"toqcjmklja\",\"type\":\"bqidtqaj\"},{\"properties\":{\"description\":\"l\",\"provisioningState\":\"Succeeded\"},\"id\":\"jkrlkhbzhfepg\",\"name\":\"gqexzlocxs\",\"type\":\"paierh\"}],\"nextLink\":\"csglum\"}")
-                .toObject(ProjectList.class);
+        ProjectList model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"description\":\"mijcmmxdcufufs\",\"provisioningState\":\"Canceled\"},\"id\":\"zidnsezcxtbzsgfy\",\"name\":\"cs\",\"type\":\"ewmdw\"},{\"properties\":{\"description\":\"iachbo\",\"provisioningState\":\"Deleting\"},\"id\":\"nrosfqpte\",\"name\":\"hzzvypyq\",\"type\":\"i\"},{\"properties\":{\"description\":\"npvswjdkirso\",\"provisioningState\":\"Canceled\"},\"id\":\"hc\",\"name\":\"mnoh\",\"type\":\"t\"},{\"properties\":{\"description\":\"h\",\"provisioningState\":\"Deleting\"},\"id\":\"fiyipjxsqwpgrj\",\"name\":\"znorcj\",\"type\":\"vsnb\"}],\"nextLink\":\"qabnmoc\"}")
+            .toObject(ProjectList.class);
     }
 
     @org.junit.jupiter.api.Test

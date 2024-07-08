@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.management.Resource;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
-/** An application security group in a resource group. */
+/**
+ * An application security group in a resource group.
+ */
 @Fluent
 public final class ApplicationSecurityGroupInner extends Resource {
     /*
@@ -31,7 +34,9 @@ public final class ApplicationSecurityGroupInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ApplicationSecurityGroupInner class. */
+    /**
+     * Creates an instance of ApplicationSecurityGroupInner class.
+     */
     public ApplicationSecurityGroupInner() {
     }
 
@@ -73,14 +78,18 @@ public final class ApplicationSecurityGroupInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationSecurityGroupInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationSecurityGroupInner withTags(Map<String, String> tags) {
         super.withTags(tags);

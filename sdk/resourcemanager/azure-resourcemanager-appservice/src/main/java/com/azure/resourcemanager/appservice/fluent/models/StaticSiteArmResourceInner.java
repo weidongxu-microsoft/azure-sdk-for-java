@@ -17,10 +17,13 @@ import com.azure.resourcemanager.appservice.models.StaticSiteLinkedBackend;
 import com.azure.resourcemanager.appservice.models.StaticSiteTemplateOptions;
 import com.azure.resourcemanager.appservice.models.StaticSiteUserProvidedFunctionApp;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** Static Site ARM resource. */
+/**
+ * Static Site ARM resource.
+ */
 @Fluent
 public final class StaticSiteArmResourceInner extends Resource {
     /*
@@ -47,7 +50,9 @@ public final class StaticSiteArmResourceInner extends Resource {
     @JsonProperty(value = "kind")
     private String kind;
 
-    /** Creates an instance of StaticSiteArmResourceInner class. */
+    /**
+     * Creates an instance of StaticSiteArmResourceInner class.
+     */
     public StaticSiteArmResourceInner() {
     }
 
@@ -120,14 +125,18 @@ public final class StaticSiteArmResourceInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StaticSiteArmResourceInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StaticSiteArmResourceInner withTags(Map<String, String> tags) {
         super.withTags(tags);

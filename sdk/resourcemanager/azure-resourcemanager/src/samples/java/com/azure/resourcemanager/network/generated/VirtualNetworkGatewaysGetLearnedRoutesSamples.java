@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualNetworkGateways GetLearnedRoutes. */
+/**
+ * Samples for VirtualNetworkGateways GetLearnedRoutes.
+ */
 public final class VirtualNetworkGatewaysGetLearnedRoutesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayLearnedRoutes.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayLearnedRoutes.json
      */
     /**
      * Sample code: GetVirtualNetworkGatewayLearnedRoutes.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getVirtualNetworkGatewayLearnedRoutes(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()

@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Client authentication settings for namespace resource. */
+/**
+ * Client authentication settings for namespace resource.
+ */
 @Fluent
 public final class ClientAuthenticationSettings {
     /*
@@ -17,14 +19,22 @@ public final class ClientAuthenticationSettings {
     @JsonProperty(value = "alternativeAuthenticationNameSources")
     private List<AlternativeAuthenticationNameSource> alternativeAuthenticationNameSources;
 
-    /** Creates an instance of ClientAuthenticationSettings class. */
+    /*
+     * Custom JWT authentication settings for namespace resource.
+     */
+    @JsonProperty(value = "customJwtAuthentication")
+    private CustomJwtAuthenticationSettings customJwtAuthentication;
+
+    /**
+     * Creates an instance of ClientAuthenticationSettings class.
+     */
     public ClientAuthenticationSettings() {
     }
 
     /**
      * Get the alternativeAuthenticationNameSources property: Alternative authentication name sources related to client
      * authentication settings for namespace resource.
-     *
+     * 
      * @return the alternativeAuthenticationNameSources value.
      */
     public List<AlternativeAuthenticationNameSource> alternativeAuthenticationNameSources() {
@@ -34,7 +44,7 @@ public final class ClientAuthenticationSettings {
     /**
      * Set the alternativeAuthenticationNameSources property: Alternative authentication name sources related to client
      * authentication settings for namespace resource.
-     *
+     * 
      * @param alternativeAuthenticationNameSources the alternativeAuthenticationNameSources value to set.
      * @return the ClientAuthenticationSettings object itself.
      */
@@ -45,10 +55,34 @@ public final class ClientAuthenticationSettings {
     }
 
     /**
+     * Get the customJwtAuthentication property: Custom JWT authentication settings for namespace resource.
+     * 
+     * @return the customJwtAuthentication value.
+     */
+    public CustomJwtAuthenticationSettings customJwtAuthentication() {
+        return this.customJwtAuthentication;
+    }
+
+    /**
+     * Set the customJwtAuthentication property: Custom JWT authentication settings for namespace resource.
+     * 
+     * @param customJwtAuthentication the customJwtAuthentication value to set.
+     * @return the ClientAuthenticationSettings object itself.
+     */
+    public ClientAuthenticationSettings
+        withCustomJwtAuthentication(CustomJwtAuthenticationSettings customJwtAuthentication) {
+        this.customJwtAuthentication = customJwtAuthentication;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (customJwtAuthentication() != null) {
+            customJwtAuthentication().validate();
+        }
     }
 }

@@ -7,78 +7,118 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.DynamicsCrmEntityDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Dynamics CRM entity dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Dynamics CRM entity dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = DynamicsCrmEntityDataset.class,
+    visible = true)
 @JsonTypeName("DynamicsCrmEntity")
 @Fluent
 public final class DynamicsCrmEntityDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DynamicsCrmEntity";
+
     /*
      * Dynamics CRM entity dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private DynamicsCrmEntityDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of DynamicsCrmEntityDataset class. */
+    /**
+     * Creates an instance of DynamicsCrmEntityDataset class.
+     */
     public DynamicsCrmEntityDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Dynamics CRM entity dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private DynamicsCrmEntityDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsCrmEntityDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +127,7 @@ public final class DynamicsCrmEntityDataset extends Dataset {
 
     /**
      * Get the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the entityName value.
      */
     public Object entityName() {
@@ -96,7 +136,7 @@ public final class DynamicsCrmEntityDataset extends Dataset {
 
     /**
      * Set the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param entityName the entityName value to set.
      * @return the DynamicsCrmEntityDataset object itself.
      */
@@ -110,7 +150,7 @@ public final class DynamicsCrmEntityDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

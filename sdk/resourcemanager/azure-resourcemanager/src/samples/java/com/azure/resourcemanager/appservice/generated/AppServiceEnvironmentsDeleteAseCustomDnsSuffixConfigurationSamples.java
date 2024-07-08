@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for AppServiceEnvironments DeleteAseCustomDnsSuffixConfiguration. */
+/**
+ * Samples for AppServiceEnvironments DeleteAseCustomDnsSuffixConfiguration.
+ */
 public final class AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DeleteAseCustomDnsSuffixConfiguration.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeleteAseCustomDnsSuffixConfiguration.json
      */
     /**
      * Sample code: Delete ASE custom DNS suffix configuration.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteASECustomDNSSuffixConfiguration(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getAppServiceEnvironments()

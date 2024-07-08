@@ -7,12 +7,13 @@ package com.azure.resourcemanager.eventgrid.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The identity information with the event subscription. */
+/**
+ * The identity information with the event subscription.
+ */
 @Fluent
 public final class EventSubscriptionIdentity {
     /*
-     * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
-     * identity and a set of user-assigned identities. The type 'None' will remove any identity.
+     * The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'.
      */
     @JsonProperty(value = "type")
     private EventSubscriptionIdentityType type;
@@ -23,14 +24,15 @@ public final class EventSubscriptionIdentity {
     @JsonProperty(value = "userAssignedIdentity")
     private String userAssignedIdentity;
 
-    /** Creates an instance of EventSubscriptionIdentity class. */
+    /**
+     * Creates an instance of EventSubscriptionIdentity class.
+     */
     public EventSubscriptionIdentity() {
     }
 
     /**
-     * Get the type property: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both
-     * an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
-     *
+     * Get the type property: The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'.
+     * 
      * @return the type value.
      */
     public EventSubscriptionIdentityType type() {
@@ -38,9 +40,8 @@ public final class EventSubscriptionIdentity {
     }
 
     /**
-     * Set the type property: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both
-     * an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
-     *
+     * Set the type property: The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'.
+     * 
      * @param type the type value to set.
      * @return the EventSubscriptionIdentity object itself.
      */
@@ -51,7 +52,7 @@ public final class EventSubscriptionIdentity {
 
     /**
      * Get the userAssignedIdentity property: The user identity associated with the resource.
-     *
+     * 
      * @return the userAssignedIdentity value.
      */
     public String userAssignedIdentity() {
@@ -60,7 +61,7 @@ public final class EventSubscriptionIdentity {
 
     /**
      * Set the userAssignedIdentity property: The user identity associated with the resource.
-     *
+     * 
      * @param userAssignedIdentity the userAssignedIdentity value to set.
      * @return the EventSubscriptionIdentity object itself.
      */
@@ -71,7 +72,7 @@ public final class EventSubscriptionIdentity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

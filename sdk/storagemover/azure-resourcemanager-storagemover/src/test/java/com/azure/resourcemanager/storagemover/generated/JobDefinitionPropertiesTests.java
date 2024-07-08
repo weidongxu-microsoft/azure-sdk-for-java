@@ -12,38 +12,34 @@ import org.junit.jupiter.api.Assertions;
 public final class JobDefinitionPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        JobDefinitionProperties model =
-            BinaryData
-                .fromString(
-                    "{\"description\":\"ej\",\"copyMode\":\"Additive\",\"sourceName\":\"vorxzdmohct\",\"sourceResourceId\":\"vudwx\",\"sourceSubpath\":\"dnvowg\",\"targetName\":\"jjugwdkcglhslaz\",\"targetResourceId\":\"yggdtjixh\",\"targetSubpath\":\"uofqwe\",\"latestJobRunName\":\"hmenevfyexfwhybc\",\"latestJobRunResourceId\":\"vyvdcs\",\"latestJobRunStatus\":\"Running\",\"agentName\":\"naamde\",\"agentResourceId\":\"eh\",\"provisioningState\":\"Succeeded\"}")
-                .toObject(JobDefinitionProperties.class);
-        Assertions.assertEquals("ej", model.description());
+        JobDefinitionProperties model = BinaryData.fromString(
+            "{\"description\":\"e\",\"copyMode\":\"Additive\",\"sourceName\":\"noae\",\"sourceResourceId\":\"fhyhltrpmopjmcma\",\"sourceSubpath\":\"okth\",\"targetName\":\"uiuaodsfcpkvxodp\",\"targetResourceId\":\"zmyzydagf\",\"targetSubpath\":\"xbezyiuokktwh\",\"latestJobRunName\":\"xw\",\"latestJobRunResourceId\":\"wqsmbsur\",\"latestJobRunStatus\":\"Started\",\"agentName\":\"o\",\"agentResourceId\":\"ocfs\",\"provisioningState\":\"Succeeded\"}")
+            .toObject(JobDefinitionProperties.class);
+        Assertions.assertEquals("e", model.description());
         Assertions.assertEquals(CopyMode.ADDITIVE, model.copyMode());
-        Assertions.assertEquals("vorxzdmohct", model.sourceName());
-        Assertions.assertEquals("dnvowg", model.sourceSubpath());
-        Assertions.assertEquals("jjugwdkcglhslaz", model.targetName());
-        Assertions.assertEquals("uofqwe", model.targetSubpath());
-        Assertions.assertEquals("naamde", model.agentName());
+        Assertions.assertEquals("noae", model.sourceName());
+        Assertions.assertEquals("okth", model.sourceSubpath());
+        Assertions.assertEquals("uiuaodsfcpkvxodp", model.targetName());
+        Assertions.assertEquals("xbezyiuokktwh", model.targetSubpath());
+        Assertions.assertEquals("o", model.agentName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        JobDefinitionProperties model =
-            new JobDefinitionProperties()
-                .withDescription("ej")
-                .withCopyMode(CopyMode.ADDITIVE)
-                .withSourceName("vorxzdmohct")
-                .withSourceSubpath("dnvowg")
-                .withTargetName("jjugwdkcglhslaz")
-                .withTargetSubpath("uofqwe")
-                .withAgentName("naamde");
+        JobDefinitionProperties model = new JobDefinitionProperties().withDescription("e")
+            .withCopyMode(CopyMode.ADDITIVE)
+            .withSourceName("noae")
+            .withSourceSubpath("okth")
+            .withTargetName("uiuaodsfcpkvxodp")
+            .withTargetSubpath("xbezyiuokktwh")
+            .withAgentName("o");
         model = BinaryData.fromObject(model).toObject(JobDefinitionProperties.class);
-        Assertions.assertEquals("ej", model.description());
+        Assertions.assertEquals("e", model.description());
         Assertions.assertEquals(CopyMode.ADDITIVE, model.copyMode());
-        Assertions.assertEquals("vorxzdmohct", model.sourceName());
-        Assertions.assertEquals("dnvowg", model.sourceSubpath());
-        Assertions.assertEquals("jjugwdkcglhslaz", model.targetName());
-        Assertions.assertEquals("uofqwe", model.targetSubpath());
-        Assertions.assertEquals("naamde", model.agentName());
+        Assertions.assertEquals("noae", model.sourceName());
+        Assertions.assertEquals("okth", model.sourceSubpath());
+        Assertions.assertEquals("uiuaodsfcpkvxodp", model.targetName());
+        Assertions.assertEquals("xbezyiuokktwh", model.targetSubpath());
+        Assertions.assertEquals("o", model.agentName());
     }
 }

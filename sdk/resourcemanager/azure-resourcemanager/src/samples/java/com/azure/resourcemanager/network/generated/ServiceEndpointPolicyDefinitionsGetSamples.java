@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ServiceEndpointPolicyDefinitions Get. */
+/**
+ * Samples for ServiceEndpointPolicyDefinitions Get.
+ */
 public final class ServiceEndpointPolicyDefinitionsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ServiceEndpointPolicyDefinitionGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceEndpointPolicyDefinitionGet.json
      */
     /**
      * Sample code: Get service endpoint definition in service endpoint policy.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getServiceEndpointDefinitionInServiceEndpointPolicy(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+    public static void
+        getServiceEndpointDefinitionInServiceEndpointPolicy(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.networks()
             .manager()
             .serviceClient()
             .getServiceEndpointPolicyDefinitions()

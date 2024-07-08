@@ -9,18 +9,33 @@ import com.azure.resourcemanager.storage.fluent.models.LocalUserInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** List storage account local users. */
+/**
+ * List of local users requested, and if paging is required, a URL to the next page of local users.
+ */
 @Fluent
 public final class LocalUsers {
     /*
-     * The local users associated with the storage account.
+     * The list of local users associated with the storage account.
      */
     @JsonProperty(value = "value")
     private List<LocalUserInner> value;
 
+    /*
+     * Request URL that can be used to query next page of local users. Returned when total number of requested local
+     * users exceeds the maximum page size.
+     */
+    @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
+    private String nextLink;
+
     /**
-     * Get the value property: The local users associated with the storage account.
-     *
+     * Creates an instance of LocalUsers class.
+     */
+    public LocalUsers() {
+    }
+
+    /**
+     * Get the value property: The list of local users associated with the storage account.
+     * 
      * @return the value value.
      */
     public List<LocalUserInner> value() {
@@ -28,8 +43,8 @@ public final class LocalUsers {
     }
 
     /**
-     * Set the value property: The local users associated with the storage account.
-     *
+     * Set the value property: The list of local users associated with the storage account.
+     * 
      * @param value the value value to set.
      * @return the LocalUsers object itself.
      */
@@ -39,8 +54,18 @@ public final class LocalUsers {
     }
 
     /**
+     * Get the nextLink property: Request URL that can be used to query next page of local users. Returned when total
+     * number of requested local users exceeds the maximum page size.
+     * 
+     * @return the nextLink value.
+     */
+    public String nextLink() {
+        return this.nextLink;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

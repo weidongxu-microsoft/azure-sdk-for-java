@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.ContainerAppInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Container App collection ARM resource. */
+/**
+ * Container App collection ARM resource.
+ */
 @Fluent
 public final class ContainerAppCollection {
     /*
@@ -25,7 +28,9 @@ public final class ContainerAppCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ContainerAppCollection class. */
+    /**
+     * Creates an instance of ContainerAppCollection class.
+     */
     public ContainerAppCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class ContainerAppCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model ContainerAppCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model ContainerAppCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

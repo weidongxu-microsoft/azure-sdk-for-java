@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.GenericDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Responsys dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Responsys dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ResponsysObjectDataset.class, visible = true)
 @JsonTypeName("ResponsysObject")
 @Fluent
 public final class ResponsysObjectDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ResponsysObject";
+
     /*
      * Properties specific to this dataset type.
      */
     @JsonProperty(value = "typeProperties")
     private GenericDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of ResponsysObjectDataset class. */
+    /**
+     * Creates an instance of ResponsysObjectDataset class.
+     */
     public ResponsysObjectDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Properties specific to this dataset type.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private GenericDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ResponsysObjectDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class ResponsysObjectDataset extends Dataset {
 
     /**
      * Get the tableName property: The table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -96,7 +132,7 @@ public final class ResponsysObjectDataset extends Dataset {
 
     /**
      * Set the tableName property: The table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the ResponsysObjectDataset object itself.
      */
@@ -110,7 +146,7 @@ public final class ResponsysObjectDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

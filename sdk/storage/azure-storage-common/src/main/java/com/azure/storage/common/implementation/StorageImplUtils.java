@@ -7,6 +7,7 @@ import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.CoreUtils;
+import com.azure.core.util.SharedExecutorService;
 import com.azure.core.util.UrlBuilder;
 import com.azure.core.util.logging.ClientLogger;
 import reactor.core.publisher.Mono;
@@ -30,10 +31,11 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
@@ -94,9 +96,7 @@ public class StorageImplUtils {
 
     private static final DateTimeFormatter NO_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         .withLocale(Locale.ROOT);
-
-    public static final ExecutorService THREAD_POOL = getThreadPoolWithShutdownHook();
-    private static final long THREADPOOL_SHUTDOWN_HOOK_TIMEOUT_SECONDS = 30;
+    private static final String ENCRYPTION_DATA_KEY = "encryptiondata";
 
 
     /**
@@ -457,7 +457,8 @@ public class StorageImplUtils {
     public static <T> T submitThreadPool(Supplier<T> operation, ClientLogger logger, Duration timeout) {
         try {
             return timeout != null
-                ? THREAD_POOL.submit(operation::get).get(timeout.toMillis(), TimeUnit.MILLISECONDS) : operation.get();
+                ? SharedExecutorService.getInstance().submit(operation::get).get(timeout.toMillis(), TimeUnit.MILLISECONDS)
+                : operation.get();
         }  catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw logger.logExceptionAsError(new RuntimeException(e));
         } catch (RuntimeException e) {
@@ -465,26 +466,71 @@ public class StorageImplUtils {
         }
     }
 
-    public static ExecutorService getThreadPoolWithShutdownHook() {
-        ExecutorService threadPool = Executors.newCachedThreadPool();
-        registerShutdownHook(threadPool);
-        return threadPool;
+    public static String getEncryptionDataKey(Map<String, String> metadata) {
+        if (CoreUtils.isNullOrEmpty(metadata)) {
+            return null;
+        }
+        for (Map.Entry<String, String> entry : metadata.entrySet()) {
+            if (entry.getKey().length() != ENCRYPTION_DATA_KEY.length()) {
+                continue;
+            }
+            if (ENCRYPTION_DATA_KEY.regionMatches(true, 0, entry.getKey(), 0, ENCRYPTION_DATA_KEY.length())) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
-    public static void registerShutdownHook(ExecutorService threadPool) {
-        long halfTimeout = TimeUnit.SECONDS.toNanos(THREADPOOL_SHUTDOWN_HOOK_TIMEOUT_SECONDS) / 2;
-        Thread hook = new Thread(() -> {
-            try {
-                threadPool.shutdown();
-                if (!threadPool.awaitTermination(halfTimeout, TimeUnit.NANOSECONDS)) {
-                    threadPool.shutdownNow();
-                    threadPool.awaitTermination(halfTimeout, TimeUnit.NANOSECONDS);
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                threadPool.shutdown();
+    public static <T> T sendRequest(Callable<T> operation, Duration timeout,
+        Class<? extends RuntimeException> exceptionType) {
+        try {
+            if (timeout == null) {
+                return operation.call();
             }
-        });
-        Runtime.getRuntime().addShutdownHook(hook);
+            Future<T> future = SharedExecutorService.getInstance().submit(operation);
+            return getResultWithTimeout(future, timeout.toMillis(), exceptionType);
+        } catch (Exception e) {
+            Throwable cause = e.getCause();
+            if (exceptionType.isInstance(e)) {
+                // Safe to cast since we checked with isInstance
+                throw exceptionType.cast(e);
+            } else if (cause instanceof RuntimeException) {
+                // Throw as is if it's already a RuntimeException
+                throw (RuntimeException) cause;
+            } else if (cause instanceof Error) {
+                // Propagate if it's an Error
+                throw (Error) cause;
+            } else {
+                // Wrap in RuntimeException if it's neither Error nor RuntimeException
+                throw LOGGER.logExceptionAsError(new RuntimeException(cause));
+            }
+        }
+    }
+
+    public static <T> T getResultWithTimeout(Future<T> future, long timeoutInMillis,
+        Class<? extends RuntimeException> exceptionType) throws InterruptedException, ExecutionException,
+        TimeoutException {
+        Objects.requireNonNull(future, "'future' cannot be null.");
+
+        try {
+            if (timeoutInMillis <= 0) {
+                return future.get();
+            }
+            return future.get(timeoutInMillis, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            future.cancel(true); // Cancel the operation as it's no longer needed
+            throw e;
+        } catch (ExecutionException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof Error) {
+                throw (Error) cause; // Rethrow if it's an Error
+            } else if (exceptionType.isInstance(cause)) {
+                throw e;
+            } else if (cause instanceof RuntimeException) {
+                throw (RuntimeException) cause; // Rethrow if it's another kind of RuntimeException
+            } else {
+                throw new RuntimeException(cause);
+            }
+        }
     }
 }

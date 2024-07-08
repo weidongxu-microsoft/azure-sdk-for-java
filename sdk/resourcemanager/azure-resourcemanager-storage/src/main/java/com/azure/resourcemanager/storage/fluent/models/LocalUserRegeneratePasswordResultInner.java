@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.fluent.models;
 import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The secrets of Storage Account Local User. */
+/**
+ * The secrets of Storage Account Local User.
+ */
 @Immutable
 public final class LocalUserRegeneratePasswordResultInner {
     /*
@@ -18,9 +20,15 @@ public final class LocalUserRegeneratePasswordResultInner {
     private String sshPassword;
 
     /**
+     * Creates an instance of LocalUserRegeneratePasswordResultInner class.
+     */
+    public LocalUserRegeneratePasswordResultInner() {
+    }
+
+    /**
      * Get the sshPassword property: Auto generated password by the server for SSH authentication if hasSshPassword is
      * set to true on the creation of local user.
-     *
+     * 
      * @return the sshPassword value.
      */
     public String sshPassword() {
@@ -29,7 +37,7 @@ public final class LocalUserRegeneratePasswordResultInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

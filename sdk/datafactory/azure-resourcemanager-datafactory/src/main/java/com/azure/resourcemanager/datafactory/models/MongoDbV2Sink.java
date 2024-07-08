@@ -6,31 +6,53 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity MongoDB sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity MongoDB sink.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = MongoDbV2Sink.class, visible = true)
 @JsonTypeName("MongoDbV2Sink")
 @Fluent
 public final class MongoDbV2Sink extends CopySink {
     /*
-     * Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert).
-     * The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression
-     * with resultType string).
+     * Copy sink type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "MongoDbV2Sink";
+
+    /*
+     * Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The
+     * default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with
+     * resultType string).
      */
     @JsonProperty(value = "writeBehavior")
     private Object writeBehavior;
 
-    /** Creates an instance of MongoDbV2Sink class. */
+    /**
+     * Creates an instance of MongoDbV2Sink class.
+     */
     public MongoDbV2Sink() {
+    }
+
+    /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the writeBehavior property: Specifies whether the document with same key to be overwritten (upsert) rather
      * than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType
      * string). Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the writeBehavior value.
      */
     public Object writeBehavior() {
@@ -41,7 +63,7 @@ public final class MongoDbV2Sink extends CopySink {
      * Set the writeBehavior property: Specifies whether the document with same key to be overwritten (upsert) rather
      * than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType
      * string). Type: string (or Expression with resultType string).
-     *
+     * 
      * @param writeBehavior the writeBehavior value to set.
      * @return the MongoDbV2Sink object itself.
      */
@@ -50,42 +72,54 @@ public final class MongoDbV2Sink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbV2Sink withWriteBatchSize(Object writeBatchSize) {
         super.withWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbV2Sink withWriteBatchTimeout(Object writeBatchTimeout) {
         super.withWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbV2Sink withSinkRetryCount(Object sinkRetryCount) {
         super.withSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbV2Sink withSinkRetryWait(Object sinkRetryWait) {
         super.withSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbV2Sink withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbV2Sink withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -94,7 +128,7 @@ public final class MongoDbV2Sink extends CopySink {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

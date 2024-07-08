@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Allow certain variables to be scrubbed on WAF logs. */
+/**
+ * Allow certain variables to be scrubbed on WAF logs.
+ */
 @Fluent
 public final class WebApplicationFirewallScrubbingRules {
     /*
@@ -18,15 +20,13 @@ public final class WebApplicationFirewallScrubbingRules {
     private ScrubbingRuleEntryMatchVariable matchVariable;
 
     /*
-     * When matchVariable is a collection, operate on the selector to specify which elements in the collection this
-     * rule applies to.
+     * When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to.
      */
     @JsonProperty(value = "selectorMatchOperator", required = true)
     private ScrubbingRuleEntryMatchOperator selectorMatchOperator;
 
     /*
-     * When matchVariable is a collection, operator used to specify which elements in the collection this rule applies
-     * to.
+     * When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to.
      */
     @JsonProperty(value = "selector")
     private String selector;
@@ -37,13 +37,15 @@ public final class WebApplicationFirewallScrubbingRules {
     @JsonProperty(value = "state")
     private ScrubbingRuleEntryState state;
 
-    /** Creates an instance of WebApplicationFirewallScrubbingRules class. */
+    /**
+     * Creates an instance of WebApplicationFirewallScrubbingRules class.
+     */
     public WebApplicationFirewallScrubbingRules() {
     }
 
     /**
      * Get the matchVariable property: The variable to be scrubbed from the logs.
-     *
+     * 
      * @return the matchVariable value.
      */
     public ScrubbingRuleEntryMatchVariable matchVariable() {
@@ -52,7 +54,7 @@ public final class WebApplicationFirewallScrubbingRules {
 
     /**
      * Set the matchVariable property: The variable to be scrubbed from the logs.
-     *
+     * 
      * @param matchVariable the matchVariable value to set.
      * @return the WebApplicationFirewallScrubbingRules object itself.
      */
@@ -64,7 +66,7 @@ public final class WebApplicationFirewallScrubbingRules {
     /**
      * Get the selectorMatchOperator property: When matchVariable is a collection, operate on the selector to specify
      * which elements in the collection this rule applies to.
-     *
+     * 
      * @return the selectorMatchOperator value.
      */
     public ScrubbingRuleEntryMatchOperator selectorMatchOperator() {
@@ -74,12 +76,12 @@ public final class WebApplicationFirewallScrubbingRules {
     /**
      * Set the selectorMatchOperator property: When matchVariable is a collection, operate on the selector to specify
      * which elements in the collection this rule applies to.
-     *
+     * 
      * @param selectorMatchOperator the selectorMatchOperator value to set.
      * @return the WebApplicationFirewallScrubbingRules object itself.
      */
-    public WebApplicationFirewallScrubbingRules withSelectorMatchOperator(
-        ScrubbingRuleEntryMatchOperator selectorMatchOperator) {
+    public WebApplicationFirewallScrubbingRules
+        withSelectorMatchOperator(ScrubbingRuleEntryMatchOperator selectorMatchOperator) {
         this.selectorMatchOperator = selectorMatchOperator;
         return this;
     }
@@ -87,7 +89,7 @@ public final class WebApplicationFirewallScrubbingRules {
     /**
      * Get the selector property: When matchVariable is a collection, operator used to specify which elements in the
      * collection this rule applies to.
-     *
+     * 
      * @return the selector value.
      */
     public String selector() {
@@ -97,7 +99,7 @@ public final class WebApplicationFirewallScrubbingRules {
     /**
      * Set the selector property: When matchVariable is a collection, operator used to specify which elements in the
      * collection this rule applies to.
-     *
+     * 
      * @param selector the selector value to set.
      * @return the WebApplicationFirewallScrubbingRules object itself.
      */
@@ -108,7 +110,7 @@ public final class WebApplicationFirewallScrubbingRules {
 
     /**
      * Get the state property: Defines the state of log scrubbing rule. Default value is Enabled.
-     *
+     * 
      * @return the state value.
      */
     public ScrubbingRuleEntryState state() {
@@ -117,7 +119,7 @@ public final class WebApplicationFirewallScrubbingRules {
 
     /**
      * Set the state property: Defines the state of log scrubbing rule. Default value is Enabled.
-     *
+     * 
      * @param state the state value to set.
      * @return the WebApplicationFirewallScrubbingRules object itself.
      */
@@ -128,22 +130,19 @@ public final class WebApplicationFirewallScrubbingRules {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (matchVariable() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property matchVariable in model WebApplicationFirewallScrubbingRules"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property matchVariable in model WebApplicationFirewallScrubbingRules"));
         }
         if (selectorMatchOperator() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property selectorMatchOperator in model"
-                            + " WebApplicationFirewallScrubbingRules"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property selectorMatchOperator in model WebApplicationFirewallScrubbingRules"));
         }
     }
 

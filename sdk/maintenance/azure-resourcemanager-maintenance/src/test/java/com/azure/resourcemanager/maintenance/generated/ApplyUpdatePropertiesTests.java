@@ -13,26 +13,22 @@ import org.junit.jupiter.api.Assertions;
 public final class ApplyUpdatePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ApplyUpdateProperties model =
-            BinaryData
-                .fromString(
-                    "{\"status\":\"Pending\",\"resourceId\":\"ainqpjwnzlljfm\",\"lastUpdateTime\":\"2021-03-13T08:06:39Z\"}")
-                .toObject(ApplyUpdateProperties.class);
+        ApplyUpdateProperties model = BinaryData
+            .fromString("{\"status\":\"Pending\",\"resourceId\":\"y\",\"lastUpdateTime\":\"2021-05-02T14:53:40Z\"}")
+            .toObject(ApplyUpdateProperties.class);
         Assertions.assertEquals(UpdateStatus.PENDING, model.status());
-        Assertions.assertEquals("ainqpjwnzlljfm", model.resourceId());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-03-13T08:06:39Z"), model.lastUpdateTime());
+        Assertions.assertEquals("y", model.resourceId());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-05-02T14:53:40Z"), model.lastUpdateTime());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ApplyUpdateProperties model =
-            new ApplyUpdateProperties()
-                .withStatus(UpdateStatus.PENDING)
-                .withResourceId("ainqpjwnzlljfm")
-                .withLastUpdateTime(OffsetDateTime.parse("2021-03-13T08:06:39Z"));
+        ApplyUpdateProperties model = new ApplyUpdateProperties().withStatus(UpdateStatus.PENDING)
+            .withResourceId("y")
+            .withLastUpdateTime(OffsetDateTime.parse("2021-05-02T14:53:40Z"));
         model = BinaryData.fromObject(model).toObject(ApplyUpdateProperties.class);
         Assertions.assertEquals(UpdateStatus.PENDING, model.status());
-        Assertions.assertEquals("ainqpjwnzlljfm", model.resourceId());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-03-13T08:06:39Z"), model.lastUpdateTime());
+        Assertions.assertEquals("y", model.resourceId());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-05-02T14:53:40Z"), model.lastUpdateTime());
     }
 }

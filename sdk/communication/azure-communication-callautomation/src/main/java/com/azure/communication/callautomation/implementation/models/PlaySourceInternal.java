@@ -5,139 +5,194 @@
 package com.azure.communication.callautomation.implementation.models;
 
 import com.azure.core.annotation.Fluent;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+import java.io.IOException;
 
-/** The PlaySourceInternal model. */
+/**
+ * The PlaySourceInternal model.
+ */
 @Fluent
-public final class PlaySourceInternal {
+public final class PlaySourceInternal implements JsonSerializable<PlaySourceInternal> {
     /*
      * Defines the type of the play source
      */
-    @JsonProperty(value = "sourceType", required = true)
-    private PlaySourceTypeInternal sourceType;
+    private PlaySourceTypeInternal kind;
 
     /*
      * Defines the identifier to be used for caching related media
      */
-    @JsonProperty(value = "playSourceId")
-    private String playSourceId;
+    private String playSourceCacheId;
 
     /*
      * Defines the file source info to be used for play
      */
-    @JsonProperty(value = "fileSource")
-    private FileSourceInternal fileSource;
+    private FileSourceInternal file;
 
     /*
      * Defines the text source info to be used for play
      */
-    @JsonProperty(value = "textSource")
-    private TextSourceInternal textSource;
+    private TextSourceInternal text;
 
     /*
-     * Defines the ssml(Speech Synthesis Markup Language) source info to be
-     * used for play
+     * Defines the ssml(Speech Synthesis Markup Language) source info to be used for play
      */
-    @JsonProperty(value = "ssmlSource")
-    private SsmlSourceInternal ssmlSource;
+    private SsmlSourceInternal ssml;
 
     /**
-     * Get the sourceType property: Defines the type of the play source.
-     *
-     * @return the sourceType value.
+     * Creates an instance of PlaySourceInternal class.
      */
-    public PlaySourceTypeInternal getSourceType() {
-        return this.sourceType;
+    public PlaySourceInternal() {
     }
 
     /**
-     * Set the sourceType property: Defines the type of the play source.
-     *
-     * @param sourceType the sourceType value to set.
+     * Get the kind property: Defines the type of the play source.
+     * 
+     * @return the kind value.
+     */
+    public PlaySourceTypeInternal getKind() {
+        return this.kind;
+    }
+
+    /**
+     * Set the kind property: Defines the type of the play source.
+     * 
+     * @param kind the kind value to set.
      * @return the PlaySourceInternal object itself.
      */
-    public PlaySourceInternal setSourceType(PlaySourceTypeInternal sourceType) {
-        this.sourceType = sourceType;
+    public PlaySourceInternal setKind(PlaySourceTypeInternal kind) {
+        this.kind = kind;
         return this;
     }
 
     /**
-     * Get the playSourceId property: Defines the identifier to be used for caching related media.
-     *
-     * @return the playSourceId value.
+     * Get the playSourceCacheId property: Defines the identifier to be used for caching related media.
+     * 
+     * @return the playSourceCacheId value.
      */
-    public String getPlaySourceId() {
-        return this.playSourceId;
+    public String getPlaySourceCacheId() {
+        return this.playSourceCacheId;
     }
 
     /**
-     * Set the playSourceId property: Defines the identifier to be used for caching related media.
-     *
-     * @param playSourceId the playSourceId value to set.
+     * Set the playSourceCacheId property: Defines the identifier to be used for caching related media.
+     * 
+     * @param playSourceCacheId the playSourceCacheId value to set.
      * @return the PlaySourceInternal object itself.
      */
-    public PlaySourceInternal setPlaySourceId(String playSourceId) {
-        this.playSourceId = playSourceId;
+    public PlaySourceInternal setPlaySourceCacheId(String playSourceCacheId) {
+        this.playSourceCacheId = playSourceCacheId;
         return this;
     }
 
     /**
-     * Get the fileSource property: Defines the file source info to be used for play.
-     *
-     * @return the fileSource value.
+     * Get the file property: Defines the file source info to be used for play.
+     * 
+     * @return the file value.
      */
-    public FileSourceInternal getFileSource() {
-        return this.fileSource;
+    public FileSourceInternal getFile() {
+        return this.file;
     }
 
     /**
-     * Set the fileSource property: Defines the file source info to be used for play.
-     *
-     * @param fileSource the fileSource value to set.
+     * Set the file property: Defines the file source info to be used for play.
+     * 
+     * @param file the file value to set.
      * @return the PlaySourceInternal object itself.
      */
-    public PlaySourceInternal setFileSource(FileSourceInternal fileSource) {
-        this.fileSource = fileSource;
+    public PlaySourceInternal setFile(FileSourceInternal file) {
+        this.file = file;
         return this;
     }
 
     /**
-     * Get the textSource property: Defines the text source info to be used for play.
-     *
-     * @return the textSource value.
+     * Get the text property: Defines the text source info to be used for play.
+     * 
+     * @return the text value.
      */
-    public TextSourceInternal getTextSource() {
-        return this.textSource;
+    public TextSourceInternal getText() {
+        return this.text;
     }
 
     /**
-     * Set the textSource property: Defines the text source info to be used for play.
-     *
-     * @param textSource the textSource value to set.
+     * Set the text property: Defines the text source info to be used for play.
+     * 
+     * @param text the text value to set.
      * @return the PlaySourceInternal object itself.
      */
-    public PlaySourceInternal setTextSource(TextSourceInternal textSource) {
-        this.textSource = textSource;
+    public PlaySourceInternal setText(TextSourceInternal text) {
+        this.text = text;
         return this;
     }
 
     /**
-     * Get the ssmlSource property: Defines the ssml(Speech Synthesis Markup Language) source info to be used for play.
-     *
-     * @return the ssmlSource value.
+     * Get the ssml property: Defines the ssml(Speech Synthesis Markup Language) source info to be used for play.
+     * 
+     * @return the ssml value.
      */
-    public SsmlSourceInternal getSsmlSource() {
-        return this.ssmlSource;
+    public SsmlSourceInternal getSsml() {
+        return this.ssml;
     }
 
     /**
-     * Set the ssmlSource property: Defines the ssml(Speech Synthesis Markup Language) source info to be used for play.
-     *
-     * @param ssmlSource the ssmlSource value to set.
+     * Set the ssml property: Defines the ssml(Speech Synthesis Markup Language) source info to be used for play.
+     * 
+     * @param ssml the ssml value to set.
      * @return the PlaySourceInternal object itself.
      */
-    public PlaySourceInternal setSsmlSource(SsmlSourceInternal ssmlSource) {
-        this.ssmlSource = ssmlSource;
+    public PlaySourceInternal setSsml(SsmlSourceInternal ssml) {
+        this.ssml = ssml;
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeStringField("kind", this.kind == null ? null : this.kind.toString());
+        jsonWriter.writeStringField("playSourceCacheId", this.playSourceCacheId);
+        jsonWriter.writeJsonField("file", this.file);
+        jsonWriter.writeJsonField("text", this.text);
+        jsonWriter.writeJsonField("ssml", this.ssml);
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an instance of PlaySourceInternal from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of PlaySourceInternal if the JsonReader was pointing to an instance of it, or null if it was
+     * pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
+     * @throws IOException If an error occurs while reading the PlaySourceInternal.
+     */
+    public static PlaySourceInternal fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            PlaySourceInternal deserializedPlaySourceInternal = new PlaySourceInternal();
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("kind".equals(fieldName)) {
+                    deserializedPlaySourceInternal.kind = PlaySourceTypeInternal.fromString(reader.getString());
+                } else if ("playSourceCacheId".equals(fieldName)) {
+                    deserializedPlaySourceInternal.playSourceCacheId = reader.getString();
+                } else if ("file".equals(fieldName)) {
+                    deserializedPlaySourceInternal.file = FileSourceInternal.fromJson(reader);
+                } else if ("text".equals(fieldName)) {
+                    deserializedPlaySourceInternal.text = TextSourceInternal.fromJson(reader);
+                } else if ("ssml".equals(fieldName)) {
+                    deserializedPlaySourceInternal.ssml = SsmlSourceInternal.fromJson(reader);
+                } else {
+                    reader.skipChildren();
+                }
+            }
+
+            return deserializedPlaySourceInternal;
+        });
     }
 }

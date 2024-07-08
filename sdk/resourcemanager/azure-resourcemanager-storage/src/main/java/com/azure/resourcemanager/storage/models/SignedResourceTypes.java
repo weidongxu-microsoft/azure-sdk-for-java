@@ -14,18 +14,33 @@ import java.util.Collection;
  * table entities, and files.
  */
 public final class SignedResourceTypes extends ExpandableStringEnum<SignedResourceTypes> {
-    /** Static value s for SignedResourceTypes. */
+    /**
+     * Static value s for SignedResourceTypes.
+     */
     public static final SignedResourceTypes S = fromString("s");
 
-    /** Static value c for SignedResourceTypes. */
+    /**
+     * Static value c for SignedResourceTypes.
+     */
     public static final SignedResourceTypes C = fromString("c");
 
-    /** Static value o for SignedResourceTypes. */
+    /**
+     * Static value o for SignedResourceTypes.
+     */
     public static final SignedResourceTypes O = fromString("o");
 
     /**
+     * Creates a new instance of SignedResourceTypes value.
+     * 
+     * @deprecated Use the {@link #fromString(String)} factory method.
+     */
+    @Deprecated
+    public SignedResourceTypes() {
+    }
+
+    /**
      * Creates or finds a SignedResourceTypes from its string representation.
-     *
+     * 
      * @param name a name to look for.
      * @return the corresponding SignedResourceTypes.
      */
@@ -36,7 +51,7 @@ public final class SignedResourceTypes extends ExpandableStringEnum<SignedResour
 
     /**
      * Gets known SignedResourceTypes values.
-     *
+     * 
      * @return known SignedResourceTypes values.
      */
     public static Collection<SignedResourceTypes> values() {

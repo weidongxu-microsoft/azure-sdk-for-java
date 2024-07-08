@@ -9,26 +9,22 @@ import com.azure.resourcemanager.batch.fluent.models.PrivateLinkResourceInner;
 import com.azure.resourcemanager.batch.models.ListPrivateLinkResourcesResult;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class ListPrivateLinkResourcesResultTests {
-    @Test
-    public void testDeserialize() {
-        ListPrivateLinkResourcesResult model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"groupId\":\"hfnljkyq\",\"requiredMembers\":[],\"requiredZoneNames\":[]},\"etag\":\"ujqgidok\",\"id\":\"jljyoxgv\",\"name\":\"ltbgsncghkj\",\"type\":\"szzhbijhtxfvgxbf\"}],\"nextLink\":\"xnehmpvec\"}")
-                .toObject(ListPrivateLinkResourcesResult.class);
-        Assertions.assertEquals("xnehmpvec", model.nextLink());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        ListPrivateLinkResourcesResult model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"groupId\":\"xieduugidyjrr\",\"requiredMembers\":[\"aos\"],\"requiredZoneNames\":[\"csonpclhoco\"]},\"etag\":\"lkevle\",\"id\":\"gz\",\"name\":\"buhfmvfaxkffeiit\",\"type\":\"lvmezyvshxmzsbbz\"},{\"properties\":{\"groupId\":\"igrxwburvjxxjn\",\"requiredMembers\":[\"dptkoenkouk\",\"vudwtiukbldng\"],\"requiredZoneNames\":[\"cipazyxoegukgjnp\",\"ucgygevqz\",\"typmrbpizcdrqjsd\"]},\"etag\":\"dnfyhxdeoejzicwi\",\"id\":\"sjttgzfbish\",\"name\":\"bkh\",\"type\":\"jdeyeamdpha\"}],\"nextLink\":\"lpbuxwgipwhonowk\"}")
+            .toObject(ListPrivateLinkResourcesResult.class);
+        Assertions.assertEquals("lpbuxwgipwhonowk", model.nextLink());
     }
 
-    @Test
-    public void testSerialize() {
-        ListPrivateLinkResourcesResult model =
-            new ListPrivateLinkResourcesResult()
-                .withValue(Arrays.asList(new PrivateLinkResourceInner()))
-                .withNextLink("xnehmpvec");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        ListPrivateLinkResourcesResult model = new ListPrivateLinkResourcesResult()
+            .withValue(Arrays.asList(new PrivateLinkResourceInner(), new PrivateLinkResourceInner()))
+            .withNextLink("lpbuxwgipwhonowk");
         model = BinaryData.fromObject(model).toObject(ListPrivateLinkResourcesResult.class);
-        Assertions.assertEquals("xnehmpvec", model.nextLink());
+        Assertions.assertEquals("lpbuxwgipwhonowk", model.nextLink());
     }
 }

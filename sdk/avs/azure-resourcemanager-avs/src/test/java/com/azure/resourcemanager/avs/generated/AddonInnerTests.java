@@ -11,11 +11,9 @@ import com.azure.resourcemanager.avs.models.AddonProperties;
 public final class AddonInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AddonInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"addonType\":\"AddonProperties\",\"provisioningState\":\"Canceled\"},\"id\":\"imrzrtuzqog\",\"name\":\"exn\",\"type\":\"vfdnwnwmewzsyyce\"}")
-                .toObject(AddonInner.class);
+        AddonInner model = BinaryData.fromString(
+            "{\"properties\":{\"addonType\":\"AddonProperties\",\"provisioningState\":\"Deleting\"},\"id\":\"dtopbob\",\"name\":\"og\",\"type\":\"m\"}")
+            .toObject(AddonInner.class);
     }
 
     @org.junit.jupiter.api.Test

@@ -4,9 +4,11 @@ package com.azure.cosmos.implementation.directconnectivity;
 
 import com.azure.cosmos.BridgeInternal;
 import com.azure.cosmos.ConsistencyLevel;
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.DirectConnectionConfig;
 import com.azure.cosmos.implementation.AsyncDocumentClient.Builder;
 import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
+import com.azure.cosmos.implementation.TestUtils;
 import com.azure.cosmos.implementation.clienttelemetry.ClientTelemetry;
 import com.azure.cosmos.models.CosmosClientTelemetryConfig;
 import com.azure.cosmos.implementation.Configs;
@@ -196,7 +198,7 @@ public class DCDocumentCrudTest extends TestSuiteBase {
 
         String propName = "newProp";
         String propValue = "hello";
-        BridgeInternal.setProperty(document, propName, propValue);
+        document.set(propName, propValue, CosmosItemSerializer.DEFAULT_SERIALIZER);
 
         ResourceResponseValidator<Document> validator = ResourceResponseValidator.<Document>builder()
             .withProperty(propName, propValue)
@@ -230,7 +232,10 @@ public class DCDocumentCrudTest extends TestSuiteBase {
         ModelBridgeInternal.setQueryRequestOptionsMaxItemCount(options, 100);
 
         Flux<FeedResponse<Document>> results = client.queryDocuments(
-            getCollectionLink(), "SELECT * FROM r", options, Document.class);
+            getCollectionLink(),
+            "SELECT * FROM r",
+            TestUtils.createDummyQueryFeedOperationState(ResourceType.Document, OperationType.Query, options, client),
+            Document.class);
 
         FeedResponseListValidator<Document> validator = new FeedResponseListValidator.Builder<Document>()
                 .totalSize(documentList.size())
@@ -324,8 +329,8 @@ public class DCDocumentCrudTest extends TestSuiteBase {
     private Document getDocumentDefinition() {
         Document doc = new Document();
         doc.setId(UUID.randomUUID().toString());
-        BridgeInternal.setProperty(doc, PARTITION_KEY_FIELD_NAME, UUID.randomUUID().toString());
-        BridgeInternal.setProperty(doc, "name", "Hafez");
+        doc.set(PARTITION_KEY_FIELD_NAME, UUID.randomUUID().toString(), CosmosItemSerializer.DEFAULT_SERIALIZER);
+        doc.set("name", "Hafez", CosmosItemSerializer.DEFAULT_SERIALIZER);
         return doc;
     }
 

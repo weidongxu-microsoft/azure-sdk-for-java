@@ -8,6 +8,7 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.UntilActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
@@ -16,51 +17,96 @@ import java.util.List;
  * This activity executes inner activities until the specified boolean expression results to true or timeout is reached,
  * whichever is earlier.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = UntilActivity.class, visible = true)
 @JsonTypeName("Until")
 @Fluent
 public final class UntilActivity extends ControlActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Until";
+
     /*
      * Until activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private UntilActivityTypeProperties innerTypeProperties = new UntilActivityTypeProperties();
 
-    /** Creates an instance of UntilActivity class. */
+    /**
+     * Creates an instance of UntilActivity class.
+     */
     public UntilActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Until activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private UntilActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UntilActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UntilActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UntilActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UntilActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UntilActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UntilActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -70,7 +116,7 @@ public final class UntilActivity extends ControlActivity {
     /**
      * Get the expression property: An expression that would evaluate to Boolean. The loop will continue until this
      * expression evaluates to true.
-     *
+     * 
      * @return the expression value.
      */
     public Expression expression() {
@@ -80,7 +126,7 @@ public final class UntilActivity extends ControlActivity {
     /**
      * Set the expression property: An expression that would evaluate to Boolean. The loop will continue until this
      * expression evaluates to true.
-     *
+     * 
      * @param expression the expression value to set.
      * @return the UntilActivity object itself.
      */
@@ -95,9 +141,8 @@ public final class UntilActivity extends ControlActivity {
     /**
      * Get the timeout property: Specifies the timeout for the activity to run. If there is no value specified, it takes
      * the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType
-     * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with
-     * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+     * 
      * @return the timeout value.
      */
     public Object timeout() {
@@ -107,9 +152,8 @@ public final class UntilActivity extends ControlActivity {
     /**
      * Set the timeout property: Specifies the timeout for the activity to run. If there is no value specified, it takes
      * the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType
-     * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with
-     * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+     * 
      * @param timeout the timeout value to set.
      * @return the UntilActivity object itself.
      */
@@ -123,7 +167,7 @@ public final class UntilActivity extends ControlActivity {
 
     /**
      * Get the activities property: List of activities to execute.
-     *
+     * 
      * @return the activities value.
      */
     public List<Activity> activities() {
@@ -132,7 +176,7 @@ public final class UntilActivity extends ControlActivity {
 
     /**
      * Set the activities property: List of activities to execute.
-     *
+     * 
      * @param activities the activities value to set.
      * @return the UntilActivity object itself.
      */
@@ -146,17 +190,16 @@ public final class UntilActivity extends ControlActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model UntilActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model UntilActivity"));
         } else {
             innerTypeProperties().validate();
         }

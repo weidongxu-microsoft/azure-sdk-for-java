@@ -6,23 +6,50 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.List;
 
-/** Properties for DataTransferServiceResource. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "serviceType")
+/**
+ * Properties for DataTransferServiceResource.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "serviceType",
+    defaultImpl = DataTransferServiceResourceProperties.class,
+    visible = true)
 @JsonTypeName("DataTransfer")
 @Fluent
 public final class DataTransferServiceResourceProperties extends ServiceResourceProperties {
+    /*
+     * ServiceType for the service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "serviceType", required = true)
+    private ServiceType serviceType = ServiceType.DATA_TRANSFER;
+
     /*
      * An array that contains all of the locations for the service.
      */
     @JsonProperty(value = "locations", access = JsonProperty.Access.WRITE_ONLY)
     private List<DataTransferRegionalServiceResource> locations;
 
-    /** Creates an instance of DataTransferServiceResourceProperties class. */
+    /**
+     * Creates an instance of DataTransferServiceResourceProperties class.
+     */
     public DataTransferServiceResourceProperties() {
+    }
+
+    /**
+     * Get the serviceType property: ServiceType for the service.
+     *
+     * @return the serviceType value.
+     */
+    @Override
+    public ServiceType serviceType() {
+        return this.serviceType;
     }
 
     /**
@@ -34,14 +61,18 @@ public final class DataTransferServiceResourceProperties extends ServiceResource
         return this.locations;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DataTransferServiceResourceProperties withInstanceSize(ServiceSize instanceSize) {
         super.withInstanceSize(instanceSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DataTransferServiceResourceProperties withInstanceCount(Integer instanceCount) {
         super.withInstanceCount(instanceCount);

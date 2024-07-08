@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.CouchbaseLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Couchbase server linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Couchbase server linked service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = CouchbaseLinkedService.class, visible = true)
 @JsonTypeName("Couchbase")
 @Fluent
 public final class CouchbaseLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Couchbase";
+
     /*
      * Couchbase server linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private CouchbaseLinkedServiceTypeProperties innerTypeProperties = new CouchbaseLinkedServiceTypeProperties();
 
-    /** Creates an instance of CouchbaseLinkedService class. */
+    /**
+     * Creates an instance of CouchbaseLinkedService class.
+     */
     public CouchbaseLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Couchbase server linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private CouchbaseLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CouchbaseLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CouchbaseLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CouchbaseLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CouchbaseLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -68,7 +98,7 @@ public final class CouchbaseLinkedService extends LinkedService {
     /**
      * Get the connectionString property: An ODBC connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference.
-     *
+     * 
      * @return the connectionString value.
      */
     public Object connectionString() {
@@ -78,7 +108,7 @@ public final class CouchbaseLinkedService extends LinkedService {
     /**
      * Set the connectionString property: An ODBC connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference.
-     *
+     * 
      * @param connectionString the connectionString value to set.
      * @return the CouchbaseLinkedService object itself.
      */
@@ -92,7 +122,7 @@ public final class CouchbaseLinkedService extends LinkedService {
 
     /**
      * Get the credString property: The Azure key vault secret reference of credString in connection string.
-     *
+     * 
      * @return the credString value.
      */
     public AzureKeyVaultSecretReference credString() {
@@ -101,7 +131,7 @@ public final class CouchbaseLinkedService extends LinkedService {
 
     /**
      * Set the credString property: The Azure key vault secret reference of credString in connection string.
-     *
+     * 
      * @param credString the credString value to set.
      * @return the CouchbaseLinkedService object itself.
      */
@@ -115,22 +145,22 @@ public final class CouchbaseLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the CouchbaseLinkedService object itself.
      */
-    public CouchbaseLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public CouchbaseLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new CouchbaseLinkedServiceTypeProperties();
         }
@@ -140,17 +170,16 @@ public final class CouchbaseLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model CouchbaseLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model CouchbaseLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

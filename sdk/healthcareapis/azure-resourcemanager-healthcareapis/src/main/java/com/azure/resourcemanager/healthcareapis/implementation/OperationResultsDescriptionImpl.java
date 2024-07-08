@@ -5,16 +5,15 @@
 package com.azure.resourcemanager.healthcareapis.implementation;
 
 import com.azure.resourcemanager.healthcareapis.fluent.models.OperationResultsDescriptionInner;
-import com.azure.resourcemanager.healthcareapis.models.OperationResultStatus;
 import com.azure.resourcemanager.healthcareapis.models.OperationResultsDescription;
+import com.azure.resourcemanager.healthcareapis.models.OperationResultStatus;
 
 public final class OperationResultsDescriptionImpl implements OperationResultsDescription {
     private OperationResultsDescriptionInner innerObject;
 
     private final com.azure.resourcemanager.healthcareapis.HealthcareApisManager serviceManager;
 
-    OperationResultsDescriptionImpl(
-        OperationResultsDescriptionInner innerObject,
+    OperationResultsDescriptionImpl(OperationResultsDescriptionInner innerObject,
         com.azure.resourcemanager.healthcareapis.HealthcareApisManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;

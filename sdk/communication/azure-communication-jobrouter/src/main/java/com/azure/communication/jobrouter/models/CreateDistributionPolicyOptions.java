@@ -16,10 +16,10 @@ public final class CreateDistributionPolicyOptions {
     /**
      * The unique identifier of the policy.
      */
-    private final String id;
+    private final String distributionPolicyId;
 
     /**
-     * The human readable name of the policy.
+     * The human-readable name of the policy.
      */
     private String name;
 
@@ -35,17 +35,18 @@ public final class CreateDistributionPolicyOptions {
 
     /**
      * Constructor for CreateDistributionPolicyOptions.
-     * @param id The unique identifier of the policy.
+     * @param distributionPolicyId The unique identifier of the policy.
      * @param offerExpiresAfter The expiry time of any offers created under this policy.
      * @param mode Abstract base class for defining a distribution mode.
      */
-    public CreateDistributionPolicyOptions(String id, Duration offerExpiresAfter, DistributionMode mode) {
-        this.id = id;
+    public CreateDistributionPolicyOptions(String distributionPolicyId, Duration offerExpiresAfter, DistributionMode mode) {
+        this.distributionPolicyId = distributionPolicyId;
         this.offerExpiresAfter = offerExpiresAfter;
         this.mode = mode;
     }
 
     /**
+     * Sets Distribution Policy name.
      * @param name The human-readable name of the policy.
      * @return this
      */
@@ -58,8 +59,8 @@ public final class CreateDistributionPolicyOptions {
      * Get the unique identifier of the policy.
      * @return id
      */
-    public String getId() {
-        return this.id;
+    public String getDistributionPolicyId() {
+        return this.distributionPolicyId;
     }
 
     /**

@@ -14,27 +14,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
     /*
-     * All identity configuration for Customer-managed key settings defining which identity should be used to auth to
-     * Key Vault.
+     * All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault.
      */
     @JsonProperty(value = "keyEncryptionKeyIdentity")
     private ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity keyEncryptionKeyIdentity;
 
     /*
-     * Key encryption key Url, versioned only. Ex:
-     * https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78
+     * Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78
      */
     @JsonProperty(value = "keyEncryptionKeyUrl")
     private String keyEncryptionKeyUrl;
 
-    /** Creates an instance of ClusterPropertiesEncryptionCustomerManagedKeyEncryption class. */
+    /**
+     * Creates an instance of ClusterPropertiesEncryptionCustomerManagedKeyEncryption class.
+     */
     public ClusterPropertiesEncryptionCustomerManagedKeyEncryption() {
     }
 
     /**
      * Get the keyEncryptionKeyIdentity property: All identity configuration for Customer-managed key settings defining
      * which identity should be used to auth to Key Vault.
-     *
+     * 
      * @return the keyEncryptionKeyIdentity value.
      */
     public ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity keyEncryptionKeyIdentity() {
@@ -44,7 +44,7 @@ public final class ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
     /**
      * Set the keyEncryptionKeyIdentity property: All identity configuration for Customer-managed key settings defining
      * which identity should be used to auth to Key Vault.
-     *
+     * 
      * @param keyEncryptionKeyIdentity the keyEncryptionKeyIdentity value to set.
      * @return the ClusterPropertiesEncryptionCustomerManagedKeyEncryption object itself.
      */
@@ -57,7 +57,7 @@ public final class ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
     /**
      * Get the keyEncryptionKeyUrl property: Key encryption key Url, versioned only. Ex:
      * https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78.
-     *
+     * 
      * @return the keyEncryptionKeyUrl value.
      */
     public String keyEncryptionKeyUrl() {
@@ -67,7 +67,7 @@ public final class ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
     /**
      * Set the keyEncryptionKeyUrl property: Key encryption key Url, versioned only. Ex:
      * https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78.
-     *
+     * 
      * @param keyEncryptionKeyUrl the keyEncryptionKeyUrl value to set.
      * @return the ClusterPropertiesEncryptionCustomerManagedKeyEncryption object itself.
      */
@@ -78,7 +78,7 @@ public final class ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

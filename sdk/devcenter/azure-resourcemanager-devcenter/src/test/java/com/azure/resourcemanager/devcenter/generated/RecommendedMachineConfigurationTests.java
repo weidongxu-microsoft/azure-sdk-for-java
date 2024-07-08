@@ -10,11 +10,10 @@ import com.azure.resourcemanager.devcenter.models.RecommendedMachineConfiguratio
 public final class RecommendedMachineConfigurationTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        RecommendedMachineConfiguration model =
-            BinaryData
-                .fromString(
-                    "{\"memory\":{\"min\":1015475658,\"max\":1187016173},\"vCPUs\":{\"min\":1088023513,\"max\":1059289451}}")
-                .toObject(RecommendedMachineConfiguration.class);
+        RecommendedMachineConfiguration model = BinaryData
+            .fromString(
+                "{\"memory\":{\"min\":38172527,\"max\":1341187268},\"vCPUs\":{\"min\":1152812045,\"max\":827449551}}")
+            .toObject(RecommendedMachineConfiguration.class);
     }
 
     @org.junit.jupiter.api.Test

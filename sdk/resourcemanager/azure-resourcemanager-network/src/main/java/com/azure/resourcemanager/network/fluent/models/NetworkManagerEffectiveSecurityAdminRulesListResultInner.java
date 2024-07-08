@@ -22,19 +22,20 @@ public final class NetworkManagerEffectiveSecurityAdminRulesListResultInner {
     private List<EffectiveBaseSecurityAdminRule> value;
 
     /*
-     * When present, the value can be passed to a subsequent query call (together with the same query and scopes used
-     * in the current request) to retrieve the next page of data.
+     * When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
      */
     @JsonProperty(value = "skipToken")
     private String skipToken;
 
-    /** Creates an instance of NetworkManagerEffectiveSecurityAdminRulesListResultInner class. */
+    /**
+     * Creates an instance of NetworkManagerEffectiveSecurityAdminRulesListResultInner class.
+     */
     public NetworkManagerEffectiveSecurityAdminRulesListResultInner() {
     }
 
     /**
      * Get the value property: Gets a page of NetworkManagerEffectiveSecurityAdminRules.
-     *
+     * 
      * @return the value value.
      */
     public List<EffectiveBaseSecurityAdminRule> value() {
@@ -43,12 +44,12 @@ public final class NetworkManagerEffectiveSecurityAdminRulesListResultInner {
 
     /**
      * Set the value property: Gets a page of NetworkManagerEffectiveSecurityAdminRules.
-     *
+     * 
      * @param value the value value to set.
      * @return the NetworkManagerEffectiveSecurityAdminRulesListResultInner object itself.
      */
-    public NetworkManagerEffectiveSecurityAdminRulesListResultInner withValue(
-        List<EffectiveBaseSecurityAdminRule> value) {
+    public NetworkManagerEffectiveSecurityAdminRulesListResultInner
+        withValue(List<EffectiveBaseSecurityAdminRule> value) {
         this.value = value;
         return this;
     }
@@ -56,7 +57,7 @@ public final class NetworkManagerEffectiveSecurityAdminRulesListResultInner {
     /**
      * Get the skipToken property: When present, the value can be passed to a subsequent query call (together with the
      * same query and scopes used in the current request) to retrieve the next page of data.
-     *
+     * 
      * @return the skipToken value.
      */
     public String skipToken() {
@@ -66,7 +67,7 @@ public final class NetworkManagerEffectiveSecurityAdminRulesListResultInner {
     /**
      * Set the skipToken property: When present, the value can be passed to a subsequent query call (together with the
      * same query and scopes used in the current request) to retrieve the next page of data.
-     *
+     * 
      * @param skipToken the skipToken value to set.
      * @return the NetworkManagerEffectiveSecurityAdminRulesListResultInner object itself.
      */
@@ -77,7 +78,7 @@ public final class NetworkManagerEffectiveSecurityAdminRulesListResultInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

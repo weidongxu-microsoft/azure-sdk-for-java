@@ -14,16 +14,20 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test for Attestation Signing Certificates APIs.
@@ -94,7 +98,7 @@ public class AttestationTokenTests extends AttestationClientTestBase {
         assertNull(newToken.getKeyId());
 
         Object jsonValue = newToken.getBody(Object.class);
-        assertTrue(jsonValue instanceof LinkedHashMap);
+        assertInstanceOf(LinkedHashMap.class, jsonValue);
         @SuppressWarnings("unchecked")
         LinkedHashMap<String, Object> jsonMap = (LinkedHashMap<String, Object>) jsonValue;
         assertNotNull(jsonMap);
@@ -152,7 +156,7 @@ public class AttestationTokenTests extends AttestationClientTestBase {
             assertDoesNotThrow(() -> newToken.getCertificateChain().getCertificates().get(0).getEncoded()));
 
         Object jsonValue = newToken.getBody(Object.class);
-        assertTrue(jsonValue instanceof  LinkedHashMap);
+        assertInstanceOf(LinkedHashMap.class, jsonValue);
         @SuppressWarnings("unchecked")
         LinkedHashMap<String, Object> jsonMap = assertDoesNotThrow(() -> (LinkedHashMap<String, Object>) jsonValue);
         assertNotNull(jsonMap);
@@ -269,8 +273,7 @@ public class AttestationTokenTests extends AttestationClientTestBase {
 
     @Test
     void verifyAttestationTokenExpireTimeout() {
-        OffsetDateTime timeNow = OffsetDateTime.now();
-        timeNow = timeNow.minusNanos(timeNow.getNano());
+        final OffsetDateTime timeNow = OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         TestObject testObjectExpired30SecondsAgo = new TestObject()
             .setAlg("Test Algorithm")
@@ -290,14 +293,36 @@ public class AttestationTokenTests extends AttestationClientTestBase {
             ((AttestationTokenImpl) newToken).validate(null,
                 new AttestationTokenValidationOptions()));
         // Both the current time and the expiration time should be in the exception message.
-        assertTrue(ex.getMessage().contains("expiration"));
+        String exceptionMessage = ex.getMessage();
+        assertTrue(exceptionMessage.contains("expiration"), () ->
+            "Expected exception message to contain 'expiration' but it didn't. Actual exception message: "
+            + exceptionMessage);
         // Because the TestObject round-trips times through Epoch times, they are in UTC time.
         // Adjust the target time to be in UTC rather than the current time zone, since we're checking to ensure
         // that the time is reflected in the exception message.
         OffsetDateTime expTime = timeNow.minusSeconds(30).withOffsetSameInstant(ZoneOffset.UTC);
 
-        assertTrue(ex.getMessage().contains(String.format("%tc", timeNow)));
-        assertTrue(ex.getMessage().contains(String.format("%tc", expTime)));
+        // Format of the exception message is "Current time: <current time> Expiration time: <expiration time>"
+        // Since the test could take a while and the current time is based on the time when the exception is thrown
+        // this can cause it to be different than 'timeNow' when the test started.
+        // To make sure this test isn't flaky capture the datetime string in the exception message, turn it into an
+        // OffsetDateTime and compare it to 'timeNow' allowing for some skew.
+        // Date format is 'Wed Sep 27 12:48:15 -04:00 2023'
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss XXX yyyy");
+
+        int currentTimeIndex = exceptionMessage.indexOf("Current time: ");
+        int expirationTimeIndex = exceptionMessage.indexOf("Expiration time: ");
+        String currentTimeInExceptionString = exceptionMessage.substring(currentTimeIndex + 14, expirationTimeIndex - 1);
+        OffsetDateTime currentTimeInException = OffsetDateTime.parse(currentTimeInExceptionString, formatter);
+        long skew = timeNow.until(currentTimeInException, ChronoUnit.SECONDS);
+        if (skew > 5 || skew < 0) {
+            fail(String.format("Expected exception message to contain 'Current Time' within 5 seconds, but not before, "
+                               + "of %tc but it was greater. Actual exception message: %s", timeNow, exceptionMessage));
+        }
+
+        assertTrue(exceptionMessage.contains(String.format("%tc", expTime)), () -> String.format(
+            "Expected exception message to contain '%tc' but it didn't. Actual exception message: %s", expTime,
+            exceptionMessage));
     }
 
     @Test

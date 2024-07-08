@@ -12,21 +12,19 @@ import org.junit.jupiter.api.Assertions;
 public final class ServiceInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ServiceInner model =
-            BinaryData
-                .fromString(
-                    "{\"id\":\"tnapczwlokjyemkk\",\"name\":\"ipjoxzjnchgejs\",\"type\":\"dmailzydehojw\",\"properties\":{\"displayName\":\"uxinpmqnjaq\",\"resourceTypes\":[\"jsprozvcpute\"]}}")
-                .toObject(ServiceInner.class);
-        Assertions.assertEquals("uxinpmqnjaq", model.displayName());
-        Assertions.assertEquals("jsprozvcpute", model.resourceTypes().get(0));
+        ServiceInner model = BinaryData.fromString(
+            "{\"id\":\"ctazakljlahbcryf\",\"name\":\"fdosyg\",\"type\":\"paojakhmsbzjh\",\"properties\":{\"displayName\":\"evdphlxaol\",\"resourceTypes\":[\"trg\",\"jbp\",\"zfsinzgvf\",\"jrwzox\"]}}")
+            .toObject(ServiceInner.class);
+        Assertions.assertEquals("evdphlxaol", model.displayName());
+        Assertions.assertEquals("trg", model.resourceTypes().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ServiceInner model =
-            new ServiceInner().withDisplayName("uxinpmqnjaq").withResourceTypes(Arrays.asList("jsprozvcpute"));
+        ServiceInner model = new ServiceInner().withDisplayName("evdphlxaol")
+            .withResourceTypes(Arrays.asList("trg", "jbp", "zfsinzgvf", "jrwzox"));
         model = BinaryData.fromObject(model).toObject(ServiceInner.class);
-        Assertions.assertEquals("uxinpmqnjaq", model.displayName());
-        Assertions.assertEquals("jsprozvcpute", model.resourceTypes().get(0));
+        Assertions.assertEquals("evdphlxaol", model.displayName());
+        Assertions.assertEquals("trg", model.resourceTypes().get(0));
     }
 }

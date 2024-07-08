@@ -7,17 +7,31 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Base class for backup items. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectedItemType")
+/**
+ * Base class for backup items.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectedItemType",
+    defaultImpl = GenericProtectedItem.class,
+    visible = true)
 @JsonTypeName("GenericProtectedItem")
 @Fluent
 public final class GenericProtectedItem extends ProtectedItem {
+    /*
+     * backup item type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectedItemType", required = true)
+    private String protectedItemType = "GenericProtectedItem";
+
     /*
      * Friendly name of the container.
      */
@@ -55,13 +69,25 @@ public final class GenericProtectedItem extends ProtectedItem {
     @JsonProperty(value = "fabricName")
     private String fabricName;
 
-    /** Creates an instance of GenericProtectedItem class. */
+    /**
+     * Creates an instance of GenericProtectedItem class.
+     */
     public GenericProtectedItem() {
     }
 
     /**
+     * Get the protectedItemType property: backup item type.
+     * 
+     * @return the protectedItemType value.
+     */
+    @Override
+    public String protectedItemType() {
+        return this.protectedItemType;
+    }
+
+    /**
      * Get the friendlyName property: Friendly name of the container.
-     *
+     * 
      * @return the friendlyName value.
      */
     public String friendlyName() {
@@ -70,7 +96,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Set the friendlyName property: Friendly name of the container.
-     *
+     * 
      * @param friendlyName the friendlyName value to set.
      * @return the GenericProtectedItem object itself.
      */
@@ -81,7 +107,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Get the policyState property: Indicates consistency of policy object and policy applied to this backup item.
-     *
+     * 
      * @return the policyState value.
      */
     public String policyState() {
@@ -90,7 +116,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Set the policyState property: Indicates consistency of policy object and policy applied to this backup item.
-     *
+     * 
      * @param policyState the policyState value to set.
      * @return the GenericProtectedItem object itself.
      */
@@ -101,7 +127,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Get the protectionState property: Backup state of this backup item.
-     *
+     * 
      * @return the protectionState value.
      */
     public ProtectionState protectionState() {
@@ -110,7 +136,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Set the protectionState property: Backup state of this backup item.
-     *
+     * 
      * @param protectionState the protectionState value to set.
      * @return the GenericProtectedItem object itself.
      */
@@ -121,7 +147,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Get the protectedItemId property: Data Plane Service ID of the protected item.
-     *
+     * 
      * @return the protectedItemId value.
      */
     public Long protectedItemId() {
@@ -130,7 +156,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Set the protectedItemId property: Data Plane Service ID of the protected item.
-     *
+     * 
      * @param protectedItemId the protectedItemId value to set.
      * @return the GenericProtectedItem object itself.
      */
@@ -142,7 +168,7 @@ public final class GenericProtectedItem extends ProtectedItem {
     /**
      * Get the sourceAssociations property: Loosely coupled (type, value) associations (example - parent of a protected
      * item).
-     *
+     * 
      * @return the sourceAssociations value.
      */
     public Map<String, String> sourceAssociations() {
@@ -152,7 +178,7 @@ public final class GenericProtectedItem extends ProtectedItem {
     /**
      * Set the sourceAssociations property: Loosely coupled (type, value) associations (example - parent of a protected
      * item).
-     *
+     * 
      * @param sourceAssociations the sourceAssociations value to set.
      * @return the GenericProtectedItem object itself.
      */
@@ -163,7 +189,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Get the fabricName property: Name of this backup item's fabric.
-     *
+     * 
      * @return the fabricName value.
      */
     public String fabricName() {
@@ -172,7 +198,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Set the fabricName property: Name of this backup item's fabric.
-     *
+     * 
      * @param fabricName the fabricName value to set.
      * @return the GenericProtectedItem object itself.
      */
@@ -181,105 +207,135 @@ public final class GenericProtectedItem extends ProtectedItem {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withContainerName(String containerName) {
         super.withContainerName(containerName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withPolicyId(String policyId) {
         super.withPolicyId(policyId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withLastRecoveryPoint(OffsetDateTime lastRecoveryPoint) {
         super.withLastRecoveryPoint(lastRecoveryPoint);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withBackupSetName(String backupSetName) {
         super.withBackupSetName(backupSetName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withCreateMode(CreateMode createMode) {
         super.withCreateMode(createMode);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withDeferredDeleteTimeInUtc(OffsetDateTime deferredDeleteTimeInUtc) {
         super.withDeferredDeleteTimeInUtc(deferredDeleteTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withIsScheduledForDeferredDelete(Boolean isScheduledForDeferredDelete) {
         super.withIsScheduledForDeferredDelete(isScheduledForDeferredDelete);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withDeferredDeleteTimeRemaining(String deferredDeleteTimeRemaining) {
         super.withDeferredDeleteTimeRemaining(deferredDeleteTimeRemaining);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withIsDeferredDeleteScheduleUpcoming(Boolean isDeferredDeleteScheduleUpcoming) {
         super.withIsDeferredDeleteScheduleUpcoming(isDeferredDeleteScheduleUpcoming);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withIsRehydrate(Boolean isRehydrate) {
         super.withIsRehydrate(isRehydrate);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withIsArchiveEnabled(Boolean isArchiveEnabled) {
         super.withIsArchiveEnabled(isArchiveEnabled);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withPolicyName(String policyName) {
         super.withPolicyName(policyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectedItem withSoftDeleteRetentionPeriod(Integer softDeleteRetentionPeriod) {
         super.withSoftDeleteRetentionPeriod(softDeleteRetentionPeriod);
@@ -288,7 +344,7 @@ public final class GenericProtectedItem extends ProtectedItem {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

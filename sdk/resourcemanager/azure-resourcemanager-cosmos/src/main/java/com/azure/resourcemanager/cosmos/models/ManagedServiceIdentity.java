@@ -7,43 +7,42 @@ package com.azure.resourcemanager.cosmos.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
-/** Identity for the resource. */
+/**
+ * Identity for the resource.
+ */
 @Fluent
 public final class ManagedServiceIdentity {
     /*
-     * The principal id of the system assigned identity. This property will only be provided for a system assigned
-     * identity.
+     * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
      */
     @JsonProperty(value = "principalId", access = JsonProperty.Access.WRITE_ONLY)
     private String principalId;
 
     /*
-     * The tenant id of the system assigned identity. This property will only be provided for a system assigned
-     * identity.
+     * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
      */
     @JsonProperty(value = "tenantId", access = JsonProperty.Access.WRITE_ONLY)
     private String tenantId;
 
     /*
-     * The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
-     * created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-     * service.
+     * The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
      */
     @JsonProperty(value = "type")
     private ResourceIdentityType type;
 
     /*
-     * The list of user identities associated with resource. The user identity dictionary key references will be ARM
-     * resource ids in the form:
-     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      */
     @JsonProperty(value = "userAssignedIdentities")
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities;
 
-    /** Creates an instance of ManagedServiceIdentity class. */
+    /**
+     * Creates an instance of ManagedServiceIdentity class.
+     */
     public ManagedServiceIdentity() {
     }
 
@@ -110,8 +109,8 @@ public final class ManagedServiceIdentity {
      * @param userAssignedIdentities the userAssignedIdentities value to set.
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity withUserAssignedIdentities(
-        Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities) {
+    public ManagedServiceIdentity
+        withUserAssignedIdentities(Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }
@@ -123,14 +122,11 @@ public final class ManagedServiceIdentity {
      */
     public void validate() {
         if (userAssignedIdentities() != null) {
-            userAssignedIdentities()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            userAssignedIdentities().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
     }
 }

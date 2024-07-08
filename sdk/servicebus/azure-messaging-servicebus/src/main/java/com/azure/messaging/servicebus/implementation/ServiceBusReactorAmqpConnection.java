@@ -31,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.azure.core.amqp.implementation.ClientConstants.ENTITY_PATH_KEY;
 import static com.azure.core.amqp.implementation.ClientConstants.LINK_NAME_KEY;
+import static com.azure.core.util.FluxUtil.monoError;
 
 /**
  * A proton-j AMQP connection to an Azure Service Bus instance.
@@ -47,6 +48,7 @@ public class ServiceBusReactorAmqpConnection extends ReactorConnection implement
     private final String connectionId;
     private final ReactorProvider reactorProvider;
     private final ReactorHandlerProvider handlerProvider;
+    private final ServiceBusAmqpLinkProvider linkProvider;
     private final TokenManagerProvider tokenManagerProvider;
     private final AmqpRetryOptions retryOptions;
     private final MessageSerializer messageSerializer;
@@ -54,6 +56,7 @@ public class ServiceBusReactorAmqpConnection extends ReactorConnection implement
     private final String fullyQualifiedNamespace;
     private final CbsAuthorizationType authorizationType;
     private final boolean distributedTransactionsSupport;
+    private final boolean isV2;
 
     /**
      * Creates a new AMQP connection that uses proton-j.
@@ -62,21 +65,24 @@ public class ServiceBusReactorAmqpConnection extends ReactorConnection implement
      * @param connectionOptions A set of options used to create the AMQP connection.
      * @param reactorProvider Provides proton-j reactor instances.
      * @param handlerProvider Provides {@link BaseHandler} to listen to proton-j reactor events.
+     * @param linkProvider Provides amqp links for send and receive.
      * @param tokenManagerProvider Provides a token manager for authorizing with CBS node.
      * @param messageSerializer Serializes and deserializes proton-j messages.
      * @param distributedTransactionsSupport indicate if distributed transaction across different entities is required
      *        for this connection.
+     * @param isV2 (temporary) flag to use either v1 or v2 receiver.
      */
     public ServiceBusReactorAmqpConnection(String connectionId, ConnectionOptions connectionOptions,
-        ReactorProvider reactorProvider, ReactorHandlerProvider handlerProvider,
+        ReactorProvider reactorProvider, ReactorHandlerProvider handlerProvider, ServiceBusAmqpLinkProvider linkProvider,
         TokenManagerProvider tokenManagerProvider, MessageSerializer messageSerializer,
-        boolean distributedTransactionsSupport) {
-        super(connectionId, connectionOptions, reactorProvider, handlerProvider, tokenManagerProvider,
-            messageSerializer, SenderSettleMode.SETTLED, ReceiverSettleMode.FIRST);
+        boolean distributedTransactionsSupport, boolean isV2) {
+        super(connectionId, connectionOptions, reactorProvider, handlerProvider, linkProvider, tokenManagerProvider,
+            messageSerializer, SenderSettleMode.SETTLED, ReceiverSettleMode.FIRST, isV2);
 
         this.connectionId = connectionId;
         this.reactorProvider = reactorProvider;
         this.handlerProvider = handlerProvider;
+        this.linkProvider = linkProvider;
         this.tokenManagerProvider = tokenManagerProvider;
         this.authorizationType = connectionOptions.getAuthorizationType();
         this.retryOptions = connectionOptions.getRetry();
@@ -84,14 +90,15 @@ public class ServiceBusReactorAmqpConnection extends ReactorConnection implement
         this.scheduler = connectionOptions.getScheduler();
         this.fullyQualifiedNamespace = connectionOptions.getFullyQualifiedNamespace();
         this.distributedTransactionsSupport = distributedTransactionsSupport;
+        this.isV2 = isV2;
     }
 
     @Override
     public Mono<ServiceBusManagementNode> getManagementNode(String entityPath, MessagingEntityType entityType) {
         if (isDisposed()) {
-            return Mono.error(LOGGER.logExceptionAsError(new IllegalStateException(String.format(
+            return monoError(LOGGER.atWarning(), new IllegalStateException(String.format(
                 "connectionId[%s]: Connection is disposed. Cannot get management instance for '%s'",
-                connectionId, entityPath))));
+                connectionId, entityPath)));
         }
 
         final String entityTypePath = String.join("-", entityType.toString(), entityPath);
@@ -220,7 +227,7 @@ public class ServiceBusReactorAmqpConnection extends ReactorConnection implement
     @Override
     protected AmqpSession createSession(String sessionName, Session session, SessionHandler handler) {
         return new ServiceBusReactorSession(this, session, handler, sessionName, reactorProvider,
-            handlerProvider, getClaimsBasedSecurityNode(), tokenManagerProvider, messageSerializer, retryOptions,
-            new ServiceBusCreateSessionOptions(distributedTransactionsSupport));
+            handlerProvider, linkProvider, getClaimsBasedSecurityNode(), tokenManagerProvider, messageSerializer, retryOptions,
+            new ServiceBusCreateSessionOptions(distributedTransactionsSupport), isV2);
     }
 }

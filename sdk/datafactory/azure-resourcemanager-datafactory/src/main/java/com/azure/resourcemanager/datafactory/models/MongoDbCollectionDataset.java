@@ -8,78 +8,118 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.MongoDbCollectionDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The MongoDB database dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The MongoDB database dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = MongoDbCollectionDataset.class,
+    visible = true)
 @JsonTypeName("MongoDbCollection")
 @Fluent
 public final class MongoDbCollectionDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "MongoDbCollection";
+
     /*
      * MongoDB database dataset properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private MongoDbCollectionDatasetTypeProperties innerTypeProperties = new MongoDbCollectionDatasetTypeProperties();
 
-    /** Creates an instance of MongoDbCollectionDataset class. */
+    /**
+     * Creates an instance of MongoDbCollectionDataset class.
+     */
     public MongoDbCollectionDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: MongoDB database dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private MongoDbCollectionDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbCollectionDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -89,7 +129,7 @@ public final class MongoDbCollectionDataset extends Dataset {
     /**
      * Get the collectionName property: The table name of the MongoDB database. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the collectionName value.
      */
     public Object collectionName() {
@@ -99,7 +139,7 @@ public final class MongoDbCollectionDataset extends Dataset {
     /**
      * Set the collectionName property: The table name of the MongoDB database. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param collectionName the collectionName value to set.
      * @return the MongoDbCollectionDataset object itself.
      */
@@ -113,17 +153,16 @@ public final class MongoDbCollectionDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model MongoDbCollectionDataset"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model MongoDbCollectionDataset"));
         } else {
             innerTypeProperties().validate();
         }

@@ -3,18 +3,19 @@
 
 package com.azure.communication.callautomation.models;
 
-import com.azure.core.annotation.Fluent;
-
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.azure.core.annotation.Fluent;
 
 /** The PlayToAllOptions model. */
 @Fluent
 public final class PlayToAllOptions {
     /*
-     * A {@link PlaySource} representing the source to play.
+     * A List of {@link PlaySource} representing the sources to play.
+     * Currently only single play source per request is supported.
      */
-    private final PlaySource playSource;
+    private final List<PlaySource> playSources;
 
     /*
      * The option to play the provided audio source in loop when set to true
@@ -27,11 +28,22 @@ public final class PlayToAllOptions {
     private String operationContext;
 
     /**
+     * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+     * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+     */
+    private String operationCallbackUrl;
+
+    /*
+     * If set play can barge into other existing queued-up/currently-processing requests.
+    */
+    private boolean interruptCallMediaOperation;
+
+    /**
      * Constructor
      * @param playSources A List of {@link PlaySource} representing the sources to play.
      */
     public PlayToAllOptions(List<PlaySource> playSources) {
-        this(playSources.get(0));
+        this.playSources = playSources;
     }
 
     /**
@@ -39,7 +51,8 @@ public final class PlayToAllOptions {
      * @param playSource A {@link PlaySource} representing the source to play.
      */
     public PlayToAllOptions(PlaySource playSource) {
-        this.playSource = playSource;
+        this.playSources = new ArrayList<>();
+        this.playSources.add(playSource);
     }
 
     /**
@@ -48,16 +61,7 @@ public final class PlayToAllOptions {
      * @return the playSource value.
      */
     public List<PlaySource> getPlaySources() {
-        return Collections.singletonList(playSource);
-    }
-
-    /**
-     * Get the play source.
-     *
-     * @return the playSource value.
-     */
-    public PlaySource getPlaySource() {
-        return this.playSource;
+        return this.playSources;
     }
 
     /**
@@ -79,6 +83,15 @@ public final class PlayToAllOptions {
     }
 
     /**
+     * Get the overridden call back URL override for operation.
+     *
+     * @return the operationCallbackUrl
+     */
+    public String getOperationCallbackUrl() {
+        return operationCallbackUrl;
+    }
+
+    /**
      * Set the loop property: The option to play the provided audio source in loop when set to true.
      *
      * @param loop the loop value to set.
@@ -97,6 +110,40 @@ public final class PlayToAllOptions {
      */
     public PlayToAllOptions setOperationContext(String operationContext) {
         this.operationContext = operationContext;
+        return this;
+    }
+
+    /**
+     * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+     * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+     *
+     * @param operationCallbackUrl the operationCallbackUrl to set
+     * @return the PlayToAllOptions object itself.
+     */
+    public PlayToAllOptions setOperationCallbackUrl(String operationCallbackUrl) {
+        this.operationCallbackUrl = operationCallbackUrl;
+        return this;
+    }
+
+     /**
+     * Get the interruptCallMediaOperation property: If set play can barge into other existing
+     * queued-up/currently-processing requests.
+     *
+     * @return the interruptCallMediaOperation value.
+     */
+    public boolean isInterruptCallMediaOperation() {
+        return this.interruptCallMediaOperation;
+    }
+
+    /**
+     * Set the interruptCallMediaOperation property: If set play can barge into other existing
+     * queued-up/currently-processing requests.
+     *
+     * @param interruptCallMediaOperation the interruptCallMediaOperation value to set.
+     * @return the PlayOptionsInternal object itself.
+     */
+    public PlayToAllOptions setInterruptCallMediaOperation(boolean interruptCallMediaOperation) {
+        this.interruptCallMediaOperation = interruptCallMediaOperation;
         return this;
     }
 }

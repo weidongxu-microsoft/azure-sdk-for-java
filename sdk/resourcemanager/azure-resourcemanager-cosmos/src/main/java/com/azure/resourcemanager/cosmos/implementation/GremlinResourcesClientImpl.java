@@ -43,16 +43,23 @@ import com.azure.resourcemanager.cosmos.models.GremlinDatabaseListResult;
 import com.azure.resourcemanager.cosmos.models.GremlinGraphCreateUpdateParameters;
 import com.azure.resourcemanager.cosmos.models.GremlinGraphListResult;
 import com.azure.resourcemanager.cosmos.models.ThroughputSettingsUpdateParameters;
-import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in GremlinResourcesClient. */
+import java.nio.ByteBuffer;
+
+/**
+ * An instance of this class provides access to all the operations defined in GremlinResourcesClient.
+ */
 public final class GremlinResourcesClientImpl implements GremlinResourcesClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final GremlinResourcesService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final CosmosDBManagementClientImpl client;
 
     /**
@@ -61,8 +68,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param client the instance of the service client containing this operation class.
      */
     GremlinResourcesClientImpl(CosmosDBManagementClientImpl client) {
-        this.service =
-            RestProxy.create(GremlinResourcesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
+        this.service
+            = RestProxy.create(GremlinResourcesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 
@@ -73,270 +80,182 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
     @Host("{$host}")
     @ServiceInterface(name = "CosmosDBManagementCl")
     public interface GremlinResourcesService {
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<GremlinDatabaseListResult>> listGremlinDatabases(
-            @HostParam("$host") String endpoint,
+        Mono<Response<GremlinDatabaseListResult>> listGremlinDatabases(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<GremlinDatabaseGetResultsInner>> getGremlinDatabase(
-            @HostParam("$host") String endpoint,
+        Mono<Response<GremlinDatabaseGetResultsInner>> getGremlinDatabase(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinDatabase(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinDatabase(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Accept: application/json;q=0.9", "Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
-        @ExpectedResponses({202, 204})
+        @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
+        @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> deleteGremlinDatabase(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> deleteGremlinDatabase(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
             Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinDatabaseThroughput(
-            @HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HostParam("$host") String endpoint, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> updateGremlinDatabaseThroughput(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> updateGremlinDatabaseThroughput(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToAutoscale(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToAutoscale(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToManualThroughput(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToManualThroughput(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<GremlinGraphListResult>> listGremlinGraphs(
-            @HostParam("$host") String endpoint,
+        Mono<Response<GremlinGraphListResult>> listGremlinGraphs(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<GremlinGraphGetResultsInner>> getGremlinGraph(
-            @HostParam("$host") String endpoint,
+        Mono<Response<GremlinGraphGetResultsInner>> getGremlinGraph(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinGraph(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinGraph(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
             @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Accept: application/json;q=0.9", "Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
-        @ExpectedResponses({202, 204})
+        @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
+        @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> deleteGremlinGraph(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> deleteGremlinGraph(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
-            @QueryParam("api-version") String apiVersion,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
+            @QueryParam("api-version") String apiVersion, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughput(
-            @HostParam("$host") String endpoint,
+        Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughput(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> updateGremlinGraphThroughput(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> updateGremlinGraphThroughput(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
             @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToAutoscale(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToAutoscale(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToManualThroughput(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToManualThroughput(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> retrieveContinuousBackupInformation(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> retrieveContinuousBackupInformation(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("accountName") String accountName,
-            @PathParam("databaseName") String databaseName,
-            @PathParam("graphName") String graphName,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName,
             @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ContinuousBackupRestoreLocation location,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
@@ -347,23 +266,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List operation response, that contains the Gremlin databases and their properties along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return the List operation response, that contains the Gremlin databases and their properties along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<GremlinDatabaseGetResultsInner>> listGremlinDatabasesSinglePageAsync(
-        String resourceGroupName, String accountName) {
+    private Mono<PagedResponse<GremlinDatabaseGetResultsInner>>
+        listGremlinDatabasesSinglePageAsync(String resourceGroupName, String accountName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -375,20 +290,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         final String accept = "application/json";
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .listGremlinDatabases(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
-            .<PagedResponse<GremlinDatabaseGetResultsInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(), null, null))
+                context -> service.listGremlinDatabases(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                    resourceGroupName, accountName, this.client.getApiVersion(), accept, context))
+            .<PagedResponse<GremlinDatabaseGetResultsInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), null, null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -401,23 +306,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List operation response, that contains the Gremlin databases and their properties along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return the List operation response, that contains the Gremlin databases and their properties along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<GremlinDatabaseGetResultsInner>> listGremlinDatabasesSinglePageAsync(
-        String resourceGroupName, String accountName, Context context) {
+    private Mono<PagedResponse<GremlinDatabaseGetResultsInner>>
+        listGremlinDatabasesSinglePageAsync(String resourceGroupName, String accountName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -429,18 +330,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .listGremlinDatabases(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                this.client.getApiVersion(),
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(), null, null));
+            .listGremlinDatabases(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+                accountName, this.client.getApiVersion(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), null, null));
     }
 
     /**
@@ -452,11 +345,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the Gremlin databases and their properties as paginated
-     *     response with {@link PagedFlux}.
+     * response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<GremlinDatabaseGetResultsInner> listGremlinDatabasesAsync(
-        String resourceGroupName, String accountName) {
+    public PagedFlux<GremlinDatabaseGetResultsInner> listGremlinDatabasesAsync(String resourceGroupName,
+        String accountName) {
         return new PagedFlux<>(() -> listGremlinDatabasesSinglePageAsync(resourceGroupName, accountName));
     }
 
@@ -470,11 +363,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the Gremlin databases and their properties as paginated
-     *     response with {@link PagedFlux}.
+     * response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<GremlinDatabaseGetResultsInner> listGremlinDatabasesAsync(
-        String resourceGroupName, String accountName, Context context) {
+    private PagedFlux<GremlinDatabaseGetResultsInner> listGremlinDatabasesAsync(String resourceGroupName,
+        String accountName, Context context) {
         return new PagedFlux<>(() -> listGremlinDatabasesSinglePageAsync(resourceGroupName, accountName, context));
     }
 
@@ -487,11 +380,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the Gremlin databases and their properties as paginated
-     *     response with {@link PagedIterable}.
+     * response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<GremlinDatabaseGetResultsInner> listGremlinDatabases(
-        String resourceGroupName, String accountName) {
+    public PagedIterable<GremlinDatabaseGetResultsInner> listGremlinDatabases(String resourceGroupName,
+        String accountName) {
         return new PagedIterable<>(listGremlinDatabasesAsync(resourceGroupName, accountName));
     }
 
@@ -505,11 +398,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the Gremlin databases and their properties as paginated
-     *     response with {@link PagedIterable}.
+     * response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<GremlinDatabaseGetResultsInner> listGremlinDatabases(
-        String resourceGroupName, String accountName, Context context) {
+    public PagedIterable<GremlinDatabaseGetResultsInner> listGremlinDatabases(String resourceGroupName,
+        String accountName, Context context) {
         return new PagedIterable<>(listGremlinDatabasesAsync(resourceGroupName, accountName, context));
     }
 
@@ -523,22 +416,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin databases under an existing Azure Cosmos DB database account with the provided name along
-     *     with {@link Response} on successful completion of {@link Mono}.
+     * with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<GremlinDatabaseGetResultsInner>> getGremlinDatabaseWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    public Mono<Response<GremlinDatabaseGetResultsInner>> getGremlinDatabaseWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -553,17 +442,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         final String accept = "application/json";
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .getGremlinDatabase(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+                context -> service.getGremlinDatabase(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                    resourceGroupName, accountName, databaseName, this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -578,22 +458,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin databases under an existing Azure Cosmos DB database account with the provided name along
-     *     with {@link Response} on successful completion of {@link Mono}.
+     * with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<GremlinDatabaseGetResultsInner>> getGremlinDatabaseWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    private Mono<Response<GremlinDatabaseGetResultsInner>> getGremlinDatabaseWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -607,16 +483,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .getGremlinDatabase(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.getGremlinDatabase(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, databaseName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -629,11 +497,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin databases under an existing Azure Cosmos DB database account with the provided name on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<GremlinDatabaseGetResultsInner> getGremlinDatabaseAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    public Mono<GremlinDatabaseGetResultsInner> getGremlinDatabaseAsync(String resourceGroupName, String accountName,
+        String databaseName) {
         return getGremlinDatabaseWithResponseAsync(resourceGroupName, accountName, databaseName)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
@@ -649,11 +517,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin databases under an existing Azure Cosmos DB database account with the provided name along
-     *     with {@link Response}.
+     * with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<GremlinDatabaseGetResultsInner> getGremlinDatabaseWithResponse(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    public Response<GremlinDatabaseGetResultsInner> getGremlinDatabaseWithResponse(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         return getGremlinDatabaseWithResponseAsync(resourceGroupName, accountName, databaseName, context).block();
     }
 
@@ -669,8 +537,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public GremlinDatabaseGetResultsInner getGremlinDatabase(
-        String resourceGroupName, String accountName, String databaseName) {
+    public GremlinDatabaseGetResultsInner getGremlinDatabase(String resourceGroupName, String accountName,
+        String databaseName) {
         return getGremlinDatabaseWithResponse(resourceGroupName, accountName, databaseName, Context.NONE).getValue();
     }
 
@@ -687,22 +555,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin database along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinDatabaseWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
+    public Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinDatabaseWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName,
         GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -715,28 +577,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter databaseName is required and cannot be null."));
         }
         if (createUpdateGremlinDatabaseParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter createUpdateGremlinDatabaseParameters is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter createUpdateGremlinDatabaseParameters is required and cannot be null."));
         } else {
             createUpdateGremlinDatabaseParameters.validate();
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .createUpdateGremlinDatabase(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            createUpdateGremlinDatabaseParameters,
-                            accept,
-                            context))
+            .withContext(context -> service.createUpdateGremlinDatabase(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName,
+                this.client.getApiVersion(), createUpdateGremlinDatabaseParameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -754,23 +604,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin database along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinDatabaseWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
-        Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinDatabaseWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName,
+        GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -783,26 +626,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter databaseName is required and cannot be null."));
         }
         if (createUpdateGremlinDatabaseParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter createUpdateGremlinDatabaseParameters is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter createUpdateGremlinDatabaseParameters is required and cannot be null."));
         } else {
             createUpdateGremlinDatabaseParameters.validate();
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .createUpdateGremlinDatabase(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                createUpdateGremlinDatabaseParameters,
-                accept,
-                context);
+        return service.createUpdateGremlinDatabase(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, this.client.getApiVersion(),
+            createUpdateGremlinDatabaseParameters, accept, context);
     }
 
     /**
@@ -819,22 +652,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<GremlinDatabaseGetResultsInner>, GremlinDatabaseGetResultsInner>
-        beginCreateUpdateGremlinDatabaseAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
+        beginCreateUpdateGremlinDatabaseAsync(String resourceGroupName, String accountName, String databaseName,
             GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createUpdateGremlinDatabaseWithResponseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters);
-        return this
-            .client
-            .<GremlinDatabaseGetResultsInner, GremlinDatabaseGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                GremlinDatabaseGetResultsInner.class,
-                GremlinDatabaseGetResultsInner.class,
-                this.client.getContext());
+        Mono<Response<Flux<ByteBuffer>>> mono = createUpdateGremlinDatabaseWithResponseAsync(resourceGroupName,
+            accountName, databaseName, createUpdateGremlinDatabaseParameters);
+        return this.client.<GremlinDatabaseGetResultsInner, GremlinDatabaseGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), GremlinDatabaseGetResultsInner.class, GremlinDatabaseGetResultsInner.class,
+            this.client.getContext());
     }
 
     /**
@@ -852,24 +676,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<GremlinDatabaseGetResultsInner>, GremlinDatabaseGetResultsInner>
-        beginCreateUpdateGremlinDatabaseAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
-            Context context) {
+        beginCreateUpdateGremlinDatabaseAsync(String resourceGroupName, String accountName, String databaseName,
+            GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createUpdateGremlinDatabaseWithResponseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters, context);
-        return this
-            .client
-            .<GremlinDatabaseGetResultsInner, GremlinDatabaseGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                GremlinDatabaseGetResultsInner.class,
-                GremlinDatabaseGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = createUpdateGremlinDatabaseWithResponseAsync(resourceGroupName,
+            accountName, databaseName, createUpdateGremlinDatabaseParameters, context);
+        return this.client.<GremlinDatabaseGetResultsInner, GremlinDatabaseGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), GremlinDatabaseGetResultsInner.class, GremlinDatabaseGetResultsInner.class,
+            context);
     }
 
     /**
@@ -886,14 +700,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<GremlinDatabaseGetResultsInner>, GremlinDatabaseGetResultsInner>
-        beginCreateUpdateGremlinDatabase(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
+        beginCreateUpdateGremlinDatabase(String resourceGroupName, String accountName, String databaseName,
             GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
         return this
-            .beginCreateUpdateGremlinDatabaseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters)
+            .beginCreateUpdateGremlinDatabaseAsync(resourceGroupName, accountName, databaseName,
+                createUpdateGremlinDatabaseParameters)
             .getSyncPoller();
     }
 
@@ -912,15 +723,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<GremlinDatabaseGetResultsInner>, GremlinDatabaseGetResultsInner>
-        beginCreateUpdateGremlinDatabase(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
-            Context context) {
+        beginCreateUpdateGremlinDatabase(String resourceGroupName, String accountName, String databaseName,
+            GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, Context context) {
         return this
-            .beginCreateUpdateGremlinDatabaseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters, context)
+            .beginCreateUpdateGremlinDatabaseAsync(resourceGroupName, accountName, databaseName,
+                createUpdateGremlinDatabaseParameters, context)
             .getSyncPoller();
     }
 
@@ -937,15 +744,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin database on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<GremlinDatabaseGetResultsInner> createUpdateGremlinDatabaseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
+    public Mono<GremlinDatabaseGetResultsInner> createUpdateGremlinDatabaseAsync(String resourceGroupName,
+        String accountName, String databaseName,
         GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
-        return beginCreateUpdateGremlinDatabaseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+        return beginCreateUpdateGremlinDatabaseAsync(resourceGroupName, accountName, databaseName,
+            createUpdateGremlinDatabaseParameters).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -962,16 +765,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin database on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<GremlinDatabaseGetResultsInner> createUpdateGremlinDatabaseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
-        Context context) {
-        return beginCreateUpdateGremlinDatabaseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    private Mono<GremlinDatabaseGetResultsInner> createUpdateGremlinDatabaseAsync(String resourceGroupName,
+        String accountName, String databaseName,
+        GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, Context context) {
+        return beginCreateUpdateGremlinDatabaseAsync(resourceGroupName, accountName, databaseName,
+            createUpdateGremlinDatabaseParameters, context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -987,14 +785,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin database.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public GremlinDatabaseGetResultsInner createUpdateGremlinDatabase(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
-        return createUpdateGremlinDatabaseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters)
-            .block();
+    public GremlinDatabaseGetResultsInner createUpdateGremlinDatabase(String resourceGroupName, String accountName,
+        String databaseName, GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
+        return createUpdateGremlinDatabaseAsync(resourceGroupName, accountName, databaseName,
+            createUpdateGremlinDatabaseParameters).block();
     }
 
     /**
@@ -1011,15 +805,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin database.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public GremlinDatabaseGetResultsInner createUpdateGremlinDatabase(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
+    public GremlinDatabaseGetResultsInner createUpdateGremlinDatabase(String resourceGroupName, String accountName,
+        String databaseName, GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters,
         Context context) {
-        return createUpdateGremlinDatabaseAsync(
-                resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters, context)
-            .block();
+        return createUpdateGremlinDatabaseAsync(resourceGroupName, accountName, databaseName,
+            createUpdateGremlinDatabaseParameters, context).block();
     }
 
     /**
@@ -1034,19 +824,15 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> deleteGremlinDatabaseWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    public Mono<Response<Flux<ByteBuffer>>> deleteGremlinDatabaseWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1060,16 +846,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .deleteGremlinDatabase(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            context))
+                context -> service.deleteGremlinDatabase(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                    resourceGroupName, accountName, databaseName, this.client.getApiVersion(), context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1086,19 +864,15 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteGremlinDatabaseWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteGremlinDatabaseWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1111,15 +885,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter databaseName is required and cannot be null."));
         }
         context = this.client.mergeContext(context);
-        return service
-            .deleteGremlinDatabase(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                context);
+        return service.deleteGremlinDatabase(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, this.client.getApiVersion(), context);
     }
 
     /**
@@ -1134,14 +901,12 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public PollerFlux<PollResult<Void>, Void> beginDeleteGremlinDatabaseAsync(
-        String resourceGroupName, String accountName, String databaseName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteGremlinDatabaseWithResponseAsync(resourceGroupName, accountName, databaseName);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+    public PollerFlux<PollResult<Void>, Void> beginDeleteGremlinDatabaseAsync(String resourceGroupName,
+        String accountName, String databaseName) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteGremlinDatabaseWithResponseAsync(resourceGroupName, accountName, databaseName);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
@@ -1157,14 +922,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteGremlinDatabaseAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteGremlinDatabaseAsync(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteGremlinDatabaseWithResponseAsync(resourceGroupName, accountName, databaseName, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteGremlinDatabaseWithResponseAsync(resourceGroupName, accountName, databaseName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
@@ -1179,8 +943,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinDatabase(
-        String resourceGroupName, String accountName, String databaseName) {
+    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinDatabase(String resourceGroupName, String accountName,
+        String databaseName) {
         return this.beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName).getSyncPoller();
     }
 
@@ -1197,10 +961,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinDatabase(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
-        return this
-            .beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName, context)
+    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinDatabase(String resourceGroupName, String accountName,
+        String databaseName, Context context) {
+        return this.beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName, context)
             .getSyncPoller();
     }
 
@@ -1217,8 +980,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteGremlinDatabaseAsync(String resourceGroupName, String accountName, String databaseName) {
-        return beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName)
-            .last()
+        return beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -1235,10 +997,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteGremlinDatabaseAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
-        return beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName, context)
-            .last()
+    private Mono<Void> deleteGremlinDatabaseAsync(String resourceGroupName, String accountName, String databaseName,
+        Context context) {
+        return beginDeleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -1269,8 +1030,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteGremlinDatabase(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    public void deleteGremlinDatabase(String resourceGroupName, String accountName, String databaseName,
+        Context context) {
         deleteGremlinDatabaseAsync(resourceGroupName, accountName, databaseName, context).block();
     }
 
@@ -1285,22 +1046,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the
-     *     provided name along with {@link Response} on successful completion of {@link Mono}.
+     * provided name along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinDatabaseThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1314,18 +1071,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .getGremlinDatabaseThroughput(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.getGremlinDatabaseThroughput(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName,
+                this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1341,22 +1089,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the
-     *     provided name along with {@link Response} on successful completion of {@link Mono}.
+     * provided name along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinDatabaseThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1370,16 +1114,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .getGremlinDatabaseThroughput(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.getGremlinDatabaseThroughput(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -1393,11 +1129,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the
-     *     provided name on successful completion of {@link Mono}.
+     * provided name on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> getGremlinDatabaseThroughputAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    public Mono<ThroughputSettingsGetResultsInner> getGremlinDatabaseThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName) {
         return getGremlinDatabaseThroughputWithResponseAsync(resourceGroupName, accountName, databaseName)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
@@ -1414,7 +1150,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the
-     *     provided name along with {@link Response}.
+     * provided name along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<ThroughputSettingsGetResultsInner> getGremlinDatabaseThroughputWithResponse(
@@ -1434,11 +1170,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the
-     *     provided name.
+     * provided name.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner getGremlinDatabaseThroughput(
-        String resourceGroupName, String accountName, String databaseName) {
+    public ThroughputSettingsGetResultsInner getGremlinDatabaseThroughput(String resourceGroupName, String accountName,
+        String databaseName) {
         return getGremlinDatabaseThroughputWithResponse(resourceGroupName, accountName, databaseName, Context.NONE)
             .getValue();
     }
@@ -1450,30 +1186,23 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> updateGremlinDatabaseThroughputWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters) {
+    public Mono<Response<Flux<ByteBuffer>>> updateGremlinDatabaseThroughputWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1486,28 +1215,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter databaseName is required and cannot be null."));
         }
         if (updateThroughputParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter updateThroughputParameters is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter updateThroughputParameters is required and cannot be null."));
         } else {
             updateThroughputParameters.validate();
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .updateGremlinDatabaseThroughput(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            updateThroughputParameters,
-                            accept,
-                            context))
+            .withContext(context -> service.updateGremlinDatabaseThroughput(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName,
+                this.client.getApiVersion(), updateThroughputParameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1518,32 +1235,25 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> updateGremlinDatabaseThroughputWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters,
+    private Mono<Response<Flux<ByteBuffer>>> updateGremlinDatabaseThroughputWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters,
         Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1556,26 +1266,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter databaseName is required and cannot be null."));
         }
         if (updateThroughputParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter updateThroughputParameters is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter updateThroughputParameters is required and cannot be null."));
         } else {
             updateThroughputParameters.validate();
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .updateGremlinDatabaseThroughput(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                updateThroughputParameters,
-                accept,
-                context);
+        return service.updateGremlinDatabaseThroughput(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, this.client.getApiVersion(), updateThroughputParameters,
+            accept, context);
     }
 
     /**
@@ -1585,7 +1285,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1593,22 +1293,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinDatabaseThroughputAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
+        beginUpdateGremlinDatabaseThroughputAsync(String resourceGroupName, String accountName, String databaseName,
             ThroughputSettingsUpdateParameters updateThroughputParameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            updateGremlinDatabaseThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                this.client.getContext());
+        Mono<Response<Flux<ByteBuffer>>> mono = updateGremlinDatabaseThroughputWithResponseAsync(resourceGroupName,
+            accountName, databaseName, updateThroughputParameters);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, this.client.getContext());
     }
 
     /**
@@ -1618,7 +1309,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1627,24 +1318,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinDatabaseThroughputAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            ThroughputSettingsUpdateParameters updateThroughputParameters,
-            Context context) {
+        beginUpdateGremlinDatabaseThroughputAsync(String resourceGroupName, String accountName, String databaseName,
+            ThroughputSettingsUpdateParameters updateThroughputParameters, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            updateGremlinDatabaseThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters, context);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = updateGremlinDatabaseThroughputWithResponseAsync(resourceGroupName,
+            accountName, databaseName, updateThroughputParameters, context);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, context);
     }
 
     /**
@@ -1654,7 +1335,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1662,14 +1343,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinDatabaseThroughput(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
+        beginUpdateGremlinDatabaseThroughput(String resourceGroupName, String accountName, String databaseName,
             ThroughputSettingsUpdateParameters updateThroughputParameters) {
         return this
-            .beginUpdateGremlinDatabaseThroughputAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters)
+            .beginUpdateGremlinDatabaseThroughputAsync(resourceGroupName, accountName, databaseName,
+                updateThroughputParameters)
             .getSyncPoller();
     }
 
@@ -1680,7 +1358,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1689,15 +1367,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinDatabaseThroughput(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            ThroughputSettingsUpdateParameters updateThroughputParameters,
-            Context context) {
+        beginUpdateGremlinDatabaseThroughput(String resourceGroupName, String accountName, String databaseName,
+            ThroughputSettingsUpdateParameters updateThroughputParameters, Context context) {
         return this
-            .beginUpdateGremlinDatabaseThroughputAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters, context)
+            .beginUpdateGremlinDatabaseThroughputAsync(resourceGroupName, accountName, databaseName,
+                updateThroughputParameters, context)
             .getSyncPoller();
     }
 
@@ -1708,22 +1382,17 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> updateGremlinDatabaseThroughputAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters) {
-        return beginUpdateGremlinDatabaseThroughputAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    public Mono<ThroughputSettingsGetResultsInner> updateGremlinDatabaseThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
+        return beginUpdateGremlinDatabaseThroughputAsync(resourceGroupName, accountName, databaseName,
+            updateThroughputParameters).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -1733,7 +1402,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1741,16 +1410,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ThroughputSettingsGetResultsInner> updateGremlinDatabaseThroughputAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters,
+    private Mono<ThroughputSettingsGetResultsInner> updateGremlinDatabaseThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters,
         Context context) {
-        return beginUpdateGremlinDatabaseThroughputAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+        return beginUpdateGremlinDatabaseThroughputAsync(resourceGroupName, accountName, databaseName,
+            updateThroughputParameters, context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -1760,21 +1424,17 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner updateGremlinDatabaseThroughput(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters) {
-        return updateGremlinDatabaseThroughputAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters)
-            .block();
+    public ThroughputSettingsGetResultsInner updateGremlinDatabaseThroughput(String resourceGroupName,
+        String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
+        return updateGremlinDatabaseThroughputAsync(resourceGroupName, accountName, databaseName,
+            updateThroughputParameters).block();
     }
 
     /**
@@ -1784,7 +1444,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @param accountName Cosmos DB database account name.
      * @param databaseName Cosmos DB database name.
      * @param updateThroughputParameters The RUs per second of the parameters to provide for the current Gremlin
-     *     database.
+     * database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1792,15 +1452,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner updateGremlinDatabaseThroughput(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters,
+    public ThroughputSettingsGetResultsInner updateGremlinDatabaseThroughput(String resourceGroupName,
+        String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters,
         Context context) {
-        return updateGremlinDatabaseThroughputAsync(
-                resourceGroupName, accountName, databaseName, updateThroughputParameters, context)
-            .block();
+        return updateGremlinDatabaseThroughputAsync(resourceGroupName, accountName, databaseName,
+            updateThroughputParameters, context).block();
     }
 
     /**
@@ -1812,23 +1468,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToAutoscaleWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    public Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToAutoscaleWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1842,18 +1494,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .migrateGremlinDatabaseToAutoscale(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.migrateGremlinDatabaseToAutoscale(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName,
+                this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1867,23 +1510,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToAutoscaleWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1897,16 +1536,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .migrateGremlinDatabaseToAutoscale(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.migrateGremlinDatabaseToAutoscale(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -1923,16 +1554,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
         beginMigrateGremlinDatabaseToAutoscaleAsync(String resourceGroupName, String accountName, String databaseName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinDatabaseToAutoscaleWithResponseAsync(resourceGroupName, accountName, databaseName);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                this.client.getContext());
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = migrateGremlinDatabaseToAutoscaleWithResponseAsync(resourceGroupName, accountName, databaseName);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, this.client.getContext());
     }
 
     /**
@@ -1949,19 +1575,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinDatabaseToAutoscaleAsync(
-            String resourceGroupName, String accountName, String databaseName, Context context) {
+        beginMigrateGremlinDatabaseToAutoscaleAsync(String resourceGroupName, String accountName, String databaseName,
+            Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinDatabaseToAutoscaleWithResponseAsync(resourceGroupName, accountName, databaseName, context);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = migrateGremlinDatabaseToAutoscaleWithResponseAsync(resourceGroupName, accountName, databaseName, context);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, context);
     }
 
     /**
@@ -1978,8 +1599,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
         beginMigrateGremlinDatabaseToAutoscale(String resourceGroupName, String accountName, String databaseName) {
-        return this
-            .beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName)
+        return this.beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName)
             .getSyncPoller();
     }
 
@@ -1997,10 +1617,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinDatabaseToAutoscale(
-            String resourceGroupName, String accountName, String databaseName, Context context) {
-        return this
-            .beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName, context)
+        beginMigrateGremlinDatabaseToAutoscale(String resourceGroupName, String accountName, String databaseName,
+            Context context) {
+        return this.beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName, context)
             .getSyncPoller();
     }
 
@@ -2016,10 +1635,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> migrateGremlinDatabaseToAutoscaleAsync(
-        String resourceGroupName, String accountName, String databaseName) {
-        return beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName)
-            .last()
+    public Mono<ThroughputSettingsGetResultsInner> migrateGremlinDatabaseToAutoscaleAsync(String resourceGroupName,
+        String accountName, String databaseName) {
+        return beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -2036,10 +1654,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ThroughputSettingsGetResultsInner> migrateGremlinDatabaseToAutoscaleAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
-        return beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName, context)
-            .last()
+    private Mono<ThroughputSettingsGetResultsInner> migrateGremlinDatabaseToAutoscaleAsync(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
+        return beginMigrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -2055,8 +1672,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToAutoscale(
-        String resourceGroupName, String accountName, String databaseName) {
+    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToAutoscale(String resourceGroupName,
+        String accountName, String databaseName) {
         return migrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName).block();
     }
 
@@ -2073,8 +1690,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToAutoscale(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToAutoscale(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         return migrateGremlinDatabaseToAutoscaleAsync(resourceGroupName, accountName, databaseName, context).block();
     }
 
@@ -2087,23 +1704,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToManualThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2117,18 +1730,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .migrateGremlinDatabaseToManualThroughput(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.migrateGremlinDatabaseToManualThroughput(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName,
+                this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -2142,23 +1746,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<Flux<ByteBuffer>>> migrateGremlinDatabaseToManualThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2172,16 +1772,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .migrateGremlinDatabaseToManualThroughput(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.migrateGremlinDatabaseToManualThroughput(this.client.getEndpoint(),
+            this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, this.client.getApiVersion(),
+            accept, context);
     }
 
     /**
@@ -2197,18 +1790,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinDatabaseToManualThroughputAsync(
-            String resourceGroupName, String accountName, String databaseName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinDatabaseToManualThroughputWithResponseAsync(resourceGroupName, accountName, databaseName);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                this.client.getContext());
+        beginMigrateGremlinDatabaseToManualThroughputAsync(String resourceGroupName, String accountName,
+            String databaseName) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = migrateGremlinDatabaseToManualThroughputWithResponseAsync(resourceGroupName, accountName, databaseName);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, this.client.getContext());
     }
 
     /**
@@ -2225,20 +1813,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinDatabaseToManualThroughputAsync(
-            String resourceGroupName, String accountName, String databaseName, Context context) {
+        beginMigrateGremlinDatabaseToManualThroughputAsync(String resourceGroupName, String accountName,
+            String databaseName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinDatabaseToManualThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, context);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = migrateGremlinDatabaseToManualThroughputWithResponseAsync(
+            resourceGroupName, accountName, databaseName, context);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, context);
     }
 
     /**
@@ -2254,10 +1836,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinDatabaseToManualThroughput(
-            String resourceGroupName, String accountName, String databaseName) {
-        return this
-            .beginMigrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName)
+        beginMigrateGremlinDatabaseToManualThroughput(String resourceGroupName, String accountName,
+            String databaseName) {
+        return this.beginMigrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName)
             .getSyncPoller();
     }
 
@@ -2275,8 +1856,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinDatabaseToManualThroughput(
-            String resourceGroupName, String accountName, String databaseName, Context context) {
+        beginMigrateGremlinDatabaseToManualThroughput(String resourceGroupName, String accountName, String databaseName,
+            Context context) {
         return this
             .beginMigrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName, context)
             .getSyncPoller();
@@ -2296,8 +1877,7 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ThroughputSettingsGetResultsInner> migrateGremlinDatabaseToManualThroughputAsync(
         String resourceGroupName, String accountName, String databaseName) {
-        return beginMigrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName)
-            .last()
+        return beginMigrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -2333,8 +1913,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToManualThroughput(
-        String resourceGroupName, String accountName, String databaseName) {
+    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToManualThroughput(String resourceGroupName,
+        String accountName, String databaseName) {
         return migrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName).block();
     }
 
@@ -2351,8 +1931,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToManualThroughput(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    public ThroughputSettingsGetResultsInner migrateGremlinDatabaseToManualThroughput(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         return migrateGremlinDatabaseToManualThroughputAsync(resourceGroupName, accountName, databaseName, context)
             .block();
     }
@@ -2366,23 +1946,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List operation response, that contains the graphs and their properties along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return the List operation response, that contains the graphs and their properties along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<GremlinGraphGetResultsInner>> listGremlinGraphsSinglePageAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    private Mono<PagedResponse<GremlinGraphGetResultsInner>> listGremlinGraphsSinglePageAsync(String resourceGroupName,
+        String accountName, String databaseName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2397,21 +1973,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         final String accept = "application/json";
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .listGremlinGraphs(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
-            .<PagedResponse<GremlinGraphGetResultsInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(), null, null))
+                context -> service.listGremlinGraphs(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                    resourceGroupName, accountName, databaseName, this.client.getApiVersion(), accept, context))
+            .<PagedResponse<GremlinGraphGetResultsInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), null, null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -2425,23 +1990,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List operation response, that contains the graphs and their properties along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return the List operation response, that contains the graphs and their properties along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<GremlinGraphGetResultsInner>> listGremlinGraphsSinglePageAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    private Mono<PagedResponse<GremlinGraphGetResultsInner>> listGremlinGraphsSinglePageAsync(String resourceGroupName,
+        String accountName, String databaseName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2456,19 +2017,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .listGremlinGraphs(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                this.client.getApiVersion(),
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(), null, null));
+            .listGremlinGraphs(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+                accountName, databaseName, this.client.getApiVersion(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), null, null));
     }
 
     /**
@@ -2481,11 +2033,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the graphs and their properties as paginated response with
-     *     {@link PagedFlux}.
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<GremlinGraphGetResultsInner> listGremlinGraphsAsync(
-        String resourceGroupName, String accountName, String databaseName) {
+    public PagedFlux<GremlinGraphGetResultsInner> listGremlinGraphsAsync(String resourceGroupName, String accountName,
+        String databaseName) {
         return new PagedFlux<>(() -> listGremlinGraphsSinglePageAsync(resourceGroupName, accountName, databaseName));
     }
 
@@ -2500,11 +2052,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the graphs and their properties as paginated response with
-     *     {@link PagedFlux}.
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<GremlinGraphGetResultsInner> listGremlinGraphsAsync(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    private PagedFlux<GremlinGraphGetResultsInner> listGremlinGraphsAsync(String resourceGroupName, String accountName,
+        String databaseName, Context context) {
         return new PagedFlux<>(
             () -> listGremlinGraphsSinglePageAsync(resourceGroupName, accountName, databaseName, context));
     }
@@ -2519,11 +2071,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the graphs and their properties as paginated response with
-     *     {@link PagedIterable}.
+     * {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<GremlinGraphGetResultsInner> listGremlinGraphs(
-        String resourceGroupName, String accountName, String databaseName) {
+    public PagedIterable<GremlinGraphGetResultsInner> listGremlinGraphs(String resourceGroupName, String accountName,
+        String databaseName) {
         return new PagedIterable<>(listGremlinGraphsAsync(resourceGroupName, accountName, databaseName));
     }
 
@@ -2538,11 +2090,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List operation response, that contains the graphs and their properties as paginated response with
-     *     {@link PagedIterable}.
+     * {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<GremlinGraphGetResultsInner> listGremlinGraphs(
-        String resourceGroupName, String accountName, String databaseName, Context context) {
+    public PagedIterable<GremlinGraphGetResultsInner> listGremlinGraphs(String resourceGroupName, String accountName,
+        String databaseName, Context context) {
         return new PagedIterable<>(listGremlinGraphsAsync(resourceGroupName, accountName, databaseName, context));
     }
 
@@ -2557,22 +2109,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin graph under an existing Azure Cosmos DB database account along with {@link Response} on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<GremlinGraphGetResultsInner>> getGremlinGraphWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public Mono<Response<GremlinGraphGetResultsInner>> getGremlinGraphWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2589,19 +2137,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .getGremlinGraph(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.getGremlinGraph(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -2617,22 +2154,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin graph under an existing Azure Cosmos DB database account along with {@link Response} on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<GremlinGraphGetResultsInner>> getGremlinGraphWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    private Mono<Response<GremlinGraphGetResultsInner>> getGremlinGraphWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2649,17 +2182,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .getGremlinGraph(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.getGremlinGraph(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, databaseName, graphName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -2672,12 +2196,12 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the Gremlin graph under an existing Azure Cosmos DB database account on successful completion of {@link
-     *     Mono}.
+     * @return the Gremlin graph under an existing Azure Cosmos DB database account on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<GremlinGraphGetResultsInner> getGremlinGraphAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public Mono<GremlinGraphGetResultsInner> getGremlinGraphAsync(String resourceGroupName, String accountName,
+        String databaseName, String graphName) {
         return getGremlinGraphWithResponseAsync(resourceGroupName, accountName, databaseName, graphName)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
@@ -2696,8 +2220,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the Gremlin graph under an existing Azure Cosmos DB database account along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<GremlinGraphGetResultsInner> getGremlinGraphWithResponse(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    public Response<GremlinGraphGetResultsInner> getGremlinGraphWithResponse(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
         return getGremlinGraphWithResponseAsync(resourceGroupName, accountName, databaseName, graphName, context)
             .block();
     }
@@ -2715,8 +2239,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the Gremlin graph under an existing Azure Cosmos DB database account.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public GremlinGraphGetResultsInner getGremlinGraph(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public GremlinGraphGetResultsInner getGremlinGraph(String resourceGroupName, String accountName,
+        String databaseName, String graphName) {
         return getGremlinGraphWithResponse(resourceGroupName, accountName, databaseName, graphName, Context.NONE)
             .getValue();
     }
@@ -2735,23 +2259,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin graph along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinGraphWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
+    public Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinGraphWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
         GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2767,29 +2284,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter graphName is required and cannot be null."));
         }
         if (createUpdateGremlinGraphParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter createUpdateGremlinGraphParameters is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter createUpdateGremlinGraphParameters is required and cannot be null."));
         } else {
             createUpdateGremlinGraphParameters.validate();
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .createUpdateGremlinGraph(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            createUpdateGremlinGraphParameters,
-                            accept,
-                            context))
+            .withContext(context -> service.createUpdateGremlinGraph(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName,
+                this.client.getApiVersion(), createUpdateGremlinGraphParameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -2808,24 +2312,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin graph along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinGraphWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
-        Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> createUpdateGremlinGraphWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
+        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -2841,27 +2337,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter graphName is required and cannot be null."));
         }
         if (createUpdateGremlinGraphParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter createUpdateGremlinGraphParameters is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter createUpdateGremlinGraphParameters is required and cannot be null."));
         } else {
             createUpdateGremlinGraphParameters.validate();
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .createUpdateGremlinGraph(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                createUpdateGremlinGraphParameters,
-                accept,
-                context);
+        return service.createUpdateGremlinGraph(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(),
+            createUpdateGremlinGraphParameters, accept, context);
     }
 
     /**
@@ -2879,23 +2364,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<GremlinGraphGetResultsInner>, GremlinGraphGetResultsInner>
-        beginCreateUpdateGremlinGraphAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createUpdateGremlinGraphWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters);
-        return this
-            .client
-            .<GremlinGraphGetResultsInner, GremlinGraphGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                GremlinGraphGetResultsInner.class,
-                GremlinGraphGetResultsInner.class,
-                this.client.getContext());
+        beginCreateUpdateGremlinGraphAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono = createUpdateGremlinGraphWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, createUpdateGremlinGraphParameters);
+        return this.client.<GremlinGraphGetResultsInner, GremlinGraphGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), GremlinGraphGetResultsInner.class, GremlinGraphGetResultsInner.class,
+            this.client.getContext());
     }
 
     /**
@@ -2914,25 +2389,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<GremlinGraphGetResultsInner>, GremlinGraphGetResultsInner>
-        beginCreateUpdateGremlinGraphAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
-            Context context) {
+        beginCreateUpdateGremlinGraphAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createUpdateGremlinGraphWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters, context);
-        return this
-            .client
-            .<GremlinGraphGetResultsInner, GremlinGraphGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                GremlinGraphGetResultsInner.class,
-                GremlinGraphGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = createUpdateGremlinGraphWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, createUpdateGremlinGraphParameters, context);
+        return this.client.<GremlinGraphGetResultsInner, GremlinGraphGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), GremlinGraphGetResultsInner.class, GremlinGraphGetResultsInner.class,
+            context);
     }
 
     /**
@@ -2950,15 +2414,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<GremlinGraphGetResultsInner>, GremlinGraphGetResultsInner>
-        beginCreateUpdateGremlinGraph(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
+        beginCreateUpdateGremlinGraph(String resourceGroupName, String accountName, String databaseName,
+            String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
         return this
-            .beginCreateUpdateGremlinGraphAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters)
+            .beginCreateUpdateGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName,
+                createUpdateGremlinGraphParameters)
             .getSyncPoller();
     }
 
@@ -2978,16 +2438,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<GremlinGraphGetResultsInner>, GremlinGraphGetResultsInner>
-        beginCreateUpdateGremlinGraph(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
-            Context context) {
+        beginCreateUpdateGremlinGraph(String resourceGroupName, String accountName, String databaseName,
+            String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, Context context) {
         return this
-            .beginCreateUpdateGremlinGraphAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters, context)
+            .beginCreateUpdateGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName,
+                createUpdateGremlinGraphParameters, context)
             .getSyncPoller();
     }
 
@@ -3005,16 +2460,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin graph on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<GremlinGraphGetResultsInner> createUpdateGremlinGraphAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
-        return beginCreateUpdateGremlinGraphAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    public Mono<GremlinGraphGetResultsInner> createUpdateGremlinGraphAsync(String resourceGroupName, String accountName,
+        String databaseName, String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
+        return beginCreateUpdateGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName,
+            createUpdateGremlinGraphParameters).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -3032,17 +2481,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin graph on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<GremlinGraphGetResultsInner> createUpdateGremlinGraphAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
-        Context context) {
-        return beginCreateUpdateGremlinGraphAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    private Mono<GremlinGraphGetResultsInner> createUpdateGremlinGraphAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
+        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, Context context) {
+        return beginCreateUpdateGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName,
+            createUpdateGremlinGraphParameters, context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -3059,15 +2502,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin graph.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public GremlinGraphGetResultsInner createUpdateGremlinGraph(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
-        return createUpdateGremlinGraphAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters)
-            .block();
+    public GremlinGraphGetResultsInner createUpdateGremlinGraph(String resourceGroupName, String accountName,
+        String databaseName, String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
+        return createUpdateGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName,
+            createUpdateGremlinGraphParameters).block();
     }
 
     /**
@@ -3085,16 +2523,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB Gremlin graph.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public GremlinGraphGetResultsInner createUpdateGremlinGraph(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
+    public GremlinGraphGetResultsInner createUpdateGremlinGraph(String resourceGroupName, String accountName,
+        String databaseName, String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters,
         Context context) {
-        return createUpdateGremlinGraphAsync(
-                resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters, context)
-            .block();
+        return createUpdateGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName,
+            createUpdateGremlinGraphParameters, context).block();
     }
 
     /**
@@ -3110,19 +2543,15 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> deleteGremlinGraphWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public Mono<Response<Flux<ByteBuffer>>> deleteGremlinGraphWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3139,17 +2568,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .deleteGremlinGraph(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            context))
+                context -> service.deleteGremlinGraph(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                    resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(), context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -3167,19 +2587,15 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteGremlinGraphWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteGremlinGraphWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3195,16 +2611,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter graphName is required and cannot be null."));
         }
         context = this.client.mergeContext(context);
-        return service
-            .deleteGremlinGraph(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                context);
+        return service.deleteGremlinGraph(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, databaseName, graphName, this.client.getApiVersion(), context);
     }
 
     /**
@@ -3220,14 +2628,12 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public PollerFlux<PollResult<Void>, Void> beginDeleteGremlinGraphAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteGremlinGraphWithResponseAsync(resourceGroupName, accountName, databaseName, graphName);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+    public PollerFlux<PollResult<Void>, Void> beginDeleteGremlinGraphAsync(String resourceGroupName, String accountName,
+        String databaseName, String graphName) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteGremlinGraphWithResponseAsync(resourceGroupName, accountName, databaseName, graphName);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
@@ -3244,14 +2650,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteGremlinGraphAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteGremlinGraphAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteGremlinGraphWithResponseAsync(resourceGroupName, accountName, databaseName, graphName, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteGremlinGraphWithResponseAsync(resourceGroupName, accountName, databaseName, graphName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
@@ -3267,10 +2672,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinGraph(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
-        return this
-            .beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName)
+    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinGraph(String resourceGroupName, String accountName,
+        String databaseName, String graphName) {
+        return this.beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName)
             .getSyncPoller();
     }
 
@@ -3288,10 +2692,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinGraph(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
-        return this
-            .beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName, context)
+    public SyncPoller<PollResult<Void>, Void> beginDeleteGremlinGraph(String resourceGroupName, String accountName,
+        String databaseName, String graphName, Context context) {
+        return this.beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName, context)
             .getSyncPoller();
     }
 
@@ -3308,10 +2711,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> deleteGremlinGraphAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
-        return beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName)
-            .last()
+    public Mono<Void> deleteGremlinGraphAsync(String resourceGroupName, String accountName, String databaseName,
+        String graphName) {
+        return beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -3329,10 +2731,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteGremlinGraphAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
-        return beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName, context)
-            .last()
+    private Mono<Void> deleteGremlinGraphAsync(String resourceGroupName, String accountName, String databaseName,
+        String graphName, Context context) {
+        return beginDeleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -3348,8 +2749,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteGremlinGraph(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public void deleteGremlinGraph(String resourceGroupName, String accountName, String databaseName,
+        String graphName) {
         deleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName).block();
     }
 
@@ -3366,8 +2767,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteGremlinGraph(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    public void deleteGremlinGraph(String resourceGroupName, String accountName, String databaseName, String graphName,
+        Context context) {
         deleteGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName, context).block();
     }
 
@@ -3382,22 +2783,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name
-     *     along with {@link Response} on successful completion of {@link Mono}.
+     * along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, String graphName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3414,19 +2811,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .getGremlinGraphThroughput(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.getGremlinGraphThroughput(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName,
+                this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -3442,22 +2829,18 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name
-     *     along with {@link Response} on successful completion of {@link Mono}.
+     * along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3474,17 +2857,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .getGremlinGraphThroughput(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.getGremlinGraphThroughput(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -3498,11 +2872,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> getGremlinGraphThroughputAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public Mono<ThroughputSettingsGetResultsInner> getGremlinGraphThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         return getGremlinGraphThroughputWithResponseAsync(resourceGroupName, accountName, databaseName, graphName)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
@@ -3519,14 +2893,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name
-     *     along with {@link Response}.
+     * along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ThroughputSettingsGetResultsInner> getGremlinGraphThroughputWithResponse(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
-        return getGremlinGraphThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, context)
-            .block();
+    public Response<ThroughputSettingsGetResultsInner> getGremlinGraphThroughputWithResponse(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
+        return getGremlinGraphThroughputWithResponseAsync(resourceGroupName, accountName, databaseName, graphName,
+            context).block();
     }
 
     /**
@@ -3542,11 +2915,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner getGremlinGraphThroughput(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
-        return getGremlinGraphThroughputWithResponse(
-                resourceGroupName, accountName, databaseName, graphName, Context.NONE)
-            .getValue();
+    public ThroughputSettingsGetResultsInner getGremlinGraphThroughput(String resourceGroupName, String accountName,
+        String databaseName, String graphName) {
+        return getGremlinGraphThroughputWithResponse(resourceGroupName, accountName, databaseName, graphName,
+            Context.NONE).getValue();
     }
 
     /**
@@ -3560,27 +2932,20 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> updateGremlinGraphThroughputWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
+    public Mono<Response<Flux<ByteBuffer>>> updateGremlinGraphThroughputWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
         ThroughputSettingsUpdateParameters updateThroughputParameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3596,29 +2961,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter graphName is required and cannot be null."));
         }
         if (updateThroughputParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter updateThroughputParameters is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter updateThroughputParameters is required and cannot be null."));
         } else {
             updateThroughputParameters.validate();
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .updateGremlinGraphThroughput(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            updateThroughputParameters,
-                            accept,
-                            context))
+            .withContext(context -> service.updateGremlinGraphThroughput(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName,
+                this.client.getApiVersion(), updateThroughputParameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -3634,28 +2986,20 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> updateGremlinGraphThroughputWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters,
-        Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> updateGremlinGraphThroughputWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
+        ThroughputSettingsUpdateParameters updateThroughputParameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3671,27 +3015,16 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
             return Mono.error(new IllegalArgumentException("Parameter graphName is required and cannot be null."));
         }
         if (updateThroughputParameters == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter updateThroughputParameters is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter updateThroughputParameters is required and cannot be null."));
         } else {
             updateThroughputParameters.validate();
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .updateGremlinGraphThroughput(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                updateThroughputParameters,
-                accept,
-                context);
+        return service.updateGremlinGraphThroughput(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(),
+            updateThroughputParameters, accept, context);
     }
 
     /**
@@ -3709,23 +3042,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinGraphThroughputAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ThroughputSettingsUpdateParameters updateThroughputParameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            updateGremlinGraphThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                this.client.getContext());
+        beginUpdateGremlinGraphThroughputAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono = updateGremlinGraphThroughputWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, updateThroughputParameters);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, this.client.getContext());
     }
 
     /**
@@ -3744,25 +3067,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinGraphThroughputAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ThroughputSettingsUpdateParameters updateThroughputParameters,
-            Context context) {
+        beginUpdateGremlinGraphThroughputAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            updateGremlinGraphThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters, context);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = updateGremlinGraphThroughputWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, updateThroughputParameters, context);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, context);
     }
 
     /**
@@ -3780,15 +3092,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinGraphThroughput(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ThroughputSettingsUpdateParameters updateThroughputParameters) {
+        beginUpdateGremlinGraphThroughput(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         return this
-            .beginUpdateGremlinGraphThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters)
+            .beginUpdateGremlinGraphThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+                updateThroughputParameters)
             .getSyncPoller();
     }
 
@@ -3808,16 +3116,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginUpdateGremlinGraphThroughput(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ThroughputSettingsUpdateParameters updateThroughputParameters,
-            Context context) {
+        beginUpdateGremlinGraphThroughput(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters, Context context) {
         return this
-            .beginUpdateGremlinGraphThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters, context)
+            .beginUpdateGremlinGraphThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+                updateThroughputParameters, context)
             .getSyncPoller();
     }
 
@@ -3835,16 +3138,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> updateGremlinGraphThroughputAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
+    public Mono<ThroughputSettingsGetResultsInner> updateGremlinGraphThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
         ThroughputSettingsUpdateParameters updateThroughputParameters) {
-        return beginUpdateGremlinGraphThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+        return beginUpdateGremlinGraphThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+            updateThroughputParameters).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -3862,17 +3160,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ThroughputSettingsGetResultsInner> updateGremlinGraphThroughputAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters,
-        Context context) {
-        return beginUpdateGremlinGraphThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    private Mono<ThroughputSettingsGetResultsInner> updateGremlinGraphThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName,
+        ThroughputSettingsUpdateParameters updateThroughputParameters, Context context) {
+        return beginUpdateGremlinGraphThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+            updateThroughputParameters, context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -3889,15 +3181,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner updateGremlinGraphThroughput(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters) {
-        return updateGremlinGraphThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters)
-            .block();
+    public ThroughputSettingsGetResultsInner updateGremlinGraphThroughput(String resourceGroupName, String accountName,
+        String databaseName, String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
+        return updateGremlinGraphThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+            updateThroughputParameters).block();
     }
 
     /**
@@ -3915,16 +3202,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner updateGremlinGraphThroughput(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ThroughputSettingsUpdateParameters updateThroughputParameters,
+    public ThroughputSettingsGetResultsInner updateGremlinGraphThroughput(String resourceGroupName, String accountName,
+        String databaseName, String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters,
         Context context) {
-        return updateGremlinGraphThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters, context)
-            .block();
+        return updateGremlinGraphThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+            updateThroughputParameters, context).block();
     }
 
     /**
@@ -3937,23 +3219,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToAutoscaleWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToAutoscaleWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -3970,19 +3248,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .migrateGremlinGraphToAutoscale(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.migrateGremlinGraphToAutoscale(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName,
+                this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -3997,23 +3265,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToAutoscaleWithResponseAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToAutoscaleWithResponseAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -4030,17 +3294,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .migrateGremlinGraphToAutoscale(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.migrateGremlinGraphToAutoscale(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -4057,18 +3312,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToAutoscaleAsync(
-            String resourceGroupName, String accountName, String databaseName, String graphName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinGraphToAutoscaleWithResponseAsync(resourceGroupName, accountName, databaseName, graphName);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                this.client.getContext());
+        beginMigrateGremlinGraphToAutoscaleAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = migrateGremlinGraphToAutoscaleWithResponseAsync(resourceGroupName, accountName, databaseName, graphName);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, this.client.getContext());
     }
 
     /**
@@ -4086,20 +3336,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToAutoscaleAsync(
-            String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+        beginMigrateGremlinGraphToAutoscaleAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinGraphToAutoscaleWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, context);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = migrateGremlinGraphToAutoscaleWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, context);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, context);
     }
 
     /**
@@ -4116,10 +3360,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToAutoscale(
-            String resourceGroupName, String accountName, String databaseName, String graphName) {
-        return this
-            .beginMigrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName)
+        beginMigrateGremlinGraphToAutoscale(String resourceGroupName, String accountName, String databaseName,
+            String graphName) {
+        return this.beginMigrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName)
             .getSyncPoller();
     }
 
@@ -4138,8 +3381,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToAutoscale(
-            String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+        beginMigrateGremlinGraphToAutoscale(String resourceGroupName, String accountName, String databaseName,
+            String graphName, Context context) {
         return this
             .beginMigrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName, context)
             .getSyncPoller();
@@ -4158,10 +3401,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToAutoscaleAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
-        return beginMigrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName)
-            .last()
+    public Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToAutoscaleAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
+        return beginMigrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -4179,12 +3421,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToAutoscaleAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
-        return beginMigrateGremlinGraphToAutoscaleAsync(
-                resourceGroupName, accountName, databaseName, graphName, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    private Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToAutoscaleAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
+        return beginMigrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName,
+            context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -4200,8 +3440,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinGraphToAutoscale(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public ThroughputSettingsGetResultsInner migrateGremlinGraphToAutoscale(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         return migrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName).block();
     }
 
@@ -4219,8 +3459,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinGraphToAutoscale(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+    public ThroughputSettingsGetResultsInner migrateGremlinGraphToAutoscale(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
         return migrateGremlinGraphToAutoscaleAsync(resourceGroupName, accountName, databaseName, graphName, context)
             .block();
     }
@@ -4235,23 +3475,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToManualThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, String graphName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -4268,19 +3504,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .migrateGremlinGraphToManualThroughput(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            accept,
-                            context))
+            .withContext(context -> service.migrateGremlinGraphToManualThroughput(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName,
+                this.client.getApiVersion(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -4295,23 +3521,19 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return an Azure Cosmos DB resource throughput along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<Flux<ByteBuffer>>> migrateGremlinGraphToManualThroughputWithResponseAsync(
         String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -4328,17 +3550,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .migrateGremlinGraphToManualThroughput(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                accept,
-                context);
+        return service.migrateGremlinGraphToManualThroughput(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(), accept, context);
     }
 
     /**
@@ -4355,19 +3568,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToManualThroughputAsync(
-            String resourceGroupName, String accountName, String databaseName, String graphName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinGraphToManualThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                this.client.getContext());
+        beginMigrateGremlinGraphToManualThroughputAsync(String resourceGroupName, String accountName,
+            String databaseName, String graphName) {
+        Mono<Response<Flux<ByteBuffer>>> mono = migrateGremlinGraphToManualThroughputWithResponseAsync(
+            resourceGroupName, accountName, databaseName, graphName);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, this.client.getContext());
     }
 
     /**
@@ -4385,20 +3592,14 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToManualThroughputAsync(
-            String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+        beginMigrateGremlinGraphToManualThroughputAsync(String resourceGroupName, String accountName,
+            String databaseName, String graphName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            migrateGremlinGraphToManualThroughputWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, context);
-        return this
-            .client
-            .<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ThroughputSettingsGetResultsInner.class,
-                ThroughputSettingsGetResultsInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = migrateGremlinGraphToManualThroughputWithResponseAsync(
+            resourceGroupName, accountName, databaseName, graphName, context);
+        return this.client.<ThroughputSettingsGetResultsInner, ThroughputSettingsGetResultsInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ThroughputSettingsGetResultsInner.class,
+            ThroughputSettingsGetResultsInner.class, context);
     }
 
     /**
@@ -4415,8 +3616,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToManualThroughput(
-            String resourceGroupName, String accountName, String databaseName, String graphName) {
+        beginMigrateGremlinGraphToManualThroughput(String resourceGroupName, String accountName, String databaseName,
+            String graphName) {
         return this
             .beginMigrateGremlinGraphToManualThroughputAsync(resourceGroupName, accountName, databaseName, graphName)
             .getSyncPoller();
@@ -4437,11 +3638,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ThroughputSettingsGetResultsInner>, ThroughputSettingsGetResultsInner>
-        beginMigrateGremlinGraphToManualThroughput(
-            String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
+        beginMigrateGremlinGraphToManualThroughput(String resourceGroupName, String accountName, String databaseName,
+            String graphName, Context context) {
         return this
-            .beginMigrateGremlinGraphToManualThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, context)
+            .beginMigrateGremlinGraphToManualThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+                context)
             .getSyncPoller();
     }
 
@@ -4458,8 +3659,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToManualThroughputAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToManualThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         return beginMigrateGremlinGraphToManualThroughputAsync(resourceGroupName, accountName, databaseName, graphName)
             .last()
             .flatMap(this.client::getLroFinalResultOrError);
@@ -4479,12 +3680,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToManualThroughputAsync(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
-        return beginMigrateGremlinGraphToManualThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    private Mono<ThroughputSettingsGetResultsInner> migrateGremlinGraphToManualThroughputAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
+        return beginMigrateGremlinGraphToManualThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+            context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -4500,8 +3699,8 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinGraphToManualThroughput(
-        String resourceGroupName, String accountName, String databaseName, String graphName) {
+    public ThroughputSettingsGetResultsInner migrateGremlinGraphToManualThroughput(String resourceGroupName,
+        String accountName, String databaseName, String graphName) {
         return migrateGremlinGraphToManualThroughputAsync(resourceGroupName, accountName, databaseName, graphName)
             .block();
     }
@@ -4520,11 +3719,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return an Azure Cosmos DB resource throughput.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ThroughputSettingsGetResultsInner migrateGremlinGraphToManualThroughput(
-        String resourceGroupName, String accountName, String databaseName, String graphName, Context context) {
-        return migrateGremlinGraphToManualThroughputAsync(
-                resourceGroupName, accountName, databaseName, graphName, context)
-            .block();
+    public ThroughputSettingsGetResultsInner migrateGremlinGraphToManualThroughput(String resourceGroupName,
+        String accountName, String databaseName, String graphName, Context context) {
+        return migrateGremlinGraphToManualThroughputAsync(resourceGroupName, accountName, databaseName, graphName,
+            context).block();
     }
 
     /**
@@ -4542,22 +3740,15 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Flux<ByteBuffer>>> retrieveContinuousBackupInformationWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
+        String resourceGroupName, String accountName, String databaseName, String graphName,
         ContinuousBackupRestoreLocation location) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -4579,20 +3770,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .retrieveContinuousBackupInformation(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accountName,
-                            databaseName,
-                            graphName,
-                            this.client.getApiVersion(),
-                            location,
-                            accept,
-                            context))
+            .withContext(context -> service.retrieveContinuousBackupInformation(this.client.getEndpoint(),
+                this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName,
+                this.client.getApiVersion(), location, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -4612,23 +3792,15 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<Flux<ByteBuffer>>> retrieveContinuousBackupInformationWithResponseAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ContinuousBackupRestoreLocation location,
-        Context context) {
+        String resourceGroupName, String accountName, String databaseName, String graphName,
+        ContinuousBackupRestoreLocation location, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -4650,18 +3822,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .retrieveContinuousBackupInformation(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accountName,
-                databaseName,
-                graphName,
-                this.client.getApiVersion(),
-                location,
-                accept,
-                context);
+        return service.retrieveContinuousBackupInformation(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, databaseName, graphName, this.client.getApiVersion(), location, accept,
+            context);
     }
 
     /**
@@ -4679,23 +3842,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<BackupInformationInner>, BackupInformationInner>
-        beginRetrieveContinuousBackupInformationAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ContinuousBackupRestoreLocation location) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            retrieveContinuousBackupInformationWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, location);
-        return this
-            .client
-            .<BackupInformationInner, BackupInformationInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                BackupInformationInner.class,
-                BackupInformationInner.class,
-                this.client.getContext());
+        beginRetrieveContinuousBackupInformationAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ContinuousBackupRestoreLocation location) {
+        Mono<Response<Flux<ByteBuffer>>> mono = retrieveContinuousBackupInformationWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, location);
+        return this.client.<BackupInformationInner, BackupInformationInner>getLroResult(mono,
+            this.client.getHttpPipeline(), BackupInformationInner.class, BackupInformationInner.class,
+            this.client.getContext());
     }
 
     /**
@@ -4714,25 +3867,13 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<BackupInformationInner>, BackupInformationInner>
-        beginRetrieveContinuousBackupInformationAsync(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ContinuousBackupRestoreLocation location,
-            Context context) {
+        beginRetrieveContinuousBackupInformationAsync(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ContinuousBackupRestoreLocation location, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            retrieveContinuousBackupInformationWithResponseAsync(
-                resourceGroupName, accountName, databaseName, graphName, location, context);
-        return this
-            .client
-            .<BackupInformationInner, BackupInformationInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                BackupInformationInner.class,
-                BackupInformationInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono = retrieveContinuousBackupInformationWithResponseAsync(resourceGroupName,
+            accountName, databaseName, graphName, location, context);
+        return this.client.<BackupInformationInner, BackupInformationInner>getLroResult(mono,
+            this.client.getHttpPipeline(), BackupInformationInner.class, BackupInformationInner.class, context);
     }
 
     /**
@@ -4750,15 +3891,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<BackupInformationInner>, BackupInformationInner>
-        beginRetrieveContinuousBackupInformation(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ContinuousBackupRestoreLocation location) {
+        beginRetrieveContinuousBackupInformation(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ContinuousBackupRestoreLocation location) {
         return this
-            .beginRetrieveContinuousBackupInformationAsync(
-                resourceGroupName, accountName, databaseName, graphName, location)
+            .beginRetrieveContinuousBackupInformationAsync(resourceGroupName, accountName, databaseName, graphName,
+                location)
             .getSyncPoller();
     }
 
@@ -4778,16 +3915,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<BackupInformationInner>, BackupInformationInner>
-        beginRetrieveContinuousBackupInformation(
-            String resourceGroupName,
-            String accountName,
-            String databaseName,
-            String graphName,
-            ContinuousBackupRestoreLocation location,
-            Context context) {
+        beginRetrieveContinuousBackupInformation(String resourceGroupName, String accountName, String databaseName,
+            String graphName, ContinuousBackupRestoreLocation location, Context context) {
         return this
-            .beginRetrieveContinuousBackupInformationAsync(
-                resourceGroupName, accountName, databaseName, graphName, location, context)
+            .beginRetrieveContinuousBackupInformationAsync(resourceGroupName, accountName, databaseName, graphName,
+                location, context)
             .getSyncPoller();
     }
 
@@ -4805,16 +3937,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return backup information of a resource on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BackupInformationInner> retrieveContinuousBackupInformationAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ContinuousBackupRestoreLocation location) {
-        return beginRetrieveContinuousBackupInformationAsync(
-                resourceGroupName, accountName, databaseName, graphName, location)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    public Mono<BackupInformationInner> retrieveContinuousBackupInformationAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, ContinuousBackupRestoreLocation location) {
+        return beginRetrieveContinuousBackupInformationAsync(resourceGroupName, accountName, databaseName, graphName,
+            location).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -4832,17 +3958,11 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return backup information of a resource on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<BackupInformationInner> retrieveContinuousBackupInformationAsync(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ContinuousBackupRestoreLocation location,
+    private Mono<BackupInformationInner> retrieveContinuousBackupInformationAsync(String resourceGroupName,
+        String accountName, String databaseName, String graphName, ContinuousBackupRestoreLocation location,
         Context context) {
-        return beginRetrieveContinuousBackupInformationAsync(
-                resourceGroupName, accountName, databaseName, graphName, location, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+        return beginRetrieveContinuousBackupInformationAsync(resourceGroupName, accountName, databaseName, graphName,
+            location, context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -4859,15 +3979,10 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return backup information of a resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public BackupInformationInner retrieveContinuousBackupInformation(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ContinuousBackupRestoreLocation location) {
-        return retrieveContinuousBackupInformationAsync(
-                resourceGroupName, accountName, databaseName, graphName, location)
-            .block();
+    public BackupInformationInner retrieveContinuousBackupInformation(String resourceGroupName, String accountName,
+        String databaseName, String graphName, ContinuousBackupRestoreLocation location) {
+        return retrieveContinuousBackupInformationAsync(resourceGroupName, accountName, databaseName, graphName,
+            location).block();
     }
 
     /**
@@ -4885,15 +4000,9 @@ public final class GremlinResourcesClientImpl implements GremlinResourcesClient 
      * @return backup information of a resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public BackupInformationInner retrieveContinuousBackupInformation(
-        String resourceGroupName,
-        String accountName,
-        String databaseName,
-        String graphName,
-        ContinuousBackupRestoreLocation location,
-        Context context) {
-        return retrieveContinuousBackupInformationAsync(
-                resourceGroupName, accountName, databaseName, graphName, location, context)
-            .block();
+    public BackupInformationInner retrieveContinuousBackupInformation(String resourceGroupName, String accountName,
+        String databaseName, String graphName, ContinuousBackupRestoreLocation location, Context context) {
+        return retrieveContinuousBackupInformationAsync(resourceGroupName, accountName, databaseName, graphName,
+            location, context).block();
     }
 }

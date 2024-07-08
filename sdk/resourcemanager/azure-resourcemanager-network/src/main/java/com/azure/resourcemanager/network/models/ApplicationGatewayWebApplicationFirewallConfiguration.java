@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Application gateway web application firewall configuration. */
+/**
+ * Application gateway web application firewall configuration.
+ */
 @Fluent
 public final class ApplicationGatewayWebApplicationFirewallConfiguration {
     /*
@@ -72,7 +75,9 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
     @JsonProperty(value = "exclusions")
     private List<ApplicationGatewayFirewallExclusion> exclusions;
 
-    /** Creates an instance of ApplicationGatewayWebApplicationFirewallConfiguration class. */
+    /**
+     * Creates an instance of ApplicationGatewayWebApplicationFirewallConfiguration class.
+     */
     public ApplicationGatewayWebApplicationFirewallConfiguration() {
     }
 
@@ -111,8 +116,8 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @param firewallMode the firewallMode value to set.
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration withFirewallMode(
-        ApplicationGatewayFirewallMode firewallMode) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration
+        withFirewallMode(ApplicationGatewayFirewallMode firewallMode) {
         this.firewallMode = firewallMode;
         return this;
     }
@@ -172,8 +177,8 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @param disabledRuleGroups the disabledRuleGroups value to set.
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration withDisabledRuleGroups(
-        List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration
+        withDisabledRuleGroups(List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups) {
         this.disabledRuleGroups = disabledRuleGroups;
         return this;
     }
@@ -233,8 +238,8 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @param maxRequestBodySizeInKb the maxRequestBodySizeInKb value to set.
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySizeInKb(
-        Integer maxRequestBodySizeInKb) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration
+        withMaxRequestBodySizeInKb(Integer maxRequestBodySizeInKb) {
         this.maxRequestBodySizeInKb = maxRequestBodySizeInKb;
         return this;
     }
@@ -274,8 +279,8 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @param exclusions the exclusions value to set.
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration withExclusions(
-        List<ApplicationGatewayFirewallExclusion> exclusions) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration
+        withExclusions(List<ApplicationGatewayFirewallExclusion> exclusions) {
         this.exclusions = exclusions;
         return this;
     }
@@ -287,25 +292,19 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      */
     public void validate() {
         if (firewallMode() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property firewallMode in model"
-                            + " ApplicationGatewayWebApplicationFirewallConfiguration"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property firewallMode in model ApplicationGatewayWebApplicationFirewallConfiguration"));
         }
         if (ruleSetType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetType in model"
-                            + " ApplicationGatewayWebApplicationFirewallConfiguration"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetType in model ApplicationGatewayWebApplicationFirewallConfiguration"));
         }
         if (ruleSetVersion() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleSetVersion in model"
-                            + " ApplicationGatewayWebApplicationFirewallConfiguration"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleSetVersion in model ApplicationGatewayWebApplicationFirewallConfiguration"));
         }
         if (disabledRuleGroups() != null) {
             disabledRuleGroups().forEach(e -> e.validate());
@@ -315,6 +314,6 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
         }
     }
 
-    private static final ClientLogger LOGGER =
-        new ClientLogger(ApplicationGatewayWebApplicationFirewallConfiguration.class);
+    private static final ClientLogger LOGGER
+        = new ClientLogger(ApplicationGatewayWebApplicationFirewallConfiguration.class);
 }

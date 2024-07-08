@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Volume definitions for the Container App. */
+/**
+ * Volume definitions for the Container App.
+ */
 @Fluent
 public final class Volume {
     /*
@@ -36,13 +38,22 @@ public final class Volume {
     @JsonProperty(value = "secrets")
     private List<SecretVolumeItem> secrets;
 
-    /** Creates an instance of Volume class. */
+    /*
+     * Mount options used while mounting the Azure file share or NFS Azure file share. Must be a comma-separated
+     * string.
+     */
+    @JsonProperty(value = "mountOptions")
+    private String mountOptions;
+
+    /**
+     * Creates an instance of Volume class.
+     */
     public Volume() {
     }
 
     /**
      * Get the name property: Volume name.
-     *
+     * 
      * @return the name value.
      */
     public String name() {
@@ -51,7 +62,7 @@ public final class Volume {
 
     /**
      * Set the name property: Volume name.
-     *
+     * 
      * @param name the name value to set.
      * @return the Volume object itself.
      */
@@ -62,7 +73,7 @@ public final class Volume {
 
     /**
      * Get the storageType property: Storage type for the volume. If not provided, use EmptyDir.
-     *
+     * 
      * @return the storageType value.
      */
     public StorageType storageType() {
@@ -71,7 +82,7 @@ public final class Volume {
 
     /**
      * Set the storageType property: Storage type for the volume. If not provided, use EmptyDir.
-     *
+     * 
      * @param storageType the storageType value to set.
      * @return the Volume object itself.
      */
@@ -82,7 +93,7 @@ public final class Volume {
 
     /**
      * Get the storageName property: Name of storage resource. No need to provide for EmptyDir and Secret.
-     *
+     * 
      * @return the storageName value.
      */
     public String storageName() {
@@ -91,7 +102,7 @@ public final class Volume {
 
     /**
      * Set the storageName property: Name of storage resource. No need to provide for EmptyDir and Secret.
-     *
+     * 
      * @param storageName the storageName value to set.
      * @return the Volume object itself.
      */
@@ -103,7 +114,7 @@ public final class Volume {
     /**
      * Get the secrets property: List of secrets to be added in volume. If no secrets are provided, all secrets in
      * collection will be added to volume.
-     *
+     * 
      * @return the secrets value.
      */
     public List<SecretVolumeItem> secrets() {
@@ -113,7 +124,7 @@ public final class Volume {
     /**
      * Set the secrets property: List of secrets to be added in volume. If no secrets are provided, all secrets in
      * collection will be added to volume.
-     *
+     * 
      * @param secrets the secrets value to set.
      * @return the Volume object itself.
      */
@@ -123,8 +134,30 @@ public final class Volume {
     }
 
     /**
+     * Get the mountOptions property: Mount options used while mounting the Azure file share or NFS Azure file share.
+     * Must be a comma-separated string.
+     * 
+     * @return the mountOptions value.
+     */
+    public String mountOptions() {
+        return this.mountOptions;
+    }
+
+    /**
+     * Set the mountOptions property: Mount options used while mounting the Azure file share or NFS Azure file share.
+     * Must be a comma-separated string.
+     * 
+     * @param mountOptions the mountOptions value to set.
+     * @return the Volume object itself.
+     */
+    public Volume withMountOptions(String mountOptions) {
+        this.mountOptions = mountOptions;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

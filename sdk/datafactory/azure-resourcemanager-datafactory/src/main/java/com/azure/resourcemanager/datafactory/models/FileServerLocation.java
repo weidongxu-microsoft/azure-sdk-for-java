@@ -5,26 +5,53 @@
 package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The location of file server dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The location of file server dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = FileServerLocation.class, visible = true)
 @JsonTypeName("FileServerLocation")
 @Fluent
 public final class FileServerLocation extends DatasetLocation {
-    /** Creates an instance of FileServerLocation class. */
+    /*
+     * Type of dataset storage location.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "FileServerLocation";
+
+    /**
+     * Creates an instance of FileServerLocation class.
+     */
     public FileServerLocation() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the type property: Type of dataset storage location.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FileServerLocation withFolderPath(Object folderPath) {
         super.withFolderPath(folderPath);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FileServerLocation withFileName(Object fileName) {
         super.withFileName(fileName);
@@ -33,7 +60,7 @@ public final class FileServerLocation extends DatasetLocation {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

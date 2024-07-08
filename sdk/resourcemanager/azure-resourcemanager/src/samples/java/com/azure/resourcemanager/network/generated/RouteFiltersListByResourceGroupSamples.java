@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for RouteFilters ListByResourceGroup. */
+/**
+ * Samples for RouteFilters ListByResourceGroup.
+ */
 public final class RouteFiltersListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteFilterListByResourceGroup.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteFilterListByResourceGroup.json
      */
     /**
      * Sample code: RouteFilterListByResourceGroup.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void routeFilterListByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getRouteFilters()

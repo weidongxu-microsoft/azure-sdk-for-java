@@ -5,9 +5,12 @@
 package com.azure.resourcemanager.devcenter.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.resourcemanager.devcenter.models.ProjectCatalogSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties of a project. These properties can be updated after the resource has been created. */
+/**
+ * Properties of a project. These properties can be updated after the resource has been created.
+ */
 @Fluent
 public class ProjectUpdateProperties {
     /*
@@ -23,19 +26,32 @@ public class ProjectUpdateProperties {
     private String description;
 
     /*
-     * When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project.
-     * This will have no effect on existing Dev Boxes when reduced.
+     * When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced.
      */
     @JsonProperty(value = "maxDevBoxesPerUser")
     private Integer maxDevBoxesPerUser;
 
-    /** Creates an instance of ProjectUpdateProperties class. */
+    /*
+     * The display name of the project.
+     */
+    @JsonProperty(value = "displayName")
+    private String displayName;
+
+    /*
+     * Settings to be used when associating a project with a catalog.
+     */
+    @JsonProperty(value = "catalogSettings")
+    private ProjectCatalogSettings catalogSettings;
+
+    /**
+     * Creates an instance of ProjectUpdateProperties class.
+     */
     public ProjectUpdateProperties() {
     }
 
     /**
      * Get the devCenterId property: Resource Id of an associated DevCenter.
-     *
+     * 
      * @return the devCenterId value.
      */
     public String devCenterId() {
@@ -44,7 +60,7 @@ public class ProjectUpdateProperties {
 
     /**
      * Set the devCenterId property: Resource Id of an associated DevCenter.
-     *
+     * 
      * @param devCenterId the devCenterId value to set.
      * @return the ProjectUpdateProperties object itself.
      */
@@ -55,7 +71,7 @@ public class ProjectUpdateProperties {
 
     /**
      * Get the description property: Description of the project.
-     *
+     * 
      * @return the description value.
      */
     public String description() {
@@ -64,7 +80,7 @@ public class ProjectUpdateProperties {
 
     /**
      * Set the description property: Description of the project.
-     *
+     * 
      * @param description the description value to set.
      * @return the ProjectUpdateProperties object itself.
      */
@@ -76,7 +92,7 @@ public class ProjectUpdateProperties {
     /**
      * Get the maxDevBoxesPerUser property: When specified, limits the maximum number of Dev Boxes a single user can
      * create across all pools in the project. This will have no effect on existing Dev Boxes when reduced.
-     *
+     * 
      * @return the maxDevBoxesPerUser value.
      */
     public Integer maxDevBoxesPerUser() {
@@ -86,7 +102,7 @@ public class ProjectUpdateProperties {
     /**
      * Set the maxDevBoxesPerUser property: When specified, limits the maximum number of Dev Boxes a single user can
      * create across all pools in the project. This will have no effect on existing Dev Boxes when reduced.
-     *
+     * 
      * @param maxDevBoxesPerUser the maxDevBoxesPerUser value to set.
      * @return the ProjectUpdateProperties object itself.
      */
@@ -96,10 +112,53 @@ public class ProjectUpdateProperties {
     }
 
     /**
+     * Get the displayName property: The display name of the project.
+     * 
+     * @return the displayName value.
+     */
+    public String displayName() {
+        return this.displayName;
+    }
+
+    /**
+     * Set the displayName property: The display name of the project.
+     * 
+     * @param displayName the displayName value to set.
+     * @return the ProjectUpdateProperties object itself.
+     */
+    public ProjectUpdateProperties withDisplayName(String displayName) {
+        this.displayName = displayName;
+        return this;
+    }
+
+    /**
+     * Get the catalogSettings property: Settings to be used when associating a project with a catalog.
+     * 
+     * @return the catalogSettings value.
+     */
+    public ProjectCatalogSettings catalogSettings() {
+        return this.catalogSettings;
+    }
+
+    /**
+     * Set the catalogSettings property: Settings to be used when associating a project with a catalog.
+     * 
+     * @param catalogSettings the catalogSettings value to set.
+     * @return the ProjectUpdateProperties object itself.
+     */
+    public ProjectUpdateProperties withCatalogSettings(ProjectCatalogSettings catalogSettings) {
+        this.catalogSettings = catalogSettings;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (catalogSettings() != null) {
+            catalogSettings().validate();
+        }
     }
 }

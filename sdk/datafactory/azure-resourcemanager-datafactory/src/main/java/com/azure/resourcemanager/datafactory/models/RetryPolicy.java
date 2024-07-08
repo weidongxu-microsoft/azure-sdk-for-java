@@ -7,12 +7,13 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Execution policy for an activity. */
+/**
+ * Execution policy for an activity.
+ */
 @Fluent
 public final class RetryPolicy {
     /*
-     * Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum:
-     * 0.
+     * Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0.
      */
     @JsonProperty(value = "count")
     private Object count;
@@ -23,14 +24,16 @@ public final class RetryPolicy {
     @JsonProperty(value = "intervalInSeconds")
     private Integer intervalInSeconds;
 
-    /** Creates an instance of RetryPolicy class. */
+    /**
+     * Creates an instance of RetryPolicy class.
+     */
     public RetryPolicy() {
     }
 
     /**
      * Get the count property: Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with
      * resultType integer), minimum: 0.
-     *
+     * 
      * @return the count value.
      */
     public Object count() {
@@ -40,7 +43,7 @@ public final class RetryPolicy {
     /**
      * Set the count property: Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with
      * resultType integer), minimum: 0.
-     *
+     * 
      * @param count the count value to set.
      * @return the RetryPolicy object itself.
      */
@@ -51,7 +54,7 @@ public final class RetryPolicy {
 
     /**
      * Get the intervalInSeconds property: Interval between retries in seconds. Default is 30.
-     *
+     * 
      * @return the intervalInSeconds value.
      */
     public Integer intervalInSeconds() {
@@ -60,7 +63,7 @@ public final class RetryPolicy {
 
     /**
      * Set the intervalInSeconds property: Interval between retries in seconds. Default is 30.
-     *
+     * 
      * @param intervalInSeconds the intervalInSeconds value to set.
      * @return the RetryPolicy object itself.
      */
@@ -71,7 +74,7 @@ public final class RetryPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

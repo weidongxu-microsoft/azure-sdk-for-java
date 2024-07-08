@@ -5,215 +5,303 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Azure VM workload-specific protected item representing SAP HANA Database. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectedItemType")
+/**
+ * Azure VM workload-specific protected item representing SAP HANA Database.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectedItemType",
+    defaultImpl = AzureVmWorkloadSapHanaDatabaseProtectedItem.class,
+    visible = true)
 @JsonTypeName("AzureVmWorkloadSAPHanaDatabase")
 @Fluent
 public final class AzureVmWorkloadSapHanaDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
-    /** Creates an instance of AzureVmWorkloadSapHanaDatabaseProtectedItem class. */
+    /*
+     * backup item type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectedItemType", required = true)
+    private String protectedItemType = "AzureVmWorkloadSAPHanaDatabase";
+
+    /**
+     * Creates an instance of AzureVmWorkloadSapHanaDatabaseProtectedItem class.
+     */
     public AzureVmWorkloadSapHanaDatabaseProtectedItem() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the protectedItemType property: backup item type.
+     * 
+     * @return the protectedItemType value.
+     */
+    @Override
+    public String protectedItemType() {
+        return this.protectedItemType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withServerName(String serverName) {
         super.withServerName(serverName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withParentName(String parentName) {
         super.withParentName(parentName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withParentType(String parentType) {
         super.withParentType(parentType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withProtectionState(ProtectionState protectionState) {
         super.withProtectionState(protectionState);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withLastBackupStatus(LastBackupStatus lastBackupStatus) {
         super.withLastBackupStatus(lastBackupStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withLastBackupTime(OffsetDateTime lastBackupTime) {
         super.withLastBackupTime(lastBackupTime);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withLastBackupErrorDetail(ErrorDetail lastBackupErrorDetail) {
         super.withLastBackupErrorDetail(lastBackupErrorDetail);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withProtectedItemDataSourceId(String protectedItemDataSourceId) {
         super.withProtectedItemDataSourceId(protectedItemDataSourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withProtectedItemHealthStatus(
-        ProtectedItemHealthStatus protectedItemHealthStatus) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withProtectedItemHealthStatus(ProtectedItemHealthStatus protectedItemHealthStatus) {
         super.withProtectedItemHealthStatus(protectedItemHealthStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withExtendedInfo(
-        AzureVmWorkloadProtectedItemExtendedInfo extendedInfo) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withExtendedInfo(AzureVmWorkloadProtectedItemExtendedInfo extendedInfo) {
         super.withExtendedInfo(extendedInfo);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withKpisHealths(
-        Map<String, KpiResourceHealthDetails> kpisHealths) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withKpisHealths(Map<String, KpiResourceHealthDetails> kpisHealths) {
         super.withKpisHealths(kpisHealths);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem withNodesList(List<DistributedNodesInfo> nodesList) {
+        super.withNodesList(nodesList);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withContainerName(String containerName) {
         super.withContainerName(containerName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withPolicyId(String policyId) {
         super.withPolicyId(policyId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withLastRecoveryPoint(OffsetDateTime lastRecoveryPoint) {
         super.withLastRecoveryPoint(lastRecoveryPoint);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withBackupSetName(String backupSetName) {
         super.withBackupSetName(backupSetName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withCreateMode(CreateMode createMode) {
         super.withCreateMode(createMode);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withDeferredDeleteTimeInUtc(
-        OffsetDateTime deferredDeleteTimeInUtc) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withDeferredDeleteTimeInUtc(OffsetDateTime deferredDeleteTimeInUtc) {
         super.withDeferredDeleteTimeInUtc(deferredDeleteTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withIsScheduledForDeferredDelete(
-        Boolean isScheduledForDeferredDelete) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withIsScheduledForDeferredDelete(Boolean isScheduledForDeferredDelete) {
         super.withIsScheduledForDeferredDelete(isScheduledForDeferredDelete);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withDeferredDeleteTimeRemaining(
-        String deferredDeleteTimeRemaining) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withDeferredDeleteTimeRemaining(String deferredDeleteTimeRemaining) {
         super.withDeferredDeleteTimeRemaining(deferredDeleteTimeRemaining);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withIsDeferredDeleteScheduleUpcoming(
-        Boolean isDeferredDeleteScheduleUpcoming) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withIsDeferredDeleteScheduleUpcoming(Boolean isDeferredDeleteScheduleUpcoming) {
         super.withIsDeferredDeleteScheduleUpcoming(isDeferredDeleteScheduleUpcoming);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withIsRehydrate(Boolean isRehydrate) {
         super.withIsRehydrate(isRehydrate);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withResourceGuardOperationRequests(
-        List<String> resourceGuardOperationRequests) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withIsArchiveEnabled(Boolean isArchiveEnabled) {
         super.withIsArchiveEnabled(isArchiveEnabled);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseProtectedItem withPolicyName(String policyName) {
         super.withPolicyName(policyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaDatabaseProtectedItem withSoftDeleteRetentionPeriod(
-        Integer softDeleteRetentionPeriod) {
+    public AzureVmWorkloadSapHanaDatabaseProtectedItem
+        withSoftDeleteRetentionPeriod(Integer softDeleteRetentionPeriod) {
         super.withSoftDeleteRetentionPeriod(softDeleteRetentionPeriod);
         return this;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

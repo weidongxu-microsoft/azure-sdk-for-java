@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for AppServiceEnvironments GetAseCustomDnsSuffixConfiguration. */
+/**
+ * Samples for AppServiceEnvironments GetAseCustomDnsSuffixConfiguration.
+ */
 public final class AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetAseCustomDnsSuffixConfiguration.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetAseCustomDnsSuffixConfiguration.json
      */
     /**
      * Sample code: Get ASE custom DNS suffix configuration.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getASECustomDNSSuffixConfiguration(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getAppServiceEnvironments()

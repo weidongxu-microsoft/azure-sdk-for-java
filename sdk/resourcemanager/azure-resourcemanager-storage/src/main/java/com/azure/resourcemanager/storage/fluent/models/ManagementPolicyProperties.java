@@ -10,7 +10,9 @@ import com.azure.resourcemanager.storage.models.ManagementPolicySchema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
-/** The Storage Account ManagementPolicy properties. */
+/**
+ * The Storage Account ManagementPolicy properties.
+ */
 @Fluent
 public final class ManagementPolicyProperties {
     /*
@@ -27,8 +29,14 @@ public final class ManagementPolicyProperties {
     private ManagementPolicySchema policy;
 
     /**
+     * Creates an instance of ManagementPolicyProperties class.
+     */
+    public ManagementPolicyProperties() {
+    }
+
+    /**
      * Get the lastModifiedTime property: Returns the date and time the ManagementPolicies was last modified.
-     *
+     * 
      * @return the lastModifiedTime value.
      */
     public OffsetDateTime lastModifiedTime() {
@@ -38,7 +46,7 @@ public final class ManagementPolicyProperties {
     /**
      * Get the policy property: The Storage Account ManagementPolicy, in JSON format. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     *
+     * 
      * @return the policy value.
      */
     public ManagementPolicySchema policy() {
@@ -48,7 +56,7 @@ public final class ManagementPolicyProperties {
     /**
      * Set the policy property: The Storage Account ManagementPolicy, in JSON format. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     *
+     * 
      * @param policy the policy value to set.
      * @return the ManagementPolicyProperties object itself.
      */
@@ -59,15 +67,14 @@ public final class ManagementPolicyProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (policy() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property policy in model ManagementPolicyProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property policy in model ManagementPolicyProperties"));
         } else {
             policy().validate();
         }

@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 package com.azure.resourcemanager;
 
+import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.resourcemanager.compute.models.AvailabilitySet;
 import com.azure.resourcemanager.compute.models.AvailabilitySetSkuTypes;
 import com.azure.resourcemanager.compute.models.KnownLinuxVirtualMachineImage;
@@ -40,11 +42,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.azure.resourcemanager.test.ResourceManagerTestBase;
+import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
 import org.junit.jupiter.api.Assertions;
 
 /** Test of load balancer management. */
 public class TestLoadBalancer {
+    private static final ClientLogger LOGGER = new ClientLogger(TestLoadBalancer.class);
+
     String testId = "";
     Region region = Region.US_WEST;
     String groupName = "";
@@ -367,10 +371,10 @@ public class TestLoadBalancer {
 
             // Remove the NIC associations
             nic1.update().withoutLoadBalancerBackends().withoutLoadBalancerInboundNatRules().apply();
-            Assertions.assertTrue(nic1.primaryIPConfiguration().listAssociatedLoadBalancerBackends().size() == 0);
+            Assertions.assertEquals(0, nic1.primaryIPConfiguration().listAssociatedLoadBalancerBackends().size());
 
             nic2.update().withoutLoadBalancerBackends().withoutLoadBalancerInboundNatRules().apply();
-            Assertions.assertTrue(nic2.primaryIPConfiguration().listAssociatedLoadBalancerBackends().size() == 0);
+            Assertions.assertEquals(0, nic2.primaryIPConfiguration().listAssociatedLoadBalancerBackends().size());
 
             // Update the load balancer
             ensurePIPs(resource.manager().publicIpAddresses());
@@ -542,7 +546,7 @@ public class TestLoadBalancer {
 
             // Verify backends
             Assertions.assertTrue(resource.backends().containsKey("backend2"));
-            Assertions.assertTrue(!resource.backends().containsKey(backend.name()));
+            Assertions.assertFalse(resource.backends().containsKey(backend.name()));
 
             // Verify NAT rules
             Assertions.assertTrue(resource.inboundNatRules().isEmpty());
@@ -620,6 +624,9 @@ public class TestLoadBalancer {
             Assertions.assertNull(lbrule.probe());
             Assertions.assertEquals(TransportProtocol.TCP, lbrule.protocol());
             Assertions.assertNotNull(lbrule.backend());
+
+            List<LoadBalancerBackend> backends = lbrule.backends();
+            Assertions.assertEquals(1, backends.size());
 
             // Verify backends
             Assertions.assertEquals(1, lb.backends().size());
@@ -702,7 +709,7 @@ public class TestLoadBalancer {
             // Verify backends
             Assertions.assertEquals(1, resource.backends().size());
             Assertions.assertTrue(resource.backends().containsKey("backend2"));
-            Assertions.assertTrue(!resource.backends().containsKey(backend.name()));
+            Assertions.assertFalse(resource.backends().containsKey(backend.name()));
 
             // Verify load balancing rules
             lbRule = resource.loadBalancingRules().get("lbrule1");
@@ -714,6 +721,9 @@ public class TestLoadBalancer {
             Assertions.assertNotNull(lbRule.probe());
             Assertions.assertEquals(tcpProbe.name(), lbRule.probe().name());
 
+            List<LoadBalancerBackend> backends = lbRule.backends();
+            Assertions.assertEquals(0, backends.size());
+
             lbRule = resource.loadBalancingRules().get("lbrule2");
             Assertions.assertNotNull(lbRule);
             Assertions.assertEquals(22, lbRule.frontendPort());
@@ -722,6 +732,10 @@ public class TestLoadBalancer {
             Assertions.assertEquals(TransportProtocol.UDP, lbRule.protocol());
             Assertions.assertNotNull(lbRule.backend());
             Assertions.assertTrue("backend2".equalsIgnoreCase(lbRule.backend().name()));
+
+            backends = lbRule.backends();
+            Assertions.assertEquals(1, backends.size());
+            Assertions.assertTrue("backend2".equalsIgnoreCase(lbRule.backends().get(0).name()));
 
             return resource;
         }
@@ -843,10 +857,9 @@ public class TestLoadBalancer {
                     .withProtocol(TransportProtocol.UDP)
                     .fromFrontend(lbRule.frontend().name())
                     .fromFrontendPort(22)
-                    .toBackend("backend2")
+                    .toBackend(backend.name())
                     .withProbe("httpprobe")
                     .attach()
-                    .withoutBackend(backend.name())
                     .withTag("tag1", "value1")
                     .withTag("tag2", "value2")
                     .apply();
@@ -880,18 +893,18 @@ public class TestLoadBalancer {
 
             // Verify backends
             Assertions.assertEquals(1, resource.backends().size());
-            Assertions.assertTrue(resource.backends().containsKey("backend2"));
-            Assertions.assertTrue(!resource.backends().containsKey(backend.name()));
+            Assertions.assertTrue(resource.backends().containsKey(backend.name()));
 
             // Verify load balancing rules
             lbRule = resource.loadBalancingRules().get("lbrule1");
             Assertions.assertNotNull(lbRule);
-            Assertions.assertNull(lbRule.backend());
             Assertions.assertEquals(8080, lbRule.backendPort());
             Assertions.assertNotNull(lbRule.frontend());
             Assertions.assertEquals(11, lbRule.idleTimeoutInMinutes());
             Assertions.assertNotNull(lbRule.probe());
             Assertions.assertEquals(tcpProbe.name(), lbRule.probe().name());
+            Assertions.assertNotNull(lbRule.backend());
+            Assertions.assertTrue(backend.name().equalsIgnoreCase(lbRule.backend().name()));
 
             lbRule = resource.loadBalancingRules().get("lbrule2");
             Assertions.assertNotNull(lbRule);
@@ -900,7 +913,7 @@ public class TestLoadBalancer {
             Assertions.assertTrue("httpprobe".equalsIgnoreCase(lbRule.probe().name()));
             Assertions.assertEquals(TransportProtocol.UDP, lbRule.protocol());
             Assertions.assertNotNull(lbRule.backend());
-            Assertions.assertTrue("backend2".equalsIgnoreCase(lbRule.backend().name()));
+            Assertions.assertTrue(backend.name().equalsIgnoreCase(lbRule.backend().name()));
 
             return resource;
         }
@@ -1014,23 +1027,18 @@ public class TestLoadBalancer {
     }
 
     // Create VNet for the LB
-    private Map<String, PublicIpAddress> ensurePIPs(PublicIpAddresses pips) throws Exception {
+    private Map<String, PublicIpAddress> ensurePIPs(PublicIpAddresses pips) {
         List<Creatable<PublicIpAddress>> creatablePips = new ArrayList<>();
-        for (int i = 0; i < pipNames.length; i++) {
-            creatablePips
-                .add(
-                    pips
-                        .define(pipNames[i])
-                        .withRegion(region)
-                        .withNewResourceGroup(groupName)
-                        .withLeafDomainLabel(pipNames[i]));
+        for (String pipName : pipNames) {
+            creatablePips.add(
+                pips.define(pipName).withRegion(region).withNewResourceGroup(groupName).withLeafDomainLabel(pipName));
         }
 
         return pips.create(creatablePips);
     }
 
     // Ensure VMs for the LB
-    private VirtualMachine[] ensureVMs(Networks networks, ComputeManager computeManager, int count) throws Exception {
+    private VirtualMachine[] ensureVMs(Networks networks, ComputeManager computeManager, int count) {
         // Create a network for the VMs
         Network network =
             networks
@@ -1068,7 +1076,7 @@ public class TestLoadBalancer {
                     .withoutPrimaryPublicIPAddress()
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
                     .withRootUsername(userName)
-                    .withRootPassword(ResourceManagerTestBase.password())
+                    .withRootPassword(ResourceManagerTestProxyTestBase.password())
                     .withNewAvailabilitySet(availabilitySetDefinition)
                     .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
@@ -1302,9 +1310,9 @@ public class TestLoadBalancer {
             // Show assigned load balancing rules
             info
                 .append("\n\t\t\tReferenced load balancing rules: ")
-                .append(new ArrayList<String>(backend.loadBalancingRules().keySet()));
+                .append(new ArrayList<>(backend.loadBalancingRules().keySet()));
         }
 
-        System.out.println(info.toString());
+        LOGGER.log(LogLevel.VERBOSE, info::toString);
     }
 }

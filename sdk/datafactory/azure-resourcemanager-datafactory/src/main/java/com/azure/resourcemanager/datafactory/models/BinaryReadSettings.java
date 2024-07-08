@@ -6,27 +6,49 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Binary read settings. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Binary read settings.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = BinaryReadSettings.class, visible = true)
 @JsonTypeName("BinaryReadSettings")
 @Fluent
 public final class BinaryReadSettings extends FormatReadSettings {
+    /*
+     * The read setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "BinaryReadSettings";
+
     /*
      * Compression settings.
      */
     @JsonProperty(value = "compressionProperties")
     private CompressionReadSettings compressionProperties;
 
-    /** Creates an instance of BinaryReadSettings class. */
+    /**
+     * Creates an instance of BinaryReadSettings class.
+     */
     public BinaryReadSettings() {
     }
 
     /**
+     * Get the type property: The read setting type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the compressionProperties property: Compression settings.
-     *
+     * 
      * @return the compressionProperties value.
      */
     public CompressionReadSettings compressionProperties() {
@@ -35,7 +57,7 @@ public final class BinaryReadSettings extends FormatReadSettings {
 
     /**
      * Set the compressionProperties property: Compression settings.
-     *
+     * 
      * @param compressionProperties the compressionProperties value to set.
      * @return the BinaryReadSettings object itself.
      */
@@ -46,7 +68,7 @@ public final class BinaryReadSettings extends FormatReadSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

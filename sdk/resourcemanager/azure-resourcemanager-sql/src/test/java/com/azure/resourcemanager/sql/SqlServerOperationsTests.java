@@ -7,6 +7,7 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.Region;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.test.annotation.DoNotRecord;
+import com.azure.core.test.annotation.LiveOnly;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.model.Indexable;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
@@ -29,6 +30,7 @@ import com.azure.resourcemanager.sql.models.ReadWriteEndpointFailoverPolicy;
 import com.azure.resourcemanager.sql.models.RegionCapabilities;
 import com.azure.resourcemanager.sql.models.ReplicationLink;
 import com.azure.resourcemanager.sql.models.SampleName;
+import com.azure.resourcemanager.sql.models.ServerNetworkAccessFlag;
 import com.azure.resourcemanager.sql.models.SecurityAlertPolicyName;
 import com.azure.resourcemanager.sql.models.SecurityAlertPolicyState;
 import com.azure.resourcemanager.sql.models.ServiceObjectiveName;
@@ -84,6 +86,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String START_IPADDRESS = "10.102.1.10";
     private static final String END_IPADDRESS = "10.102.1.12";
 
+    // Only one sync database is allowed per region per subscription
+    // canCRUDSqlSyncMember and canCRUDSqlSyncGroup need to be in 2 different region
+
     @Test
     public void canCRUDSqlSyncMember() throws Exception {
         final String dbName = "dbSample";
@@ -99,7 +104,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             sqlServerManager
                 .sqlServers()
                 .define(sqlServerName)
-                .withRegion(Region.US_EAST)
+                .withRegion(Region.US_WEST3)
                 .withNewResourceGroup(rgName)
                 .withAdministratorLogin(administratorLogin)
                 .withAdministratorPassword(administratorPassword)
@@ -406,7 +411,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withNewDatabaseId(db.id())
             .apply();
         Assertions.assertEquals(1, failoverGroup.databases().size());
-        Assertions.assertEquals(db.id(), failoverGroup.databases().get(0));
+        assertResourceIdEquals(db.id(), failoverGroup.databases().get(0));
         Assertions.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
         Assertions.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
         Assertions.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
@@ -579,7 +584,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
+    @LiveOnly
     public void canGetSqlServerCapabilitiesAndCreateIdentity() throws Exception {
+        // LiveOnly because "test timing out after latest test proxy update"
         String sqlServerAdminName = "sqladmin";
         String sqlServerAdminPassword = password();
         String databaseName = "db-from-sample";
@@ -619,12 +626,16 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         Assertions.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
-        Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        if (!isPlaybackMode()) {
+            Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        }
         Assertions.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
 
         sqlServer.update().withSystemAssignedManagedServiceIdentity().apply();
         Assertions.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
-        Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        if (!isPlaybackMode()) {
+            Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        }
         Assertions.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
 
         // cleanup
@@ -1643,7 +1654,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
+    @LiveOnly
     public void testRandomSku() {
+        // LiveOnly because "test timing out after latest test proxy update"
         // "M" series is not supported in this region
         List<DatabaseSku> databaseSkus = DatabaseSku.getAll().stream().filter(sku -> !"M".equals(sku.toSku().family())).collect(Collectors.toCollection(LinkedList::new));
         Collections.shuffle(databaseSkus);
@@ -1752,5 +1765,32 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .append(", ")
                 .append(sku.size() == null ? null : "\"" + sku.size() + "\"")
                 .append(");");
+    }
+
+    @Test
+    public void canCreateAndUpdatePublicNetworkAccess() {
+        // Create
+        SqlServer sqlServer =
+            sqlServerManager
+                .sqlServers()
+                .define(sqlServerName)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(rgName)
+                .withAdministratorLogin("userName")
+                .withAdministratorPassword("P@ssword~1")
+                .withoutAccessFromAzureServices()
+                .disablePublicNetworkAccess()
+                .create();
+
+        sqlServer.refresh();
+        Assertions.assertEquals(ServerNetworkAccessFlag.DISABLED, sqlServer.publicNetworkAccess());
+
+        sqlServer.update().enablePublicNetworkAccess().apply();
+        sqlServer.refresh();
+        Assertions.assertEquals(ServerNetworkAccessFlag.ENABLED, sqlServer.publicNetworkAccess());
+
+        sqlServer.update().disablePublicNetworkAccess().apply();
+        sqlServer.refresh();
+        Assertions.assertEquals(ServerNetworkAccessFlag.DISABLED, sqlServer.publicNetworkAccess());
     }
 }

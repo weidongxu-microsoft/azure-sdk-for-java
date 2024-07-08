@@ -10,17 +10,16 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Connector read setting. */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type",
-    defaultImpl = StoreReadSettings.class)
+/**
+ * Connector read setting.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = StoreReadSettings.class, visible = true)
 @JsonTypeName("StoreReadSettings")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "AzureBlobStorageReadSettings", value = AzureBlobStorageReadSettings.class),
@@ -35,10 +34,17 @@ import java.util.Map;
     @JsonSubTypes.Type(name = "FtpReadSettings", value = FtpReadSettings.class),
     @JsonSubTypes.Type(name = "SftpReadSettings", value = SftpReadSettings.class),
     @JsonSubTypes.Type(name = "HttpReadSettings", value = HttpReadSettings.class),
-    @JsonSubTypes.Type(name = "HdfsReadSettings", value = HdfsReadSettings.class)
-})
+    @JsonSubTypes.Type(name = "HdfsReadSettings", value = HdfsReadSettings.class),
+    @JsonSubTypes.Type(name = "LakeHouseReadSettings", value = LakeHouseReadSettings.class) })
 @Fluent
 public class StoreReadSettings {
+    /*
+     * The read setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "StoreReadSettings";
+
     /*
      * The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType
      * integer).
@@ -56,16 +62,28 @@ public class StoreReadSettings {
     /*
      * Connector read setting.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of StoreReadSettings class. */
+    /**
+     * Creates an instance of StoreReadSettings class.
+     */
     public StoreReadSettings() {
+    }
+
+    /**
+     * Get the type property: The read setting type.
+     * 
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the maxConcurrentConnections property: The maximum concurrent connection count for the source data store.
      * Type: integer (or Expression with resultType integer).
-     *
+     * 
      * @return the maxConcurrentConnections value.
      */
     public Object maxConcurrentConnections() {
@@ -75,7 +93,7 @@ public class StoreReadSettings {
     /**
      * Set the maxConcurrentConnections property: The maximum concurrent connection count for the source data store.
      * Type: integer (or Expression with resultType integer).
-     *
+     * 
      * @param maxConcurrentConnections the maxConcurrentConnections value to set.
      * @return the StoreReadSettings object itself.
      */
@@ -87,7 +105,7 @@ public class StoreReadSettings {
     /**
      * Get the disableMetricsCollection property: If true, disable data store metrics collection. Default is false.
      * Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the disableMetricsCollection value.
      */
     public Object disableMetricsCollection() {
@@ -97,7 +115,7 @@ public class StoreReadSettings {
     /**
      * Set the disableMetricsCollection property: If true, disable data store metrics collection. Default is false.
      * Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param disableMetricsCollection the disableMetricsCollection value to set.
      * @return the StoreReadSettings object itself.
      */
@@ -108,7 +126,7 @@ public class StoreReadSettings {
 
     /**
      * Get the additionalProperties property: Connector read setting.
-     *
+     * 
      * @return the additionalProperties value.
      */
     @JsonAnyGetter
@@ -118,7 +136,7 @@ public class StoreReadSettings {
 
     /**
      * Set the additionalProperties property: Connector read setting.
-     *
+     * 
      * @param additionalProperties the additionalProperties value to set.
      * @return the StoreReadSettings object itself.
      */
@@ -130,14 +148,14 @@ public class StoreReadSettings {
     @JsonAnySetter
     void withAdditionalProperties(String key, Object value) {
         if (additionalProperties == null) {
-            additionalProperties = new HashMap<>();
+            additionalProperties = new LinkedHashMap<>();
         }
         additionalProperties.put(key, value);
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

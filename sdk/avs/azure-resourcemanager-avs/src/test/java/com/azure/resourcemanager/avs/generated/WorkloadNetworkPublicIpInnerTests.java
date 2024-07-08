@@ -11,23 +11,19 @@ import org.junit.jupiter.api.Assertions;
 public final class WorkloadNetworkPublicIpInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkPublicIpInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"displayName\":\"mfmtdaaygdvw\",\"numberOfPublicIPs\":2693420757845693746,\"publicIPBlock\":\"hgwxrtfudx\",\"provisioningState\":\"Canceled\"},\"id\":\"gyqagvrvmnpkuk\",\"name\":\"himdbl\",\"type\":\"gwimfn\"}")
-                .toObject(WorkloadNetworkPublicIpInner.class);
-        Assertions.assertEquals("mfmtdaaygdvw", model.displayName());
-        Assertions.assertEquals(2693420757845693746L, model.numberOfPublicIPs());
+        WorkloadNetworkPublicIpInner model = BinaryData.fromString(
+            "{\"properties\":{\"displayName\":\"ahqkg\",\"numberOfPublicIPs\":7920652979146329739,\"publicIPBlock\":\"jnhyjsvf\",\"provisioningState\":\"Deleting\"},\"id\":\"bfvoowvrv\",\"name\":\"t\",\"type\":\"jqppyostronzmy\"}")
+            .toObject(WorkloadNetworkPublicIpInner.class);
+        Assertions.assertEquals("ahqkg", model.displayName());
+        Assertions.assertEquals(7920652979146329739L, model.numberOfPublicIPs());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkPublicIpInner model =
-            new WorkloadNetworkPublicIpInner()
-                .withDisplayName("mfmtdaaygdvw")
-                .withNumberOfPublicIPs(2693420757845693746L);
+        WorkloadNetworkPublicIpInner model
+            = new WorkloadNetworkPublicIpInner().withDisplayName("ahqkg").withNumberOfPublicIPs(7920652979146329739L);
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkPublicIpInner.class);
-        Assertions.assertEquals("mfmtdaaygdvw", model.displayName());
-        Assertions.assertEquals(2693420757845693746L, model.numberOfPublicIPs());
+        Assertions.assertEquals("ahqkg", model.displayName());
+        Assertions.assertEquals(7920652979146329739L, model.numberOfPublicIPs());
     }
 }

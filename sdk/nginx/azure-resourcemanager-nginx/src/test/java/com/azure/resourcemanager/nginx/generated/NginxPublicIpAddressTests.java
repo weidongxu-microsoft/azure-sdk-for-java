@@ -7,20 +7,19 @@ package com.azure.resourcemanager.nginx.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.nginx.models.NginxPublicIpAddress;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class NginxPublicIpAddressTests {
-    @Test
-    public void testDeserialize() {
-        NginxPublicIpAddress model =
-            BinaryData.fromString("{\"id\":\"pbtoqcjmkl\"}").toObject(NginxPublicIpAddress.class);
-        Assertions.assertEquals("pbtoqcjmkl", model.id());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        NginxPublicIpAddress model
+            = BinaryData.fromString("{\"id\":\"hmenevfyexfwhybc\"}").toObject(NginxPublicIpAddress.class);
+        Assertions.assertEquals("hmenevfyexfwhybc", model.id());
     }
 
-    @Test
-    public void testSerialize() {
-        NginxPublicIpAddress model = new NginxPublicIpAddress().withId("pbtoqcjmkl");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        NginxPublicIpAddress model = new NginxPublicIpAddress().withId("hmenevfyexfwhybc");
         model = BinaryData.fromObject(model).toObject(NginxPublicIpAddress.class);
-        Assertions.assertEquals("pbtoqcjmkl", model.id());
+        Assertions.assertEquals("hmenevfyexfwhybc", model.id());
     }
 }

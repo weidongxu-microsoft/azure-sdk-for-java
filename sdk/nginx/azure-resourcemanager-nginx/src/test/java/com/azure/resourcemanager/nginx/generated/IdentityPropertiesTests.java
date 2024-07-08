@@ -11,30 +11,26 @@ import com.azure.resourcemanager.nginx.models.UserIdentityProperties;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class IdentityPropertiesTests {
-    @Test
-    public void testDeserialize() {
-        IdentityProperties model =
-            BinaryData
-                .fromString(
-                    "{\"principalId\":\"gmbmbexppbh\",\"tenantId\":\"qrolfpf\",\"type\":\"None\",\"userAssignedIdentities\":{\"zjaoyfhrtxil\":{\"principalId\":\"qux\",\"clientId\":\"jyj\"},\"juvf\":{\"principalId\":\"rkujy\",\"clientId\":\"l\"}}}")
-                .toObject(IdentityProperties.class);
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        IdentityProperties model = BinaryData.fromString(
+            "{\"principalId\":\"k\",\"tenantId\":\"xo\",\"type\":\"None\",\"userAssignedIdentities\":{\"whijcoejctbza\":{\"principalId\":\"pimexgstxgcpodg\",\"clientId\":\"ajrmvdjwzrlovmc\"},\"xaxcfjpgddtocjjx\":{\"principalId\":\"qsycbkbfkgu\",\"clientId\":\"kexxppof\"},\"jnxqbzvddntwn\":{\"principalId\":\"pmouexhdz\",\"clientId\":\"bqe\"}}}")
+            .toObject(IdentityProperties.class);
         Assertions.assertEquals(IdentityType.NONE, model.type());
     }
 
-    @Test
-    public void testSerialize() {
-        IdentityProperties model =
-            new IdentityProperties()
-                .withType(IdentityType.NONE)
-                .withUserAssignedIdentities(
-                    mapOf("zjaoyfhrtxil", new UserIdentityProperties(), "juvf", new UserIdentityProperties()));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        IdentityProperties model = new IdentityProperties().withType(IdentityType.NONE)
+            .withUserAssignedIdentities(mapOf("whijcoejctbza", new UserIdentityProperties(), "xaxcfjpgddtocjjx",
+                new UserIdentityProperties(), "jnxqbzvddntwn", new UserIdentityProperties()));
         model = BinaryData.fromObject(model).toObject(IdentityProperties.class);
         Assertions.assertEquals(IdentityType.NONE, model.type());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

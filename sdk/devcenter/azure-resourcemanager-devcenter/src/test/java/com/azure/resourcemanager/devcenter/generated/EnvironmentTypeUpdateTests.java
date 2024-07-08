@@ -13,20 +13,24 @@ import org.junit.jupiter.api.Assertions;
 public final class EnvironmentTypeUpdateTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        EnvironmentTypeUpdate model =
-            BinaryData
-                .fromString("{\"tags\":{\"jzicwifsjt\":\"qjsdpydnfyhxdeo\"}}")
-                .toObject(EnvironmentTypeUpdate.class);
-        Assertions.assertEquals("qjsdpydnfyhxdeo", model.tags().get("jzicwifsjt"));
+        EnvironmentTypeUpdate model = BinaryData.fromString(
+            "{\"properties\":{\"displayName\":\"umveekgpwozuhkf\"},\"tags\":{\"waboe\":\"jyofdxluusdtto\",\"bxwyjsflhhcaa\":\"qvkelnsm\"}}")
+            .toObject(EnvironmentTypeUpdate.class);
+        Assertions.assertEquals("jyofdxluusdtto", model.tags().get("waboe"));
+        Assertions.assertEquals("umveekgpwozuhkf", model.displayName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        EnvironmentTypeUpdate model = new EnvironmentTypeUpdate().withTags(mapOf("jzicwifsjt", "qjsdpydnfyhxdeo"));
+        EnvironmentTypeUpdate model
+            = new EnvironmentTypeUpdate().withTags(mapOf("waboe", "jyofdxluusdtto", "bxwyjsflhhcaa", "qvkelnsm"))
+                .withDisplayName("umveekgpwozuhkf");
         model = BinaryData.fromObject(model).toObject(EnvironmentTypeUpdate.class);
-        Assertions.assertEquals("qjsdpydnfyhxdeo", model.tags().get("jzicwifsjt"));
+        Assertions.assertEquals("jyofdxluusdtto", model.tags().get("waboe"));
+        Assertions.assertEquals("umveekgpwozuhkf", model.displayName());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

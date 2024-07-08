@@ -4,12 +4,6 @@
 
 package com.azure.maps.traffic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import com.azure.core.annotation.ServiceClientBuilder;
 import com.azure.core.client.traits.AzureKeyCredentialTrait;
 import com.azure.core.client.traits.ConfigurationTrait;
@@ -19,6 +13,7 @@ import com.azure.core.client.traits.TokenCredentialTrait;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
+import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
@@ -36,11 +31,17 @@ import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.util.ClientOptions;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
+import com.azure.core.util.builder.ClientBuilderUtil;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.maps.traffic.implementation.TrafficClientImpl;
 import com.azure.maps.traffic.implementation.TrafficClientImplBuilder;
 
-/** A builder for creating a new instance of the TrafficClient type. 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+/** A builder for creating a new instance of the TrafficClient type.
  * Builder class used to instantiate both synchronous and asynchronous {@link TrafficClient} clients.
  * <p><b>Example usage</b></p>
  * Creating a sync client using a {@link AzureKeyCredential}:
@@ -64,18 +65,19 @@ public final class TrafficClientBuilder implements AzureKeyCredentialTrait<Traff
     TokenCredentialTrait<TrafficClientBuilder>, HttpTrait<TrafficClientBuilder>,
     ConfigurationTrait<TrafficClientBuilder>, EndpointTrait<TrafficClientBuilder> {
 
+    // constants
+    private static final ClientLogger LOGGER = new ClientLogger(TrafficClientBuilder.class);
+    private static final String SDK_NAME = "name";
+    private static final String SDK_VERSION = "version";
+    private static final HttpHeaderName X_MS_CLIENT_ID = HttpHeaderName.fromString("x-ms-client-id");
+    private static final Map<String, String> PROPERTIES = CoreUtils.getProperties("azure-maps-traffic.properties");
+
+    // subscription-key
+    static final String MAPS_SUBSCRIPTION_KEY = "subscription-key";
     // auth scope
     static final String[] DEFAULT_SCOPES = new String[] {"https://atlas.microsoft.com/.default"};
 
-    // constants
-    private static final String SDK_NAME = "name";
-    private static final String SDK_VERSION = "version";
-    private static final String MAPS_SUBSCRIPTION_KEY = "subscription-key";
-    private static final String X_MS_CLIENT_ID = "x-ms-client-id";
-
     // instance fields
-    private static final ClientLogger LOGGER = new ClientLogger(TrafficClientBuilder.class);
-    private final Map<String, String> properties = new HashMap<>();
     private String endpoint;
     private TrafficServiceVersion serviceVersion;
     /*
@@ -112,11 +114,11 @@ public final class TrafficClientBuilder implements AzureKeyCredentialTrait<Traff
     public TrafficClientBuilder() {
         this.pipelinePolicies = new ArrayList<>();
     }
-    
+
     /**
      * Sets the Azure Maps client id for use with Azure AD Authentication. This client id
      * is the account-based GUID that appears on the Azure Maps Authentication page.
-     *
+     * <p>
      * More details: <a href="https://docs.microsoft.com/azure/azure-maps/azure-maps-authentication">Azure Maps AD Authentication</a>
      *
      * @param trafficClientId the clientId value.
@@ -306,8 +308,7 @@ public final class TrafficClientBuilder implements AzureKeyCredentialTrait<Traff
         builder.httpClient(this.httpClient);
         builder.httpLogOptions(this.httpLogOptions);
 
-        TrafficClientImpl client = builder.buildClient();
-        return client;
+        return builder.buildClient();
     }
 
     private HttpPipeline createHttpPipeline() {
@@ -322,15 +323,14 @@ public final class TrafficClientBuilder implements AzureKeyCredentialTrait<Traff
 
         // Configure pipelines and user agent
         List<HttpPipelinePolicy> policies = new ArrayList<>();
-        String clientName = properties.getOrDefault(SDK_NAME, "JavaTrafficSDK");
-        String clientVersion = properties.getOrDefault(SDK_VERSION, serviceVersion.getVersion());
+        String clientName = PROPERTIES.getOrDefault(SDK_NAME, "JavaTrafficSDK");
+        String clientVersion = PROPERTIES.getOrDefault(SDK_VERSION, serviceVersion.getVersion());
         String applicationId = CoreUtils.getApplicationId(clientOptions, httpLogOptions);
         policies.add(new UserAgentPolicy(applicationId, clientName, clientVersion, buildConfiguration));
 
         // configure headers
-        HttpHeaders headers = new HttpHeaders();
-        clientOptions.getHeaders().forEach(header -> headers.set(header.getName(), header.getValue()));
-        if (headers.getSize() > 0) {
+        HttpHeaders headers = CoreUtils.createHttpHeadersFromClientOptions(clientOptions);
+        if (headers != null) {
             policies.add(new AddHeadersPolicy(headers));
         }
 
@@ -357,19 +357,17 @@ public final class TrafficClientBuilder implements AzureKeyCredentialTrait<Traff
 
         // Add final policies
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
-        policies.add(retryPolicy == null ? new RetryPolicy() : retryPolicy);
+        policies.add(ClientBuilderUtil.validateAndGetRetryPolicy(retryPolicy, retryOptions));
         policies.add(new CookiePolicy());
         policies.addAll(this.pipelinePolicies);
         HttpPolicyProviders.addAfterRetryPolicies(policies);
         policies.add(new HttpLoggingPolicy(httpLogOptions));
 
         // build the http pipeline
-        HttpPipeline httpPipeline =
-            new HttpPipelineBuilder()
-                .policies(policies.toArray(new HttpPipelinePolicy[0]))
-                .httpClient(httpClient)
-                .build();
-        return httpPipeline;
+        return new HttpPipelineBuilder()
+            .policies(policies.toArray(new HttpPipelinePolicy[0]))
+            .httpClient(httpClient)
+            .build();
     }
 
     /**

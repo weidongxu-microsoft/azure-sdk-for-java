@@ -12,6 +12,7 @@ import com.azure.core.client.traits.TokenCredentialTrait;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpHeader;
+import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
@@ -118,6 +119,7 @@ public final class ConfigurationClientBuilder implements
     private static final String CLIENT_NAME;
     private static final String CLIENT_VERSION;
     private static final HttpPipelinePolicy ADD_HEADERS_POLICY;
+    private static final ClientOptions DEFAULT_CLIENT_OPTIONS = new ClientOptions();
 
     static {
         Map<String, String> properties = CoreUtils.getProperties("azure-data-appconfiguration.properties");
@@ -125,8 +127,8 @@ public final class ConfigurationClientBuilder implements
         CLIENT_VERSION = properties.getOrDefault("version", "UnknownVersion");
         ADD_HEADERS_POLICY = new AddHeadersPolicy(new HttpHeaders()
             .set("x-ms-return-client-request-id", "true")
-            .set("Content-Type", "application/json")
-            .set("Accept", "application/vnd.microsoft.azconfig.kv+json"));
+            .set(HttpHeaderName.CONTENT_TYPE, "application/json")
+            .set(HttpHeaderName.ACCEPT, "application/vnd.microsoft.azconfig.kv+json"));
     }
 
     private static final ClientLogger LOGGER = new ClientLogger(ConfigurationClientBuilder.class);
@@ -255,10 +257,11 @@ public final class ConfigurationClientBuilder implements
         // endpoint cannot be null, which is required in request authentication
         Objects.requireNonNull(buildEndpoint, "'Endpoint' is required and can not be null.");
 
+        ClientOptions localClientOptions = clientOptions != null ? clientOptions : DEFAULT_CLIENT_OPTIONS;
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(
-            getApplicationId(clientOptions, httpLogOptions), CLIENT_NAME, CLIENT_VERSION, buildConfiguration));
+            getApplicationId(localClientOptions, httpLogOptions), CLIENT_NAME, CLIENT_VERSION, buildConfiguration));
         policies.add(new RequestIdPolicy());
         policies.add(new AddHeadersFromContextPolicy());
         policies.add(ADD_HEADERS_POLICY);
@@ -286,12 +289,11 @@ public final class ConfigurationClientBuilder implements
         policies.add(syncTokenPolicy);
         policies.addAll(perRetryPolicies);
 
-        if (clientOptions != null) {
-            List<HttpHeader> httpHeaderList = new ArrayList<>();
-            clientOptions.getHeaders().forEach(
-                header -> httpHeaderList.add(new HttpHeader(header.getName(), header.getValue())));
-            policies.add(new AddHeadersPolicy(new HttpHeaders(httpHeaderList)));
-        }
+        List<HttpHeader> httpHeaderList = new ArrayList<>();
+        localClientOptions.getHeaders().forEach(
+            header -> httpHeaderList.add(new HttpHeader(header.getName(), header.getValue())));
+        policies.add(new AddHeadersPolicy(new HttpHeaders(httpHeaderList)));
+
 
         HttpPolicyProviders.addAfterRetryPolicies(policies);
         policies.add(new HttpLoggingPolicy(httpLogOptions));
@@ -301,6 +303,7 @@ public final class ConfigurationClientBuilder implements
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .httpClient(httpClient)
             .tracer(createTracer(clientOptions))
+            .clientOptions(localClientOptions)
             .build();
     }
 

@@ -12,10 +12,11 @@ import java.util.Map;
 
 /**
  * The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their
- * Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode.
+ * Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication
+ * mode.
  */
 @Fluent
-public class BatchAccountIdentity {
+public final class BatchAccountIdentity {
     /*
      * The principal id of the Batch account. This property will only be provided for a system assigned identity.
      */
@@ -42,14 +43,16 @@ public class BatchAccountIdentity {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, UserAssignedIdentities> userAssignedIdentities;
 
-    /** Creates an instance of BatchAccountIdentity class. */
+    /**
+     * Creates an instance of BatchAccountIdentity class.
+     */
     public BatchAccountIdentity() {
     }
 
     /**
      * Get the principalId property: The principal id of the Batch account. This property will only be provided for a
      * system assigned identity.
-     *
+     * 
      * @return the principalId value.
      */
     public String principalId() {
@@ -59,7 +62,7 @@ public class BatchAccountIdentity {
     /**
      * Get the tenantId property: The tenant id associated with the Batch account. This property will only be provided
      * for a system assigned identity.
-     *
+     * 
      * @return the tenantId value.
      */
     public String tenantId() {
@@ -68,7 +71,7 @@ public class BatchAccountIdentity {
 
     /**
      * Get the type property: The type of identity used for the Batch account.
-     *
+     * 
      * @return the type value.
      */
     public ResourceIdentityType type() {
@@ -77,7 +80,7 @@ public class BatchAccountIdentity {
 
     /**
      * Set the type property: The type of identity used for the Batch account.
-     *
+     * 
      * @param type the type value to set.
      * @return the BatchAccountIdentity object itself.
      */
@@ -88,7 +91,7 @@ public class BatchAccountIdentity {
 
     /**
      * Get the userAssignedIdentities property: The list of user identities associated with the Batch account.
-     *
+     * 
      * @return the userAssignedIdentities value.
      */
     public Map<String, UserAssignedIdentities> userAssignedIdentities() {
@@ -97,7 +100,7 @@ public class BatchAccountIdentity {
 
     /**
      * Set the userAssignedIdentities property: The list of user identities associated with the Batch account.
-     *
+     * 
      * @param userAssignedIdentities the userAssignedIdentities value to set.
      * @return the BatchAccountIdentity object itself.
      */
@@ -108,24 +111,20 @@ public class BatchAccountIdentity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (type() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property type in model BatchAccountIdentity"));
+            throw LOGGER.logExceptionAsError(
+                new IllegalArgumentException("Missing required property type in model BatchAccountIdentity"));
         }
         if (userAssignedIdentities() != null) {
-            userAssignedIdentities()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            userAssignedIdentities().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
     }
 

@@ -23,6 +23,7 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayRewriteRuleSet
 import com.azure.resourcemanager.network.models.ApplicationGatewayRoutingRule;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySku;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySslPolicy;
+import com.azure.resourcemanager.network.models.ApplicationGatewaySslPolicyName;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySslProfile;
 import com.azure.resourcemanager.network.models.ApplicationGatewayTrustedClientCertificate;
 import com.azure.resourcemanager.network.models.ApplicationGatewayTrustedRootCertificate;
@@ -30,10 +31,13 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayWebApplication
 import com.azure.resourcemanager.network.models.ManagedServiceIdentity;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** Application gateway resource. */
+/**
+ * Application gateway resource.
+ */
 @Fluent
 public final class ApplicationGatewayInner extends Resource {
     /*
@@ -66,7 +70,9 @@ public final class ApplicationGatewayInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ApplicationGatewayInner class. */
+    /**
+     * Creates an instance of ApplicationGatewayInner class.
+     */
     public ApplicationGatewayInner() {
     }
 
@@ -148,14 +154,18 @@ public final class ApplicationGatewayInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationGatewayInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationGatewayInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -236,8 +246,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param gatewayIpConfigurations the gatewayIpConfigurations value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withGatewayIpConfigurations(
-        List<ApplicationGatewayIpConfigurationInner> gatewayIpConfigurations) {
+    public ApplicationGatewayInner
+        withGatewayIpConfigurations(List<ApplicationGatewayIpConfigurationInner> gatewayIpConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -292,8 +302,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param trustedRootCertificates the trustedRootCertificates value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withTrustedRootCertificates(
-        List<ApplicationGatewayTrustedRootCertificate> trustedRootCertificates) {
+    public ApplicationGatewayInner
+        withTrustedRootCertificates(List<ApplicationGatewayTrustedRootCertificate> trustedRootCertificates) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -320,8 +330,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param trustedClientCertificates the trustedClientCertificates value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withTrustedClientCertificates(
-        List<ApplicationGatewayTrustedClientCertificate> trustedClientCertificates) {
+    public ApplicationGatewayInner
+        withTrustedClientCertificates(List<ApplicationGatewayTrustedClientCertificate> trustedClientCertificates) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -375,8 +385,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param frontendIpConfigurations the frontendIpConfigurations value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withFrontendIpConfigurations(
-        List<ApplicationGatewayFrontendIpConfiguration> frontendIpConfigurations) {
+    public ApplicationGatewayInner
+        withFrontendIpConfigurations(List<ApplicationGatewayFrontendIpConfiguration> frontendIpConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -453,8 +463,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param backendAddressPools the backendAddressPools value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withBackendAddressPools(
-        List<ApplicationGatewayBackendAddressPool> backendAddressPools) {
+    public ApplicationGatewayInner
+        withBackendAddressPools(List<ApplicationGatewayBackendAddressPool> backendAddressPools) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -481,8 +491,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param backendHttpSettingsCollection the backendHttpSettingsCollection value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withBackendHttpSettingsCollection(
-        List<ApplicationGatewayBackendHttpSettings> backendHttpSettingsCollection) {
+    public ApplicationGatewayInner
+        withBackendHttpSettingsCollection(List<ApplicationGatewayBackendHttpSettings> backendHttpSettingsCollection) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -509,8 +519,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param backendSettingsCollection the backendSettingsCollection value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withBackendSettingsCollection(
-        List<ApplicationGatewayBackendSettings> backendSettingsCollection) {
+    public ApplicationGatewayInner
+        withBackendSettingsCollection(List<ApplicationGatewayBackendSettings> backendSettingsCollection) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -639,8 +649,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param requestRoutingRules the requestRoutingRules value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withRequestRoutingRules(
-        List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules) {
+    public ApplicationGatewayInner
+        withRequestRoutingRules(List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -713,8 +723,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param redirectConfigurations the redirectConfigurations value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withRedirectConfigurations(
-        List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations) {
+    public ApplicationGatewayInner
+        withRedirectConfigurations(List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -830,8 +840,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param autoscaleConfiguration the autoscaleConfiguration value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withAutoscaleConfiguration(
-        ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration) {
+    public ApplicationGatewayInner
+        withAutoscaleConfiguration(ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -854,8 +864,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param privateLinkConfigurations the privateLinkConfigurations value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withPrivateLinkConfigurations(
-        List<ApplicationGatewayPrivateLinkConfiguration> privateLinkConfigurations) {
+    public ApplicationGatewayInner
+        withPrivateLinkConfigurations(List<ApplicationGatewayPrivateLinkConfiguration> privateLinkConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -905,8 +915,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param customErrorConfigurations the customErrorConfigurations value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withCustomErrorConfigurations(
-        List<ApplicationGatewayCustomError> customErrorConfigurations) {
+    public ApplicationGatewayInner
+        withCustomErrorConfigurations(List<ApplicationGatewayCustomError> customErrorConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -954,8 +964,8 @@ public final class ApplicationGatewayInner extends Resource {
      * @param loadDistributionPolicies the loadDistributionPolicies value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withLoadDistributionPolicies(
-        List<ApplicationGatewayLoadDistributionPolicy> loadDistributionPolicies) {
+    public ApplicationGatewayInner
+        withLoadDistributionPolicies(List<ApplicationGatewayLoadDistributionPolicy> loadDistributionPolicies) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPropertiesFormat();
         }
@@ -984,6 +994,16 @@ public final class ApplicationGatewayInner extends Resource {
         }
         this.innerProperties().withGlobalConfiguration(globalConfiguration);
         return this;
+    }
+
+    /**
+     * Get the defaultPredefinedSslPolicy property: The default predefined SSL Policy applied on the application gateway
+     * resource.
+     *
+     * @return the defaultPredefinedSslPolicy value.
+     */
+    public ApplicationGatewaySslPolicyName defaultPredefinedSslPolicy() {
+        return this.innerProperties() == null ? null : this.innerProperties().defaultPredefinedSslPolicy();
     }
 
     /**

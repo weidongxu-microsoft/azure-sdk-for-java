@@ -6,16 +6,30 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Additional information on Backup engine specific backup item. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectedItemType")
+/**
+ * Additional information on Backup engine specific backup item.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectedItemType",
+    defaultImpl = DpmProtectedItem.class,
+    visible = true)
 @JsonTypeName("DPMProtectedItem")
 @Fluent
 public final class DpmProtectedItem extends ProtectedItem {
+    /*
+     * backup item type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectedItemType", required = true)
+    private String protectedItemType = "DPMProtectedItem";
+
     /*
      * Friendly name of the managed item
      */
@@ -40,13 +54,25 @@ public final class DpmProtectedItem extends ProtectedItem {
     @JsonProperty(value = "extendedInfo")
     private DpmProtectedItemExtendedInfo extendedInfo;
 
-    /** Creates an instance of DpmProtectedItem class. */
+    /**
+     * Creates an instance of DpmProtectedItem class.
+     */
     public DpmProtectedItem() {
     }
 
     /**
+     * Get the protectedItemType property: backup item type.
+     * 
+     * @return the protectedItemType value.
+     */
+    @Override
+    public String protectedItemType() {
+        return this.protectedItemType;
+    }
+
+    /**
      * Get the friendlyName property: Friendly name of the managed item.
-     *
+     * 
      * @return the friendlyName value.
      */
     public String friendlyName() {
@@ -55,7 +81,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Set the friendlyName property: Friendly name of the managed item.
-     *
+     * 
      * @param friendlyName the friendlyName value to set.
      * @return the DpmProtectedItem object itself.
      */
@@ -66,7 +92,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Get the backupEngineName property: Backup Management server protecting this backup item.
-     *
+     * 
      * @return the backupEngineName value.
      */
     public String backupEngineName() {
@@ -75,7 +101,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Set the backupEngineName property: Backup Management server protecting this backup item.
-     *
+     * 
      * @param backupEngineName the backupEngineName value to set.
      * @return the DpmProtectedItem object itself.
      */
@@ -86,7 +112,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Get the protectionState property: Protection state of the backup engine.
-     *
+     * 
      * @return the protectionState value.
      */
     public ProtectedItemState protectionState() {
@@ -95,7 +121,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Set the protectionState property: Protection state of the backup engine.
-     *
+     * 
      * @param protectionState the protectionState value to set.
      * @return the DpmProtectedItem object itself.
      */
@@ -106,7 +132,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Get the extendedInfo property: Extended info of the backup item.
-     *
+     * 
      * @return the extendedInfo value.
      */
     public DpmProtectedItemExtendedInfo extendedInfo() {
@@ -115,7 +141,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Set the extendedInfo property: Extended info of the backup item.
-     *
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the DpmProtectedItem object itself.
      */
@@ -124,105 +150,135 @@ public final class DpmProtectedItem extends ProtectedItem {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withContainerName(String containerName) {
         super.withContainerName(containerName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withPolicyId(String policyId) {
         super.withPolicyId(policyId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withLastRecoveryPoint(OffsetDateTime lastRecoveryPoint) {
         super.withLastRecoveryPoint(lastRecoveryPoint);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withBackupSetName(String backupSetName) {
         super.withBackupSetName(backupSetName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withCreateMode(CreateMode createMode) {
         super.withCreateMode(createMode);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withDeferredDeleteTimeInUtc(OffsetDateTime deferredDeleteTimeInUtc) {
         super.withDeferredDeleteTimeInUtc(deferredDeleteTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withIsScheduledForDeferredDelete(Boolean isScheduledForDeferredDelete) {
         super.withIsScheduledForDeferredDelete(isScheduledForDeferredDelete);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withDeferredDeleteTimeRemaining(String deferredDeleteTimeRemaining) {
         super.withDeferredDeleteTimeRemaining(deferredDeleteTimeRemaining);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withIsDeferredDeleteScheduleUpcoming(Boolean isDeferredDeleteScheduleUpcoming) {
         super.withIsDeferredDeleteScheduleUpcoming(isDeferredDeleteScheduleUpcoming);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withIsRehydrate(Boolean isRehydrate) {
         super.withIsRehydrate(isRehydrate);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withIsArchiveEnabled(Boolean isArchiveEnabled) {
         super.withIsArchiveEnabled(isArchiveEnabled);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withPolicyName(String policyName) {
         super.withPolicyName(policyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DpmProtectedItem withSoftDeleteRetentionPeriod(Integer softDeleteRetentionPeriod) {
         super.withSoftDeleteRetentionPeriod(softDeleteRetentionPeriod);
@@ -231,7 +287,7 @@ public final class DpmProtectedItem extends ProtectedItem {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

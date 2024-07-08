@@ -8,12 +8,14 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.models.SecretBase;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Google Cloud Storage linked service properties. */
+/**
+ * Google Cloud Storage linked service properties.
+ */
 @Fluent
 public final class GoogleCloudStorageLinkedServiceTypeProperties {
     /*
-     * The access key identifier of the Google Cloud Storage Identity and Access Management (IAM) user. Type: string
-     * (or Expression with resultType string).
+     * The access key identifier of the Google Cloud Storage Identity and Access Management (IAM) user. Type: string (or
+     * Expression with resultType string).
      */
     @JsonProperty(value = "accessKeyId")
     private Object accessKeyId;
@@ -34,19 +36,21 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
 
     /*
      * The encrypted credential used for authentication. Credentials are encrypted using the integration runtime
-     * credential manager. Type: string (or Expression with resultType string).
+     * credential manager. Type: string.
      */
     @JsonProperty(value = "encryptedCredential")
-    private Object encryptedCredential;
+    private String encryptedCredential;
 
-    /** Creates an instance of GoogleCloudStorageLinkedServiceTypeProperties class. */
+    /**
+     * Creates an instance of GoogleCloudStorageLinkedServiceTypeProperties class.
+     */
     public GoogleCloudStorageLinkedServiceTypeProperties() {
     }
 
     /**
      * Get the accessKeyId property: The access key identifier of the Google Cloud Storage Identity and Access
      * Management (IAM) user. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the accessKeyId value.
      */
     public Object accessKeyId() {
@@ -56,7 +60,7 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
     /**
      * Set the accessKeyId property: The access key identifier of the Google Cloud Storage Identity and Access
      * Management (IAM) user. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param accessKeyId the accessKeyId value to set.
      * @return the GoogleCloudStorageLinkedServiceTypeProperties object itself.
      */
@@ -68,7 +72,7 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
     /**
      * Get the secretAccessKey property: The secret access key of the Google Cloud Storage Identity and Access
      * Management (IAM) user.
-     *
+     * 
      * @return the secretAccessKey value.
      */
     public SecretBase secretAccessKey() {
@@ -78,7 +82,7 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
     /**
      * Set the secretAccessKey property: The secret access key of the Google Cloud Storage Identity and Access
      * Management (IAM) user.
-     *
+     * 
      * @param secretAccessKey the secretAccessKey value to set.
      * @return the GoogleCloudStorageLinkedServiceTypeProperties object itself.
      */
@@ -91,7 +95,7 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
      * Get the serviceUrl property: This value specifies the endpoint to access with the Google Cloud Storage Connector.
      * This is an optional property; change it only if you want to try a different service endpoint or want to switch
      * between https and http. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the serviceUrl value.
      */
     public Object serviceUrl() {
@@ -102,7 +106,7 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
      * Set the serviceUrl property: This value specifies the endpoint to access with the Google Cloud Storage Connector.
      * This is an optional property; change it only if you want to try a different service endpoint or want to switch
      * between https and http. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param serviceUrl the serviceUrl value to set.
      * @return the GoogleCloudStorageLinkedServiceTypeProperties object itself.
      */
@@ -113,29 +117,29 @@ public final class GoogleCloudStorageLinkedServiceTypeProperties {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.encryptedCredential;
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the GoogleCloudStorageLinkedServiceTypeProperties object itself.
      */
-    public GoogleCloudStorageLinkedServiceTypeProperties withEncryptedCredential(Object encryptedCredential) {
+    public GoogleCloudStorageLinkedServiceTypeProperties withEncryptedCredential(String encryptedCredential) {
         this.encryptedCredential = encryptedCredential;
         return this;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

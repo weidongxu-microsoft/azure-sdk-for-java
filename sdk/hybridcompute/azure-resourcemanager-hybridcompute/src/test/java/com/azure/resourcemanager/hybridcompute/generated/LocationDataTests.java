@@ -11,29 +11,25 @@ import org.junit.jupiter.api.Assertions;
 public final class LocationDataTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        LocationData model =
-            BinaryData
-                .fromString(
-                    "{\"name\":\"ekuksjtx\",\"city\":\"cdm\",\"district\":\"rcryuanzwuxzdxta\",\"countryOrRegion\":\"lhmwhfpmrqobm\"}")
-                .toObject(LocationData.class);
-        Assertions.assertEquals("ekuksjtx", model.name());
-        Assertions.assertEquals("cdm", model.city());
-        Assertions.assertEquals("rcryuanzwuxzdxta", model.district());
-        Assertions.assertEquals("lhmwhfpmrqobm", model.countryOrRegion());
+        LocationData model = BinaryData.fromString(
+            "{\"name\":\"dzxibqeojnxqbzvd\",\"city\":\"t\",\"district\":\"deicbtwnpzao\",\"countryOrRegion\":\"uhrhcffcyddgl\"}")
+            .toObject(LocationData.class);
+        Assertions.assertEquals("dzxibqeojnxqbzvd", model.name());
+        Assertions.assertEquals("t", model.city());
+        Assertions.assertEquals("deicbtwnpzao", model.district());
+        Assertions.assertEquals("uhrhcffcyddgl", model.countryOrRegion());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        LocationData model =
-            new LocationData()
-                .withName("ekuksjtx")
-                .withCity("cdm")
-                .withDistrict("rcryuanzwuxzdxta")
-                .withCountryOrRegion("lhmwhfpmrqobm");
+        LocationData model = new LocationData().withName("dzxibqeojnxqbzvd")
+            .withCity("t")
+            .withDistrict("deicbtwnpzao")
+            .withCountryOrRegion("uhrhcffcyddgl");
         model = BinaryData.fromObject(model).toObject(LocationData.class);
-        Assertions.assertEquals("ekuksjtx", model.name());
-        Assertions.assertEquals("cdm", model.city());
-        Assertions.assertEquals("rcryuanzwuxzdxta", model.district());
-        Assertions.assertEquals("lhmwhfpmrqobm", model.countryOrRegion());
+        Assertions.assertEquals("dzxibqeojnxqbzvd", model.name());
+        Assertions.assertEquals("t", model.city());
+        Assertions.assertEquals("deicbtwnpzao", model.district());
+        Assertions.assertEquals("uhrhcffcyddgl", model.countryOrRegion());
     }
 }

@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Entity Resource
- *
- * <p>The resource model definition for an Azure Resource Manager resource with an etag.
+ * 
+ * The resource model definition for an Azure Resource Manager resource with an etag.
  */
 @Immutable
 public class AzureEntityResource extends ProxyResource {
@@ -22,8 +22,14 @@ public class AzureEntityResource extends ProxyResource {
     private String etag;
 
     /**
+     * Creates an instance of AzureEntityResource class.
+     */
+    public AzureEntityResource() {
+    }
+
+    /**
      * Get the etag property: Resource Etag.
-     *
+     * 
      * @return the etag value.
      */
     public String etag() {
@@ -32,7 +38,7 @@ public class AzureEntityResource extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

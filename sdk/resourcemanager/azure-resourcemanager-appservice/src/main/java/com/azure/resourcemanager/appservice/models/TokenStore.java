@@ -7,13 +7,14 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The configuration settings of the token store. */
+/**
+ * The configuration settings of the token store.
+ */
 @Fluent
 public final class TokenStore {
     /*
-     * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows;
-     * otherwise, <code>false</code>.
-     * The default is <code>false</code>.
+     * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>.
+     *  The default is <code>false</code>.
      */
     @JsonProperty(value = "enabled")
     private Boolean enabled;
@@ -37,15 +38,17 @@ public final class TokenStore {
     @JsonProperty(value = "azureBlobStorage")
     private BlobStorageTokenStore azureBlobStorage;
 
-    /** Creates an instance of TokenStore class. */
+    /**
+     * Creates an instance of TokenStore class.
+     */
     public TokenStore() {
     }
 
     /**
      * Get the enabled property: &lt;code&gt;true&lt;/code&gt; to durably store platform-specific security tokens that
-     * are obtained during login flows; otherwise, &lt;code&gt;false&lt;/code&gt;. The default is
-     * &lt;code&gt;false&lt;/code&gt;.
-     *
+     * are obtained during login flows; otherwise, &lt;code&gt;false&lt;/code&gt;.
+     * The default is &lt;code&gt;false&lt;/code&gt;.
+     * 
      * @return the enabled value.
      */
     public Boolean enabled() {
@@ -54,9 +57,9 @@ public final class TokenStore {
 
     /**
      * Set the enabled property: &lt;code&gt;true&lt;/code&gt; to durably store platform-specific security tokens that
-     * are obtained during login flows; otherwise, &lt;code&gt;false&lt;/code&gt;. The default is
-     * &lt;code&gt;false&lt;/code&gt;.
-     *
+     * are obtained during login flows; otherwise, &lt;code&gt;false&lt;/code&gt;.
+     * The default is &lt;code&gt;false&lt;/code&gt;.
+     * 
      * @param enabled the enabled value to set.
      * @return the TokenStore object itself.
      */
@@ -67,8 +70,9 @@ public final class TokenStore {
 
     /**
      * Get the tokenRefreshExtensionHours property: The number of hours after session token expiration that a session
-     * token can be used to call the token refresh API. The default is 72 hours.
-     *
+     * token can be used to
+     * call the token refresh API. The default is 72 hours.
+     * 
      * @return the tokenRefreshExtensionHours value.
      */
     public Double tokenRefreshExtensionHours() {
@@ -77,8 +81,9 @@ public final class TokenStore {
 
     /**
      * Set the tokenRefreshExtensionHours property: The number of hours after session token expiration that a session
-     * token can be used to call the token refresh API. The default is 72 hours.
-     *
+     * token can be used to
+     * call the token refresh API. The default is 72 hours.
+     * 
      * @param tokenRefreshExtensionHours the tokenRefreshExtensionHours value to set.
      * @return the TokenStore object itself.
      */
@@ -89,7 +94,7 @@ public final class TokenStore {
 
     /**
      * Get the fileSystem property: The configuration settings of the storage of the tokens if a file system is used.
-     *
+     * 
      * @return the fileSystem value.
      */
     public FileSystemTokenStore fileSystem() {
@@ -98,7 +103,7 @@ public final class TokenStore {
 
     /**
      * Set the fileSystem property: The configuration settings of the storage of the tokens if a file system is used.
-     *
+     * 
      * @param fileSystem the fileSystem value to set.
      * @return the TokenStore object itself.
      */
@@ -110,7 +115,7 @@ public final class TokenStore {
     /**
      * Get the azureBlobStorage property: The configuration settings of the storage of the tokens if blob storage is
      * used.
-     *
+     * 
      * @return the azureBlobStorage value.
      */
     public BlobStorageTokenStore azureBlobStorage() {
@@ -120,7 +125,7 @@ public final class TokenStore {
     /**
      * Set the azureBlobStorage property: The configuration settings of the storage of the tokens if blob storage is
      * used.
-     *
+     * 
      * @param azureBlobStorage the azureBlobStorage value to set.
      * @return the TokenStore object itself.
      */
@@ -131,7 +136,7 @@ public final class TokenStore {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

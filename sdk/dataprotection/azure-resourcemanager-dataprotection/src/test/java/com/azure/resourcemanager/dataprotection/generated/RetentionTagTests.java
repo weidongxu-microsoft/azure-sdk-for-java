@@ -11,17 +11,15 @@ import org.junit.jupiter.api.Assertions;
 public final class RetentionTagTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        RetentionTag model =
-            BinaryData
-                .fromString("{\"eTag\":\"hyxxrwlycoduhpk\",\"id\":\"gymare\",\"tagName\":\"n\"}")
-                .toObject(RetentionTag.class);
-        Assertions.assertEquals("n", model.tagName());
+        RetentionTag model = BinaryData.fromString("{\"eTag\":\"bzonok\",\"id\":\"rjqc\",\"tagName\":\"rgz\"}")
+            .toObject(RetentionTag.class);
+        Assertions.assertEquals("rgz", model.tagName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        RetentionTag model = new RetentionTag().withTagName("n");
+        RetentionTag model = new RetentionTag().withTagName("rgz");
         model = BinaryData.fromObject(model).toObject(RetentionTag.class);
-        Assertions.assertEquals("n", model.tagName());
+        Assertions.assertEquals("rgz", model.tagName());
     }
 }

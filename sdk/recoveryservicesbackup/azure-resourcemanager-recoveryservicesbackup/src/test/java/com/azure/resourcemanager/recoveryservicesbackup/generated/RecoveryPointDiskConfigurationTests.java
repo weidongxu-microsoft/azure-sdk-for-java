@@ -13,44 +13,34 @@ import org.junit.jupiter.api.Assertions;
 public final class RecoveryPointDiskConfigurationTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        RecoveryPointDiskConfiguration model =
-            BinaryData
-                .fromString(
-                    "{\"numberOfDisksIncludedInBackup\":15658876,\"numberOfDisksAttachedToVm\":980204649,\"includedDiskList\":[{\"lun\":1087326396,\"name\":\"ttuxuuyilflqoiqu\"},{\"lun\":1236082259,\"name\":\"mrnjh\"},{\"lun\":1348933129,\"name\":\"ztczytq\"},{\"lun\":221110799,\"name\":\"auunfprnjletlx\"}],\"excludedDiskList\":[{\"lun\":1161615654,\"name\":\"ou\"},{\"lun\":2056652975,\"name\":\"owa\"},{\"lun\":400879560,\"name\":\"knlqwzdvpiwhxqsz\"}]}")
-                .toObject(RecoveryPointDiskConfiguration.class);
-        Assertions.assertEquals(15658876, model.numberOfDisksIncludedInBackup());
-        Assertions.assertEquals(980204649, model.numberOfDisksAttachedToVm());
-        Assertions.assertEquals(1087326396, model.includedDiskList().get(0).lun());
-        Assertions.assertEquals("ttuxuuyilflqoiqu", model.includedDiskList().get(0).name());
-        Assertions.assertEquals(1161615654, model.excludedDiskList().get(0).lun());
-        Assertions.assertEquals("ou", model.excludedDiskList().get(0).name());
+        RecoveryPointDiskConfiguration model = BinaryData.fromString(
+            "{\"numberOfDisksIncludedInBackup\":1751850154,\"numberOfDisksAttachedToVm\":612007503,\"includedDiskList\":[{\"lun\":2132390446,\"name\":\"wgfmx\"},{\"lun\":641707757,\"name\":\"bjb\"}],\"excludedDiskList\":[{\"lun\":197594994,\"name\":\"dysna\"},{\"lun\":551280900,\"name\":\"qbctqha\"},{\"lun\":1692264859,\"name\":\"wdkqzeqy\"},{\"lun\":1179923211,\"name\":\"iunjxdf\"}]}")
+            .toObject(RecoveryPointDiskConfiguration.class);
+        Assertions.assertEquals(1751850154, model.numberOfDisksIncludedInBackup());
+        Assertions.assertEquals(612007503, model.numberOfDisksAttachedToVm());
+        Assertions.assertEquals(2132390446, model.includedDiskList().get(0).lun());
+        Assertions.assertEquals("wgfmx", model.includedDiskList().get(0).name());
+        Assertions.assertEquals(197594994, model.excludedDiskList().get(0).lun());
+        Assertions.assertEquals("dysna", model.excludedDiskList().get(0).name());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        RecoveryPointDiskConfiguration model =
-            new RecoveryPointDiskConfiguration()
-                .withNumberOfDisksIncludedInBackup(15658876)
-                .withNumberOfDisksAttachedToVm(980204649)
-                .withIncludedDiskList(
-                    Arrays
-                        .asList(
-                            new DiskInformation().withLun(1087326396).withName("ttuxuuyilflqoiqu"),
-                            new DiskInformation().withLun(1236082259).withName("mrnjh"),
-                            new DiskInformation().withLun(1348933129).withName("ztczytq"),
-                            new DiskInformation().withLun(221110799).withName("auunfprnjletlx")))
-                .withExcludedDiskList(
-                    Arrays
-                        .asList(
-                            new DiskInformation().withLun(1161615654).withName("ou"),
-                            new DiskInformation().withLun(2056652975).withName("owa"),
-                            new DiskInformation().withLun(400879560).withName("knlqwzdvpiwhxqsz")));
+        RecoveryPointDiskConfiguration model
+            = new RecoveryPointDiskConfiguration().withNumberOfDisksIncludedInBackup(1751850154)
+                .withNumberOfDisksAttachedToVm(612007503)
+                .withIncludedDiskList(Arrays.asList(new DiskInformation().withLun(2132390446).withName("wgfmx"),
+                    new DiskInformation().withLun(641707757).withName("bjb")))
+                .withExcludedDiskList(Arrays.asList(new DiskInformation().withLun(197594994).withName("dysna"),
+                    new DiskInformation().withLun(551280900).withName("qbctqha"),
+                    new DiskInformation().withLun(1692264859).withName("wdkqzeqy"),
+                    new DiskInformation().withLun(1179923211).withName("iunjxdf")));
         model = BinaryData.fromObject(model).toObject(RecoveryPointDiskConfiguration.class);
-        Assertions.assertEquals(15658876, model.numberOfDisksIncludedInBackup());
-        Assertions.assertEquals(980204649, model.numberOfDisksAttachedToVm());
-        Assertions.assertEquals(1087326396, model.includedDiskList().get(0).lun());
-        Assertions.assertEquals("ttuxuuyilflqoiqu", model.includedDiskList().get(0).name());
-        Assertions.assertEquals(1161615654, model.excludedDiskList().get(0).lun());
-        Assertions.assertEquals("ou", model.excludedDiskList().get(0).name());
+        Assertions.assertEquals(1751850154, model.numberOfDisksIncludedInBackup());
+        Assertions.assertEquals(612007503, model.numberOfDisksAttachedToVm());
+        Assertions.assertEquals(2132390446, model.includedDiskList().get(0).lun());
+        Assertions.assertEquals("wgfmx", model.includedDiskList().get(0).name());
+        Assertions.assertEquals(197594994, model.excludedDiskList().get(0).lun());
+        Assertions.assertEquals("dysna", model.excludedDiskList().get(0).name());
     }
 }

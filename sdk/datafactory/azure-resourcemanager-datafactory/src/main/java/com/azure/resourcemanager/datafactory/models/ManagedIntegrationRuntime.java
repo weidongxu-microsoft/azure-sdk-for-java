@@ -8,14 +8,28 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ManagedIntegrationRuntimeTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Managed integration runtime, including managed elastic and managed dedicated integration runtimes.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = ManagedIntegrationRuntime.class,
+    visible = true)
 @JsonTypeName("Managed")
 @Fluent
 public final class ManagedIntegrationRuntime extends IntegrationRuntime {
+    /*
+     * Type of integration runtime.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private IntegrationRuntimeType type = IntegrationRuntimeType.MANAGED;
+
     /*
      * Integration runtime state, only valid for managed dedicated integration runtime.
      */
@@ -34,13 +48,25 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
     @JsonProperty(value = "managedVirtualNetwork")
     private ManagedVirtualNetworkReference managedVirtualNetwork;
 
-    /** Creates an instance of ManagedIntegrationRuntime class. */
+    /**
+     * Creates an instance of ManagedIntegrationRuntime class.
+     */
     public ManagedIntegrationRuntime() {
     }
 
     /**
+     * Get the type property: Type of integration runtime.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public IntegrationRuntimeType type() {
+        return this.type;
+    }
+
+    /**
      * Get the state property: Integration runtime state, only valid for managed dedicated integration runtime.
-     *
+     * 
      * @return the state value.
      */
     public IntegrationRuntimeState state() {
@@ -49,7 +75,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Get the innerTypeProperties property: Managed integration runtime properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ManagedIntegrationRuntimeTypeProperties innerTypeProperties() {
@@ -58,7 +84,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Get the managedVirtualNetwork property: Managed Virtual Network reference.
-     *
+     * 
      * @return the managedVirtualNetwork value.
      */
     public ManagedVirtualNetworkReference managedVirtualNetwork() {
@@ -67,7 +93,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Set the managedVirtualNetwork property: Managed Virtual Network reference.
-     *
+     * 
      * @param managedVirtualNetwork the managedVirtualNetwork value to set.
      * @return the ManagedIntegrationRuntime object itself.
      */
@@ -76,7 +102,9 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ManagedIntegrationRuntime withDescription(String description) {
         super.withDescription(description);
@@ -85,7 +113,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Get the computeProperties property: The compute resource for managed integration runtime.
-     *
+     * 
      * @return the computeProperties value.
      */
     public IntegrationRuntimeComputeProperties computeProperties() {
@@ -94,7 +122,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Set the computeProperties property: The compute resource for managed integration runtime.
-     *
+     * 
      * @param computeProperties the computeProperties value to set.
      * @return the ManagedIntegrationRuntime object itself.
      */
@@ -108,7 +136,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Get the ssisProperties property: SSIS properties for managed integration runtime.
-     *
+     * 
      * @return the ssisProperties value.
      */
     public IntegrationRuntimeSsisProperties ssisProperties() {
@@ -117,7 +145,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Set the ssisProperties property: SSIS properties for managed integration runtime.
-     *
+     * 
      * @param ssisProperties the ssisProperties value to set.
      * @return the ManagedIntegrationRuntime object itself.
      */
@@ -132,7 +160,7 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
     /**
      * Get the customerVirtualNetwork property: The name of virtual network to which Azure-SSIS integration runtime will
      * join.
-     *
+     * 
      * @return the customerVirtualNetwork value.
      */
     public IntegrationRuntimeCustomerVirtualNetwork customerVirtualNetwork() {
@@ -142,12 +170,12 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
     /**
      * Set the customerVirtualNetwork property: The name of virtual network to which Azure-SSIS integration runtime will
      * join.
-     *
+     * 
      * @param customerVirtualNetwork the customerVirtualNetwork value to set.
      * @return the ManagedIntegrationRuntime object itself.
      */
-    public ManagedIntegrationRuntime withCustomerVirtualNetwork(
-        IntegrationRuntimeCustomerVirtualNetwork customerVirtualNetwork) {
+    public ManagedIntegrationRuntime
+        withCustomerVirtualNetwork(IntegrationRuntimeCustomerVirtualNetwork customerVirtualNetwork) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new ManagedIntegrationRuntimeTypeProperties();
         }
@@ -157,17 +185,16 @@ public final class ManagedIntegrationRuntime extends IntegrationRuntime {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ManagedIntegrationRuntime"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ManagedIntegrationRuntime"));
         } else {
             innerTypeProperties().validate();
         }

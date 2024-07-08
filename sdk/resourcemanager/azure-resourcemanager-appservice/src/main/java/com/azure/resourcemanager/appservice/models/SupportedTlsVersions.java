@@ -6,18 +6,32 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
-/** MinTlsVersion: configures the minimum version of TLS required for SSL requests. */
+/**
+ * MinTlsVersion: configures the minimum version of TLS required for SSL requests.
+ */
 public final class SupportedTlsVersions extends ExpandableStringEnum<SupportedTlsVersions> {
-    /** Static value 1.0 for SupportedTlsVersions. */
+    /**
+     * Static value 1.0 for SupportedTlsVersions.
+     */
     public static final SupportedTlsVersions ONE_ZERO = fromString("1.0");
 
-    /** Static value 1.1 for SupportedTlsVersions. */
+    /**
+     * Static value 1.1 for SupportedTlsVersions.
+     */
     public static final SupportedTlsVersions ONE_ONE = fromString("1.1");
 
-    /** Static value 1.2 for SupportedTlsVersions. */
+    /**
+     * Static value 1.2 for SupportedTlsVersions.
+     */
     public static final SupportedTlsVersions ONE_TWO = fromString("1.2");
+
+    /**
+     * Static value 1.3 for SupportedTlsVersions.
+     */
+    public static final SupportedTlsVersions ONE_THREE = fromString("1.3");
 
     /**
      * Creates a new instance of SupportedTlsVersions value.

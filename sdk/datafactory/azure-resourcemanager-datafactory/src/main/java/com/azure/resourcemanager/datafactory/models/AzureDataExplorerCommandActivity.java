@@ -8,71 +8,127 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.AzureDataExplorerCommandActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Azure Data Explorer command activity. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Azure Data Explorer command activity.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = AzureDataExplorerCommandActivity.class,
+    visible = true)
 @JsonTypeName("AzureDataExplorerCommand")
 @Fluent
 public final class AzureDataExplorerCommandActivity extends ExecutionActivity {
     /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureDataExplorerCommand";
+
+    /*
      * Azure Data Explorer command activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private AzureDataExplorerCommandActivityTypeProperties innerTypeProperties =
-        new AzureDataExplorerCommandActivityTypeProperties();
+    private AzureDataExplorerCommandActivityTypeProperties innerTypeProperties
+        = new AzureDataExplorerCommandActivityTypeProperties();
 
-    /** Creates an instance of AzureDataExplorerCommandActivity class. */
+    /**
+     * Creates an instance of AzureDataExplorerCommandActivity class.
+     */
     public AzureDataExplorerCommandActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Azure Data Explorer command activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AzureDataExplorerCommandActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerCommandActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerCommandActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerCommandActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerCommandActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureDataExplorerCommandActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureDataExplorerCommandActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerCommandActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerCommandActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -82,7 +138,7 @@ public final class AzureDataExplorerCommandActivity extends ExecutionActivity {
     /**
      * Get the command property: A control command, according to the Azure Data Explorer command syntax. Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @return the command value.
      */
     public Object command() {
@@ -92,7 +148,7 @@ public final class AzureDataExplorerCommandActivity extends ExecutionActivity {
     /**
      * Set the command property: A control command, according to the Azure Data Explorer command syntax. Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @param command the command value to set.
      * @return the AzureDataExplorerCommandActivity object itself.
      */
@@ -107,7 +163,7 @@ public final class AzureDataExplorerCommandActivity extends ExecutionActivity {
     /**
      * Get the commandTimeout property: Control command timeout. Type: string (or Expression with resultType string),
      * pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..).
-     *
+     * 
      * @return the commandTimeout value.
      */
     public Object commandTimeout() {
@@ -117,7 +173,7 @@ public final class AzureDataExplorerCommandActivity extends ExecutionActivity {
     /**
      * Set the commandTimeout property: Control command timeout. Type: string (or Expression with resultType string),
      * pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..).
-     *
+     * 
      * @param commandTimeout the commandTimeout value to set.
      * @return the AzureDataExplorerCommandActivity object itself.
      */
@@ -131,17 +187,16 @@ public final class AzureDataExplorerCommandActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model AzureDataExplorerCommandActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model AzureDataExplorerCommandActivity"));
         } else {
             innerTypeProperties().validate();
         }

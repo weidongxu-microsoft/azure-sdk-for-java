@@ -10,42 +10,44 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.Context;
 import com.azure.resourcemanager.selfhelp.fluent.models.SolutionMetadataResourceInner;
 
-/** An instance of this class provides access to all the operations defined in DiscoverySolutionsClient. */
+/**
+ * An instance of this class provides access to all the operations defined in DiscoverySolutionsClient.
+ */
 public interface DiscoverySolutionsClient {
     /**
-     * Solutions Discovery is the initial point of entry within Help API, which helps you identify the relevant
-     * solutions for your Azure issue.&lt;br/&gt;&lt;br/&gt; You can discover solutions using resourceUri OR resourceUri
-     * + problemClassificationId.&lt;br/&gt;&lt;br/&gt;We will do our best in returning relevant diagnostics for your
-     * Azure issue.&lt;br/&gt;&lt;br/&gt; Get the problemClassificationId(s) using this
-     * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).&lt;br/&gt;&lt;br/&gt;
-     * &lt;b&gt;Note: &lt;/b&gt; ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-     * ‘additionalParameters’ as an input to Diagnostics API.
-     *
-     * @param scope This is an extension resource provider and only resource level extension is supported at the moment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * Lists the relevant Azure Diagnostics, Solutions and Troubleshooters using [problemClassification
+     * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND resourceUri or
+     * resourceType.&lt;br/&gt; Discovery Solutions is the initial entry point within Help API, which identifies
+     * relevant Azure diagnostics and solutions. &lt;br/&gt;&lt;br/&gt; Required Input : problemClassificationId (Use
+     * the [problemClassification
+     * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) &lt;br/&gt;Optional
+     * input: resourceUri OR resource Type &lt;br/&gt;&lt;br/&gt; &lt;b&gt;Note: &lt;/b&gt; ‘requiredInputs’ from
+     * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics and Solutions
+     * API.
+     * 
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return discovery response as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<SolutionMetadataResourceInner> list(String scope);
+    PagedIterable<SolutionMetadataResourceInner> list();
 
     /**
-     * Solutions Discovery is the initial point of entry within Help API, which helps you identify the relevant
-     * solutions for your Azure issue.&lt;br/&gt;&lt;br/&gt; You can discover solutions using resourceUri OR resourceUri
-     * + problemClassificationId.&lt;br/&gt;&lt;br/&gt;We will do our best in returning relevant diagnostics for your
-     * Azure issue.&lt;br/&gt;&lt;br/&gt; Get the problemClassificationId(s) using this
-     * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).&lt;br/&gt;&lt;br/&gt;
-     * &lt;b&gt;Note: &lt;/b&gt; ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-     * ‘additionalParameters’ as an input to Diagnostics API.
-     *
-     * @param scope This is an extension resource provider and only resource level extension is supported at the moment.
-     * @param filter Can be used to filter solutionIds by 'ProblemClassificationId'. The filter supports only 'and' and
-     *     'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' and
-     *     ProblemClassificationId eq '0a9673c2-7af6-4e19-90d3-4ee2461076d9'.
-     * @param skiptoken Skiptoken is only used if a previous operation returned a partial result. If a previous response
-     *     contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that
-     *     specifies a starting point to use for subsequent calls.
+     * Lists the relevant Azure Diagnostics, Solutions and Troubleshooters using [problemClassification
+     * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND resourceUri or
+     * resourceType.&lt;br/&gt; Discovery Solutions is the initial entry point within Help API, which identifies
+     * relevant Azure diagnostics and solutions. &lt;br/&gt;&lt;br/&gt; Required Input : problemClassificationId (Use
+     * the [problemClassification
+     * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) &lt;br/&gt;Optional
+     * input: resourceUri OR resource Type &lt;br/&gt;&lt;br/&gt; &lt;b&gt;Note: &lt;/b&gt; ‘requiredInputs’ from
+     * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics and Solutions
+     * API.
+     * 
+     * @param filter 'ProblemClassificationId' is a mandatory filter to get solutions ids. It also supports optional
+     * 'ResourceType' and 'SolutionType' filters. The
+     * [$filter](https://learn.microsoft.com/en-us/odata/webapi/first-odata-api#filter) supports only 'and', 'or' and
+     * 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e'.
+     * @param skiptoken Skiptoken is only used if a previous operation returned a partial result.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -53,5 +55,5 @@ public interface DiscoverySolutionsClient {
      * @return discovery response as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<SolutionMetadataResourceInner> list(String scope, String filter, String skiptoken, Context context);
+    PagedIterable<SolutionMetadataResourceInner> list(String filter, String skiptoken, Context context);
 }

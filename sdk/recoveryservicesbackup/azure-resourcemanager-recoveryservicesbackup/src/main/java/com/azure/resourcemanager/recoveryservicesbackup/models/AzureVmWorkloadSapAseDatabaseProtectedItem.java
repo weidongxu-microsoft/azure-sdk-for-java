@@ -5,205 +5,293 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Azure VM workload-specific protected item representing SAP ASE Database. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectedItemType")
+/**
+ * Azure VM workload-specific protected item representing SAP ASE Database.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectedItemType",
+    defaultImpl = AzureVmWorkloadSapAseDatabaseProtectedItem.class,
+    visible = true)
 @JsonTypeName("AzureVmWorkloadSAPAseDatabase")
 @Fluent
 public final class AzureVmWorkloadSapAseDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
-    /** Creates an instance of AzureVmWorkloadSapAseDatabaseProtectedItem class. */
+    /*
+     * backup item type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectedItemType", required = true)
+    private String protectedItemType = "AzureVmWorkloadSAPAseDatabase";
+
+    /**
+     * Creates an instance of AzureVmWorkloadSapAseDatabaseProtectedItem class.
+     */
     public AzureVmWorkloadSapAseDatabaseProtectedItem() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the protectedItemType property: backup item type.
+     * 
+     * @return the protectedItemType value.
+     */
+    @Override
+    public String protectedItemType() {
+        return this.protectedItemType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withServerName(String serverName) {
         super.withServerName(serverName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withParentName(String parentName) {
         super.withParentName(parentName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withParentType(String parentType) {
         super.withParentType(parentType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withProtectionState(ProtectionState protectionState) {
         super.withProtectionState(protectionState);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withLastBackupStatus(LastBackupStatus lastBackupStatus) {
         super.withLastBackupStatus(lastBackupStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withLastBackupTime(OffsetDateTime lastBackupTime) {
         super.withLastBackupTime(lastBackupTime);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withLastBackupErrorDetail(ErrorDetail lastBackupErrorDetail) {
         super.withLastBackupErrorDetail(lastBackupErrorDetail);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withProtectedItemDataSourceId(String protectedItemDataSourceId) {
         super.withProtectedItemDataSourceId(protectedItemDataSourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withProtectedItemHealthStatus(
-        ProtectedItemHealthStatus protectedItemHealthStatus) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withProtectedItemHealthStatus(ProtectedItemHealthStatus protectedItemHealthStatus) {
         super.withProtectedItemHealthStatus(protectedItemHealthStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withExtendedInfo(
-        AzureVmWorkloadProtectedItemExtendedInfo extendedInfo) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withExtendedInfo(AzureVmWorkloadProtectedItemExtendedInfo extendedInfo) {
         super.withExtendedInfo(extendedInfo);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withKpisHealths(
-        Map<String, KpiResourceHealthDetails> kpisHealths) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withKpisHealths(Map<String, KpiResourceHealthDetails> kpisHealths) {
         super.withKpisHealths(kpisHealths);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureVmWorkloadSapAseDatabaseProtectedItem withNodesList(List<DistributedNodesInfo> nodesList) {
+        super.withNodesList(nodesList);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withContainerName(String containerName) {
         super.withContainerName(containerName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withPolicyId(String policyId) {
         super.withPolicyId(policyId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withLastRecoveryPoint(OffsetDateTime lastRecoveryPoint) {
         super.withLastRecoveryPoint(lastRecoveryPoint);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withBackupSetName(String backupSetName) {
         super.withBackupSetName(backupSetName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withCreateMode(CreateMode createMode) {
         super.withCreateMode(createMode);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withDeferredDeleteTimeInUtc(
-        OffsetDateTime deferredDeleteTimeInUtc) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withDeferredDeleteTimeInUtc(OffsetDateTime deferredDeleteTimeInUtc) {
         super.withDeferredDeleteTimeInUtc(deferredDeleteTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withIsScheduledForDeferredDelete(
-        Boolean isScheduledForDeferredDelete) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withIsScheduledForDeferredDelete(Boolean isScheduledForDeferredDelete) {
         super.withIsScheduledForDeferredDelete(isScheduledForDeferredDelete);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withDeferredDeleteTimeRemaining(
-        String deferredDeleteTimeRemaining) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withDeferredDeleteTimeRemaining(String deferredDeleteTimeRemaining) {
         super.withDeferredDeleteTimeRemaining(deferredDeleteTimeRemaining);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withIsDeferredDeleteScheduleUpcoming(
-        Boolean isDeferredDeleteScheduleUpcoming) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withIsDeferredDeleteScheduleUpcoming(Boolean isDeferredDeleteScheduleUpcoming) {
         super.withIsDeferredDeleteScheduleUpcoming(isDeferredDeleteScheduleUpcoming);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withIsRehydrate(Boolean isRehydrate) {
         super.withIsRehydrate(isRehydrate);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapAseDatabaseProtectedItem withResourceGuardOperationRequests(
-        List<String> resourceGuardOperationRequests) {
+    public AzureVmWorkloadSapAseDatabaseProtectedItem
+        withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withIsArchiveEnabled(Boolean isArchiveEnabled) {
         super.withIsArchiveEnabled(isArchiveEnabled);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withPolicyName(String policyName) {
         super.withPolicyName(policyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapAseDatabaseProtectedItem withSoftDeleteRetentionPeriod(Integer softDeleteRetentionPeriod) {
         super.withSoftDeleteRetentionPeriod(softDeleteRetentionPeriod);
@@ -212,7 +300,7 @@ public final class AzureVmWorkloadSapAseDatabaseProtectedItem extends AzureVmWor
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

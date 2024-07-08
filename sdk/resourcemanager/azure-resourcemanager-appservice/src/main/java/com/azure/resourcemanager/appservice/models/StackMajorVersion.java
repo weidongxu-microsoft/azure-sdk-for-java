@@ -7,10 +7,13 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** Application stack major version. */
+/**
+ * Application stack major version.
+ */
 @Fluent
 public final class StackMajorVersion {
     /*
@@ -63,9 +66,9 @@ public final class StackMajorVersion {
 
     /*
      * <appSettings>
-     * <appSetting name="FUNCTIONS_WORKER_RUNTIME" value="dotnet" />
+     *  <appSetting name="FUNCTIONS_WORKER_RUNTIME" value="dotnet" />
      * </appSettings>
-     * Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack name
+     *  Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack name
      */
     @JsonProperty(value = "appSettingsDictionary")
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
@@ -73,15 +76,17 @@ public final class StackMajorVersion {
 
     /*
      * <siteConfigProperties>
-     * <siteConfigProperty name="Use32BitWorkerProcess" value="false" />
+     *  <siteConfigProperty name="Use32BitWorkerProcess" value="false" />
      * </siteConfigProperties>
-     * Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0
+     *  Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0
      */
     @JsonProperty(value = "siteConfigPropertiesDictionary")
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, Object> siteConfigPropertiesDictionary;
 
-    /** Creates an instance of StackMajorVersion class. */
+    /**
+     * Creates an instance of StackMajorVersion class.
+     */
     public StackMajorVersion() {
     }
 
@@ -256,9 +261,10 @@ public final class StackMajorVersion {
     }
 
     /**
-     * Get the appSettingsDictionary property: &lt;appSettings&gt; &lt;appSetting name="FUNCTIONS_WORKER_RUNTIME"
-     * value="dotnet" /&gt; &lt;/appSettings&gt; Example: All the function apps need AppSetting:
-     * "FUNCTIONS_WORKER_RUNTIME" to be set stack name.
+     * Get the appSettingsDictionary property: &lt;appSettings&gt;
+     * &lt;appSetting name="FUNCTIONS_WORKER_RUNTIME" value="dotnet" /&gt;
+     * &lt;/appSettings&gt;
+     * Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack name.
      *
      * @return the appSettingsDictionary value.
      */
@@ -267,9 +273,10 @@ public final class StackMajorVersion {
     }
 
     /**
-     * Set the appSettingsDictionary property: &lt;appSettings&gt; &lt;appSetting name="FUNCTIONS_WORKER_RUNTIME"
-     * value="dotnet" /&gt; &lt;/appSettings&gt; Example: All the function apps need AppSetting:
-     * "FUNCTIONS_WORKER_RUNTIME" to be set stack name.
+     * Set the appSettingsDictionary property: &lt;appSettings&gt;
+     * &lt;appSetting name="FUNCTIONS_WORKER_RUNTIME" value="dotnet" /&gt;
+     * &lt;/appSettings&gt;
+     * Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack name.
      *
      * @param appSettingsDictionary the appSettingsDictionary value to set.
      * @return the StackMajorVersion object itself.
@@ -280,9 +287,10 @@ public final class StackMajorVersion {
     }
 
     /**
-     * Get the siteConfigPropertiesDictionary property: &lt;siteConfigProperties&gt; &lt;siteConfigProperty
-     * name="Use32BitWorkerProcess" value="false" /&gt; &lt;/siteConfigProperties&gt; Example: All Linux Function Apps,
-     * need Use32BitWorkerProcess to be set to 0.
+     * Get the siteConfigPropertiesDictionary property: &lt;siteConfigProperties&gt;
+     * &lt;siteConfigProperty name="Use32BitWorkerProcess" value="false" /&gt;
+     * &lt;/siteConfigProperties&gt;
+     * Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0.
      *
      * @return the siteConfigPropertiesDictionary value.
      */
@@ -291,9 +299,10 @@ public final class StackMajorVersion {
     }
 
     /**
-     * Set the siteConfigPropertiesDictionary property: &lt;siteConfigProperties&gt; &lt;siteConfigProperty
-     * name="Use32BitWorkerProcess" value="false" /&gt; &lt;/siteConfigProperties&gt; Example: All Linux Function Apps,
-     * need Use32BitWorkerProcess to be set to 0.
+     * Set the siteConfigPropertiesDictionary property: &lt;siteConfigProperties&gt;
+     * &lt;siteConfigProperty name="Use32BitWorkerProcess" value="false" /&gt;
+     * &lt;/siteConfigProperties&gt;
+     * Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0.
      *
      * @param siteConfigPropertiesDictionary the siteConfigPropertiesDictionary value to set.
      * @return the StackMajorVersion object itself.

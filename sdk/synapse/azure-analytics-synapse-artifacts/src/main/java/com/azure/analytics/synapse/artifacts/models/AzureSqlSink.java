@@ -5,60 +5,73 @@
 package com.azure.analytics.synapse.artifacts.models;
 
 import com.azure.core.annotation.Fluent;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** A copy activity Azure SQL sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonTypeName("AzureSqlSink")
+/**
+ * A copy activity Azure SQL sink.
+ */
 @Fluent
 public final class AzureSqlSink extends CopySink {
     /*
+     * Copy sink type.
+     */
+    private String type = "AzureSqlSink";
+
+    /*
      * SQL writer stored procedure name. Type: string (or Expression with resultType string).
      */
-    @JsonProperty(value = "sqlWriterStoredProcedureName")
     private Object sqlWriterStoredProcedureName;
 
     /*
      * SQL writer table type. Type: string (or Expression with resultType string).
      */
-    @JsonProperty(value = "sqlWriterTableType")
     private Object sqlWriterTableType;
 
     /*
      * SQL pre-copy script. Type: string (or Expression with resultType string).
      */
-    @JsonProperty(value = "preCopyScript")
     private Object preCopyScript;
 
     /*
      * SQL stored procedure parameters.
      */
-    @JsonProperty(value = "storedProcedureParameters")
-    private Map<String, StoredProcedureParameter> storedProcedureParameters;
+    private Object storedProcedureParameters;
 
     /*
      * The stored procedure parameter name of the table type. Type: string (or Expression with resultType string).
      */
-    @JsonProperty(value = "storedProcedureTableTypeParameterName")
     private Object storedProcedureTableTypeParameterName;
 
     /*
-     * The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string
-     * (or Expression with resultType string).
+     * The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string).
      */
-    @JsonProperty(value = "tableOption")
     private Object tableOption;
 
-    /** Creates an instance of AzureSqlSink class. */
-    public AzureSqlSink() {}
+    /**
+     * Creates an instance of AzureSqlSink class.
+     */
+    public AzureSqlSink() {
+    }
+
+    /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
 
     /**
      * Get the sqlWriterStoredProcedureName property: SQL writer stored procedure name. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the sqlWriterStoredProcedureName value.
      */
     public Object getSqlWriterStoredProcedureName() {
@@ -68,7 +81,7 @@ public final class AzureSqlSink extends CopySink {
     /**
      * Set the sqlWriterStoredProcedureName property: SQL writer stored procedure name. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param sqlWriterStoredProcedureName the sqlWriterStoredProcedureName value to set.
      * @return the AzureSqlSink object itself.
      */
@@ -79,7 +92,7 @@ public final class AzureSqlSink extends CopySink {
 
     /**
      * Get the sqlWriterTableType property: SQL writer table type. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the sqlWriterTableType value.
      */
     public Object getSqlWriterTableType() {
@@ -88,7 +101,7 @@ public final class AzureSqlSink extends CopySink {
 
     /**
      * Set the sqlWriterTableType property: SQL writer table type. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param sqlWriterTableType the sqlWriterTableType value to set.
      * @return the AzureSqlSink object itself.
      */
@@ -99,7 +112,7 @@ public final class AzureSqlSink extends CopySink {
 
     /**
      * Get the preCopyScript property: SQL pre-copy script. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the preCopyScript value.
      */
     public Object getPreCopyScript() {
@@ -108,7 +121,7 @@ public final class AzureSqlSink extends CopySink {
 
     /**
      * Set the preCopyScript property: SQL pre-copy script. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param preCopyScript the preCopyScript value to set.
      * @return the AzureSqlSink object itself.
      */
@@ -119,20 +132,20 @@ public final class AzureSqlSink extends CopySink {
 
     /**
      * Get the storedProcedureParameters property: SQL stored procedure parameters.
-     *
+     * 
      * @return the storedProcedureParameters value.
      */
-    public Map<String, StoredProcedureParameter> getStoredProcedureParameters() {
+    public Object getStoredProcedureParameters() {
         return this.storedProcedureParameters;
     }
 
     /**
      * Set the storedProcedureParameters property: SQL stored procedure parameters.
-     *
+     * 
      * @param storedProcedureParameters the storedProcedureParameters value to set.
      * @return the AzureSqlSink object itself.
      */
-    public AzureSqlSink setStoredProcedureParameters(Map<String, StoredProcedureParameter> storedProcedureParameters) {
+    public AzureSqlSink setStoredProcedureParameters(Object storedProcedureParameters) {
         this.storedProcedureParameters = storedProcedureParameters;
         return this;
     }
@@ -140,7 +153,7 @@ public final class AzureSqlSink extends CopySink {
     /**
      * Get the storedProcedureTableTypeParameterName property: The stored procedure parameter name of the table type.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the storedProcedureTableTypeParameterName value.
      */
     public Object getStoredProcedureTableTypeParameterName() {
@@ -150,7 +163,7 @@ public final class AzureSqlSink extends CopySink {
     /**
      * Set the storedProcedureTableTypeParameterName property: The stored procedure parameter name of the table type.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @param storedProcedureTableTypeParameterName the storedProcedureTableTypeParameterName value to set.
      * @return the AzureSqlSink object itself.
      */
@@ -162,7 +175,7 @@ public final class AzureSqlSink extends CopySink {
     /**
      * Get the tableOption property: The option to handle sink table, such as autoCreate. For now only 'autoCreate'
      * value is supported. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the tableOption value.
      */
     public Object getTableOption() {
@@ -172,7 +185,7 @@ public final class AzureSqlSink extends CopySink {
     /**
      * Set the tableOption property: The option to handle sink table, such as autoCreate. For now only 'autoCreate'
      * value is supported. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param tableOption the tableOption value to set.
      * @return the AzureSqlSink object itself.
      */
@@ -181,38 +194,129 @@ public final class AzureSqlSink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlSink setWriteBatchSize(Object writeBatchSize) {
         super.setWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlSink setWriteBatchTimeout(Object writeBatchTimeout) {
         super.setWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlSink setSinkRetryCount(Object sinkRetryCount) {
         super.setSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlSink setSinkRetryWait(Object sinkRetryWait) {
         super.setSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlSink setMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.setMaxConcurrentConnections(maxConcurrentConnections);
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeUntypedField("writeBatchSize", getWriteBatchSize());
+        jsonWriter.writeUntypedField("writeBatchTimeout", getWriteBatchTimeout());
+        jsonWriter.writeUntypedField("sinkRetryCount", getSinkRetryCount());
+        jsonWriter.writeUntypedField("sinkRetryWait", getSinkRetryWait());
+        jsonWriter.writeUntypedField("maxConcurrentConnections", getMaxConcurrentConnections());
+        jsonWriter.writeStringField("type", this.type);
+        jsonWriter.writeUntypedField("sqlWriterStoredProcedureName", this.sqlWriterStoredProcedureName);
+        jsonWriter.writeUntypedField("sqlWriterTableType", this.sqlWriterTableType);
+        jsonWriter.writeUntypedField("preCopyScript", this.preCopyScript);
+        jsonWriter.writeUntypedField("storedProcedureParameters", this.storedProcedureParameters);
+        jsonWriter.writeUntypedField("storedProcedureTableTypeParameterName",
+            this.storedProcedureTableTypeParameterName);
+        jsonWriter.writeUntypedField("tableOption", this.tableOption);
+        if (getAdditionalProperties() != null) {
+            for (Map.Entry<String, Object> additionalProperty : getAdditionalProperties().entrySet()) {
+                jsonWriter.writeUntypedField(additionalProperty.getKey(), additionalProperty.getValue());
+            }
+        }
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an instance of AzureSqlSink from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of AzureSqlSink if the JsonReader was pointing to an instance of it, or null if it was
+     * pointing to JSON null.
+     * @throws IOException If an error occurs while reading the AzureSqlSink.
+     */
+    public static AzureSqlSink fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            AzureSqlSink deserializedAzureSqlSink = new AzureSqlSink();
+            Map<String, Object> additionalProperties = null;
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("writeBatchSize".equals(fieldName)) {
+                    deserializedAzureSqlSink.setWriteBatchSize(reader.readUntyped());
+                } else if ("writeBatchTimeout".equals(fieldName)) {
+                    deserializedAzureSqlSink.setWriteBatchTimeout(reader.readUntyped());
+                } else if ("sinkRetryCount".equals(fieldName)) {
+                    deserializedAzureSqlSink.setSinkRetryCount(reader.readUntyped());
+                } else if ("sinkRetryWait".equals(fieldName)) {
+                    deserializedAzureSqlSink.setSinkRetryWait(reader.readUntyped());
+                } else if ("maxConcurrentConnections".equals(fieldName)) {
+                    deserializedAzureSqlSink.setMaxConcurrentConnections(reader.readUntyped());
+                } else if ("type".equals(fieldName)) {
+                    deserializedAzureSqlSink.type = reader.getString();
+                } else if ("sqlWriterStoredProcedureName".equals(fieldName)) {
+                    deserializedAzureSqlSink.sqlWriterStoredProcedureName = reader.readUntyped();
+                } else if ("sqlWriterTableType".equals(fieldName)) {
+                    deserializedAzureSqlSink.sqlWriterTableType = reader.readUntyped();
+                } else if ("preCopyScript".equals(fieldName)) {
+                    deserializedAzureSqlSink.preCopyScript = reader.readUntyped();
+                } else if ("storedProcedureParameters".equals(fieldName)) {
+                    deserializedAzureSqlSink.storedProcedureParameters = reader.readUntyped();
+                } else if ("storedProcedureTableTypeParameterName".equals(fieldName)) {
+                    deserializedAzureSqlSink.storedProcedureTableTypeParameterName = reader.readUntyped();
+                } else if ("tableOption".equals(fieldName)) {
+                    deserializedAzureSqlSink.tableOption = reader.readUntyped();
+                } else {
+                    if (additionalProperties == null) {
+                        additionalProperties = new LinkedHashMap<>();
+                    }
+
+                    additionalProperties.put(fieldName, reader.readUntyped());
+                }
+            }
+            deserializedAzureSqlSink.setAdditionalProperties(additionalProperties);
+
+            return deserializedAzureSqlSink;
+        });
     }
 }

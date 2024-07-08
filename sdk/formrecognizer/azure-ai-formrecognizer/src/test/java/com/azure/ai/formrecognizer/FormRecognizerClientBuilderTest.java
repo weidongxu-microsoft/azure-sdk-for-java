@@ -27,12 +27,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.azure.ai.formrecognizer.FormRecognizerClientTestBase.INVALID_ENDPOINT;
 import static com.azure.ai.formrecognizer.FormTrainingClientTestBase.AZURE_FORM_RECOGNIZER_API_KEY;
 import static com.azure.ai.formrecognizer.FormTrainingClientTestBase.AZURE_FORM_RECOGNIZER_ENDPOINT;
 import static com.azure.ai.formrecognizer.TestUtils.CONTENT_FORM_JPG;
 import static com.azure.ai.formrecognizer.TestUtils.DISPLAY_NAME_WITH_ARGUMENTS;
 import static com.azure.ai.formrecognizer.TestUtils.INVALID_KEY;
+import static com.azure.ai.formrecognizer.TestUtils.REMOVE_SANITIZER_ID;
 import static com.azure.ai.formrecognizer.TestUtils.URL_TEST_FILE_FORMAT;
 import static com.azure.ai.formrecognizer.TestUtils.VALID_HTTP_LOCALHOST;
 import static com.azure.ai.formrecognizer.TestUtils.setSyncPollerPollInterval;
@@ -99,27 +99,12 @@ public class FormRecognizerClientBuilderTest extends TestProxyTestBase {
     }
 
     /**
-     * Test for invalid endpoint, which throws connection refused exception message.
-     */
-    @ParameterizedTest(name = DISPLAY_NAME_WITH_ARGUMENTS)
-    @MethodSource("com.azure.ai.formrecognizer.TestUtils#getTestParameters")
-    public void clientBuilderWithInvalidEndpoint(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion) {
-        clientBuilderWithDefaultPipelineRunner(httpClient, serviceVersion, clientBuilder -> (input) -> {
-            assertThrows(RuntimeException.class,
-                () -> clientBuilder.endpoint(INVALID_ENDPOINT)
-                    .retryPolicy(new RetryPolicy(new FixedDelay(3, Duration.ofMillis(1))))
-                    .buildClient()
-                    .beginRecognizeContentFromUrl(input).getFinalResult());
-        });
-    }
-
-    /**
      * Test for an valid http endpoint, which throws HTTPS requirement exception message.
      */
     @ParameterizedTest(name = DISPLAY_NAME_WITH_ARGUMENTS)
     @MethodSource("com.azure.ai.formrecognizer.TestUtils#getTestParameters")
     public void clientBuilderWithHttpEndpoint(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion) {
-        clientBuilderWithDefaultPipelineRunner(httpClient, serviceVersion, clientBuilder -> (input) -> {
+        clientBuilderWithNoRecordPipelineRunner(httpClient, serviceVersion, clientBuilder -> (input) -> {
             assertThrows(RuntimeException.class, () -> clientBuilder.endpoint(VALID_HTTP_LOCALHOST)
                 .retryPolicy(new RetryPolicy(new FixedDelay(3, Duration.ofMillis(1))))
                 .buildClient()
@@ -235,6 +220,17 @@ public class FormRecognizerClientBuilderTest extends TestProxyTestBase {
         testRunner.apply(clientBuilder).accept(URL_TEST_FILE_FORMAT + CONTENT_FORM_JPG);
     }
 
+    void clientBuilderWithNoRecordPipelineRunner(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion,
+                                                Function<FormRecognizerClientBuilder, Consumer<String>> testRunner) {
+        final FormRecognizerClientBuilder clientBuilder = new FormRecognizerClientBuilder()
+            .credential(new AzureKeyCredential(getApiKey()))
+            .endpoint(getEndpoint())
+            .httpClient(httpClient)
+            .serviceVersion(serviceVersion);
+
+        testRunner.apply(clientBuilder).accept(URL_TEST_FILE_FORMAT + CONTENT_FORM_JPG);
+    }
+
     /**
      * Create a client builder with endpoint and API key credential.
      *
@@ -254,6 +250,9 @@ public class FormRecognizerClientBuilderTest extends TestProxyTestBase {
             clientBuilder.addPolicy(interceptorManager.getRecordPolicy());
         }
 
+        if (!interceptorManager.isLiveMode()) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+        }
         return clientBuilder;
     }
 

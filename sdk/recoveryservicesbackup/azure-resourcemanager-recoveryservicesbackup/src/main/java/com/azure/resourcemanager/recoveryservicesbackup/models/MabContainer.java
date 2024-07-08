@@ -6,15 +6,28 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Container with items backed up using MAB backup engine. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "containerType")
+/**
+ * Container with items backed up using MAB backup engine.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "containerType", defaultImpl = MabContainer.class, visible = true)
 @JsonTypeName("Windows")
 @Fluent
 public final class MabContainer extends ProtectionContainer {
+    /*
+     * Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2.
+     * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
+     * Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload
+     * Backup is VMAppContainer
+     */
+    @JsonTypeId
+    @JsonProperty(value = "containerType", required = true)
+    private ProtectableContainerType containerType = ProtectableContainerType.WINDOWS;
+
     /*
      * Can the container be registered one more time.
      */
@@ -57,13 +70,29 @@ public final class MabContainer extends ProtectionContainer {
     @JsonProperty(value = "containerHealthState")
     private String containerHealthState;
 
-    /** Creates an instance of MabContainer class. */
+    /**
+     * Creates an instance of MabContainer class.
+     */
     public MabContainer() {
     }
 
     /**
+     * Get the containerType property: Type of the container. The value of this property for: 1. Compute Azure VM is
+     * Microsoft.Compute/virtualMachines 2.
+     * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
+     * Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload
+     * Backup is VMAppContainer.
+     * 
+     * @return the containerType value.
+     */
+    @Override
+    public ProtectableContainerType containerType() {
+        return this.containerType;
+    }
+
+    /**
      * Get the canReRegister property: Can the container be registered one more time.
-     *
+     * 
      * @return the canReRegister value.
      */
     public Boolean canReRegister() {
@@ -72,7 +101,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the canReRegister property: Can the container be registered one more time.
-     *
+     * 
      * @param canReRegister the canReRegister value to set.
      * @return the MabContainer object itself.
      */
@@ -83,7 +112,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Get the containerId property: ContainerID represents the container.
-     *
+     * 
      * @return the containerId value.
      */
     public Long containerId() {
@@ -92,7 +121,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the containerId property: ContainerID represents the container.
-     *
+     * 
      * @param containerId the containerId value to set.
      * @return the MabContainer object itself.
      */
@@ -103,7 +132,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Get the protectedItemCount property: Number of items backed up in this container.
-     *
+     * 
      * @return the protectedItemCount value.
      */
     public Long protectedItemCount() {
@@ -112,7 +141,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the protectedItemCount property: Number of items backed up in this container.
-     *
+     * 
      * @param protectedItemCount the protectedItemCount value to set.
      * @return the MabContainer object itself.
      */
@@ -123,7 +152,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Get the agentVersion property: Agent version of this container.
-     *
+     * 
      * @return the agentVersion value.
      */
     public String agentVersion() {
@@ -132,7 +161,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the agentVersion property: Agent version of this container.
-     *
+     * 
      * @param agentVersion the agentVersion value to set.
      * @return the MabContainer object itself.
      */
@@ -143,7 +172,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Get the extendedInfo property: Additional information for this container.
-     *
+     * 
      * @return the extendedInfo value.
      */
     public MabContainerExtendedInfo extendedInfo() {
@@ -152,7 +181,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the extendedInfo property: Additional information for this container.
-     *
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the MabContainer object itself.
      */
@@ -163,7 +192,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Get the mabContainerHealthDetails property: Health details on this mab container.
-     *
+     * 
      * @return the mabContainerHealthDetails value.
      */
     public List<MabContainerHealthDetails> mabContainerHealthDetails() {
@@ -172,7 +201,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the mabContainerHealthDetails property: Health details on this mab container.
-     *
+     * 
      * @param mabContainerHealthDetails the mabContainerHealthDetails value to set.
      * @return the MabContainer object itself.
      */
@@ -183,7 +212,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Get the containerHealthState property: Health state of mab container.
-     *
+     * 
      * @return the containerHealthState value.
      */
     public String containerHealthState() {
@@ -192,7 +221,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Set the containerHealthState property: Health state of mab container.
-     *
+     * 
      * @param containerHealthState the containerHealthState value to set.
      * @return the MabContainer object itself.
      */
@@ -201,35 +230,45 @@ public final class MabContainer extends ProtectionContainer {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabContainer withFriendlyName(String friendlyName) {
         super.withFriendlyName(friendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabContainer withBackupManagementType(BackupManagementType backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabContainer withRegistrationStatus(String registrationStatus) {
         super.withRegistrationStatus(registrationStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabContainer withHealthStatus(String healthStatus) {
         super.withHealthStatus(healthStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabContainer withProtectableObjectType(String protectableObjectType) {
         super.withProtectableObjectType(protectableObjectType);
@@ -238,7 +277,7 @@ public final class MabContainer extends ProtectionContainer {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

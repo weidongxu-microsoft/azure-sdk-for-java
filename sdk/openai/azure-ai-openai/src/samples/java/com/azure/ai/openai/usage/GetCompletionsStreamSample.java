@@ -5,11 +5,10 @@ package com.azure.ai.openai.usage;
 
 import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
-import com.azure.ai.openai.models.Choice;
 import com.azure.ai.openai.models.Completions;
 import com.azure.ai.openai.models.CompletionsOptions;
-import com.azure.ai.openai.models.CompletionsUsage;
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
 import com.azure.core.util.IterableStream;
 
 import java.util.ArrayList;
@@ -28,8 +27,8 @@ public class GetCompletionsStreamSample {
      * @param args Unused. Arguments to the program.
      */
     public static void main(String[] args) {
-        String azureOpenaiKey = "{azure-open-ai-key}";
-        String endpoint = "{azure-open-ai-endpoint}";
+        String azureOpenaiKey = Configuration.getGlobalConfiguration().get("AZURE_OPENAI_KEY");
+        String endpoint = Configuration.getGlobalConfiguration().get("AZURE_OPENAI_ENDPOINT");
         String deploymentOrModelId = "{azure-open-ai-deployment-model-id}";
 
         OpenAIClient client = new OpenAIClientBuilder()
@@ -42,18 +41,12 @@ public class GetCompletionsStreamSample {
         IterableStream<Completions> completionsStream = client.getCompletionsStream(deploymentOrModelId,
             new CompletionsOptions(prompt).setMaxTokens(1000).setStream(true));
 
-        completionsStream.forEach(completions -> {
-            System.out.printf("Model ID=%s is created at %d.%n", completions.getId(), completions.getCreated());
-            for (Choice choice : completions.getChoices()) {
-                System.out.printf("Index: %d, Text: %s.%n", choice.getIndex(), choice.getText());
-            }
-
-            CompletionsUsage usage = completions.getUsage();
-            if (usage != null) {
-                System.out.printf("Usage: number of prompt token is %d, "
-                        + "number of completion token is %d, and number of total tokens in request and response is %d.%n",
-                    usage.getPromptTokens(), usage.getCompletionTokens(), usage.getTotalTokens());
-            }
-        });
+        completionsStream
+            .stream()
+            // Remove .skip(1) when using Non-Azure OpenAI API
+            // Note: the first chat completions can be ignored when using Azure OpenAI service which is a known service bug.
+            // TODO: remove .skip(1) when service fix the issue.
+            .skip(1)
+            .forEach(completions -> System.out.print(completions.getChoices().get(0).getText()));
     }
 }

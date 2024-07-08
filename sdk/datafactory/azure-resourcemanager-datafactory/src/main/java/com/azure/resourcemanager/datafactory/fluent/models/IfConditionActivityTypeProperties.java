@@ -11,12 +11,14 @@ import com.azure.resourcemanager.datafactory.models.Expression;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** IfCondition activity properties. */
+/**
+ * IfCondition activity properties.
+ */
 @Fluent
 public final class IfConditionActivityTypeProperties {
     /*
-     * An expression that would evaluate to Boolean. This is used to determine the block of activities
-     * (ifTrueActivities or ifFalseActivities) that will be executed.
+     * An expression that would evaluate to Boolean. This is used to determine the block of activities (ifTrueActivities
+     * or ifFalseActivities) that will be executed.
      */
     @JsonProperty(value = "expression", required = true)
     private Expression expression;
@@ -35,14 +37,16 @@ public final class IfConditionActivityTypeProperties {
     @JsonProperty(value = "ifFalseActivities")
     private List<Activity> ifFalseActivities;
 
-    /** Creates an instance of IfConditionActivityTypeProperties class. */
+    /**
+     * Creates an instance of IfConditionActivityTypeProperties class.
+     */
     public IfConditionActivityTypeProperties() {
     }
 
     /**
      * Get the expression property: An expression that would evaluate to Boolean. This is used to determine the block of
      * activities (ifTrueActivities or ifFalseActivities) that will be executed.
-     *
+     * 
      * @return the expression value.
      */
     public Expression expression() {
@@ -52,7 +56,7 @@ public final class IfConditionActivityTypeProperties {
     /**
      * Set the expression property: An expression that would evaluate to Boolean. This is used to determine the block of
      * activities (ifTrueActivities or ifFalseActivities) that will be executed.
-     *
+     * 
      * @param expression the expression value to set.
      * @return the IfConditionActivityTypeProperties object itself.
      */
@@ -64,7 +68,7 @@ public final class IfConditionActivityTypeProperties {
     /**
      * Get the ifTrueActivities property: List of activities to execute if expression is evaluated to true. This is an
      * optional property and if not provided, the activity will exit without any action.
-     *
+     * 
      * @return the ifTrueActivities value.
      */
     public List<Activity> ifTrueActivities() {
@@ -74,7 +78,7 @@ public final class IfConditionActivityTypeProperties {
     /**
      * Set the ifTrueActivities property: List of activities to execute if expression is evaluated to true. This is an
      * optional property and if not provided, the activity will exit without any action.
-     *
+     * 
      * @param ifTrueActivities the ifTrueActivities value to set.
      * @return the IfConditionActivityTypeProperties object itself.
      */
@@ -86,7 +90,7 @@ public final class IfConditionActivityTypeProperties {
     /**
      * Get the ifFalseActivities property: List of activities to execute if expression is evaluated to false. This is an
      * optional property and if not provided, the activity will exit without any action.
-     *
+     * 
      * @return the ifFalseActivities value.
      */
     public List<Activity> ifFalseActivities() {
@@ -96,7 +100,7 @@ public final class IfConditionActivityTypeProperties {
     /**
      * Set the ifFalseActivities property: List of activities to execute if expression is evaluated to false. This is an
      * optional property and if not provided, the activity will exit without any action.
-     *
+     * 
      * @param ifFalseActivities the ifFalseActivities value to set.
      * @return the IfConditionActivityTypeProperties object itself.
      */
@@ -107,15 +111,14 @@ public final class IfConditionActivityTypeProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (expression() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property expression in model IfConditionActivityTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property expression in model IfConditionActivityTypeProperties"));
         } else {
             expression().validate();
         }

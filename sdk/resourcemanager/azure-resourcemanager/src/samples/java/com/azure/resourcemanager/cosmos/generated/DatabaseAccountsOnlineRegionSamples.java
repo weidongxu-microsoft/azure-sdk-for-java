@@ -6,19 +6,20 @@ package com.azure.resourcemanager.cosmos.generated;
 
 import com.azure.resourcemanager.cosmos.models.RegionForOnlineOffline;
 
-/** Samples for DatabaseAccounts OnlineRegion. */
+/**
+ * Samples for DatabaseAccounts OnlineRegion.
+ */
 public final class DatabaseAccountsOnlineRegionSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountOnlineRegion.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBDatabaseAccountOnlineRegion.json
      */
     /**
      * Sample code: CosmosDBDatabaseAccountOnlineRegion.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBDatabaseAccountOnlineRegion(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getDatabaseAccounts()

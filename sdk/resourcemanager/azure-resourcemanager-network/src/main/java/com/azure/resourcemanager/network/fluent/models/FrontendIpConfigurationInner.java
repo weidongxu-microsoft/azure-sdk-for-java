@@ -10,9 +10,12 @@ import com.azure.resourcemanager.network.models.IpAllocationMethod;
 import com.azure.resourcemanager.network.models.IpVersion;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Frontend IP address of the load balancer. */
+/**
+ * Frontend IP address of the load balancer.
+ */
 @Fluent
 public final class FrontendIpConfigurationInner extends SubResource {
     /*
@@ -22,8 +25,7 @@ public final class FrontendIpConfigurationInner extends SubResource {
     private FrontendIpConfigurationPropertiesFormatInner innerProperties;
 
     /*
-     * The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-     * This name can be used to access the resource.
+     * The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -46,7 +48,9 @@ public final class FrontendIpConfigurationInner extends SubResource {
     @JsonProperty(value = "zones")
     private List<String> zones;
 
-    /** Creates an instance of FrontendIpConfigurationInner class. */
+    /**
+     * Creates an instance of FrontendIpConfigurationInner class.
+     */
     public FrontendIpConfigurationInner() {
     }
 
@@ -121,7 +125,9 @@ public final class FrontendIpConfigurationInner extends SubResource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FrontendIpConfigurationInner withId(String id) {
         super.withId(id);

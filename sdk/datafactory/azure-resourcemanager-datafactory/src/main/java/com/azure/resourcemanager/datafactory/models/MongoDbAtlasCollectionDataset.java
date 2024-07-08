@@ -8,79 +8,119 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.MongoDbAtlasCollectionDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The MongoDB Atlas database dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The MongoDB Atlas database dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = MongoDbAtlasCollectionDataset.class,
+    visible = true)
 @JsonTypeName("MongoDbAtlasCollection")
 @Fluent
 public final class MongoDbAtlasCollectionDataset extends Dataset {
     /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "MongoDbAtlasCollection";
+
+    /*
      * MongoDB Atlas database dataset properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private MongoDbAtlasCollectionDatasetTypeProperties innerTypeProperties =
-        new MongoDbAtlasCollectionDatasetTypeProperties();
+    private MongoDbAtlasCollectionDatasetTypeProperties innerTypeProperties
+        = new MongoDbAtlasCollectionDatasetTypeProperties();
 
-    /** Creates an instance of MongoDbAtlasCollectionDataset class. */
+    /**
+     * Creates an instance of MongoDbAtlasCollectionDataset class.
+     */
     public MongoDbAtlasCollectionDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: MongoDB Atlas database dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private MongoDbAtlasCollectionDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MongoDbAtlasCollectionDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -90,7 +130,7 @@ public final class MongoDbAtlasCollectionDataset extends Dataset {
     /**
      * Get the collection property: The collection name of the MongoDB Atlas database. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the collection value.
      */
     public Object collection() {
@@ -100,7 +140,7 @@ public final class MongoDbAtlasCollectionDataset extends Dataset {
     /**
      * Set the collection property: The collection name of the MongoDB Atlas database. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param collection the collection value to set.
      * @return the MongoDbAtlasCollectionDataset object itself.
      */
@@ -114,17 +154,16 @@ public final class MongoDbAtlasCollectionDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model MongoDbAtlasCollectionDataset"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model MongoDbAtlasCollectionDataset"));
         } else {
             innerTypeProperties().validate();
         }

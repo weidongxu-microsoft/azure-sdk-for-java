@@ -4,14 +4,16 @@
 
 package com.azure.resourcemanager.devcenter.generated;
 
-/** Samples for DevCenters List. */
+/**
+ * Samples for DevCenters List.
+ */
 public final class DevCentersListSamples {
     /*
-     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevCenters_ListBySubscription.json
+     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_ListBySubscription.json
      */
     /**
      * Sample code: DevCenters_ListBySubscription.
-     *
+     * 
      * @param manager Entry point to DevCenterManager.
      */
     public static void devCentersListBySubscription(com.azure.resourcemanager.devcenter.DevCenterManager manager) {

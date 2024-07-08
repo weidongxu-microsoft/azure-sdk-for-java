@@ -7,18 +7,17 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.WindowsConfiguration;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class WindowsConfigurationTests {
-    @Test
-    public void testDeserialize() {
-        WindowsConfiguration model =
-            BinaryData.fromString("{\"enableAutomaticUpdates\":true}").toObject(WindowsConfiguration.class);
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        WindowsConfiguration model
+            = BinaryData.fromString("{\"enableAutomaticUpdates\":true}").toObject(WindowsConfiguration.class);
         Assertions.assertEquals(true, model.enableAutomaticUpdates());
     }
 
-    @Test
-    public void testSerialize() {
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
         WindowsConfiguration model = new WindowsConfiguration().withEnableAutomaticUpdates(true);
         model = BinaryData.fromObject(model).toObject(WindowsConfiguration.class);
         Assertions.assertEquals(true, model.enableAutomaticUpdates());

@@ -10,17 +10,16 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Dataset location. */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type",
-    defaultImpl = DatasetLocation.class)
+/**
+ * Dataset location.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = DatasetLocation.class, visible = true)
 @JsonTypeName("DatasetLocation")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "AzureBlobStorageLocation", value = AzureBlobStorageLocation.class),
@@ -35,10 +34,17 @@ import java.util.Map;
     @JsonSubTypes.Type(name = "FtpServerLocation", value = FtpServerLocation.class),
     @JsonSubTypes.Type(name = "SftpLocation", value = SftpLocation.class),
     @JsonSubTypes.Type(name = "HttpServerLocation", value = HttpServerLocation.class),
-    @JsonSubTypes.Type(name = "HdfsLocation", value = HdfsLocation.class)
-})
+    @JsonSubTypes.Type(name = "HdfsLocation", value = HdfsLocation.class),
+    @JsonSubTypes.Type(name = "LakeHouseLocation", value = LakeHouseLocation.class) })
 @Fluent
 public class DatasetLocation {
+    /*
+     * Type of dataset storage location.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DatasetLocation";
+
     /*
      * Specify the folder path of dataset. Type: string (or Expression with resultType string)
      */
@@ -54,16 +60,28 @@ public class DatasetLocation {
     /*
      * Dataset location.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of DatasetLocation class. */
+    /**
+     * Creates an instance of DatasetLocation class.
+     */
     public DatasetLocation() {
+    }
+
+    /**
+     * Get the type property: Type of dataset storage location.
+     * 
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the folderPath property: Specify the folder path of dataset. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the folderPath value.
      */
     public Object folderPath() {
@@ -73,7 +91,7 @@ public class DatasetLocation {
     /**
      * Set the folderPath property: Specify the folder path of dataset. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param folderPath the folderPath value to set.
      * @return the DatasetLocation object itself.
      */
@@ -84,7 +102,7 @@ public class DatasetLocation {
 
     /**
      * Get the fileName property: Specify the file name of dataset. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the fileName value.
      */
     public Object fileName() {
@@ -93,7 +111,7 @@ public class DatasetLocation {
 
     /**
      * Set the fileName property: Specify the file name of dataset. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param fileName the fileName value to set.
      * @return the DatasetLocation object itself.
      */
@@ -104,7 +122,7 @@ public class DatasetLocation {
 
     /**
      * Get the additionalProperties property: Dataset location.
-     *
+     * 
      * @return the additionalProperties value.
      */
     @JsonAnyGetter
@@ -114,7 +132,7 @@ public class DatasetLocation {
 
     /**
      * Set the additionalProperties property: Dataset location.
-     *
+     * 
      * @param additionalProperties the additionalProperties value to set.
      * @return the DatasetLocation object itself.
      */
@@ -126,14 +144,14 @@ public class DatasetLocation {
     @JsonAnySetter
     void withAdditionalProperties(String key, Object value) {
         if (additionalProperties == null) {
-            additionalProperties = new HashMap<>();
+            additionalProperties = new LinkedHashMap<>();
         }
         additionalProperties.put(key, value);
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

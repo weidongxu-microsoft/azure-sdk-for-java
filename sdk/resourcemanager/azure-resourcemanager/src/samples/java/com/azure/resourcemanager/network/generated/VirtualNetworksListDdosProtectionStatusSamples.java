@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualNetworks ListDdosProtectionStatus. */
+/**
+ * Samples for VirtualNetworks ListDdosProtectionStatus.
+ */
 public final class VirtualNetworksListDdosProtectionStatusSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGetDdosProtectionStatus.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGetDdosProtectionStatus.json
      */
     /**
      * Sample code: Get Ddos Protection Status of a Virtual Network.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getDdosProtectionStatusOfAVirtualNetwork(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworks()

@@ -14,8 +14,8 @@ public final class AllowedEnvironmentTypeImpl implements AllowedEnvironmentType 
 
     private final com.azure.resourcemanager.devcenter.DevCenterManager serviceManager;
 
-    AllowedEnvironmentTypeImpl(
-        AllowedEnvironmentTypeInner innerObject, com.azure.resourcemanager.devcenter.DevCenterManager serviceManager) {
+    AllowedEnvironmentTypeImpl(AllowedEnvironmentTypeInner innerObject,
+        com.azure.resourcemanager.devcenter.DevCenterManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
     }
@@ -38,6 +38,10 @@ public final class AllowedEnvironmentTypeImpl implements AllowedEnvironmentType 
 
     public ProvisioningState provisioningState() {
         return this.innerModel().provisioningState();
+    }
+
+    public String displayName() {
+        return this.innerModel().displayName();
     }
 
     public AllowedEnvironmentTypeInner innerModel() {

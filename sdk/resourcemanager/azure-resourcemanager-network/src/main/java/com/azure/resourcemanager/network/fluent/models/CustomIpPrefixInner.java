@@ -13,10 +13,13 @@ import com.azure.resourcemanager.network.models.ExtendedLocation;
 import com.azure.resourcemanager.network.models.Geo;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** Custom IP prefix resource. */
+/**
+ * Custom IP prefix resource.
+ */
 @Fluent
 public final class CustomIpPrefixInner extends Resource {
     /*
@@ -49,7 +52,9 @@ public final class CustomIpPrefixInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of CustomIpPrefixInner class. */
+    /**
+     * Creates an instance of CustomIpPrefixInner class.
+     */
     public CustomIpPrefixInner() {
     }
 
@@ -133,14 +138,18 @@ public final class CustomIpPrefixInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CustomIpPrefixInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CustomIpPrefixInner withTags(Map<String, String> tags) {
         super.withTags(tags);

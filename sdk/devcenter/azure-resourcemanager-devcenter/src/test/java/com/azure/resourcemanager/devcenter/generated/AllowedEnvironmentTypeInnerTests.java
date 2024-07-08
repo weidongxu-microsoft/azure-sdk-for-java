@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.fluent.models.AllowedEnvironmentTypeI
 public final class AllowedEnvironmentTypeInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AllowedEnvironmentTypeInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"provisioningState\":\"Succeeded\"},\"id\":\"yxzk\",\"name\":\"noc\",\"type\":\"koklya\"}")
-                .toObject(AllowedEnvironmentTypeInner.class);
+        AllowedEnvironmentTypeInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Succeeded\",\"displayName\":\"hzxct\"},\"id\":\"gbkdmoizpos\",\"name\":\"mgrcfbu\",\"type\":\"rmfqjhhkxbpvj\"}")
+            .toObject(AllowedEnvironmentTypeInner.class);
     }
 
     @org.junit.jupiter.api.Test

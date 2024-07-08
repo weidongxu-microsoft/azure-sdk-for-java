@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.cosmos.fluent.models.TableCreateUpdateProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
-/** Parameters to create and update Cosmos DB Table. */
+/**
+ * Parameters to create and update Cosmos DB Table.
+ */
 @Fluent
 public final class TableCreateUpdateParameters extends ArmResourceProperties {
     /*
@@ -19,7 +22,9 @@ public final class TableCreateUpdateParameters extends ArmResourceProperties {
     @JsonProperty(value = "properties", required = true)
     private TableCreateUpdateProperties innerProperties = new TableCreateUpdateProperties();
 
-    /** Creates an instance of TableCreateUpdateParameters class. */
+    /**
+     * Creates an instance of TableCreateUpdateParameters class.
+     */
     public TableCreateUpdateParameters() {
     }
 
@@ -32,14 +37,18 @@ public final class TableCreateUpdateParameters extends ArmResourceProperties {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TableCreateUpdateParameters withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TableCreateUpdateParameters withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -103,10 +112,9 @@ public final class TableCreateUpdateParameters extends ArmResourceProperties {
     public void validate() {
         super.validate();
         if (innerProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerProperties in model TableCreateUpdateParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerProperties in model TableCreateUpdateParameters"));
         } else {
             innerProperties().validate();
         }

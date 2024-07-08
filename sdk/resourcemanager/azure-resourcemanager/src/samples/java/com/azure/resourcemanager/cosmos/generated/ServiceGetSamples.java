@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for Service Get. */
+/**
+ * Samples for Service Get.
+ */
 public final class ServiceGetSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDataTransferServiceGet.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBDataTransferServiceGet.json
      */
     /**
      * Sample code: DataTransferServiceGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void dataTransferServiceGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getServices()
@@ -24,16 +25,15 @@ public final class ServiceGetSamples {
     }
 
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGraphAPIComputeServiceGet.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBGraphAPIComputeServiceGet.json
      */
     /**
      * Sample code: GraphAPIComputeServiceGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void graphAPIComputeServiceGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getServices()
@@ -41,16 +41,15 @@ public final class ServiceGetSamples {
     }
 
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
      */
     /**
      * Sample code: SqlDedicatedGatewayServiceGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void sqlDedicatedGatewayServiceGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getServices()
@@ -58,16 +57,15 @@ public final class ServiceGetSamples {
     }
 
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
      */
     /**
      * Sample code: MaterializedViewsBuilderServiceGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void materializedViewsBuilderServiceGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getServices()

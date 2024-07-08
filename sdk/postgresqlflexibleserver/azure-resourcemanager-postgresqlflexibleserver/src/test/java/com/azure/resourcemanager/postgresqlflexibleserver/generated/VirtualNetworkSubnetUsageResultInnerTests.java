@@ -10,11 +10,9 @@ import com.azure.resourcemanager.postgresqlflexibleserver.fluent.models.VirtualN
 public final class VirtualNetworkSubnetUsageResultInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        VirtualNetworkSubnetUsageResultInner model =
-            BinaryData
-                .fromString(
-                    "{\"delegatedSubnetsUsage\":[{\"subnetName\":\"d\",\"usage\":6537183488569541179}],\"location\":\"wubmwmbesldn\",\"subscriptionId\":\"wtppjflcxogaoko\"}")
-                .toObject(VirtualNetworkSubnetUsageResultInner.class);
+        VirtualNetworkSubnetUsageResultInner model = BinaryData.fromString(
+            "{\"delegatedSubnetsUsage\":[{\"subnetName\":\"slesjcbhernnt\",\"usage\":721518754958009281},{\"subnetName\":\"cv\",\"usage\":3139399735496716073},{\"subnetName\":\"behwagohb\",\"usage\":4128252170970600631},{\"subnetName\":\"rqemvvhmxt\",\"usage\":2260254657949075974}],\"location\":\"tac\",\"subscriptionId\":\"bj\"}")
+            .toObject(VirtualNetworkSubnetUsageResultInner.class);
     }
 
     @org.junit.jupiter.api.Test

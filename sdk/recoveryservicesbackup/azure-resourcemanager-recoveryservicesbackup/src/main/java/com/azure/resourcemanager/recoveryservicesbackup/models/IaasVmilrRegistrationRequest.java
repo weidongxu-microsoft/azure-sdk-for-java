@@ -6,14 +6,28 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Restore files/folders from a backup copy of IaaS VM. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * Restore files/folders from a backup copy of IaaS VM.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = IaasVmilrRegistrationRequest.class,
+    visible = true)
 @JsonTypeName("IaasVMILRRegistrationRequest")
 @Fluent
 public final class IaasVmilrRegistrationRequest extends IlrRequest {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "IaasVMILRRegistrationRequest";
+
     /*
      * ID of the IaaS VM backup copy from where the files/folders have to be restored.
      */
@@ -38,13 +52,26 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
     @JsonProperty(value = "renewExistingRegistration")
     private Boolean renewExistingRegistration;
 
-    /** Creates an instance of IaasVmilrRegistrationRequest class. */
+    /**
+     * Creates an instance of IaasVmilrRegistrationRequest class.
+     */
     public IaasVmilrRegistrationRequest() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the recoveryPointId property: ID of the IaaS VM backup copy from where the files/folders have to be restored.
-     *
+     * 
      * @return the recoveryPointId value.
      */
     public String recoveryPointId() {
@@ -53,7 +80,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
 
     /**
      * Set the recoveryPointId property: ID of the IaaS VM backup copy from where the files/folders have to be restored.
-     *
+     * 
      * @param recoveryPointId the recoveryPointId value to set.
      * @return the IaasVmilrRegistrationRequest object itself.
      */
@@ -65,7 +92,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
     /**
      * Get the virtualMachineId property: Fully qualified ARM ID of the virtual machine whose the files / folders have
      * to be restored.
-     *
+     * 
      * @return the virtualMachineId value.
      */
     public String virtualMachineId() {
@@ -75,7 +102,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
     /**
      * Set the virtualMachineId property: Fully qualified ARM ID of the virtual machine whose the files / folders have
      * to be restored.
-     *
+     * 
      * @param virtualMachineId the virtualMachineId value to set.
      * @return the IaasVmilrRegistrationRequest object itself.
      */
@@ -86,7 +113,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
 
     /**
      * Get the initiatorName property: iSCSI initiator name.
-     *
+     * 
      * @return the initiatorName value.
      */
     public String initiatorName() {
@@ -95,7 +122,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
 
     /**
      * Set the initiatorName property: iSCSI initiator name.
-     *
+     * 
      * @param initiatorName the initiatorName value to set.
      * @return the IaasVmilrRegistrationRequest object itself.
      */
@@ -106,7 +133,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
 
     /**
      * Get the renewExistingRegistration property: Whether to renew existing registration with the iSCSI server.
-     *
+     * 
      * @return the renewExistingRegistration value.
      */
     public Boolean renewExistingRegistration() {
@@ -115,7 +142,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
 
     /**
      * Set the renewExistingRegistration property: Whether to renew existing registration with the iSCSI server.
-     *
+     * 
      * @param renewExistingRegistration the renewExistingRegistration value to set.
      * @return the IaasVmilrRegistrationRequest object itself.
      */
@@ -126,7 +153,7 @@ public final class IaasVmilrRegistrationRequest extends IlrRequest {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

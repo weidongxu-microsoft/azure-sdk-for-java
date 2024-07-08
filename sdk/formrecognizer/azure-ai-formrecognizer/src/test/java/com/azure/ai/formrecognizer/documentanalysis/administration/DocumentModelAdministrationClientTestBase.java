@@ -29,7 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -37,7 +37,7 @@ import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.AZURE_CLIEN
 import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.AZURE_FORM_RECOGNIZER_CLIENT_SECRET;
 import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.AZURE_TENANT_ID;
 import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.INVALID_KEY;
-import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.getTestProxySanitizers;
+import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.REMOVE_SANITIZER_ID;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public abstract class DocumentModelAdministrationClientTestBase extends TestProxyTestBase {
@@ -87,16 +87,17 @@ public abstract class DocumentModelAdministrationClientTestBase extends TestProx
             }
         }
         if (!interceptorManager.isLiveMode()) {
-            interceptorManager.addSanitizers(getTestProxySanitizers());
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
         }
         return builder;
     }
+
     private void setMatchers() {
-        interceptorManager.addMatchers(Arrays.asList(new BodilessMatcher()));
+        interceptorManager.addMatchers(Collections.singletonList(new BodilessMatcher()));
     }
     static TokenCredential getCredentialByAuthority(String endpoint) {
         String authority = TestUtils.getAuthority(endpoint);
-        if (authority == AzureAuthorityHosts.AZURE_PUBLIC_CLOUD) {
+        if (AzureAuthorityHosts.AZURE_PUBLIC_CLOUD.equals(authority)) {
             return new DefaultAzureCredentialBuilder()
                 .authorityHost(TestUtils.getAuthority(endpoint))
                 .build();
@@ -133,7 +134,7 @@ public abstract class DocumentModelAdministrationClientTestBase extends TestProx
     void validateClassifierModelData(DocumentClassifierDetails documentClassifierDetails) {
         assertNotNull(documentClassifierDetails.getCreatedOn());
         assertNotNull(documentClassifierDetails.getClassifierId());
-        assertNotNull(documentClassifierDetails.getApiVersion());
+        assertNotNull(documentClassifierDetails.getServiceVersion());
     }
 
     void blankPdfDataRunner(BiConsumer<InputStream, Long> testRunner) {

@@ -13,8 +13,8 @@ import com.azure.resourcemanager.eventgrid.fluent.ChannelsClient;
 import com.azure.resourcemanager.eventgrid.fluent.models.ChannelInner;
 import com.azure.resourcemanager.eventgrid.fluent.models.EventSubscriptionFullUrlInner;
 import com.azure.resourcemanager.eventgrid.models.Channel;
-import com.azure.resourcemanager.eventgrid.models.ChannelUpdateParameters;
 import com.azure.resourcemanager.eventgrid.models.Channels;
+import com.azure.resourcemanager.eventgrid.models.ChannelUpdateParameters;
 import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFullUrl;
 
 public final class ChannelsImpl implements Channels {
@@ -24,21 +24,18 @@ public final class ChannelsImpl implements Channels {
 
     private final com.azure.resourcemanager.eventgrid.EventGridManager serviceManager;
 
-    public ChannelsImpl(
-        ChannelsClient innerClient, com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
+    public ChannelsImpl(ChannelsClient innerClient,
+        com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
         this.innerClient = innerClient;
         this.serviceManager = serviceManager;
     }
 
-    public Response<Channel> getWithResponse(
-        String resourceGroupName, String partnerNamespaceName, String channelName, Context context) {
-        Response<ChannelInner> inner =
-            this.serviceClient().getWithResponse(resourceGroupName, partnerNamespaceName, channelName, context);
+    public Response<Channel> getWithResponse(String resourceGroupName, String partnerNamespaceName, String channelName,
+        Context context) {
+        Response<ChannelInner> inner
+            = this.serviceClient().getWithResponse(resourceGroupName, partnerNamespaceName, channelName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new ChannelImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -62,57 +59,46 @@ public final class ChannelsImpl implements Channels {
         this.serviceClient().delete(resourceGroupName, partnerNamespaceName, channelName, context);
     }
 
-    public Response<Void> updateWithResponse(
-        String resourceGroupName,
-        String partnerNamespaceName,
-        String channelName,
-        ChannelUpdateParameters channelUpdateParameters,
-        Context context) {
-        return this
-            .serviceClient()
+    public Response<Void> updateWithResponse(String resourceGroupName, String partnerNamespaceName, String channelName,
+        ChannelUpdateParameters channelUpdateParameters, Context context) {
+        return this.serviceClient()
             .updateWithResponse(resourceGroupName, partnerNamespaceName, channelName, channelUpdateParameters, context);
     }
 
-    public void update(
-        String resourceGroupName,
-        String partnerNamespaceName,
-        String channelName,
+    public void update(String resourceGroupName, String partnerNamespaceName, String channelName,
         ChannelUpdateParameters channelUpdateParameters) {
         this.serviceClient().update(resourceGroupName, partnerNamespaceName, channelName, channelUpdateParameters);
     }
 
     public PagedIterable<Channel> listByPartnerNamespace(String resourceGroupName, String partnerNamespaceName) {
-        PagedIterable<ChannelInner> inner =
-            this.serviceClient().listByPartnerNamespace(resourceGroupName, partnerNamespaceName);
-        return Utils.mapPage(inner, inner1 -> new ChannelImpl(inner1, this.manager()));
+        PagedIterable<ChannelInner> inner
+            = this.serviceClient().listByPartnerNamespace(resourceGroupName, partnerNamespaceName);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ChannelImpl(inner1, this.manager()));
     }
 
-    public PagedIterable<Channel> listByPartnerNamespace(
-        String resourceGroupName, String partnerNamespaceName, String filter, Integer top, Context context) {
-        PagedIterable<ChannelInner> inner =
-            this.serviceClient().listByPartnerNamespace(resourceGroupName, partnerNamespaceName, filter, top, context);
-        return Utils.mapPage(inner, inner1 -> new ChannelImpl(inner1, this.manager()));
+    public PagedIterable<Channel> listByPartnerNamespace(String resourceGroupName, String partnerNamespaceName,
+        String filter, Integer top, Context context) {
+        PagedIterable<ChannelInner> inner = this.serviceClient()
+            .listByPartnerNamespace(resourceGroupName, partnerNamespaceName, filter, top, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ChannelImpl(inner1, this.manager()));
     }
 
-    public Response<EventSubscriptionFullUrl> getFullUrlWithResponse(
-        String resourceGroupName, String partnerNamespaceName, String channelName, Context context) {
-        Response<EventSubscriptionFullUrlInner> inner =
-            this.serviceClient().getFullUrlWithResponse(resourceGroupName, partnerNamespaceName, channelName, context);
+    public Response<EventSubscriptionFullUrl> getFullUrlWithResponse(String resourceGroupName,
+        String partnerNamespaceName, String channelName, Context context) {
+        Response<EventSubscriptionFullUrlInner> inner = this.serviceClient()
+            .getFullUrlWithResponse(resourceGroupName, partnerNamespaceName, channelName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new EventSubscriptionFullUrlImpl(inner.getValue(), this.manager()));
         } else {
             return null;
         }
     }
 
-    public EventSubscriptionFullUrl getFullUrl(
-        String resourceGroupName, String partnerNamespaceName, String channelName) {
-        EventSubscriptionFullUrlInner inner =
-            this.serviceClient().getFullUrl(resourceGroupName, partnerNamespaceName, channelName);
+    public EventSubscriptionFullUrl getFullUrl(String resourceGroupName, String partnerNamespaceName,
+        String channelName) {
+        EventSubscriptionFullUrlInner inner
+            = this.serviceClient().getFullUrl(resourceGroupName, partnerNamespaceName, channelName);
         if (inner != null) {
             return new EventSubscriptionFullUrlImpl(inner, this.manager());
         } else {
@@ -121,113 +107,77 @@ public final class ChannelsImpl implements Channels {
     }
 
     public Channel getById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
-        String channelName = Utils.getValueFromIdByName(id, "channels");
+        String channelName = ResourceManagerUtils.getValueFromIdByName(id, "channels");
         if (channelName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
         }
         return this.getWithResponse(resourceGroupName, partnerNamespaceName, channelName, Context.NONE).getValue();
     }
 
     public Response<Channel> getByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
-        String channelName = Utils.getValueFromIdByName(id, "channels");
+        String channelName = ResourceManagerUtils.getValueFromIdByName(id, "channels");
         if (channelName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
         }
         return this.getWithResponse(resourceGroupName, partnerNamespaceName, channelName, context);
     }
 
     public void deleteById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
-        String channelName = Utils.getValueFromIdByName(id, "channels");
+        String channelName = ResourceManagerUtils.getValueFromIdByName(id, "channels");
         if (channelName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
         }
         this.delete(resourceGroupName, partnerNamespaceName, channelName, Context.NONE);
     }
 
     public void deleteByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
-        String channelName = Utils.getValueFromIdByName(id, "channels");
+        String channelName = ResourceManagerUtils.getValueFromIdByName(id, "channels");
         if (channelName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'channels'.", id)));
         }
         this.delete(resourceGroupName, partnerNamespaceName, channelName, context);
     }

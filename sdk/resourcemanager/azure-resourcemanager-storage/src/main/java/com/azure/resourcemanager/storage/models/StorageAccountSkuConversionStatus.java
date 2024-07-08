@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** This defines the sku conversion status object for asynchronous sku conversions. */
+/**
+ * This defines the sku conversion status object for asynchronous sku conversions.
+ */
 @Fluent
 public final class StorageAccountSkuConversionStatus {
     /*
@@ -35,8 +37,14 @@ public final class StorageAccountSkuConversionStatus {
     private String endTime;
 
     /**
+     * Creates an instance of StorageAccountSkuConversionStatus class.
+     */
+    public StorageAccountSkuConversionStatus() {
+    }
+
+    /**
      * Get the skuConversionStatus property: This property indicates the current sku conversion status.
-     *
+     * 
      * @return the skuConversionStatus value.
      */
     public SkuConversionStatus skuConversionStatus() {
@@ -46,7 +54,7 @@ public final class StorageAccountSkuConversionStatus {
     /**
      * Get the targetSkuName property: This property represents the target sku name to which the account sku is being
      * converted asynchronously.
-     *
+     * 
      * @return the targetSkuName value.
      */
     public SkuName targetSkuName() {
@@ -56,7 +64,7 @@ public final class StorageAccountSkuConversionStatus {
     /**
      * Set the targetSkuName property: This property represents the target sku name to which the account sku is being
      * converted asynchronously.
-     *
+     * 
      * @param targetSkuName the targetSkuName value to set.
      * @return the StorageAccountSkuConversionStatus object itself.
      */
@@ -67,7 +75,7 @@ public final class StorageAccountSkuConversionStatus {
 
     /**
      * Get the startTime property: This property represents the sku conversion start time.
-     *
+     * 
      * @return the startTime value.
      */
     public String startTime() {
@@ -76,7 +84,7 @@ public final class StorageAccountSkuConversionStatus {
 
     /**
      * Get the endTime property: This property represents the sku conversion end time.
-     *
+     * 
      * @return the endTime value.
      */
     public String endTime() {
@@ -85,7 +93,7 @@ public final class StorageAccountSkuConversionStatus {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

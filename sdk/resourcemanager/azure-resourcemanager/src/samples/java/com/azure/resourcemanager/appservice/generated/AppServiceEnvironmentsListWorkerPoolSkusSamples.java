@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for AppServiceEnvironments ListWorkerPoolSkus. */
+/**
+ * Samples for AppServiceEnvironments ListWorkerPoolSkus.
+ */
 public final class AppServiceEnvironmentsListWorkerPoolSkusSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_ListWorkerPoolSkus.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ListWorkerPoolSkus.json
      */
     /**
      * Sample code: Get available SKUs for scaling a worker pool.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getAvailableSKUsForScalingAWorkerPool(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getAppServiceEnvironments()

@@ -8,58 +8,92 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.SalesforceServiceCloudLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Linked service for Salesforce Service Cloud. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Linked service for Salesforce Service Cloud.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = SalesforceServiceCloudLinkedService.class,
+    visible = true)
 @JsonTypeName("SalesforceServiceCloud")
 @Fluent
 public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SalesforceServiceCloud";
+
+    /*
      * Salesforce Service Cloud linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private SalesforceServiceCloudLinkedServiceTypeProperties innerTypeProperties =
-        new SalesforceServiceCloudLinkedServiceTypeProperties();
+    private SalesforceServiceCloudLinkedServiceTypeProperties innerTypeProperties
+        = new SalesforceServiceCloudLinkedServiceTypeProperties();
 
-    /** Creates an instance of SalesforceServiceCloudLinkedService class. */
+    /**
+     * Creates an instance of SalesforceServiceCloudLinkedService class.
+     */
     public SalesforceServiceCloudLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Salesforce Service Cloud linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SalesforceServiceCloudLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SalesforceServiceCloudLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SalesforceServiceCloudLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SalesforceServiceCloudLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SalesforceServiceCloudLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -71,7 +105,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
      * 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data
      * from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the environmentUrl value.
      */
     public Object environmentUrl() {
@@ -83,7 +117,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
      * 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data
      * from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param environmentUrl the environmentUrl value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
@@ -98,7 +132,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /**
      * Get the username property: The username for Basic authentication of the Salesforce instance. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -108,7 +142,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /**
      * Set the username property: The username for Basic authentication of the Salesforce instance. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param username the username value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
@@ -122,7 +156,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the password property: The password for Basic authentication of the Salesforce instance.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -131,7 +165,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
 
     /**
      * Set the password property: The password for Basic authentication of the Salesforce instance.
-     *
+     * 
      * @param password the password value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
@@ -145,7 +179,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the securityToken property: The security token is optional to remotely access Salesforce instance.
-     *
+     * 
      * @return the securityToken value.
      */
     public SecretBase securityToken() {
@@ -154,7 +188,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
 
     /**
      * Set the securityToken property: The security token is optional to remotely access Salesforce instance.
-     *
+     * 
      * @param securityToken the securityToken value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
@@ -169,7 +203,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /**
      * Get the apiVersion property: The Salesforce API version used in ADF. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the apiVersion value.
      */
     public Object apiVersion() {
@@ -179,7 +213,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /**
      * Set the apiVersion property: The Salesforce API version used in ADF. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param apiVersion the apiVersion value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
@@ -194,7 +228,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /**
      * Get the extendedProperties property: Extended properties appended to the connection string. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the extendedProperties value.
      */
     public Object extendedProperties() {
@@ -204,7 +238,7 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
     /**
      * Set the extendedProperties property: Extended properties appended to the connection string. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param extendedProperties the extendedProperties value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
@@ -218,22 +252,22 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the SalesforceServiceCloudLinkedService object itself.
      */
-    public SalesforceServiceCloudLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public SalesforceServiceCloudLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new SalesforceServiceCloudLinkedServiceTypeProperties();
         }
@@ -243,17 +277,16 @@ public final class SalesforceServiceCloudLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model SalesforceServiceCloudLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model SalesforceServiceCloudLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

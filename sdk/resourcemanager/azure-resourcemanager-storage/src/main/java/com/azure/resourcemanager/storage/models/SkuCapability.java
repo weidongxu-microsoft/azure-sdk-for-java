@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Immutable
 public final class SkuCapability {
     /*
-     * The name of capability, The capability information in the specified SKU, including file encryption, network
-     * ACLs, change notification, etc.
+     * The name of capability, The capability information in the specified SKU, including file encryption, network ACLs,
+     * change notification, etc.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
@@ -26,9 +26,15 @@ public final class SkuCapability {
     private String value;
 
     /**
+     * Creates an instance of SkuCapability class.
+     */
+    public SkuCapability() {
+    }
+
+    /**
      * Get the name property: The name of capability, The capability information in the specified SKU, including file
      * encryption, network ACLs, change notification, etc.
-     *
+     * 
      * @return the name value.
      */
     public String name() {
@@ -37,7 +43,7 @@ public final class SkuCapability {
 
     /**
      * Get the value property: A string value to indicate states of given capability. Possibly 'true' or 'false'.
-     *
+     * 
      * @return the value value.
      */
     public String value() {
@@ -46,7 +52,7 @@ public final class SkuCapability {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -14,7 +14,7 @@ public final class CreateJobOptions {
     /**
      * The id of the job.
      */
-    private final String id;
+    private final String jobId;
 
     /**
      * Reference to an external parent context, eg. call ID.
@@ -25,11 +25,6 @@ public final class CreateJobOptions {
      * The channel identifier. eg. voice, chat, etc.
      */
     private final String channelId;
-
-    /**
-     * The Id of the Classification policy used for classifying a job.
-     */
-    private String classificationPolicyId;
 
     /**
      * The Id of the Queue that this job is queued to.
@@ -56,12 +51,12 @@ public final class CreateJobOptions {
      * A set of key/value pairs that are identifying attributes used by the
      * rules engines to make decisions.
      */
-    private Map<String, LabelValue> labels;
+    private Map<String, RouterValue> labels;
 
     /**
      * A set of non-identifying attributes attached to this job.
      */
-    private Map<String, LabelValue> tags;
+    private Map<String, RouterValue> tags;
 
     /**
      * Notes attached to a job, sorted by timestamp.
@@ -71,14 +66,14 @@ public final class CreateJobOptions {
     /*
      * The matchingMode property.
      */
-    private RouterJobMatchingMode matchingMode;
+    private JobMatchingMode matchingMode;
 
     /**
      * Get the matchingMode property: The matchingMode property.
      *
      * @return the matchingMode value.
      */
-    public RouterJobMatchingMode getMatchingMode() {
+    public JobMatchingMode getMatchingMode() {
         return this.matchingMode;
     }
 
@@ -88,19 +83,19 @@ public final class CreateJobOptions {
      * @param matchingMode the matchingMode value to set.
      * @return the RouterJobInternal object itself.
      */
-    public CreateJobOptions setMatchingMode(RouterJobMatchingMode matchingMode) {
+    public CreateJobOptions setMatchingMode(JobMatchingMode matchingMode) {
         this.matchingMode = matchingMode;
         return this;
     }
 
     /**
      * Constructor for CreateJobOptions.
-     * @param id The id of the job.
+     * @param jobId The id of the job.
      * @param channelId The channel identifier. eg. voice, chat, etc.
      * @param queueId The Id of the Queue that this job is queued to.
      */
-    public CreateJobOptions(String id, String channelId, String queueId) {
-        this.id = id;
+    public CreateJobOptions(String jobId, String channelId, String queueId) {
+        this.jobId = jobId;
         this.channelId = channelId;
         this.queueId = queueId;
     }
@@ -122,16 +117,6 @@ public final class CreateJobOptions {
      */
     public CreateJobOptions setChannelReference(String channelReference) {
         this.channelReference = channelReference;
-        return this;
-    }
-
-    /**
-     * Sets classificationPolicyId.
-     * @param classificationPolicyId The Id of the Classification policy used for classifying a job.
-     * @return this
-     */
-    public CreateJobOptions setClassificationPolicyId(String classificationPolicyId) {
-        this.classificationPolicyId = classificationPolicyId;
         return this;
     }
 
@@ -162,7 +147,7 @@ public final class CreateJobOptions {
      *   rules engines to make decisions.
      * @return this
      */
-    public CreateJobOptions setLabels(Map<String, LabelValue> labels) {
+    public CreateJobOptions setLabels(Map<String, RouterValue> labels) {
         this.labels = labels;
         return this;
     }
@@ -172,7 +157,7 @@ public final class CreateJobOptions {
      * @param tags A set of non-identifying attributes attached to this job.
      * @return this
      */
-    public CreateJobOptions setTags(Map<String, LabelValue> tags) {
+    public CreateJobOptions setTags(Map<String, RouterValue> tags) {
         this.tags = tags;
         return this;
     }
@@ -191,8 +176,8 @@ public final class CreateJobOptions {
      * Returns the id of RouterJob.
      * @return id.
      */
-    public String getId() {
-        return this.id;
+    public String getJobId() {
+        return this.jobId;
     }
 
     /**
@@ -209,14 +194,6 @@ public final class CreateJobOptions {
      */
     public String getChannelId() {
         return this.channelId;
-    }
-
-    /**
-     * Returns the Id of the Classification policy used for classifying a job.
-     * @return classificationPolicyId
-     */
-    public String getClassificationPolicyId() {
-        return this.classificationPolicyId;
     }
 
     /**
@@ -257,7 +234,7 @@ public final class CreateJobOptions {
      * rules engines to make decisions.
      * @return labels
      */
-    public Map<String, LabelValue> getLabels() {
+    public Map<String, RouterValue> getLabels() {
         return this.labels;
     }
 
@@ -265,7 +242,7 @@ public final class CreateJobOptions {
      * A set of non-identifying attributes attached to this job
      * @return tags
      */
-    public Map<String, LabelValue> getTags() {
+    public Map<String, RouterValue> getTags() {
         return this.tags;
     }
 

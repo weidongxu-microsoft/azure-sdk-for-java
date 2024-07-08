@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.DatabaseConnectionInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of static site database connections. */
+/**
+ * Collection of static site database connections.
+ */
 @Fluent
 public final class DatabaseConnectionCollection {
     /*
@@ -25,7 +28,9 @@ public final class DatabaseConnectionCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of DatabaseConnectionCollection class. */
+    /**
+     * Creates an instance of DatabaseConnectionCollection class.
+     */
     public DatabaseConnectionCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class DatabaseConnectionCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model DatabaseConnectionCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model DatabaseConnectionCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

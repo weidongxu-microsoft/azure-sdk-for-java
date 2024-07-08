@@ -34,16 +34,23 @@ import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.network.fluent.HubRouteTablesClient;
 import com.azure.resourcemanager.network.fluent.models.HubRouteTableInner;
 import com.azure.resourcemanager.network.models.ListHubRouteTablesResult;
-import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in HubRouteTablesClient. */
+import java.nio.ByteBuffer;
+
+/**
+ * An instance of this class provides access to all the operations defined in HubRouteTablesClient.
+ */
 public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final HubRouteTablesService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final NetworkManagementClientImpl client;
 
     /**
@@ -52,8 +59,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @param client the instance of the service client containing this operation class.
      */
     HubRouteTablesClientImpl(NetworkManagementClientImpl client) {
-        this.service =
-            RestProxy.create(HubRouteTablesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
+        this.service
+            = RestProxy.create(HubRouteTablesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 
@@ -64,75 +71,55 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
     public interface HubRouteTablesService {
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}")
-        @ExpectedResponses({200, 201})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}")
+        @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("virtualHubName") String virtualHubName,
-            @PathParam("routeTableName") String routeTableName,
+            @PathParam("virtualHubName") String virtualHubName, @PathParam("routeTableName") String routeTableName,
             @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") HubRouteTableInner routeTableParameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<HubRouteTableInner>> get(
-            @HostParam("$host") String endpoint,
+        Mono<Response<HubRouteTableInner>> get(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("virtualHubName") String virtualHubName,
-            @PathParam("routeTableName") String routeTableName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("virtualHubName") String virtualHubName, @PathParam("routeTableName") String routeTableName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}")
-        @ExpectedResponses({200, 202, 204})
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}")
+        @ExpectedResponses({ 200, 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> delete(
-            @HostParam("$host") String endpoint,
+        Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("virtualHubName") String virtualHubName,
-            @PathParam("routeTableName") String routeTableName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("virtualHubName") String virtualHubName, @PathParam("routeTableName") String routeTableName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ListHubRouteTablesResult>> list(
-            @HostParam("$host") String endpoint,
+        Mono<Response<ListHubRouteTablesResult>> list(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("virtualHubName") String virtualHubName,
-            @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("virtualHubName") String virtualHubName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ListHubRouteTablesResult>> listNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
@@ -145,26 +132,19 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters) {
+    public Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String virtualHubName, String routeTableName, HubRouteTableInner routeTableParameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -182,22 +162,11 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         } else {
             routeTableParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .createOrUpdate(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            virtualHubName,
-                            routeTableName,
-                            apiVersion,
-                            routeTableParameters,
-                            accept,
-                            context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, virtualHubName, routeTableName, apiVersion, routeTableParameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -212,27 +181,19 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters,
-        Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String virtualHubName, String routeTableName, HubRouteTableInner routeTableParameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -250,20 +211,11 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         } else {
             routeTableParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .createOrUpdate(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                virtualHubName,
-                routeTableName,
-                apiVersion,
-                routeTableParameters,
-                accept,
-                context);
+        return service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            virtualHubName, routeTableName, apiVersion, routeTableParameters, accept, context);
     }
 
     /**
@@ -280,20 +232,12 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<HubRouteTableInner>, HubRouteTableInner> beginCreateOrUpdateAsync(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
+        String resourceGroupName, String virtualHubName, String routeTableName,
         HubRouteTableInner routeTableParameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createOrUpdateWithResponseAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters);
-        return this
-            .client
-            .<HubRouteTableInner, HubRouteTableInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                HubRouteTableInner.class,
-                HubRouteTableInner.class,
-                this.client.getContext());
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = createOrUpdateWithResponseAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters);
+        return this.client.<HubRouteTableInner, HubRouteTableInner>getLroResult(mono, this.client.getHttpPipeline(),
+            HubRouteTableInner.class, HubRouteTableInner.class, this.client.getContext());
     }
 
     /**
@@ -311,19 +255,13 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<HubRouteTableInner>, HubRouteTableInner> beginCreateOrUpdateAsync(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters,
+        String resourceGroupName, String virtualHubName, String routeTableName, HubRouteTableInner routeTableParameters,
         Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createOrUpdateWithResponseAsync(
-                resourceGroupName, virtualHubName, routeTableName, routeTableParameters, context);
-        return this
-            .client
-            .<HubRouteTableInner, HubRouteTableInner>getLroResult(
-                mono, this.client.getHttpPipeline(), HubRouteTableInner.class, HubRouteTableInner.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono = createOrUpdateWithResponseAsync(resourceGroupName, virtualHubName,
+            routeTableName, routeTableParameters, context);
+        return this.client.<HubRouteTableInner, HubRouteTableInner>getLroResult(mono, this.client.getHttpPipeline(),
+            HubRouteTableInner.class, HubRouteTableInner.class, context);
     }
 
     /**
@@ -339,13 +277,9 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link SyncPoller} for polling of routeTable resource in a virtual hub.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<HubRouteTableInner>, HubRouteTableInner> beginCreateOrUpdate(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters)
+    public SyncPoller<PollResult<HubRouteTableInner>, HubRouteTableInner> beginCreateOrUpdate(String resourceGroupName,
+        String virtualHubName, String routeTableName, HubRouteTableInner routeTableParameters) {
+        return this.beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters)
             .getSyncPoller();
     }
 
@@ -363,12 +297,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link SyncPoller} for polling of routeTable resource in a virtual hub.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<HubRouteTableInner>, HubRouteTableInner> beginCreateOrUpdate(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters,
-        Context context) {
+    public SyncPoller<PollResult<HubRouteTableInner>, HubRouteTableInner> beginCreateOrUpdate(String resourceGroupName,
+        String virtualHubName, String routeTableName, HubRouteTableInner routeTableParameters, Context context) {
         return this
             .beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters, context)
             .getSyncPoller();
@@ -387,13 +317,9 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return routeTable resource in a virtual hub on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<HubRouteTableInner> createOrUpdateAsync(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters) {
-        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters)
-            .last()
+    public Mono<HubRouteTableInner> createOrUpdateAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName, HubRouteTableInner routeTableParameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -411,16 +337,10 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return routeTable resource in a virtual hub on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<HubRouteTableInner> createOrUpdateAsync(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters,
-        Context context) {
-        return beginCreateOrUpdateAsync(
-                resourceGroupName, virtualHubName, routeTableName, routeTableParameters, context)
-            .last()
-            .flatMap(this.client::getLroFinalResultOrError);
+    private Mono<HubRouteTableInner> createOrUpdateAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName, HubRouteTableInner routeTableParameters, Context context) {
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters,
+            context).last().flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
@@ -436,10 +356,7 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return routeTable resource in a virtual hub.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public HubRouteTableInner createOrUpdate(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
+    public HubRouteTableInner createOrUpdate(String resourceGroupName, String virtualHubName, String routeTableName,
         HubRouteTableInner routeTableParameters) {
         return createOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters).block();
     }
@@ -458,12 +375,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return routeTable resource in a virtual hub.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public HubRouteTableInner createOrUpdate(
-        String resourceGroupName,
-        String virtualHubName,
-        String routeTableName,
-        HubRouteTableInner routeTableParameters,
-        Context context) {
+    public HubRouteTableInner createOrUpdate(String resourceGroupName, String virtualHubName, String routeTableName,
+        HubRouteTableInner routeTableParameters, Context context) {
         return createOrUpdateAsync(resourceGroupName, virtualHubName, routeTableName, routeTableParameters, context)
             .block();
     }
@@ -477,23 +390,19 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<HubRouteTableInner>> getWithResponseAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName) {
+    public Mono<Response<HubRouteTableInner>> getWithResponseAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -505,21 +414,11 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         if (routeTableName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeTableName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .get(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            virtualHubName,
-                            routeTableName,
-                            apiVersion,
-                            accept,
-                            context))
+            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, virtualHubName, routeTableName, apiVersion, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -533,23 +432,19 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return routeTable resource in a virtual hub along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<HubRouteTableInner>> getWithResponseAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName, Context context) {
+    private Mono<Response<HubRouteTableInner>> getWithResponseAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -561,19 +456,11 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         if (routeTableName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeTableName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .get(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                virtualHubName,
-                routeTableName,
-                apiVersion,
-                accept,
-                context);
+        return service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            virtualHubName, routeTableName, apiVersion, accept, context);
     }
 
     /**
@@ -606,8 +493,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return routeTable resource in a virtual hub along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<HubRouteTableInner> getWithResponse(
-        String resourceGroupName, String virtualHubName, String routeTableName, Context context) {
+    public Response<HubRouteTableInner> getWithResponse(String resourceGroupName, String virtualHubName,
+        String routeTableName, Context context) {
         return getWithResponseAsync(resourceGroupName, virtualHubName, routeTableName, context).block();
     }
 
@@ -639,19 +526,15 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName) {
+    public Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -663,21 +546,11 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         if (routeTableName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeTableName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .delete(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            virtualHubName,
-                            routeTableName,
-                            apiVersion,
-                            accept,
-                            context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, virtualHubName, routeTableName, apiVersion, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -694,19 +567,15 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -718,19 +587,11 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         if (routeTableName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeTableName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .delete(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                virtualHubName,
-                routeTableName,
-                apiVersion,
-                accept,
-                context);
+        return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            virtualHubName, routeTableName, apiVersion, accept, context);
     }
 
     /**
@@ -745,14 +606,12 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, virtualHubName, routeTableName);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, virtualHubName, routeTableName);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
@@ -768,14 +627,13 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String virtualHubName,
+        String routeTableName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, virtualHubName, routeTableName, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, virtualHubName, routeTableName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
@@ -790,8 +648,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String virtualHubName, String routeTableName) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String virtualHubName,
+        String routeTableName) {
         return this.beginDeleteAsync(resourceGroupName, virtualHubName, routeTableName).getSyncPoller();
     }
 
@@ -808,8 +666,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String virtualHubName, String routeTableName, Context context) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String virtualHubName,
+        String routeTableName, Context context) {
         return this.beginDeleteAsync(resourceGroupName, virtualHubName, routeTableName, context).getSyncPoller();
     }
 
@@ -826,8 +684,7 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String virtualHubName, String routeTableName) {
-        return beginDeleteAsync(resourceGroupName, virtualHubName, routeTableName)
-            .last()
+        return beginDeleteAsync(resourceGroupName, virtualHubName, routeTableName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -844,10 +701,9 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteAsync(
-        String resourceGroupName, String virtualHubName, String routeTableName, Context context) {
-        return beginDeleteAsync(resourceGroupName, virtualHubName, routeTableName, context)
-            .last()
+    private Mono<Void> deleteAsync(String resourceGroupName, String virtualHubName, String routeTableName,
+        Context context) {
+        return beginDeleteAsync(resourceGroupName, virtualHubName, routeTableName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -891,22 +747,18 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return list of RouteTables and a URL nextLink to get the next set of results along with {@link PagedResponse} on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<HubRouteTableInner>> listSinglePageAsync(
-        String resourceGroupName, String virtualHubName) {
+    private Mono<PagedResponse<HubRouteTableInner>> listSinglePageAsync(String resourceGroupName,
+        String virtualHubName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -915,29 +767,13 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .list(
-                            this.client.getEndpoint(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            virtualHubName,
-                            apiVersion,
-                            accept,
-                            context))
-            .<PagedResponse<HubRouteTableInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.list(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, virtualHubName, apiVersion, accept, context))
+            .<PagedResponse<HubRouteTableInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -951,22 +787,18 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return list of RouteTables and a URL nextLink to get the next set of results along with {@link PagedResponse} on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<HubRouteTableInner>> listSinglePageAsync(
-        String resourceGroupName, String virtualHubName, Context context) {
+    private Mono<PagedResponse<HubRouteTableInner>> listSinglePageAsync(String resourceGroupName, String virtualHubName,
+        Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -975,27 +807,14 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .list(
-                this.client.getEndpoint(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                virtualHubName,
-                apiVersion,
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .list(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, virtualHubName,
+                apiVersion, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
@@ -1006,13 +825,12 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with {@link
-     *     PagedFlux}.
+     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<HubRouteTableInner> listAsync(String resourceGroupName, String virtualHubName) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, virtualHubName),
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, virtualHubName),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
@@ -1025,13 +843,12 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with {@link
-     *     PagedFlux}.
+     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<HubRouteTableInner> listAsync(String resourceGroupName, String virtualHubName, Context context) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, virtualHubName, context),
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, virtualHubName, context),
             nextLink -> listNextSinglePageAsync(nextLink, context));
     }
 
@@ -1043,8 +860,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with {@link
-     *     PagedIterable}.
+     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with
+     * {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<HubRouteTableInner> list(String resourceGroupName, String virtualHubName) {
@@ -1060,8 +877,8 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with {@link
-     *     PagedIterable}.
+     * @return list of RouteTables and a URL nextLink to get the next set of results as paginated response with
+     * {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<HubRouteTableInner> list(String resourceGroupName, String virtualHubName, Context context) {
@@ -1072,12 +889,13 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * Get the next page of items.
      *
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     *
+     * The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return list of RouteTables and a URL nextLink to get the next set of results along with {@link PagedResponse} on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<HubRouteTableInner>> listNextSinglePageAsync(String nextLink) {
@@ -1085,23 +903,13 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<HubRouteTableInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+        return FluxUtil.withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
+            .<PagedResponse<HubRouteTableInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1109,13 +917,14 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
      * Get the next page of items.
      *
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     *
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return list of RouteTables and a URL nextLink to get the next set of results along with {@link PagedResponse} on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<HubRouteTableInner>> listNextSinglePageAsync(String nextLink, Context context) {
@@ -1123,23 +932,13 @@ public final class HubRouteTablesClientImpl implements HubRouteTablesClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 }

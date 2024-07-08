@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.fluent.models;
 import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The List service SAS credentials operation response. */
+/**
+ * The List service SAS credentials operation response.
+ */
 @Immutable
 public final class ListServiceSasResponseInner {
     /*
@@ -17,8 +19,14 @@ public final class ListServiceSasResponseInner {
     private String serviceSasToken;
 
     /**
+     * Creates an instance of ListServiceSasResponseInner class.
+     */
+    public ListServiceSasResponseInner() {
+    }
+
+    /**
      * Get the serviceSasToken property: List service SAS credentials of specific resource.
-     *
+     * 
      * @return the serviceSasToken value.
      */
     public String serviceSasToken() {
@@ -27,7 +35,7 @@ public final class ListServiceSasResponseInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

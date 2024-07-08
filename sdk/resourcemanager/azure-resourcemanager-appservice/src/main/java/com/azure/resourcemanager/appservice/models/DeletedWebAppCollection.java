@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.DeletedSiteInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of deleted apps. */
+/**
+ * Collection of deleted apps.
+ */
 @Fluent
 public final class DeletedWebAppCollection {
     /*
@@ -25,7 +28,9 @@ public final class DeletedWebAppCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of DeletedWebAppCollection class. */
+    /**
+     * Creates an instance of DeletedWebAppCollection class.
+     */
     public DeletedWebAppCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class DeletedWebAppCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model DeletedWebAppCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model DeletedWebAppCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

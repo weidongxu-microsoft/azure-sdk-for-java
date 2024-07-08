@@ -4,6 +4,7 @@
 package com.azure.messaging.servicebus;
 
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.messaging.servicebus.implementation.MessagingEntityType;
 import com.azure.messaging.servicebus.models.CompleteOptions;
 import com.azure.messaging.servicebus.models.ServiceBusReceiveMode;
@@ -28,6 +29,8 @@ import java.util.function.Consumer;
  * Test where various clients are involved for example Sender, Receiver and Processor client.
  */
 public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
+    private static final ClientLogger LOGGER = new ClientLogger(ServiceBusMixClientIntegrationTest.class);
+
     private ServiceBusSenderAsyncClient sender;
     private ServiceBusReceiverAsyncClient receiver;
     private final AtomicInteger messagesPending = new AtomicInteger();
@@ -106,7 +109,7 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
             receivedMessages.incrementAndGet();
             messagesPending.incrementAndGet();
             ServiceBusReceivedMessage myMessage = context.getMessage();
-            System.out.printf("Processing message. MessageId: %s, Sequence #: %s. Contents: %s %n", myMessage.getMessageId(),
+            LOGGER.verbose("Processing message. MessageId: {}, Sequence #: {}. Contents: {}", myMessage.getMessageId(),
                 myMessage.getSequenceNumber(), myMessage.getBody());
             if (receivedMessages.get() == 1) {
 
@@ -122,12 +125,12 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         };
 
         Consumer<ServiceBusErrorContext> processError = context -> {
-            System.out.printf("Error when receiving messages from namespace: '%s'. Entity: '%s'. Error Source: '%s' %n",
+            LOGGER.verbose("Error when receiving messages from namespace: '{}'. Entity: '{}'. Error Source: '{}'",
                 context.getFullyQualifiedNamespace(), context.getEntityPath(), context.getErrorSource());
             Assertions.fail("Failed processing of message.", context.getException());
 
             if (!(context.getException() instanceof ServiceBusException)) {
-                System.out.printf("Non-ServiceBusException occurred: %s%n", context.getException());
+                LOGGER.log(LogLevel.VERBOSE, () -> "Non-ServiceBusException occurred: " + context.getException());
             }
         };
 
@@ -144,21 +147,23 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         }
 
         // Send messages
-        StepVerifier.create(senderAsyncA.sendMessages(messages)).verifyComplete();
+        StepVerifier.create(senderAsyncA.sendMessages(messages))
+            .expectComplete()
+            .verify(TIMEOUT);
         // Create an instance of the processor through the ServiceBusClientBuilder
 
         // Act
-        System.out.println("Starting the processor");
+        LOGGER.log(LogLevel.VERBOSE, () -> "Starting the processor");
         processorA.start();
         toClose((AutoCloseable) () -> processorA.stop());
 
         // Assert
-        System.out.println("Listening for 10 seconds...");
+        LOGGER.log(LogLevel.VERBOSE, () -> "Listening for 10 seconds...");
         if (countdownLatch.await(10, TimeUnit.SECONDS)) {
-            System.out.println("Completed processing successfully.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Completed processing successfully.");
             Assertions.assertTrue(transactionComplete.get());
         } else {
-            System.out.println("Closing processor.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Closing processor.");
             Assertions.fail("Failed to process message.");
         }
 
@@ -171,7 +176,9 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
                 .assertNext(receivedMessage -> {
                     assertMessageEquals(receivedMessage, messageId, isSessionEnabled);
                     messagesPending.decrementAndGet();
-                }).verifyComplete();
+                })
+                .expectComplete()
+                .verify(TIMEOUT);
         }
     }
 
@@ -212,7 +219,7 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
             receivedMessages.incrementAndGet();
             messagesPending.incrementAndGet();
             ServiceBusReceivedMessage myMessage = context.getMessage();
-            System.out.printf("Processing message. MessageId: %s, Sequence #: %s. Contents: %s %n", myMessage.getMessageId(),
+            LOGGER.verbose("Processing message. MessageId: {}, Sequence #: {}. Contents: {}", myMessage.getMessageId(),
                 myMessage.getSequenceNumber(), myMessage.getBody());
             if (receivedMessages.get() == 1) {
 
@@ -228,12 +235,12 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         };
 
         Consumer<ServiceBusErrorContext> processError = context -> {
-            System.out.printf("Error when receiving messages from namespace: '%s'. Entity: '%s'. Error Source: '%s' %n",
+            LOGGER.verbose("Error when receiving messages from namespace: '{}'. Entity: '{}'. Error Source: '{}'",
                 context.getFullyQualifiedNamespace(), context.getEntityPath(), context.getErrorSource());
             Assertions.fail("Failed processing of message.", context.getException());
 
             if (!(context.getException() instanceof ServiceBusException)) {
-                System.out.printf("Non-ServiceBusException occurred: %s%n", context.getException());
+                LOGGER.log(LogLevel.VERBOSE, () -> "Non-ServiceBusException occurred: " + context.getException());
             }
         };
 
@@ -258,21 +265,23 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         }
 
         // Send messages
-        StepVerifier.create(senderAsyncA.sendMessages(messages)).verifyComplete();
+        StepVerifier.create(senderAsyncA.sendMessages(messages))
+            .expectComplete()
+            .verify(TIMEOUT);
         // Create an instance of the processor through the ServiceBusClientBuilder
 
         // Act
-        System.out.println("Starting the processor");
+        LOGGER.log(LogLevel.VERBOSE, () -> "Starting the processor");
         processorA.start();
         toClose((AutoCloseable) () -> processorA.stop());
 
         // Assert
-        System.out.println("Listening for 10 seconds...");
+        LOGGER.log(LogLevel.VERBOSE, () -> "Listening for 10 seconds...");
         if (countdownLatch.await(10, TimeUnit.SECONDS)) {
-            System.out.println("Completed processing successfully.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Completed processing successfully.");
             Assertions.assertTrue(transactionComplete.get());
         } else {
-            System.out.println("Closing processor.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Closing processor.");
             Assertions.fail("Failed to process message.");
         }
 
@@ -285,7 +294,9 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
                 .assertNext(receivedMessage -> {
                     assertMessageEquals(receivedMessage, messageId, isSessionEnabled);
                     messagesPending.decrementAndGet();
-                }).verifyComplete();
+                })
+                .expectComplete()
+                .verify(TIMEOUT);
         }
     }
 
@@ -322,7 +333,9 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         final ServiceBusSenderClient senderSyncB = toClose(builder.sender().queueName(queueB).buildClient());
 
         // Send messages
-        StepVerifier.create(senderAsyncA.sendMessages(messages)).verifyComplete();
+        StepVerifier.create(senderAsyncA.sendMessages(messages))
+            .expectComplete()
+            .verify(TIMEOUT);
 
         final ServiceBusReceiverAsyncClient receiverA;
 
@@ -351,12 +364,12 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         toClose(subscription);
 
         // Act
-        System.out.println("Listening for 10 seconds...");
+        LOGGER.log(LogLevel.VERBOSE, () -> "Listening for 10 seconds...");
         if (countdownLatch.await(10, TimeUnit.SECONDS)) {
-            System.out.println("Completed message processing successfully.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Completed message processing successfully.");
             Assertions.assertTrue(transactionComplete.get());
         } else {
-            System.out.println("Some error.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Some error.");
             Assertions.fail("Failed to process message.");
         }
 
@@ -369,7 +382,9 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
                 .assertNext(receivedMessage -> {
                     assertMessageEquals(receivedMessage, messageId, isSessionEnabled);
                     messagesPending.decrementAndGet();
-                }).verifyComplete();
+                })
+                .expectComplete()
+                .verify(TIMEOUT);
         }
     }
 
@@ -407,7 +422,9 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
 
 
         // Send messages
-        StepVerifier.create(senderAsyncA.sendMessages(messages)).verifyComplete();
+        StepVerifier.create(senderAsyncA.sendMessages(messages))
+            .expectComplete()
+            .verify(TIMEOUT);
 
         final ServiceBusReceiverAsyncClient receiverA;
 
@@ -433,12 +450,12 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
         }).subscribe();
         toClose(subscription);
         // Act
-        System.out.println("Listening for 10 seconds...");
+        LOGGER.log(LogLevel.VERBOSE, () -> "Listening for 10 seconds...");
         if (countdownLatch.await(10, TimeUnit.SECONDS)) {
-            System.out.println("Completed message processing successfully.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Completed message processing successfully.");
             Assertions.assertTrue(transactionComplete.get());
         } else {
-            System.out.println("Some error.");
+            LOGGER.log(LogLevel.VERBOSE, () -> "Some error.");
             Assertions.fail("Failed to process message.");
         }
 
@@ -450,7 +467,9 @@ public class ServiceBusMixClientIntegrationTest extends IntegrationTestBase {
                 .assertNext(receivedMessage -> {
                     assertMessageEquals(receivedMessage, messageId, isSessionEnabled);
                     messagesPending.decrementAndGet();
-                }).verifyComplete();
+                })
+                .expectComplete()
+                .verify(TIMEOUT);
         }
     }
 

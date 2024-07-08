@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.models.ApplicationGatewayPrivateLinkIpConfiguration;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of private link configuration on an application gateway. */
+/**
+ * Properties of private link configuration on an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayPrivateLinkConfigurationProperties {
     /*
@@ -25,7 +28,9 @@ public final class ApplicationGatewayPrivateLinkConfigurationProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of ApplicationGatewayPrivateLinkConfigurationProperties class. */
+    /**
+     * Creates an instance of ApplicationGatewayPrivateLinkConfigurationProperties class.
+     */
     public ApplicationGatewayPrivateLinkConfigurationProperties() {
     }
 
@@ -44,8 +49,8 @@ public final class ApplicationGatewayPrivateLinkConfigurationProperties {
      * @param ipConfigurations the ipConfigurations value to set.
      * @return the ApplicationGatewayPrivateLinkConfigurationProperties object itself.
      */
-    public ApplicationGatewayPrivateLinkConfigurationProperties withIpConfigurations(
-        List<ApplicationGatewayPrivateLinkIpConfiguration> ipConfigurations) {
+    public ApplicationGatewayPrivateLinkConfigurationProperties
+        withIpConfigurations(List<ApplicationGatewayPrivateLinkIpConfiguration> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }

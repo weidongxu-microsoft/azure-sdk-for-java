@@ -12,22 +12,19 @@ import org.junit.jupiter.api.Assertions;
 public final class CheckNameAvailabilityInputTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        CheckNameAvailabilityInput model =
-            BinaryData
-                .fromString("{\"name\":\"nfygxgispemvtz\",\"type\":\"Microsoft.Support/supportTickets\"}")
+        CheckNameAvailabilityInput model
+            = BinaryData.fromString("{\"name\":\"psalgbqux\",\"type\":\"Microsoft.Support/communications\"}")
                 .toObject(CheckNameAvailabilityInput.class);
-        Assertions.assertEquals("nfygxgispemvtz", model.name());
-        Assertions.assertEquals(Type.MICROSOFT_SUPPORT_SUPPORT_TICKETS, model.type());
+        Assertions.assertEquals("psalgbqux", model.name());
+        Assertions.assertEquals(Type.MICROSOFT_SUPPORT_COMMUNICATIONS, model.type());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        CheckNameAvailabilityInput model =
-            new CheckNameAvailabilityInput()
-                .withName("nfygxgispemvtz")
-                .withType(Type.MICROSOFT_SUPPORT_SUPPORT_TICKETS);
+        CheckNameAvailabilityInput model
+            = new CheckNameAvailabilityInput().withName("psalgbqux").withType(Type.MICROSOFT_SUPPORT_COMMUNICATIONS);
         model = BinaryData.fromObject(model).toObject(CheckNameAvailabilityInput.class);
-        Assertions.assertEquals("nfygxgispemvtz", model.name());
-        Assertions.assertEquals(Type.MICROSOFT_SUPPORT_SUPPORT_TICKETS, model.type());
+        Assertions.assertEquals("psalgbqux", model.name());
+        Assertions.assertEquals(Type.MICROSOFT_SUPPORT_COMMUNICATIONS, model.type());
     }
 }

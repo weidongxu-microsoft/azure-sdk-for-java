@@ -13,6 +13,7 @@ import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.resourcemanager.dataprotection.DataProtectionManager;
 import com.azure.resourcemanager.dataprotection.models.AzureBackupRestoreRequest;
+import com.azure.resourcemanager.dataprotection.models.IdentityDetails;
 import com.azure.resourcemanager.dataprotection.models.OperationJobExtendedInfo;
 import com.azure.resourcemanager.dataprotection.models.RecoveryOption;
 import com.azure.resourcemanager.dataprotection.models.RestoreTargetInfoBase;
@@ -34,50 +35,33 @@ public final class BackupInstancesTriggerRestoreMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr = "{\"objectType\":\"OperationJobExtendedInfo\",\"jobId\":\"oaimlnw\"}";
+        String responseStr = "{\"objectType\":\"OperationJobExtendedInfo\",\"jobId\":\"cush\"}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        DataProtectionManager manager =
-            DataProtectionManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        DataProtectionManager manager = DataProtectionManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        OperationJobExtendedInfo response =
-            manager
-                .backupInstances()
-                .triggerRestore(
-                    "bklftidgfcwqmpim",
-                    "qxzhem",
-                    "yhohujswtwkozzwc",
-                    new AzureBackupRestoreRequest()
-                        .withRestoreTargetInfo(
-                            new RestoreTargetInfoBase()
-                                .withRecoveryOption(RecoveryOption.FAIL_IF_EXISTS)
-                                .withRestoreLocation("bawpfajnjwltlwt"))
-                        .withSourceDataStoreType(SourceDataStoreType.ARCHIVE_STORE)
-                        .withSourceResourceId("uktalhsnvkcdmxz"),
-                    com.azure.core.util.Context.NONE);
+        OperationJobExtendedInfo response
+            = manager.backupInstances().triggerRestore("bttzhraglkafhonq", "ujeickp", "vcpopmxe",
+                new AzureBackupRestoreRequest()
+                    .withRestoreTargetInfo(new RestoreTargetInfoBase()
+                        .withRecoveryOption(RecoveryOption.FAIL_IF_EXISTS).withRestoreLocation("clt"))
+                    .withSourceDataStoreType(SourceDataStoreType.OPERATIONAL_STORE)
+                    .withSourceResourceId("dexxmlfmkqscazua").withIdentityDetails(new IdentityDetails()
+                        .withUseSystemAssignedIdentity(false).withUserAssignedIdentityArmUrl("puamwabzxr")),
+                com.azure.core.util.Context.NONE);
 
-        Assertions.assertEquals("oaimlnw", response.jobId());
+        Assertions.assertEquals("cush", response.jobId());
     }
 }

@@ -5,21 +5,44 @@
 package com.azure.resourcemanager.avs.generated;
 
 import com.azure.core.util.BinaryData;
+import com.azure.resourcemanager.avs.fluent.models.WorkloadNetworkDnsServiceInner;
+import com.azure.resourcemanager.avs.models.DnsServiceLogLevelEnum;
 import com.azure.resourcemanager.avs.models.WorkloadNetworkDnsServicesList;
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
 
 public final class WorkloadNetworkDnsServicesListTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkDnsServicesList model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"displayName\":\"aokonzmnsik\",\"dnsServiceIp\":\"kqze\",\"defaultDnsZone\":\"kdltfzxmhhvhg\",\"fqdnZones\":[],\"logLevel\":\"WARNING\",\"status\":\"FAILURE\",\"provisioningState\":\"Updating\",\"revision\":1030791701335877298},\"id\":\"gxtibqdxbxw\",\"name\":\"kbogqxndlkzgx\",\"type\":\"uriplbpodxunkb\"},{\"properties\":{\"displayName\":\"mubyynt\",\"dnsServiceIp\":\"rbqtkoie\",\"defaultDnsZone\":\"eotg\",\"fqdnZones\":[],\"logLevel\":\"ERROR\",\"status\":\"FAILURE\",\"provisioningState\":\"Building\",\"revision\":3793721948753294900},\"id\":\"wzizxbmpgcjefuzm\",\"name\":\"vpbttd\",\"type\":\"morppxebmnzbtbh\"},{\"properties\":{\"displayName\":\"lkfg\",\"dnsServiceIp\":\"dneu\",\"defaultDnsZone\":\"fphsdyhtozfikdow\",\"fqdnZones\":[],\"logLevel\":\"ERROR\",\"status\":\"SUCCESS\",\"provisioningState\":\"Deleting\",\"revision\":6214959618688242083},\"id\":\"ithhqzon\",\"name\":\"sg\",\"type\":\"b\"},{\"properties\":{\"displayName\":\"hfwdsjnkaljutiis\",\"dnsServiceIp\":\"cffgdkzzewk\",\"defaultDnsZone\":\"hqcrailvpnpp\",\"fqdnZones\":[],\"logLevel\":\"DEBUG\",\"status\":\"FAILURE\",\"provisioningState\":\"Canceled\",\"revision\":8515210692095487331},\"id\":\"xyjrxsagafcnih\",\"name\":\"wqapnedgfbcvk\",\"type\":\"vq\"}],\"nextLink\":\"keqdcvdrhvoods\"}")
-                .toObject(WorkloadNetworkDnsServicesList.class);
+        WorkloadNetworkDnsServicesList model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"displayName\":\"rtuzqogs\",\"dnsServiceIp\":\"nevfdnw\",\"defaultDnsZone\":\"mewzsyyc\",\"fqdnZones\":[\"soibjudpfrx\",\"rthzvaytdwkqbrqu\",\"paxh\",\"xiilivpdtiirqt\"],\"logLevel\":\"ERROR\",\"status\":\"FAILURE\",\"provisioningState\":\"Canceled\",\"revision\":3650504881751090055},\"id\":\"squyfxrxxlep\",\"name\":\"ramxjezwlwnw\",\"type\":\"uqlcvydy\"}],\"nextLink\":\"tdooaoj\"}")
+            .toObject(WorkloadNetworkDnsServicesList.class);
+        Assertions.assertEquals("rtuzqogs", model.value().get(0).displayName());
+        Assertions.assertEquals("nevfdnw", model.value().get(0).dnsServiceIp());
+        Assertions.assertEquals("mewzsyyc", model.value().get(0).defaultDnsZone());
+        Assertions.assertEquals("soibjudpfrx", model.value().get(0).fqdnZones().get(0));
+        Assertions.assertEquals(DnsServiceLogLevelEnum.ERROR, model.value().get(0).logLevel());
+        Assertions.assertEquals(3650504881751090055L, model.value().get(0).revision());
+        Assertions.assertEquals("tdooaoj", model.nextLink());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkDnsServicesList model = new WorkloadNetworkDnsServicesList();
+        WorkloadNetworkDnsServicesList model = new WorkloadNetworkDnsServicesList()
+            .withValue(Arrays.asList(new WorkloadNetworkDnsServiceInner().withDisplayName("rtuzqogs")
+                .withDnsServiceIp("nevfdnw")
+                .withDefaultDnsZone("mewzsyyc")
+                .withFqdnZones(Arrays.asList("soibjudpfrx", "rthzvaytdwkqbrqu", "paxh", "xiilivpdtiirqt"))
+                .withLogLevel(DnsServiceLogLevelEnum.ERROR)
+                .withRevision(3650504881751090055L)))
+            .withNextLink("tdooaoj");
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkDnsServicesList.class);
+        Assertions.assertEquals("rtuzqogs", model.value().get(0).displayName());
+        Assertions.assertEquals("nevfdnw", model.value().get(0).dnsServiceIp());
+        Assertions.assertEquals("mewzsyyc", model.value().get(0).defaultDnsZone());
+        Assertions.assertEquals("soibjudpfrx", model.value().get(0).fqdnZones().get(0));
+        Assertions.assertEquals(DnsServiceLogLevelEnum.ERROR, model.value().get(0).logLevel());
+        Assertions.assertEquals(3650504881751090055L, model.value().get(0).revision());
+        Assertions.assertEquals("tdooaoj", model.nextLink());
     }
 }

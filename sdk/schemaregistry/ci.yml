@@ -12,6 +12,7 @@ trigger:
       - sdk/schemaregistry/pom.xml
       - sdk/schemaregistry/azure-data-schemaregistry/pom.xml
       - sdk/schemaregistry/azure-data-schemaregistry-apacheavro/pom.xml
+      - sdk/schemaregistry/azure-data-schemaregistry-jsonschema/pom.xml
 
 pr:
   branches:
@@ -27,6 +28,7 @@ pr:
       - sdk/schemaregistry/pom.xml
       - sdk/schemaregistry/azure-data-schemaregistry/pom.xml
       - sdk/schemaregistry/azure-data-schemaregistry-apacheavro/pom.xml
+      - sdk/schemaregistry/azure-data-schemaregistry-jsonschema/pom.xml
 
 parameters:
 - name: release_azuredataschemaregistry
@@ -37,12 +39,15 @@ parameters:
   displayName: 'azure-data-schemaregistry-apacheavro'
   type: boolean
   default: true
+- name: release_azuredataschemaregistryjsonschema
+  displayName: 'azure-data-schemaregistry-jsonschema'
+  type: boolean
+  default: true
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: schemaregistry
-    EnableBatchRelease: true
     Artifacts:
       - name: azure-data-schemaregistry
         groupId: com.azure
@@ -52,3 +57,7 @@ extends:
         groupId: com.azure
         safeName: azuredataschemaregistryapacheavro
         releaseInBatch: ${{ parameters.release_azuredataschemaregistryapacheavro }}
+      - name: azure-data-schemaregistry-jsonschema
+        groupId: com.azure
+        safeName: azuredataschemaregistryjsonschema
+        releaseInBatch: ${{ parameters.release_azuredataschemaregistryjsonschema }}

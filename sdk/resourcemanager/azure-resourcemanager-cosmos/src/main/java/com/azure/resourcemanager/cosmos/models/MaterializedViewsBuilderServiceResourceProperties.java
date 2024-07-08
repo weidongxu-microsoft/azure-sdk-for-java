@@ -6,23 +6,50 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.List;
 
-/** Properties for MaterializedViewsBuilderServiceResource. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "serviceType")
+/**
+ * Properties for MaterializedViewsBuilderServiceResource.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "serviceType",
+    defaultImpl = MaterializedViewsBuilderServiceResourceProperties.class,
+    visible = true)
 @JsonTypeName("MaterializedViewsBuilder")
 @Fluent
 public final class MaterializedViewsBuilderServiceResourceProperties extends ServiceResourceProperties {
+    /*
+     * ServiceType for the service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "serviceType", required = true)
+    private ServiceType serviceType = ServiceType.MATERIALIZED_VIEWS_BUILDER;
+
     /*
      * An array that contains all of the locations for the service.
      */
     @JsonProperty(value = "locations", access = JsonProperty.Access.WRITE_ONLY)
     private List<MaterializedViewsBuilderRegionalServiceResource> locations;
 
-    /** Creates an instance of MaterializedViewsBuilderServiceResourceProperties class. */
+    /**
+     * Creates an instance of MaterializedViewsBuilderServiceResourceProperties class.
+     */
     public MaterializedViewsBuilderServiceResourceProperties() {
+    }
+
+    /**
+     * Get the serviceType property: ServiceType for the service.
+     *
+     * @return the serviceType value.
+     */
+    @Override
+    public ServiceType serviceType() {
+        return this.serviceType;
     }
 
     /**
@@ -34,14 +61,18 @@ public final class MaterializedViewsBuilderServiceResourceProperties extends Ser
         return this.locations;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MaterializedViewsBuilderServiceResourceProperties withInstanceSize(ServiceSize instanceSize) {
         super.withInstanceSize(instanceSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MaterializedViewsBuilderServiceResourceProperties withInstanceCount(Integer instanceCount) {
         super.withInstanceCount(instanceCount);

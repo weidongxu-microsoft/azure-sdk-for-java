@@ -5,48 +5,86 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Azure workload specific protection intent item. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectionIntentItemType")
+/**
+ * Azure workload specific protection intent item.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectionIntentItemType",
+    defaultImpl = AzureWorkloadContainerAutoProtectionIntent.class,
+    visible = true)
 @JsonTypeName("AzureWorkloadContainerAutoProtectionIntent")
 @Fluent
 public final class AzureWorkloadContainerAutoProtectionIntent extends ProtectionIntent {
-    /** Creates an instance of AzureWorkloadContainerAutoProtectionIntent class. */
+    /*
+     * backup protectionIntent type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectionIntentItemType", required = true)
+    private ProtectionIntentItemType protectionIntentItemType
+        = ProtectionIntentItemType.AZURE_WORKLOAD_CONTAINER_AUTO_PROTECTION_INTENT;
+
+    /**
+     * Creates an instance of AzureWorkloadContainerAutoProtectionIntent class.
+     */
     public AzureWorkloadContainerAutoProtectionIntent() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the protectionIntentItemType property: backup protectionIntent type.
+     * 
+     * @return the protectionIntentItemType value.
+     */
     @Override
-    public AzureWorkloadContainerAutoProtectionIntent withBackupManagementType(
-        BackupManagementType backupManagementType) {
+    public ProtectionIntentItemType protectionIntentItemType() {
+        return this.protectionIntentItemType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureWorkloadContainerAutoProtectionIntent
+        withBackupManagementType(BackupManagementType backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainerAutoProtectionIntent withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainerAutoProtectionIntent withItemId(String itemId) {
         super.withItemId(itemId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainerAutoProtectionIntent withPolicyId(String policyId) {
         super.withPolicyId(policyId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainerAutoProtectionIntent withProtectionState(ProtectionStatus protectionState) {
         super.withProtectionState(protectionState);
@@ -55,7 +93,7 @@ public final class AzureWorkloadContainerAutoProtectionIntent extends Protection
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

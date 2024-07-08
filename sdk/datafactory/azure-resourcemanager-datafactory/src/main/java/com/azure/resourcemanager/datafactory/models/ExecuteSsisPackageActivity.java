@@ -8,72 +8,128 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ExecuteSsisPackageActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Execute SSIS package activity. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Execute SSIS package activity.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = ExecuteSsisPackageActivity.class,
+    visible = true)
 @JsonTypeName("ExecuteSSISPackage")
 @Fluent
 public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ExecuteSSISPackage";
+
+    /*
      * Execute SSIS package activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private ExecuteSsisPackageActivityTypeProperties innerTypeProperties =
-        new ExecuteSsisPackageActivityTypeProperties();
+    private ExecuteSsisPackageActivityTypeProperties innerTypeProperties
+        = new ExecuteSsisPackageActivityTypeProperties();
 
-    /** Creates an instance of ExecuteSsisPackageActivity class. */
+    /**
+     * Creates an instance of ExecuteSsisPackageActivity class.
+     */
     public ExecuteSsisPackageActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Execute SSIS package activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ExecuteSsisPackageActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExecuteSsisPackageActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExecuteSsisPackageActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExecuteSsisPackageActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExecuteSsisPackageActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ExecuteSsisPackageActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ExecuteSsisPackageActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExecuteSsisPackageActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExecuteSsisPackageActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -82,7 +138,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the packageLocation property: SSIS package location.
-     *
+     * 
      * @return the packageLocation value.
      */
     public SsisPackageLocation packageLocation() {
@@ -91,7 +147,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the packageLocation property: SSIS package location.
-     *
+     * 
      * @param packageLocation the packageLocation value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -106,7 +162,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /**
      * Get the runtime property: Specifies the runtime to execute SSIS package. The value should be "x86" or "x64".
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the runtime value.
      */
     public Object runtime() {
@@ -116,7 +172,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /**
      * Set the runtime property: Specifies the runtime to execute SSIS package. The value should be "x86" or "x64".
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @param runtime the runtime value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -131,7 +187,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /**
      * Get the loggingLevel property: The logging level of SSIS package execution. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the loggingLevel value.
      */
     public Object loggingLevel() {
@@ -141,7 +197,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /**
      * Set the loggingLevel property: The logging level of SSIS package execution. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param loggingLevel the loggingLevel value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -156,7 +212,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /**
      * Get the environmentPath property: The environment path to execute the SSIS package. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the environmentPath value.
      */
     public Object environmentPath() {
@@ -166,7 +222,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
     /**
      * Set the environmentPath property: The environment path to execute the SSIS package. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param environmentPath the environmentPath value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -180,7 +236,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the executionCredential property: The package execution credential.
-     *
+     * 
      * @return the executionCredential value.
      */
     public SsisExecutionCredential executionCredential() {
@@ -189,7 +245,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the executionCredential property: The package execution credential.
-     *
+     * 
      * @param executionCredential the executionCredential value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -203,7 +259,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the connectVia property: The integration runtime reference.
-     *
+     * 
      * @return the connectVia value.
      */
     public IntegrationRuntimeReference connectVia() {
@@ -212,7 +268,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the connectVia property: The integration runtime reference.
-     *
+     * 
      * @param connectVia the connectVia value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -226,7 +282,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the projectParameters property: The project level parameters to execute the SSIS package.
-     *
+     * 
      * @return the projectParameters value.
      */
     public Map<String, SsisExecutionParameter> projectParameters() {
@@ -235,7 +291,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the projectParameters property: The project level parameters to execute the SSIS package.
-     *
+     * 
      * @param projectParameters the projectParameters value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -249,7 +305,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the packageParameters property: The package level parameters to execute the SSIS package.
-     *
+     * 
      * @return the packageParameters value.
      */
     public Map<String, SsisExecutionParameter> packageParameters() {
@@ -258,7 +314,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the packageParameters property: The package level parameters to execute the SSIS package.
-     *
+     * 
      * @param packageParameters the packageParameters value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -272,7 +328,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the projectConnectionManagers property: The project level connection managers to execute the SSIS package.
-     *
+     * 
      * @return the projectConnectionManagers value.
      */
     public Map<String, Map<String, SsisExecutionParameter>> projectConnectionManagers() {
@@ -281,12 +337,12 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the projectConnectionManagers property: The project level connection managers to execute the SSIS package.
-     *
+     * 
      * @param projectConnectionManagers the projectConnectionManagers value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
-    public ExecuteSsisPackageActivity withProjectConnectionManagers(
-        Map<String, Map<String, SsisExecutionParameter>> projectConnectionManagers) {
+    public ExecuteSsisPackageActivity
+        withProjectConnectionManagers(Map<String, Map<String, SsisExecutionParameter>> projectConnectionManagers) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new ExecuteSsisPackageActivityTypeProperties();
         }
@@ -296,7 +352,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the packageConnectionManagers property: The package level connection managers to execute the SSIS package.
-     *
+     * 
      * @return the packageConnectionManagers value.
      */
     public Map<String, Map<String, SsisExecutionParameter>> packageConnectionManagers() {
@@ -305,12 +361,12 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the packageConnectionManagers property: The package level connection managers to execute the SSIS package.
-     *
+     * 
      * @param packageConnectionManagers the packageConnectionManagers value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
-    public ExecuteSsisPackageActivity withPackageConnectionManagers(
-        Map<String, Map<String, SsisExecutionParameter>> packageConnectionManagers) {
+    public ExecuteSsisPackageActivity
+        withPackageConnectionManagers(Map<String, Map<String, SsisExecutionParameter>> packageConnectionManagers) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new ExecuteSsisPackageActivityTypeProperties();
         }
@@ -320,7 +376,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the propertyOverrides property: The property overrides to execute the SSIS package.
-     *
+     * 
      * @return the propertyOverrides value.
      */
     public Map<String, SsisPropertyOverride> propertyOverrides() {
@@ -329,7 +385,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the propertyOverrides property: The property overrides to execute the SSIS package.
-     *
+     * 
      * @param propertyOverrides the propertyOverrides value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -343,7 +399,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Get the logLocation property: SSIS package execution log location.
-     *
+     * 
      * @return the logLocation value.
      */
     public SsisLogLocation logLocation() {
@@ -352,7 +408,7 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Set the logLocation property: SSIS package execution log location.
-     *
+     * 
      * @param logLocation the logLocation value to set.
      * @return the ExecuteSsisPackageActivity object itself.
      */
@@ -366,17 +422,16 @@ public final class ExecuteSsisPackageActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ExecuteSsisPackageActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ExecuteSsisPackageActivity"));
         } else {
             innerTypeProperties().validate();
         }

@@ -5,30 +5,53 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Immutable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Base class for retention policy. */
+/**
+ * Base class for retention policy.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "retentionPolicyType",
-    defaultImpl = RetentionPolicy.class)
+    defaultImpl = RetentionPolicy.class,
+    visible = true)
 @JsonTypeName("RetentionPolicy")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "LongTermRetentionPolicy", value = LongTermRetentionPolicy.class),
-    @JsonSubTypes.Type(name = "SimpleRetentionPolicy", value = SimpleRetentionPolicy.class)
-})
+    @JsonSubTypes.Type(name = "SimpleRetentionPolicy", value = SimpleRetentionPolicy.class) })
 @Immutable
 public class RetentionPolicy {
-    /** Creates an instance of RetentionPolicy class. */
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "retentionPolicyType", required = true)
+    private String retentionPolicyType;
+
+    /**
+     * Creates an instance of RetentionPolicy class.
+     */
     public RetentionPolicy() {
+        this.retentionPolicyType = "RetentionPolicy";
+    }
+
+    /**
+     * Get the retentionPolicyType property: This property will be used as the discriminator for deciding the specific
+     * types in the polymorphic chain of types.
+     * 
+     * @return the retentionPolicyType value.
+     */
+    public String retentionPolicyType() {
+        return this.retentionPolicyType;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

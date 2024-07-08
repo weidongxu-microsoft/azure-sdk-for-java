@@ -9,7 +9,9 @@ import com.azure.resourcemanager.containerservicefleet.models.FleetHubProfile;
 import com.azure.resourcemanager.containerservicefleet.models.FleetProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Fleet properties. */
+/**
+ * Fleet properties.
+ */
 @Fluent
 public final class FleetProperties {
     /*
@@ -24,13 +26,15 @@ public final class FleetProperties {
     @JsonProperty(value = "hubProfile")
     private FleetHubProfile hubProfile;
 
-    /** Creates an instance of FleetProperties class. */
+    /**
+     * Creates an instance of FleetProperties class.
+     */
     public FleetProperties() {
     }
 
     /**
      * Get the provisioningState property: The status of the last operation.
-     *
+     * 
      * @return the provisioningState value.
      */
     public FleetProvisioningState provisioningState() {
@@ -39,7 +43,7 @@ public final class FleetProperties {
 
     /**
      * Get the hubProfile property: The FleetHubProfile configures the Fleet's hub.
-     *
+     * 
      * @return the hubProfile value.
      */
     public FleetHubProfile hubProfile() {
@@ -48,7 +52,7 @@ public final class FleetProperties {
 
     /**
      * Set the hubProfile property: The FleetHubProfile configures the Fleet's hub.
-     *
+     * 
      * @param hubProfile the hubProfile value to set.
      * @return the FleetProperties object itself.
      */
@@ -59,7 +63,7 @@ public final class FleetProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

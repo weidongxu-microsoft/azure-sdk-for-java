@@ -5,61 +5,102 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** IaaS VM workload-specific backup item representing the Azure Resource Manager VM. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectableItemType")
+/**
+ * IaaS VM workload-specific backup item representing the Azure Resource Manager VM.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectableItemType",
+    defaultImpl = AzureIaaSComputeVMProtectableItem.class,
+    visible = true)
 @JsonTypeName("Microsoft.Compute/virtualMachines")
 @Fluent
 public final class AzureIaaSComputeVMProtectableItem extends IaaSvmProtectableItem {
-    /** Creates an instance of AzureIaaSComputeVMProtectableItem class. */
+    /*
+     * Type of the backup item.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectableItemType", required = true)
+    private String protectableItemType = "Microsoft.Compute/virtualMachines";
+
+    /**
+     * Creates an instance of AzureIaaSComputeVMProtectableItem class.
+     */
     public AzureIaaSComputeVMProtectableItem() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the protectableItemType property: Type of the backup item.
+     * 
+     * @return the protectableItemType value.
+     */
+    @Override
+    public String protectableItemType() {
+        return this.protectableItemType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withVirtualMachineId(String virtualMachineId) {
         super.withVirtualMachineId(virtualMachineId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withVirtualMachineVersion(String virtualMachineVersion) {
         super.withVirtualMachineVersion(virtualMachineVersion);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withResourceGroup(String resourceGroup) {
         super.withResourceGroup(resourceGroup);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withBackupManagementType(String backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withWorkloadType(String workloadType) {
         super.withWorkloadType(workloadType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withFriendlyName(String friendlyName) {
         super.withFriendlyName(friendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureIaaSComputeVMProtectableItem withProtectionState(ProtectionStatus protectionState) {
         super.withProtectionState(protectionState);
@@ -68,7 +109,7 @@ public final class AzureIaaSComputeVMProtectableItem extends IaaSvmProtectableIt
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

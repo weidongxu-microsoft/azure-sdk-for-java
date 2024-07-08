@@ -9,10 +9,14 @@ import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.models.GatewayLoadBalancerTunnelInterface;
 import com.azure.resourcemanager.network.models.LoadBalancerBackendAddress;
 import com.azure.resourcemanager.network.models.ProvisioningState;
+import com.azure.resourcemanager.network.models.SyncMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Pool of backend IP addresses. */
+/**
+ * Pool of backend IP addresses.
+ */
 @Fluent
 public final class BackendAddressPoolInner extends SubResource {
     /*
@@ -22,8 +26,7 @@ public final class BackendAddressPoolInner extends SubResource {
     private BackendAddressPoolPropertiesFormat innerProperties;
 
     /*
-     * The name of the resource that is unique within the set of backend address pools used by the load balancer. This
-     * name can be used to access the resource.
+     * The name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -40,7 +43,9 @@ public final class BackendAddressPoolInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of BackendAddressPoolInner class. */
+    /**
+     * Creates an instance of BackendAddressPoolInner class.
+     */
     public BackendAddressPoolInner() {
     }
 
@@ -93,7 +98,9 @@ public final class BackendAddressPoolInner extends SubResource {
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BackendAddressPoolInner withId(String id) {
         super.withId(id);
@@ -161,8 +168,8 @@ public final class BackendAddressPoolInner extends SubResource {
      * @param loadBalancerBackendAddresses the loadBalancerBackendAddresses value to set.
      * @return the BackendAddressPoolInner object itself.
      */
-    public BackendAddressPoolInner withLoadBalancerBackendAddresses(
-        List<LoadBalancerBackendAddress> loadBalancerBackendAddresses) {
+    public BackendAddressPoolInner
+        withLoadBalancerBackendAddresses(List<LoadBalancerBackendAddress> loadBalancerBackendAddresses) {
         if (this.innerProperties() == null) {
             this.innerProperties = new BackendAddressPoolPropertiesFormat();
         }
@@ -270,6 +277,29 @@ public final class BackendAddressPoolInner extends SubResource {
             this.innerProperties = new BackendAddressPoolPropertiesFormat();
         }
         this.innerProperties().withVirtualNetwork(virtualNetwork);
+        return this;
+    }
+
+    /**
+     * Get the syncMode property: Backend address synchronous mode for the backend pool.
+     *
+     * @return the syncMode value.
+     */
+    public SyncMode syncMode() {
+        return this.innerProperties() == null ? null : this.innerProperties().syncMode();
+    }
+
+    /**
+     * Set the syncMode property: Backend address synchronous mode for the backend pool.
+     *
+     * @param syncMode the syncMode value to set.
+     * @return the BackendAddressPoolInner object itself.
+     */
+    public BackendAddressPoolInner withSyncMode(SyncMode syncMode) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new BackendAddressPoolPropertiesFormat();
+        }
+        this.innerProperties().withSyncMode(syncMode);
         return this;
     }
 

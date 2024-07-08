@@ -12,23 +12,19 @@ import org.junit.jupiter.api.Assertions;
 public final class WorkloadNetworkDhcpInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkDhcpInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"dhcpType\":\"WorkloadNetworkDhcpEntity\",\"displayName\":\"bwwaloa\",\"segments\":[\"gwrtzju\",\"gwyzm\",\"txon\"],\"provisioningState\":\"Succeeded\",\"revision\":8812233749068130125},\"id\":\"jcbpwxqpsrknft\",\"name\":\"uvriuhprwm\",\"type\":\"yvxqtayriwwroy\"}")
-                .toObject(WorkloadNetworkDhcpInner.class);
-        Assertions.assertEquals("bwwaloa", model.properties().displayName());
-        Assertions.assertEquals(8812233749068130125L, model.properties().revision());
+        WorkloadNetworkDhcpInner model = BinaryData.fromString(
+            "{\"properties\":{\"dhcpType\":\"WorkloadNetworkDhcpEntity\",\"displayName\":\"t\",\"segments\":[\"lr\",\"cyjmoadsuvarmy\",\"dmjsjqb\"],\"provisioningState\":\"Building\",\"revision\":1070182178135164646},\"id\":\"wlycoduhpkxkg\",\"name\":\"mareqnajxqugj\",\"type\":\"ky\"}")
+            .toObject(WorkloadNetworkDhcpInner.class);
+        Assertions.assertEquals("t", model.properties().displayName());
+        Assertions.assertEquals(1070182178135164646L, model.properties().revision());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkDhcpInner model =
-            new WorkloadNetworkDhcpInner()
-                .withProperties(
-                    new WorkloadNetworkDhcpEntity().withDisplayName("bwwaloa").withRevision(8812233749068130125L));
+        WorkloadNetworkDhcpInner model = new WorkloadNetworkDhcpInner()
+            .withProperties(new WorkloadNetworkDhcpEntity().withDisplayName("t").withRevision(1070182178135164646L));
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkDhcpInner.class);
-        Assertions.assertEquals("bwwaloa", model.properties().displayName());
-        Assertions.assertEquals(8812233749068130125L, model.properties().revision());
+        Assertions.assertEquals("t", model.properties().displayName());
+        Assertions.assertEquals(1070182178135164646L, model.properties().revision());
     }
 }

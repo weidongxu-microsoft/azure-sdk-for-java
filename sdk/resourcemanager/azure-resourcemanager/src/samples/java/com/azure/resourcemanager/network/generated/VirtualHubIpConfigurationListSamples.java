@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualHubIpConfiguration List. */
+/**
+ * Samples for VirtualHubIpConfiguration List.
+ */
 public final class VirtualHubIpConfigurationListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualHubIpConfigurationList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualHubIpConfigurationList.json
      */
     /**
      * Sample code: VirtualHubRouteTableV2List.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void virtualHubRouteTableV2List(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualHubIpConfigurations()

@@ -10,7 +10,9 @@ import com.azure.resourcemanager.cosmos.models.CreateUpdateOptions;
 import com.azure.resourcemanager.cosmos.models.GremlinDatabaseResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties to create and update Azure Cosmos DB Gremlin database. */
+/**
+ * Properties to create and update Azure Cosmos DB Gremlin database.
+ */
 @Fluent
 public final class GremlinDatabaseCreateUpdateProperties {
     /*
@@ -20,19 +22,20 @@ public final class GremlinDatabaseCreateUpdateProperties {
     private GremlinDatabaseResource resource;
 
     /*
-     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-     * request.
+     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
      */
     @JsonProperty(value = "options")
     private CreateUpdateOptions options;
 
-    /** Creates an instance of GremlinDatabaseCreateUpdateProperties class. */
+    /**
+     * Creates an instance of GremlinDatabaseCreateUpdateProperties class.
+     */
     public GremlinDatabaseCreateUpdateProperties() {
     }
 
     /**
      * Get the resource property: The standard JSON format of a Gremlin database.
-     *
+     * 
      * @return the resource value.
      */
     public GremlinDatabaseResource resource() {
@@ -41,7 +44,7 @@ public final class GremlinDatabaseCreateUpdateProperties {
 
     /**
      * Set the resource property: The standard JSON format of a Gremlin database.
-     *
+     * 
      * @param resource the resource value to set.
      * @return the GremlinDatabaseCreateUpdateProperties object itself.
      */
@@ -53,7 +56,7 @@ public final class GremlinDatabaseCreateUpdateProperties {
     /**
      * Get the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @return the options value.
      */
     public CreateUpdateOptions options() {
@@ -63,7 +66,7 @@ public final class GremlinDatabaseCreateUpdateProperties {
     /**
      * Set the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @param options the options value to set.
      * @return the GremlinDatabaseCreateUpdateProperties object itself.
      */
@@ -74,15 +77,14 @@ public final class GremlinDatabaseCreateUpdateProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (resource() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property resource in model GremlinDatabaseCreateUpdateProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property resource in model GremlinDatabaseCreateUpdateProperties"));
         } else {
             resource().validate();
         }

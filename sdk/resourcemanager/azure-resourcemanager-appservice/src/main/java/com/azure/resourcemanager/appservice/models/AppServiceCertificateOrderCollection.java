@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.AppServiceCertificateOrderInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of certificate orders. */
+/**
+ * Collection of certificate orders.
+ */
 @Fluent
 public final class AppServiceCertificateOrderCollection {
     /*
@@ -25,7 +28,9 @@ public final class AppServiceCertificateOrderCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of AppServiceCertificateOrderCollection class. */
+    /**
+     * Creates an instance of AppServiceCertificateOrderCollection class.
+     */
     public AppServiceCertificateOrderCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class AppServiceCertificateOrderCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model AppServiceCertificateOrderCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model AppServiceCertificateOrderCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

@@ -8,14 +8,15 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.netapp.models.QosType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Patchable pool properties. */
+/**
+ * Patchable pool properties.
+ */
 @Fluent
 public final class PoolPatchProperties {
     /*
      * size
-     *
-     * Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of
-     * 4398046511104).
+     * 
+     * Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 1099511627776).
      */
     @JsonProperty(value = "size")
     private Long size;
@@ -32,16 +33,18 @@ public final class PoolPatchProperties {
     @JsonProperty(value = "coolAccess")
     private Boolean coolAccess;
 
-    /** Creates an instance of PoolPatchProperties class. */
+    /**
+     * Creates an instance of PoolPatchProperties class.
+     */
     public PoolPatchProperties() {
     }
 
     /**
      * Get the size property: size
-     *
-     * <p>Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of
-     * 4398046511104).
-     *
+     * 
+     * Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of
+     * 1099511627776).
+     * 
      * @return the size value.
      */
     public Long size() {
@@ -50,10 +53,10 @@ public final class PoolPatchProperties {
 
     /**
      * Set the size property: size
-     *
-     * <p>Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of
-     * 4398046511104).
-     *
+     * 
+     * Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of
+     * 1099511627776).
+     * 
      * @param size the size value to set.
      * @return the PoolPatchProperties object itself.
      */
@@ -64,7 +67,7 @@ public final class PoolPatchProperties {
 
     /**
      * Get the qosType property: The qos type of the pool.
-     *
+     * 
      * @return the qosType value.
      */
     public QosType qosType() {
@@ -73,7 +76,7 @@ public final class PoolPatchProperties {
 
     /**
      * Set the qosType property: The qos type of the pool.
-     *
+     * 
      * @param qosType the qosType value to set.
      * @return the PoolPatchProperties object itself.
      */
@@ -84,7 +87,7 @@ public final class PoolPatchProperties {
 
     /**
      * Get the coolAccess property: If enabled (true) the pool can contain cool Access enabled volumes.
-     *
+     * 
      * @return the coolAccess value.
      */
     public Boolean coolAccess() {
@@ -93,7 +96,7 @@ public final class PoolPatchProperties {
 
     /**
      * Set the coolAccess property: If enabled (true) the pool can contain cool Access enabled volumes.
-     *
+     * 
      * @param coolAccess the coolAccess value to set.
      * @return the PoolPatchProperties object itself.
      */
@@ -104,7 +107,7 @@ public final class PoolPatchProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

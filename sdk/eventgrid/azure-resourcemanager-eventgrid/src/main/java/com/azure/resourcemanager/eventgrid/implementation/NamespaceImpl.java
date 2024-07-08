@@ -10,6 +10,7 @@ import com.azure.core.management.SystemData;
 import com.azure.core.util.Context;
 import com.azure.resourcemanager.eventgrid.fluent.models.NamespaceInner;
 import com.azure.resourcemanager.eventgrid.fluent.models.PrivateEndpointConnectionInner;
+import com.azure.resourcemanager.eventgrid.models.CustomDomainOwnershipValidationResult;
 import com.azure.resourcemanager.eventgrid.models.IdentityInfo;
 import com.azure.resourcemanager.eventgrid.models.InboundIpRule;
 import com.azure.resourcemanager.eventgrid.models.Namespace;
@@ -21,8 +22,9 @@ import com.azure.resourcemanager.eventgrid.models.NamespaceUpdateParameters;
 import com.azure.resourcemanager.eventgrid.models.PrivateEndpointConnection;
 import com.azure.resourcemanager.eventgrid.models.PublicNetworkAccess;
 import com.azure.resourcemanager.eventgrid.models.TlsVersion;
-import com.azure.resourcemanager.eventgrid.models.TopicSpacesConfiguration;
 import com.azure.resourcemanager.eventgrid.models.TopicsConfiguration;
+import com.azure.resourcemanager.eventgrid.models.TopicSpacesConfiguration;
+import com.azure.resourcemanager.eventgrid.models.UpdateTopicsConfigurationInfo;
 import com.azure.resourcemanager.eventgrid.models.UpdateTopicSpacesConfigurationInfo;
 import java.util.Collections;
 import java.util.List;
@@ -74,12 +76,9 @@ public final class NamespaceImpl implements Namespace, Namespace.Definition, Nam
     public List<PrivateEndpointConnection> privateEndpointConnections() {
         List<PrivateEndpointConnectionInner> inner = this.innerModel().privateEndpointConnections();
         if (inner != null) {
-            return Collections
-                .unmodifiableList(
-                    inner
-                        .stream()
-                        .map(inner1 -> new PrivateEndpointConnectionImpl(inner1, this.manager()))
-                        .collect(Collectors.toList()));
+            return Collections.unmodifiableList(inner.stream()
+                .map(inner1 -> new PrivateEndpointConnectionImpl(inner1, this.manager()))
+                .collect(Collectors.toList()));
         } else {
             return Collections.emptyList();
         }
@@ -150,20 +149,16 @@ public final class NamespaceImpl implements Namespace, Namespace.Definition, Nam
     }
 
     public Namespace create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaces()
-                .createOrUpdate(resourceGroupName, namespaceName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaces()
+            .createOrUpdate(resourceGroupName, namespaceName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public Namespace create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaces()
-                .createOrUpdate(resourceGroupName, namespaceName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaces()
+            .createOrUpdate(resourceGroupName, namespaceName, this.innerModel(), context);
         return this;
     }
 
@@ -179,47 +174,39 @@ public final class NamespaceImpl implements Namespace, Namespace.Definition, Nam
     }
 
     public Namespace apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaces()
-                .update(resourceGroupName, namespaceName, updateNamespaceUpdateParameters, Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaces()
+            .update(resourceGroupName, namespaceName, updateNamespaceUpdateParameters, Context.NONE);
         return this;
     }
 
     public Namespace apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaces()
-                .update(resourceGroupName, namespaceName, updateNamespaceUpdateParameters, context);
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaces()
+            .update(resourceGroupName, namespaceName, updateNamespaceUpdateParameters, context);
         return this;
     }
 
     NamespaceImpl(NamespaceInner innerObject, com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.namespaceName = Utils.getValueFromIdByName(innerObject.id(), "namespaces");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.namespaceName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "namespaces");
     }
 
     public Namespace refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaces()
-                .getByResourceGroupWithResponse(resourceGroupName, namespaceName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaces()
+            .getByResourceGroupWithResponse(resourceGroupName, namespaceName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public Namespace refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getNamespaces()
-                .getByResourceGroupWithResponse(resourceGroupName, namespaceName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getNamespaces()
+            .getByResourceGroupWithResponse(resourceGroupName, namespaceName, context)
+            .getValue();
         return this;
     }
 
@@ -235,11 +222,18 @@ public final class NamespaceImpl implements Namespace, Namespace.Definition, Nam
         return serviceManager.namespaces().regenerateKey(resourceGroupName, namespaceName, regenerateKeyRequest);
     }
 
-    public NamespaceSharedAccessKeys regenerateKey(
-        NamespaceRegenerateKeyRequest regenerateKeyRequest, Context context) {
-        return serviceManager
-            .namespaces()
+    public NamespaceSharedAccessKeys regenerateKey(NamespaceRegenerateKeyRequest regenerateKeyRequest,
+        Context context) {
+        return serviceManager.namespaces()
             .regenerateKey(resourceGroupName, namespaceName, regenerateKeyRequest, context);
+    }
+
+    public CustomDomainOwnershipValidationResult validateCustomDomainOwnership() {
+        return serviceManager.namespaces().validateCustomDomainOwnership(resourceGroupName, namespaceName);
+    }
+
+    public CustomDomainOwnershipValidationResult validateCustomDomainOwnership(Context context) {
+        return serviceManager.namespaces().validateCustomDomainOwnership(resourceGroupName, namespaceName, context);
     }
 
     public NamespaceImpl withRegion(Region location) {
@@ -282,8 +276,8 @@ public final class NamespaceImpl implements Namespace, Namespace.Definition, Nam
         }
     }
 
-    public NamespaceImpl withPrivateEndpointConnections(
-        List<PrivateEndpointConnectionInner> privateEndpointConnections) {
+    public NamespaceImpl
+        withPrivateEndpointConnections(List<PrivateEndpointConnectionInner> privateEndpointConnections) {
         this.innerModel().withPrivateEndpointConnections(privateEndpointConnections);
         return this;
     }
@@ -330,6 +324,11 @@ public final class NamespaceImpl implements Namespace, Namespace.Definition, Nam
 
     public NamespaceImpl withTopicSpacesConfiguration(UpdateTopicSpacesConfigurationInfo topicSpacesConfiguration) {
         this.updateNamespaceUpdateParameters.withTopicSpacesConfiguration(topicSpacesConfiguration);
+        return this;
+    }
+
+    public NamespaceImpl withTopicsConfiguration(UpdateTopicsConfigurationInfo topicsConfiguration) {
+        this.updateNamespaceUpdateParameters.withTopicsConfiguration(topicsConfiguration);
         return this;
     }
 

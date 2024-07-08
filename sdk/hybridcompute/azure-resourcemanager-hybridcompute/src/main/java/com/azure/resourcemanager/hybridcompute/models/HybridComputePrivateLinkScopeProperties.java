@@ -6,21 +6,21 @@ package com.azure.resourcemanager.hybridcompute.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-/** Properties that define a Azure Arc PrivateLinkScope resource. */
+/**
+ * Properties that define a Azure Arc PrivateLinkScope resource.
+ */
 @Fluent
 public final class HybridComputePrivateLinkScopeProperties {
     /*
-     * Indicates whether machines associated with the private link scope can also use public Azure Arc service
-     * endpoints.
+     * Indicates whether machines associated with the private link scope can also use public Azure Arc service endpoints.
      */
     @JsonProperty(value = "publicNetworkAccess")
     private PublicNetworkAccessType publicNetworkAccess;
 
     /*
-     * Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is
-     * defined. Users cannot change this value but are able to read from it. Values will include Provisioning
-     * ,Succeeded, Canceled and Failed.
+     * Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Provisioning ,Succeeded, Canceled and Failed.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
@@ -31,14 +31,22 @@ public final class HybridComputePrivateLinkScopeProperties {
     @JsonProperty(value = "privateLinkScopeId", access = JsonProperty.Access.WRITE_ONLY)
     private String privateLinkScopeId;
 
-    /** Creates an instance of HybridComputePrivateLinkScopeProperties class. */
+    /*
+     * The collection of associated Private Endpoint Connections.
+     */
+    @JsonProperty(value = "privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
+    private List<PrivateEndpointConnectionDataModel> privateEndpointConnections;
+
+    /**
+     * Creates an instance of HybridComputePrivateLinkScopeProperties class.
+     */
     public HybridComputePrivateLinkScopeProperties() {
     }
 
     /**
      * Get the publicNetworkAccess property: Indicates whether machines associated with the private link scope can also
      * use public Azure Arc service endpoints.
-     *
+     * 
      * @return the publicNetworkAccess value.
      */
     public PublicNetworkAccessType publicNetworkAccess() {
@@ -48,12 +56,12 @@ public final class HybridComputePrivateLinkScopeProperties {
     /**
      * Set the publicNetworkAccess property: Indicates whether machines associated with the private link scope can also
      * use public Azure Arc service endpoints.
-     *
+     * 
      * @param publicNetworkAccess the publicNetworkAccess value to set.
      * @return the HybridComputePrivateLinkScopeProperties object itself.
      */
-    public HybridComputePrivateLinkScopeProperties withPublicNetworkAccess(
-        PublicNetworkAccessType publicNetworkAccess) {
+    public HybridComputePrivateLinkScopeProperties
+        withPublicNetworkAccess(PublicNetworkAccessType publicNetworkAccess) {
         this.publicNetworkAccess = publicNetworkAccess;
         return this;
     }
@@ -62,7 +70,7 @@ public final class HybridComputePrivateLinkScopeProperties {
      * Get the provisioningState property: Current state of this PrivateLinkScope: whether or not is has been
      * provisioned within the resource group it is defined. Users cannot change this value but are able to read from it.
      * Values will include Provisioning ,Succeeded, Canceled and Failed.
-     *
+     * 
      * @return the provisioningState value.
      */
     public String provisioningState() {
@@ -71,7 +79,7 @@ public final class HybridComputePrivateLinkScopeProperties {
 
     /**
      * Get the privateLinkScopeId property: The Guid id of the private link scope.
-     *
+     * 
      * @return the privateLinkScopeId value.
      */
     public String privateLinkScopeId() {
@@ -79,10 +87,22 @@ public final class HybridComputePrivateLinkScopeProperties {
     }
 
     /**
+     * Get the privateEndpointConnections property: The collection of associated Private Endpoint Connections.
+     * 
+     * @return the privateEndpointConnections value.
+     */
+    public List<PrivateEndpointConnectionDataModel> privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (privateEndpointConnections() != null) {
+            privateEndpointConnections().forEach(e -> e.validate());
+        }
     }
 }

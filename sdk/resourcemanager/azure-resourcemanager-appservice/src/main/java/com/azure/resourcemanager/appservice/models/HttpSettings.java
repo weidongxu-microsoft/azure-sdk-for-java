@@ -14,8 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class HttpSettings {
     /*
-     * <code>false</code> if the authentication/authorization responses not having the HTTPS scheme are permissible;
-     * otherwise, <code>true</code>.
+     * <code>false</code> if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, <code>true</code>.
      */
     @JsonProperty(value = "requireHttps")
     private Boolean requireHttps;
@@ -32,14 +31,16 @@ public final class HttpSettings {
     @JsonProperty(value = "forwardProxy")
     private ForwardProxy forwardProxy;
 
-    /** Creates an instance of HttpSettings class. */
+    /**
+     * Creates an instance of HttpSettings class.
+     */
     public HttpSettings() {
     }
 
     /**
      * Get the requireHttps property: &lt;code&gt;false&lt;/code&gt; if the authentication/authorization responses not
      * having the HTTPS scheme are permissible; otherwise, &lt;code&gt;true&lt;/code&gt;.
-     *
+     * 
      * @return the requireHttps value.
      */
     public Boolean requireHttps() {
@@ -49,7 +50,7 @@ public final class HttpSettings {
     /**
      * Set the requireHttps property: &lt;code&gt;false&lt;/code&gt; if the authentication/authorization responses not
      * having the HTTPS scheme are permissible; otherwise, &lt;code&gt;true&lt;/code&gt;.
-     *
+     * 
      * @param requireHttps the requireHttps value to set.
      * @return the HttpSettings object itself.
      */
@@ -60,7 +61,7 @@ public final class HttpSettings {
 
     /**
      * Get the routes property: The configuration settings of the paths HTTP requests.
-     *
+     * 
      * @return the routes value.
      */
     public HttpSettingsRoutes routes() {
@@ -69,7 +70,7 @@ public final class HttpSettings {
 
     /**
      * Set the routes property: The configuration settings of the paths HTTP requests.
-     *
+     * 
      * @param routes the routes value to set.
      * @return the HttpSettings object itself.
      */
@@ -80,7 +81,7 @@ public final class HttpSettings {
 
     /**
      * Get the forwardProxy property: The configuration settings of a forward proxy used to make the requests.
-     *
+     * 
      * @return the forwardProxy value.
      */
     public ForwardProxy forwardProxy() {
@@ -89,7 +90,7 @@ public final class HttpSettings {
 
     /**
      * Set the forwardProxy property: The configuration settings of a forward proxy used to make the requests.
-     *
+     * 
      * @param forwardProxy the forwardProxy value to set.
      * @return the HttpSettings object itself.
      */
@@ -100,7 +101,7 @@ public final class HttpSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -11,23 +11,22 @@ import org.junit.jupiter.api.Assertions;
 public final class SubvolumePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        SubvolumeProperties model =
-            BinaryData
-                .fromString(
-                    "{\"path\":\"ggjioolvr\",\"size\":6372304417284094836,\"parentPath\":\"kkgll\",\"provisioningState\":\"jygvjayvbl\"}")
-                .toObject(SubvolumeProperties.class);
-        Assertions.assertEquals("ggjioolvr", model.path());
-        Assertions.assertEquals(6372304417284094836L, model.size());
-        Assertions.assertEquals("kkgll", model.parentPath());
+        SubvolumeProperties model = BinaryData.fromString(
+            "{\"path\":\"prvkwcfzqljyxgtc\",\"size\":6617307512008189308,\"parentPath\":\"bsdshmkxmaehvbbx\",\"provisioningState\":\"iplt\"}")
+            .toObject(SubvolumeProperties.class);
+        Assertions.assertEquals("prvkwcfzqljyxgtc", model.path());
+        Assertions.assertEquals(6617307512008189308L, model.size());
+        Assertions.assertEquals("bsdshmkxmaehvbbx", model.parentPath());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SubvolumeProperties model =
-            new SubvolumeProperties().withPath("ggjioolvr").withSize(6372304417284094836L).withParentPath("kkgll");
+        SubvolumeProperties model = new SubvolumeProperties().withPath("prvkwcfzqljyxgtc")
+            .withSize(6617307512008189308L)
+            .withParentPath("bsdshmkxmaehvbbx");
         model = BinaryData.fromObject(model).toObject(SubvolumeProperties.class);
-        Assertions.assertEquals("ggjioolvr", model.path());
-        Assertions.assertEquals(6372304417284094836L, model.size());
-        Assertions.assertEquals("kkgll", model.parentPath());
+        Assertions.assertEquals("prvkwcfzqljyxgtc", model.path());
+        Assertions.assertEquals(6617307512008189308L, model.size());
+        Assertions.assertEquals("bsdshmkxmaehvbbx", model.parentPath());
     }
 }

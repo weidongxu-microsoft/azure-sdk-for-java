@@ -1,5 +1,78 @@
 # Release History
 
+## 1.2.25 (2024-07-02)
+
+### Dependency Updates
+
+- Added new library entries to the BOM:
+  - `azure-messaging-eventgrid-namespaces`
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.24 (2024-05-29)
+
+### Dependency Updates
+
+- Added new library entries to the BOM:
+  - `azure-ai-translation-text`
+  - `azure-developer-devcenter`
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.23 (2024-04-24)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.22 (2024-03-26)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.21 (2024-02-26)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.20 (2024-01-25)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.19 (2023-12-07)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.18 (2023-10-26)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.17 (2023-09-28)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.16 (2023-08-23)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
+## 1.2.15 (2023-07-26)
+
+### Dependency Updates
+
+- Updated Azure SDK dependency versions to the latest releases.
+
 ## 1.2.14 (2023-06-22)
 
 ### Dependency Updates

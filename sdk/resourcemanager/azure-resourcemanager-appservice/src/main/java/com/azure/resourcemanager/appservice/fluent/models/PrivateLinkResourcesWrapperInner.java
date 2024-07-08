@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.models.PrivateLinkResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Wrapper for a collection of private link resources. */
+/**
+ * Wrapper for a collection of private link resources.
+ */
 @Fluent
 public final class PrivateLinkResourcesWrapperInner {
     /*
@@ -19,7 +22,9 @@ public final class PrivateLinkResourcesWrapperInner {
     @JsonProperty(value = "value", required = true)
     private List<PrivateLinkResource> value;
 
-    /** Creates an instance of PrivateLinkResourcesWrapperInner class. */
+    /**
+     * Creates an instance of PrivateLinkResourcesWrapperInner class.
+     */
     public PrivateLinkResourcesWrapperInner() {
     }
 
@@ -50,10 +55,9 @@ public final class PrivateLinkResourcesWrapperInner {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model PrivateLinkResourcesWrapperInner"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model PrivateLinkResourcesWrapperInner"));
         } else {
             value().forEach(e -> e.validate());
         }

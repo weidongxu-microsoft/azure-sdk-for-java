@@ -8,25 +8,26 @@ import com.azure.resourcemanager.devcenter.models.DevCenter;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for DevCenters Update. */
+/**
+ * Samples for DevCenters Update.
+ */
 public final class DevCentersUpdateSamples {
     /*
-     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevCenters_Patch.json
+     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_Patch.json
      */
     /**
      * Sample code: DevCenters_Update.
-     *
+     * 
      * @param manager Entry point to DevCenterManager.
      */
     public static void devCentersUpdate(com.azure.resourcemanager.devcenter.DevCenterManager manager) {
-        DevCenter resource =
-            manager
-                .devCenters()
-                .getByResourceGroupWithResponse("rg1", "Contoso", com.azure.core.util.Context.NONE)
-                .getValue();
-        resource.update().withTags(mapOf("CostCode", "12345")).apply();
+        DevCenter resource = manager.devCenters()
+            .getByResourceGroupWithResponse("rg1", "Contoso", com.azure.core.util.Context.NONE)
+            .getValue();
+        resource.update().withTags(mapOf("CostCode", "fakeTokenPlaceholder")).apply();
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

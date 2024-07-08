@@ -7,39 +7,61 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore. */
+/**
+ * AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "objectType",
-    defaultImpl = AzureWorkloadSqlPointInTimeRestoreRequest.class)
+    defaultImpl = AzureWorkloadSqlPointInTimeRestoreRequest.class,
+    visible = true)
 @JsonTypeName("AzureWorkloadSQLPointInTimeRestoreRequest")
 @JsonSubTypes({
     @JsonSubTypes.Type(
         name = "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest",
-        value = AzureWorkloadSqlPointInTimeRestoreWithRehydrateRequest.class)
-})
+        value = AzureWorkloadSqlPointInTimeRestoreWithRehydrateRequest.class) })
 @Fluent
 public class AzureWorkloadSqlPointInTimeRestoreRequest extends AzureWorkloadSqlRestoreRequest {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureWorkloadSQLPointInTimeRestoreRequest";
+
     /*
      * PointInTime value
      */
     @JsonProperty(value = "pointInTime")
     private OffsetDateTime pointInTime;
 
-    /** Creates an instance of AzureWorkloadSqlPointInTimeRestoreRequest class. */
+    /**
+     * Creates an instance of AzureWorkloadSqlPointInTimeRestoreRequest class.
+     */
     public AzureWorkloadSqlPointInTimeRestoreRequest() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the pointInTime property: PointInTime value.
-     *
+     * 
      * @return the pointInTime value.
      */
     public OffsetDateTime pointInTime() {
@@ -48,7 +70,7 @@ public class AzureWorkloadSqlPointInTimeRestoreRequest extends AzureWorkloadSqlR
 
     /**
      * Set the pointInTime property: PointInTime value.
-     *
+     * 
      * @param pointInTime the pointInTime value to set.
      * @return the AzureWorkloadSqlPointInTimeRestoreRequest object itself.
      */
@@ -57,65 +79,112 @@ public class AzureWorkloadSqlPointInTimeRestoreRequest extends AzureWorkloadSqlR
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSqlPointInTimeRestoreRequest withShouldUseAlternateTargetLocation(
-        Boolean shouldUseAlternateTargetLocation) {
+    public AzureWorkloadSqlPointInTimeRestoreRequest
+        withShouldUseAlternateTargetLocation(Boolean shouldUseAlternateTargetLocation) {
         super.withShouldUseAlternateTargetLocation(shouldUseAlternateTargetLocation);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withIsNonRecoverable(Boolean isNonRecoverable) {
         super.withIsNonRecoverable(isNonRecoverable);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSqlPointInTimeRestoreRequest withAlternateDirectoryPaths(
-        List<SqlDataDirectoryMapping> alternateDirectoryPaths) {
+    public AzureWorkloadSqlPointInTimeRestoreRequest
+        withAlternateDirectoryPaths(List<SqlDataDirectoryMapping> alternateDirectoryPaths) {
         super.withAlternateDirectoryPaths(alternateDirectoryPaths);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withRecoveryType(RecoveryType recoveryType) {
         super.withRecoveryType(recoveryType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withPropertyBag(Map<String, String> propertyBag) {
         super.withPropertyBag(propertyBag);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withTargetInfo(TargetRestoreInfo targetInfo) {
         super.withTargetInfo(targetInfo);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withRecoveryMode(RecoveryMode recoveryMode) {
         super.withRecoveryMode(recoveryMode);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureWorkloadSqlPointInTimeRestoreRequest withTargetResourceGroupName(String targetResourceGroupName) {
+        super.withTargetResourceGroupName(targetResourceGroupName);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureWorkloadSqlPointInTimeRestoreRequest
+        withUserAssignedManagedIdentityDetails(UserAssignedManagedIdentityDetails userAssignedManagedIdentityDetails) {
+        super.withUserAssignedManagedIdentityDetails(userAssignedManagedIdentityDetails);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureWorkloadSqlPointInTimeRestoreRequest
+        withSnapshotRestoreParameters(SnapshotRestoreParameters snapshotRestoreParameters) {
+        super.withSnapshotRestoreParameters(snapshotRestoreParameters);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSqlPointInTimeRestoreRequest withTargetVirtualMachineId(String targetVirtualMachineId) {
         super.withTargetVirtualMachineId(targetVirtualMachineId);
@@ -123,8 +192,18 @@ public class AzureWorkloadSqlPointInTimeRestoreRequest extends AzureWorkloadSqlR
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureWorkloadSqlPointInTimeRestoreRequest
+        withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
+        super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

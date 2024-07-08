@@ -12,38 +12,31 @@ import org.junit.jupiter.api.Assertions;
 public final class RecoveryPointDataStoreDetailsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        RecoveryPointDataStoreDetails model =
-            BinaryData
-                .fromString(
-                    "{\"creationTime\":\"2021-09-15T07:03:18Z\",\"expiryTime\":\"2021-04-06T04:34:54Z\",\"id\":\"tiagx\",\"metaData\":\"sz\",\"state\":\"mpsbzkfzbeyv\",\"type\":\"qi\",\"visible\":true,\"rehydrationExpiryTime\":\"2021-11-22T09:10:31Z\",\"rehydrationStatus\":\"COMPLETED\"}")
-                .toObject(RecoveryPointDataStoreDetails.class);
-        Assertions.assertEquals(OffsetDateTime.parse("2021-09-15T07:03:18Z"), model.creationTime());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-04-06T04:34:54Z"), model.expiryTime());
-        Assertions.assertEquals("tiagx", model.id());
-        Assertions.assertEquals("sz", model.metadata());
-        Assertions.assertEquals("mpsbzkfzbeyv", model.state());
-        Assertions.assertEquals("qi", model.type());
-        Assertions.assertEquals(true, model.visible());
+        RecoveryPointDataStoreDetails model = BinaryData.fromString(
+            "{\"creationTime\":\"2021-07-13T15:08:06Z\",\"expiryTime\":\"2021-02-06T22:33:53Z\",\"id\":\"bopgxedkowepbqp\",\"metaData\":\"fkbw\",\"state\":\"snjvcdwxlpqekftn\",\"type\":\"tjsyin\",\"visible\":false,\"rehydrationExpiryTime\":\"2021-02-20T13:18:06Z\",\"rehydrationStatus\":\"COMPLETED\"}")
+            .toObject(RecoveryPointDataStoreDetails.class);
+        Assertions.assertEquals(OffsetDateTime.parse("2021-07-13T15:08:06Z"), model.creationTime());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-02-06T22:33:53Z"), model.expiryTime());
+        Assertions.assertEquals("bopgxedkowepbqp", model.id());
+        Assertions.assertEquals("fkbw", model.metadata());
+        Assertions.assertEquals("snjvcdwxlpqekftn", model.state());
+        Assertions.assertEquals("tjsyin", model.type());
+        Assertions.assertEquals(false, model.visible());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        RecoveryPointDataStoreDetails model =
-            new RecoveryPointDataStoreDetails()
-                .withCreationTime(OffsetDateTime.parse("2021-09-15T07:03:18Z"))
-                .withExpiryTime(OffsetDateTime.parse("2021-04-06T04:34:54Z"))
-                .withId("tiagx")
-                .withMetadata("sz")
-                .withState("mpsbzkfzbeyv")
-                .withType("qi")
-                .withVisible(true);
+        RecoveryPointDataStoreDetails model
+            = new RecoveryPointDataStoreDetails().withCreationTime(OffsetDateTime.parse("2021-07-13T15:08:06Z"))
+                .withExpiryTime(OffsetDateTime.parse("2021-02-06T22:33:53Z")).withId("bopgxedkowepbqp")
+                .withMetadata("fkbw").withState("snjvcdwxlpqekftn").withType("tjsyin").withVisible(false);
         model = BinaryData.fromObject(model).toObject(RecoveryPointDataStoreDetails.class);
-        Assertions.assertEquals(OffsetDateTime.parse("2021-09-15T07:03:18Z"), model.creationTime());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-04-06T04:34:54Z"), model.expiryTime());
-        Assertions.assertEquals("tiagx", model.id());
-        Assertions.assertEquals("sz", model.metadata());
-        Assertions.assertEquals("mpsbzkfzbeyv", model.state());
-        Assertions.assertEquals("qi", model.type());
-        Assertions.assertEquals(true, model.visible());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-07-13T15:08:06Z"), model.creationTime());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-02-06T22:33:53Z"), model.expiryTime());
+        Assertions.assertEquals("bopgxedkowepbqp", model.id());
+        Assertions.assertEquals("fkbw", model.metadata());
+        Assertions.assertEquals("snjvcdwxlpqekftn", model.state());
+        Assertions.assertEquals("tjsyin", model.type());
+        Assertions.assertEquals(false, model.visible());
     }
 }

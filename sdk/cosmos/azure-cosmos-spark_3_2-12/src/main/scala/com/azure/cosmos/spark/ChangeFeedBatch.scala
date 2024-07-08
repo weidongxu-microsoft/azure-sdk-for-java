@@ -30,12 +30,17 @@ private class ChangeFeedBatch
   private val batchId = correlationActivityId.toString
   log.logTrace(s"Instantiated ${this.getClass.getSimpleName}")
   private val defaultParallelism = session.sparkContext.defaultParallelism
+  private val sparkEnvironmentInfo = CosmosClientConfiguration.getSparkEnvironmentInfo(Some(session))
 
   override def planInputPartitions(): Array[InputPartition] = {
 
     log.logInfo(s"--> planInputPartitions $batchId")
     val readConfig = CosmosReadConfig.parseCosmosReadConfig(config)
-    val clientConfiguration = CosmosClientConfiguration.apply(config, readConfig.forceEventualConsistency)
+
+    val clientConfiguration = CosmosClientConfiguration.apply(
+      config,
+      readConfig.forceEventualConsistency,
+      sparkEnvironmentInfo)
     val containerConfig = CosmosContainerConfig.parseCosmosContainerConfig(config)
     val partitioningConfig = CosmosPartitioningConfig.parseCosmosPartitioningConfig(config)
     val changeFeedConfig = CosmosChangeFeedConfig.parseCosmosChangeFeedConfig(config)
@@ -51,7 +56,8 @@ private class ChangeFeedBatch
         ThroughputControlHelper.getThroughputControlClientCacheItem(
           config,
           calledFrom,
-          Some(cosmosClientStateHandles)))
+          Some(cosmosClientStateHandles),
+          sparkEnvironmentInfo))
     ).to(cacheItems => {
       val container =
         ThroughputControlHelper.getContainer(
@@ -77,7 +83,9 @@ private class ChangeFeedBatch
             s"-> offset: '$offsetJson'.")
 
           val changeFeedStateBase64 = ChangeFeedOffset.fromJson(offsetJson).changeFeedState
-          val expectedContainerResourceId = container.read().block().getProperties.getResourceId
+          val expectedContainerResourceId = SparkBridgeInternal
+            .getContainerPropertiesFromCollectionCache(container)
+            .getResourceId
           val offsetIsValid = SparkBridgeImplementationInternal.validateCollectionRidOfChangeFeedState(
             changeFeedStateBase64,
             expectedContainerResourceId,
@@ -121,7 +129,7 @@ private class ChangeFeedBatch
       }
 
       // Calculates the Input partitions based on start Lsn and latest Lsn
-      val latestOffset = CosmosPartitionPlanner.getLatestOffset(
+      var latestOffset = CosmosPartitionPlanner.getLatestOffset(
         config,
         ChangeFeedOffset(initialOffsetJson, None),
         changeFeedConfig.toReadLimit,
@@ -146,15 +154,28 @@ private class ChangeFeedBatch
         if (!metadataLog.add(0, latestOffsetJson)) {
           val existingLatestOffset = metadataLog.get(0).get
 
-          val msg = s"Cannot update latest offset at location '$latestOffsetLocation' for batchId: $batchId " +
-            s"-> existing latestOffset: '$existingLatestOffset' failed to persist " +
-            s"new latestOffset: '$latestOffsetJson'."
-
           if (existingLatestOffset != latestOffsetJson) {
-            log.logError(msg)
+            val msg = s"Cannot update latest offset at location '$latestOffsetLocation' for batchId: $batchId " +
+              s"-> existing latestOffset: '$existingLatestOffset' failed to persist " +
+              s"new latestOffset: '$latestOffsetJson'- will continue with existing latest offset."
 
-            throw new IllegalStateException(msg)
+            val parsedExistingLatestOffset = ChangeFeedOffset.fromJson(existingLatestOffset)
+
+            if (SparkBridgeImplementationInternal
+              .validateCollectionRidOfChangeFeedStates(
+                parsedExistingLatestOffset.changeFeedState,
+                latestOffset.changeFeedState)) {
+
+              log.logWarning(msg)
+              latestOffset = parsedExistingLatestOffset
+            } else {
+              log.logError(msg)
+              throw new IllegalStateException(msg)
+            }
           } else {
+            val msg = s"Cannot update latest offset at location '$latestOffsetLocation' for batchId: $batchId " +
+              s"-> existing latestOffset: '$existingLatestOffset' failed to persist " +
+              s"new latestOffset: '$latestOffsetJson'."
             log.logDebug(msg)
           }
         } else {
@@ -185,6 +206,7 @@ private class ChangeFeedBatch
       schema,
       DiagnosticsContext(correlationActivityId, "Batch"),
       cosmosClientStateHandles,
-      diagnosticsConfig)
+      diagnosticsConfig,
+      sparkEnvironmentInfo)
   }
 }

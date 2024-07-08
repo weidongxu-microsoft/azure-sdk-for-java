@@ -4,14 +4,17 @@
 
 package com.azure.resourcemanager.appcontainers.generated;
 
-/** Samples for DaprComponents List. */
+/**
+ * Samples for DaprComponents List.
+ */
 public final class DaprComponentsListSamples {
     /*
-     * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/DaprComponents_List.json
+     * x-ms-original-file:
+     * specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprComponents_List.json
      */
     /**
      * Sample code: List Dapr Components.
-     *
+     * 
      * @param manager Entry point to ContainerAppsApiManager.
      */
     public static void listDaprComponents(com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {

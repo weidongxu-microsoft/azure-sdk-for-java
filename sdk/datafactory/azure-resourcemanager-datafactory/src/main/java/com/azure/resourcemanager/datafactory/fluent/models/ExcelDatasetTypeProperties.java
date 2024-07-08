@@ -10,7 +10,9 @@ import com.azure.resourcemanager.datafactory.models.DatasetCompression;
 import com.azure.resourcemanager.datafactory.models.DatasetLocation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Excel dataset properties. */
+/**
+ * Excel dataset properties.
+ */
 @Fluent
 public final class ExcelDatasetTypeProperties {
     /*
@@ -38,9 +40,8 @@ public final class ExcelDatasetTypeProperties {
     private Object range;
 
     /*
-     * When used as input, treat the first row of data as headers. When used as output,write the headers into the
-     * output as the first row of data. The default value is false. Type: boolean (or Expression with resultType
-     * boolean).
+     * When used as input, treat the first row of data as headers. When used as output,write the headers into the output
+     * as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean).
      */
     @JsonProperty(value = "firstRowAsHeader")
     private Object firstRowAsHeader;
@@ -57,13 +58,15 @@ public final class ExcelDatasetTypeProperties {
     @JsonProperty(value = "nullValue")
     private Object nullValue;
 
-    /** Creates an instance of ExcelDatasetTypeProperties class. */
+    /**
+     * Creates an instance of ExcelDatasetTypeProperties class.
+     */
     public ExcelDatasetTypeProperties() {
     }
 
     /**
      * Get the location property: The location of the excel storage.
-     *
+     * 
      * @return the location value.
      */
     public DatasetLocation location() {
@@ -72,7 +75,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Set the location property: The location of the excel storage.
-     *
+     * 
      * @param location the location value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -83,7 +86,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Get the sheetName property: The sheet name of excel file. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the sheetName value.
      */
     public Object sheetName() {
@@ -92,7 +95,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Set the sheetName property: The sheet name of excel file. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param sheetName the sheetName value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -104,7 +107,7 @@ public final class ExcelDatasetTypeProperties {
     /**
      * Get the sheetIndex property: The sheet index of excel file and default value is 0. Type: integer (or Expression
      * with resultType integer).
-     *
+     * 
      * @return the sheetIndex value.
      */
     public Object sheetIndex() {
@@ -114,7 +117,7 @@ public final class ExcelDatasetTypeProperties {
     /**
      * Set the sheetIndex property: The sheet index of excel file and default value is 0. Type: integer (or Expression
      * with resultType integer).
-     *
+     * 
      * @param sheetIndex the sheetIndex value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -125,7 +128,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Get the range property: The partial data of one sheet. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the range value.
      */
     public Object range() {
@@ -134,7 +137,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Set the range property: The partial data of one sheet. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param range the range value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -147,7 +150,7 @@ public final class ExcelDatasetTypeProperties {
      * Get the firstRowAsHeader property: When used as input, treat the first row of data as headers. When used as
      * output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @return the firstRowAsHeader value.
      */
     public Object firstRowAsHeader() {
@@ -158,7 +161,7 @@ public final class ExcelDatasetTypeProperties {
      * Set the firstRowAsHeader property: When used as input, treat the first row of data as headers. When used as
      * output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @param firstRowAsHeader the firstRowAsHeader value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -169,7 +172,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Get the compression property: The data compression method used for the json dataset.
-     *
+     * 
      * @return the compression value.
      */
     public DatasetCompression compression() {
@@ -178,7 +181,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Set the compression property: The data compression method used for the json dataset.
-     *
+     * 
      * @param compression the compression value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -189,7 +192,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Get the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the nullValue value.
      */
     public Object nullValue() {
@@ -198,7 +201,7 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Set the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param nullValue the nullValue value to set.
      * @return the ExcelDatasetTypeProperties object itself.
      */
@@ -209,15 +212,14 @@ public final class ExcelDatasetTypeProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (location() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property location in model ExcelDatasetTypeProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property location in model ExcelDatasetTypeProperties"));
         } else {
             location().validate();
         }

@@ -10,10 +10,10 @@ import com.azure.communication.jobrouter.models.CreateJobOptions;
 import com.azure.communication.jobrouter.models.CreateQueueOptions;
 import com.azure.communication.jobrouter.models.DistributionPolicy;
 import com.azure.communication.jobrouter.models.LabelOperator;
-import com.azure.communication.jobrouter.models.LabelValue;
 import com.azure.communication.jobrouter.models.LongestIdleMode;
 import com.azure.communication.jobrouter.models.RouterJob;
 import com.azure.communication.jobrouter.models.RouterQueue;
+import com.azure.communication.jobrouter.models.RouterValue;
 import com.azure.communication.jobrouter.models.RouterWorkerSelector;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.http.HttpClient;
@@ -34,38 +34,64 @@ import com.azure.core.util.Configuration;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 class JobRouterTestBase extends TestProxyTestBase {
-    protected static final String JAVA_LIVE_TESTS = "JAVA_LIVE_TESTS";
+    protected static final String JAVA_LIVE_TESTS = "JAVA_LIVE_TEST";
+    private static final String[] REMOVE_SANITIZER_ID = {"AZSDK2003", "AZSDK2030", "AZSDK3430", "AZSDK3493", "AZSDK3490"};
+    private boolean sanitizersRemoved = false;
 
     protected String getConnectionString() {
         String connectionString = interceptorManager.isPlaybackMode()
             ? "endpoint=https://REDACTED.int.communication.azure.net;accessKey=secret"
-            : Configuration.getGlobalConfiguration().get("AZURE_TEST_JOBROUTER_CONNECTION_STRING");
+            : Configuration.getGlobalConfiguration().get("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING");
         Objects.requireNonNull(connectionString);
         return connectionString;
     }
 
     protected JobRouterAdministrationClient getRouterAdministrationClient(HttpClient client) {
         HttpPipeline httpPipeline = buildHttpPipeline(client);
+        CommunicationConnectionString connectionString = new CommunicationConnectionString(getConnectionString());
         JobRouterAdministrationClient jobRouterAdministrationClient = new JobRouterAdministrationClientBuilder()
-            .connectionString(getConnectionString())
+            .endpoint(connectionString.getEndpoint())
             .pipeline(httpPipeline)
             .buildClient();
         return jobRouterAdministrationClient;
     }
 
+    protected JobRouterAdministrationAsyncClient getRouterAdministrationAsyncClient(HttpClient client) {
+        HttpPipeline httpPipeline = buildHttpPipeline(client);
+        CommunicationConnectionString connectionString = new CommunicationConnectionString(getConnectionString());
+        JobRouterAdministrationAsyncClient jobRouterAdministrationAsyncClient = new JobRouterAdministrationClientBuilder()
+            .endpoint(connectionString.getEndpoint())
+            .pipeline(httpPipeline)
+            .buildAsyncClient();
+        return jobRouterAdministrationAsyncClient;
+    }
+
     protected JobRouterClient getRouterClient(HttpClient client) {
+        CommunicationConnectionString connectionString = new CommunicationConnectionString(getConnectionString());
+
         HttpPipeline httpPipeline = buildHttpPipeline(client);
         JobRouterClient jobRouterClient = new JobRouterClientBuilder()
-            .connectionString(getConnectionString())
+            .endpoint(connectionString.getEndpoint())
             .pipeline(httpPipeline)
             .buildClient();
         return jobRouterClient;
+    }
+
+    protected JobRouterAsyncClient getRouterAsyncClient(HttpClient client) {
+        CommunicationConnectionString connectionString = new CommunicationConnectionString(getConnectionString());
+
+        HttpPipeline httpPipeline = buildHttpPipeline(client);
+        JobRouterAsyncClient jobRouterAsyncClient = new JobRouterClientBuilder()
+            .endpoint(connectionString.getEndpoint())
+            .pipeline(httpPipeline)
+            .buildAsyncClient();
+        return jobRouterAsyncClient;
     }
 
     private HttpPipeline buildHttpPipeline(HttpClient httpClient) {
@@ -93,7 +119,11 @@ class JobRouterTestBase extends TestProxyTestBase {
         if (interceptorManager.isRecordMode()) {
             policies.add(interceptorManager.getRecordPolicy());
         }
-
+        // Disable `$..etag` and name sanitizer
+        if (!interceptorManager.isLiveMode() && !sanitizersRemoved) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+            sanitizersRemoved = true;
+        }
         HttpPipeline pipeline = new HttpPipelineBuilder()
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .httpClient(interceptorManager.isPlaybackMode() ? interceptorManager.getPlaybackClient() : httpClient)
@@ -109,11 +139,7 @@ class JobRouterTestBase extends TestProxyTestBase {
 
     protected RouterQueue createQueue(JobRouterAdministrationClient routerAdminClient, String queueId, String distributionPolicyId) {
         String queueName = String.format("%s-Name", queueId);
-        Map<String, LabelValue> queueLabels = new HashMap<String, LabelValue>() {
-            {
-                put("Label_1", new LabelValue("Value_1"));
-            }
-        };
+        Map<String, RouterValue> queueLabels = Collections.singletonMap("Label_1", new RouterValue("Value_1"));
 
         CreateQueueOptions createQueueOptions = new CreateQueueOptions(queueId, distributionPolicyId)
             .setLabels(queueLabels)
@@ -127,11 +153,10 @@ class JobRouterTestBase extends TestProxyTestBase {
 
         CreateDistributionPolicyOptions createDistributionPolicyOptions = new CreateDistributionPolicyOptions(
             id,
-            Duration.ofSeconds(10),
+            Duration.ofSeconds(100),
             new LongestIdleMode()
                 .setMinConcurrentOffers(1)
-                .setMaxConcurrentOffers(10)
-        )
+                .setMaxConcurrentOffers(10))
             .setName(distributionPolicyName);
 
         return routerAdminClient.createDistributionPolicy(createDistributionPolicyOptions);
@@ -141,16 +166,8 @@ class JobRouterTestBase extends TestProxyTestBase {
         CreateJobOptions createJobOptions = new CreateJobOptions("job-id", "chat-channel", queueId)
             .setPriority(1)
             .setChannelReference("12345")
-            .setRequestedWorkerSelectors(
-                new ArrayList<RouterWorkerSelector>() {
-                    {
-                        new RouterWorkerSelector()
-                            .setKey("Some-skill")
-                            .setLabelOperator(LabelOperator.GREATER_THAN)
-                            .setValue(new LabelValue(10));
-                    }
-                }
-            );
+            .setRequestedWorkerSelectors(Collections.singletonList(
+                new RouterWorkerSelector("Some-skill", LabelOperator.GREATER_THAN, new RouterValue(10))));
         return jobRouterClient.createJob(createJobOptions);
     }
 }

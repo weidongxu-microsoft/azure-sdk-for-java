@@ -13,21 +13,20 @@ import com.azure.resourcemanager.eventgrid.models.TlsVersion;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Information of topic update parameter properties. */
+/**
+ * Information of topic update parameter properties.
+ */
 @Fluent
 public final class TopicUpdateParameterProperties {
     /*
-     * This determines if traffic is allowed over public network. By default it is enabled.
-     * You can further restrict to specific IPs by configuring <seealso
-     * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules"
-     * />
+     * This determines if traffic is allowed over public network. By default it is enabled. 
+     * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules" />
      */
     @JsonProperty(value = "publicNetworkAccess")
     private PublicNetworkAccess publicNetworkAccess;
 
     /*
-     * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if
-     * PublicNetworkAccess is enabled.
+     * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.
      */
     @JsonProperty(value = "inboundIpRules")
     private List<InboundIpRule> inboundIpRules;
@@ -39,8 +38,7 @@ public final class TopicUpdateParameterProperties {
     private TlsVersion minimumTlsVersionAllowed;
 
     /*
-     * This boolean is used to enable or disable local auth. Default value is false. When the property is set to true,
-     * only AAD token will be used to authenticate if user is allowed to publish to the topic.
+     * This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic.
      */
     @JsonProperty(value = "disableLocalAuth")
     private Boolean disableLocalAuth;
@@ -57,16 +55,19 @@ public final class TopicUpdateParameterProperties {
     @JsonProperty(value = "eventTypeInfo")
     private EventTypeInfo eventTypeInfo;
 
-    /** Creates an instance of TopicUpdateParameterProperties class. */
+    /**
+     * Creates an instance of TopicUpdateParameterProperties class.
+     */
     public TopicUpdateParameterProperties() {
     }
 
     /**
      * Get the publicNetworkAccess property: This determines if traffic is allowed over public network. By default it is
-     * enabled. You can further restrict to specific IPs by configuring &lt;seealso
+     * enabled.
+     * You can further restrict to specific IPs by configuring &lt;seealso
      * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules"
      * /&gt;.
-     *
+     * 
      * @return the publicNetworkAccess value.
      */
     public PublicNetworkAccess publicNetworkAccess() {
@@ -75,10 +76,11 @@ public final class TopicUpdateParameterProperties {
 
     /**
      * Set the publicNetworkAccess property: This determines if traffic is allowed over public network. By default it is
-     * enabled. You can further restrict to specific IPs by configuring &lt;seealso
+     * enabled.
+     * You can further restrict to specific IPs by configuring &lt;seealso
      * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules"
      * /&gt;.
-     *
+     * 
      * @param publicNetworkAccess the publicNetworkAccess value to set.
      * @return the TopicUpdateParameterProperties object itself.
      */
@@ -90,7 +92,7 @@ public final class TopicUpdateParameterProperties {
     /**
      * Get the inboundIpRules property: This can be used to restrict traffic from specific IPs instead of all IPs. Note:
      * These are considered only if PublicNetworkAccess is enabled.
-     *
+     * 
      * @return the inboundIpRules value.
      */
     public List<InboundIpRule> inboundIpRules() {
@@ -100,7 +102,7 @@ public final class TopicUpdateParameterProperties {
     /**
      * Set the inboundIpRules property: This can be used to restrict traffic from specific IPs instead of all IPs. Note:
      * These are considered only if PublicNetworkAccess is enabled.
-     *
+     * 
      * @param inboundIpRules the inboundIpRules value to set.
      * @return the TopicUpdateParameterProperties object itself.
      */
@@ -112,7 +114,7 @@ public final class TopicUpdateParameterProperties {
     /**
      * Get the minimumTlsVersionAllowed property: Minimum TLS version of the publisher allowed to publish to this
      * domain.
-     *
+     * 
      * @return the minimumTlsVersionAllowed value.
      */
     public TlsVersion minimumTlsVersionAllowed() {
@@ -122,7 +124,7 @@ public final class TopicUpdateParameterProperties {
     /**
      * Set the minimumTlsVersionAllowed property: Minimum TLS version of the publisher allowed to publish to this
      * domain.
-     *
+     * 
      * @param minimumTlsVersionAllowed the minimumTlsVersionAllowed value to set.
      * @return the TopicUpdateParameterProperties object itself.
      */
@@ -135,7 +137,7 @@ public final class TopicUpdateParameterProperties {
      * Get the disableLocalAuth property: This boolean is used to enable or disable local auth. Default value is false.
      * When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to
      * the topic.
-     *
+     * 
      * @return the disableLocalAuth value.
      */
     public Boolean disableLocalAuth() {
@@ -146,7 +148,7 @@ public final class TopicUpdateParameterProperties {
      * Set the disableLocalAuth property: This boolean is used to enable or disable local auth. Default value is false.
      * When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to
      * the topic.
-     *
+     * 
      * @param disableLocalAuth the disableLocalAuth value to set.
      * @return the TopicUpdateParameterProperties object itself.
      */
@@ -157,7 +159,7 @@ public final class TopicUpdateParameterProperties {
 
     /**
      * Get the dataResidencyBoundary property: The data residency boundary for the topic.
-     *
+     * 
      * @return the dataResidencyBoundary value.
      */
     public DataResidencyBoundary dataResidencyBoundary() {
@@ -166,7 +168,7 @@ public final class TopicUpdateParameterProperties {
 
     /**
      * Set the dataResidencyBoundary property: The data residency boundary for the topic.
-     *
+     * 
      * @param dataResidencyBoundary the dataResidencyBoundary value to set.
      * @return the TopicUpdateParameterProperties object itself.
      */
@@ -177,7 +179,7 @@ public final class TopicUpdateParameterProperties {
 
     /**
      * Get the eventTypeInfo property: The eventTypeInfo for the topic.
-     *
+     * 
      * @return the eventTypeInfo value.
      */
     public EventTypeInfo eventTypeInfo() {
@@ -186,7 +188,7 @@ public final class TopicUpdateParameterProperties {
 
     /**
      * Set the eventTypeInfo property: The eventTypeInfo for the topic.
-     *
+     * 
      * @param eventTypeInfo the eventTypeInfo value to set.
      * @return the TopicUpdateParameterProperties object itself.
      */
@@ -197,7 +199,7 @@ public final class TopicUpdateParameterProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

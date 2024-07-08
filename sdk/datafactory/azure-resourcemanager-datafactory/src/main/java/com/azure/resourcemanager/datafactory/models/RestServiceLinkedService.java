@@ -8,57 +8,91 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.RestServiceLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Rest Service linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Rest Service linked service.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = RestServiceLinkedService.class,
+    visible = true)
 @JsonTypeName("RestService")
 @Fluent
 public final class RestServiceLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "RestService";
+
     /*
      * Rest Service linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private RestServiceLinkedServiceTypeProperties innerTypeProperties = new RestServiceLinkedServiceTypeProperties();
 
-    /** Creates an instance of RestServiceLinkedService class. */
+    /**
+     * Creates an instance of RestServiceLinkedService class.
+     */
     public RestServiceLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Rest Service linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private RestServiceLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestServiceLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestServiceLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestServiceLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestServiceLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -66,8 +100,8 @@ public final class RestServiceLinkedService extends LinkedService {
     }
 
     /**
-     * Get the url property: The base URL of the REST service.
-     *
+     * Get the url property: The base URL of the REST service. Type: string (or Expression with resultType string).
+     * 
      * @return the url value.
      */
     public Object url() {
@@ -75,8 +109,8 @@ public final class RestServiceLinkedService extends LinkedService {
     }
 
     /**
-     * Set the url property: The base URL of the REST service.
-     *
+     * Set the url property: The base URL of the REST service. Type: string (or Expression with resultType string).
+     * 
      * @param url the url value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -91,7 +125,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Get the enableServerCertificateValidation property: Whether to validate server side SSL certificate when
      * connecting to the endpoint.The default value is true. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the enableServerCertificateValidation value.
      */
     public Object enableServerCertificateValidation() {
@@ -103,7 +137,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Set the enableServerCertificateValidation property: Whether to validate server side SSL certificate when
      * connecting to the endpoint.The default value is true. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param enableServerCertificateValidation the enableServerCertificateValidation value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -117,7 +151,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the authenticationType property: Type of authentication used to connect to the REST service.
-     *
+     * 
      * @return the authenticationType value.
      */
     public RestServiceAuthenticationType authenticationType() {
@@ -126,7 +160,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the authenticationType property: Type of authentication used to connect to the REST service.
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -139,8 +173,9 @@ public final class RestServiceLinkedService extends LinkedService {
     }
 
     /**
-     * Get the username property: The user name used in Basic authentication type.
-     *
+     * Get the username property: The user name used in Basic authentication type. Type: string (or Expression with
+     * resultType string).
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -148,8 +183,9 @@ public final class RestServiceLinkedService extends LinkedService {
     }
 
     /**
-     * Set the username property: The user name used in Basic authentication type.
-     *
+     * Set the username property: The user name used in Basic authentication type. Type: string (or Expression with
+     * resultType string).
+     * 
      * @param username the username value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -163,7 +199,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the password property: The password used in Basic authentication type.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -172,7 +208,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the password property: The password used in Basic authentication type.
-     *
+     * 
      * @param password the password value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -187,7 +223,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Get the authHeaders property: The additional HTTP headers in the request to RESTful API used for authorization.
      * Type: object (or Expression with resultType object).
-     *
+     * 
      * @return the authHeaders value.
      */
     public Object authHeaders() {
@@ -197,7 +233,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Set the authHeaders property: The additional HTTP headers in the request to RESTful API used for authorization.
      * Type: object (or Expression with resultType object).
-     *
+     * 
      * @param authHeaders the authHeaders value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -211,7 +247,8 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the servicePrincipalId property: The application's client ID used in AadServicePrincipal authentication type.
-     *
+     * Type: string (or Expression with resultType string).
+     * 
      * @return the servicePrincipalId value.
      */
     public Object servicePrincipalId() {
@@ -220,7 +257,8 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the servicePrincipalId property: The application's client ID used in AadServicePrincipal authentication type.
-     *
+     * Type: string (or Expression with resultType string).
+     * 
      * @param servicePrincipalId the servicePrincipalId value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -234,7 +272,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the servicePrincipalKey property: The application's key used in AadServicePrincipal authentication type.
-     *
+     * 
      * @return the servicePrincipalKey value.
      */
     public SecretBase servicePrincipalKey() {
@@ -243,7 +281,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the servicePrincipalKey property: The application's key used in AadServicePrincipal authentication type.
-     *
+     * 
      * @param servicePrincipalKey the servicePrincipalKey value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -257,8 +295,8 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the tenant property: The tenant information (domain name or tenant ID) used in AadServicePrincipal
-     * authentication type under which your application resides.
-     *
+     * authentication type under which your application resides. Type: string (or Expression with resultType string).
+     * 
      * @return the tenant value.
      */
     public Object tenant() {
@@ -267,8 +305,8 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the tenant property: The tenant information (domain name or tenant ID) used in AadServicePrincipal
-     * authentication type under which your application resides.
-     *
+     * authentication type under which your application resides. Type: string (or Expression with resultType string).
+     * 
      * @param tenant the tenant value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -284,7 +322,7 @@ public final class RestServiceLinkedService extends LinkedService {
      * Get the azureCloudType property: Indicates the azure cloud type of the service principle auth. Allowed values are
      * AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the azureCloudType value.
      */
     public Object azureCloudType() {
@@ -295,7 +333,7 @@ public final class RestServiceLinkedService extends LinkedService {
      * Set the azureCloudType property: Indicates the azure cloud type of the service principle auth. Allowed values are
      * AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @param azureCloudType the azureCloudType value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -308,8 +346,9 @@ public final class RestServiceLinkedService extends LinkedService {
     }
 
     /**
-     * Get the aadResourceId property: The resource you are requesting authorization to use.
-     *
+     * Get the aadResourceId property: The resource you are requesting authorization to use. Type: string (or Expression
+     * with resultType string).
+     * 
      * @return the aadResourceId value.
      */
     public Object aadResourceId() {
@@ -317,8 +356,9 @@ public final class RestServiceLinkedService extends LinkedService {
     }
 
     /**
-     * Set the aadResourceId property: The resource you are requesting authorization to use.
-     *
+     * Set the aadResourceId property: The resource you are requesting authorization to use. Type: string (or Expression
+     * with resultType string).
+     * 
      * @param aadResourceId the aadResourceId value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -332,22 +372,22 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the RestServiceLinkedService object itself.
      */
-    public RestServiceLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public RestServiceLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new RestServiceLinkedServiceTypeProperties();
         }
@@ -357,7 +397,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @return the credential value.
      */
     public CredentialReference credential() {
@@ -366,7 +406,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @param credential the credential value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -381,7 +421,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Get the clientId property: The client ID associated with your application. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the clientId value.
      */
     public Object clientId() {
@@ -391,7 +431,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Set the clientId property: The client ID associated with your application. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param clientId the clientId value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -405,7 +445,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Get the clientSecret property: The client secret associated with your application.
-     *
+     * 
      * @return the clientSecret value.
      */
     public SecretBase clientSecret() {
@@ -414,7 +454,7 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Set the clientSecret property: The client secret associated with your application.
-     *
+     * 
      * @param clientSecret the clientSecret value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -429,7 +469,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Get the tokenEndpoint property: The token endpoint of the authorization server to acquire access token. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @return the tokenEndpoint value.
      */
     public Object tokenEndpoint() {
@@ -439,7 +479,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Set the tokenEndpoint property: The token endpoint of the authorization server to acquire access token. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @param tokenEndpoint the tokenEndpoint value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -454,7 +494,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Get the resource property: The target service or resource to which the access will be requested. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the resource value.
      */
     public Object resource() {
@@ -464,7 +504,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Set the resource property: The target service or resource to which the access will be requested. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param resource the resource value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -479,7 +519,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Get the scope property: The scope of the access required. It describes what kind of access will be requested.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the scope value.
      */
     public Object scope() {
@@ -489,7 +529,7 @@ public final class RestServiceLinkedService extends LinkedService {
     /**
      * Set the scope property: The scope of the access required. It describes what kind of access will be requested.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @param scope the scope value to set.
      * @return the RestServiceLinkedService object itself.
      */
@@ -503,17 +543,16 @@ public final class RestServiceLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model RestServiceLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model RestServiceLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

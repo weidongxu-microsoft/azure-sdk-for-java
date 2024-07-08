@@ -12,6 +12,7 @@ import redis.clients.jedis.args.*;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.jedis.params.*;
 import redis.clients.jedis.resps.*;
+import redis.clients.jedis.util.KeyValue;
 
 import java.util.List;
 import java.util.Map;
@@ -27,16 +28,10 @@ public class AzureJedisClient extends Jedis {
     private HostAndPort hostAndPort;
     private ClientLogger clientLogger = new ClientLogger(AzureJedisClient.class);
 
-    AzureJedisClient(final String host, final int port, String username, TokenCredential tokenCredential, boolean useSSL, RetryOptions retryOptions) {
+    AzureJedisClient(final String host, final int port, TokenCredential tokenCredential, boolean useSSL, RetryOptions retryOptions) {
         jedis = new Jedis(host, port, useSSL);
         hostAndPort = new HostAndPort(host, port);
-        this.apiManager = new ApiManager(new Authenticator(username, new AccessTokenCache(tokenCredential)), retryOptions);
-    }
-
-    AzureJedisClient(final String host, final int port, String username, String password, boolean useSSL, RetryOptions retryOptions) {
-        jedis = new Jedis(host, port, useSSL);
-        hostAndPort = new HostAndPort(host, port);
-        this.apiManager = new ApiManager(new Authenticator(username, password), retryOptions);
+        this.apiManager = new ApiManager(new Authenticator(new AccessTokenCache(tokenCredential)), retryOptions);
     }
 
     void resetClientIfBroken() {
@@ -278,14 +273,6 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public LCSMatchResult strAlgoLCSKeys(String keyA, String keyB, StrAlgoLCSParams params) {
-        return apiManager.execute(() -> jedis.strAlgoLCSKeys(keyA, keyB, params), this);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
     public boolean copy(byte[] srcKey, byte[] dstKey, int db, boolean replace) {
         return apiManager.execute(() -> jedis.copy(srcKey, dstKey, db, replace), this);
     }
@@ -343,13 +330,6 @@ public class AzureJedisClient extends Jedis {
      */
     public byte[] echo(byte[] arg) {
         return new byte[0];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String quit() {
-        return apiManager.execute(() -> jedis.quit(), this);
     }
 
     /**
@@ -1026,7 +1006,7 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public Map<String, String> hrandfieldWithValues(String key, long count) {
+    public List<Map.Entry<String, String>> hrandfieldWithValues(String key, long count) {
         return apiManager.execute(() -> jedis.hrandfieldWithValues(key, count), this);
     }
 
@@ -1481,7 +1461,7 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public KeyedListElement blpop(double timeout, String key) {
+    public redis.clients.jedis.util.KeyValue<String, String> blpop(double timeout, String key) {
         return apiManager.execute(() -> jedis.blpop(timeout, key), this);
     }
 
@@ -1495,7 +1475,7 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public KeyedListElement brpop(double timeout, String key) {
+    public KeyValue<String, String> brpop(double timeout, String key) {
         return apiManager.execute(() -> jedis.brpop(timeout, key), this);
     }
 
@@ -1509,7 +1489,7 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public KeyedListElement blpop(double timeout, String... keys) {
+    public KeyValue<String, String> blpop(double timeout, String... keys) {
         return apiManager.execute(() -> jedis.blpop(timeout, keys), this);
     }
 
@@ -1523,7 +1503,7 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public KeyedListElement brpop(double timeout, String... keys) {
+    public KeyValue<String, String> brpop(double timeout, String... keys) {
         return apiManager.execute(() -> jedis.brpop(timeout, keys), this);
     }
 
@@ -2090,28 +2070,28 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public KeyedZSetElement bzpopmax(double timeout, String... keys) {
+    public KeyValue<String, Tuple> bzpopmax(double timeout, String... keys) {
         return apiManager.execute(() -> jedis.bzpopmax(timeout, keys), this);
     }
 
     /**
      * {@inheritDoc}
      */
-    public KeyedZSetElement bzpopmin(double timeout, String... keys) {
+    public KeyValue<String, Tuple> bzpopmin(double timeout, String... keys) {
         return apiManager.execute(() -> jedis.bzpopmin(timeout, keys), this);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<String> zdiff(String... keys) {
+    public List<String> zdiff(String... keys) {
         return apiManager.execute(() -> jedis.zdiff(keys), this);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Tuple> zdiffWithScores(String... keys) {
+    public List<Tuple> zdiffWithScores(String... keys) {
         return apiManager.execute(() -> jedis.zdiffWithScores(keys), this);
     }
 
@@ -2139,28 +2119,28 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public Set<String> zinter(ZParams params, String... keys) {
+    public List<String> zinter(ZParams params, String... keys) {
         return apiManager.execute(() -> jedis.zinter(params, keys), this);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Tuple> zinterWithScores(ZParams params, String... keys) {
+    public List<Tuple> zinterWithScores(ZParams params, String... keys) {
         return apiManager.execute(() -> jedis.zinterWithScores(params, keys), this);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<String> zunion(ZParams params, String... keys) {
+    public List<String> zunion(ZParams params, String... keys) {
         return apiManager.execute(() -> jedis.zunion(params, keys), this);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Tuple> zunionWithScores(ZParams params, String... keys) {
+    public List<Tuple> zunionWithScores(ZParams params, String... keys) {
         return apiManager.execute(() -> jedis.zunionWithScores(params, keys), this);
     }
 
@@ -2301,20 +2281,6 @@ public class AzureJedisClient extends Jedis {
     /**
      * {@inheritDoc}
      */
-    public List<StreamPendingEntry> xpending(String key, String groupname, StreamEntryID start, StreamEntryID end, int count, String consumername) {
-        return apiManager.execute(() -> jedis.xpending(key, groupname, start, end, count, consumername), this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public List<StreamPendingEntry> xpending(String key, String groupname, XPendingParams params) {
-        return apiManager.execute(() -> jedis.xpending(key, groupname, params), this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public long xdel(String key, StreamEntryID... ids) {
         return apiManager.execute(() -> jedis.xdel(key, ids), this);
     }
@@ -2366,13 +2332,6 @@ public class AzureJedisClient extends Jedis {
      */
     public StreamInfo xinfoStream(String key) {
         return apiManager.execute(() -> jedis.xinfoStream(key), this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public List<StreamGroupInfo> xinfoGroup(String key) {
-        return apiManager.execute(() -> jedis.xinfoGroup(key), this);
     }
 
     /**

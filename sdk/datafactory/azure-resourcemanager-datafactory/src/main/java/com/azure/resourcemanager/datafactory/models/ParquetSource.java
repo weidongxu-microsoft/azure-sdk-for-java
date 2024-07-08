@@ -6,19 +6,35 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Parquet source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Parquet source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ParquetSource.class, visible = true)
 @JsonTypeName("ParquetSource")
 @Fluent
 public final class ParquetSource extends CopySource {
+    /*
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ParquetSource";
+
     /*
      * Parquet store settings.
      */
     @JsonProperty(value = "storeSettings")
     private StoreReadSettings storeSettings;
+
+    /*
+     * Parquet format settings.
+     */
+    @JsonProperty(value = "formatSettings")
+    private ParquetReadSettings formatSettings;
 
     /*
      * Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or
@@ -27,13 +43,25 @@ public final class ParquetSource extends CopySource {
     @JsonProperty(value = "additionalColumns")
     private Object additionalColumns;
 
-    /** Creates an instance of ParquetSource class. */
+    /**
+     * Creates an instance of ParquetSource class.
+     */
     public ParquetSource() {
     }
 
     /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the storeSettings property: Parquet store settings.
-     *
+     * 
      * @return the storeSettings value.
      */
     public StoreReadSettings storeSettings() {
@@ -42,7 +70,7 @@ public final class ParquetSource extends CopySource {
 
     /**
      * Set the storeSettings property: Parquet store settings.
-     *
+     * 
      * @param storeSettings the storeSettings value to set.
      * @return the ParquetSource object itself.
      */
@@ -52,9 +80,29 @@ public final class ParquetSource extends CopySource {
     }
 
     /**
+     * Get the formatSettings property: Parquet format settings.
+     * 
+     * @return the formatSettings value.
+     */
+    public ParquetReadSettings formatSettings() {
+        return this.formatSettings;
+    }
+
+    /**
+     * Set the formatSettings property: Parquet format settings.
+     * 
+     * @param formatSettings the formatSettings value to set.
+     * @return the ParquetSource object itself.
+     */
+    public ParquetSource withFormatSettings(ParquetReadSettings formatSettings) {
+        this.formatSettings = formatSettings;
+        return this;
+    }
+
+    /**
      * Get the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @return the additionalColumns value.
      */
     public Object additionalColumns() {
@@ -64,7 +112,7 @@ public final class ParquetSource extends CopySource {
     /**
      * Set the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @param additionalColumns the additionalColumns value to set.
      * @return the ParquetSource object itself.
      */
@@ -73,28 +121,36 @@ public final class ParquetSource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ParquetSource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ParquetSource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ParquetSource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ParquetSource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -103,7 +159,7 @@ public final class ParquetSource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
@@ -111,6 +167,9 @@ public final class ParquetSource extends CopySource {
         super.validate();
         if (storeSettings() != null) {
             storeSettings().validate();
+        }
+        if (formatSettings() != null) {
+            formatSettings().validate();
         }
     }
 }

@@ -7,22 +7,33 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Protectable Container Class. */
+/**
+ * Protectable Container Class.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "protectableContainerType",
-    defaultImpl = ProtectableContainer.class)
+    defaultImpl = ProtectableContainer.class,
+    visible = true)
 @JsonTypeName("ProtectableContainer")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "StorageContainer", value = AzureStorageProtectableContainer.class),
-    @JsonSubTypes.Type(name = "VMAppContainer", value = AzureVMAppContainerProtectableContainer.class)
-})
+    @JsonSubTypes.Type(name = "VMAppContainer", value = AzureVMAppContainerProtectableContainer.class) })
 @Fluent
 public class ProtectableContainer {
+    /*
+     * Type of the container. The value of this property for
+     * 1. Compute Azure VM is Microsoft.Compute/virtualMachines
+     * 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectableContainerType", required = true)
+    private ProtectableContainerType protectableContainerType;
+
     /*
      * Friendly name of the container.
      */
@@ -47,13 +58,27 @@ public class ProtectableContainer {
     @JsonProperty(value = "containerId")
     private String containerId;
 
-    /** Creates an instance of ProtectableContainer class. */
+    /**
+     * Creates an instance of ProtectableContainer class.
+     */
     public ProtectableContainer() {
+        this.protectableContainerType = ProtectableContainerType.fromString("ProtectableContainer");
+    }
+
+    /**
+     * Get the protectableContainerType property: Type of the container. The value of this property for
+     * 1. Compute Azure VM is Microsoft.Compute/virtualMachines
+     * 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines.
+     * 
+     * @return the protectableContainerType value.
+     */
+    public ProtectableContainerType protectableContainerType() {
+        return this.protectableContainerType;
     }
 
     /**
      * Get the friendlyName property: Friendly name of the container.
-     *
+     * 
      * @return the friendlyName value.
      */
     public String friendlyName() {
@@ -62,7 +87,7 @@ public class ProtectableContainer {
 
     /**
      * Set the friendlyName property: Friendly name of the container.
-     *
+     * 
      * @param friendlyName the friendlyName value to set.
      * @return the ProtectableContainer object itself.
      */
@@ -73,7 +98,7 @@ public class ProtectableContainer {
 
     /**
      * Get the backupManagementType property: Type of backup management for the container.
-     *
+     * 
      * @return the backupManagementType value.
      */
     public BackupManagementType backupManagementType() {
@@ -82,7 +107,7 @@ public class ProtectableContainer {
 
     /**
      * Set the backupManagementType property: Type of backup management for the container.
-     *
+     * 
      * @param backupManagementType the backupManagementType value to set.
      * @return the ProtectableContainer object itself.
      */
@@ -93,7 +118,7 @@ public class ProtectableContainer {
 
     /**
      * Get the healthStatus property: Status of health of the container.
-     *
+     * 
      * @return the healthStatus value.
      */
     public String healthStatus() {
@@ -102,7 +127,7 @@ public class ProtectableContainer {
 
     /**
      * Set the healthStatus property: Status of health of the container.
-     *
+     * 
      * @param healthStatus the healthStatus value to set.
      * @return the ProtectableContainer object itself.
      */
@@ -113,7 +138,7 @@ public class ProtectableContainer {
 
     /**
      * Get the containerId property: Fabric Id of the container such as ARM Id.
-     *
+     * 
      * @return the containerId value.
      */
     public String containerId() {
@@ -122,7 +147,7 @@ public class ProtectableContainer {
 
     /**
      * Set the containerId property: Fabric Id of the container such as ARM Id.
-     *
+     * 
      * @param containerId the containerId value to set.
      * @return the ProtectableContainer object itself.
      */
@@ -133,7 +158,7 @@ public class ProtectableContainer {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

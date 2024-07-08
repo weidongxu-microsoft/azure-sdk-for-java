@@ -6,9 +6,12 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
-/** Class representing Diagnostic Metric. */
+/**
+ * Class representing Diagnostic Metric.
+ */
 @Fluent
 public final class DiagnosticMetricSample {
     /*
@@ -50,7 +53,9 @@ public final class DiagnosticMetricSample {
     @JsonProperty(value = "isAggregated")
     private Boolean isAggregated;
 
-    /** Creates an instance of DiagnosticMetricSample class. */
+    /**
+     * Creates an instance of DiagnosticMetricSample class.
+     */
     public DiagnosticMetricSample() {
     }
 
@@ -75,9 +80,10 @@ public final class DiagnosticMetricSample {
     }
 
     /**
-     * Get the roleInstance property: Role Instance. Null if this counter is not per instance This is returned and
-     * should be whichever instance name we desire to be returned i.e. CPU and Memory return RDWORKERNAME
-     * (LargeDed..._IN_0) where RDWORKERNAME is Machine name below and RoleInstance name in parenthesis.
+     * Get the roleInstance property: Role Instance. Null if this counter is not per instance
+     * This is returned and should be whichever instance name we desire to be returned
+     * i.e. CPU and Memory return RDWORKERNAME (LargeDed..._IN_0)
+     * where RDWORKERNAME is Machine name below and RoleInstance name in parenthesis.
      *
      * @return the roleInstance value.
      */
@@ -86,9 +92,10 @@ public final class DiagnosticMetricSample {
     }
 
     /**
-     * Set the roleInstance property: Role Instance. Null if this counter is not per instance This is returned and
-     * should be whichever instance name we desire to be returned i.e. CPU and Memory return RDWORKERNAME
-     * (LargeDed..._IN_0) where RDWORKERNAME is Machine name below and RoleInstance name in parenthesis.
+     * Set the roleInstance property: Role Instance. Null if this counter is not per instance
+     * This is returned and should be whichever instance name we desire to be returned
+     * i.e. CPU and Memory return RDWORKERNAME (LargeDed..._IN_0)
+     * where RDWORKERNAME is Machine name below and RoleInstance name in parenthesis.
      *
      * @param roleInstance the roleInstance value to set.
      * @return the DiagnosticMetricSample object itself.

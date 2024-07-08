@@ -5,29 +5,40 @@
 package com.azure.resourcemanager.selfhelp.models;
 
 import com.azure.core.util.ExpandableStringEnum;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Denotes the status of the diagnostic resource. */
+/**
+ * Denotes the status of the diagnostic resource.
+ */
 public final class Status extends ExpandableStringEnum<Status> {
-    /** Static value Failed for Status. */
+    /**
+     * Static value Failed for Status.
+     */
     public static final Status FAILED = fromString("Failed");
 
-    /** Static value MissingInputs for Status. */
+    /**
+     * Static value MissingInputs for Status.
+     */
     public static final Status MISSING_INPUTS = fromString("MissingInputs");
 
-    /** Static value Running for Status. */
+    /**
+     * Static value Running for Status.
+     */
     public static final Status RUNNING = fromString("Running");
 
-    /** Static value Succeeded for Status. */
+    /**
+     * Static value Succeeded for Status.
+     */
     public static final Status SUCCEEDED = fromString("Succeeded");
 
-    /** Static value Timeout for Status. */
+    /**
+     * Static value Timeout for Status.
+     */
     public static final Status TIMEOUT = fromString("Timeout");
 
     /**
      * Creates a new instance of Status value.
-     *
+     * 
      * @deprecated Use the {@link #fromString(String)} factory method.
      */
     @Deprecated
@@ -36,18 +47,17 @@ public final class Status extends ExpandableStringEnum<Status> {
 
     /**
      * Creates or finds a Status from its string representation.
-     *
+     * 
      * @param name a name to look for.
      * @return the corresponding Status.
      */
-    @JsonCreator
     public static Status fromString(String name) {
         return fromString(name, Status.class);
     }
 
     /**
      * Gets known Status values.
-     *
+     * 
      * @return known Status values.
      */
     public static Collection<Status> values() {

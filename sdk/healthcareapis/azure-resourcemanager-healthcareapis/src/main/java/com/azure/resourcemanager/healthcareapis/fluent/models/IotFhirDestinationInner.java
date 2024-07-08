@@ -12,7 +12,9 @@ import com.azure.resourcemanager.healthcareapis.models.IotMappingProperties;
 import com.azure.resourcemanager.healthcareapis.models.LocationBasedResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** IoT Connector FHIR destination definition. */
+/**
+ * IoT Connector FHIR destination definition.
+ */
 @Fluent
 public final class IotFhirDestinationInner extends LocationBasedResource {
     /*
@@ -28,8 +30,14 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
     private SystemData systemData;
 
     /**
+     * Creates an instance of IotFhirDestinationInner class.
+     */
+    public IotFhirDestinationInner() {
+    }
+
+    /**
      * Get the innerProperties property: IoT FHIR Destination settings.
-     *
+     * 
      * @return the innerProperties value.
      */
     private IotFhirDestinationProperties innerProperties() {
@@ -38,21 +46,25 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Get the systemData property: Metadata pertaining to creation and last modification of the resource.
-     *
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
         return this.systemData;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IotFhirDestinationInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IotFhirDestinationInner withEtag(String etag) {
         super.withEtag(etag);
@@ -61,7 +73,7 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Get the resourceIdentityResolutionType property: Determines how resource identity is resolved on the destination.
-     *
+     * 
      * @return the resourceIdentityResolutionType value.
      */
     public IotIdentityResolutionType resourceIdentityResolutionType() {
@@ -70,12 +82,12 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Set the resourceIdentityResolutionType property: Determines how resource identity is resolved on the destination.
-     *
+     * 
      * @param resourceIdentityResolutionType the resourceIdentityResolutionType value to set.
      * @return the IotFhirDestinationInner object itself.
      */
-    public IotFhirDestinationInner withResourceIdentityResolutionType(
-        IotIdentityResolutionType resourceIdentityResolutionType) {
+    public IotFhirDestinationInner
+        withResourceIdentityResolutionType(IotIdentityResolutionType resourceIdentityResolutionType) {
         if (this.innerProperties() == null) {
             this.innerProperties = new IotFhirDestinationProperties();
         }
@@ -85,7 +97,7 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Get the fhirServiceResourceId property: Fully qualified resource id of the FHIR service to connect to.
-     *
+     * 
      * @return the fhirServiceResourceId value.
      */
     public String fhirServiceResourceId() {
@@ -94,7 +106,7 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Set the fhirServiceResourceId property: Fully qualified resource id of the FHIR service to connect to.
-     *
+     * 
      * @param fhirServiceResourceId the fhirServiceResourceId value to set.
      * @return the IotFhirDestinationInner object itself.
      */
@@ -108,7 +120,7 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Get the fhirMapping property: FHIR Mappings.
-     *
+     * 
      * @return the fhirMapping value.
      */
     public IotMappingProperties fhirMapping() {
@@ -117,7 +129,7 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Set the fhirMapping property: FHIR Mappings.
-     *
+     * 
      * @param fhirMapping the fhirMapping value to set.
      * @return the IotFhirDestinationInner object itself.
      */
@@ -131,17 +143,16 @@ public final class IotFhirDestinationInner extends LocationBasedResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerProperties in model IotFhirDestinationInner"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerProperties in model IotFhirDestinationInner"));
         } else {
             innerProperties().validate();
         }

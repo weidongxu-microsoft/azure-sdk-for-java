@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.BillingMeterInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Billing Meters. */
+/**
+ * Collection of Billing Meters.
+ */
 @Fluent
 public final class BillingMeterCollection {
     /*
@@ -25,7 +28,9 @@ public final class BillingMeterCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of BillingMeterCollection class. */
+    /**
+     * Creates an instance of BillingMeterCollection class.
+     */
     public BillingMeterCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class BillingMeterCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model BillingMeterCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model BillingMeterCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

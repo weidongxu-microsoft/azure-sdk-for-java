@@ -7,19 +7,18 @@ package com.azure.resourcemanager.nginx.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.nginx.models.ResourceSku;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class ResourceSkuTests {
-    @Test
-    public void testDeserialize() {
-        ResourceSku model = BinaryData.fromString("{\"name\":\"xkqpxo\"}").toObject(ResourceSku.class);
-        Assertions.assertEquals("xkqpxo", model.name());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        ResourceSku model = BinaryData.fromString("{\"name\":\"xim\"}").toObject(ResourceSku.class);
+        Assertions.assertEquals("xim", model.name());
     }
 
-    @Test
-    public void testSerialize() {
-        ResourceSku model = new ResourceSku().withName("xkqpxo");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        ResourceSku model = new ResourceSku().withName("xim");
         model = BinaryData.fromObject(model).toObject(ResourceSku.class);
-        Assertions.assertEquals("xkqpxo", model.name());
+        Assertions.assertEquals("xim", model.name());
     }
 }

@@ -11,18 +11,16 @@ import org.junit.jupiter.api.Assertions;
 public final class CloudLinkInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        CloudLinkInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"status\":\"Active\",\"linkedCloud\":\"sphyoulpjrvxa\"},\"id\":\"l\",\"name\":\"vimjwos\",\"type\":\"tx\"}")
-                .toObject(CloudLinkInner.class);
-        Assertions.assertEquals("sphyoulpjrvxa", model.linkedCloud());
+        CloudLinkInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Canceled\",\"status\":\"Deleting\",\"linkedCloud\":\"nbacfi\"},\"id\":\"l\",\"name\":\"bxetqgtzxdpn\",\"type\":\"bqqwxrj\"}")
+            .toObject(CloudLinkInner.class);
+        Assertions.assertEquals("nbacfi", model.linkedCloud());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        CloudLinkInner model = new CloudLinkInner().withLinkedCloud("sphyoulpjrvxa");
+        CloudLinkInner model = new CloudLinkInner().withLinkedCloud("nbacfi");
         model = BinaryData.fromObject(model).toObject(CloudLinkInner.class);
-        Assertions.assertEquals("sphyoulpjrvxa", model.linkedCloud());
+        Assertions.assertEquals("nbacfi", model.linkedCloud());
     }
 }

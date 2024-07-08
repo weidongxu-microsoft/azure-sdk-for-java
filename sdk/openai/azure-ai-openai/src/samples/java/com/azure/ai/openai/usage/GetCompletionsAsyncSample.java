@@ -9,6 +9,7 @@ import com.azure.ai.openai.models.Choice;
 import com.azure.ai.openai.models.CompletionsOptions;
 import com.azure.ai.openai.models.CompletionsUsage;
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,8 @@ public class GetCompletionsAsyncSample {
      * @param args Unused. Arguments to the program.
      */
     public static void main(String[] args) throws InterruptedException {
-        String azureOpenaiKey = "{azure-open-ai-key}";
-        String endpoint = "{azure-open-ai-endpoint}";
+        String azureOpenaiKey = Configuration.getGlobalConfiguration().get("AZURE_OPENAI_KEY");
+        String endpoint = Configuration.getGlobalConfiguration().get("AZURE_OPENAI_ENDPOINT");
         String deploymentOrModelId = "{azure-open-ai-deployment-model-id}";
 
         OpenAIAsyncClient client = new OpenAIClientBuilder()
@@ -41,7 +42,7 @@ public class GetCompletionsAsyncSample {
 
         client.getCompletions(deploymentOrModelId, new CompletionsOptions(prompt)).subscribe(
             completions -> {
-                System.out.printf("Model ID=%s is created at %d.%n", completions.getId(), completions.getCreated());
+                System.out.printf("Model ID=%s is created at %d.%s", completions.getId(), completions.getCreatedAt());
                 for (Choice choice : completions.getChoices()) {
                     System.out.printf("Index: %d, Text: %s.%n", choice.getIndex(), choice.getText());
                 }

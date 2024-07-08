@@ -9,9 +9,12 @@ import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.models.LoadBalancerBackendAddressAdminState;
 import com.azure.resourcemanager.network.models.NatRulePortMapping;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of the load balancer backend addresses. */
+/**
+ * Properties of the load balancer backend addresses.
+ */
 @Fluent
 public final class LoadBalancerBackendAddressPropertiesFormat {
     /*
@@ -51,13 +54,14 @@ public final class LoadBalancerBackendAddressPropertiesFormat {
     private List<NatRulePortMapping> inboundNatRulesPortMapping;
 
     /*
-     * A list of administrative states which once set can override health probe so that Load Balancer will always
-     * forward new connections to backend, or deny new connections and reset existing connections.
+     * A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
      */
     @JsonProperty(value = "adminState")
     private LoadBalancerBackendAddressAdminState adminState;
 
-    /** Creates an instance of LoadBalancerBackendAddressPropertiesFormat class. */
+    /**
+     * Creates an instance of LoadBalancerBackendAddressPropertiesFormat class.
+     */
     public LoadBalancerBackendAddressPropertiesFormat() {
     }
 
@@ -147,8 +151,8 @@ public final class LoadBalancerBackendAddressPropertiesFormat {
      * @param loadBalancerFrontendIpConfiguration the loadBalancerFrontendIpConfiguration value to set.
      * @return the LoadBalancerBackendAddressPropertiesFormat object itself.
      */
-    public LoadBalancerBackendAddressPropertiesFormat withLoadBalancerFrontendIpConfiguration(
-        SubResource loadBalancerFrontendIpConfiguration) {
+    public LoadBalancerBackendAddressPropertiesFormat
+        withLoadBalancerFrontendIpConfiguration(SubResource loadBalancerFrontendIpConfiguration) {
         this.loadBalancerFrontendIpConfiguration = loadBalancerFrontendIpConfiguration;
         return this;
     }

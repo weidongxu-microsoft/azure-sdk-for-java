@@ -13,6 +13,7 @@ import com.azure.core.amqp.models.CbsAuthorizationType;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.util.ClientOptions;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.messaging.servicebus.implementation.MessagingEntityType;
 import com.azure.messaging.servicebus.implementation.ServiceBusAmqpConnection;
 import com.azure.messaging.servicebus.implementation.ServiceBusConnectionProcessor;
@@ -24,9 +25,7 @@ import com.azure.messaging.servicebus.models.ServiceBusReceiveMode;
 import org.apache.qpid.proton.amqp.messaging.Accepted;
 import org.apache.qpid.proton.engine.SslDomain;
 import org.apache.qpid.proton.message.Message;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -80,6 +79,7 @@ class ServiceBusSessionManagerTest {
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
     private static final Duration MAX_LOCK_RENEWAL = Duration.ofSeconds(5);
     private static final Duration SESSION_IDLE_TIMEOUT = Duration.ofSeconds(20);
+    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(60);
     private static final String NAMESPACE = "my-namespace-foo.net";
     private static final String ENTITY_PATH = "queue-name";
     private static final MessagingEntityType ENTITY_TYPE = MessagingEntityType.QUEUE;
@@ -92,6 +92,7 @@ class ServiceBusSessionManagerTest {
     private final FluxSink<Message> messageSink = messageProcessor.sink(FluxSink.OverflowStrategy.BUFFER);
 
     private ServiceBusConnectionProcessor connectionProcessor;
+    private ConnectionCacheWrapper connectionCacheWrapper;
     private ServiceBusSessionManager sessionManager;
     private AutoCloseable mocksCloseable;
 
@@ -107,17 +108,6 @@ class ServiceBusSessionManagerTest {
     private ServiceBusManagementNode managementNode;
     @Captor
     private ArgumentCaptor<String> linkNameCaptor;
-
-
-    @BeforeAll
-    static void beforeAll() {
-        StepVerifier.setDefaultTimeout(Duration.ofSeconds(60));
-    }
-
-    @AfterAll
-    static void afterAll() {
-        StepVerifier.resetDefaultTimeout();
-    }
 
     @BeforeEach
     void beforeEach(TestInfo testInfo) {
@@ -146,10 +136,11 @@ class ServiceBusSessionManagerTest {
         when(connection.getManagementNode(ENTITY_PATH, ENTITY_TYPE))
             .thenReturn(Mono.just(managementNode));
 
-        connectionProcessor =
+        final ServiceBusConnectionProcessor connectionProcessor =
             Flux.<ServiceBusAmqpConnection>create(sink -> sink.next(connection))
                 .subscribeWith(new ServiceBusConnectionProcessor(connectionOptions.getFullyQualifiedNamespace(),
                     connectionOptions.getRetry()));
+        connectionCacheWrapper = new ConnectionCacheWrapper(connectionProcessor);
     }
 
     @AfterEach
@@ -177,7 +168,7 @@ class ServiceBusSessionManagerTest {
     void properties() {
         // Arrange
         ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, MAX_LOCK_RENEWAL, false, 5, SESSION_IDLE_TIMEOUT);
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         // Act & Assert
@@ -188,13 +179,13 @@ class ServiceBusSessionManagerTest {
     void receiveNull() {
         // Arrange
         ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, MAX_LOCK_RENEWAL, false, 5, SESSION_IDLE_TIMEOUT);
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         // Act & Assert
         StepVerifier.create(sessionManager.receive())
             .expectError(NullPointerException.class)
-            .verify();
+            .verify(DEFAULT_TIMEOUT);
     }
 
     /**
@@ -204,7 +195,7 @@ class ServiceBusSessionManagerTest {
     void singleUnnamedSession() {
         // Arrange
         ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, MAX_LOCK_RENEWAL, false, 5, SESSION_IDLE_TIMEOUT);
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         final String sessionId = "session-1";
@@ -259,7 +250,7 @@ class ServiceBusSessionManagerTest {
         // Arrange
         ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, MAX_LOCK_RENEWAL, false,
             1, SESSION_IDLE_TIMEOUT);
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         final String sessionId = "session-1";
@@ -317,7 +308,7 @@ class ServiceBusSessionManagerTest {
         // Arrange
         final ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, MAX_LOCK_RENEWAL, true,
             5, SESSION_IDLE_TIMEOUT);
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         final int numberOfMessages = 5;
@@ -392,23 +383,23 @@ class ServiceBusSessionManagerTest {
                 }
             })
             .assertNext(context -> {
-                System.out.println("1");
+                LOGGER.log(LogLevel.VERBOSE, () -> "1");
                 assertMessageEquals(sessionId, receivedMessage, context);
             })
             .assertNext(context -> {
-                System.out.println("2");
+                LOGGER.log(LogLevel.VERBOSE, () -> "2");
                 assertMessageEquals(sessionId, receivedMessage, context);
             })
             .assertNext(context -> {
-                System.out.println("3");
+                LOGGER.log(LogLevel.VERBOSE, () -> "3");
                 assertMessageEquals(sessionId, receivedMessage, context);
             })
             .assertNext(context -> {
-                System.out.println("4");
+                LOGGER.log(LogLevel.VERBOSE, () -> "4");
                 assertMessageEquals(sessionId, receivedMessage, context);
             })
             .assertNext(context -> {
-                System.out.println("5");
+                LOGGER.log(LogLevel.VERBOSE, () -> "5");
                 assertMessageEquals(sessionId, receivedMessage, context);
             })
             .thenAwait(Duration.ofSeconds(13))
@@ -418,20 +409,20 @@ class ServiceBusSessionManagerTest {
                 }
             })
             .assertNext(context -> {
-                System.out.println("6");
+                LOGGER.log(LogLevel.VERBOSE, () -> "6");
                 assertMessageEquals(sessionId2, receivedMessage2, context);
             })
             .assertNext(context -> {
-                System.out.println("7");
+                LOGGER.log(LogLevel.VERBOSE, () -> "7");
                 assertMessageEquals(sessionId2, receivedMessage2, context);
             })
             .assertNext(context -> {
-                System.out.println("8");
+                LOGGER.log(LogLevel.VERBOSE, () -> "8");
                 assertMessageEquals(sessionId2, receivedMessage2, context);
             })
             .thenAwait(Duration.ofSeconds(15))
             .thenCancel()
-            .verify();
+            .verify(DEFAULT_TIMEOUT);
     }
 
 
@@ -446,7 +437,7 @@ class ServiceBusSessionManagerTest {
         final ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, Duration.ZERO, false,
             1, SESSION_IDLE_TIMEOUT);
 
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         final String sessionId = "session-1";
@@ -493,12 +484,12 @@ class ServiceBusSessionManagerTest {
         StepVerifier.create(sessionManager.receive())
             .thenAwait(Duration.ofSeconds(5))
             .thenCancel()
-            .verify();
+            .verify(DEFAULT_TIMEOUT);
 
         StepVerifier.create(sessionManager.receive())
             .thenAwait(Duration.ofSeconds(5))
             .thenCancel()
-            .verify();
+            .verify(DEFAULT_TIMEOUT);
 
         verify(connection, times(2)).createReceiveLink(linkNameCaptor.capture(), eq(ENTITY_PATH), any(
             ServiceBusReceiveMode.class), isNull(),
@@ -518,7 +509,7 @@ class ServiceBusSessionManagerTest {
         // Arrange
         ReceiverOptions receiverOptions = createUnnamedSessionOptions(ServiceBusReceiveMode.PEEK_LOCK, 1, MAX_LOCK_RENEWAL, false,
             2, SESSION_IDLE_TIMEOUT);
-        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionProcessor,
+        sessionManager = new ServiceBusSessionManager(ENTITY_PATH, ENTITY_TYPE, connectionCacheWrapper,
             messageSerializer, receiverOptions, CLIENT_IDENTIFIER, NOOP_TRACER);
 
         final String sessionId = "session-1";
@@ -555,11 +546,11 @@ class ServiceBusSessionManagerTest {
                 try {
                     TimeUnit.SECONDS.sleep(TIMEOUT.getSeconds());
                     assertNull(sessionManager.getLinkName(sessionId));
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException ignored) { }
 
             })
             .thenCancel()
-            .verify();
+            .verify(DEFAULT_TIMEOUT);
     }
 
     private static void assertMessageEquals(String sessionId, ServiceBusReceivedMessage expected,

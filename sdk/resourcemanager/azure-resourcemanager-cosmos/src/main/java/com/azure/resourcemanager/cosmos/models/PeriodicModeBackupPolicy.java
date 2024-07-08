@@ -6,27 +6,53 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The object representing periodic mode backup policy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The object representing periodic mode backup policy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = PeriodicModeBackupPolicy.class,
+    visible = true)
 @JsonTypeName("Periodic")
 @Fluent
 public final class PeriodicModeBackupPolicy extends BackupPolicy {
+    /*
+     * Describes the mode of backups.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private BackupPolicyType type = BackupPolicyType.PERIODIC;
+
     /*
      * Configuration values for periodic mode backup
      */
     @JsonProperty(value = "periodicModeProperties")
     private PeriodicModeProperties periodicModeProperties;
 
-    /** Creates an instance of PeriodicModeBackupPolicy class. */
+    /**
+     * Creates an instance of PeriodicModeBackupPolicy class.
+     */
     public PeriodicModeBackupPolicy() {
     }
 
     /**
+     * Get the type property: Describes the mode of backups.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public BackupPolicyType type() {
+        return this.type;
+    }
+
+    /**
      * Get the periodicModeProperties property: Configuration values for periodic mode backup.
-     *
+     * 
      * @return the periodicModeProperties value.
      */
     public PeriodicModeProperties periodicModeProperties() {
@@ -35,7 +61,7 @@ public final class PeriodicModeBackupPolicy extends BackupPolicy {
 
     /**
      * Set the periodicModeProperties property: Configuration values for periodic mode backup.
-     *
+     * 
      * @param periodicModeProperties the periodicModeProperties value to set.
      * @return the PeriodicModeBackupPolicy object itself.
      */
@@ -44,7 +70,9 @@ public final class PeriodicModeBackupPolicy extends BackupPolicy {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PeriodicModeBackupPolicy withMigrationState(BackupPolicyMigrationState migrationState) {
         super.withMigrationState(migrationState);
@@ -53,7 +81,7 @@ public final class PeriodicModeBackupPolicy extends BackupPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

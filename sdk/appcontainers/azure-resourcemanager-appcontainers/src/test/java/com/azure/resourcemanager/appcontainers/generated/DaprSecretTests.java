@@ -10,8 +10,8 @@ import com.azure.resourcemanager.appcontainers.models.DaprSecret;
 public final class DaprSecretTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DaprSecret model =
-            BinaryData.fromString("{\"name\":\"ghxpkdw\",\"value\":\"aiuebbaumnyqu\"}").toObject(DaprSecret.class);
+        DaprSecret model
+            = BinaryData.fromString("{\"name\":\"bqwcsdbnwdcf\",\"value\":\"cqdpfuv\"}").toObject(DaprSecret.class);
     }
 
     @org.junit.jupiter.api.Test

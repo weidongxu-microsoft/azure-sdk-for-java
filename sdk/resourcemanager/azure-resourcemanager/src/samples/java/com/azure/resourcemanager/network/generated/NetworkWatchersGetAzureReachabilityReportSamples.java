@@ -9,25 +9,24 @@ import com.azure.resourcemanager.network.models.AzureReachabilityReportParameter
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 
-/** Samples for NetworkWatchers GetAzureReachabilityReport. */
+/**
+ * Samples for NetworkWatchers GetAzureReachabilityReport.
+ */
 public final class NetworkWatchersGetAzureReachabilityReportSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherAzureReachabilityReportGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherAzureReachabilityReportGet.json
      */
     /**
      * Sample code: Get Azure Reachability Report.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getAzureReachabilityReport(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getNetworkWatchers()
-            .getAzureReachabilityReport(
-                "rg1",
-                "nw1",
+            .getAzureReachabilityReport("rg1", "nw1",
                 new AzureReachabilityReportParameters()
                     .withProviderLocation(
                         new AzureReachabilityReportLocation().withCountry("United States").withState("washington"))

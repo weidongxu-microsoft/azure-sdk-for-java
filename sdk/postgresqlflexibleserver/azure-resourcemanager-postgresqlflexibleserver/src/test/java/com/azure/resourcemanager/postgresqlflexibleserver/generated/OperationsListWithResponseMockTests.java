@@ -6,63 +6,34 @@ package com.azure.resourcemanager.postgresqlflexibleserver.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.postgresqlflexibleserver.PostgreSqlManager;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.OperationListResult;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class OperationsListWithResponseMockTests {
     @Test
     public void testListWithResponse() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"value\":[{\"name\":\"ajquhuxylrjvmtyg\",\"display\":{\"provider\":\"zyos\",\"resource\":\"p\",\"operation\":\"c\",\"description\":\"kyjpmspbps\"},\"isDataAction\":true,\"origin\":\"system\",\"properties\":{\"eyujtvczkcnyxrx\":\"datagt\",\"glnkvxlxpagl\":\"dataunjdx\",\"hpzvuqdflvoniyp\":\"dataivbgkcv\",\"idibgqjxgpn\":\"datapubcpzgpxtivhjk\"}},{\"name\":\"govfgpikqmhhaow\",\"display\":{\"provider\":\"zvuporqzdfuydz\",\"resource\":\"fvxcnqmxqpswo\",\"operation\":\"vkhlggdhbemz\",\"description\":\"zszuwiwtglxx\"},\"isDataAction\":true,\"origin\":\"system\",\"properties\":{\"gmqgjs\":\"dataicrmnzh\",\"rmbodt\":\"datavpqcb\",\"qgvriibakcla\":\"datas\",\"gmwohqfzizvu\":\"datajfrnxousxauzlwv\"}},{\"name\":\"mk\",\"display\":{\"provider\":\"thnwpzte\",\"resource\":\"vmribiat\",\"operation\":\"plucfotangcfhnyk\",\"description\":\"ugswvx\"},\"isDataAction\":true,\"origin\":\"system\",\"properties\":{\"cvclxynpdk\":\"datavtxnjmxmcuqud\"}}],\"nextLink\":\"fabuiyjibu\"}";
 
-        String responseStr =
-            "{\"value\":[{\"name\":\"msgaoj\",\"isDataAction\":false,\"origin\":\"system\",\"properties\":{\"rctym\":\"datarfh\",\"xacpqjli\":\"dataxoftpipiwyczu\",\"skasdvlmfwdgzxu\":\"datahyus\"}},{\"name\":\"cvpa\",\"isDataAction\":true,\"origin\":\"user\",\"properties\":{\"ifqjz\":\"dataxurisjnhnyt\",\"lw\":\"dataxmrhu\",\"woqhihe\":\"datacesutrgjupauut\",\"zpnfqntcypsxj\":\"dataqg\"}},{\"name\":\"oimwkslirc\",\"isDataAction\":true,\"origin\":\"user\",\"properties\":{\"t\":\"dataceacvlhvygdy\",\"jslb\":\"datamrtwna\",\"aeqphchqnr\":\"datawkojgcyztsfmzn\"}}],\"nextLink\":\"pxehuwrykqga\"}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        PostgreSqlManager manager = PostgreSqlManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        OperationListResult response
+            = manager.operations().listWithResponse(com.azure.core.util.Context.NONE).getValue();
 
-        PostgreSqlManager manager =
-            PostgreSqlManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        OperationListResult response =
-            manager.operations().listWithResponse(com.azure.core.util.Context.NONE).getValue();
-
-        Assertions.assertEquals(false, response.value().get(0).isDataAction());
-        Assertions.assertEquals("pxehuwrykqga", response.nextLink());
+        Assertions.assertEquals(true, response.value().get(0).isDataAction());
+        Assertions.assertEquals("fabuiyjibu", response.nextLink());
     }
 }

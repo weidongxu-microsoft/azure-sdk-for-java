@@ -12,23 +12,19 @@ import org.junit.jupiter.api.Assertions;
 public final class AzureOperationalStoreParametersTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AzureOperationalStoreParameters model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"AzureOperationalStoreParameters\",\"resourceGroupId\":\"yylhalnswhccsp\",\"dataStoreType\":\"ArchiveStore\"}")
-                .toObject(AzureOperationalStoreParameters.class);
-        Assertions.assertEquals(DataStoreTypes.ARCHIVE_STORE, model.dataStoreType());
-        Assertions.assertEquals("yylhalnswhccsp", model.resourceGroupId());
+        AzureOperationalStoreParameters model = BinaryData.fromString(
+            "{\"objectType\":\"AzureOperationalStoreParameters\",\"resourceGroupId\":\"dlwggytsbwtovv\",\"dataStoreType\":\"VaultStore\"}")
+            .toObject(AzureOperationalStoreParameters.class);
+        Assertions.assertEquals(DataStoreTypes.VAULT_STORE, model.dataStoreType());
+        Assertions.assertEquals("dlwggytsbwtovv", model.resourceGroupId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AzureOperationalStoreParameters model =
-            new AzureOperationalStoreParameters()
-                .withDataStoreType(DataStoreTypes.ARCHIVE_STORE)
-                .withResourceGroupId("yylhalnswhccsp");
+        AzureOperationalStoreParameters model = new AzureOperationalStoreParameters()
+            .withDataStoreType(DataStoreTypes.VAULT_STORE).withResourceGroupId("dlwggytsbwtovv");
         model = BinaryData.fromObject(model).toObject(AzureOperationalStoreParameters.class);
-        Assertions.assertEquals(DataStoreTypes.ARCHIVE_STORE, model.dataStoreType());
-        Assertions.assertEquals("yylhalnswhccsp", model.resourceGroupId());
+        Assertions.assertEquals(DataStoreTypes.VAULT_STORE, model.dataStoreType());
+        Assertions.assertEquals("dlwggytsbwtovv", model.resourceGroupId());
     }
 }

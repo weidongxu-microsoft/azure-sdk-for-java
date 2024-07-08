@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -32,6 +33,8 @@ public class FaultInjectionServerErrorRule implements IFaultInjectionRuleInterna
     private final FaultInjectionConnectionType connectionType;
     private final FaultInjectionConditionInternal condition;
     private final FaultInjectionServerErrorResultInternal result;
+
+    private static final Random random = new Random();
 
     private boolean enabled;
 
@@ -108,6 +111,12 @@ public class FaultInjectionServerErrorRule implements IFaultInjectionRuleInterna
                 String.format("%s [Hit Limit reached. Configured hitLimit %d, evaluationCount %d]", this.id, this.hitLimit, evaluationCount)
             );
             return false;
+        } else if (random.nextDouble() > this.result.getInjectionRate()) {
+            requestArgs.getServiceRequest().faultInjectionRequestContext.recordFaultInjectionRuleEvaluation(
+                requestArgs.getTransportRequestId(),
+                String.format("%s Injection Rate: Rule will not be applied. Configured injectionRate %.2f%%", this.id, this.result.getInjectionRate() * 100)
+            );
+            return false;
         } else {
             this.hitCount.incrementAndGet();
 
@@ -161,7 +170,9 @@ public class FaultInjectionServerErrorRule implements IFaultInjectionRuleInterna
     @Override
     public boolean isValid() {
         Instant now = Instant.now();
-        return this.enabled && now.isAfter(this.startTime) && now.isBefore(this.expireTime);
+        return this.enabled
+            && (now.equals(this.startTime) ||  now.isAfter(this.startTime))
+            && (now.equals(this.expireTime) || now.isBefore(this.expireTime));
     }
 
     @Override

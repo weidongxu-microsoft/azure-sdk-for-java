@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.NameIdentifierInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of domain name identifiers. */
+/**
+ * Collection of domain name identifiers.
+ */
 @Fluent
 public final class NameIdentifierCollection {
     /*
@@ -25,7 +28,9 @@ public final class NameIdentifierCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of NameIdentifierCollection class. */
+    /**
+     * Creates an instance of NameIdentifierCollection class.
+     */
     public NameIdentifierCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class NameIdentifierCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model NameIdentifierCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model NameIdentifierCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

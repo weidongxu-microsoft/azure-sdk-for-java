@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Database backup settings. */
+/**
+ * Database backup settings.
+ */
 @Fluent
 public final class DatabaseBackupSetting {
     /*
@@ -31,19 +33,20 @@ public final class DatabaseBackupSetting {
     private String connectionStringName;
 
     /*
-     * Contains a connection string to a database which is being backed up or restored. If the restore should happen to
-     * a new database, the database name inside is the new one.
+     * Contains a connection string to a database which is being backed up or restored. If the restore should happen to a new database, the database name inside is the new one.
      */
     @JsonProperty(value = "connectionString")
     private String connectionString;
 
-    /** Creates an instance of DatabaseBackupSetting class. */
+    /**
+     * Creates an instance of DatabaseBackupSetting class.
+     */
     public DatabaseBackupSetting() {
     }
 
     /**
      * Get the databaseType property: Database type (e.g. SqlAzure / MySql).
-     *
+     * 
      * @return the databaseType value.
      */
     public DatabaseType databaseType() {
@@ -52,7 +55,7 @@ public final class DatabaseBackupSetting {
 
     /**
      * Set the databaseType property: Database type (e.g. SqlAzure / MySql).
-     *
+     * 
      * @param databaseType the databaseType value to set.
      * @return the DatabaseBackupSetting object itself.
      */
@@ -63,7 +66,7 @@ public final class DatabaseBackupSetting {
 
     /**
      * Get the name property: The name property.
-     *
+     * 
      * @return the name value.
      */
     public String name() {
@@ -72,7 +75,7 @@ public final class DatabaseBackupSetting {
 
     /**
      * Set the name property: The name property.
-     *
+     * 
      * @param name the name value to set.
      * @return the DatabaseBackupSetting object itself.
      */
@@ -83,8 +86,9 @@ public final class DatabaseBackupSetting {
 
     /**
      * Get the connectionStringName property: Contains a connection string name that is linked to the
-     * SiteConfig.ConnectionStrings. This is used during restore with overwrite connection strings options.
-     *
+     * SiteConfig.ConnectionStrings.
+     * This is used during restore with overwrite connection strings options.
+     * 
      * @return the connectionStringName value.
      */
     public String connectionStringName() {
@@ -93,8 +97,9 @@ public final class DatabaseBackupSetting {
 
     /**
      * Set the connectionStringName property: Contains a connection string name that is linked to the
-     * SiteConfig.ConnectionStrings. This is used during restore with overwrite connection strings options.
-     *
+     * SiteConfig.ConnectionStrings.
+     * This is used during restore with overwrite connection strings options.
+     * 
      * @param connectionStringName the connectionStringName value to set.
      * @return the DatabaseBackupSetting object itself.
      */
@@ -106,7 +111,7 @@ public final class DatabaseBackupSetting {
     /**
      * Get the connectionString property: Contains a connection string to a database which is being backed up or
      * restored. If the restore should happen to a new database, the database name inside is the new one.
-     *
+     * 
      * @return the connectionString value.
      */
     public String connectionString() {
@@ -116,7 +121,7 @@ public final class DatabaseBackupSetting {
     /**
      * Set the connectionString property: Contains a connection string to a database which is being backed up or
      * restored. If the restore should happen to a new database, the database name inside is the new one.
-     *
+     * 
      * @param connectionString the connectionString value to set.
      * @return the DatabaseBackupSetting object itself.
      */
@@ -127,15 +132,14 @@ public final class DatabaseBackupSetting {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (databaseType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property databaseType in model DatabaseBackupSetting"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property databaseType in model DatabaseBackupSetting"));
         }
     }
 

@@ -12,7 +12,6 @@ import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.AddDatePolicy;
 import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.AzureSasCredentialPolicy;
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
@@ -36,8 +35,10 @@ import com.azure.storage.common.policy.MetadataValidationPolicy;
 import com.azure.storage.common.policy.RequestRetryOptions;
 import com.azure.storage.common.policy.ResponseValidationPolicyBuilder;
 import com.azure.storage.common.policy.ScrubEtagPolicy;
+import com.azure.storage.common.policy.StorageBearerTokenChallengeAuthorizationPolicy;
 import com.azure.storage.common.policy.StorageSharedKeyCredentialPolicy;
 import com.azure.storage.common.sas.CommonSasQueryParameters;
+import com.azure.storage.queue.models.QueueAudience;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -156,6 +157,7 @@ public final class BuilderHelper {
      * @param perCallPolicies Additional {@link HttpPipelinePolicy policies} to set in the pipeline per call.
      * @param perRetryPolicies Additional {@link HttpPipelinePolicy policies} to set in the pipeline per retry.
      * @param configuration Configuration store contain environment settings.
+     * @param audience {@link QueueAudience} used to determine the audience of the path.
      * @param logger {@link ClientLogger} used to log any exception.
      * @return A new {@link HttpPipeline} from the passed values.
      */
@@ -165,7 +167,7 @@ public final class BuilderHelper {
         RequestRetryOptions retryOptions, RetryOptions coreRetryOptions,
         HttpLogOptions logOptions, ClientOptions clientOptions, HttpClient httpClient,
         List<HttpPipelinePolicy> perCallPolicies, List<HttpPipelinePolicy> perRetryPolicies,
-        Configuration configuration, ClientLogger logger) {
+        Configuration configuration, QueueAudience audience, ClientLogger logger) {
 
         CredentialValidator.validateSingleCredentialIsPresent(
             storageSharedKeyCredential, tokenCredential, azureSasCredential, sasToken, logger);
@@ -195,7 +197,9 @@ public final class BuilderHelper {
             credentialPolicy =  new StorageSharedKeyCredentialPolicy(storageSharedKeyCredential);
         } else if (tokenCredential != null) {
             httpsValidation(tokenCredential, "bearer token", endpoint, logger);
-            credentialPolicy =  new BearerTokenAuthenticationPolicy(tokenCredential, Constants.STORAGE_SCOPE);
+            String scope = audience != null ? ((audience.toString().endsWith("/")
+                ? audience + ".default" : audience + "/.default")) : Constants.STORAGE_SCOPE;
+            credentialPolicy =  new StorageBearerTokenChallengeAuthorizationPolicy(tokenCredential, scope);
         } else if (azureSasCredential != null) {
             credentialPolicy = new AzureSasCredentialPolicy(azureSasCredential, false);
         } else if (sasToken != null) {

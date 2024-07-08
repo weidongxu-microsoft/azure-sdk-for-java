@@ -15,30 +15,23 @@ import org.junit.jupiter.api.Assertions;
 public final class AzureBackupRuleTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AzureBackupRule model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"AzureBackupRule\",\"backupParameters\":{\"objectType\":\"BackupParameters\"},\"dataStore\":{\"dataStoreType\":\"VaultStore\",\"objectType\":\"iuiefozbhdmsm\"},\"trigger\":{\"objectType\":\"TriggerContext\"},\"name\":\"mzqhoftrmaequi\"}")
-                .toObject(AzureBackupRule.class);
-        Assertions.assertEquals("mzqhoftrmaequi", model.name());
-        Assertions.assertEquals(DataStoreTypes.VAULT_STORE, model.dataStore().dataStoreType());
-        Assertions.assertEquals("iuiefozbhdmsm", model.dataStore().objectType());
+        AzureBackupRule model = BinaryData.fromString(
+            "{\"objectType\":\"AzureBackupRule\",\"backupParameters\":{\"objectType\":\"BackupParameters\"},\"dataStore\":{\"dataStoreType\":\"ArchiveStore\",\"objectType\":\"nfdn\"},\"trigger\":{\"objectType\":\"TriggerContext\"},\"name\":\"wjchrdg\"}")
+            .toObject(AzureBackupRule.class);
+        Assertions.assertEquals("wjchrdg", model.name());
+        Assertions.assertEquals(DataStoreTypes.ARCHIVE_STORE, model.dataStore().dataStoreType());
+        Assertions.assertEquals("nfdn", model.dataStore().objectType());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AzureBackupRule model =
-            new AzureBackupRule()
-                .withName("mzqhoftrmaequi")
-                .withBackupParameters(new BackupParameters())
-                .withDataStore(
-                    new DataStoreInfoBase()
-                        .withDataStoreType(DataStoreTypes.VAULT_STORE)
-                        .withObjectType("iuiefozbhdmsm"))
-                .withTrigger(new TriggerContext());
+        AzureBackupRule model = new AzureBackupRule().withName("wjchrdg").withBackupParameters(new BackupParameters())
+            .withDataStore(
+                new DataStoreInfoBase().withDataStoreType(DataStoreTypes.ARCHIVE_STORE).withObjectType("nfdn"))
+            .withTrigger(new TriggerContext());
         model = BinaryData.fromObject(model).toObject(AzureBackupRule.class);
-        Assertions.assertEquals("mzqhoftrmaequi", model.name());
-        Assertions.assertEquals(DataStoreTypes.VAULT_STORE, model.dataStore().dataStoreType());
-        Assertions.assertEquals("iuiefozbhdmsm", model.dataStore().objectType());
+        Assertions.assertEquals("wjchrdg", model.name());
+        Assertions.assertEquals(DataStoreTypes.ARCHIVE_STORE, model.dataStore().dataStoreType());
+        Assertions.assertEquals("nfdn", model.dataStore().objectType());
     }
 }

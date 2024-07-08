@@ -7,6 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.fluent.models.VpnSiteLinkInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -27,7 +28,9 @@ public final class ListVpnSiteLinksResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListVpnSiteLinksResult class. */
+    /**
+     * Creates an instance of ListVpnSiteLinksResult class.
+     */
     public ListVpnSiteLinksResult() {
     }
 

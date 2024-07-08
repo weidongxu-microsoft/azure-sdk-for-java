@@ -5,18 +5,19 @@
 package com.azure.resourcemanager.elasticsan.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.elasticsan.fluent.models.VolumeGroupInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** List of Volume Groups. */
+/**
+ * List of Volume Groups.
+ */
 @Fluent
 public final class VolumeGroupList {
     /*
      * An array of Volume Groups objects.
      */
-    @JsonProperty(value = "value", required = true)
+    @JsonProperty(value = "value")
     private List<VolumeGroupInner> value;
 
     /*
@@ -25,13 +26,15 @@ public final class VolumeGroupList {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of VolumeGroupList class. */
+    /**
+     * Creates an instance of VolumeGroupList class.
+     */
     public VolumeGroupList() {
     }
 
     /**
      * Get the value property: An array of Volume Groups objects.
-     *
+     * 
      * @return the value value.
      */
     public List<VolumeGroupInner> value() {
@@ -40,7 +43,7 @@ public final class VolumeGroupList {
 
     /**
      * Set the value property: An array of Volume Groups objects.
-     *
+     * 
      * @param value the value value to set.
      * @return the VolumeGroupList object itself.
      */
@@ -51,7 +54,7 @@ public final class VolumeGroupList {
 
     /**
      * Get the nextLink property: URI to fetch the next section of the paginated response.
-     *
+     * 
      * @return the nextLink value.
      */
     public String nextLink() {
@@ -60,18 +63,12 @@ public final class VolumeGroupList {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
-        if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model VolumeGroupList"));
-        } else {
+        if (value() != null) {
             value().forEach(e -> e.validate());
         }
     }
-
-    private static final ClientLogger LOGGER = new ClientLogger(VolumeGroupList.class);
 }

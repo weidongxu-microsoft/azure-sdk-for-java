@@ -40,15 +40,13 @@ and then include the direct dependency in the dependencies section without the v
 #### Include direct dependency
 If you want to take dependency on a particular version of the library that is not present in the BOM,
 add the direct dependency to your project as follows.
-[//]: # ({x-version-update-start;com.azure:azure-cosmos;current})
 ```xml
 <dependency>
   <groupId>com.azure</groupId>
   <artifactId>azure-cosmos</artifactId>
-  <version>4.47.0</version>
+  <version>LATEST</version>
 </dependency>
 ```
-[//]: # ({x-version-update-end})
 
 Refer to maven central for previous [releases][cosmos_maven]
 
@@ -293,7 +291,7 @@ or contact [opencode@microsoft.com][coc_contact] with any additional questions o
 [jdk]: https://docs.microsoft.com/java/azure/jdk/
 [slf4j]: http://www.slf4j.org/
 [maven]: https://maven.apache.org/
-[cosmos_maven]: https://search.maven.org/artifact/com.azure/azure-cosmos
+[cosmos_maven]: https://central.sonatype.com/artifact/com.azure/azure-cosmos
 [cosmos_maven_svg]: https://img.shields.io/maven-central/v/com.azure/azure-cosmos.svg
 [cla]: https://cla.microsoft.com
 [coc]: https://opensource.microsoft.com/codeofconduct/

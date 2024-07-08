@@ -3,28 +3,21 @@
 
 package com.azure.maps.weather;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.azure.core.credential.AzureKeyCredential;
-import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.HttpPipelineBuilder;
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
+import com.azure.core.http.policy.ExponentialBackoff;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.http.policy.HttpPipelinePolicy;
+import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.rest.Response;
-import com.azure.core.test.InterceptorManager;
-import com.azure.core.test.TestBase;
-import com.azure.core.test.TestMode;
+import com.azure.core.test.TestProxyTestBase;
+import com.azure.core.test.models.CustomMatcher;
+import com.azure.core.test.models.TestProxyRequestMatcher;
+import com.azure.core.test.models.TestProxySanitizer;
+import com.azure.core.test.models.TestProxySanitizerType;
+import com.azure.core.test.utils.MockTokenCredential;
 import com.azure.core.util.Configuration;
-import com.azure.identity.EnvironmentCredentialBuilder;
+import com.azure.identity.AzurePowerShellCredentialBuilder;
+import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.maps.weather.models.ActiveStormResult;
 import com.azure.maps.weather.models.AirQualityResult;
 import com.azure.maps.weather.models.CurrentConditionsResult;
@@ -43,71 +36,56 @@ import com.azure.maps.weather.models.StormLocationsResult;
 import com.azure.maps.weather.models.StormSearchResult;
 import com.azure.maps.weather.models.WeatherAlongRouteResult;
 
-public class WeatherTestBase extends TestBase {
-    static final String FAKE_API_KEY = "fakeKeyPlaceholder";
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-    private final String endpoint = Configuration.getGlobalConfiguration().get("API-LEARN_ENDPOINT");
-    Duration durationTestMode;
-    static InterceptorManager interceptorManagerTestBase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-    @Override
-    protected void beforeTest() {
-        if (interceptorManager.isPlaybackMode()) {
-            durationTestMode = Duration.ofMillis(1);
-        } else {
-            durationTestMode = TestUtils.DEFAULT_POLL_INTERVAL;
-        }
-        interceptorManagerTestBase = interceptorManager;
-    }
-    
+public class WeatherTestBase extends TestProxyTestBase {
     WeatherClientBuilder getWeatherAsyncClientBuilder(HttpClient httpClient, WeatherServiceVersion serviceVersion) {
-        WeatherClientBuilder builder = new WeatherClientBuilder()
-            .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
-            .serviceVersion(serviceVersion);
-        String endpoint = getEndpoint();
-        if (getEndpoint() != null) {
-            builder.endpoint(endpoint);
+        WeatherClientBuilder builder = modifyBuilder(httpClient, new WeatherClientBuilder()).serviceVersion(
+            serviceVersion);
+
+        if (interceptorManager.isPlaybackMode()) {
+            builder.endpoint("https://localhost:8080");
         }
-        if (getTestMode() == TestMode.RECORD) {
-            builder.addPolicy(interceptorManager.getRecordPolicy());
-        }
-        if (getTestMode() == TestMode.PLAYBACK) {
-            builder.credential(new AzureKeyCredential(FAKE_API_KEY)).httpClient(interceptorManager.getPlaybackClient());
-        } else {
-            builder.credential((new AzureKeyCredential(
-                Configuration.getGlobalConfiguration().get("SUBSCRIPTION_KEY"))));
-        }
+
         return builder;
     }
 
-    HttpPipeline getHttpPipeline(HttpClient httpClient) {
-        TokenCredential credential = null;
-
-        if (!interceptorManager.isPlaybackMode()) {
-            credential = new EnvironmentCredentialBuilder().httpClient(httpClient).build();
+    WeatherClientBuilder modifyBuilder(HttpClient httpClient, WeatherClientBuilder builder) {
+        if (interceptorManager.isRecordMode() || interceptorManager.isPlaybackMode()) {
+            interceptorManager.addSanitizers(Collections.singletonList(
+                new TestProxySanitizer("subscription-key", ".+", "REDACTED", TestProxySanitizerType.HEADER)));
         }
 
-        final List<HttpPipelinePolicy> policies = new ArrayList<>();
-        if (credential != null) {
-            policies.add(new BearerTokenAuthenticationPolicy(credential, endpoint.replaceFirst("/$", "") + "/.default"));
+        if (interceptorManager.isPlaybackMode()) {
+            List<TestProxyRequestMatcher> customMatchers = new ArrayList<>();
+
+            customMatchers.add(
+                new CustomMatcher().setHeadersKeyOnlyMatch(Collections.singletonList("subscription-key")));
+            interceptorManager.addMatchers(customMatchers);
         }
 
-        if (getTestMode() == TestMode.RECORD) {
-            policies.add(interceptorManager.getRecordPolicy());
+        builder.retryPolicy(new RetryPolicy(new ExponentialBackoff(5, Duration.ofSeconds(2), Duration.ofSeconds(16))))
+            .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS));
+
+        if (interceptorManager.isRecordMode()) {
+            builder.addPolicy(interceptorManager.getRecordPolicy())
+                .credential(new DefaultAzureCredentialBuilder().build())
+                .weatherClientId(Configuration.getGlobalConfiguration().get("MAPS_CLIENT_ID"));
+        } else if (interceptorManager.isPlaybackMode()) {
+            builder.credential(new MockTokenCredential()).weatherClientId("weatherClientId");
+        } else {
+            builder.credential(new AzurePowerShellCredentialBuilder().build())
+                .weatherClientId(Configuration.getGlobalConfiguration().get("MAPS_CLIENT_ID"));
         }
 
-        HttpPipeline pipeline = new HttpPipelineBuilder()
-            .policies(policies.toArray(new HttpPipelinePolicy[0]))
-            .httpClient(httpClient == null ? interceptorManager.getPlaybackClient() : httpClient)
-            .build();
-
-        return pipeline;
-    }
-
-    String getEndpoint() {
-        return interceptorManager.isPlaybackMode()
-            ? "https://localhost:8080"
-            : endpoint;
+        return builder.httpClient(
+            interceptorManager.isPlaybackMode() ? interceptorManager.getPlaybackClient() : httpClient);
     }
 
     static void validateGetHourlyForecast(HourlyForecastResult expected, HourlyForecastResult actual) {
@@ -118,9 +96,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetHourlyForecastWithResponse(HourlyForecastResult expected, int expectedStatusCode, Response<HourlyForecastResult> response) {
+    static void validateGetHourlyForecastWithResponse(HourlyForecastResult expected,
+        Response<HourlyForecastResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetHourlyForecast(expected, response.getValue());
     }
 
@@ -130,9 +109,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getIntervals().size(), actual.getIntervals().size());
     }
 
-    static void validateGetMinuteForecastWithResponse(MinuteForecastResult expected, int expectedStatusCode, Response<MinuteForecastResult> response) {
+    static void validateGetMinuteForecastWithResponse(MinuteForecastResult expected,
+        Response<MinuteForecastResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetMinuteForecast(expected, response.getValue());
     }
 
@@ -144,9 +124,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetQuarterDayForecastWithResponse(QuarterDayForecastResult expected, int expectedStatusCode, Response<QuarterDayForecastResult> response) {
+    static void validateGetQuarterDayForecastWithResponse(QuarterDayForecastResult expected,
+        Response<QuarterDayForecastResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetQuarterDayForecast(expected, response.getValue());
     }
 
@@ -158,27 +139,29 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetCurrentConditionsWithResponse(CurrentConditionsResult expected, int expectedStatusCode, Response<CurrentConditionsResult> response) {
+    static void validateGetCurrentConditionsWithResponse(CurrentConditionsResult expected,
+        Response<CurrentConditionsResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetCurrentConditions(expected, response.getValue());
     }
 
     static void validateGetDailyForecast(DailyForecastResult expected, DailyForecastResult actual) {
         assertNotNull(actual);
         assertNotNull(expected);
-        if (actual.getForecasts().size() > 0) {
+
+        if (!actual.getForecasts().isEmpty()) {
             assertNotNull(expected.getSummary().getCategory());
             assertNotNull(actual.getSummary().getCategory());
         }
     }
 
-    static void validateGetDailyForecastWithResponse(DailyForecastResult expected, int expectedStatusCode, Response<DailyForecastResult> response) {
+    static void validateGetDailyForecastWithResponse(DailyForecastResult expected,
+        Response<DailyForecastResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetDailyForecast(expected, response.getValue());
     }
-
 
     static void validateGetExpectedWeatherAlongRoute(WeatherAlongRouteResult expected, WeatherAlongRouteResult actual) {
         assertNotNull(actual);
@@ -187,9 +170,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getName(), actual.getClass().getName());
     }
 
-    static void validateGetExpectedWeatherAlongRouteWithResponse(WeatherAlongRouteResult expected, int expectedStatusCode, Response<WeatherAlongRouteResult> response) {
+    static void validateGetExpectedWeatherAlongRouteWithResponse(WeatherAlongRouteResult expected,
+        Response<WeatherAlongRouteResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetExpectedWeatherAlongRoute(expected, response.getValue());
     }
 
@@ -200,9 +184,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetSevereWeatherAlertsWithResponse(SevereWeatherAlertsResult expected, int expectedStatusCode, Response<SevereWeatherAlertsResult> response) {
+    static void validateGetSevereWeatherAlertsWithResponse(SevereWeatherAlertsResult expected,
+        Response<SevereWeatherAlertsResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetSevereWeatherAlerts(expected, response.getValue());
     }
 
@@ -214,24 +199,27 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetDailyIndicesWithResponse(DailyIndicesResult expected, int expectedStatusCode, Response<DailyIndicesResult> response) {
+    static void validateGetDailyIndicesWithResponse(DailyIndicesResult expected,
+        Response<DailyIndicesResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetDailyIndices(expected, response.getValue());
     }
 
     static void validateGetExpectedTropicalStormActive(ActiveStormResult expected, ActiveStormResult actual) {
         assertNotNull(actual);
         assertNotNull(expected);
-        if (actual.getActiveStorms().size() > 0) {
+
+        if (!actual.getActiveStorms().isEmpty()) {
             assertEquals(expected.getClass().getName(), actual.getClass().getName());
             assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
         }
     }
 
-    static void validateGetExpectedTropicalStormActiveWithResponse(ActiveStormResult expected, int expectedStatusCode, Response<ActiveStormResult> response) {
+    static void validateGetExpectedTropicalStormActiveWithResponse(ActiveStormResult expected,
+        Response<ActiveStormResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetExpectedTropicalStormActive(expected, response.getValue());
     }
 
@@ -243,9 +231,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getNextLink(), actual.getNextLink());
     }
 
-    static void validateGetSearchTropicalStormWithResponse(StormSearchResult expected, int expectedStatusCode, Response<StormSearchResult> response) {
+    static void validateGetSearchTropicalStormWithResponse(StormSearchResult expected,
+        Response<StormSearchResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetSearchTropicalStorm(expected, response.getValue());
     }
 
@@ -257,9 +246,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetTropicalStormForecastWithResponse(StormForecastResult expected, int expectedStatusCode, Response<StormForecastResult> response) {
+    static void validateGetTropicalStormForecastWithResponse(StormForecastResult expected,
+        Response<StormForecastResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetTropicalStormForecast(expected, response.getValue());
     }
 
@@ -271,9 +261,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetTropicalStormLocationsWithResponse(StormLocationsResult expected, int expectedStatusCode, Response<StormLocationsResult> response) {
+    static void validateGetTropicalStormLocationsWithResponse(StormLocationsResult expected,
+        Response<StormLocationsResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetTropicalStormLocations(expected, response.getValue());
     }
 
@@ -286,13 +277,15 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetCurrentAirQualityWithResponse(AirQualityResult expected, int expectedStatusCode, Response<AirQualityResult> response) {
+    static void validateGetCurrentAirQualityWithResponse(AirQualityResult expected,
+        Response<AirQualityResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetCurrentAirQuality(expected, response.getValue());
     }
 
-    static void validateGetAirQualityDailyForecasts(DailyAirQualityForecastResult expected, DailyAirQualityForecastResult actual) {
+    static void validateGetAirQualityDailyForecasts(DailyAirQualityForecastResult expected,
+        DailyAirQualityForecastResult actual) {
         assertNotNull(actual);
         assertNotNull(expected);
         assertEquals(expected.getNextLink(), actual.getNextLink());
@@ -300,9 +293,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetAirQualityDailyForecastsWithResponse(DailyAirQualityForecastResult expected, int expectedStatusCode, Response<DailyAirQualityForecastResult> response) {
+    static void validateGetAirQualityDailyForecastsWithResponse(DailyAirQualityForecastResult expected,
+        Response<DailyAirQualityForecastResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetAirQualityDailyForecasts(expected, response.getValue());
     }
 
@@ -314,13 +308,15 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetAirQualityHourlyForecastsWithResponse(AirQualityResult expected, int expectedStatusCode, Response<AirQualityResult> response) {
+    static void validateGetAirQualityHourlyForecastsWithResponse(AirQualityResult expected,
+        Response<AirQualityResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetAirQualityHourlyForecasts(expected, response.getValue());
     }
 
-    static void validateGetDailyHistoricalRecords(DailyHistoricalRecordsResult expected, DailyHistoricalRecordsResult actual) {
+    static void validateGetDailyHistoricalRecords(DailyHistoricalRecordsResult expected,
+        DailyHistoricalRecordsResult actual) {
         assertNotNull(actual);
         assertNotNull(expected);
         assertEquals(expected.getNextLink(), actual.getNextLink());
@@ -328,13 +324,15 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetDailyHistoricalRecordsWithResponse(DailyHistoricalRecordsResult expected, int expectedStatusCode, Response<DailyHistoricalRecordsResult> response) {
+    static void validateGetDailyHistoricalRecordsWithResponse(DailyHistoricalRecordsResult expected,
+        Response<DailyHistoricalRecordsResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetDailyHistoricalRecords(expected, response.getValue());
     }
 
-    static void validateGetDailyHistoricalActuals(DailyHistoricalActualsResult expected, DailyHistoricalActualsResult actual) {
+    static void validateGetDailyHistoricalActuals(DailyHistoricalActualsResult expected,
+        DailyHistoricalActualsResult actual) {
         assertNotNull(actual);
         assertNotNull(expected);
         assertEquals(expected.getNextLink(), actual.getNextLink());
@@ -342,13 +340,15 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetDailyHistoricalActualsWithResponse(DailyHistoricalActualsResult expected, int expectedStatusCode, Response<DailyHistoricalActualsResult> response) {
+    static void validateGetDailyHistoricalActualsWithResponse(DailyHistoricalActualsResult expected,
+        Response<DailyHistoricalActualsResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetDailyHistoricalActuals(expected, response.getValue());
     }
 
-    static void validateGetDailyHistoricalNormalsResult(DailyHistoricalNormalsResult expected, DailyHistoricalNormalsResult actual) {
+    static void validateGetDailyHistoricalNormalsResult(DailyHistoricalNormalsResult expected,
+        DailyHistoricalNormalsResult actual) {
         assertNotNull(actual);
         assertNotNull(expected);
         assertEquals(expected.getNextLink(), actual.getNextLink());
@@ -356,9 +356,10 @@ public class WeatherTestBase extends TestBase {
         assertEquals(expected.getClass().getSimpleName(), actual.getClass().getSimpleName());
     }
 
-    static void validateGetDailyHistoricalNormalsResultWithResponse(DailyHistoricalNormalsResult expected, int expectedStatusCode, Response<DailyHistoricalNormalsResult> response) {
+    static void validateGetDailyHistoricalNormalsResultWithResponse(DailyHistoricalNormalsResult expected,
+        Response<DailyHistoricalNormalsResult> response) {
         assertNotNull(response);
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         validateGetDailyHistoricalNormalsResult(expected, response.getValue());
     }
 }

@@ -8,78 +8,114 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.SnowflakeDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The snowflake dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The snowflake dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SnowflakeDataset.class, visible = true)
 @JsonTypeName("SnowflakeTable")
 @Fluent
 public final class SnowflakeDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SnowflakeTable";
+
     /*
      * Snowflake dataset properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private SnowflakeDatasetTypeProperties innerTypeProperties = new SnowflakeDatasetTypeProperties();
 
-    /** Creates an instance of SnowflakeDataset class. */
+    /**
+     * Creates an instance of SnowflakeDataset class.
+     */
     public SnowflakeDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Snowflake dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SnowflakeDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -89,7 +125,7 @@ public final class SnowflakeDataset extends Dataset {
     /**
      * Get the schema property: The schema name of the Snowflake database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the schema value.
      */
     public Object schemaTypePropertiesSchema() {
@@ -99,7 +135,7 @@ public final class SnowflakeDataset extends Dataset {
     /**
      * Set the schema property: The schema name of the Snowflake database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param schema the schema value to set.
      * @return the SnowflakeDataset object itself.
      */
@@ -114,7 +150,7 @@ public final class SnowflakeDataset extends Dataset {
     /**
      * Get the table property: The table name of the Snowflake database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the table value.
      */
     public Object table() {
@@ -124,7 +160,7 @@ public final class SnowflakeDataset extends Dataset {
     /**
      * Set the table property: The table name of the Snowflake database. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param table the table value to set.
      * @return the SnowflakeDataset object itself.
      */
@@ -138,17 +174,16 @@ public final class SnowflakeDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model SnowflakeDataset"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model SnowflakeDataset"));
         } else {
             innerTypeProperties().validate();
         }

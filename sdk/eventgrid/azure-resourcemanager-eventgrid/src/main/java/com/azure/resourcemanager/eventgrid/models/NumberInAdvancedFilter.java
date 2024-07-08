@@ -6,28 +6,55 @@ package com.azure.resourcemanager.eventgrid.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** NumberIn Advanced Filter. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "operatorType")
+/**
+ * NumberIn Advanced Filter.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "operatorType",
+    defaultImpl = NumberInAdvancedFilter.class,
+    visible = true)
 @JsonTypeName("NumberIn")
 @Fluent
 public final class NumberInAdvancedFilter extends AdvancedFilter {
+    /*
+     * The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "operatorType", required = true)
+    private AdvancedFilterOperatorType operatorType = AdvancedFilterOperatorType.NUMBER_IN;
+
     /*
      * The set of filter values.
      */
     @JsonProperty(value = "values")
     private List<Double> values;
 
-    /** Creates an instance of NumberInAdvancedFilter class. */
+    /**
+     * Creates an instance of NumberInAdvancedFilter class.
+     */
     public NumberInAdvancedFilter() {
     }
 
     /**
+     * Get the operatorType property: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals
+     * and others.
+     * 
+     * @return the operatorType value.
+     */
+    @Override
+    public AdvancedFilterOperatorType operatorType() {
+        return this.operatorType;
+    }
+
+    /**
      * Get the values property: The set of filter values.
-     *
+     * 
      * @return the values value.
      */
     public List<Double> values() {
@@ -36,7 +63,7 @@ public final class NumberInAdvancedFilter extends AdvancedFilter {
 
     /**
      * Set the values property: The set of filter values.
-     *
+     * 
      * @param values the values value to set.
      * @return the NumberInAdvancedFilter object itself.
      */
@@ -45,7 +72,9 @@ public final class NumberInAdvancedFilter extends AdvancedFilter {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public NumberInAdvancedFilter withKey(String key) {
         super.withKey(key);
@@ -54,7 +83,7 @@ public final class NumberInAdvancedFilter extends AdvancedFilter {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

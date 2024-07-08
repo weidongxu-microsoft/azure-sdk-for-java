@@ -16,65 +16,46 @@ import org.junit.jupiter.api.Assertions;
 public final class VaultUsageListTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        VaultUsageList model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"unit\":\"BytesPerSecond\",\"quotaPeriod\":\"plwzbhvgyugu\",\"nextResetTime\":\"2021-08-08T10:54:54Z\",\"currentValue\":1314770680233615773,\"limit\":4208322413418754380,\"name\":{\"value\":\"kkfpl\",\"localizedValue\":\"gsxnkjzkdeslpv\"}},{\"unit\":\"Seconds\",\"quotaPeriod\":\"i\",\"nextResetTime\":\"2021-09-12T13:52:28Z\",\"currentValue\":3778996207980672783,\"limit\":8356501836980248875,\"name\":{\"value\":\"aiuebbaumnyqu\",\"localizedValue\":\"deoj\"}},{\"unit\":\"CountPerSecond\",\"quotaPeriod\":\"khsmtxpsiebt\",\"nextResetTime\":\"2021-03-12T10:20:21Z\",\"currentValue\":3953779484897603289,\"limit\":8344746335940164882,\"name\":{\"value\":\"dqmh\",\"localizedValue\":\"dhtldwkyz\"}},{\"unit\":\"CountPerSecond\",\"quotaPeriod\":\"kn\",\"nextResetTime\":\"2021-10-01T12:00:34Z\",\"currentValue\":8510740878740325389,\"limit\":3553868760097746067,\"name\":{\"value\":\"ogtwrupqsxvnmi\",\"localizedValue\":\"kvceoveilovnotyf\"}}]}")
-                .toObject(VaultUsageList.class);
-        Assertions.assertEquals(UsagesUnit.BYTES_PER_SECOND, model.value().get(0).unit());
-        Assertions.assertEquals("plwzbhvgyugu", model.value().get(0).quotaPeriod());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-08-08T10:54:54Z"), model.value().get(0).nextResetTime());
-        Assertions.assertEquals(1314770680233615773L, model.value().get(0).currentValue());
-        Assertions.assertEquals(4208322413418754380L, model.value().get(0).limit());
-        Assertions.assertEquals("kkfpl", model.value().get(0).name().value());
-        Assertions.assertEquals("gsxnkjzkdeslpv", model.value().get(0).name().localizedValue());
+        VaultUsageList model = BinaryData.fromString(
+            "{\"value\":[{\"unit\":\"Percent\",\"quotaPeriod\":\"hrxsbk\",\"nextResetTime\":\"2021-08-06T06:24:23Z\",\"currentValue\":1245497822937083948,\"limit\":1835147591912684740,\"name\":{\"value\":\"zka\",\"localizedValue\":\"uwbc\"}},{\"unit\":\"Percent\",\"quotaPeriod\":\"mehhseyvjusrtsl\",\"nextResetTime\":\"2021-07-14T16:11:44Z\",\"currentValue\":6698294689469432122,\"limit\":1190726733123875676,\"name\":{\"value\":\"mx\",\"localizedValue\":\"kv\"}},{\"unit\":\"Count\",\"quotaPeriod\":\"mqkrhahvljuahaqu\",\"nextResetTime\":\"2021-02-06T01:31:14Z\",\"currentValue\":4535829174726898901,\"limit\":9171481587703972041,\"name\":{\"value\":\"xqpvfadmw\",\"localizedValue\":\"crgvxpvgom\"}}]}")
+            .toObject(VaultUsageList.class);
+        Assertions.assertEquals(UsagesUnit.PERCENT, model.value().get(0).unit());
+        Assertions.assertEquals("hrxsbk", model.value().get(0).quotaPeriod());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-08-06T06:24:23Z"), model.value().get(0).nextResetTime());
+        Assertions.assertEquals(1245497822937083948L, model.value().get(0).currentValue());
+        Assertions.assertEquals(1835147591912684740L, model.value().get(0).limit());
+        Assertions.assertEquals("zka", model.value().get(0).name().value());
+        Assertions.assertEquals("uwbc", model.value().get(0).name().localizedValue());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        VaultUsageList model =
-            new VaultUsageList()
-                .withValue(
-                    Arrays
-                        .asList(
-                            new VaultUsageInner()
-                                .withUnit(UsagesUnit.BYTES_PER_SECOND)
-                                .withQuotaPeriod("plwzbhvgyugu")
-                                .withNextResetTime(OffsetDateTime.parse("2021-08-08T10:54:54Z"))
-                                .withCurrentValue(1314770680233615773L)
-                                .withLimit(4208322413418754380L)
-                                .withName(new NameInfo().withValue("kkfpl").withLocalizedValue("gsxnkjzkdeslpv")),
-                            new VaultUsageInner()
-                                .withUnit(UsagesUnit.SECONDS)
-                                .withQuotaPeriod("i")
-                                .withNextResetTime(OffsetDateTime.parse("2021-09-12T13:52:28Z"))
-                                .withCurrentValue(3778996207980672783L)
-                                .withLimit(8356501836980248875L)
-                                .withName(new NameInfo().withValue("aiuebbaumnyqu").withLocalizedValue("deoj")),
-                            new VaultUsageInner()
-                                .withUnit(UsagesUnit.COUNT_PER_SECOND)
-                                .withQuotaPeriod("khsmtxpsiebt")
-                                .withNextResetTime(OffsetDateTime.parse("2021-03-12T10:20:21Z"))
-                                .withCurrentValue(3953779484897603289L)
-                                .withLimit(8344746335940164882L)
-                                .withName(new NameInfo().withValue("dqmh").withLocalizedValue("dhtldwkyz")),
-                            new VaultUsageInner()
-                                .withUnit(UsagesUnit.COUNT_PER_SECOND)
-                                .withQuotaPeriod("kn")
-                                .withNextResetTime(OffsetDateTime.parse("2021-10-01T12:00:34Z"))
-                                .withCurrentValue(8510740878740325389L)
-                                .withLimit(3553868760097746067L)
-                                .withName(
-                                    new NameInfo()
-                                        .withValue("ogtwrupqsxvnmi")
-                                        .withLocalizedValue("kvceoveilovnotyf"))));
+        VaultUsageList model = new VaultUsageList().withValue(Arrays.asList(
+            new VaultUsageInner().withUnit(UsagesUnit.PERCENT)
+                .withQuotaPeriod("hrxsbk")
+                .withNextResetTime(OffsetDateTime.parse("2021-08-06T06:24:23Z"))
+                .withCurrentValue(1245497822937083948L)
+                .withLimit(1835147591912684740L)
+                .withName(new NameInfo().withValue("zka").withLocalizedValue("uwbc")),
+            new VaultUsageInner().withUnit(UsagesUnit.PERCENT)
+                .withQuotaPeriod("mehhseyvjusrtsl")
+                .withNextResetTime(OffsetDateTime.parse("2021-07-14T16:11:44Z"))
+                .withCurrentValue(6698294689469432122L)
+                .withLimit(1190726733123875676L)
+                .withName(new NameInfo().withValue("mx").withLocalizedValue("kv")),
+            new VaultUsageInner().withUnit(UsagesUnit.COUNT)
+                .withQuotaPeriod("mqkrhahvljuahaqu")
+                .withNextResetTime(OffsetDateTime.parse("2021-02-06T01:31:14Z"))
+                .withCurrentValue(4535829174726898901L)
+                .withLimit(9171481587703972041L)
+                .withName(new NameInfo().withValue("xqpvfadmw").withLocalizedValue("crgvxpvgom"))));
         model = BinaryData.fromObject(model).toObject(VaultUsageList.class);
-        Assertions.assertEquals(UsagesUnit.BYTES_PER_SECOND, model.value().get(0).unit());
-        Assertions.assertEquals("plwzbhvgyugu", model.value().get(0).quotaPeriod());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-08-08T10:54:54Z"), model.value().get(0).nextResetTime());
-        Assertions.assertEquals(1314770680233615773L, model.value().get(0).currentValue());
-        Assertions.assertEquals(4208322413418754380L, model.value().get(0).limit());
-        Assertions.assertEquals("kkfpl", model.value().get(0).name().value());
-        Assertions.assertEquals("gsxnkjzkdeslpv", model.value().get(0).name().localizedValue());
+        Assertions.assertEquals(UsagesUnit.PERCENT, model.value().get(0).unit());
+        Assertions.assertEquals("hrxsbk", model.value().get(0).quotaPeriod());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-08-06T06:24:23Z"), model.value().get(0).nextResetTime());
+        Assertions.assertEquals(1245497822937083948L, model.value().get(0).currentValue());
+        Assertions.assertEquals(1835147591912684740L, model.value().get(0).limit());
+        Assertions.assertEquals("zka", model.value().get(0).name().value());
+        Assertions.assertEquals("uwbc", model.value().get(0).name().localizedValue());
     }
 }

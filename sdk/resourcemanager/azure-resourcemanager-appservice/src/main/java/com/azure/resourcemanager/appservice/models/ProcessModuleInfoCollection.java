@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.ProcessModuleInfoInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Kudu thread information elements. */
+/**
+ * Collection of Kudu thread information elements.
+ */
 @Fluent
 public final class ProcessModuleInfoCollection {
     /*
@@ -25,7 +28,9 @@ public final class ProcessModuleInfoCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ProcessModuleInfoCollection class. */
+    /**
+     * Creates an instance of ProcessModuleInfoCollection class.
+     */
     public ProcessModuleInfoCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class ProcessModuleInfoCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model ProcessModuleInfoCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model ProcessModuleInfoCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

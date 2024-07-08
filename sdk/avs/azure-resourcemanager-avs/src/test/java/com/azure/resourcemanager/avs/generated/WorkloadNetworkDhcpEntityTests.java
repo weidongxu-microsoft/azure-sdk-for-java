@@ -11,21 +11,19 @@ import org.junit.jupiter.api.Assertions;
 public final class WorkloadNetworkDhcpEntityTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkDhcpEntity model =
-            BinaryData
-                .fromString(
-                    "{\"dhcpType\":\"WorkloadNetworkDhcpEntity\",\"displayName\":\"exrmcqibycnojvk\",\"segments\":[\"fqsgzvahapjy\"],\"provisioningState\":\"Failed\",\"revision\":6168011718713142792}")
-                .toObject(WorkloadNetworkDhcpEntity.class);
-        Assertions.assertEquals("exrmcqibycnojvk", model.displayName());
-        Assertions.assertEquals(6168011718713142792L, model.revision());
+        WorkloadNetworkDhcpEntity model = BinaryData.fromString(
+            "{\"dhcpType\":\"WorkloadNetworkDhcpEntity\",\"displayName\":\"beddgssofw\",\"segments\":[\"qal\",\"rmnjijpx\",\"cqqudf\",\"byxbaaabjy\"],\"provisioningState\":\"Canceled\",\"revision\":6883789734469105291}")
+            .toObject(WorkloadNetworkDhcpEntity.class);
+        Assertions.assertEquals("beddgssofw", model.displayName());
+        Assertions.assertEquals(6883789734469105291L, model.revision());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkDhcpEntity model =
-            new WorkloadNetworkDhcpEntity().withDisplayName("exrmcqibycnojvk").withRevision(6168011718713142792L);
+        WorkloadNetworkDhcpEntity model
+            = new WorkloadNetworkDhcpEntity().withDisplayName("beddgssofw").withRevision(6883789734469105291L);
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkDhcpEntity.class);
-        Assertions.assertEquals("exrmcqibycnojvk", model.displayName());
-        Assertions.assertEquals(6168011718713142792L, model.revision());
+        Assertions.assertEquals("beddgssofw", model.displayName());
+        Assertions.assertEquals(6883789734469105291L, model.revision());
     }
 }

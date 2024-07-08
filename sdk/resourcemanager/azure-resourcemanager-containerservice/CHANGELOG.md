@@ -1,6 +1,6 @@
 # Release History
 
-## 2.29.0-beta.1 (Unreleased)
+## 2.41.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,117 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.40.0 (2024-06-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.39.0 (2024-05-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.38.0 (2024-04-16)
+
+### Features Added
+
+- Supported disabling public network access in `KubernetesCluster` via `disablePublicNetworkAccess()`, for private link feature.
+- Supported specifying network mode of Azure CNI configuration for `KubernetesCluster` during create.
+- Supported specifying network plugin mode for `KubernetesCluster` during create.
+- Supported specifying network data plane for `KubernetesCluster` during create.
+
+### Breaking Changes
+
+- `nodeSelector` is removed from `IstioEgressGateway` class.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2024-02-01`.
+
+## 2.37.0 (2024-03-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.36.0 (2024-02-29)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2024-01-01`.
+
+## 2.35.0 (2024-01-26)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-11-01`.
+
+## 2.34.0 (2023-12-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.33.0 (2023-11-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-10-01`.
+
+## 2.32.0 (2023-10-27)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-09-01`.
+
+## 2.31.0 (2023-09-28)
+
+### Features Added
+
+- Supported specifying the resource group for agent pool nodes when creating `KubernetesCluster`.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-08-01`.
+
+## 2.30.0 (2023-08-25)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-07-01`.
+
+## 2.29.0 (2023-07-28)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-06-01`.
 
 ## 2.28.0 (2023-06-25)
 

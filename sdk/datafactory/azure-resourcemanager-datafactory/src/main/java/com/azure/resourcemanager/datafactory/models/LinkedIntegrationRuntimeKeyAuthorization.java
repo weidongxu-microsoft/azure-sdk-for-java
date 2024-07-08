@@ -7,27 +7,53 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The key authorization type integration runtime. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "authorizationType")
+/**
+ * The key authorization type integration runtime.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "authorizationType",
+    defaultImpl = LinkedIntegrationRuntimeKeyAuthorization.class,
+    visible = true)
 @JsonTypeName("Key")
 @Fluent
 public final class LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrationRuntimeType {
+    /*
+     * The authorization type for integration runtime sharing.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "authorizationType", required = true)
+    private String authorizationType = "Key";
+
     /*
      * The key used for authorization.
      */
     @JsonProperty(value = "key", required = true)
     private SecureString key;
 
-    /** Creates an instance of LinkedIntegrationRuntimeKeyAuthorization class. */
+    /**
+     * Creates an instance of LinkedIntegrationRuntimeKeyAuthorization class.
+     */
     public LinkedIntegrationRuntimeKeyAuthorization() {
     }
 
     /**
+     * Get the authorizationType property: The authorization type for integration runtime sharing.
+     * 
+     * @return the authorizationType value.
+     */
+    @Override
+    public String authorizationType() {
+        return this.authorizationType;
+    }
+
+    /**
      * Get the key property: The key used for authorization.
-     *
+     * 
      * @return the key value.
      */
     public SecureString key() {
@@ -36,7 +62,7 @@ public final class LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegr
 
     /**
      * Set the key property: The key used for authorization.
-     *
+     * 
      * @param key the key value to set.
      * @return the LinkedIntegrationRuntimeKeyAuthorization object itself.
      */
@@ -47,17 +73,16 @@ public final class LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegr
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (key() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property key in model LinkedIntegrationRuntimeKeyAuthorization"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property key in model LinkedIntegrationRuntimeKeyAuthorization"));
         } else {
             key().validate();
         }

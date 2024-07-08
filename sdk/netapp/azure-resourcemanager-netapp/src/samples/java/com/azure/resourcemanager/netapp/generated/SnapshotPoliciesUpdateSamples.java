@@ -10,24 +10,23 @@ import com.azure.resourcemanager.netapp.models.MonthlySchedule;
 import com.azure.resourcemanager.netapp.models.SnapshotPolicy;
 import com.azure.resourcemanager.netapp.models.WeeklySchedule;
 
-/** Samples for SnapshotPolicies Update. */
+/**
+ * Samples for SnapshotPolicies Update.
+ */
 public final class SnapshotPoliciesUpdateSamples {
     /*
-     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/SnapshotPolicies_Update.json
+     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/SnapshotPolicies_Update.json
      */
     /**
      * Sample code: SnapshotPolicies_Update.
-     *
+     * 
      * @param manager Entry point to NetAppFilesManager.
      */
     public static void snapshotPoliciesUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
-        SnapshotPolicy resource =
-            manager
-                .snapshotPolicies()
-                .getWithResponse("myRG", "account1", "snapshotPolicyName", com.azure.core.util.Context.NONE)
-                .getValue();
-        resource
-            .update()
+        SnapshotPolicy resource = manager.snapshotPolicies()
+            .getWithResponse("myRG", "account1", "snapshotPolicyName", com.azure.core.util.Context.NONE)
+            .getValue();
+        resource.update()
             .withHourlySchedule(new HourlySchedule().withSnapshotsToKeep(2).withMinute(50))
             .withDailySchedule(new DailySchedule().withSnapshotsToKeep(4).withHour(14).withMinute(30))
             .withWeeklySchedule(

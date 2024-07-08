@@ -11,17 +11,16 @@ import org.junit.jupiter.api.Assertions;
 public final class WorkloadNetworkGatewayPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkGatewayProperties model =
-            BinaryData
-                .fromString("{\"displayName\":\"hhuao\",\"path\":\"pcqeqx\"}")
-                .toObject(WorkloadNetworkGatewayProperties.class);
-        Assertions.assertEquals("hhuao", model.displayName());
+        WorkloadNetworkGatewayProperties model = BinaryData
+            .fromString("{\"provisioningState\":\"Deleting\",\"displayName\":\"r\",\"path\":\"akmokzhjjklf\"}")
+            .toObject(WorkloadNetworkGatewayProperties.class);
+        Assertions.assertEquals("r", model.displayName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkGatewayProperties model = new WorkloadNetworkGatewayProperties().withDisplayName("hhuao");
+        WorkloadNetworkGatewayProperties model = new WorkloadNetworkGatewayProperties().withDisplayName("r");
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkGatewayProperties.class);
-        Assertions.assertEquals("hhuao", model.displayName());
+        Assertions.assertEquals("r", model.displayName());
     }
 }

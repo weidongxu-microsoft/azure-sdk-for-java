@@ -11,19 +11,17 @@ import org.junit.jupiter.api.Assertions;
 public final class DiagnosticsStatusTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DiagnosticsStatus model =
-            BinaryData
-                .fromString("{\"message\":\"srmffeycxcktpiym\",\"statusId\":1764465622}")
-                .toObject(DiagnosticsStatus.class);
-        Assertions.assertEquals("srmffeycxcktpiym", model.message());
-        Assertions.assertEquals(1764465622, model.statusId());
+        DiagnosticsStatus model = BinaryData.fromString("{\"message\":\"dpsovwxznptgo\",\"statusId\":935021144}")
+            .toObject(DiagnosticsStatus.class);
+        Assertions.assertEquals("dpsovwxznptgo", model.message());
+        Assertions.assertEquals(935021144, model.statusId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DiagnosticsStatus model = new DiagnosticsStatus().withMessage("srmffeycxcktpiym").withStatusId(1764465622);
+        DiagnosticsStatus model = new DiagnosticsStatus().withMessage("dpsovwxznptgo").withStatusId(935021144);
         model = BinaryData.fromObject(model).toObject(DiagnosticsStatus.class);
-        Assertions.assertEquals("srmffeycxcktpiym", model.message());
-        Assertions.assertEquals(1764465622, model.statusId());
+        Assertions.assertEquals("dpsovwxznptgo", model.message());
+        Assertions.assertEquals(935021144, model.statusId());
     }
 }

@@ -6,12 +6,14 @@ package com.azure.identity.implementation;
 import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.exception.ClientAuthenticationException;
+import com.azure.core.http.HttpPipeline;
 import com.azure.core.util.CoreUtils;
 import com.azure.identity.CredentialUnavailableException;
 import com.azure.identity.DeviceCodeInfo;
 import com.azure.identity.implementation.util.IdentityUtil;
 import com.azure.identity.implementation.util.LoggingUtil;
 import com.azure.identity.implementation.util.ScopeUtil;
+import com.azure.identity.implementation.util.ValidationUtil;
 import com.microsoft.aad.msal4j.AppTokenProviderParameters;
 import com.microsoft.aad.msal4j.ClaimsRequest;
 import com.microsoft.aad.msal4j.ClientCredentialFactory;
@@ -28,7 +30,6 @@ import com.microsoft.aad.msal4j.UserNamePasswordParameters;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -50,7 +51,10 @@ import java.util.function.Supplier;
 public class IdentitySyncClient extends IdentityClientBase {
 
     private final SynchronousAccessor<PublicClientApplication> publicClientApplicationAccessor;
+    private final SynchronousAccessor<PublicClientApplication> publicClientApplicationAccessorWithCae;
     private final SynchronousAccessor<ConfidentialClientApplication> confidentialClientApplicationAccessor;
+
+    private final SynchronousAccessor<ConfidentialClientApplication> confidentialClientApplicationAccessorWithCae;
     private final SynchronousAccessor<ConfidentialClientApplication> managedIdentityConfidentialClientApplicationAccessor;
     private final SynchronousAccessor<ConfidentialClientApplication> workloadIdentityConfidentialClientApplicationAccessor;
     private final SynchronousAccessor<String> clientAssertionAccessor;
@@ -73,16 +77,24 @@ public class IdentitySyncClient extends IdentityClientBase {
      */
     IdentitySyncClient(String tenantId, String clientId, String clientSecret, String certificatePath,
                        String clientAssertionFilePath, String resourceId, Supplier<String> clientAssertionSupplier,
-                       InputStream certificate, String certificatePassword, boolean isSharedTokenCacheCredential,
+                       Function<HttpPipeline, String> clientAssertionSupplierWithHttpPipeline,
+                       byte[] certificate, String certificatePassword, boolean isSharedTokenCacheCredential,
                        Duration clientAssertionTimeout, IdentityClientOptions options) {
         super(tenantId, clientId, clientSecret, certificatePath, clientAssertionFilePath, resourceId, clientAssertionSupplier,
-            certificate, certificatePassword, isSharedTokenCacheCredential, clientAssertionTimeout, options);
+            clientAssertionSupplierWithHttpPipeline, certificate, certificatePassword, isSharedTokenCacheCredential,
+            clientAssertionTimeout, options);
 
         this.publicClientApplicationAccessor = new SynchronousAccessor<>(() ->
-            this.getPublicClient(isSharedTokenCacheCredential));
+            this.getPublicClient(isSharedTokenCacheCredential, false));
+
+        this.publicClientApplicationAccessorWithCae = new SynchronousAccessor<>(() ->
+            this.getPublicClient(isSharedTokenCacheCredential, true));
 
         this.confidentialClientApplicationAccessor = new SynchronousAccessor<>(() ->
-            this.getConfidentialClient());
+            this.getConfidentialClient(false));
+
+        this.confidentialClientApplicationAccessorWithCae = new SynchronousAccessor<>(() ->
+            this.getConfidentialClient(true));
 
         this.managedIdentityConfidentialClientApplicationAccessor = new SynchronousAccessor<>(() ->
             this.getManagedIdentityConfidentialClient());
@@ -118,7 +130,7 @@ public class IdentitySyncClient extends IdentityClientBase {
      * @return a Publisher that emits an AccessToken
      */
     public AccessToken authenticateWithConfidentialClient(TokenRequestContext request) {
-        ConfidentialClientApplication confidentialClient =  confidentialClientApplicationAccessor.getValue();
+        ConfidentialClientApplication confidentialClient =  getConfidentialClientInstance(request).getValue();
         ClientCredentialParameters.ClientCredentialParametersBuilder builder =
             ClientCredentialParameters.builder(new HashSet<>(request.getScopes()))
                 .tenant(IdentityUtil
@@ -126,12 +138,25 @@ public class IdentitySyncClient extends IdentityClientBase {
         if (clientAssertionSupplier != null) {
             builder.clientCredential(ClientCredentialFactory
                 .createFromClientAssertion(clientAssertionSupplier.get()));
+        } else if (clientAssertionSupplierWithHttpPipeline != null) {
+            builder.clientCredential(ClientCredentialFactory
+                .createFromClientAssertion(clientAssertionSupplierWithHttpPipeline.apply(getPipeline())));
         }
         try {
             return new MsalToken(confidentialClient.acquireToken(builder.build()).get());
         } catch (InterruptedException | ExecutionException e) {
             throw LOGGER.logExceptionAsError(new RuntimeException(e));
         }
+    }
+
+    private SynchronousAccessor<ConfidentialClientApplication> getConfidentialClientInstance(TokenRequestContext request) {
+        return request.isCaeEnabled()
+            ? confidentialClientApplicationAccessorWithCae : confidentialClientApplicationAccessor;
+    }
+
+    private SynchronousAccessor<PublicClientApplication> getPublicClientInstance(TokenRequestContext request) {
+        return request.isCaeEnabled()
+            ? publicClientApplicationAccessorWithCae : publicClientApplicationAccessor;
     }
 
     public AccessToken authenticateWithManagedIdentityConfidentialClient(TokenRequestContext request) {
@@ -147,11 +172,23 @@ public class IdentitySyncClient extends IdentityClientBase {
         }
     }
 
-
+    /**
+     * Acquire a token from the confidential client.
+     *
+     * @param request the details of the token request
+     * @return An access token, or null if no token exists in the cache.
+     */
+    @SuppressWarnings("deprecation")
     public AccessToken authenticateWithConfidentialClientCache(TokenRequestContext request) {
-        ConfidentialClientApplication confidentialClientApplication = confidentialClientApplicationAccessor.getValue();
+        ConfidentialClientApplication confidentialClientApplication = getConfidentialClientInstance(request).getValue();
         SilentParameters.SilentParametersBuilder parametersBuilder = SilentParameters.builder(new HashSet<>(request.getScopes()))
             .tenant(IdentityUtil.resolveTenantId(tenantId, request, options));
+
+        if (request.isCaeEnabled() && request.getClaims() != null) {
+            ClaimsRequest customClaimRequest = CustomClaimRequest.formatAsClaimsRequest(request.getClaims());
+            parametersBuilder.claims(customClaimRequest);
+            parametersBuilder.forceRefresh(true);
+        }
 
         try {
             IAuthenticationResult authenticationResult = confidentialClientApplication.acquireTokenSilently(parametersBuilder.build()).get();
@@ -164,26 +201,48 @@ public class IdentitySyncClient extends IdentityClientBase {
         } catch (MalformedURLException e) {
             throw LOGGER.logExceptionAsError(new RuntimeException(e.getMessage(), e));
         } catch (ExecutionException | InterruptedException e) {
-            throw LOGGER.logExceptionAsError(new ClientAuthenticationException(e.getMessage(), null, e));
+            // Cache misses should not throw an exception, but should log.
+            if (e.getMessage().contains("Token not found in the cache")) {
+                LOGGER.verbose("Token not found in the MSAL cache.");
+                return null;
+            } else {
+                throw LOGGER.logExceptionAsError(new ClientAuthenticationException(e.getMessage(), null, e));
+            }
         }
     }
 
 
     /**
-     * Asynchronously acquire a token from the currently logged in client.
+     * Acquire a token from the currently logged in client.
      *
      * @param request the details of the token request
      * @param account the account used to log in to acquire the last token
-     * @return a Publisher that emits an AccessToken
+     * @return An access token, or null if no token exists in the cache.
      */
     @SuppressWarnings("deprecation")
     public MsalToken authenticateWithPublicClientCache(TokenRequestContext request, IAccount account) {
-        PublicClientApplication pc =  publicClientApplicationAccessor.getValue();
+        PublicClientApplication pc =  getPublicClientInstance(request).getValue();
+        MsalToken token = acquireTokenFromPublicClientSilently(request, pc, account, false);
+        if (OffsetDateTime.now().isAfter(token.getExpiresAt().minus(REFRESH_OFFSET))) {
+            token = acquireTokenFromPublicClientSilently(request, pc, account, true);
+        }
+        return token;
+    }
+
+    private MsalToken acquireTokenFromPublicClientSilently(TokenRequestContext request,
+                                                           PublicClientApplication pc,
+                                                           IAccount account,
+                                                           boolean forceRefresh) {
         SilentParameters.SilentParametersBuilder parametersBuilder = SilentParameters.builder(
             new HashSet<>(request.getScopes()));
 
-        if (request.getClaims() != null) {
-            ClaimsRequest customClaimRequest = CustomClaimRequest.formatAsClaimsRequest(request.getClaims());
+        if (forceRefresh) {
+            parametersBuilder.forceRefresh(true);
+        }
+
+        if (request.isCaeEnabled() && request.getClaims() != null) {
+            ClaimsRequest customClaimRequest = CustomClaimRequest
+                .formatAsClaimsRequest(request.getClaims());
             parametersBuilder.claims(customClaimRequest);
             parametersBuilder.forceRefresh(true);
         }
@@ -194,36 +253,17 @@ public class IdentitySyncClient extends IdentityClientBase {
         parametersBuilder.tenant(
             IdentityUtil.resolveTenantId(tenantId, request, options));
         try {
-            MsalToken accessToken = new MsalToken(pc.acquireTokenSilently(parametersBuilder.build()).get());
-            if (OffsetDateTime.now().isBefore(accessToken.getExpiresAt().minus(REFRESH_OFFSET))) {
-                return accessToken;
+            return new MsalToken(pc.acquireTokenSilently(parametersBuilder.build()).get());
+        } catch (MalformedURLException e) {
+            throw LOGGER.logExceptionAsError(new RuntimeException(e.getMessage(), e));
+        } catch (ExecutionException | InterruptedException e) {
+            // Cache misses should not throw an exception, but should log.
+            if (e.getMessage().contains("Token not found in the cache")) {
+                LOGGER.verbose("Token not found in the MSAL cache.");
+                return null;
+            } else {
+                throw LOGGER.logExceptionAsError(new ClientAuthenticationException(e.getMessage(), null, e));
             }
-        } catch (MalformedURLException e) {
-            throw LOGGER.logExceptionAsError(new RuntimeException(e.getMessage(), e));
-        } catch (ExecutionException | InterruptedException e) {
-            throw LOGGER.logExceptionAsError(new ClientAuthenticationException(e.getMessage(), null, e));
-        }
-
-        SilentParameters.SilentParametersBuilder forceParametersBuilder = SilentParameters.builder(
-            new HashSet<>(request.getScopes())).forceRefresh(true);
-
-        if (request.getClaims() != null) {
-            ClaimsRequest customClaimRequest = CustomClaimRequest
-                .formatAsClaimsRequest(request.getClaims());
-            forceParametersBuilder.claims(customClaimRequest);
-        }
-
-        if (account != null) {
-            forceParametersBuilder = forceParametersBuilder.account(account);
-        }
-        forceParametersBuilder.tenant(
-            IdentityUtil.resolveTenantId(tenantId, request, options));
-        try {
-            return new MsalToken(pc.acquireTokenSilently(forceParametersBuilder.build()).get());
-        } catch (MalformedURLException e) {
-            throw LOGGER.logExceptionAsError(new RuntimeException(e.getMessage(), e));
-        } catch (ExecutionException | InterruptedException e) {
-            throw LOGGER.logExceptionAsError(new ClientAuthenticationException(e.getMessage(), null, e));
         }
     }
 
@@ -237,7 +277,7 @@ public class IdentitySyncClient extends IdentityClientBase {
      */
     public MsalToken authenticateWithUsernamePassword(TokenRequestContext request,
                                                             String username, String password) {
-        PublicClientApplication pc =  publicClientApplicationAccessor.getValue();
+        PublicClientApplication pc =  getPublicClientInstance(request).getValue();
         UserNamePasswordParameters.UserNamePasswordParametersBuilder userNamePasswordParametersBuilder =
             buildUsernamePasswordFlowParameters(request, username, password);
         try {
@@ -262,7 +302,7 @@ public class IdentitySyncClient extends IdentityClientBase {
      */
     public MsalToken authenticateWithDeviceCode(TokenRequestContext request,
                                                       Consumer<DeviceCodeInfo> deviceCodeConsumer) {
-        PublicClientApplication pc =  publicClientApplicationAccessor.getValue();
+        PublicClientApplication pc =  getPublicClientInstance(request).getValue();
         DeviceCodeFlowParameters.DeviceCodeFlowParametersBuilder parametersBuilder = buildDeviceCodeFlowParameters(request, deviceCodeConsumer);
 
         try {
@@ -301,16 +341,34 @@ public class IdentitySyncClient extends IdentityClientBase {
         } catch (URISyntaxException e) {
             throw LOGGER.logExceptionAsError(new RuntimeException(e));
         }
+        PublicClientApplication pc = getPublicClientInstance(request).getValue();
 
-        InteractiveRequestParameters.InteractiveRequestParametersBuilder builder = buildInteractiveRequestParameters(request, loginHint, redirectUri);
-
-        PublicClientApplication pc =  publicClientApplicationAccessor.getValue();
-        try {
-            return new MsalToken(pc.acquireToken(builder.build()).get());
-        } catch (Exception e) {
-            throw LOGGER.logExceptionAsError(new ClientAuthenticationException(
-                "Failed to acquire token with Interactive Browser Authentication.", null, e));
+        // If the broker is enabled, try to get the token for the default account by passing
+        // a null account to MSAL. If that fails, show the dialog.
+        MsalToken token = null;
+        if (options.isBrokerEnabled() && options.useDefaultBrokerAccount()) {
+            try {
+                token = acquireTokenFromPublicClientSilently(request,
+                    pc,
+                    null,
+                    false);
+            } catch (Exception e) {
+                // The error case here represents the silent acquisition failing. There's nothing actionable and
+                // in this case the fallback path of showing the dialog will capture any meaningful error and share it.
+            }
         }
+        if (token == null) {
+            InteractiveRequestParameters.InteractiveRequestParametersBuilder builder =
+                buildInteractiveRequestParameters(request, loginHint, redirectUri);
+
+            try {
+                return new MsalToken(pc.acquireToken(builder.build()).get());
+            } catch (Exception e) {
+                throw LOGGER.logExceptionAsError(new ClientAuthenticationException(
+                    "Failed to acquire token with Interactive Browser Authentication.", null, e));
+            }
+        }
+        return token;
     }
 
     /**
@@ -320,7 +378,6 @@ public class IdentitySyncClient extends IdentityClientBase {
      * @return a Publisher that emits an AccessToken
      */
     public AccessToken authenticateWithAzureCli(TokenRequestContext request) {
-
         StringBuilder azCommand = new StringBuilder("az account get-access-token --output json --resource ");
 
         String scopes = ScopeUtil.scopesToResource(request.getScopes());
@@ -334,8 +391,9 @@ public class IdentitySyncClient extends IdentityClientBase {
         azCommand.append(scopes);
 
         String tenant = IdentityUtil.resolveTenantId(tenantId, request, options);
+        ValidationUtil.validateTenantIdCharacterRange(tenant, LOGGER);
 
-        if (!CoreUtils.isNullOrEmpty(tenant)) {
+        if (!CoreUtils.isNullOrEmpty(tenant) && !tenant.equals(IdentityUtil.DEFAULT_TENANT)) {
             azCommand.append(" --tenant ").append(tenant);
         }
 
@@ -367,12 +425,23 @@ public class IdentitySyncClient extends IdentityClientBase {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException("Missing scope in request"));
         }
 
+        scopes.forEach(scope -> {
+            try {
+                ScopeUtil.validateScope(scope);
+            } catch (IllegalArgumentException ex) {
+                throw LOGGER.logExceptionAsError(ex);
+            }
+        });
+
+
         // At least one scope is appended to the azd command.
         // If there are more than one scope, we add `--scope` before each.
         azdCommand.append(String.join(" --scope ", scopes));
 
         String tenant = IdentityUtil.resolveTenantId(tenantId, request, options);
-        if (!CoreUtils.isNullOrEmpty(tenant)) {
+        ValidationUtil.validateTenantIdCharacterRange(tenant, LOGGER);
+
+        if (!CoreUtils.isNullOrEmpty(tenant) && !tenant.equals(IdentityUtil.DEFAULT_TENANT)) {
             azdCommand.append(" --tenant-id ").append(tenant);
         }
 
@@ -392,7 +461,7 @@ public class IdentitySyncClient extends IdentityClientBase {
      * @return a Publisher that emits an AccessToken
      */
     public AccessToken authenticateWithOBO(TokenRequestContext request) {
-        ConfidentialClientApplication cc = confidentialClientApplicationAccessor.getValue();
+        ConfidentialClientApplication cc = getConfidentialClientInstance(request).getValue();
         try {
             return new MsalToken(cc.acquireToken(buildOBOFlowParameters(request)).get());
         } catch (Exception e) {

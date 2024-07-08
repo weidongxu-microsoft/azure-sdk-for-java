@@ -13,9 +13,12 @@ import com.azure.resourcemanager.network.models.Hub;
 import com.azure.resourcemanager.network.models.IsGlobal;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of network manager connectivity configuration. */
+/**
+ * Properties of network manager connectivity configuration.
+ */
 @Fluent
 public final class ConnectivityConfigurationProperties {
     /*
@@ -60,7 +63,15 @@ public final class ConnectivityConfigurationProperties {
     @JsonProperty(value = "deleteExistingPeering")
     private DeleteExistingPeering deleteExistingPeering;
 
-    /** Creates an instance of ConnectivityConfigurationProperties class. */
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
+
+    /**
+     * Creates an instance of ConnectivityConfigurationProperties class.
+     */
     public ConnectivityConfigurationProperties() {
     }
 
@@ -194,25 +205,32 @@ public final class ConnectivityConfigurationProperties {
     }
 
     /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
+    }
+
+    /**
      * Validates the instance.
      *
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (connectivityTopology() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property connectivityTopology in model ConnectivityConfigurationProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property connectivityTopology in model ConnectivityConfigurationProperties"));
         }
         if (hubs() != null) {
             hubs().forEach(e -> e.validate());
         }
         if (appliesToGroups() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property appliesToGroups in model ConnectivityConfigurationProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property appliesToGroups in model ConnectivityConfigurationProperties"));
         } else {
             appliesToGroups().forEach(e -> e.validate());
         }

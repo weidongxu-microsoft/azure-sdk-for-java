@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Define user session identifier group by clauses. */
+/**
+ * Define user session identifier group by clauses.
+ */
 @Fluent
 public final class GroupByUserSession {
     /*
@@ -18,7 +21,9 @@ public final class GroupByUserSession {
     @JsonProperty(value = "groupByVariables", required = true)
     private List<GroupByVariable> groupByVariables;
 
-    /** Creates an instance of GroupByUserSession class. */
+    /**
+     * Creates an instance of GroupByUserSession class.
+     */
     public GroupByUserSession() {
     }
 
@@ -49,10 +54,9 @@ public final class GroupByUserSession {
      */
     public void validate() {
         if (groupByVariables() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property groupByVariables in model GroupByUserSession"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property groupByVariables in model GroupByUserSession"));
         } else {
             groupByVariables().forEach(e -> e.validate());
         }

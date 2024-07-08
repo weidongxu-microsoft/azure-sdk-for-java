@@ -16,6 +16,7 @@ import com.azure.cosmos.implementation.DiagnosticsProvider;
 import com.azure.cosmos.implementation.DocumentCollection;
 import com.azure.cosmos.implementation.GlobalEndpointManager;
 import com.azure.cosmos.implementation.IRetryPolicyFactory;
+import com.azure.cosmos.implementation.ISessionContainer;
 import com.azure.cosmos.implementation.OperationType;
 import com.azure.cosmos.implementation.RetryContext;
 import com.azure.cosmos.implementation.RxDocumentClientImpl;
@@ -389,6 +390,10 @@ public class ReflectionUtils {
         set(telemetry, httpClient, "httpClient");
     }
 
+    public static void setHttpClient(GatewayAddressCache gatewayAddressCache, HttpClient httpClient) {
+        set(gatewayAddressCache, httpClient, "httpClient");
+    }
+
     public static void setDefaultMinDurationBeforeEnforcingCollectionRoutingMapRefreshDuration(
         Duration newDuration) {
 
@@ -405,6 +410,10 @@ public class ReflectionUtils {
 
     public static LocationCache getLocationCache(GlobalEndpointManager globalEndpointManager) {
         return get(LocationCache.class, globalEndpointManager, "locationCache");
+    }
+
+    public static ConnectionPolicy getConnectionPolicy(LocationCache locationCache) {
+        return get(ConnectionPolicy.class, locationCache, "connectionPolicy");
     }
 
     public static HttpClient getClientTelemetryHttpClint(ClientTelemetry clientTelemetry) {
@@ -425,12 +434,21 @@ public class ReflectionUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static AtomicReference<Uri.HealthStatus> getHealthStatus(Uri uri) {
-        return get(AtomicReference.class, uri, "healthStatus");
+    public static AtomicReference<Uri.HealthStatusAndDiagnosticStringTuple> getHealthStatus(Uri uri) {
+        return get(AtomicReference.class, uri, "healthStatusTuple");
     }
 
     @SuppressWarnings("unchecked")
     public static Set<Uri.HealthStatus> getReplicaValidationScopes(GatewayAddressCache gatewayAddressCache) {
         return get(Set.class, gatewayAddressCache, "replicaValidationScopes");
     }
+
+    public static void setEndpointProvider(RntbdTransportClient rntbdTransportClient, RntbdEndpoint.Provider provider) {
+        set(rntbdTransportClient, provider, "endpointProvider");
+    }
+
+    public static ISessionContainer getSessionContainer(RxDocumentClientImpl rxDocumentClient) {
+        return get(ISessionContainer.class, rxDocumentClient, "sessionContainer");
+    }
+
 }

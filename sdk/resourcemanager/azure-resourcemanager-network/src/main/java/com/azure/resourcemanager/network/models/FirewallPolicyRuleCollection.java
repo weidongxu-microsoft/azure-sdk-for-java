@@ -7,22 +7,31 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Properties of the rule collection. */
+/**
+ * Properties of the rule collection.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "ruleCollectionType",
-    defaultImpl = FirewallPolicyRuleCollection.class)
+    defaultImpl = FirewallPolicyRuleCollection.class,
+    visible = true)
 @JsonTypeName("FirewallPolicyRuleCollection")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "FirewallPolicyNatRuleCollection", value = FirewallPolicyNatRuleCollection.class),
-    @JsonSubTypes.Type(name = "FirewallPolicyFilterRuleCollection", value = FirewallPolicyFilterRuleCollection.class)
-})
+    @JsonSubTypes.Type(name = "FirewallPolicyFilterRuleCollection", value = FirewallPolicyFilterRuleCollection.class) })
 @Fluent
 public class FirewallPolicyRuleCollection {
+    /*
+     * The type of the rule collection.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "ruleCollectionType", required = true)
+    private FirewallPolicyRuleCollectionType ruleCollectionType;
+
     /*
      * The name of the rule collection.
      */
@@ -35,13 +44,25 @@ public class FirewallPolicyRuleCollection {
     @JsonProperty(value = "priority")
     private Integer priority;
 
-    /** Creates an instance of FirewallPolicyRuleCollection class. */
+    /**
+     * Creates an instance of FirewallPolicyRuleCollection class.
+     */
     public FirewallPolicyRuleCollection() {
+        this.ruleCollectionType = FirewallPolicyRuleCollectionType.fromString("FirewallPolicyRuleCollection");
+    }
+
+    /**
+     * Get the ruleCollectionType property: The type of the rule collection.
+     * 
+     * @return the ruleCollectionType value.
+     */
+    public FirewallPolicyRuleCollectionType ruleCollectionType() {
+        return this.ruleCollectionType;
     }
 
     /**
      * Get the name property: The name of the rule collection.
-     *
+     * 
      * @return the name value.
      */
     public String name() {
@@ -50,7 +71,7 @@ public class FirewallPolicyRuleCollection {
 
     /**
      * Set the name property: The name of the rule collection.
-     *
+     * 
      * @param name the name value to set.
      * @return the FirewallPolicyRuleCollection object itself.
      */
@@ -61,7 +82,7 @@ public class FirewallPolicyRuleCollection {
 
     /**
      * Get the priority property: Priority of the Firewall Policy Rule Collection resource.
-     *
+     * 
      * @return the priority value.
      */
     public Integer priority() {
@@ -70,7 +91,7 @@ public class FirewallPolicyRuleCollection {
 
     /**
      * Set the priority property: Priority of the Firewall Policy Rule Collection resource.
-     *
+     * 
      * @param priority the priority value to set.
      * @return the FirewallPolicyRuleCollection object itself.
      */
@@ -81,7 +102,7 @@ public class FirewallPolicyRuleCollection {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

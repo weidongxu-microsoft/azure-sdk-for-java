@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.10 (Unreleased)
+## 1.0.0-beta.26 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,119 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.25 (2024-06-28)
+
+### Other changes
+
+- [ResourceAttributes has been deprecated upstream](https://github.com/Azure/azure-sdk-for-java/pull/40504)
+- [Handle 206](https://github.com/Azure/azure-sdk-for-java/pull/40416)
+
+## 1.0.0-beta.24 (2024-05-29)
+
+### Features Added
+
+- [Support explicit fixed sampling rate of 100% without ingestion sampling](https://github.com/Azure/azure-sdk-for-java/pull/40338)
+
+## 1.0.0-beta.23 (2024-05-23)
+
+### Other Changes
+- [Only emit `_APPRESOURCEPREVIEW_` custom metric in AKS preview integration](https://github.com/Azure/azure-sdk-for-java/pull/40312)
+- [Update OpenTelemetry to 2.4.0](https://github.com/Azure/azure-sdk-for-java/pull/40289)
+
+## 1.0.0-beta.22 (2024-05-09)
+
+### Bugs Fixed
+- [Fix _OTELRESOURCE_ custom metrics with default resources](https://github.com/Azure/azure-sdk-for-java/pull/39380)
+
+### Other Changes
+- [Update OpenTelemetry to 2.3.0](https://github.com/Azure/azure-sdk-for-java/pull/39843)
+- [Add attach type to sdkVersion](https://github.com/Azure/azure-sdk-for-java/pull/39883)
+- [Emit stable HTTP OTel metrics](https://github.com/Azure/azure-sdk-for-java/pull/39960)
+
+## 1.0.0-beta.21 (2024-03-11)
+
+### Bugs Fixed
+- [Support stable HTTP semconv url.query](https://github.com/Azure/azure-sdk-for-java/pull/39133)
+
+## 1.0.0-beta.20 (2024-03-07)
+
+### Features Added
+- [Support ingestion sampling](https://github.com/Azure/azure-sdk-for-java/pull/39103)
+
+### Bugs Fixed
+- [Avoid warning on sporadic connection failures](https://github.com/Azure/azure-sdk-for-java/pull/39021)
+
+## 1.0.0-beta.19 (2024-02-23)
+
+### Bugs Fixed
+- [Always send item count for logs](https://github.com/Azure/azure-sdk-for-java/pull/38930)
+
+## 1.0.0-beta.18 (2024-02-23)
+
+### Bugs Fixed
+- [Fix min and max values for pre-aggregated metrics](https://github.com/Azure/azure-sdk-for-java/pull/38516)
+- [Fix duplicate exceptions](https://github.com/Azure/azure-sdk-for-java/pull/38687)
+- [Always send item count](https://github.com/Azure/azure-sdk-for-java/pull/38737)
+
+### Other Changes
+- [Update OpenTelemetry to 2.1.0](https://github.com/Azure/azure-sdk-for-java/pull/38808)
+
+## 1.0.0-beta.17 (2024-01-25)
+- [Fix pre-aggregated metrics with stable http semantic convention](https://github.com/Azure/azure-sdk-for-java/pull/38497)
+
+## 1.0.0-beta.16 (2024-01-23)
+
+### Features Added
+
+- [Update OpenTelemetry to 2.0.0](https://github.com/Azure/azure-sdk-for-java/pull/38360)
+- [Support for stable HTTP semconv](https://github.com/Azure/azure-sdk-for-java/pull/37899)
+- [Update otel schema to 1.22.0](https://github.com/Azure/azure-sdk-for-java/pull/38246)
+
+## 1.0.0-beta.15 (2023-12-18)
+
+### Bugs Fixed
+- [Fix flush on JVM shutdown](https://github.com/Azure/azure-sdk-for-java/pull/37618)
+- [Fix metric names that violate OpenTelemetry spec](https://github.com/Azure/azure-sdk-for-java/pull/37947)
+
+### Other Changes
+- [Update OpenTelemetry to 1.32.0](https://github.com/Azure/azure-sdk-for-java/pull/37819)
+
+## 1.0.0-beta.14 (2023-11-09)
+
+### Breaking Changes
+- [Rename build to install](https://github.com/Azure/azure-sdk-for-java/pull/37602)
+
+### Bugs Fixed
+- [Fix null HttpPipeline](https://github.com/Azure/azure-sdk-for-java/pull/37574)
+
+## 1.0.0-beta.13 (2023-10-24)
+
+### Bugs Fixed
+- [Fix null ikey for _otelresource_ custom metrics](https://github.com/Azure/azure-sdk-for-java/pull/37352)
+- [Fix no network statsbeat](https://github.com/Azure/azure-sdk-for-java/pull/37360)
+
+## 1.0.0-beta.12 (2023-10-23)
+
+### Features Added
+- [Enable Statsbeat](https://github.com/Azure/azure-sdk-for-java/pull/37032)
+
+### Other Changes
+- [Update OpenTelemetry to 1.31.0](https://github.com/Azure/azure-sdk-for-java/pull/37209)
+- [Use OpenTelemetry AutoConfigure Module](https://github.com/Azure/azure-sdk-for-java/pull/36230)
+- [Don't drop known attributes on custom metrics](https://github.com/Azure/azure-sdk-for-java/pull/37175)
+- [Remove RetryPolicy from metadata service call](https://github.com/Azure/azure-sdk-for-java/pull/37031)
+
+## 1.0.0-beta.11 (2023-07-27)
+
+### Other Changes
+- [Fix RP Attach Type](https://github.com/Azure/azure-sdk-for-java/pull/36121)
+
+## 1.0.0-beta.10 (2023-07-26)
+
+### Other Changes
+- [Update vm prefix](https://github.com/Azure/azure-sdk-for-java/pull/36059)
+- [Better log messages](https://github.com/Azure/azure-sdk-for-java/pull/36064)
 
 ## 1.0.0-beta.9 (2023-07-14)
 

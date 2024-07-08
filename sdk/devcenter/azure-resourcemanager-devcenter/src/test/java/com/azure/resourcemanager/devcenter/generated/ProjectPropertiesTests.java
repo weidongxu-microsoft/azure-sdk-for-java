@@ -6,31 +6,40 @@ package com.azure.resourcemanager.devcenter.generated;
 
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.devcenter.fluent.models.ProjectProperties;
+import com.azure.resourcemanager.devcenter.models.CatalogItemType;
+import com.azure.resourcemanager.devcenter.models.ProjectCatalogSettings;
+import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 
 public final class ProjectPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ProjectProperties model =
-            BinaryData
-                .fromString(
-                    "{\"provisioningState\":\"Updated\",\"devCenterUri\":\"ol\",\"devCenterId\":\"fpsalgbqu\",\"description\":\"gjyjgzjaoyfhrtxi\",\"maxDevBoxesPerUser\":1620894991}")
-                .toObject(ProjectProperties.class);
-        Assertions.assertEquals("fpsalgbqu", model.devCenterId());
-        Assertions.assertEquals("gjyjgzjaoyfhrtxi", model.description());
-        Assertions.assertEquals(1620894991, model.maxDevBoxesPerUser());
+        ProjectProperties model = BinaryData.fromString(
+            "{\"provisioningState\":\"Running\",\"devCenterUri\":\"lwckbasyypnddhs\",\"devCenterId\":\"bacphejko\",\"description\":\"nqgoulzndli\",\"maxDevBoxesPerUser\":1462222832,\"displayName\":\"kgfg\",\"catalogSettings\":{\"catalogItemSyncTypes\":[\"EnvironmentDefinition\",\"EnvironmentDefinition\",\"EnvironmentDefinition\",\"EnvironmentDefinition\"]}}")
+            .toObject(ProjectProperties.class);
+        Assertions.assertEquals("bacphejko", model.devCenterId());
+        Assertions.assertEquals("nqgoulzndli", model.description());
+        Assertions.assertEquals(1462222832, model.maxDevBoxesPerUser());
+        Assertions.assertEquals("kgfg", model.displayName());
+        Assertions.assertEquals(CatalogItemType.ENVIRONMENT_DEFINITION,
+            model.catalogSettings().catalogItemSyncTypes().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ProjectProperties model =
-            new ProjectProperties()
-                .withDevCenterId("fpsalgbqu")
-                .withDescription("gjyjgzjaoyfhrtxi")
-                .withMaxDevBoxesPerUser(1620894991);
+        ProjectProperties model = new ProjectProperties().withDevCenterId("bacphejko")
+            .withDescription("nqgoulzndli")
+            .withMaxDevBoxesPerUser(1462222832)
+            .withDisplayName("kgfg")
+            .withCatalogSettings(new ProjectCatalogSettings().withCatalogItemSyncTypes(
+                Arrays.asList(CatalogItemType.ENVIRONMENT_DEFINITION, CatalogItemType.ENVIRONMENT_DEFINITION,
+                    CatalogItemType.ENVIRONMENT_DEFINITION, CatalogItemType.ENVIRONMENT_DEFINITION)));
         model = BinaryData.fromObject(model).toObject(ProjectProperties.class);
-        Assertions.assertEquals("fpsalgbqu", model.devCenterId());
-        Assertions.assertEquals("gjyjgzjaoyfhrtxi", model.description());
-        Assertions.assertEquals(1620894991, model.maxDevBoxesPerUser());
+        Assertions.assertEquals("bacphejko", model.devCenterId());
+        Assertions.assertEquals("nqgoulzndli", model.description());
+        Assertions.assertEquals(1462222832, model.maxDevBoxesPerUser());
+        Assertions.assertEquals("kgfg", model.displayName());
+        Assertions.assertEquals(CatalogItemType.ENVIRONMENT_DEFINITION,
+            model.catalogSettings().catalogItemSyncTypes().get(0));
     }
 }

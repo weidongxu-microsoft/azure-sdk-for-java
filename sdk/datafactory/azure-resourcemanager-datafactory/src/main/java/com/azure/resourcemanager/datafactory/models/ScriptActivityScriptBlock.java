@@ -9,7 +9,9 @@ import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Script block of scripts. */
+/**
+ * Script block of scripts.
+ */
 @Fluent
 public final class ScriptActivityScriptBlock {
     /*
@@ -19,10 +21,11 @@ public final class ScriptActivityScriptBlock {
     private Object text;
 
     /*
-     * The type of the query. Type: string.
+     * The type of the query. Please refer to the ScriptType for valid options. Type: string (or Expression with
+     * resultType string).
      */
     @JsonProperty(value = "type", required = true)
-    private ScriptType type;
+    private Object type;
 
     /*
      * Array of script parameters. Type: array.
@@ -30,13 +33,15 @@ public final class ScriptActivityScriptBlock {
     @JsonProperty(value = "parameters")
     private List<ScriptActivityParameter> parameters;
 
-    /** Creates an instance of ScriptActivityScriptBlock class. */
+    /**
+     * Creates an instance of ScriptActivityScriptBlock class.
+     */
     public ScriptActivityScriptBlock() {
     }
 
     /**
      * Get the text property: The query text. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the text value.
      */
     public Object text() {
@@ -45,7 +50,7 @@ public final class ScriptActivityScriptBlock {
 
     /**
      * Set the text property: The query text. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param text the text value to set.
      * @return the ScriptActivityScriptBlock object itself.
      */
@@ -55,28 +60,30 @@ public final class ScriptActivityScriptBlock {
     }
 
     /**
-     * Get the type property: The type of the query. Type: string.
-     *
+     * Get the type property: The type of the query. Please refer to the ScriptType for valid options. Type: string (or
+     * Expression with resultType string).
+     * 
      * @return the type value.
      */
-    public ScriptType type() {
+    public Object type() {
         return this.type;
     }
 
     /**
-     * Set the type property: The type of the query. Type: string.
-     *
+     * Set the type property: The type of the query. Please refer to the ScriptType for valid options. Type: string (or
+     * Expression with resultType string).
+     * 
      * @param type the type value to set.
      * @return the ScriptActivityScriptBlock object itself.
      */
-    public ScriptActivityScriptBlock withType(ScriptType type) {
+    public ScriptActivityScriptBlock withType(Object type) {
         this.type = type;
         return this;
     }
 
     /**
      * Get the parameters property: Array of script parameters. Type: array.
-     *
+     * 
      * @return the parameters value.
      */
     public List<ScriptActivityParameter> parameters() {
@@ -85,7 +92,7 @@ public final class ScriptActivityScriptBlock {
 
     /**
      * Set the parameters property: Array of script parameters. Type: array.
-     *
+     * 
      * @param parameters the parameters value to set.
      * @return the ScriptActivityScriptBlock object itself.
      */
@@ -96,19 +103,17 @@ public final class ScriptActivityScriptBlock {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (text() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property text in model ScriptActivityScriptBlock"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property text in model ScriptActivityScriptBlock"));
         }
         if (type() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property type in model ScriptActivityScriptBlock"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property type in model ScriptActivityScriptBlock"));
         }
         if (parameters() != null) {
             parameters().forEach(e -> e.validate());

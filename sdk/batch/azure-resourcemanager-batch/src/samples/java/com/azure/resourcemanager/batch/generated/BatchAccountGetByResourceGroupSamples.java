@@ -4,35 +4,35 @@
 
 package com.azure.resourcemanager.batch.generated;
 
-import com.azure.core.util.Context;
-
-/** Samples for BatchAccount GetByResourceGroup. */
+/**
+ * Samples for BatchAccount GetByResourceGroup.
+ */
 public final class BatchAccountGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-10-01/examples/PrivateBatchAccountGet.json
+     * x-ms-original-file:
+     * specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateBatchAccountGet.json
      */
     /**
      * Sample code: PrivateBatchAccountGet.
-     *
+     * 
      * @param manager Entry point to BatchManager.
      */
     public static void privateBatchAccountGet(com.azure.resourcemanager.batch.BatchManager manager) {
-        manager
-            .batchAccounts()
-            .getByResourceGroupWithResponse("default-azurebatch-japaneast", "sampleacct", Context.NONE);
+        manager.batchAccounts().getByResourceGroupWithResponse("default-azurebatch-japaneast", "sampleacct",
+            com.azure.core.util.Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-10-01/examples/BatchAccountGet.json
+     * x-ms-original-file:
+     * specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountGet.json
      */
     /**
      * Sample code: BatchAccountGet.
-     *
+     * 
      * @param manager Entry point to BatchManager.
      */
     public static void batchAccountGet(com.azure.resourcemanager.batch.BatchManager manager) {
-        manager
-            .batchAccounts()
-            .getByResourceGroupWithResponse("default-azurebatch-japaneast", "sampleacct", Context.NONE);
+        manager.batchAccounts().getByResourceGroupWithResponse("default-azurebatch-japaneast", "sampleacct",
+            com.azure.core.util.Context.NONE);
     }
 }

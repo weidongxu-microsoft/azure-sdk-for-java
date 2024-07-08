@@ -11,20 +11,18 @@ import org.junit.jupiter.api.Assertions;
 public final class ScriptStringExecutionParameterTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ScriptStringExecutionParameter model =
-            BinaryData
-                .fromString("{\"type\":\"Value\",\"value\":\"cx\",\"name\":\"frpdsofbshrns\"}")
+        ScriptStringExecutionParameter model
+            = BinaryData.fromString("{\"type\":\"Value\",\"value\":\"iew\",\"name\":\"jcvb\"}")
                 .toObject(ScriptStringExecutionParameter.class);
-        Assertions.assertEquals("frpdsofbshrns", model.name());
-        Assertions.assertEquals("cx", model.value());
+        Assertions.assertEquals("jcvb", model.name());
+        Assertions.assertEquals("iew", model.value());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ScriptStringExecutionParameter model =
-            new ScriptStringExecutionParameter().withName("frpdsofbshrns").withValue("cx");
+        ScriptStringExecutionParameter model = new ScriptStringExecutionParameter().withName("jcvb").withValue("iew");
         model = BinaryData.fromObject(model).toObject(ScriptStringExecutionParameter.class);
-        Assertions.assertEquals("frpdsofbshrns", model.name());
-        Assertions.assertEquals("cx", model.value());
+        Assertions.assertEquals("jcvb", model.name());
+        Assertions.assertEquals("iew", model.value());
     }
 }

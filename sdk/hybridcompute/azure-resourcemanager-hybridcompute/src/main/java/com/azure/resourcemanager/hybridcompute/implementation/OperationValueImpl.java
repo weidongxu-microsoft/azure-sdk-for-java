@@ -13,8 +13,8 @@ public final class OperationValueImpl implements OperationValue {
 
     private final com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager;
 
-    OperationValueImpl(
-        OperationValueInner innerObject, com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager) {
+    OperationValueImpl(OperationValueInner innerObject,
+        com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
     }
@@ -29,6 +29,10 @@ public final class OperationValueImpl implements OperationValue {
 
     public OperationValueDisplay display() {
         return this.innerModel().display();
+    }
+
+    public Boolean isDataAction() {
+        return this.innerModel().isDataAction();
     }
 
     public OperationValueInner innerModel() {

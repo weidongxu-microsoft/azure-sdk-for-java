@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for NetworkInterfaceTapConfigurations Get. */
+/**
+ * Samples for NetworkInterfaceTapConfigurations Get.
+ */
 public final class NetworkInterfaceTapConfigurationsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkInterfaceTapConfigurationGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkInterfaceTapConfigurationGet.json
      */
     /**
      * Sample code: Get Network Interface Tap Configurations.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getNetworkInterfaceTapConfigurations(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getNetworkInterfaceTapConfigurations()

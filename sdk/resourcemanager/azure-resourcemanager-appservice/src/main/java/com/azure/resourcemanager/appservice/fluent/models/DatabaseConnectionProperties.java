@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.models.StaticSiteDatabaseConnectionConfigurationFileOverview;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** DatabaseConnection resource specific properties. */
+/**
+ * DatabaseConnection resource specific properties.
+ */
 @Fluent
 public final class DatabaseConnectionProperties {
     /*
@@ -20,9 +23,7 @@ public final class DatabaseConnectionProperties {
     private String resourceId;
 
     /*
-     * If present, the identity is used in conjunction with connection string to connect to the database. Use of the
-     * system-assigned managed identity is indicated with the string 'SystemAssigned', while use of a user-assigned
-     * managed identity is indicated with the resource id of the managed identity resource.
+     * If present, the identity is used in conjunction with connection string to connect to the database. Use of the system-assigned managed identity is indicated with the string 'SystemAssigned', while use of a user-assigned managed identity is indicated with the resource id of the managed identity resource.
      */
     @JsonProperty(value = "connectionIdentity")
     private String connectionIdentity;
@@ -45,7 +46,9 @@ public final class DatabaseConnectionProperties {
     @JsonProperty(value = "configurationFiles", access = JsonProperty.Access.WRITE_ONLY)
     private List<StaticSiteDatabaseConnectionConfigurationFileOverview> configurationFiles;
 
-    /** Creates an instance of DatabaseConnectionProperties class. */
+    /**
+     * Creates an instance of DatabaseConnectionProperties class.
+     */
     public DatabaseConnectionProperties() {
     }
 
@@ -151,16 +154,14 @@ public final class DatabaseConnectionProperties {
      */
     public void validate() {
         if (resourceId() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property resourceId in model DatabaseConnectionProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property resourceId in model DatabaseConnectionProperties"));
         }
         if (region() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property region in model DatabaseConnectionProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property region in model DatabaseConnectionProperties"));
         }
         if (configurationFiles() != null) {
             configurationFiles().forEach(e -> e.validate());

@@ -4,14 +4,16 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for StaticSites List. */
+/**
+ * Samples for StaticSites List.
+ */
 public final class StaticSitesListSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetAllStaticSites.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetAllStaticSites.json
      */
     /**
      * Sample code: Get all static sites in a subscription.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getAllStaticSitesInASubscription(com.azure.resourcemanager.AzureResourceManager azure) {

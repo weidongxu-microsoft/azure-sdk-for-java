@@ -14,36 +14,24 @@ import org.junit.jupiter.api.Assertions;
 public final class ClientDiscoveryForPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ClientDiscoveryForProperties model =
-            BinaryData
-                .fromString(
-                    "{\"serviceSpecification\":{\"logSpecifications\":[{\"name\":\"cspkwlhzdobpxjmf\",\"displayName\":\"vvnchrkcc\",\"blobDuration\":\"wzjuqk\"},{\"name\":\"sa\",\"displayName\":\"wkuofoskghsauu\",\"blobDuration\":\"jmvxie\"}]}}")
-                .toObject(ClientDiscoveryForProperties.class);
-        Assertions.assertEquals("cspkwlhzdobpxjmf", model.serviceSpecification().logSpecifications().get(0).name());
-        Assertions.assertEquals("vvnchrkcc", model.serviceSpecification().logSpecifications().get(0).displayName());
-        Assertions.assertEquals("wzjuqk", model.serviceSpecification().logSpecifications().get(0).blobDuration());
+        ClientDiscoveryForProperties model = BinaryData.fromString(
+            "{\"serviceSpecification\":{\"logSpecifications\":[{\"name\":\"cukoklyaxuconu\",\"displayName\":\"zf\",\"blobDuration\":\"eyp\"}]}}")
+            .toObject(ClientDiscoveryForProperties.class);
+        Assertions.assertEquals("cukoklyaxuconu", model.serviceSpecification().logSpecifications().get(0).name());
+        Assertions.assertEquals("zf", model.serviceSpecification().logSpecifications().get(0).displayName());
+        Assertions.assertEquals("eyp", model.serviceSpecification().logSpecifications().get(0).blobDuration());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ClientDiscoveryForProperties model =
-            new ClientDiscoveryForProperties()
-                .withServiceSpecification(
-                    new ClientDiscoveryForServiceSpecification()
-                        .withLogSpecifications(
-                            Arrays
-                                .asList(
-                                    new ClientDiscoveryForLogSpecification()
-                                        .withName("cspkwlhzdobpxjmf")
-                                        .withDisplayName("vvnchrkcc")
-                                        .withBlobDuration("wzjuqk"),
-                                    new ClientDiscoveryForLogSpecification()
-                                        .withName("sa")
-                                        .withDisplayName("wkuofoskghsauu")
-                                        .withBlobDuration("jmvxie"))));
+        ClientDiscoveryForProperties model
+            = new ClientDiscoveryForProperties().withServiceSpecification(new ClientDiscoveryForServiceSpecification()
+                .withLogSpecifications(Arrays.asList(new ClientDiscoveryForLogSpecification().withName("cukoklyaxuconu")
+                    .withDisplayName("zf")
+                    .withBlobDuration("eyp"))));
         model = BinaryData.fromObject(model).toObject(ClientDiscoveryForProperties.class);
-        Assertions.assertEquals("cspkwlhzdobpxjmf", model.serviceSpecification().logSpecifications().get(0).name());
-        Assertions.assertEquals("vvnchrkcc", model.serviceSpecification().logSpecifications().get(0).displayName());
-        Assertions.assertEquals("wzjuqk", model.serviceSpecification().logSpecifications().get(0).blobDuration());
+        Assertions.assertEquals("cukoklyaxuconu", model.serviceSpecification().logSpecifications().get(0).name());
+        Assertions.assertEquals("zf", model.serviceSpecification().logSpecifications().get(0).displayName());
+        Assertions.assertEquals("eyp", model.serviceSpecification().logSpecifications().get(0).blobDuration());
     }
 }

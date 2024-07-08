@@ -30,43 +30,40 @@ public final class ContainerAppsDiagnosticsGetDetectorWithResponseMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"properties\":{\"metadata\":{\"id\":\"rrleaesinuqt\",\"name\":\"qobbpihehcec\",\"description\":\"mrqbrjbbmpxdlv\",\"author\":\"frexcrseqw\",\"category\":\"s\",\"supportTopicList\":[],\"analysisTypes\":[],\"type\":\"gzhxog\",\"score\":17.946411},\"dataset\":[],\"status\":{\"message\":\"jkxibda\",\"statusId\":1760793907},\"dataProviderMetadata\":{\"providerName\":\"dyomkxfbv\",\"propertyBag\":[]}},\"id\":\"dy\",\"name\":\"rhpw\",\"type\":\"gddeimaw\"}";
+        String responseStr
+            = "{\"properties\":{\"metadata\":{\"id\":\"xxgfbbmtlpqagyn\",\"name\":\"prnzc\",\"description\":\"incryqxzx\",\"author\":\"zi\",\"category\":\"qimiymqr\",\"supportTopicList\":[{\"id\":\"hfupetasvvoqsbpk\",\"pesId\":\"anfkgxsyaowuzow\"},{\"id\":\"ohdkcprgukx\",\"pesId\":\"tiochlutixmqr\"}],\"analysisTypes\":[\"izcbfzmcrunfhiuc\",\"mfbcpaqktkrum\",\"u\",\"dkyzbfvxov\"],\"type\":\"xiuxqggvqrnhy\",\"score\":87.82275},\"dataset\":[{\"table\":{\"tableName\":\"ggjh\",\"columns\":[{},{},{}],\"rows\":[\"dataqrkijpeuq\",\"datasdxeqztvxwmwwmjs\",\"dataen\",\"datawwa\"]},\"renderingProperties\":{\"type\":308965260,\"title\":\"qioulndhzyoeojht\",\"description\":\"lhsvidmytzlnglxp\",\"isVisible\":true}}],\"status\":{\"message\":\"anfbc\",\"statusId\":536650888},\"dataProviderMetadata\":{\"providerName\":\"ywv\",\"propertyBag\":[{\"name\":\"vjrktpgaeukyawoh\",\"value\":\"w\"},{\"name\":\"nucsk\",\"value\":\"sidsjtd\"}]}},\"id\":\"bninjgazlsvbzfc\",\"name\":\"uoeedwjcci\",\"type\":\"lhsyekrdrenxolr\"}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        ContainerAppsApiManager manager =
-            ContainerAppsApiManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        ContainerAppsApiManager manager = ContainerAppsApiManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Diagnostics response =
-            manager
-                .containerAppsDiagnostics()
-                .getDetectorWithResponse("dwqslsrhmpqvw", "skondcbrwimu", "qejo", com.azure.core.util.Context.NONE)
-                .getValue();
+        Diagnostics response = manager.containerAppsDiagnostics()
+            .getDetectorWithResponse("kkld", "rcwfcmfcnrjajq", "atxjtiel", com.azure.core.util.Context.NONE).getValue();
 
-        Assertions.assertEquals("jkxibda", response.properties().status().message());
-        Assertions.assertEquals(1760793907, response.properties().status().statusId());
-        Assertions.assertEquals("dyomkxfbv", response.properties().dataProviderMetadata().providerName());
+        Assertions.assertEquals("izcbfzmcrunfhiuc", response.properties().metadata().analysisTypes().get(0));
+        Assertions.assertEquals("ggjh", response.properties().dataset().get(0).table().tableName());
+        Assertions.assertEquals(308965260, response.properties().dataset().get(0).renderingProperties().type());
+        Assertions.assertEquals("qioulndhzyoeojht",
+            response.properties().dataset().get(0).renderingProperties().title());
+        Assertions.assertEquals("lhsvidmytzlnglxp",
+            response.properties().dataset().get(0).renderingProperties().description());
+        Assertions.assertEquals(true, response.properties().dataset().get(0).renderingProperties().isVisible());
+        Assertions.assertEquals("anfbc", response.properties().status().message());
+        Assertions.assertEquals(536650888, response.properties().status().statusId());
+        Assertions.assertEquals("ywv", response.properties().dataProviderMetadata().providerName());
+        Assertions.assertEquals("vjrktpgaeukyawoh",
+            response.properties().dataProviderMetadata().propertyBag().get(0).name());
+        Assertions.assertEquals("w", response.properties().dataProviderMetadata().propertyBag().get(0).value());
     }
 }

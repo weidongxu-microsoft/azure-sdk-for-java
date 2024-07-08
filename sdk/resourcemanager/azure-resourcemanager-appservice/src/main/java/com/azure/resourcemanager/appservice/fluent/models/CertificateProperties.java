@@ -9,10 +9,13 @@ import com.azure.core.util.CoreUtils;
 import com.azure.resourcemanager.appservice.models.HostingEnvironmentProfile;
 import com.azure.resourcemanager.appservice.models.KeyVaultSecretStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Certificate resource specific properties. */
+/**
+ * Certificate resource specific properties.
+ */
 @Fluent
 public final class CertificateProperties {
     /*
@@ -124,8 +127,7 @@ public final class CertificateProperties {
     private KeyVaultSecretStatus keyVaultSecretStatus;
 
     /*
-     * Resource ID of the associated App Service plan, formatted as:
-     * "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
+     * Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
      */
     @JsonProperty(value = "serverFarmId")
     private String serverFarmId;
@@ -142,7 +144,9 @@ public final class CertificateProperties {
     @JsonProperty(value = "domainValidationMethod")
     private String domainValidationMethod;
 
-    /** Creates an instance of CertificateProperties class. */
+    /**
+     * Creates an instance of CertificateProperties class.
+     */
     public CertificateProperties() {
     }
 

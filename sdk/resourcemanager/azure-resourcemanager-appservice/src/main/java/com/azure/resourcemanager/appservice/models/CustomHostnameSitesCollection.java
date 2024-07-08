@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.CustomHostnameSitesInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of custom hostname sites. */
+/**
+ * Collection of custom hostname sites.
+ */
 @Fluent
 public final class CustomHostnameSitesCollection {
     /*
@@ -25,7 +28,9 @@ public final class CustomHostnameSitesCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of CustomHostnameSitesCollection class. */
+    /**
+     * Creates an instance of CustomHostnameSitesCollection class.
+     */
     public CustomHostnameSitesCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class CustomHostnameSitesCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model CustomHostnameSitesCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model CustomHostnameSitesCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

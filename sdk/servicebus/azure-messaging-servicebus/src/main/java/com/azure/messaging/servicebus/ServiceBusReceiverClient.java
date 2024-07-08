@@ -19,9 +19,9 @@ import reactor.core.publisher.Sinks;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
 import static com.azure.messaging.servicebus.implementation.ServiceBusConstants.LOCK_TOKEN_KEY;
@@ -29,25 +29,61 @@ import static com.azure.messaging.servicebus.implementation.ServiceBusConstants.
 import static com.azure.messaging.servicebus.implementation.ServiceBusConstants.WORK_ID_KEY;
 
 /**
- * A <b>synchronous</b> receiver responsible for receiving {@link ServiceBusReceivedMessage} from a specific queue or
- * topic on Azure Service Bus.
+ * A <b>synchronous</b> receiver responsible for receiving {@link ServiceBusReceivedMessage} from a queue or
+ * topic/subscription on Azure Service Bus.
  *
- * <p><strong>Create an instance of receiver</strong></p>
- * <!-- src_embed com.azure.messaging.servicebus.servicebusreceiverclient.instantiation -->
+ * <p>The examples shown in this document use a credential object named DefaultAzureCredential for authentication,
+ * which is appropriate for most scenarios, including local development and production environments. Additionally, we
+ * recommend using
+ * <a href="https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/">managed identity</a>
+ * for authentication in production environments. You can find more information on different ways of authenticating and
+ * their corresponding credential types in the
+ * <a href="https://learn.microsoft.com/java/api/overview/azure/identity-readme">Azure Identity documentation"</a>.
+ * </p>
+ *
+ * <p><strong>Sample: Create a receiver and receive messages</strong></p>
+ *
+ * <p>The following code sample demonstrates the creation and use of the synchronous client
+ * {@link com.azure.messaging.servicebus.ServiceBusReceiverClient} to receive messages from a Service Bus subscription.
+ * The receive operation returns when either 10 messages are received or 30 seconds has elapsed.  By default, messages
+ * are received using {@link com.azure.messaging.servicebus.models.ServiceBusReceiveMode#PEEK_LOCK} and customers must
+ * settle their messages using one of the settlement methods on the receiver client.
+ * "<a href="https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock">
+ *     "Settling receive operations</a>" provides additional information about message settlement.</p>
+ *
+ * <!-- src_embed com.azure.messaging.servicebus.servicebusreceiverclient.receiveMessages-int-duration -->
  * <pre>
- * &#47;&#47; The required parameters is connectionString, a way to authenticate with Service Bus using credentials.
- * &#47;&#47; The connectionString&#47;queueName must be set by the application. The 'connectionString' format is shown below.
- * &#47;&#47; &quot;Endpoint=&#123;fully-qualified-namespace&#125;;SharedAccessKeyName=&#123;policy-name&#125;;SharedAccessKey=&#123;key&#125;&quot;
+ * TokenCredential tokenCredential = new DefaultAzureCredentialBuilder&#40;&#41;.build&#40;&#41;;
+ *
+ * &#47;&#47; 'fullyQualifiedNamespace' will look similar to &quot;&#123;your-namespace&#125;.servicebus.windows.net&quot;
  * ServiceBusReceiverClient receiver = new ServiceBusClientBuilder&#40;&#41;
- *     .connectionString&#40;connectionString&#41;
+ *     .credential&#40;fullyQualifiedNamespace, tokenCredential&#41;
  *     .receiver&#40;&#41;
- *     .queueName&#40;queueName&#41;
+ *     .topicName&#40;topicName&#41;
+ *     .subscriptionName&#40;subscriptionName&#41;
  *     .buildClient&#40;&#41;;
  *
- * &#47;&#47; Use the receiver and finally close it.
+ * &#47;&#47; Receives a batch of messages when 10 messages are received or until 30 seconds have elapsed, whichever
+ * &#47;&#47; happens first.
+ * IterableStream&lt;ServiceBusReceivedMessage&gt; messages = receiver.receiveMessages&#40;10, Duration.ofSeconds&#40;30&#41;&#41;;
+ * messages.forEach&#40;message -&gt; &#123;
+ *     System.out.printf&#40;&quot;Id: %s. Contents: %s%n&quot;, message.getMessageId&#40;&#41;, message.getBody&#40;&#41;&#41;;
+ *
+ *     &#47;&#47; If able to process message, complete it. Otherwise, abandon it and allow it to be
+ *     &#47;&#47; redelivered.
+ *     if &#40;isMessageProcessed&#41; &#123;
+ *         receiver.complete&#40;message&#41;;
+ *     &#125; else &#123;
+ *         receiver.abandon&#40;message&#41;;
+ *     &#125;
+ * &#125;&#41;;
+ *
+ * &#47;&#47; When program ends, or you're done receiving all messages, dispose of the receiver.
+ * &#47;&#47; Clients should be long-lived objects as they
+ * &#47;&#47; require resources and time to establish a connection to the service.
  * receiver.close&#40;&#41;;
  * </pre>
- * <!-- end com.azure.messaging.servicebus.servicebusreceiverclient.instantiation -->
+ * <!-- end com.azure.messaging.servicebus.servicebusreceiverclient.receiveMessages-int-duration -->
  *
  * @see ServiceBusClientBuilder
  * @see ServiceBusReceiverAsyncClient To communicate with a Service Bus resource using an asynchronous client.
@@ -63,7 +99,9 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
     /* To hold each receive work item to be processed.*/
     private final AtomicReference<SynchronousMessageSubscriber> synchronousMessageSubscriber = new AtomicReference<>();
     /* To ensure synchronousMessageSubscriber is subscribed only once. */
-    private final AtomicBoolean syncSubscribed = new AtomicBoolean(false);
+    private final ReentrantLock createSubscriberLock = new ReentrantLock();
+    private final boolean isV2;
+    private final SynchronousReceiver syncReceiver;
 
     private final ServiceBusTracer tracer;
     /**
@@ -79,6 +117,10 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
         this.asyncClient = Objects.requireNonNull(asyncClient, "'asyncClient' cannot be null.");
         this.operationTimeout = Objects.requireNonNull(operationTimeout, "'operationTimeout' cannot be null.");
         this.isPrefetchDisabled = isPrefetchDisabled;
+        // asyncClient.isV2() true indicates that the user chose v2 "Sync Receive", so this backing asyncClient was
+        // also built to use v2 stack.
+        this.isV2 = asyncClient.isV2();
+        this.syncReceiver = new SynchronousReceiver(LOGGER, asyncClient);
         this.tracer = asyncClient.getInstrumentation().getTracer();
     }
 
@@ -452,7 +494,34 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
      * Receives an iterable stream of {@link ServiceBusReceivedMessage messages} from the Service Bus entity. The
      * receive operation will wait for a default 1 minute for receiving a message before it times out. You can
      * override it by using {@link #receiveMessages(int, Duration)}.
-     *
+     * <p>
+     * The 1-minute timeout is a client-side feature. Each time the application calls {@code receiveMessages}, a timer
+     * is started on the client that when expires will terminate the IterableStream returned from this method. Timeout
+     * being a client-side feature means it is impossible to cancel any message requests that already made it to the broker.
+     * The messages can still arrive in the background after the IterableStream is transitioned to terminated state due
+     * to the client-side timeout. If there is no active IterableStream, the client will attempt to release any buffered
+     * messages back to the broker to avoid messages from going to dead letter. While messages are being released, if a
+     * new active IterableStream appears (due to a new {@code receiveMessages} call) then client will stop further release,
+     * so application may receive some messages from the buffer or already in transit followed by previously released
+     * messages when broker redeliver them, which can appear as out of order delivery.
+     * </p>
+     * <p>
+     * To keep the lock on each message received from a non-session resource (queue, topic subscription), the client will
+     * run a background task that will continuously renew the lock before it expires. By default, the lock renew task will
+     * run for a duration of 5 minutes, this duration can be adjusted using
+     * the {@link ServiceBusReceiverClientBuilder#maxAutoLockRenewDuration(Duration)} API or can be turned off by
+     * setting it {@link Duration#ZERO}. A higher {@code maxMessages} value means an equivalent number of lock renewal
+     * tasks running in the client, which may put more stress on low CPU environments. Given each lock renewal is a network
+     * call to the broker, a high number of lock renewal tasks making multiple lock renew calls also may have an adverse
+     * effect in namespace throttling. Additionally, if certain lock renewal tasks fail to renew the lock on time because
+     * of low CPU, service throttling or overloaded network, then client may lose the lock on the messages, which will
+     * cause the application's attempts to settle (e.g., complete, abandon) those messages to fail. The broker will
+     * redeliver those messages, but if the settling attempts fail repeatedly beyond the max delivery count, then the message
+     * will be transferred to dead letter queue. Keep this in mind when choosing {@code maxMessages}. You may consider
+     * disabling the client-side lock renewal using {@code maxAutoLockRenewDuration(Duration.ZERO)} if you can configure
+     * a lock duration at the resource (queue,topic subscription) level that at least exceeds the cumulative expected
+     * processing time for {@code maxMessages} messages.
+     * </p>
      * <p>
      * The client uses an AMQP link underneath to receive the messages; the client will transparently transition
      * to a new AMQP link if the current one encounters a retriable error. When the client experiences a non-retriable
@@ -460,7 +529,8 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
      * invocations of receiveMessages API will throw the error to the application. Once the application receives
      * this error, the application should reset the client, i.e., close the current {@link ServiceBusReceiverClient}
      * and create a new client to continue receiving messages.
-     * <br/>
+     * </p>
+     * <p>
      * Note: A few examples of non-retriable errors are - the application attempting to connect to a queue that does not
      * exist, deleting or disabling the queue in the middle of receiving, the user explicitly initiating Geo-DR.
      * These are certain events where the Service Bus communicates to the client that a non-retriable error occurred.
@@ -481,10 +551,42 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
     }
 
     /**
-     * Receives an iterable stream of {@link ServiceBusReceivedMessage messages} from the Service Bus entity. The
-     * default receive mode is {@link ServiceBusReceiveMode#PEEK_LOCK } unless it is changed during creation of {@link
-     * ServiceBusReceiverClient} using {@link ServiceBusReceiverClientBuilder#receiveMode(ServiceBusReceiveMode)}.
-     *
+     * Receives an iterable stream of {@link ServiceBusReceivedMessage messages} from the Service Bus entity with a timout.
+     * The default receive mode is {@link ServiceBusReceiveMode#PEEK_LOCK } unless it is changed during  creation of
+     * {@link ServiceBusReceiverClient} using {@link ServiceBusReceiverClientBuilder#receiveMode(ServiceBusReceiveMode)}.
+     * <p>
+     * The support for timeout {@code maxWaitTime} is a client-side feature. Each time the application calls
+     * {@code receiveMessages}, a timer is started on the client that when expires will terminate the IterableStream
+     * returned from this method. Timeout being a client-side feature means it is impossible to cancel any message
+     * requests that already made it to the broker. The messages can still arrive in the background after
+     * the IterableStream is transitioned to terminated state due to the client-side timeout. If there is no active
+     * IterableStream, the client will attempt to release any buffered messages back to the broker to avoid messages from
+     * going to dead letter. While messages are being released, if a new active IterableStream appears (due to a new
+     * {@code receiveMessages} call) then client will stop further release, so application may receive some messages from
+     * the buffer or already in transit followed by previously released messages when broker redeliver them, which can
+     * appear as out of order delivery. Consider these when choosing the timeout. For example, a small timeout with
+     * a higher {@code maxMessages} value while there are a lot of messages in the entity can increase the release
+     * network calls to the broker that might have adverse effect in namespace throttling and increases the chances of
+     * out of order deliveries. Also, frequent receiveMessages with low timeout means frequent scheduling of timer tasks,
+     * which may put more stress on low CPU environments.
+     * </p>
+     * <p>
+     * To keep the lock on each message received from a non-session resource (queue, topic subscription), the client will
+     * run a background task that will continuously renew the lock before it expires. By default, the lock renew task will
+     * run for a duration of 5 minutes, this duration can be adjusted using
+     * the {@link ServiceBusReceiverClientBuilder#maxAutoLockRenewDuration(Duration)} API or can be turned off by
+     * setting it {@link Duration#ZERO}. A higher {@code maxMessages} value means an equivalent number of lock renewal
+     * tasks running in the client, which may put more stress on low CPU environments. Given each lock renewal is a network
+     * call to the broker, a high number of lock renewal tasks making multiple lock renew calls also may have an adverse
+     * effect in namespace throttling. Additionally, if certain lock renewal tasks fail to renew the lock on time because
+     * of low CPU, service throttling or overloaded network, then client may lose the lock on the messages, which will
+     * cause the application's attempts to settle (e.g., complete, abandon) those messages to fail. The broker will
+     * redeliver those messages, but if the settling attempts fail repeatedly beyond the max delivery count, then the message
+     * will be transferred to dead letter queue. Keep this in mind when choosing {@code maxMessages}. You may consider
+     * disabling the client-side lock renewal using {@code maxAutoLockRenewDuration(Duration.ZERO)} if you can configure
+     * a lock duration at the resource (queue,topic subscription) level that at least exceeds the cumulative expected
+     * processing time for {@code maxMessages} messages.
+     * </p>
      * <p>
      * The client uses an AMQP link underneath to receive the messages; the client will transparently transition
      * to a new AMQP link if the current one encounters a retriable error. When the client experiences a non-retriable
@@ -492,7 +594,8 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
      * invocations of receiveMessages API will throw the error to the application. Once the application receives
      * this error, the application should reset the client, i.e., close the current {@link ServiceBusReceiverClient}
      * and create a new client to continue receiving messages.
-     * <br/>
+     * </p>
+     * <p>
      * Note: A few examples of non-retriable errors are - the application attempting to connect to a queue that does not
      * exist, deleting or disabling the queue in the middle of receiving, the user explicitly initiating Geo-DR.
      * These are certain events where the Service Bus communicates to the client that a non-retriable error occurred.
@@ -521,6 +624,12 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
                 new IllegalArgumentException("'maxWaitTime' cannot be zero or less. maxWaitTime: " + maxWaitTime));
         }
 
+        if (isV2) {
+            return syncReceiver.receive(maxMessages, maxWaitTime);
+        }
+
+        // V1: queue the work and return IterableStream backed by the work.
+        //
         // There are two subscribers to this emitter. One is the timeout between messages subscription in
         // SynchronousReceiverWork.start() and the other is the IterableStream(emitter.asFlux());
         // Since the subscriptions may happen at different times, we want to replay results to downstream subscribers.
@@ -695,7 +804,7 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
      * Starts a new transaction on Service Bus. The {@link ServiceBusTransactionContext} should be passed along to all
      * operations that need to be in this transaction.
      *
-     * <p><strong>Creating and using a transaction</strong></p>
+     * <p><strong>Sample: Creating and using a transaction</strong></p>
      * <!-- src_embed com.azure.messaging.servicebus.servicebusreceiverclient.committransaction#servicebustransactioncontext -->
      * <pre>
      * ServiceBusTransactionContext transaction = receiver.createTransaction&#40;&#41;;
@@ -774,6 +883,9 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
      */
     @Override
     public void close() {
+        if (isV2) {
+            syncReceiver.dispose();
+        }
         SynchronousMessageSubscriber messageSubscriber = synchronousMessageSubscriber.get();
         if (messageSubscriber != null && !messageSubscriber.isDisposed()) {
             messageSubscriber.dispose();
@@ -788,6 +900,7 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
      */
     private void queueWork(int maximumMessageCount, Duration maxWaitTime,
         Sinks.Many<ServiceBusReceivedMessage> emitter) {
+        assert !isV2;
 
         final long id = idGenerator.getAndIncrement();
         final SynchronousReceiveWork work = new SynchronousReceiveWork(id, maximumMessageCount, maxWaitTime, emitter);
@@ -795,37 +908,39 @@ public final class ServiceBusReceiverClient implements AutoCloseable {
 
         if (messageSubscriber != null) {
             messageSubscriber.queueWork(work);
+            LOGGER.atVerbose().addKeyValue(WORK_ID_KEY, work.getId()).log("Receive request queued up.");
             return;
         }
 
-        messageSubscriber = synchronousMessageSubscriber.updateAndGet(subscriber -> {
-            // Ensuring we create SynchronousMessageSubscriber only once.
-            if (subscriber == null) {
-                return new SynchronousMessageSubscriber(asyncClient,
+        final boolean isFirstWork;
+        createSubscriberLock.lock();
+        try {
+            messageSubscriber = synchronousMessageSubscriber.get();
+            isFirstWork = messageSubscriber == null;
+            if (isFirstWork) {
+                messageSubscriber = new SynchronousMessageSubscriber(asyncClient,
                     work,
                     isPrefetchDisabled,
                     operationTimeout);
-            } else {
-                return subscriber;
+                synchronousMessageSubscriber.set(messageSubscriber);
             }
-        });
+        } finally {
+            createSubscriberLock.unlock();
+        }
 
         // NOTE: We asynchronously send the credit to the service as soon as receiveMessage() API is called (for first
         // time).
         // This means that there may be messages internally buffered before users start iterating the IterableStream.
         // If users do not iterate through the stream and their lock duration expires, it is possible that the
         // Service Bus message's delivery count will be incremented.
-        if (!syncSubscribed.getAndSet(true)) {
-            // The 'subscribeWith' has side effects hence must not be called from
-            // the above updateFunction of AtomicReference::updateAndGet.
+        if (isFirstWork) {
+            LOGGER.atVerbose().addKeyValue(WORK_ID_KEY, work.getId()).log("Receive request queued up.");
+            // The 'subscribeWith' has side effects hence must not be called from the above block synchronized using 'createSubscriberLock'.
             asyncClient.receiveMessagesNoBackPressure().subscribeWith(messageSubscriber);
         } else {
             messageSubscriber.queueWork(work);
+            LOGGER.atVerbose().addKeyValue(WORK_ID_KEY, work.getId()).log("Receive request queued up.");
         }
-
-        LOGGER.atVerbose()
-            .addKeyValue(WORK_ID_KEY, work.getId())
-            .log("Receive request queued up.");
     }
 
     void renewSessionLock(String sessionId, Duration maxLockRenewalDuration, Consumer<Throwable> onError) {

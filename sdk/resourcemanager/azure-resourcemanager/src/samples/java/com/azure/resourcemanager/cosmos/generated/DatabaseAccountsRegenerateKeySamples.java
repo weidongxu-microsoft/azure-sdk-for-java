@@ -7,26 +7,24 @@ package com.azure.resourcemanager.cosmos.generated;
 import com.azure.resourcemanager.cosmos.models.DatabaseAccountRegenerateKeyParameters;
 import com.azure.resourcemanager.cosmos.models.KeyKind;
 
-/** Samples for DatabaseAccounts RegenerateKey. */
+/**
+ * Samples for DatabaseAccounts RegenerateKey.
+ */
 public final class DatabaseAccountsRegenerateKeySamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountRegenerateKey.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBDatabaseAccountRegenerateKey.json
      */
     /**
      * Sample code: CosmosDBDatabaseAccountRegenerateKey.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBDatabaseAccountRegenerateKey(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getDatabaseAccounts()
-            .regenerateKey(
-                "rg1",
-                "ddb1",
-                new DatabaseAccountRegenerateKeyParameters().withKeyKind(KeyKind.PRIMARY),
+            .regenerateKey("rg1", "ddb1", new DatabaseAccountRegenerateKeyParameters().withKeyKind(KeyKind.PRIMARY),
                 com.azure.core.util.Context.NONE);
     }
 }

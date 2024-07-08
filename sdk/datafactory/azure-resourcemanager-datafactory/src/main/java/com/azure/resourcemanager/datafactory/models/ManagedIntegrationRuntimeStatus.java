@@ -8,30 +8,56 @@ import com.azure.core.annotation.Immutable;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ManagedIntegrationRuntimeStatusTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Managed integration runtime status. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Managed integration runtime status.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = ManagedIntegrationRuntimeStatus.class,
+    visible = true)
 @JsonTypeName("Managed")
 @Immutable
 public final class ManagedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
     /*
+     * Type of integration runtime.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private IntegrationRuntimeType type = IntegrationRuntimeType.MANAGED;
+
+    /*
      * Managed integration runtime status type properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private ManagedIntegrationRuntimeStatusTypeProperties innerTypeProperties =
-        new ManagedIntegrationRuntimeStatusTypeProperties();
+    private ManagedIntegrationRuntimeStatusTypeProperties innerTypeProperties
+        = new ManagedIntegrationRuntimeStatusTypeProperties();
 
-    /** Creates an instance of ManagedIntegrationRuntimeStatus class. */
+    /**
+     * Creates an instance of ManagedIntegrationRuntimeStatus class.
+     */
     public ManagedIntegrationRuntimeStatus() {
     }
 
     /**
+     * Get the type property: Type of integration runtime.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public IntegrationRuntimeType type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Managed integration runtime status type properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ManagedIntegrationRuntimeStatusTypeProperties innerTypeProperties() {
@@ -40,7 +66,7 @@ public final class ManagedIntegrationRuntimeStatus extends IntegrationRuntimeSta
 
     /**
      * Get the createTime property: The time at which the integration runtime was created, in ISO8601 format.
-     *
+     * 
      * @return the createTime value.
      */
     public OffsetDateTime createTime() {
@@ -49,7 +75,7 @@ public final class ManagedIntegrationRuntimeStatus extends IntegrationRuntimeSta
 
     /**
      * Get the nodes property: The list of nodes for managed integration runtime.
-     *
+     * 
      * @return the nodes value.
      */
     public List<ManagedIntegrationRuntimeNode> nodes() {
@@ -58,7 +84,7 @@ public final class ManagedIntegrationRuntimeStatus extends IntegrationRuntimeSta
 
     /**
      * Get the otherErrors property: The errors that occurred on this integration runtime.
-     *
+     * 
      * @return the otherErrors value.
      */
     public List<ManagedIntegrationRuntimeError> otherErrors() {
@@ -67,7 +93,7 @@ public final class ManagedIntegrationRuntimeStatus extends IntegrationRuntimeSta
 
     /**
      * Get the lastOperation property: The last operation result that occurred on this integration runtime.
-     *
+     * 
      * @return the lastOperation value.
      */
     public ManagedIntegrationRuntimeOperationResult lastOperation() {
@@ -76,17 +102,16 @@ public final class ManagedIntegrationRuntimeStatus extends IntegrationRuntimeSta
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ManagedIntegrationRuntimeStatus"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ManagedIntegrationRuntimeStatus"));
         } else {
             innerTypeProperties().validate();
         }

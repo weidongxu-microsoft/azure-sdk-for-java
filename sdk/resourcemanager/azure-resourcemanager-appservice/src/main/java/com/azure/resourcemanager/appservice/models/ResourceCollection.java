@@ -7,9 +7,12 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of resources. */
+/**
+ * Collection of resources.
+ */
 @Fluent
 public final class ResourceCollection {
     /*
@@ -24,7 +27,9 @@ public final class ResourceCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ResourceCollection class. */
+    /**
+     * Creates an instance of ResourceCollection class.
+     */
     public ResourceCollection() {
     }
 
@@ -64,9 +69,8 @@ public final class ResourceCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model ResourceCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model ResourceCollection"));
         }
     }
 

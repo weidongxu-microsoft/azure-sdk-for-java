@@ -3,7 +3,7 @@
 The Azure Monitor Query client library is used to execute read-only queries against [Azure Monitor][azure_monitor_overview]'s two data platforms:
 
 - [Logs](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs) - Collects and organizes log and performance data from monitored resources. Data from different sources such as platform logs from Azure services, log and performance data from virtual machines agents, and usage and performance data from apps can be consolidated into a single [Azure Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-and-workspaces). The various data types can be analyzed together using the [Kusto Query Language][kusto_query_language].
-- [Metrics](https://learn.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them particularly useful for alerting and fast detection of issues.
+- [Metrics](https://learn.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them useful for alerting and fast detection of issues.
 
 **Resources:**
 
@@ -28,8 +28,7 @@ The Azure Monitor Query client library is used to execute read-only queries agai
 
 #### Include the BOM file
 
-Please include the azure-sdk-bom to your project to take dependency on the General Availability (GA) version of the library. In the following snippet, replace the {bom_version_to_target} placeholder with the version number.
-To learn more about the BOM, see the [AZURE SDK BOM README](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/boms/azure-sdk-bom/README.md).
+Include the `azure-sdk-bom` to your project to take a dependency on the stable version of the library. In the following snippet, replace the `{bom_version_to_target}` placeholder with the version number. To learn more about the BOM, see the [AZURE SDK BOM README](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/boms/azure-sdk-bom/README.md).
 
 ```xml
 <dependencyManagement>
@@ -44,7 +43,8 @@ To learn more about the BOM, see the [AZURE SDK BOM README](https://github.com/A
     </dependencies>
 </dependencyManagement>
 ```
-and then include the direct dependency in the dependencies section without the version tag as shown below.
+
+Then include the direct dependency in the `dependencies` section without the version tag:
 
 ```xml
 <dependencies>
@@ -57,8 +57,7 @@ and then include the direct dependency in the dependencies section without the v
 
 #### Include direct dependency
 
-If you want to take dependency on a particular version of the library that is not present in the BOM,
-add the direct dependency to your project as follows.
+If you want to take dependency on a particular version of the library that isn't present in the BOM, add the direct dependency to your project as follows.
 
 [//]: # ({x-version-update-start;com.azure:azure-monitor-query;current})
 
@@ -66,7 +65,7 @@ add the direct dependency to your project as follows.
 <dependency>
     <groupId>com.azure</groupId>
     <artifactId>azure-monitor-query</artifactId>
-    <version>1.2.1</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
@@ -76,23 +75,23 @@ add the direct dependency to your project as follows.
 
 An authenticated client is required to query Logs or Metrics. The library includes both synchronous and asynchronous forms of the clients. To authenticate, the following examples use `DefaultAzureCredentialBuilder` from the [azure-identity](https://central.sonatype.com/artifact/com.azure/azure-identity/1.8.1) package.
 
-### Authenticating using Azure Active Directory
+### Authenticate using Microsoft Entra ID
 
-You can authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. Note that regional endpoints do not support AAD authentication. Create a [custom subdomain][custom_subdomain] for your resource in order to use this type of authentication.
+You can authenticate with Microsoft Entra ID using the [Azure Identity library][azure_identity]. Regional endpoints don't support Microsoft Entra authentication. Create a [custom subdomain][custom_subdomain] for your resource to use this type of authentication.
 
-To use the [DefaultAzureCredential][DefaultAzureCredential] provider shown below, or other credential providers provided with the Azure SDK, please include the `azure-identity` package:
+To use the [DefaultAzureCredential][DefaultAzureCredential] provider shown below, or other credential providers provided with the Azure Identity library, include the `azure-identity` package:
 
 [//]: # ({x-version-update-start;com.azure:azure-identity;dependency})
 ```xml
 <dependency>
     <groupId>com.azure</groupId>
     <artifactId>azure-identity</artifactId>
-    <version>1.9.1</version>
+    <version>1.12.2</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET.
+Set the values of the client ID, tenant ID, and client secret of the Microsoft Entra application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 #### Synchronous clients
 
@@ -105,6 +104,13 @@ LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
 ```java readme-sample-createMetricsQueryClient
 MetricsQueryClient metricsQueryClient = new MetricsQueryClientBuilder()
     .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
+```
+
+```java readme-sample-createMetricsClient
+MetricsClient metricsClient = new MetricsClientBuilder()
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .endpoint("{endpoint}")
     .buildClient();
 ```
 
@@ -121,6 +127,35 @@ MetricsQueryAsyncClient metricsQueryAsyncClient = new MetricsQueryClientBuilder(
     .credential(new DefaultAzureCredentialBuilder().build())
     .buildAsyncClient();
 ```
+
+```java readme-sample-createMetricsAsyncClient
+MetricsAsyncClient metricsAsyncClient = new MetricsClientBuilder()
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .endpoint("{endpoint}")
+    .buildAsyncClient();
+```
+
+#### Configure client for Azure sovereign cloud
+
+By default, `LogQueryClient` and `MetricQueryClient` are configured to connect to the Azure Public Cloud. To use a sovereign cloud instead, set the correct `endpoint` in the client builders. For example:
+
+- Creating a `LogsQueryClient` for Azure China Cloud:
+
+    ```java readme-sample-createLogsQueryClientWithSovereignCloud
+    LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
+        .credential(new DefaultAzureCredentialBuilder().build())
+        .endpoint("https://api.loganalytics.azure.cn/v1")
+        .buildClient();
+    ```
+
+- Creating a `MetricsQueryClient` for Azure China Cloud:
+
+    ```java readme-sample-createMetricsQueryClientWithSovereignCloud
+    MetricsQueryClient metricsQueryClient = new MetricsQueryClientBuilder()
+        .credential(new DefaultAzureCredentialBuilder().build())
+        .endpoint("https://management.chinacloudapi.cn")
+        .buildClient();
+    ```
 
 ### Execute the query
 
@@ -141,33 +176,36 @@ Each set of metric values is a time series with the following characteristics:
 - A namespace that acts like a category for the metric
 - A metric name
 - The value itself
-- Some metrics may have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
+- Some metrics have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
 
 ## Examples
 
 - [Logs query](#logs-query)
   - [Map logs query results to a model](#map-logs-query-results-to-a-model)
   - [Handle logs query response](#handle-logs-query-response)
-  - [Query logs by resource id](#query-logs-by-resource-id)
+  - [Query logs by resource ID](#query-logs-by-resource-id)
 - [Batch logs query](#batch-logs-query)
 - [Advanced logs query scenarios](#advanced-logs-query-scenarios)
   - [Set logs query timeout](#set-logs-query-timeout)
   - [Query multiple workspaces](#query-multiple-workspaces)
   - [Include statistics](#include-statistics)
   - [Include visualization](#include-visualization)
+  - [Overcome Log Analytics query size limitations](#overcome-log-analytics-query-size-limitations)
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Get average and count metrics](#get-average-and-count-metrics)
+- [Metrics query resources](#metrics-query-resources)
+  - [Handle metrics query resources response](#handle-metrics-query-resources-response)
 
 ### Logs query
 
 ```java readme-sample-logsquery
 LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
-        .credential(new DefaultAzureCredentialBuilder().build())
-        .buildClient();
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
 
 LogsQueryResult queryResults = logsQueryClient.queryWorkspace("{workspace-id}", "{kusto-query}",
-        new QueryTimeInterval(Duration.ofDays(2)));
+    new QueryTimeInterval(Duration.ofDays(2)));
 
 for (LogsTableRow row : queryResults.getTable().getRows()) {
     System.out.println(row.getColumnValue("OperationName") + " " + row.getColumnValue("ResourceGroup"));
@@ -193,11 +231,11 @@ public class CustomLogModel {
 
 ```java readme-sample-logsquerycustommodel
 LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
-        .credential(new DefaultAzureCredentialBuilder().build())
-        .buildClient();
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
 
 List<CustomLogModel> customLogModels = logsQueryClient.queryWorkspace("{workspace-id}", "{kusto-query}",
-        new QueryTimeInterval(Duration.ofDays(2)), CustomLogModel.class);
+    new QueryTimeInterval(Duration.ofDays(2)), CustomLogModel.class);
 
 for (CustomLogModel customLogModel : customLogModels) {
     System.out.println(customLogModel.getOperationName() + " " + customLogModel.getResourceGroup());
@@ -226,8 +264,9 @@ LogsQueryResult / LogsBatchQueryResult
 ```
 
 #### Query logs by resource ID
-The `LogsQueryClient` supports querying logs using a workspace id (`queryWorkspace` methods) or a resource ID (`queryResource` methods).
-An example of querying logs using a resource ID is shown below. Similar changes can be applied to all other samples.
+
+The `LogsQueryClient` supports querying logs using a workspace ID (`queryWorkspace` methods) or a resource ID (`queryResource` methods).
+See the following example of querying logs using a resource ID. Similar changes can be applied to all other samples.
 
 ```java readme-sample-logsquerybyresourceid
 LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
@@ -246,8 +285,8 @@ for (LogsTableRow row : queryResults.getTable().getRows()) {
 
 ```java readme-sample-batchlogsquery
 LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
-        .credential(new DefaultAzureCredentialBuilder().build())
-        .buildClient();
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
 
 LogsBatchQuery logsBatchQuery = new LogsBatchQuery();
 String query1 = logsBatchQuery.addWorkspaceQuery("{workspace-id}", "{query-1}", new QueryTimeInterval(Duration.ofDays(2)));
@@ -255,7 +294,7 @@ String query2 = logsBatchQuery.addWorkspaceQuery("{workspace-id}", "{query-2}", 
 String query3 = logsBatchQuery.addWorkspaceQuery("{workspace-id}", "{query-3}", new QueryTimeInterval(Duration.ofDays(10)));
 
 LogsBatchQueryResultCollection batchResults = logsQueryClient
-        .queryBatchWithResponse(logsBatchQuery, Context.NONE).getValue();
+    .queryBatchWithResponse(logsBatchQuery, Context.NONE).getValue();
 
 LogsBatchQueryResult query1Result = batchResults.getResult(query1);
 for (LogsTableRow row : query1Result.getTable().getRows()) {
@@ -287,27 +326,27 @@ LogsQueryOptions options = new LogsQueryOptions()
     .setServerTimeout(Duration.ofMinutes(10));
 
 Response<LogsQueryResult> response = logsQueryClient.queryWorkspaceWithResponse("{workspace-id}",
-        "{kusto-query}", new QueryTimeInterval(Duration.ofDays(2)), options, Context.NONE);
+    "{kusto-query}", new QueryTimeInterval(Duration.ofDays(2)), options, Context.NONE);
 ```
 
 #### Query multiple workspaces
 
-To run the same query against multiple Log Analytics workspaces, use the `LogsQueryOptions.setAdditionalWorkspaces` method:
+To run the same query against multiple Log Analytics workspaces, use the `LogsQueryOptions.setAdditionalWorkspaces` method.
 
-When multiple workspaces are included in the query, the logs in the result table are not grouped according to the 
+When multiple workspaces are included in the query, the logs in the result table aren't grouped according to the 
 workspace from which it was retrieved. To identify the workspace of a row in the result table, you can inspect the 
-"TenantId" column in the result table. If this column is not in the table, then you may have to update your query string
+"TenantId" column in the result table. If this column isn't in the table, then you may have to update your query string
 to include this column.
 
 ```java readme-sample-logsquerymultipleworkspaces
 LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
-        .credential(new DefaultAzureCredentialBuilder().build())
-        .buildClient();
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
 
 Response<LogsQueryResult> response = logsQueryClient.queryWorkspaceWithResponse("{workspace-id}", "{kusto-query}",
-        new QueryTimeInterval(Duration.ofDays(2)), new LogsQueryOptions()
-                .setAdditionalWorkspaces(Arrays.asList("{additional-workspace-identifiers}")),
-        Context.NONE);
+    new QueryTimeInterval(Duration.ofDays(2)), new LogsQueryOptions()
+        .setAdditionalWorkspaces(Arrays.asList("{additional-workspace-identifiers}")),
+    Context.NONE);
 LogsQueryResult result = response.getValue();
 ```
 
@@ -321,13 +360,13 @@ To get logs query execution statistics, such as CPU and memory consumption:
 The following example prints the query execution time:
 ```java readme-sample-includestatistics
 LogsQueryClient client = new LogsQueryClientBuilder()
-        .credential(credential)
-        .buildClient();
+    .credential(credential)
+    .buildClient();
 
 LogsQueryOptions options = new LogsQueryOptions()
-        .setIncludeStatistics(true);
+    .setIncludeStatistics(true);
 Response<LogsQueryResult> response = client.queryWorkspaceWithResponse("{workspace-id}",
-        "AzureActivity | top 10 by TimeGenerated", QueryTimeInterval.LAST_1_HOUR, options, Context.NONE);
+    "AzureActivity | top 10 by TimeGenerated", QueryTimeInterval.LAST_1_HOUR, options, Context.NONE);
 LogsQueryResult result = response.getValue();
 BinaryData statistics = result.getStatistics();
 
@@ -352,6 +391,7 @@ raw JSON response. The statistics are found within the `query` property of the J
 ```
 
 #### Include visualization
+
 To get visualization data for logs queries using the [render operator](https://learn.microsoft.com/azure/data-explorer/kusto/query/renderoperator?pivots=azuremonitor):
 
 1. Use `LogsQueryOptions` to request for visualization data in the response by setting `setIncludeVisualization()` to `true`.
@@ -360,18 +400,18 @@ To get visualization data for logs queries using the [render operator](https://l
 For example:
 ```java readme-sample-includevisualization
 LogsQueryClient client = new LogsQueryClientBuilder()
-        .credential(credential)
-        .buildClient();
+    .credential(credential)
+    .buildClient();
 
 String visualizationQuery = "StormEvents"
-        + "| summarize event_count = count() by State"
-        + "| where event_count > 10"
-        + "| project State, event_count"
-        + "| render columnchart";
+    + "| summarize event_count = count() by State"
+    + "| where event_count > 10"
+    + "| project State, event_count"
+    + "| render columnchart";
 LogsQueryOptions options = new LogsQueryOptions()
-        .setIncludeVisualization(true);
+    .setIncludeVisualization(true);
 Response<LogsQueryResult> response = client.queryWorkspaceWithResponse("{workspace-id}", visualizationQuery,
-        QueryTimeInterval.LAST_7_DAYS, options, Context.NONE);
+    QueryTimeInterval.LAST_7_DAYS, options, Context.NONE);
 LogsQueryResult result = response.getValue();
 BinaryData visualization = result.getVisualization();
 
@@ -405,9 +445,13 @@ raw JSON response. For example:
 }
 ```
 
+#### Overcome Log Analytics query size limitations
+
+If your query exceeds the [service limits][service_limits], see the large log query documentation to learn how to overcome them.
+
 ### Metrics query
 
-A resource ID, as denoted by the `{resource-id}` placeholder in the sample below, is required to query metrics. To find the resource ID:
+A resource ID, as denoted by the `{resource-uri}` placeholder in the following sample, is required to query metrics. To find the resource ID:
 
 1. Navigate to your resource's page in the Azure portal.
 2. From the **Overview** blade, select the **JSON View** link.
@@ -415,11 +459,11 @@ A resource ID, as denoted by the `{resource-id}` placeholder in the sample below
 
 ```java readme-sample-metricsquery
 MetricsQueryClient metricsQueryClient = new MetricsQueryClientBuilder()
-        .credential(new DefaultAzureCredentialBuilder().build())
-        .buildClient();
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
 
 MetricsQueryResult metricsQueryResult = metricsQueryClient.queryResource("{resource-uri}",
-        Arrays.asList("SuccessfulCalls", "TotalCalls"));
+    Arrays.asList("SuccessfulCalls", "TotalCalls"));
 
 for (MetricResult metric : metricsQueryResult.getMetrics()) {
     System.out.println("Metric name " + metric.getMetricName());
@@ -486,6 +530,41 @@ for (MetricResult metric : metricsQueryResult.getMetrics()) {
 }
 ```
 
+### Metrics query resources
+
+#### Handle metrics query resources response
+
+```java readme-sample-metricsquerymultipleresources
+MetricsClient metricsClient = new MetricsClientBuilder()
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .endpoint("{endpoint}")
+    .buildClient();
+
+MetricsQueryResourcesResult metricsQueryResourcesResult = metricsClient.queryResources(
+    Arrays.asList("{resourceId1}", "{resourceId2}"),
+    Arrays.asList("{metric1}", "{metric2}"),
+    "{metricNamespace}");
+
+for (MetricsQueryResult metricsQueryResult : metricsQueryResourcesResult.getMetricsQueryResults()) {
+    // Each MetricsQueryResult corresponds to one of the resourceIds in the batch request.
+    List<MetricResult> metrics = metricsQueryResult.getMetrics();
+    metrics.forEach(metric -> {
+        System.out.println(metric.getMetricName());
+        System.out.println(metric.getId());
+        System.out.println(metric.getResourceType());
+        System.out.println(metric.getUnit());
+        System.out.println(metric.getTimeSeries().size());
+        System.out.println(metric.getTimeSeries().get(0).getValues().size());
+        metric.getTimeSeries()
+            .stream()
+            .flatMap(ts -> ts.getValues().stream())
+            .forEach(mv -> System.out.println(mv.getTimeStamp().toString()
+                + "; Count = " + mv.getCount()
+                + "; Average = " + mv.getAverage()));
+    });
+}
+```
+
 ## Troubleshooting
 
 See our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/monitor/azure-monitor-query/TROUBLESHOOTING.md)
@@ -520,10 +599,11 @@ comments.
 [kusto_query_language]: https://learn.microsoft.com/azure/data-explorer/kusto/query/
 [log_levels]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/core/azure-core/src/main/java/com/azure/core/util/logging/ClientLogger.java
 [msdocs_apiref]: https://learn.microsoft.com/java/api/com.azure.monitor.query?view=azure-java-stable
-[package]: https://search.maven.org/artifact/com.azure/azure-monitor-query
+[package]: https://central.sonatype.com/artifact/com.azure/azure-monitor-query
 [samples]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/monitor/azure-monitor-query/src/samples/java/README.md
 [source]: https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/monitor/azure-monitor-query/src
 [performance_tuning]: https://github.com/Azure/azure-sdk-for-java/wiki/Performance-Tuning
+[service_limits]: https://learn.microsoft.com/azure/azure-monitor/service-limits#log-queries-and-language
 
 [cla]: https://cla.microsoft.com
 [coc]: https://opensource.microsoft.com/codeofconduct/

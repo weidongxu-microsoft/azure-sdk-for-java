@@ -6,83 +6,52 @@ package com.azure.resourcemanager.netapp.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.netapp.NetAppFilesManager;
 import com.azure.resourcemanager.netapp.models.BackupPolicy;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class BackupPoliciesCreateMockTests {
     @Test
     public void testCreate() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"etag\":\"qw\",\"properties\":{\"backupPolicyId\":\"d\",\"provisioningState\":\"Succeeded\",\"dailyBackupsToKeep\":999177682,\"weeklyBackupsToKeep\":1674371037,\"monthlyBackupsToKeep\":703161426,\"volumesAssigned\":1221271560,\"enabled\":true,\"volumeBackups\":[{\"volumeName\":\"gwgcl\",\"volumeResourceId\":\"oebqinjipn\",\"backupsCount\":296049099,\"policyEnabled\":true}]},\"location\":\"lafcbahh\",\"tags\":{\"w\":\"ofoiy\",\"ndviauogphuartvt\":\"filkmkkholv\"},\"id\":\"ukyefchnmnahmnxh\",\"name\":\"xjqirwrweoox\",\"type\":\"fifhxwrsnew\"}";
 
-        String responseStr =
-            "{\"etag\":\"fapaqtfer\",\"properties\":{\"backupPolicyId\":\"wexjkmfxapjwogq\",\"provisioningState\":\"Succeeded\",\"dailyBackupsToKeep\":1623831151,\"weeklyBackupsToKeep\":623740399,\"monthlyBackupsToKeep\":1894525187,\"volumesAssigned\":1873206195,\"enabled\":false,\"volumeBackups\":[]},\"location\":\"awbzasqb\",\"tags\":{\"yexaoguy\":\"jg\",\"ids\":\"i\"},\"id\":\"ault\",\"name\":\"ijjumfq\",\"type\":\"azlnqnmcjngzqdqx\"}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        NetAppFilesManager manager = NetAppFilesManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        BackupPolicy response = manager.backupPolicies()
+            .define("jfrnxousxauzlwv")
+            .withRegion("xmcuqud")
+            .withExistingNetAppAccount("qcbfrmbodths", "qgvriibakcla")
+            .withTags(mapOf("dkvgfabuiyjibuzp", "clxyn"))
+            .withDailyBackupsToKeep(1994434352)
+            .withWeeklyBackupsToKeep(468470130)
+            .withMonthlyBackupsToKeep(1587731345)
+            .withEnabled(false)
+            .create();
 
-        NetAppFilesManager manager =
-            NetAppFilesManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        BackupPolicy response =
-            manager
-                .backupPolicies()
-                .define("zinkfkbgbzbowxeq")
-                .withRegion("pnodawopqhe")
-                .withExistingNetAppAccount("v", "qqxeyskon")
-                .withTags(
-                    mapOf("bostzel", "tmcg", "tmzlbiojlv", "dlat", "r", "hrbbpneqvcwwyy", "nmokayzejnhlbk", "ochpprpr"))
-                .withDailyBackupsToKeep(765217570)
-                .withWeeklyBackupsToKeep(429988434)
-                .withMonthlyBackupsToKeep(2064090558)
-                .withEnabled(true)
-                .create();
-
-        Assertions.assertEquals("awbzasqb", response.location());
-        Assertions.assertEquals("jg", response.tags().get("yexaoguy"));
-        Assertions.assertEquals(1623831151, response.dailyBackupsToKeep());
-        Assertions.assertEquals(623740399, response.weeklyBackupsToKeep());
-        Assertions.assertEquals(1894525187, response.monthlyBackupsToKeep());
-        Assertions.assertEquals(false, response.enabled());
+        Assertions.assertEquals("lafcbahh", response.location());
+        Assertions.assertEquals("ofoiy", response.tags().get("w"));
+        Assertions.assertEquals(999177682, response.dailyBackupsToKeep());
+        Assertions.assertEquals(1674371037, response.weeklyBackupsToKeep());
+        Assertions.assertEquals(703161426, response.monthlyBackupsToKeep());
+        Assertions.assertEquals(true, response.enabled());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

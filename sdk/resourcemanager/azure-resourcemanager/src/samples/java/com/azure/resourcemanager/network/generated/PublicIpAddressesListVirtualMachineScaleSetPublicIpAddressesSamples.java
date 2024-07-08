@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for PublicIpAddresses ListVirtualMachineScaleSetPublicIpAddresses. */
+/**
+ * Samples for PublicIpAddresses ListVirtualMachineScaleSetPublicIpAddresses.
+ */
 public final class PublicIpAddressesListVirtualMachineScaleSetPublicIpAddressesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VmssPublicIpListAll.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VmssPublicIpListAll.json
      */
     /**
      * Sample code: ListVMSSPublicIP.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listVMSSPublicIP(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getPublicIpAddresses()

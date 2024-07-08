@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity source for OData source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity source for OData source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ODataSource.class, visible = true)
 @JsonTypeName("ODataSource")
 @Fluent
 public final class ODataSource extends CopySource {
+    /*
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ODataSource";
+
     /*
      * OData query. For example, "$top=1". Type: string (or Expression with resultType string).
      */
@@ -35,13 +45,25 @@ public final class ODataSource extends CopySource {
     @JsonProperty(value = "additionalColumns")
     private Object additionalColumns;
 
-    /** Creates an instance of ODataSource class. */
+    /**
+     * Creates an instance of ODataSource class.
+     */
     public ODataSource() {
     }
 
     /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the query property: OData query. For example, "$top=1". Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the query value.
      */
     public Object query() {
@@ -50,7 +72,7 @@ public final class ODataSource extends CopySource {
 
     /**
      * Set the query property: OData query. For example, "$top=1". Type: string (or Expression with resultType string).
-     *
+     * 
      * @param query the query value to set.
      * @return the ODataSource object itself.
      */
@@ -63,7 +85,7 @@ public final class ODataSource extends CopySource {
      * Get the httpRequestTimeout property: The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a
      * response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
      * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * 
      * @return the httpRequestTimeout value.
      */
     public Object httpRequestTimeout() {
@@ -74,7 +96,7 @@ public final class ODataSource extends CopySource {
      * Set the httpRequestTimeout property: The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a
      * response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
      * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * 
      * @param httpRequestTimeout the httpRequestTimeout value to set.
      * @return the ODataSource object itself.
      */
@@ -86,7 +108,7 @@ public final class ODataSource extends CopySource {
     /**
      * Get the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @return the additionalColumns value.
      */
     public Object additionalColumns() {
@@ -96,7 +118,7 @@ public final class ODataSource extends CopySource {
     /**
      * Set the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @param additionalColumns the additionalColumns value to set.
      * @return the ODataSource object itself.
      */
@@ -105,28 +127,36 @@ public final class ODataSource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataSource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataSource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataSource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataSource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -135,7 +165,7 @@ public final class ODataSource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

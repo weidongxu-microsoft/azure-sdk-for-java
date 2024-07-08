@@ -6,15 +6,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Azure VM (Mercury) workload-specific backup policy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "backupManagementType")
+/**
+ * Azure VM (Mercury) workload-specific backup policy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "backupManagementType",
+    defaultImpl = GenericProtectionPolicy.class,
+    visible = true)
 @JsonTypeName("GenericProtectionPolicy")
 @Fluent
 public final class GenericProtectionPolicy extends ProtectionPolicy {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "backupManagementType", required = true)
+    private String backupManagementType = "GenericProtectionPolicy";
+
     /*
      * List of sub-protection policies which includes schedule and retention
      */
@@ -33,13 +47,26 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
     @JsonProperty(value = "fabricName")
     private String fabricName;
 
-    /** Creates an instance of GenericProtectionPolicy class. */
+    /**
+     * Creates an instance of GenericProtectionPolicy class.
+     */
     public GenericProtectionPolicy() {
     }
 
     /**
+     * Get the backupManagementType property: This property will be used as the discriminator for deciding the specific
+     * types in the polymorphic chain of types.
+     * 
+     * @return the backupManagementType value.
+     */
+    @Override
+    public String backupManagementType() {
+        return this.backupManagementType;
+    }
+
+    /**
      * Get the subProtectionPolicy property: List of sub-protection policies which includes schedule and retention.
-     *
+     * 
      * @return the subProtectionPolicy value.
      */
     public List<SubProtectionPolicy> subProtectionPolicy() {
@@ -48,7 +75,7 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the subProtectionPolicy property: List of sub-protection policies which includes schedule and retention.
-     *
+     * 
      * @param subProtectionPolicy the subProtectionPolicy value to set.
      * @return the GenericProtectionPolicy object itself.
      */
@@ -59,7 +86,7 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Get the timeZone property: TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".
-     *
+     * 
      * @return the timeZone value.
      */
     public String timeZone() {
@@ -68,7 +95,7 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the timeZone property: TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".
-     *
+     * 
      * @param timeZone the timeZone value to set.
      * @return the GenericProtectionPolicy object itself.
      */
@@ -79,7 +106,7 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Get the fabricName property: Name of this policy's fabric.
-     *
+     * 
      * @return the fabricName value.
      */
     public String fabricName() {
@@ -88,7 +115,7 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the fabricName property: Name of this policy's fabric.
-     *
+     * 
      * @param fabricName the fabricName value to set.
      * @return the GenericProtectionPolicy object itself.
      */
@@ -97,14 +124,18 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectionPolicy withProtectedItemsCount(Integer protectedItemsCount) {
         super.withProtectedItemsCount(protectedItemsCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenericProtectionPolicy withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
@@ -113,7 +144,7 @@ public final class GenericProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

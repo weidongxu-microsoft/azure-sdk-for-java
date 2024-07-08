@@ -30,44 +30,30 @@ public final class ResourceGuardsGetByResourceGroupWithResponseMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"properties\":{\"provisioningState\":\"Failed\",\"allowAutoApprovals\":true,\"resourceGuardOperations\":[],\"vaultCriticalOperationExclusionList\":[\"nmokayzejnhlbk\",\"bzpcpiljhahzvec\",\"ndbnwieh\"],\"description\":\"ewjwiuubw\"},\"eTag\":\"qsfapaqt\",\"location\":\"rrqwexjk\",\"tags\":{\"btqwpwyawbzas\":\"apjwogqqnobpudcd\"},\"id\":\"bucljgkyexaogu\",\"name\":\"aipidsdaultxi\",\"type\":\"jumfqwazlnq\"}";
+        String responseStr
+            = "{\"properties\":{\"provisioningState\":\"Updating\",\"allowAutoApprovals\":true,\"resourceGuardOperations\":[{\"vaultCriticalOperation\":\"qvcdlguaucmfdjw\",\"requestResourceType\":\"axpunjqikczvv\"},{\"vaultCriticalOperation\":\"acgxmfcsse\",\"requestResourceType\":\"htvs\"}],\"vaultCriticalOperationExclusionList\":[\"lwntsjgqrs\",\"y\",\"ruuuybnch\"],\"description\":\"zizoyuely\"},\"eTag\":\"ndnbfqy\",\"location\":\"agfl\",\"tags\":{\"jmucftby\":\"mtrwah\"},\"id\":\"plrohkpigq\",\"name\":\"usuckzmkwklsno\",\"type\":\"axmqeqal\"}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        DataProtectionManager manager =
-            DataProtectionManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        DataProtectionManager manager = DataProtectionManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        ResourceGuardResource response =
-            manager
-                .resourceGuards()
-                .getByResourceGroupWithResponse("hrbbpneqvcwwyy", "r", com.azure.core.util.Context.NONE)
-                .getValue();
+        ResourceGuardResource response = manager.resourceGuards()
+            .getByResourceGroupWithResponse("yjqtt", "wkpqhjpenuygbq", com.azure.core.util.Context.NONE).getValue();
 
-        Assertions.assertEquals("rrqwexjk", response.location());
-        Assertions.assertEquals("apjwogqqnobpudcd", response.tags().get("btqwpwyawbzas"));
-        Assertions.assertEquals("qsfapaqt", response.etag());
-        Assertions.assertEquals("nmokayzejnhlbk", response.properties().vaultCriticalOperationExclusionList().get(0));
+        Assertions.assertEquals("agfl", response.location());
+        Assertions.assertEquals("mtrwah", response.tags().get("jmucftby"));
+        Assertions.assertEquals("ndnbfqy", response.etag());
+        Assertions.assertEquals("lwntsjgqrs", response.properties().vaultCriticalOperationExclusionList().get(0));
     }
 }

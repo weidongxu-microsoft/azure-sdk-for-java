@@ -7,34 +7,62 @@ package com.azure.resourcemanager.eventgrid.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.eventgrid.fluent.models.DynamicDeliveryAttributeMappingProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Dynamic delivery attribute mapping details. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Dynamic delivery attribute mapping details.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = DynamicDeliveryAttributeMapping.class,
+    visible = true)
 @JsonTypeName("Dynamic")
 @Fluent
 public final class DynamicDeliveryAttributeMapping extends DeliveryAttributeMapping {
+    /*
+     * Type of the delivery attribute or header name.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private DeliveryAttributeMappingType type = DeliveryAttributeMappingType.DYNAMIC;
+
     /*
      * Properties of dynamic delivery attribute mapping.
      */
     @JsonProperty(value = "properties")
     private DynamicDeliveryAttributeMappingProperties innerProperties;
 
-    /** Creates an instance of DynamicDeliveryAttributeMapping class. */
+    /**
+     * Creates an instance of DynamicDeliveryAttributeMapping class.
+     */
     public DynamicDeliveryAttributeMapping() {
     }
 
     /**
+     * Get the type property: Type of the delivery attribute or header name.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public DeliveryAttributeMappingType type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerProperties property: Properties of dynamic delivery attribute mapping.
-     *
+     * 
      * @return the innerProperties value.
      */
     private DynamicDeliveryAttributeMappingProperties innerProperties() {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicDeliveryAttributeMapping withName(String name) {
         super.withName(name);
@@ -43,7 +71,7 @@ public final class DynamicDeliveryAttributeMapping extends DeliveryAttributeMapp
 
     /**
      * Get the sourceField property: JSON path in the event which contains attribute value.
-     *
+     * 
      * @return the sourceField value.
      */
     public String sourceField() {
@@ -52,7 +80,7 @@ public final class DynamicDeliveryAttributeMapping extends DeliveryAttributeMapp
 
     /**
      * Set the sourceField property: JSON path in the event which contains attribute value.
-     *
+     * 
      * @param sourceField the sourceField value to set.
      * @return the DynamicDeliveryAttributeMapping object itself.
      */
@@ -66,7 +94,7 @@ public final class DynamicDeliveryAttributeMapping extends DeliveryAttributeMapp
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

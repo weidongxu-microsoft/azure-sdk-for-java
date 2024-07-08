@@ -6,25 +6,24 @@ package com.azure.resourcemanager.network.generated;
 
 import com.azure.resourcemanager.network.models.TroubleshootingParameters;
 
-/** Samples for NetworkWatchers GetTroubleshooting. */
+/**
+ * Samples for NetworkWatchers GetTroubleshooting.
+ */
 public final class NetworkWatchersGetTroubleshootingSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherTroubleshootGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherTroubleshootGet.json
      */
     /**
      * Sample code: Get troubleshooting.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getTroubleshooting(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getNetworkWatchers()
-            .getTroubleshooting(
-                "rg1",
-                "nw1",
+            .getTroubleshooting("rg1", "nw1",
                 new TroubleshootingParameters()
                     .withTargetResourceId(
                         "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1")

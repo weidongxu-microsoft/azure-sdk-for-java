@@ -38,23 +38,26 @@ public class ConnectionOptions {
     private final String clientVersion;
     private final SslDomain.VerifyMode verifyMode;
     private final String hostname;
+    private final boolean enableSsl;
     private final int port;
 
     /**
      * Creates an instance with the following options set. The AMQP connection is created to the
      * {@code fullyQualifiedNamespace} using a port based on the {@code transport}.
      *
-     * @param fullyQualifiedNamespace Fully qualified namespace for the AMQP broker. (ie.
+     * @param fullyQualifiedNamespace Fully qualified namespace for the AMQP broker. (i.e.
      *     namespace.servicebus.windows.net)
      * @param tokenCredential The credential for connecting to the AMQP broker.
      * @param authorizationType The authorisation type used for authorizing with the CBS node.
+     * @param authorizationScope The scope to use when authorizing.
      * @param transport The type connection used for the AMQP connection.
      * @param retryOptions Retry options for the connection.
      * @param proxyOptions Any proxy options to set.
      * @param scheduler Scheduler for async operations.
      * @param clientOptions Client options for the connection.
      * @param verifyMode How to verify SSL information.
-     *
+     * @param product The name of the product this connection is being used for.
+     * @param clientVersion The version of the client library creating the connection.
      * @throws NullPointerException in the case that {@code fullyQualifiedNamespace}, {@code tokenCredential},
      *     {@code authorizationType}, {@code transport}, {@code retryOptions}, {@code scheduler}, {@code clientOptions}
      *     {@code proxyOptions} or {@code verifyMode} is null.
@@ -65,27 +68,31 @@ public class ConnectionOptions {
         SslDomain.VerifyMode verifyMode, String product, String clientVersion) {
         this(fullyQualifiedNamespace, tokenCredential, authorizationType, authorizationScope, transport, retryOptions,
             proxyOptions, scheduler, clientOptions, verifyMode, product, clientVersion, fullyQualifiedNamespace,
-            getPort(transport));
+            getPort(transport), true);
     }
 
     /**
      * Creates an instance with the connection options set. Used when an alternative address should be made for the
      * connection rather than through the fullyQualifiedNamespace.
      *
-     * @param fullyQualifiedNamespace Fully qualified namespace for the AMQP broker. (ie.
+     * @param fullyQualifiedNamespace Fully qualified namespace for the AMQP broker. (i.e.
      *     namespace.servicebus.windows.net)
      * @param tokenCredential The credential for connecting to the AMQP broker.
      * @param authorizationType The authorisation type used for authorizing with the CBS node.
+     * @param authorizationScope The scope to use when authorizing.
      * @param transport The type connection used for the AMQP connection.
      * @param retryOptions Retry options for the connection.
      * @param proxyOptions (Optional) Any proxy options to set.
      * @param scheduler Scheduler for async operations.
      * @param clientOptions Client options for the connection.
      * @param verifyMode How to verify SSL information.
+     * @param product The name of the product this connection is being used for.
+     * @param clientVersion The version of the client library creating the connection.
      * @param hostname Connection hostname. Used to create the connection to in the case that we cannot
      *     connect directly to the AMQP broker.
      * @param port Connection port. Used to create the connection to in the case we cannot connect directly
      *     to the AMQP broker.
+     * @param enableSsl true to enable SSL when creating AMQP connection.
      *
      * @throws NullPointerException in the case that {@code fullyQualifiedNamespace}, {@code tokenCredential},
      *     {@code authorizationType}, {@code transport}, {@code retryOptions}, {@code scheduler},
@@ -94,10 +101,11 @@ public class ConnectionOptions {
     public ConnectionOptions(String fullyQualifiedNamespace, TokenCredential tokenCredential,
         CbsAuthorizationType authorizationType, String authorizationScope, AmqpTransportType transport,
         AmqpRetryOptions retryOptions, ProxyOptions proxyOptions, Scheduler scheduler, ClientOptions clientOptions,
-        SslDomain.VerifyMode verifyMode, String product, String clientVersion, String hostname, int port) {
+        SslDomain.VerifyMode verifyMode, String product, String clientVersion, String hostname, int port,
+        boolean enableSsl) {
 
-        this.fullyQualifiedNamespace = Objects.requireNonNull(fullyQualifiedNamespace,
-            "'fullyQualifiedNamespace' is required.");
+        this.fullyQualifiedNamespace
+            = Objects.requireNonNull(fullyQualifiedNamespace, "'fullyQualifiedNamespace' is required.");
         this.tokenCredential = Objects.requireNonNull(tokenCredential, "'tokenCredential' is required.");
         this.authorizationType = Objects.requireNonNull(authorizationType, "'authorizationType' is required.");
         this.authorizationScope = Objects.requireNonNull(authorizationScope, "'authorizationScope' is required.");
@@ -107,6 +115,7 @@ public class ConnectionOptions {
         this.clientOptions = Objects.requireNonNull(clientOptions, "'clientOptions' is required.");
         this.verifyMode = Objects.requireNonNull(verifyMode, "'verifyMode' is required.");
         this.hostname = Objects.requireNonNull(hostname, "'hostname' cannot be null.");
+        this.enableSsl = enableSsl;
         this.port = port != -1 ? port : getPort(transport);
         this.proxyOptions = proxyOptions;
 
@@ -142,7 +151,7 @@ public class ConnectionOptions {
     }
 
     /**
-     * Gets the product information for this AMQP connection. (ie. Service Bus or Event Hubs.)
+     * Gets the product information for this AMQP connection. (i.e. Service Bus or Event Hubs.)
      *
      * @return The product information for this AMQP connection.
      */
@@ -160,7 +169,7 @@ public class ConnectionOptions {
     }
 
     /**
-     * The fully qualified domain name for the AMQP broker. Typically of the form
+     * The fully qualified domain name for the AMQP broker. Typically, of the form
      * {@literal "<your-namespace>.service.windows.net"}.
      *
      * @return The fully qualified domain name for the AMQP broker.
@@ -169,6 +178,11 @@ public class ConnectionOptions {
         return fullyQualifiedNamespace;
     }
 
+    /**
+     * Gets the retry options.
+     *
+     * @return The retry options.
+     */
     public AmqpRetryOptions getRetry() {
         return retryOptions;
     }
@@ -192,7 +206,8 @@ public class ConnectionOptions {
     }
 
     /**
-     * Gets the verification mode for the SSL certificate.
+     * Gets the verification mode for the SSL certificate.  The verification mode used when {@link #isEnableSsl()} is
+     * true.
      *
      * @return The verification mode for the SSL certificate.
      */
@@ -219,7 +234,7 @@ public class ConnectionOptions {
     }
 
     /**
-     * Gets the DNS hostname or IP address of the service. Typically of the form
+     * Gets the DNS hostname or IP address of the service. Typically, of the form
      * {@literal "<your-namespace>.service.windows.net"}, unless connecting to the service through an intermediary.
      *
      * @return The DNS hostname or IP address to connect to.
@@ -238,15 +253,26 @@ public class ConnectionOptions {
         return port;
     }
 
+    /**
+     * Check if SSL should be enabled when creating the AMQP connection.
+     *
+     * @return {@code true} to enable SSL when creating AMQP connection, false otherwise.
+     */
+    public boolean isEnableSsl() {
+        return enableSsl;
+    }
+
     private static int getPort(AmqpTransportType transport) {
         switch (transport) {
             case AMQP:
                 return ConnectionHandler.AMQPS_PORT;
+
             case AMQP_WEB_SOCKETS:
                 return WebSocketsConnectionHandler.HTTPS_PORT;
+
             default:
-                throw LOGGER.logThrowableAsError(
-                    new IllegalArgumentException("Transport Type is not supported: " + transport));
+                throw LOGGER
+                    .logThrowableAsError(new IllegalArgumentException("Transport Type is not supported: " + transport));
         }
     }
 }

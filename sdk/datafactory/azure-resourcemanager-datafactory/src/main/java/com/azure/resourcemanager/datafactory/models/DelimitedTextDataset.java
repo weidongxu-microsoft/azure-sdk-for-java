@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.DelimitedTextDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Delimited text dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Delimited text dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = DelimitedTextDataset.class, visible = true)
 @JsonTypeName("DelimitedText")
 @Fluent
 public final class DelimitedTextDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DelimitedText";
+
     /*
      * Delimited text dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private DelimitedTextDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of DelimitedTextDataset class. */
+    /**
+     * Creates an instance of DelimitedTextDataset class.
+     */
     public DelimitedTextDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Delimited text dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private DelimitedTextDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DelimitedTextDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the location property: The location of the delimited text storage.
-     *
+     * 
      * @return the location value.
      */
     public DatasetLocation location() {
@@ -96,7 +132,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the location property: The location of the delimited text storage.
-     *
+     * 
      * @param location the location value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -110,7 +146,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the columnDelimiter property: The column delimiter. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the columnDelimiter value.
      */
     public Object columnDelimiter() {
@@ -119,7 +155,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the columnDelimiter property: The column delimiter. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param columnDelimiter the columnDelimiter value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -133,7 +169,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the rowDelimiter property: The row delimiter. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the rowDelimiter value.
      */
     public Object rowDelimiter() {
@@ -142,7 +178,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the rowDelimiter property: The row delimiter. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param rowDelimiter the rowDelimiter value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -159,7 +195,7 @@ public final class DelimitedTextDataset extends Dataset {
      * unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set
      * supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the encodingName value.
      */
     public Object encodingName() {
@@ -171,7 +207,7 @@ public final class DelimitedTextDataset extends Dataset {
      * unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set
      * supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param encodingName the encodingName value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -186,7 +222,7 @@ public final class DelimitedTextDataset extends Dataset {
     /**
      * Get the compressionCodec property: The data compressionCodec. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the compressionCodec value.
      */
     public Object compressionCodec() {
@@ -196,7 +232,7 @@ public final class DelimitedTextDataset extends Dataset {
     /**
      * Set the compressionCodec property: The data compressionCodec. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param compressionCodec the compressionCodec value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -210,7 +246,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the compressionLevel property: The data compression method used for DelimitedText.
-     *
+     * 
      * @return the compressionLevel value.
      */
     public Object compressionLevel() {
@@ -219,7 +255,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the compressionLevel property: The data compression method used for DelimitedText.
-     *
+     * 
      * @param compressionLevel the compressionLevel value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -233,7 +269,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the quoteChar property: The quote character. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the quoteChar value.
      */
     public Object quoteChar() {
@@ -242,7 +278,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the quoteChar property: The quote character. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param quoteChar the quoteChar value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -256,7 +292,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the escapeChar property: The escape character. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the escapeChar value.
      */
     public Object escapeChar() {
@@ -265,7 +301,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the escapeChar property: The escape character. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param escapeChar the escapeChar value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -281,7 +317,7 @@ public final class DelimitedTextDataset extends Dataset {
      * Get the firstRowAsHeader property: When used as input, treat the first row of data as headers. When used as
      * output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @return the firstRowAsHeader value.
      */
     public Object firstRowAsHeader() {
@@ -292,7 +328,7 @@ public final class DelimitedTextDataset extends Dataset {
      * Set the firstRowAsHeader property: When used as input, treat the first row of data as headers. When used as
      * output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @param firstRowAsHeader the firstRowAsHeader value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -306,7 +342,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Get the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the nullValue value.
      */
     public Object nullValue() {
@@ -315,7 +351,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Set the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param nullValue the nullValue value to set.
      * @return the DelimitedTextDataset object itself.
      */
@@ -329,7 +365,7 @@ public final class DelimitedTextDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

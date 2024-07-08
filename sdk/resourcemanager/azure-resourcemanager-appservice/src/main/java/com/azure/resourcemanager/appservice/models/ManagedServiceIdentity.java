@@ -7,11 +7,14 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
-/** Managed service identity. */
+/**
+ * Managed service identity.
+ */
 @Fluent
-public class ManagedServiceIdentity {
+public final class ManagedServiceIdentity {
     /*
      * Type of managed service identity.
      */
@@ -31,15 +34,15 @@ public class ManagedServiceIdentity {
     private String principalId;
 
     /*
-     * The list of user assigned identities associated with the resource. The user identity dictionary key references
-     * will be ARM resource ids in the form:
-     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
+     * The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
      */
     @JsonProperty(value = "userAssignedIdentities")
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, UserAssignedIdentity> userAssignedIdentities;
 
-    /** Creates an instance of ManagedServiceIdentity class. */
+    /**
+     * Creates an instance of ManagedServiceIdentity class.
+     */
     public ManagedServiceIdentity() {
     }
 
@@ -112,14 +115,11 @@ public class ManagedServiceIdentity {
      */
     public void validate() {
         if (userAssignedIdentities() != null) {
-            userAssignedIdentities()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            userAssignedIdentities().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
     }
 }

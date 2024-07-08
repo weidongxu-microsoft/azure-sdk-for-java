@@ -7,14 +7,24 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Dynamics sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Dynamics sink.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = DynamicsSink.class, visible = true)
 @JsonTypeName("DynamicsSink")
 @Fluent
 public final class DynamicsSink extends CopySink {
+    /*
+     * Copy sink type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DynamicsSink";
+
     /*
      * The write behavior for the operation.
      */
@@ -29,19 +39,31 @@ public final class DynamicsSink extends CopySink {
     private Object ignoreNullValues;
 
     /*
-     * The logical name of the alternate key which will be used when upserting records. Type: string (or Expression
-     * with resultType string).
+     * The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with
+     * resultType string).
      */
     @JsonProperty(value = "alternateKeyName")
     private Object alternateKeyName;
 
-    /** Creates an instance of DynamicsSink class. */
+    /**
+     * Creates an instance of DynamicsSink class.
+     */
     public DynamicsSink() {
     }
 
     /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the writeBehavior property: The write behavior for the operation.
-     *
+     * 
      * @return the writeBehavior value.
      */
     public DynamicsSinkWriteBehavior writeBehavior() {
@@ -50,7 +72,7 @@ public final class DynamicsSink extends CopySink {
 
     /**
      * Set the writeBehavior property: The write behavior for the operation.
-     *
+     * 
      * @param writeBehavior the writeBehavior value to set.
      * @return the DynamicsSink object itself.
      */
@@ -62,7 +84,7 @@ public final class DynamicsSink extends CopySink {
     /**
      * Get the ignoreNullValues property: The flag indicating whether ignore null values from input dataset (except key
      * fields) during write operation. Default is false. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the ignoreNullValues value.
      */
     public Object ignoreNullValues() {
@@ -72,7 +94,7 @@ public final class DynamicsSink extends CopySink {
     /**
      * Set the ignoreNullValues property: The flag indicating whether ignore null values from input dataset (except key
      * fields) during write operation. Default is false. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param ignoreNullValues the ignoreNullValues value to set.
      * @return the DynamicsSink object itself.
      */
@@ -84,7 +106,7 @@ public final class DynamicsSink extends CopySink {
     /**
      * Get the alternateKeyName property: The logical name of the alternate key which will be used when upserting
      * records. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the alternateKeyName value.
      */
     public Object alternateKeyName() {
@@ -94,7 +116,7 @@ public final class DynamicsSink extends CopySink {
     /**
      * Set the alternateKeyName property: The logical name of the alternate key which will be used when upserting
      * records. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param alternateKeyName the alternateKeyName value to set.
      * @return the DynamicsSink object itself.
      */
@@ -103,42 +125,54 @@ public final class DynamicsSink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsSink withWriteBatchSize(Object writeBatchSize) {
         super.withWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsSink withWriteBatchTimeout(Object writeBatchTimeout) {
         super.withWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsSink withSinkRetryCount(Object sinkRetryCount) {
         super.withSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsSink withSinkRetryWait(Object sinkRetryWait) {
         super.withSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsSink withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsSink withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -147,16 +181,15 @@ public final class DynamicsSink extends CopySink {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (writeBehavior() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property writeBehavior in model DynamicsSink"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property writeBehavior in model DynamicsSink"));
         }
     }
 

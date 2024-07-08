@@ -11,19 +11,17 @@ import org.junit.jupiter.api.Assertions;
 public final class NonceTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        Nonce model =
-            BinaryData
-                .fromString("{\"validateNonce\":false,\"nonceExpirationInterval\":\"ljavbqid\"}")
-                .toObject(Nonce.class);
-        Assertions.assertEquals(false, model.validateNonce());
-        Assertions.assertEquals("ljavbqid", model.nonceExpirationInterval());
+        Nonce model = BinaryData.fromString("{\"validateNonce\":true,\"nonceExpirationInterval\":\"asxazjpqyegualhb\"}")
+            .toObject(Nonce.class);
+        Assertions.assertEquals(true, model.validateNonce());
+        Assertions.assertEquals("asxazjpqyegualhb", model.nonceExpirationInterval());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        Nonce model = new Nonce().withValidateNonce(false).withNonceExpirationInterval("ljavbqid");
+        Nonce model = new Nonce().withValidateNonce(true).withNonceExpirationInterval("asxazjpqyegualhb");
         model = BinaryData.fromObject(model).toObject(Nonce.class);
-        Assertions.assertEquals(false, model.validateNonce());
-        Assertions.assertEquals("ljavbqid", model.nonceExpirationInterval());
+        Assertions.assertEquals(true, model.validateNonce());
+        Assertions.assertEquals("asxazjpqyegualhb", model.nonceExpirationInterval());
     }
 }

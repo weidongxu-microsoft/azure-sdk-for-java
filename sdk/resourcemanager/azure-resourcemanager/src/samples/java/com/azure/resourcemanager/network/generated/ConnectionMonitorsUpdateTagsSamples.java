@@ -5,13 +5,16 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.resourcemanager.network.models.TagsObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for ConnectionMonitors UpdateTags. */
+/**
+ * Samples for ConnectionMonitors UpdateTags.
+ */
 public final class ConnectionMonitorsUpdateTagsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherConnectionMonitorUpdateTags.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherConnectionMonitorUpdateTags.json
      */
     /**
      * Sample code: Update connection monitor tags.
@@ -19,19 +22,15 @@ public final class ConnectionMonitorsUpdateTagsSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void updateConnectionMonitorTags(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getConnectionMonitors()
-            .updateTagsWithResponse(
-                "rg1",
-                "nw1",
-                "cm1",
-                new TagsObject().withTags(mapOf("tag1", "value1", "tag2", "value2")),
-                com.azure.core.util.Context.NONE);
+            .updateTagsWithResponse("rg1", "nw1", "cm1",
+                new TagsObject().withTags(mapOf("tag1", "value1", "tag2", "value2")), com.azure.core.util.Context.NONE);
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

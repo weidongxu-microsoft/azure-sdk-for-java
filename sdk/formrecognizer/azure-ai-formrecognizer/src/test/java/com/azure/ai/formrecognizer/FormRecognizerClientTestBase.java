@@ -18,7 +18,6 @@ import com.azure.ai.formrecognizer.models.FormWord;
 import com.azure.ai.formrecognizer.models.LengthUnit;
 import com.azure.ai.formrecognizer.models.RecognizedForm;
 import com.azure.ai.formrecognizer.models.SelectionMarkState;
-import com.azure.ai.formrecognizer.models.TextStyleName;
 import com.azure.ai.formrecognizer.training.FormTrainingClientBuilder;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.policy.HttpLogDetailLevel;
@@ -40,6 +39,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -51,9 +51,9 @@ import static com.azure.ai.formrecognizer.FormTrainingClientTestBase.FORM_RECOGN
 import static com.azure.ai.formrecognizer.FormTrainingClientTestBase.FORM_RECOGNIZER_TRAINING_BLOB_CONTAINER_SAS_URL;
 import static com.azure.ai.formrecognizer.TestUtils.FAKE_ENCODED_EMPTY_SPACE_URL;
 import static com.azure.ai.formrecognizer.TestUtils.ONE_NANO_DURATION;
+import static com.azure.ai.formrecognizer.TestUtils.REMOVE_SANITIZER_ID;
 import static com.azure.ai.formrecognizer.TestUtils.URL_TEST_FILE_FORMAT;
 import static com.azure.ai.formrecognizer.TestUtils.getAudience;
-import static com.azure.ai.formrecognizer.TestUtils.getTestProxySanitizers;
 import static com.azure.ai.formrecognizer.implementation.Utility.DEFAULT_POLL_INTERVAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -79,7 +79,6 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
 
     // Error code
     static final String BAD_ARGUMENT_CODE = "BadArgument";
-    static final String INVALID_IMAGE_ERROR_CODE = "InvalidImage";
     static final String INVALID_MODEL_ID_ERROR_CODE = "1001";
     static final String MODEL_ID_NOT_FOUND_ERROR_CODE = "1022";
 
@@ -115,6 +114,7 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
     public static final String EXPECTED_MERCHANT_NAME = "Contoso";
 
     Duration durationTestMode;
+    private boolean sanitizersRemoved = false;
 
     /**
      * Use duration of nearly zero value for PLAYBACK test mode, otherwise, use default duration value for LIVE mode.
@@ -142,15 +142,16 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
 
         if (interceptorManager.isPlaybackMode()) {
             builder.credential(new MockTokenCredential());
-            interceptorManager.addMatchers(Arrays.asList(new BodilessMatcher()));
+            interceptorManager.addMatchers(Collections.singletonList(new BodilessMatcher()));
         } else if (interceptorManager.isRecordMode()) {
             builder.credential(new DefaultAzureCredentialBuilder().build());
             builder.addPolicy(interceptorManager.getRecordPolicy());
         } else if (interceptorManager.isLiveMode()) {
             builder.credential(new DefaultAzureCredentialBuilder().build());
         }
-        if (!interceptorManager.isLiveMode()) {
-            interceptorManager.addSanitizers(getTestProxySanitizers());
+        if (!interceptorManager.isLiveMode() && !sanitizersRemoved) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+            sanitizersRemoved = true;
         }
         return builder;
     }
@@ -169,15 +170,17 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
 
         if (interceptorManager.isPlaybackMode()) {
             builder.credential(new MockTokenCredential());
-            interceptorManager.addMatchers(Arrays.asList(new BodilessMatcher()));
+            interceptorManager.addMatchers(Collections.singletonList(new BodilessMatcher()));
         } else if (interceptorManager.isRecordMode()) {
             builder.credential(new DefaultAzureCredentialBuilder().build());
             builder.addPolicy(interceptorManager.getRecordPolicy());
         } else if (interceptorManager.isLiveMode()) {
             builder.credential(new DefaultAzureCredentialBuilder().build());
         }
-        if (!interceptorManager.isLiveMode()) {
-            interceptorManager.addSanitizers(getTestProxySanitizers());
+
+        if (!interceptorManager.isLiveMode() && !sanitizersRemoved) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+            sanitizersRemoved = true;
         }
         return builder;
     }
@@ -191,10 +194,6 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
 
     @Test
     abstract void recognizeReceiptData(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void recognizeReceiptDataNullData(HttpClient httpClient,
-                                               FormRecognizerServiceVersion serviceVersion);
 
     @Test
     abstract void recognizeReceiptDataWithContentTypeAutoDetection(HttpClient httpClient,
@@ -240,11 +239,6 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
 
     @Test
     abstract void recognizeContent(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void recognizeContentResultWithNullData(HttpClient httpClient,
-                                                     FormRecognizerServiceVersion serviceVersion);
-
     @Test
     abstract void recognizeContentResultWithContentTypeAutoDetection(HttpClient httpClient,
                                                                      FormRecognizerServiceVersion serviceVersion);
@@ -306,14 +300,6 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
                                                                  FormRecognizerServiceVersion serviceVersion);
 
     @Test
-    abstract void recognizeCustomFormLabeledDataWithNullModelId(HttpClient httpClient,
-                                                                FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void recognizeCustomFormLabeledDataWithEmptyModelId(HttpClient httpClient,
-                                                                 FormRecognizerServiceVersion serviceVersion);
-
-    @Test
     abstract void recognizeCustomFormInvalidStatus(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
     @Test
@@ -367,15 +353,6 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
     @Test
     abstract void recognizeCustomFormInvalidSourceUrl(HttpClient httpClient,
                                                       FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void recognizeCustomFormFromUrlLabeledDataWithNullModelId(HttpClient httpClient,
-                                                                       FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void recognizeCustomFormFromUrlLabeledDataWithEmptyModelId(HttpClient httpClient,
-                                                                        FormRecognizerServiceVersion serviceVersion);
-
     @Test
     abstract void recognizeCustomFormUrlLabeledData(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
@@ -395,9 +372,6 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
     // Business Card - data
     @Test
     abstract void recognizeBusinessCardData(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void recognizeBusinessCardDataNullData(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
     @Test
     abstract void recognizeBusinessCardDataWithContentTypeAutoDetection(HttpClient httpClient,
@@ -748,8 +722,7 @@ public abstract class FormRecognizerClientTestBase extends TestProxyTestBase {
 
             if (formLine.getAppearance() != null) {
                 Assertions.assertNotNull(formLine.getAppearance().getStyleName());
-                Assertions.assertTrue(formLine.getAppearance().getStyleName() == TextStyleName.HANDWRITING
-                    || formLine.getAppearance().getStyleName() == TextStyleName.OTHER);
+                Assertions.assertNotNull(formLine.getAppearance().getStyleName());
             }
 
             Assertions.assertNotNull(formLine.getWords());

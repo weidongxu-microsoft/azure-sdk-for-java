@@ -5,45 +5,64 @@
 package com.azure.ai.formrecognizer.documentanalysis.models;
 
 import com.azure.core.util.ExpandableStringEnum;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Defines values for DocumentAnalysisFeature. */
+/**
+ * Defines values for DocumentAnalysisFeature.
+ */
 public final class DocumentAnalysisFeature extends ExpandableStringEnum<DocumentAnalysisFeature> {
-    /** Static value ocr.highResolution for DocumentAnalysisFeature. */
-    public static final DocumentAnalysisFeature OCR_HIGH_RESOLUTION = fromString("ocr.highResolution");
+    /**
+     * Perform OCR at a higher resolution to handle documents with fine print.
+     */
+    public static final DocumentAnalysisFeature OCR_HIGH_RESOLUTION = fromString("ocrHighResolution");
 
-    /** Static value ocr.formula for DocumentAnalysisFeature. */
-    public static final DocumentAnalysisFeature OCR_FORMULA = fromString("ocr.formula");
+    /**
+     * Enable the detection of the text content language.
+     */
+    public static final DocumentAnalysisFeature LANGUAGES = fromString("languages");
 
-    /** Static value ocr.font for DocumentAnalysisFeature. */
-    public static final DocumentAnalysisFeature OCR_FONT = fromString("ocr.font");
+    /**
+     * Enable the detection of barcodes in the document.
+     */
+    public static final DocumentAnalysisFeature BARCODES = fromString("barcodes");
 
-    /** Static value queryFields.premium for DocumentAnalysisFeature. */
-    public static final DocumentAnalysisFeature QUERY_FIELDS_PREMIUM = fromString("queryFields.premium");
+    /**
+     * Enable the detection of mathematical expressions in the document.
+     */
+    public static final DocumentAnalysisFeature FORMULAS = fromString("formulas");
+
+    /**
+     * Enable the detection of general key value pairs (form fields) in the document.
+     */
+    public static final DocumentAnalysisFeature KEY_VALUE_PAIRS = fromString("keyValuePairs");
+
+    /**
+     * Enable the recognition of various font styles.
+     */
+    public static final DocumentAnalysisFeature STYLE_FONT = fromString("styleFont");
 
     /**
      * Creates a new instance of DocumentAnalysisFeature value.
-     *
+     * 
      * @deprecated Use the {@link #fromString(String)} factory method.
      */
     @Deprecated
-    public DocumentAnalysisFeature() {}
+    public DocumentAnalysisFeature() {
+    }
 
     /**
      * Creates or finds a DocumentAnalysisFeature from its string representation.
-     *
+     * 
      * @param name a name to look for.
      * @return the corresponding DocumentAnalysisFeature.
      */
-    @JsonCreator
     public static DocumentAnalysisFeature fromString(String name) {
         return fromString(name, DocumentAnalysisFeature.class);
     }
 
     /**
      * Gets known DocumentAnalysisFeature values.
-     *
+     * 
      * @return known DocumentAnalysisFeature values.
      */
     public static Collection<DocumentAnalysisFeature> values() {

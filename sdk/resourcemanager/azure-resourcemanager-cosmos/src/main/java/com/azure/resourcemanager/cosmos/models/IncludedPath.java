@@ -6,14 +6,16 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** The paths that are included in indexing. */
+/**
+ * The paths that are included in indexing.
+ */
 @Fluent
 public final class IncludedPath {
     /*
-     * The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-     * (/path/*)
+     * The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
      */
     @JsonProperty(value = "path")
     private String path;
@@ -24,7 +26,9 @@ public final class IncludedPath {
     @JsonProperty(value = "indexes")
     private List<Indexes> indexes;
 
-    /** Creates an instance of IncludedPath class. */
+    /**
+     * Creates an instance of IncludedPath class.
+     */
     public IncludedPath() {
     }
 

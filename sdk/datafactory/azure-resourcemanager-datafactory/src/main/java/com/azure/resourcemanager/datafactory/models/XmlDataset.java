@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.XmlDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Xml dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Xml dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = XmlDataset.class, visible = true)
 @JsonTypeName("Xml")
 @Fluent
 public final class XmlDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Xml";
+
     /*
      * Xml dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private XmlDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of XmlDataset class. */
+    /**
+     * Creates an instance of XmlDataset class.
+     */
     public XmlDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Xml dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private XmlDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Get the location property: The location of the json data storage.
-     *
+     * 
      * @return the location value.
      */
     public DatasetLocation location() {
@@ -96,7 +132,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Set the location property: The location of the json data storage.
-     *
+     * 
      * @param location the location value to set.
      * @return the XmlDataset object itself.
      */
@@ -113,7 +149,7 @@ public final class XmlDataset extends Dataset {
      * is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following
      * link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the encodingName value.
      */
     public Object encodingName() {
@@ -125,7 +161,7 @@ public final class XmlDataset extends Dataset {
      * is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following
      * link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param encodingName the encodingName value to set.
      * @return the XmlDataset object itself.
      */
@@ -139,7 +175,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Get the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the nullValue value.
      */
     public Object nullValue() {
@@ -148,7 +184,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Set the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param nullValue the nullValue value to set.
      * @return the XmlDataset object itself.
      */
@@ -162,7 +198,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Get the compression property: The data compression method used for the json dataset.
-     *
+     * 
      * @return the compression value.
      */
     public DatasetCompression compression() {
@@ -171,7 +207,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Set the compression property: The data compression method used for the json dataset.
-     *
+     * 
      * @param compression the compression value to set.
      * @return the XmlDataset object itself.
      */
@@ -185,7 +221,7 @@ public final class XmlDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

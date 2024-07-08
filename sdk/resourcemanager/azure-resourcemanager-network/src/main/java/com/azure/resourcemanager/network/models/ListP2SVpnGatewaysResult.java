@@ -7,6 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.fluent.models.P2SVpnGatewayInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -27,7 +28,9 @@ public final class ListP2SVpnGatewaysResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListP2SVpnGatewaysResult class. */
+    /**
+     * Creates an instance of ListP2SVpnGatewaysResult class.
+     */
     public ListP2SVpnGatewaysResult() {
     }
 

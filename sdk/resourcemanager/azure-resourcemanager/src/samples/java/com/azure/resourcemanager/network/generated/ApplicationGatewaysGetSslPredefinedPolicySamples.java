@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ApplicationGateways GetSslPredefinedPolicy. */
+/**
+ * Samples for ApplicationGateways GetSslPredefinedPolicy.
+ */
 public final class ApplicationGatewaysGetSslPredefinedPolicySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
      */
     /**
      * Sample code: Get Available Ssl Predefined Policy by name.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getAvailableSslPredefinedPolicyByName(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getApplicationGateways()

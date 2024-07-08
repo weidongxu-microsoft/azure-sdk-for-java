@@ -8,56 +8,104 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.WaitActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** This activity suspends pipeline execution for the specified interval. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * This activity suspends pipeline execution for the specified interval.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = WaitActivity.class, visible = true)
 @JsonTypeName("Wait")
 @Fluent
 public final class WaitActivity extends ControlActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Wait";
+
     /*
      * Wait activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private WaitActivityTypeProperties innerTypeProperties = new WaitActivityTypeProperties();
 
-    /** Creates an instance of WaitActivity class. */
+    /**
+     * Creates an instance of WaitActivity class.
+     */
     public WaitActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Wait activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private WaitActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WaitActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WaitActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WaitActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WaitActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WaitActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WaitActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -65,8 +113,8 @@ public final class WaitActivity extends ControlActivity {
     }
 
     /**
-     * Get the waitTimeInSeconds property: Duration in seconds.
-     *
+     * Get the waitTimeInSeconds property: Duration in seconds. Type: integer (or Expression with resultType integer).
+     * 
      * @return the waitTimeInSeconds value.
      */
     public Object waitTimeInSeconds() {
@@ -74,8 +122,8 @@ public final class WaitActivity extends ControlActivity {
     }
 
     /**
-     * Set the waitTimeInSeconds property: Duration in seconds.
-     *
+     * Set the waitTimeInSeconds property: Duration in seconds. Type: integer (or Expression with resultType integer).
+     * 
      * @param waitTimeInSeconds the waitTimeInSeconds value to set.
      * @return the WaitActivity object itself.
      */
@@ -89,17 +137,16 @@ public final class WaitActivity extends ControlActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model WaitActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model WaitActivity"));
         } else {
             innerTypeProperties().validate();
         }

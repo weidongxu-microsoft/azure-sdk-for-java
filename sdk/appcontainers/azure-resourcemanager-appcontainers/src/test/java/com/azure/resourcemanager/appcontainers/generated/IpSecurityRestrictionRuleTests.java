@@ -12,29 +12,23 @@ import org.junit.jupiter.api.Assertions;
 public final class IpSecurityRestrictionRuleTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        IpSecurityRestrictionRule model =
-            BinaryData
-                .fromString(
-                    "{\"name\":\"zvqtmnubexkp\",\"description\":\"smond\",\"ipAddressRange\":\"mquxvypo\",\"action\":\"Deny\"}")
-                .toObject(IpSecurityRestrictionRule.class);
-        Assertions.assertEquals("zvqtmnubexkp", model.name());
-        Assertions.assertEquals("smond", model.description());
-        Assertions.assertEquals("mquxvypo", model.ipAddressRange());
+        IpSecurityRestrictionRule model = BinaryData.fromString(
+            "{\"name\":\"lfzxiavrmbzonoki\",\"description\":\"jq\",\"ipAddressRange\":\"irgzp\",\"action\":\"Deny\"}")
+            .toObject(IpSecurityRestrictionRule.class);
+        Assertions.assertEquals("lfzxiavrmbzonoki", model.name());
+        Assertions.assertEquals("jq", model.description());
+        Assertions.assertEquals("irgzp", model.ipAddressRange());
         Assertions.assertEquals(Action.DENY, model.action());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        IpSecurityRestrictionRule model =
-            new IpSecurityRestrictionRule()
-                .withName("zvqtmnubexkp")
-                .withDescription("smond")
-                .withIpAddressRange("mquxvypo")
-                .withAction(Action.DENY);
+        IpSecurityRestrictionRule model = new IpSecurityRestrictionRule().withName("lfzxiavrmbzonoki")
+            .withDescription("jq").withIpAddressRange("irgzp").withAction(Action.DENY);
         model = BinaryData.fromObject(model).toObject(IpSecurityRestrictionRule.class);
-        Assertions.assertEquals("zvqtmnubexkp", model.name());
-        Assertions.assertEquals("smond", model.description());
-        Assertions.assertEquals("mquxvypo", model.ipAddressRange());
+        Assertions.assertEquals("lfzxiavrmbzonoki", model.name());
+        Assertions.assertEquals("jq", model.description());
+        Assertions.assertEquals("irgzp", model.ipAddressRange());
         Assertions.assertEquals(Action.DENY, model.action());
     }
 }

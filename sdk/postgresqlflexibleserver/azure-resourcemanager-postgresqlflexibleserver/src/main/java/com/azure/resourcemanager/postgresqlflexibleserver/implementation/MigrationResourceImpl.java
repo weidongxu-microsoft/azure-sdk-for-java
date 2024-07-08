@@ -11,12 +11,16 @@ import com.azure.resourcemanager.postgresqlflexibleserver.fluent.models.Migratio
 import com.azure.resourcemanager.postgresqlflexibleserver.models.CancelEnum;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.DbServerMetadata;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.LogicalReplicationOnSourceDbEnum;
+import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrateRolesEnum;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrationMode;
+import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrationOption;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrationResource;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrationResourceForPatch;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrationSecretParameters;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.MigrationStatus;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.OverwriteDbsInTargetEnum;
+import com.azure.resourcemanager.postgresqlflexibleserver.models.SourceType;
+import com.azure.resourcemanager.postgresqlflexibleserver.models.SslMode;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.StartDataMigrationEnum;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.TriggerCutoverEnum;
 import java.time.OffsetDateTime;
@@ -67,8 +71,24 @@ public final class MigrationResourceImpl
         return this.innerModel().currentStatus();
     }
 
+    public String migrationInstanceResourceId() {
+        return this.innerModel().migrationInstanceResourceId();
+    }
+
     public MigrationMode migrationMode() {
         return this.innerModel().migrationMode();
+    }
+
+    public MigrationOption migrationOption() {
+        return this.innerModel().migrationOption();
+    }
+
+    public SourceType sourceType() {
+        return this.innerModel().sourceType();
+    }
+
+    public SslMode sslMode() {
+        return this.innerModel().sslMode();
     }
 
     public DbServerMetadata sourceDbServerMetadata() {
@@ -122,6 +142,10 @@ public final class MigrationResourceImpl
 
     public OffsetDateTime migrationWindowEndTimeInUtc() {
         return this.innerModel().migrationWindowEndTimeInUtc();
+    }
+
+    public MigrateRolesEnum migrateRoles() {
+        return this.innerModel().migrateRoles();
     }
 
     public StartDataMigrationEnum startDataMigration() {
@@ -184,8 +208,8 @@ public final class MigrationResourceImpl
 
     private MigrationResourceForPatch updateParameters;
 
-    public MigrationResourceImpl withExistingFlexibleServer(
-        String subscriptionId, String resourceGroupName, String targetDbServerName) {
+    public MigrationResourceImpl withExistingFlexibleServer(String subscriptionId, String resourceGroupName,
+        String targetDbServerName) {
         this.subscriptionId = subscriptionId;
         this.resourceGroupName = resourceGroupName;
         this.targetDbServerName = targetDbServerName;
@@ -193,34 +217,25 @@ public final class MigrationResourceImpl
     }
 
     public MigrationResource create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMigrations()
-                .createWithResponse(
-                    subscriptionId,
-                    resourceGroupName,
-                    targetDbServerName,
-                    migrationName,
-                    this.innerModel(),
-                    Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMigrations()
+            .createWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, this.innerModel(),
+                Context.NONE)
+            .getValue();
         return this;
     }
 
     public MigrationResource create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMigrations()
-                .createWithResponse(
-                    subscriptionId, resourceGroupName, targetDbServerName, migrationName, this.innerModel(), context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMigrations()
+            .createWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, this.innerModel(),
+                context)
+            .getValue();
         return this;
     }
 
-    MigrationResourceImpl(
-        String name, com.azure.resourcemanager.postgresqlflexibleserver.PostgreSqlManager serviceManager) {
+    MigrationResourceImpl(String name,
+        com.azure.resourcemanager.postgresqlflexibleserver.PostgreSqlManager serviceManager) {
         this.innerObject = new MigrationResourceInner();
         this.serviceManager = serviceManager;
         this.migrationName = name;
@@ -232,60 +247,46 @@ public final class MigrationResourceImpl
     }
 
     public MigrationResource apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMigrations()
-                .updateWithResponse(
-                    subscriptionId,
-                    resourceGroupName,
-                    targetDbServerName,
-                    migrationName,
-                    updateParameters,
-                    Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMigrations()
+            .updateWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, updateParameters,
+                Context.NONE)
+            .getValue();
         return this;
     }
 
     public MigrationResource apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMigrations()
-                .updateWithResponse(
-                    subscriptionId, resourceGroupName, targetDbServerName, migrationName, updateParameters, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMigrations()
+            .updateWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, updateParameters,
+                context)
+            .getValue();
         return this;
     }
 
-    MigrationResourceImpl(
-        MigrationResourceInner innerObject,
+    MigrationResourceImpl(MigrationResourceInner innerObject,
         com.azure.resourcemanager.postgresqlflexibleserver.PostgreSqlManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.subscriptionId = Utils.getValueFromIdByName(innerObject.id(), "subscriptions");
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.targetDbServerName = Utils.getValueFromIdByName(innerObject.id(), "flexibleServers");
-        this.migrationName = Utils.getValueFromIdByName(innerObject.id(), "migrations");
+        this.subscriptionId = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "subscriptions");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.targetDbServerName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "flexibleServers");
+        this.migrationName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "migrations");
     }
 
     public MigrationResource refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMigrations()
-                .getWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMigrations()
+            .getWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public MigrationResource refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMigrations()
-                .getWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMigrations()
+            .getWithResponse(subscriptionId, resourceGroupName, targetDbServerName, migrationName, context)
+            .getValue();
         return this;
     }
 
@@ -309,6 +310,11 @@ public final class MigrationResourceImpl
         }
     }
 
+    public MigrationResourceImpl withMigrationInstanceResourceId(String migrationInstanceResourceId) {
+        this.innerModel().withMigrationInstanceResourceId(migrationInstanceResourceId);
+        return this;
+    }
+
     public MigrationResourceImpl withMigrationMode(MigrationMode migrationMode) {
         if (isInCreateMode()) {
             this.innerModel().withMigrationMode(migrationMode);
@@ -317,6 +323,21 @@ public final class MigrationResourceImpl
             this.updateParameters.withMigrationMode(migrationMode);
             return this;
         }
+    }
+
+    public MigrationResourceImpl withMigrationOption(MigrationOption migrationOption) {
+        this.innerModel().withMigrationOption(migrationOption);
+        return this;
+    }
+
+    public MigrationResourceImpl withSourceType(SourceType sourceType) {
+        this.innerModel().withSourceType(sourceType);
+        return this;
+    }
+
+    public MigrationResourceImpl withSslMode(SslMode sslMode) {
+        this.innerModel().withSslMode(sslMode);
+        return this;
     }
 
     public MigrationResourceImpl withSourceDbServerResourceId(String sourceDbServerResourceId) {
@@ -329,8 +350,8 @@ public final class MigrationResourceImpl
         }
     }
 
-    public MigrationResourceImpl withSourceDbServerFullyQualifiedDomainName(
-        String sourceDbServerFullyQualifiedDomainName) {
+    public MigrationResourceImpl
+        withSourceDbServerFullyQualifiedDomainName(String sourceDbServerFullyQualifiedDomainName) {
         if (isInCreateMode()) {
             this.innerModel().withSourceDbServerFullyQualifiedDomainName(sourceDbServerFullyQualifiedDomainName);
             return this;
@@ -340,8 +361,8 @@ public final class MigrationResourceImpl
         }
     }
 
-    public MigrationResourceImpl withTargetDbServerFullyQualifiedDomainName(
-        String targetDbServerFullyQualifiedDomainName) {
+    public MigrationResourceImpl
+        withTargetDbServerFullyQualifiedDomainName(String targetDbServerFullyQualifiedDomainName) {
         if (isInCreateMode()) {
             this.innerModel().withTargetDbServerFullyQualifiedDomainName(targetDbServerFullyQualifiedDomainName);
             return this;
@@ -377,8 +398,7 @@ public final class MigrationResourceImpl
             this.innerModel().withSetupLogicalReplicationOnSourceDbIfNeeded(setupLogicalReplicationOnSourceDbIfNeeded);
             return this;
         } else {
-            this
-                .updateParameters
+            this.updateParameters
                 .withSetupLogicalReplicationOnSourceDbIfNeeded(setupLogicalReplicationOnSourceDbIfNeeded);
             return this;
         }
@@ -407,6 +427,16 @@ public final class MigrationResourceImpl
     public MigrationResourceImpl withMigrationWindowEndTimeInUtc(OffsetDateTime migrationWindowEndTimeInUtc) {
         this.innerModel().withMigrationWindowEndTimeInUtc(migrationWindowEndTimeInUtc);
         return this;
+    }
+
+    public MigrationResourceImpl withMigrateRoles(MigrateRolesEnum migrateRoles) {
+        if (isInCreateMode()) {
+            this.innerModel().withMigrateRoles(migrateRoles);
+            return this;
+        } else {
+            this.updateParameters.withMigrateRoles(migrateRoles);
+            return this;
+        }
     }
 
     public MigrationResourceImpl withStartDataMigration(StartDataMigrationEnum startDataMigration) {

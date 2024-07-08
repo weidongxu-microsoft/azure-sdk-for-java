@@ -7,7 +7,10 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
 import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.storage.common.test.shared.extensions.LiveOnly;
+import com.azure.storage.common.test.shared.extensions.RequiredServiceVersion;
 import com.azure.storage.queue.models.QueueAnalyticsLogging;
+import com.azure.storage.queue.models.QueueAudience;
 import com.azure.storage.queue.models.QueueErrorCode;
 import com.azure.storage.queue.models.QueueItem;
 import com.azure.storage.queue.models.QueueMetrics;
@@ -34,6 +37,7 @@ import static com.azure.storage.queue.QueueTestHelper.assertQueueServiceProperti
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -224,5 +228,49 @@ public class QueueServiceApiTests extends QueueTestBase {
 
         assertEquals("2017-11-09", serviceClient.getPropertiesWithResponse(null, null).getHeaders()
             .getValue("x-ms-version"));
+    }
+
+    @Test
+    public void defaultAudience() {
+        QueueServiceClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceClient.getQueueServiceUrl())
+            .audience(null) // should default to "https://storage.azure.com/"
+            .buildClient();
+
+        assertNotNull(aadService.getProperties());
+    }
+
+    @Test
+    public void storageAccountAudience() {
+        QueueServiceClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceClient.getQueueServiceUrl())
+            .audience(QueueAudience.createQueueServiceAccountAudience(primaryQueueServiceClient.getAccountName()))
+            .buildClient();
+
+        assertNotNull(aadService.getProperties());
+    }
+
+    @RequiredServiceVersion(clazz = QueueServiceVersion.class, min = "2024-08-04")
+    @LiveOnly
+    @Test
+    /* This test tests if the bearer challenge is working properly. A bad audience is passed in, the service returns
+    the default audience, and the request gets retried with this default audience, making the call function as expected.
+     */
+    public void audienceErrorBearerChallengeRetry() {
+        QueueServiceClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceClient.getQueueServiceUrl())
+            .audience(QueueAudience.createQueueServiceAccountAudience("badaudience"))
+            .buildClient();
+
+        assertNotNull(aadService.getProperties());
+    }
+
+    @Test
+    public void audienceFromString() {
+        String url = String.format("https://%s.queue.core.windows.net/", primaryQueueServiceClient.getAccountName());
+        QueueAudience audience = QueueAudience.fromString(url);
+
+        QueueServiceClient aadService = getOAuthServiceClientBuilder(primaryQueueServiceClient.getQueueServiceUrl())
+            .audience(audience)
+            .buildClient();
+
+        assertNotNull(aadService.getProperties());
     }
 }

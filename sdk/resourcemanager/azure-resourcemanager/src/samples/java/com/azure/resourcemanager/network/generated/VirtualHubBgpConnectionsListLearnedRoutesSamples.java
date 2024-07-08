@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualHubBgpConnections ListLearnedRoutes. */
+/**
+ * Samples for VirtualHubBgpConnections ListLearnedRoutes.
+ */
 public final class VirtualHubBgpConnectionsListLearnedRoutesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualRouterPeerListLearnedRoute.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualRouterPeerListLearnedRoute.json
      */
     /**
      * Sample code: VirtualRouterPeerListLearnedRoutes.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void virtualRouterPeerListLearnedRoutes(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualHubBgpConnections()

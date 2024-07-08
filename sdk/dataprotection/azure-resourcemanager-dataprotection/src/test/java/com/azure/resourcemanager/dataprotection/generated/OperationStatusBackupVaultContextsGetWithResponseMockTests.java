@@ -30,45 +30,31 @@ public final class OperationStatusBackupVaultContextsGetWithResponseMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"endTime\":\"2021-06-17T06:57:21Z\",\"id\":\"rbior\",\"name\":\"alywjhhgdn\",\"properties\":{\"objectType\":\"OperationExtendedInfo\"},\"startTime\":\"2020-12-26T18:57:18Z\",\"status\":\"v\"}";
+        String responseStr
+            = "{\"endTime\":\"2021-01-02T07:09:13Z\",\"id\":\"vblbjednljlageua\",\"name\":\"xuns\",\"properties\":{\"objectType\":\"OperationExtendedInfo\"},\"startTime\":\"2021-09-27T06:19:05Z\",\"status\":\"ppxynenls\"}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        DataProtectionManager manager =
-            DataProtectionManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        DataProtectionManager manager = DataProtectionManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        OperationResource response =
-            manager
-                .operationStatusBackupVaultContexts()
-                .getWithResponse("hlvnuuepzlr", "hw", "soldweyuqdunv", com.azure.core.util.Context.NONE)
-                .getValue();
+        OperationResource response = manager.operationStatusBackupVaultContexts()
+            .getWithResponse("hhvjhh", "akz", "bbjjidjksyxk", com.azure.core.util.Context.NONE).getValue();
 
-        Assertions.assertEquals(OffsetDateTime.parse("2021-06-17T06:57:21Z"), response.endTime());
-        Assertions.assertEquals("rbior", response.id());
-        Assertions.assertEquals("alywjhhgdn", response.name());
-        Assertions.assertEquals(OffsetDateTime.parse("2020-12-26T18:57:18Z"), response.startTime());
-        Assertions.assertEquals("v", response.status());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-01-02T07:09:13Z"), response.endTime());
+        Assertions.assertEquals("vblbjednljlageua", response.id());
+        Assertions.assertEquals("xuns", response.name());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-09-27T06:19:05Z"), response.startTime());
+        Assertions.assertEquals("ppxynenls", response.status());
     }
 }

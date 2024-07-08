@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.RemotePrivateEndpointConnectionArmResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** The PrivateEndpointConnectionCollection model. */
+/**
+ * The PrivateEndpointConnectionCollection model.
+ */
 @Fluent
 public final class PrivateEndpointConnectionCollection {
     /*
@@ -25,7 +28,9 @@ public final class PrivateEndpointConnectionCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of PrivateEndpointConnectionCollection class. */
+    /**
+     * Creates an instance of PrivateEndpointConnectionCollection class.
+     */
     public PrivateEndpointConnectionCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class PrivateEndpointConnectionCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model PrivateEndpointConnectionCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model PrivateEndpointConnectionCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

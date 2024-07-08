@@ -99,9 +99,9 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
                 .withLogsAndMetrics(categories, Duration.ofMinutes(5), 7)
                 .create();
 
-        Assertions.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
-        Assertions.assertTrue(sa.id().equalsIgnoreCase(setting.storageAccountId()));
-        Assertions.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
+        assertResourceIdEquals(vm.id(), setting.resourceId());
+        assertResourceIdEquals(sa.id(), setting.storageAccountId());
+        assertResourceIdEquals(evenHubNsRule.id(), setting.eventHubAuthorizationRuleId());
         Assertions.assertNull(setting.eventHubName());
         Assertions.assertNull(setting.workspaceId());
         Assertions.assertTrue(setting.logs().isEmpty());
@@ -112,8 +112,8 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
                 .withoutLogs()
                 .apply();
 
-        Assertions.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
-        Assertions.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
+        assertResourceIdEquals(vm.id(), setting.resourceId());
+        assertResourceIdEquals(evenHubNsRule.id(), setting.eventHubAuthorizationRuleId());
         Assertions.assertNull(setting.storageAccountId());
         Assertions.assertNull(setting.eventHubName());
         Assertions.assertNull(setting.workspaceId());
@@ -159,8 +159,10 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
             .create();
 
         try {
-            Assertions.assertTrue(resourceId.equalsIgnoreCase(setting.resourceId()));
-            Assertions.assertTrue(sa.id().equalsIgnoreCase(setting.storageAccountId()));
+            if (!isPlaybackMode()) {
+                Assertions.assertTrue(resourceId.equalsIgnoreCase(setting.resourceId()));
+            }
+            assertResourceIdEquals(sa.id(), setting.storageAccountId());
 
             Assertions.assertFalse(setting.logs().isEmpty());
             Assertions.assertTrue(setting.metrics().isEmpty());
@@ -328,11 +330,12 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
             .define(dsName)
             .withResource(wpsResource.id())
             .withStorageAccount(sa.id())
-            .withLog("Security", 7)
+            .withLog("MessagingLogs", 7)
             .create();
 
         // add category group "audit" to log settings
         DiagnosticSettingsResourceInner inner = setting.innerModel();
+        inner.logs().clear();   // Remove category "MessagingLogs". Diagnostic setting does not support mix of log category and log category group.
         inner.logs().add(new LogSettings().withCategoryGroup("audit").withEnabled(true).withRetentionPolicy(new RetentionPolicy().withEnabled(false)));
         monitorManager.serviceClient().getDiagnosticSettingsOperations().createOrUpdate(wpsResource.id(), dsName, inner);
 

@@ -7,19 +7,20 @@ package com.azure.resourcemanager.eventgrid.generated;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for PartnerNamespaces CreateOrUpdate. */
+/**
+ * Samples for PartnerNamespaces CreateOrUpdate.
+ */
 public final class PartnerNamespacesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PartnerNamespaces_CreateOrUpdate.json
+     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerNamespaces_CreateOrUpdate.json
      */
     /**
      * Sample code: PartnerNamespaces_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to EventGridManager.
      */
     public static void partnerNamespacesCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
-        manager
-            .partnerNamespaces()
+        manager.partnerNamespaces()
             .define("examplePartnerNamespaceName1")
             .withRegion("westus")
             .withExistingResourceGroup("examplerg")
@@ -29,6 +30,7 @@ public final class PartnerNamespacesCreateOrUpdateSamples {
             .create();
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

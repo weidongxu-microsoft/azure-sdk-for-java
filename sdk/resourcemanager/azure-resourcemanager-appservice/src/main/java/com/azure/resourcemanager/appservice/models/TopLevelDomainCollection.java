@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.TopLevelDomainInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Top-level domains. */
+/**
+ * Collection of Top-level domains.
+ */
 @Fluent
 public final class TopLevelDomainCollection {
     /*
@@ -25,7 +28,9 @@ public final class TopLevelDomainCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of TopLevelDomainCollection class. */
+    /**
+     * Creates an instance of TopLevelDomainCollection class.
+     */
     public TopLevelDomainCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class TopLevelDomainCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model TopLevelDomainCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model TopLevelDomainCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

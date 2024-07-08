@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.AppServicePlanInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of App Service plans. */
+/**
+ * Collection of App Service plans.
+ */
 @Fluent
 public final class AppServicePlanCollection {
     /*
@@ -25,7 +28,9 @@ public final class AppServicePlanCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of AppServicePlanCollection class. */
+    /**
+     * Creates an instance of AppServicePlanCollection class.
+     */
     public AppServicePlanCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class AppServicePlanCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model AppServicePlanCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model AppServicePlanCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

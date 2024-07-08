@@ -9,7 +9,9 @@ import com.azure.resourcemanager.netapp.models.ProvisioningState;
 import com.azure.resourcemanager.netapp.models.Type;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Volume Quota Rule properties. */
+/**
+ * Volume Quota Rule properties.
+ */
 @Fluent
 public final class VolumeQuotaRulesProperties {
     /*
@@ -26,26 +28,27 @@ public final class VolumeQuotaRulesProperties {
 
     /*
      * quotaType
-     *
+     * 
      * Type of quota
      */
     @JsonProperty(value = "quotaType")
     private Type quotaType;
 
     /*
-     * UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’
-     * command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid>
+     * UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid>
      */
     @JsonProperty(value = "quotaTarget")
     private String quotaTarget;
 
-    /** Creates an instance of VolumeQuotaRulesProperties class. */
+    /**
+     * Creates an instance of VolumeQuotaRulesProperties class.
+     */
     public VolumeQuotaRulesProperties() {
     }
 
     /**
      * Get the provisioningState property: Gets the status of the VolumeQuotaRule at the time the operation was called.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
@@ -54,7 +57,7 @@ public final class VolumeQuotaRulesProperties {
 
     /**
      * Get the quotaSizeInKiBs property: Size of quota.
-     *
+     * 
      * @return the quotaSizeInKiBs value.
      */
     public Long quotaSizeInKiBs() {
@@ -63,7 +66,7 @@ public final class VolumeQuotaRulesProperties {
 
     /**
      * Set the quotaSizeInKiBs property: Size of quota.
-     *
+     * 
      * @param quotaSizeInKiBs the quotaSizeInKiBs value to set.
      * @return the VolumeQuotaRulesProperties object itself.
      */
@@ -74,9 +77,9 @@ public final class VolumeQuotaRulesProperties {
 
     /**
      * Get the quotaType property: quotaType
-     *
-     * <p>Type of quota.
-     *
+     * 
+     * Type of quota.
+     * 
      * @return the quotaType value.
      */
     public Type quotaType() {
@@ -85,9 +88,9 @@ public final class VolumeQuotaRulesProperties {
 
     /**
      * Set the quotaType property: quotaType
-     *
-     * <p>Type of quota.
-     *
+     * 
+     * Type of quota.
+     * 
      * @param quotaType the quotaType value to set.
      * @return the VolumeQuotaRulesProperties object itself.
      */
@@ -100,7 +103,7 @@ public final class VolumeQuotaRulesProperties {
      * Get the quotaTarget property: UserID/GroupID/SID based on the quota target type. UserID and groupID can be found
      * by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running &lt;wmic useraccount
      * where name='user-name' get sid&gt;.
-     *
+     * 
      * @return the quotaTarget value.
      */
     public String quotaTarget() {
@@ -111,7 +114,7 @@ public final class VolumeQuotaRulesProperties {
      * Set the quotaTarget property: UserID/GroupID/SID based on the quota target type. UserID and groupID can be found
      * by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running &lt;wmic useraccount
      * where name='user-name' get sid&gt;.
-     *
+     * 
      * @param quotaTarget the quotaTarget value to set.
      * @return the VolumeQuotaRulesProperties object itself.
      */
@@ -122,7 +125,7 @@ public final class VolumeQuotaRulesProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

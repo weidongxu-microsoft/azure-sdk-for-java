@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The SignedIdentifier model. */
+/**
+ * The SignedIdentifier model.
+ */
 @Fluent
 public final class SignedIdentifier {
     /*
@@ -23,8 +25,14 @@ public final class SignedIdentifier {
     private AccessPolicy accessPolicy;
 
     /**
+     * Creates an instance of SignedIdentifier class.
+     */
+    public SignedIdentifier() {
+    }
+
+    /**
      * Get the id property: An unique identifier of the stored access policy.
-     *
+     * 
      * @return the id value.
      */
     public String id() {
@@ -33,7 +41,7 @@ public final class SignedIdentifier {
 
     /**
      * Set the id property: An unique identifier of the stored access policy.
-     *
+     * 
      * @param id the id value to set.
      * @return the SignedIdentifier object itself.
      */
@@ -44,7 +52,7 @@ public final class SignedIdentifier {
 
     /**
      * Get the accessPolicy property: Access policy.
-     *
+     * 
      * @return the accessPolicy value.
      */
     public AccessPolicy accessPolicy() {
@@ -53,7 +61,7 @@ public final class SignedIdentifier {
 
     /**
      * Set the accessPolicy property: Access policy.
-     *
+     * 
      * @param accessPolicy the accessPolicy value to set.
      * @return the SignedIdentifier object itself.
      */
@@ -64,7 +72,7 @@ public final class SignedIdentifier {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

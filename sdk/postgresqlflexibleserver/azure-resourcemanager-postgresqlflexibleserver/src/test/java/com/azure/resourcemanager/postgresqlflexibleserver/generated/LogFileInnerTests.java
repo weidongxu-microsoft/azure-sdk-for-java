@@ -12,32 +12,28 @@ import org.junit.jupiter.api.Assertions;
 public final class LogFileInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        LogFileInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"createdTime\":\"2021-07-14T12:06:58Z\",\"lastModifiedTime\":\"2021-07-19T23:45:18Z\",\"sizeInKb\":4972928354083349711,\"type\":\"ss\",\"url\":\"bzmnvdfznud\"},\"id\":\"dvxzbncblylpst\",\"name\":\"bhhxsrzdzuc\",\"type\":\"rsc\"}")
-                .toObject(LogFileInner.class);
-        Assertions.assertEquals(OffsetDateTime.parse("2021-07-14T12:06:58Z"), model.createdTime());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-07-19T23:45:18Z"), model.lastModifiedTime());
-        Assertions.assertEquals(4972928354083349711L, model.sizeInKb());
-        Assertions.assertEquals("ss", model.typePropertiesType());
-        Assertions.assertEquals("bzmnvdfznud", model.url());
+        LogFileInner model = BinaryData.fromString(
+            "{\"properties\":{\"createdTime\":\"2021-12-07T02:03:19Z\",\"lastModifiedTime\":\"2021-06-16T15:34:06Z\",\"sizeInKb\":4507882308438079300,\"type\":\"g\",\"url\":\"ujb\"},\"id\":\"omvzzbtd\",\"name\":\"qvpn\",\"type\":\"yujviylwdshfssn\"}")
+            .toObject(LogFileInner.class);
+        Assertions.assertEquals(OffsetDateTime.parse("2021-12-07T02:03:19Z"), model.createdTime());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-06-16T15:34:06Z"), model.lastModifiedTime());
+        Assertions.assertEquals(4507882308438079300L, model.sizeInKb());
+        Assertions.assertEquals("g", model.typePropertiesType());
+        Assertions.assertEquals("ujb", model.url());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        LogFileInner model =
-            new LogFileInner()
-                .withCreatedTime(OffsetDateTime.parse("2021-07-14T12:06:58Z"))
-                .withLastModifiedTime(OffsetDateTime.parse("2021-07-19T23:45:18Z"))
-                .withSizeInKb(4972928354083349711L)
-                .withTypePropertiesType("ss")
-                .withUrl("bzmnvdfznud");
+        LogFileInner model = new LogFileInner().withCreatedTime(OffsetDateTime.parse("2021-12-07T02:03:19Z"))
+            .withLastModifiedTime(OffsetDateTime.parse("2021-06-16T15:34:06Z"))
+            .withSizeInKb(4507882308438079300L)
+            .withTypePropertiesType("g")
+            .withUrl("ujb");
         model = BinaryData.fromObject(model).toObject(LogFileInner.class);
-        Assertions.assertEquals(OffsetDateTime.parse("2021-07-14T12:06:58Z"), model.createdTime());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-07-19T23:45:18Z"), model.lastModifiedTime());
-        Assertions.assertEquals(4972928354083349711L, model.sizeInKb());
-        Assertions.assertEquals("ss", model.typePropertiesType());
-        Assertions.assertEquals("bzmnvdfznud", model.url());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-12-07T02:03:19Z"), model.createdTime());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-06-16T15:34:06Z"), model.lastModifiedTime());
+        Assertions.assertEquals(4507882308438079300L, model.sizeInKb());
+        Assertions.assertEquals("g", model.typePropertiesType());
+        Assertions.assertEquals("ujb", model.url());
     }
 }

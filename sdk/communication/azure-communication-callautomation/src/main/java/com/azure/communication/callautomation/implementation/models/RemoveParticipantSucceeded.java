@@ -4,116 +4,58 @@
 
 package com.azure.communication.callautomation.implementation.models;
 
-import com.azure.core.annotation.Fluent;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.azure.core.annotation.Immutable;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+import java.io.IOException;
 
-/** The participant removed event. */
-@Fluent
-public final class RemoveParticipantSucceeded {
+/**
+ * The participant removed event.
+ */
+@Immutable
+public final class RemoveParticipantSucceeded implements JsonSerializable<RemoveParticipantSucceeded> {
     /*
-     * Call connection ID.
+     * Used by customers when calling mid-call actions to correlate the request to the response event.
      */
-    @JsonProperty(value = "callConnectionId")
-    private String callConnectionId;
-
-    /*
-     * Server call ID.
-     */
-    @JsonProperty(value = "serverCallId")
-    private String serverCallId;
-
-    /*
-     * Correlation ID for event to call correlation. Also called ChainId for
-     * skype chain ID.
-     */
-    @JsonProperty(value = "correlationId")
-    private String correlationId;
-
-    /*
-     * Used by customers when calling mid-call actions to correlate the request
-     * to the response event.
-     */
-    @JsonProperty(value = "operationContext")
     private String operationContext;
 
     /*
-     * Contains the resulting SIP code/sub-code and message from NGC services.
+     * Contains the resulting SIP code, sub-code and message.
      */
-    @JsonProperty(value = "resultInformation")
     private ResultInformation resultInformation;
 
     /*
      * Participant
      */
-    @JsonProperty(value = "participant")
     private CommunicationIdentifierModel participant;
 
-    /**
-     * Get the callConnectionId property: Call connection ID.
-     *
-     * @return the callConnectionId value.
+    /*
+     * Call connection ID.
      */
-    public String getCallConnectionId() {
-        return this.callConnectionId;
-    }
+    private String callConnectionId;
+
+    /*
+     * Server call ID.
+     */
+    private String serverCallId;
+
+    /*
+     * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+     */
+    private String correlationId;
 
     /**
-     * Set the callConnectionId property: Call connection ID.
-     *
-     * @param callConnectionId the callConnectionId value to set.
-     * @return the RemoveParticipantSucceeded object itself.
+     * Creates an instance of RemoveParticipantSucceeded class.
      */
-    public RemoveParticipantSucceeded setCallConnectionId(String callConnectionId) {
-        this.callConnectionId = callConnectionId;
-        return this;
-    }
-
-    /**
-     * Get the serverCallId property: Server call ID.
-     *
-     * @return the serverCallId value.
-     */
-    public String getServerCallId() {
-        return this.serverCallId;
-    }
-
-    /**
-     * Set the serverCallId property: Server call ID.
-     *
-     * @param serverCallId the serverCallId value to set.
-     * @return the RemoveParticipantSucceeded object itself.
-     */
-    public RemoveParticipantSucceeded setServerCallId(String serverCallId) {
-        this.serverCallId = serverCallId;
-        return this;
-    }
-
-    /**
-     * Get the correlationId property: Correlation ID for event to call correlation. Also called ChainId for skype chain
-     * ID.
-     *
-     * @return the correlationId value.
-     */
-    public String getCorrelationId() {
-        return this.correlationId;
-    }
-
-    /**
-     * Set the correlationId property: Correlation ID for event to call correlation. Also called ChainId for skype chain
-     * ID.
-     *
-     * @param correlationId the correlationId value to set.
-     * @return the RemoveParticipantSucceeded object itself.
-     */
-    public RemoveParticipantSucceeded setCorrelationId(String correlationId) {
-        this.correlationId = correlationId;
-        return this;
+    public RemoveParticipantSucceeded() {
     }
 
     /**
      * Get the operationContext property: Used by customers when calling mid-call actions to correlate the request to
      * the response event.
-     *
+     * 
      * @return the operationContext value.
      */
     public String getOperationContext() {
@@ -121,20 +63,8 @@ public final class RemoveParticipantSucceeded {
     }
 
     /**
-     * Set the operationContext property: Used by customers when calling mid-call actions to correlate the request to
-     * the response event.
-     *
-     * @param operationContext the operationContext value to set.
-     * @return the RemoveParticipantSucceeded object itself.
-     */
-    public RemoveParticipantSucceeded setOperationContext(String operationContext) {
-        this.operationContext = operationContext;
-        return this;
-    }
-
-    /**
-     * Get the resultInformation property: Contains the resulting SIP code/sub-code and message from NGC services.
-     *
+     * Get the resultInformation property: Contains the resulting SIP code, sub-code and message.
+     * 
      * @return the resultInformation value.
      */
     public ResultInformation getResultInformation() {
@@ -142,19 +72,8 @@ public final class RemoveParticipantSucceeded {
     }
 
     /**
-     * Set the resultInformation property: Contains the resulting SIP code/sub-code and message from NGC services.
-     *
-     * @param resultInformation the resultInformation value to set.
-     * @return the RemoveParticipantSucceeded object itself.
-     */
-    public RemoveParticipantSucceeded setResultInformation(ResultInformation resultInformation) {
-        this.resultInformation = resultInformation;
-        return this;
-    }
-
-    /**
      * Get the participant property: Participant.
-     *
+     * 
      * @return the participant value.
      */
     public CommunicationIdentifierModel getParticipant() {
@@ -162,13 +81,75 @@ public final class RemoveParticipantSucceeded {
     }
 
     /**
-     * Set the participant property: Participant.
-     *
-     * @param participant the participant value to set.
-     * @return the RemoveParticipantSucceeded object itself.
+     * Get the callConnectionId property: Call connection ID.
+     * 
+     * @return the callConnectionId value.
      */
-    public RemoveParticipantSucceeded setParticipant(CommunicationIdentifierModel participant) {
-        this.participant = participant;
-        return this;
+    public String getCallConnectionId() {
+        return this.callConnectionId;
+    }
+
+    /**
+     * Get the serverCallId property: Server call ID.
+     * 
+     * @return the serverCallId value.
+     */
+    public String getServerCallId() {
+        return this.serverCallId;
+    }
+
+    /**
+     * Get the correlationId property: Correlation ID for event to call correlation. Also called ChainId for skype chain
+     * ID.
+     * 
+     * @return the correlationId value.
+     */
+    public String getCorrelationId() {
+        return this.correlationId;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an instance of RemoveParticipantSucceeded from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of RemoveParticipantSucceeded if the JsonReader was pointing to an instance of it, or null if
+     * it was pointing to JSON null.
+     * @throws IOException If an error occurs while reading the RemoveParticipantSucceeded.
+     */
+    public static RemoveParticipantSucceeded fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            RemoveParticipantSucceeded deserializedRemoveParticipantSucceeded = new RemoveParticipantSucceeded();
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("operationContext".equals(fieldName)) {
+                    deserializedRemoveParticipantSucceeded.operationContext = reader.getString();
+                } else if ("resultInformation".equals(fieldName)) {
+                    deserializedRemoveParticipantSucceeded.resultInformation = ResultInformation.fromJson(reader);
+                } else if ("participant".equals(fieldName)) {
+                    deserializedRemoveParticipantSucceeded.participant = CommunicationIdentifierModel.fromJson(reader);
+                } else if ("callConnectionId".equals(fieldName)) {
+                    deserializedRemoveParticipantSucceeded.callConnectionId = reader.getString();
+                } else if ("serverCallId".equals(fieldName)) {
+                    deserializedRemoveParticipantSucceeded.serverCallId = reader.getString();
+                } else if ("correlationId".equals(fieldName)) {
+                    deserializedRemoveParticipantSucceeded.correlationId = reader.getString();
+                } else {
+                    reader.skipChildren();
+                }
+            }
+
+            return deserializedRemoveParticipantSucceeded;
+        });
     }
 }

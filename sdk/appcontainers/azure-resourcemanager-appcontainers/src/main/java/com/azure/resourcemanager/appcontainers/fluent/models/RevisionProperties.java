@@ -7,11 +7,14 @@ package com.azure.resourcemanager.appcontainers.fluent.models;
 import com.azure.core.annotation.Immutable;
 import com.azure.resourcemanager.appcontainers.models.RevisionHealthState;
 import com.azure.resourcemanager.appcontainers.models.RevisionProvisioningState;
+import com.azure.resourcemanager.appcontainers.models.RevisionRunningState;
 import com.azure.resourcemanager.appcontainers.models.Template;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
-/** Revision resource specific properties. */
+/**
+ * Revision resource specific properties.
+ */
 @Immutable
 public final class RevisionProperties {
     /*
@@ -77,13 +80,22 @@ public final class RevisionProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private RevisionProvisioningState provisioningState;
 
-    /** Creates an instance of RevisionProperties class. */
+    /*
+     * Current running state of the revision
+     */
+    @JsonProperty(value = "runningState", access = JsonProperty.Access.WRITE_ONLY)
+    private RevisionRunningState runningState;
+
+    /**
+     * Creates an instance of RevisionProperties class.
+     */
     public RevisionProperties() {
     }
 
     /**
-     * Get the createdTime property: Timestamp describing when the revision was created by controller.
-     *
+     * Get the createdTime property: Timestamp describing when the revision was created
+     * by controller.
+     * 
      * @return the createdTime value.
      */
     public OffsetDateTime createdTime() {
@@ -93,7 +105,7 @@ public final class RevisionProperties {
     /**
      * Get the lastActiveTime property: Timestamp describing when the revision was last active. Only meaningful when
      * revision is inactive.
-     *
+     * 
      * @return the lastActiveTime value.
      */
     public OffsetDateTime lastActiveTime() {
@@ -102,7 +114,7 @@ public final class RevisionProperties {
 
     /**
      * Get the fqdn property: Fully qualified domain name of the revision.
-     *
+     * 
      * @return the fqdn value.
      */
     public String fqdn() {
@@ -110,9 +122,10 @@ public final class RevisionProperties {
     }
 
     /**
-     * Get the template property: Container App Revision Template with all possible settings and the defaults if user
-     * did not provide them. The defaults are populated as they were at the creation time.
-     *
+     * Get the template property: Container App Revision Template with all possible settings and the
+     * defaults if user did not provide them. The defaults are populated
+     * as they were at the creation time.
+     * 
      * @return the template value.
      */
     public Template template() {
@@ -121,7 +134,7 @@ public final class RevisionProperties {
 
     /**
      * Get the active property: Boolean describing if the Revision is Active.
-     *
+     * 
      * @return the active value.
      */
     public Boolean active() {
@@ -130,7 +143,7 @@ public final class RevisionProperties {
 
     /**
      * Get the replicas property: Number of pods currently running for this revision.
-     *
+     * 
      * @return the replicas value.
      */
     public Integer replicas() {
@@ -139,7 +152,7 @@ public final class RevisionProperties {
 
     /**
      * Get the trafficWeight property: Traffic weight assigned to this revision.
-     *
+     * 
      * @return the trafficWeight value.
      */
     public Integer trafficWeight() {
@@ -148,7 +161,7 @@ public final class RevisionProperties {
 
     /**
      * Get the provisioningError property: Optional Field - Platform Error Message.
-     *
+     * 
      * @return the provisioningError value.
      */
     public String provisioningError() {
@@ -157,7 +170,7 @@ public final class RevisionProperties {
 
     /**
      * Get the healthState property: Current health State of the revision.
-     *
+     * 
      * @return the healthState value.
      */
     public RevisionHealthState healthState() {
@@ -166,7 +179,7 @@ public final class RevisionProperties {
 
     /**
      * Get the provisioningState property: Current provisioning State of the revision.
-     *
+     * 
      * @return the provisioningState value.
      */
     public RevisionProvisioningState provisioningState() {
@@ -174,8 +187,17 @@ public final class RevisionProperties {
     }
 
     /**
+     * Get the runningState property: Current running state of the revision.
+     * 
+     * @return the runningState value.
+     */
+    public RevisionRunningState runningState() {
+        return this.runningState;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

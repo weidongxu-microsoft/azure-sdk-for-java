@@ -60,6 +60,63 @@ abstract class CosmosCatalogITestBase extends IntegrationSpec with CosmosClient 
     throughput.getProperties.getManualThroughput shouldEqual 1000
   }
 
+  it can "create a table with customized properties and hierarchical partition keys, without partition kind and version" in {
+      val databaseName = getAutoCleanableDatabaseName
+      val containerName = RandomStringUtils.randomAlphabetic(6).toLowerCase + System.currentTimeMillis()
+
+      spark.sql(s"CREATE DATABASE testCatalog.$databaseName;")
+      spark.sql(s"CREATE TABLE testCatalog.$databaseName.$containerName (word STRING, number INT) using cosmos.oltp " +
+          s"TBLPROPERTIES(partitionKeyPath = '/tenantId,/userId,/sessionId', manualThroughput = '1100')")
+
+      val containerProperties = cosmosClient.getDatabase(databaseName).getContainer(containerName).read().block().getProperties
+      containerProperties.getPartitionKeyDefinition.getPaths.asScala.toArray should equal(Array("/tenantId", "/userId", "/sessionId"))
+      // scalastyle:off null
+      containerProperties.getDefaultTimeToLiveInSeconds shouldEqual null
+      // scalastyle:on null
+
+      // validate throughput
+      val throughput = cosmosClient.getDatabase(databaseName).getContainer(containerName).readThroughput().block().getProperties
+      throughput.getManualThroughput shouldEqual 1100
+  }
+
+  it can "create a table with customized properties and hierarchical partition keys, with correct partition kind" in {
+      val databaseName = getAutoCleanableDatabaseName
+      val containerName = RandomStringUtils.randomAlphabetic(6).toLowerCase + System.currentTimeMillis()
+
+      spark.sql(s"CREATE DATABASE testCatalog.$databaseName;")
+      spark.sql(s"CREATE TABLE testCatalog.$databaseName.$containerName (word STRING, number INT) using cosmos.oltp " +
+          s"TBLPROPERTIES(partitionKeyPath = '/tenantId,/userId,/sessionId', partitionKeyVersion = 'V2', partitionKeyKind = 'MultiHash', manualThroughput = '1100')")
+
+      val containerProperties = cosmosClient.getDatabase(databaseName).getContainer(containerName).read().block().getProperties
+      containerProperties.getPartitionKeyDefinition.getPaths.asScala.toArray should equal(Array("/tenantId", "/userId", "/sessionId"))
+      // scalastyle:off null
+      containerProperties.getDefaultTimeToLiveInSeconds shouldEqual null
+      // scalastyle:on null
+
+      // validate throughput
+      val throughput = cosmosClient.getDatabase(databaseName).getContainer(containerName).readThroughput().block().getProperties
+      throughput.getManualThroughput shouldEqual 1100
+  }
+
+  it can "create a table with customized properties and hierarchical partition keys, with wrong partition kind" in {
+      val databaseName = getAutoCleanableDatabaseName
+      val containerName = RandomStringUtils.randomAlphabetic(6).toLowerCase + System.currentTimeMillis()
+
+      spark.sql(s"CREATE DATABASE testCatalog.$databaseName;")
+      try {
+          spark.sql(s"CREATE TABLE testCatalog.$databaseName.$containerName (word STRING, number INT) using cosmos.oltp " +
+          s"TBLPROPERTIES(partitionKeyPath = '/tenantId,/userId,/sessionId', partitionKeyVersion = 'V1', partitionKeyKind = 'Hash', manualThroughput = '1100')")
+          fail("Expected IllegalArgumentException not thrown")
+      }
+      catch
+      {
+          case expectedError: IllegalArgumentException =>
+              logInfo(s"Expected IllegaleArgumentException: $expectedError")
+              succeed   // expected error
+      }
+
+  }
+
   it can "create a database with shared throughput and alter throughput afterwards" in {
     val databaseName = getAutoCleanableDatabaseName
 
@@ -779,6 +836,24 @@ abstract class CosmosCatalogITestBase extends IntegrationSpec with CosmosClient 
         logInfo(s"Expected IllegaleArgumentException: $expectedError")
         succeed
     }
+  }
+
+  it can "list all containers in a database" in {
+    val databaseName = getAutoCleanableDatabaseName
+    cosmosClient.createDatabase(databaseName).block()
+
+    // create multiple containers under the same database
+    val containerName1 = RandomStringUtils.randomAlphabetic(6).toLowerCase + System.currentTimeMillis()
+    val containerName2 = RandomStringUtils.randomAlphabetic(6).toLowerCase + System.currentTimeMillis()
+    cosmosClient.getDatabase(databaseName).createContainer(containerName1, "/id").block()
+    cosmosClient.getDatabase(databaseName).createContainer(containerName2, "/id").block()
+
+    val containers  = spark.sql(s"SHOW TABLES FROM testCatalog.$databaseName").collect()
+    containers should have size 2
+    containers
+     .filter(
+       row => row.getAs[String]("tableName").equals(containerName1)
+        || row.getAs[String]("tableName").equals(containerName2)) should have size 2
   }
 
   private def getTblProperties(spark: SparkSession, databaseName: String, containerName: String) = {

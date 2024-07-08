@@ -34,16 +34,23 @@ import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.network.fluent.ConnectivityConfigurationsClient;
 import com.azure.resourcemanager.network.fluent.models.ConnectivityConfigurationInner;
 import com.azure.resourcemanager.network.models.ConnectivityConfigurationListResult;
-import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in ConnectivityConfigurationsClient. */
+import java.nio.ByteBuffer;
+
+/**
+ * An instance of this class provides access to all the operations defined in ConnectivityConfigurationsClient.
+ */
 public final class ConnectivityConfigurationsClientImpl implements ConnectivityConfigurationsClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final ConnectivityConfigurationsService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final NetworkManagementClientImpl client;
 
     /**
@@ -52,10 +59,8 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param client the instance of the service client containing this operation class.
      */
     ConnectivityConfigurationsClientImpl(NetworkManagementClientImpl client) {
-        this.service =
-            RestProxy
-                .create(
-                    ConnectivityConfigurationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
+        this.service = RestProxy.create(ConnectivityConfigurationsService.class, client.getHttpPipeline(),
+            client.getSerializerAdapter());
         this.client = client;
     }
 
@@ -66,78 +71,57 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
     public interface ConnectivityConfigurationsService {
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ConnectivityConfigurationInner>> get(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
+        Mono<Response<ConnectivityConfigurationInner>> get(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("networkManagerName") String networkManagerName,
-            @PathParam("configurationName") String configurationName,
-            @HeaderParam("Accept") String accept,
+            @PathParam("configurationName") String configurationName, @HeaderParam("Accept") String accept,
             Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}")
-        @ExpectedResponses({200, 201})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}")
+        @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ConnectivityConfigurationInner>> createOrUpdate(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
+        Mono<Response<ConnectivityConfigurationInner>> createOrUpdate(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("networkManagerName") String networkManagerName,
             @PathParam("configurationName") String configurationName,
             @BodyParam("application/json") ConnectivityConfigurationInner connectivityConfiguration,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}")
-        @ExpectedResponses({200, 202, 204})
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}")
+        @ExpectedResponses({ 200, 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> delete(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
+        Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("networkManagerName") String networkManagerName,
-            @PathParam("configurationName") String configurationName,
-            @QueryParam("force") Boolean force,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("configurationName") String configurationName, @QueryParam("force") Boolean force,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ConnectivityConfigurationListResult>> list(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
+        Mono<Response<ConnectivityConfigurationListResult>> list(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("networkManagerName") String networkManagerName,
-            @QueryParam("$top") Integer top,
-            @QueryParam("$skipToken") String skipToken,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("networkManagerName") String networkManagerName, @QueryParam("$top") Integer top,
+            @QueryParam("$skipToken") String skipToken, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ConnectivityConfigurationListResult>> listNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
@@ -151,22 +135,18 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a Network Connectivity Configuration, specified by the resource group, network manager name, and
-     *     connectivity Configuration name along with {@link Response} on successful completion of {@link Mono}.
+     * connectivity Configuration name along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<ConnectivityConfigurationInner>> getWithResponseAsync(
-        String resourceGroupName, String networkManagerName, String configurationName) {
+    public Mono<Response<ConnectivityConfigurationInner>> getWithResponseAsync(String resourceGroupName,
+        String networkManagerName, String configurationName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -180,21 +160,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono
                 .error(new IllegalArgumentException("Parameter configurationName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .get(
-                            this.client.getEndpoint(),
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            networkManagerName,
-                            configurationName,
-                            accept,
-                            context))
+            .withContext(context -> service.get(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+                resourceGroupName, networkManagerName, configurationName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -210,22 +180,18 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a Network Connectivity Configuration, specified by the resource group, network manager name, and
-     *     connectivity Configuration name along with {@link Response} on successful completion of {@link Mono}.
+     * connectivity Configuration name along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ConnectivityConfigurationInner>> getWithResponseAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Context context) {
+    private Mono<Response<ConnectivityConfigurationInner>> getWithResponseAsync(String resourceGroupName,
+        String networkManagerName, String configurationName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -239,19 +205,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono
                 .error(new IllegalArgumentException("Parameter configurationName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .get(
-                this.client.getEndpoint(),
-                apiVersion,
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                networkManagerName,
-                configurationName,
-                accept,
-                context);
+        return service.get(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(), resourceGroupName,
+            networkManagerName, configurationName, accept, context);
     }
 
     /**
@@ -265,11 +223,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a Network Connectivity Configuration, specified by the resource group, network manager name, and
-     *     connectivity Configuration name on successful completion of {@link Mono}.
+     * connectivity Configuration name on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectivityConfigurationInner> getAsync(
-        String resourceGroupName, String networkManagerName, String configurationName) {
+    public Mono<ConnectivityConfigurationInner> getAsync(String resourceGroupName, String networkManagerName,
+        String configurationName) {
         return getWithResponseAsync(resourceGroupName, networkManagerName, configurationName)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
@@ -286,11 +244,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a Network Connectivity Configuration, specified by the resource group, network manager name, and
-     *     connectivity Configuration name along with {@link Response}.
+     * connectivity Configuration name along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ConnectivityConfigurationInner> getWithResponse(
-        String resourceGroupName, String networkManagerName, String configurationName, Context context) {
+    public Response<ConnectivityConfigurationInner> getWithResponse(String resourceGroupName, String networkManagerName,
+        String configurationName, Context context) {
         return getWithResponseAsync(resourceGroupName, networkManagerName, configurationName, context).block();
     }
 
@@ -305,11 +263,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a Network Connectivity Configuration, specified by the resource group, network manager name, and
-     *     connectivity Configuration name.
+     * connectivity Configuration name.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectivityConfigurationInner get(
-        String resourceGroupName, String networkManagerName, String configurationName) {
+    public ConnectivityConfigurationInner get(String resourceGroupName, String networkManagerName,
+        String configurationName) {
         return getWithResponse(resourceGroupName, networkManagerName, configurationName, Context.NONE).getValue();
     }
 
@@ -320,30 +278,23 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param connectivityConfiguration Parameters supplied to create/update a network manager connectivity
-     *     configuration.
+     * configuration.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the network manager connectivity configuration resource along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<ConnectivityConfigurationInner>> createOrUpdateWithResponseAsync(
-        String resourceGroupName,
-        String networkManagerName,
-        String configurationName,
-        ConnectivityConfigurationInner connectivityConfiguration) {
+    public Mono<Response<ConnectivityConfigurationInner>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String networkManagerName, String configurationName, ConnectivityConfigurationInner connectivityConfiguration) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -358,29 +309,17 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
                 .error(new IllegalArgumentException("Parameter configurationName is required and cannot be null."));
         }
         if (connectivityConfiguration == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter connectivityConfiguration is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter connectivityConfiguration is required and cannot be null."));
         } else {
             connectivityConfiguration.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .createOrUpdate(
-                            this.client.getEndpoint(),
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            networkManagerName,
-                            configurationName,
-                            connectivityConfiguration,
-                            accept,
-                            context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), apiVersion,
+                this.client.getSubscriptionId(), resourceGroupName, networkManagerName, configurationName,
+                connectivityConfiguration, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -391,32 +330,25 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param connectivityConfiguration Parameters supplied to create/update a network manager connectivity
-     *     configuration.
+     * configuration.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the network manager connectivity configuration resource along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ConnectivityConfigurationInner>> createOrUpdateWithResponseAsync(
-        String resourceGroupName,
-        String networkManagerName,
-        String configurationName,
-        ConnectivityConfigurationInner connectivityConfiguration,
+    private Mono<Response<ConnectivityConfigurationInner>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String networkManagerName, String configurationName, ConnectivityConfigurationInner connectivityConfiguration,
         Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -431,27 +363,16 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
                 .error(new IllegalArgumentException("Parameter configurationName is required and cannot be null."));
         }
         if (connectivityConfiguration == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter connectivityConfiguration is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter connectivityConfiguration is required and cannot be null."));
         } else {
             connectivityConfiguration.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .createOrUpdate(
-                this.client.getEndpoint(),
-                apiVersion,
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                networkManagerName,
-                configurationName,
-                connectivityConfiguration,
-                accept,
-                context);
+        return service.createOrUpdate(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+            resourceGroupName, networkManagerName, configurationName, connectivityConfiguration, accept, context);
     }
 
     /**
@@ -461,21 +382,17 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param connectivityConfiguration Parameters supplied to create/update a network manager connectivity
-     *     configuration.
+     * configuration.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the network manager connectivity configuration resource on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectivityConfigurationInner> createOrUpdateAsync(
-        String resourceGroupName,
-        String networkManagerName,
-        String configurationName,
-        ConnectivityConfigurationInner connectivityConfiguration) {
-        return createOrUpdateWithResponseAsync(
-                resourceGroupName, networkManagerName, configurationName, connectivityConfiguration)
-            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
+    public Mono<ConnectivityConfigurationInner> createOrUpdateAsync(String resourceGroupName, String networkManagerName,
+        String configurationName, ConnectivityConfigurationInner connectivityConfiguration) {
+        return createOrUpdateWithResponseAsync(resourceGroupName, networkManagerName, configurationName,
+            connectivityConfiguration).flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
 
     /**
@@ -485,7 +402,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param connectivityConfiguration Parameters supplied to create/update a network manager connectivity
-     *     configuration.
+     * configuration.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -493,15 +410,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return the network manager connectivity configuration resource along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ConnectivityConfigurationInner> createOrUpdateWithResponse(
-        String resourceGroupName,
-        String networkManagerName,
-        String configurationName,
-        ConnectivityConfigurationInner connectivityConfiguration,
+    public Response<ConnectivityConfigurationInner> createOrUpdateWithResponse(String resourceGroupName,
+        String networkManagerName, String configurationName, ConnectivityConfigurationInner connectivityConfiguration,
         Context context) {
-        return createOrUpdateWithResponseAsync(
-                resourceGroupName, networkManagerName, configurationName, connectivityConfiguration, context)
-            .block();
+        return createOrUpdateWithResponseAsync(resourceGroupName, networkManagerName, configurationName,
+            connectivityConfiguration, context).block();
     }
 
     /**
@@ -511,21 +424,17 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param connectivityConfiguration Parameters supplied to create/update a network manager connectivity
-     *     configuration.
+     * configuration.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the network manager connectivity configuration resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectivityConfigurationInner createOrUpdate(
-        String resourceGroupName,
-        String networkManagerName,
-        String configurationName,
-        ConnectivityConfigurationInner connectivityConfiguration) {
-        return createOrUpdateWithResponse(
-                resourceGroupName, networkManagerName, configurationName, connectivityConfiguration, Context.NONE)
-            .getValue();
+    public ConnectivityConfigurationInner createOrUpdate(String resourceGroupName, String networkManagerName,
+        String configurationName, ConnectivityConfigurationInner connectivityConfiguration) {
+        return createOrUpdateWithResponse(resourceGroupName, networkManagerName, configurationName,
+            connectivityConfiguration, Context.NONE).getValue();
     }
 
     /**
@@ -536,26 +445,22 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force) {
+    public Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String networkManagerName,
+        String configurationName, Boolean force) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -569,22 +474,12 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono
                 .error(new IllegalArgumentException("Parameter configurationName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
-                context ->
-                    service
-                        .delete(
-                            this.client.getEndpoint(),
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            networkManagerName,
-                            configurationName,
-                            force,
-                            accept,
-                            context))
+                context -> service.delete(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+                    resourceGroupName, networkManagerName, configurationName, force, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -596,7 +491,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -604,19 +499,15 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName,
+        String networkManagerName, String configurationName, Boolean force, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -630,20 +521,11 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono
                 .error(new IllegalArgumentException("Parameter configurationName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .delete(
-                this.client.getEndpoint(),
-                apiVersion,
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                networkManagerName,
-                configurationName,
-                force,
-                accept,
-                context);
+        return service.delete(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(), resourceGroupName,
+            networkManagerName, configurationName, force, accept, context);
     }
 
     /**
@@ -654,21 +536,19 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, networkManagerName, configurationName, force);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String networkManagerName,
+        String configurationName, Boolean force) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, networkManagerName, configurationName, force);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
@@ -684,15 +564,13 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String networkManagerName, String configurationName) {
+    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String networkManagerName,
+        String configurationName) {
         final Boolean force = null;
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, networkManagerName, configurationName, force);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, networkManagerName, configurationName, force);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
@@ -703,7 +581,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -711,14 +589,13 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String networkManagerName,
+        String configurationName, Boolean force, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, networkManagerName, configurationName, force, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, networkManagerName, configurationName, force, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
@@ -734,8 +611,8 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String networkManagerName, String configurationName) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String networkManagerName,
+        String configurationName) {
         final Boolean force = null;
         return this.beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force).getSyncPoller();
     }
@@ -748,7 +625,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -756,10 +633,9 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force, Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force, context)
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String networkManagerName,
+        String configurationName, Boolean force, Context context) {
+        return this.beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force, context)
             .getSyncPoller();
     }
 
@@ -771,17 +647,16 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> deleteAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force) {
-        return beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force)
-            .last()
+    public Mono<Void> deleteAsync(String resourceGroupName, String networkManagerName, String configurationName,
+        Boolean force) {
+        return beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -800,8 +675,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String networkManagerName, String configurationName) {
         final Boolean force = null;
-        return beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force)
-            .last()
+        return beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -813,7 +687,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -821,10 +695,9 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteAsync(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force, Context context) {
-        return beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force, context)
-            .last()
+    private Mono<Void> deleteAsync(String resourceGroupName, String networkManagerName, String configurationName,
+        Boolean force, Context context) {
+        return beginDeleteAsync(resourceGroupName, networkManagerName, configurationName, force, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -853,15 +726,15 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param networkManagerName The name of the network manager.
      * @param configurationName The name of the network manager connectivity configuration.
      * @param force Deletes the resource even if it is part of a deployed configuration. If the configuration has been
-     *     deployed, the service will do a cleanup deployment in the background, prior to the delete.
+     * deployed, the service will do a cleanup deployment in the background, prior to the delete.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(
-        String resourceGroupName, String networkManagerName, String configurationName, Boolean force, Context context) {
+    public void delete(String resourceGroupName, String networkManagerName, String configurationName, Boolean force,
+        Context context) {
         deleteAsync(resourceGroupName, networkManagerName, configurationName, force, context).block();
     }
 
@@ -871,30 +744,26 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param resourceGroupName The name of the resource group.
      * @param networkManagerName The name of the network manager.
      * @param top An optional query parameter which specifies the maximum number of records to be returned by the
-     *     server.
+     * server.
      * @param skipToken SkipToken is only used if a previous operation returned a partial result. If a previous response
-     *     contains a nextLink element, the value of the nextLink element will include a skipToken parameter that
-     *     specifies a starting point to use for subsequent calls.
+     * contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies
+     * a starting point to use for subsequent calls.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return result of the request to list network manager connectivity configurations along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return result of the request to list network manager connectivity configurations along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ConnectivityConfigurationInner>> listSinglePageAsync(
-        String resourceGroupName, String networkManagerName, Integer top, String skipToken) {
+    private Mono<PagedResponse<ConnectivityConfigurationInner>> listSinglePageAsync(String resourceGroupName,
+        String networkManagerName, Integer top, String skipToken) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -904,31 +773,13 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono
                 .error(new IllegalArgumentException("Parameter networkManagerName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .list(
-                            this.client.getEndpoint(),
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            networkManagerName,
-                            top,
-                            skipToken,
-                            accept,
-                            context))
-            .<PagedResponse<ConnectivityConfigurationInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.list(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+                resourceGroupName, networkManagerName, top, skipToken, accept, context))
+            .<PagedResponse<ConnectivityConfigurationInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -938,31 +789,27 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param resourceGroupName The name of the resource group.
      * @param networkManagerName The name of the network manager.
      * @param top An optional query parameter which specifies the maximum number of records to be returned by the
-     *     server.
+     * server.
      * @param skipToken SkipToken is only used if a previous operation returned a partial result. If a previous response
-     *     contains a nextLink element, the value of the nextLink element will include a skipToken parameter that
-     *     specifies a starting point to use for subsequent calls.
+     * contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies
+     * a starting point to use for subsequent calls.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return result of the request to list network manager connectivity configurations along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return result of the request to list network manager connectivity configurations along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ConnectivityConfigurationInner>> listSinglePageAsync(
-        String resourceGroupName, String networkManagerName, Integer top, String skipToken, Context context) {
+    private Mono<PagedResponse<ConnectivityConfigurationInner>> listSinglePageAsync(String resourceGroupName,
+        String networkManagerName, Integer top, String skipToken, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -972,29 +819,14 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono
                 .error(new IllegalArgumentException("Parameter networkManagerName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .list(
-                this.client.getEndpoint(),
-                apiVersion,
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                networkManagerName,
-                top,
-                skipToken,
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .list(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(), resourceGroupName,
+                networkManagerName, top, skipToken, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
@@ -1003,21 +835,20 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param resourceGroupName The name of the resource group.
      * @param networkManagerName The name of the network manager.
      * @param top An optional query parameter which specifies the maximum number of records to be returned by the
-     *     server.
+     * server.
      * @param skipToken SkipToken is only used if a previous operation returned a partial result. If a previous response
-     *     contains a nextLink element, the value of the nextLink element will include a skipToken parameter that
-     *     specifies a starting point to use for subsequent calls.
+     * contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies
+     * a starting point to use for subsequent calls.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return result of the request to list network manager connectivity configurations as paginated response with
-     *     {@link PagedFlux}.
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<ConnectivityConfigurationInner> listAsync(
-        String resourceGroupName, String networkManagerName, Integer top, String skipToken) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, networkManagerName, top, skipToken),
+    public PagedFlux<ConnectivityConfigurationInner> listAsync(String resourceGroupName, String networkManagerName,
+        Integer top, String skipToken) {
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, networkManagerName, top, skipToken),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
@@ -1030,14 +861,13 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return result of the request to list network manager connectivity configurations as paginated response with
-     *     {@link PagedFlux}.
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<ConnectivityConfigurationInner> listAsync(String resourceGroupName, String networkManagerName) {
         final Integer top = null;
         final String skipToken = null;
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, networkManagerName, top, skipToken),
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, networkManagerName, top, skipToken),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
@@ -1047,20 +877,20 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param resourceGroupName The name of the resource group.
      * @param networkManagerName The name of the network manager.
      * @param top An optional query parameter which specifies the maximum number of records to be returned by the
-     *     server.
+     * server.
      * @param skipToken SkipToken is only used if a previous operation returned a partial result. If a previous response
-     *     contains a nextLink element, the value of the nextLink element will include a skipToken parameter that
-     *     specifies a starting point to use for subsequent calls.
+     * contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies
+     * a starting point to use for subsequent calls.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return result of the request to list network manager connectivity configurations as paginated response with
-     *     {@link PagedFlux}.
+     * {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ConnectivityConfigurationInner> listAsync(
-        String resourceGroupName, String networkManagerName, Integer top, String skipToken, Context context) {
+    private PagedFlux<ConnectivityConfigurationInner> listAsync(String resourceGroupName, String networkManagerName,
+        Integer top, String skipToken, Context context) {
         return new PagedFlux<>(
             () -> listSinglePageAsync(resourceGroupName, networkManagerName, top, skipToken, context),
             nextLink -> listNextSinglePageAsync(nextLink, context));
@@ -1075,7 +905,7 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return result of the request to list network manager connectivity configurations as paginated response with
-     *     {@link PagedIterable}.
+     * {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<ConnectivityConfigurationInner> list(String resourceGroupName, String networkManagerName) {
@@ -1090,20 +920,20 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * @param resourceGroupName The name of the resource group.
      * @param networkManagerName The name of the network manager.
      * @param top An optional query parameter which specifies the maximum number of records to be returned by the
-     *     server.
+     * server.
      * @param skipToken SkipToken is only used if a previous operation returned a partial result. If a previous response
-     *     contains a nextLink element, the value of the nextLink element will include a skipToken parameter that
-     *     specifies a starting point to use for subsequent calls.
+     * contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies
+     * a starting point to use for subsequent calls.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return result of the request to list network manager connectivity configurations as paginated response with
-     *     {@link PagedIterable}.
+     * {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ConnectivityConfigurationInner> list(
-        String resourceGroupName, String networkManagerName, Integer top, String skipToken, Context context) {
+    public PagedIterable<ConnectivityConfigurationInner> list(String resourceGroupName, String networkManagerName,
+        Integer top, String skipToken, Context context) {
         return new PagedIterable<>(listAsync(resourceGroupName, networkManagerName, top, skipToken, context));
     }
 
@@ -1111,12 +941,13 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * Get the next page of items.
      *
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     *
+     * The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return result of the request to list network manager connectivity configurations along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return result of the request to list network manager connectivity configurations along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<ConnectivityConfigurationInner>> listNextSinglePageAsync(String nextLink) {
@@ -1124,23 +955,13 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<ConnectivityConfigurationInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+        return FluxUtil.withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
+            .<PagedResponse<ConnectivityConfigurationInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1148,38 +969,29 @@ public final class ConnectivityConfigurationsClientImpl implements ConnectivityC
      * Get the next page of items.
      *
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     *
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return result of the request to list network manager connectivity configurations along with {@link
-     *     PagedResponse} on successful completion of {@link Mono}.
+     * @return result of the request to list network manager connectivity configurations along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ConnectivityConfigurationInner>> listNextSinglePageAsync(
-        String nextLink, Context context) {
+    private Mono<PagedResponse<ConnectivityConfigurationInner>> listNextSinglePageAsync(String nextLink,
+        Context context) {
         if (nextLink == null) {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 }

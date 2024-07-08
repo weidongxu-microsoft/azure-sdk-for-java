@@ -10,11 +10,9 @@ import com.azure.resourcemanager.containerservicefleet.models.UpdateStageStatus;
 public final class UpdateStageStatusTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        UpdateStageStatus model =
-            BinaryData
-                .fromString(
-                    "{\"status\":{\"startTime\":\"2021-12-04T15:56:22Z\",\"completedTime\":\"2020-12-23T01:19:24Z\",\"state\":\"Stopped\"},\"name\":\"wpgrjbzno\",\"groups\":[{\"status\":{\"startTime\":\"2021-01-31T18:34:57Z\",\"completedTime\":\"2021-11-14T01:20:47Z\",\"state\":\"Stopping\"},\"name\":\"bnmo\",\"members\":[]},{\"status\":{\"startTime\":\"2021-08-24T13:39:32Z\",\"completedTime\":\"2021-08-24T18:20:56Z\",\"state\":\"Stopped\"},\"name\":\"ljjgpbtoqcjmkl\",\"members\":[]},{\"status\":{\"startTime\":\"2021-11-17T00:12:24Z\",\"completedTime\":\"2021-04-20T08:45:23Z\",\"state\":\"Stopping\"},\"name\":\"yulpkudjkr\",\"members\":[]}],\"afterStageWaitStatus\":{\"status\":{\"startTime\":\"2021-09-13T05:12:15Z\",\"completedTime\":\"2021-02-23T09:32:58Z\",\"state\":\"Failed\"},\"waitDurationInSeconds\":210488856}}")
-                .toObject(UpdateStageStatus.class);
+        UpdateStageStatus model = BinaryData.fromString(
+            "{\"status\":{\"startTime\":\"2021-06-28T14:02:06Z\",\"completedTime\":\"2021-05-10T11:17:29Z\",\"state\":\"NotStarted\"},\"name\":\"mjmvxieduugidyjr\",\"groups\":[{\"status\":{\"startTime\":\"2021-09-15T05:38:02Z\",\"completedTime\":\"2021-06-21T06:23:36Z\",\"state\":\"NotStarted\"},\"name\":\"onpc\",\"members\":[{\"status\":{\"startTime\":\"2021-07-07T17:27:22Z\",\"completedTime\":\"2021-04-18T11:47:10Z\",\"state\":\"Completed\"},\"name\":\"eggzfb\",\"clusterResourceId\":\"fmvfaxkffeiit\",\"operationId\":\"vmezy\",\"message\":\"hxmzsbbzoggig\"},{\"status\":{\"startTime\":\"2021-05-16T13:08:42Z\",\"completedTime\":\"2021-10-06T09:12:42Z\",\"state\":\"Stopped\"},\"name\":\"jnspydp\",\"clusterResourceId\":\"oenkouknvudwti\",\"operationId\":\"bldngkpoc\",\"message\":\"azyxoegukg\"},{\"status\":{\"startTime\":\"2021-11-06T22:07:13Z\",\"completedTime\":\"2021-06-13T14:39:26Z\",\"state\":\"NotStarted\"},\"name\":\"vqzntypmrbpizcdr\",\"clusterResourceId\":\"sdpydnfyhxdeoejz\",\"operationId\":\"w\",\"message\":\"sjttgzfbish\"}]}],\"afterStageWaitStatus\":{\"status\":{\"startTime\":\"2021-10-07T20:23:43Z\",\"completedTime\":\"2021-05-05T10:08:59Z\",\"state\":\"Skipped\"},\"waitDurationInSeconds\":1859867828}}")
+            .toObject(UpdateStageStatus.class);
     }
 
     @org.junit.jupiter.api.Test

@@ -7,7 +7,9 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties available for a Microsoft.Web resource provider operation. */
+/**
+ * Properties available for a Microsoft.Web resource provider operation.
+ */
 @Fluent
 public final class CsmOperationDescriptionProperties {
     /*
@@ -16,13 +18,15 @@ public final class CsmOperationDescriptionProperties {
     @JsonProperty(value = "serviceSpecification")
     private ServiceSpecification serviceSpecification;
 
-    /** Creates an instance of CsmOperationDescriptionProperties class. */
+    /**
+     * Creates an instance of CsmOperationDescriptionProperties class.
+     */
     public CsmOperationDescriptionProperties() {
     }
 
     /**
      * Get the serviceSpecification property: Resource metrics service provided by Microsoft.Insights resource provider.
-     *
+     * 
      * @return the serviceSpecification value.
      */
     public ServiceSpecification serviceSpecification() {
@@ -31,7 +35,7 @@ public final class CsmOperationDescriptionProperties {
 
     /**
      * Set the serviceSpecification property: Resource metrics service provided by Microsoft.Insights resource provider.
-     *
+     * 
      * @param serviceSpecification the serviceSpecification value to set.
      * @return the CsmOperationDescriptionProperties object itself.
      */
@@ -42,7 +46,7 @@ public final class CsmOperationDescriptionProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

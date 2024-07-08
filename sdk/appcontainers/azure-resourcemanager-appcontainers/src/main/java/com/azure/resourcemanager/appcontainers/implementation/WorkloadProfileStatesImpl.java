@@ -14,8 +14,7 @@ public final class WorkloadProfileStatesImpl implements WorkloadProfileStates {
 
     private final com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager;
 
-    WorkloadProfileStatesImpl(
-        WorkloadProfileStatesInner innerObject,
+    WorkloadProfileStatesImpl(WorkloadProfileStatesInner innerObject,
         com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;

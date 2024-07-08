@@ -10,7 +10,9 @@ import com.azure.resourcemanager.cosmos.models.CreateUpdateOptions;
 import com.azure.resourcemanager.cosmos.models.SqlTriggerResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties to create and update Azure Cosmos DB trigger. */
+/**
+ * Properties to create and update Azure Cosmos DB trigger.
+ */
 @Fluent
 public final class SqlTriggerCreateUpdateProperties {
     /*
@@ -20,19 +22,20 @@ public final class SqlTriggerCreateUpdateProperties {
     private SqlTriggerResource resource;
 
     /*
-     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-     * request.
+     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
      */
     @JsonProperty(value = "options")
     private CreateUpdateOptions options;
 
-    /** Creates an instance of SqlTriggerCreateUpdateProperties class. */
+    /**
+     * Creates an instance of SqlTriggerCreateUpdateProperties class.
+     */
     public SqlTriggerCreateUpdateProperties() {
     }
 
     /**
      * Get the resource property: The standard JSON format of a trigger.
-     *
+     * 
      * @return the resource value.
      */
     public SqlTriggerResource resource() {
@@ -41,7 +44,7 @@ public final class SqlTriggerCreateUpdateProperties {
 
     /**
      * Set the resource property: The standard JSON format of a trigger.
-     *
+     * 
      * @param resource the resource value to set.
      * @return the SqlTriggerCreateUpdateProperties object itself.
      */
@@ -53,7 +56,7 @@ public final class SqlTriggerCreateUpdateProperties {
     /**
      * Get the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @return the options value.
      */
     public CreateUpdateOptions options() {
@@ -63,7 +66,7 @@ public final class SqlTriggerCreateUpdateProperties {
     /**
      * Set the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @param options the options value to set.
      * @return the SqlTriggerCreateUpdateProperties object itself.
      */
@@ -74,15 +77,14 @@ public final class SqlTriggerCreateUpdateProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (resource() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property resource in model SqlTriggerCreateUpdateProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property resource in model SqlTriggerCreateUpdateProperties"));
         } else {
             resource().validate();
         }

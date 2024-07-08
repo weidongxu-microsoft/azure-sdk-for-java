@@ -7,9 +7,12 @@ package com.azure.resourcemanager.cosmos.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.cosmos.fluent.models.MongoRoleDefinitionResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Parameters to create and update an Azure Cosmos DB Mongo Role Definition. */
+/**
+ * Parameters to create and update an Azure Cosmos DB Mongo Role Definition.
+ */
 @Fluent
 public final class MongoRoleDefinitionCreateUpdateParameters {
     /*
@@ -18,7 +21,9 @@ public final class MongoRoleDefinitionCreateUpdateParameters {
     @JsonProperty(value = "properties")
     private MongoRoleDefinitionResource innerProperties;
 
-    /** Creates an instance of MongoRoleDefinitionCreateUpdateParameters class. */
+    /**
+     * Creates an instance of MongoRoleDefinitionCreateUpdateParameters class.
+     */
     public MongoRoleDefinitionCreateUpdateParameters() {
     }
 

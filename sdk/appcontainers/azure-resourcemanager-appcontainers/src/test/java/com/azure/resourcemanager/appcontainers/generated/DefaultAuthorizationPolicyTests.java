@@ -13,28 +13,25 @@ import org.junit.jupiter.api.Assertions;
 public final class DefaultAuthorizationPolicyTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DefaultAuthorizationPolicy model =
-            BinaryData
-                .fromString(
-                    "{\"allowedPrincipals\":{\"groups\":[\"cdgea\"],\"identities\":[\"phut\",\"cndvkaozwyiftyhx\",\"urokft\"]},\"allowedApplications\":[\"lniwpwcukjfkgiaw\",\"klryplwck\",\"asy\"]}")
-                .toObject(DefaultAuthorizationPolicy.class);
-        Assertions.assertEquals("cdgea", model.allowedPrincipals().groups().get(0));
-        Assertions.assertEquals("phut", model.allowedPrincipals().identities().get(0));
-        Assertions.assertEquals("lniwpwcukjfkgiaw", model.allowedApplications().get(0));
+        DefaultAuthorizationPolicy model = BinaryData.fromString(
+            "{\"allowedPrincipals\":{\"groups\":[\"hbzhfepg\",\"gqexzlocxs\",\"paierh\"],\"identities\":[\"sglumma\",\"tjaodxobnb\"]},\"allowedApplications\":[\"qp\"]}")
+            .toObject(DefaultAuthorizationPolicy.class);
+        Assertions.assertEquals("hbzhfepg", model.allowedPrincipals().groups().get(0));
+        Assertions.assertEquals("sglumma", model.allowedPrincipals().identities().get(0));
+        Assertions.assertEquals("qp", model.allowedApplications().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DefaultAuthorizationPolicy model =
-            new DefaultAuthorizationPolicy()
+        DefaultAuthorizationPolicy model
+            = new DefaultAuthorizationPolicy()
                 .withAllowedPrincipals(
-                    new AllowedPrincipals()
-                        .withGroups(Arrays.asList("cdgea"))
-                        .withIdentities(Arrays.asList("phut", "cndvkaozwyiftyhx", "urokft")))
-                .withAllowedApplications(Arrays.asList("lniwpwcukjfkgiaw", "klryplwck", "asy"));
+                    new AllowedPrincipals().withGroups(Arrays.asList("hbzhfepg", "gqexzlocxs", "paierh"))
+                        .withIdentities(Arrays.asList("sglumma", "tjaodxobnb")))
+                .withAllowedApplications(Arrays.asList("qp"));
         model = BinaryData.fromObject(model).toObject(DefaultAuthorizationPolicy.class);
-        Assertions.assertEquals("cdgea", model.allowedPrincipals().groups().get(0));
-        Assertions.assertEquals("phut", model.allowedPrincipals().identities().get(0));
-        Assertions.assertEquals("lniwpwcukjfkgiaw", model.allowedApplications().get(0));
+        Assertions.assertEquals("hbzhfepg", model.allowedPrincipals().groups().get(0));
+        Assertions.assertEquals("sglumma", model.allowedPrincipals().identities().get(0));
+        Assertions.assertEquals("qp", model.allowedApplications().get(0));
     }
 }

@@ -8,11 +8,14 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.appservice.fluent.models.AppServiceCertificateInner;
 import com.azure.resourcemanager.appservice.fluent.models.AppServiceCertificateOrderPatchResourceProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** ARM resource for a certificate order that is purchased through Azure. */
+/**
+ * ARM resource for a certificate order that is purchased through Azure.
+ */
 @Fluent
 public final class AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
     /*
@@ -21,7 +24,9 @@ public final class AppServiceCertificateOrderPatchResource extends ProxyOnlyReso
     @JsonProperty(value = "properties")
     private AppServiceCertificateOrderPatchResourceProperties innerProperties;
 
-    /** Creates an instance of AppServiceCertificateOrderPatchResource class. */
+    /**
+     * Creates an instance of AppServiceCertificateOrderPatchResource class.
+     */
     public AppServiceCertificateOrderPatchResource() {
     }
 
@@ -34,7 +39,9 @@ public final class AppServiceCertificateOrderPatchResource extends ProxyOnlyReso
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppServiceCertificateOrderPatchResource withKind(String kind) {
         super.withKind(kind);
@@ -56,8 +63,8 @@ public final class AppServiceCertificateOrderPatchResource extends ProxyOnlyReso
      * @param certificates the certificates value to set.
      * @return the AppServiceCertificateOrderPatchResource object itself.
      */
-    public AppServiceCertificateOrderPatchResource withCertificates(
-        Map<String, AppServiceCertificateInner> certificates) {
+    public AppServiceCertificateOrderPatchResource
+        withCertificates(Map<String, AppServiceCertificateInner> certificates) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AppServiceCertificateOrderPatchResourceProperties();
         }

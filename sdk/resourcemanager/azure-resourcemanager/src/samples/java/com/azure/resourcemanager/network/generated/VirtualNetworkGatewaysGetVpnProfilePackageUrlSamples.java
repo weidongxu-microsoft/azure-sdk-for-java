@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualNetworkGateways GetVpnProfilePackageUrl. */
+/**
+ * Samples for VirtualNetworkGateways GetVpnProfilePackageUrl.
+ */
 public final class VirtualNetworkGatewaysGetVpnProfilePackageUrlSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
      */
     /**
      * Sample code: GetVirtualNetworkGatewayVPNProfilePackageURL.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getVirtualNetworkGatewayVPNProfilePackageURL(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+    public static void
+        getVirtualNetworkGatewayVPNProfilePackageURL(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()

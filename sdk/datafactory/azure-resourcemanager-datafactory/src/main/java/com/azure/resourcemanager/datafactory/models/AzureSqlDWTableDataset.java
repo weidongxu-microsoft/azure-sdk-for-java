@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.AzureSqlDWTableDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Azure SQL Data Warehouse dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Azure SQL Data Warehouse dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AzureSqlDWTableDataset.class, visible = true)
 @JsonTypeName("AzureSqlDWTable")
 @Fluent
 public final class AzureSqlDWTableDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureSqlDWTable";
+
     /*
      * Azure SQL Data Warehouse dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private AzureSqlDWTableDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of AzureSqlDWTableDataset class. */
+    /**
+     * Creates an instance of AzureSqlDWTableDataset class.
+     */
     public AzureSqlDWTableDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Azure SQL Data Warehouse dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AzureSqlDWTableDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSqlDWTableDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
     /**
      * Get the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -98,7 +134,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
     /**
      * Set the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the AzureSqlDWTableDataset object itself.
      */
@@ -113,7 +149,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
     /**
      * Get the schema property: The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the schema value.
      */
     public Object schemaTypePropertiesSchema() {
@@ -123,7 +159,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
     /**
      * Set the schema property: The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param schema the schema value to set.
      * @return the AzureSqlDWTableDataset object itself.
      */
@@ -138,7 +174,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
     /**
      * Get the table property: The table name of the Azure SQL Data Warehouse. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the table value.
      */
     public Object table() {
@@ -148,7 +184,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
     /**
      * Set the table property: The table name of the Azure SQL Data Warehouse. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param table the table value to set.
      * @return the AzureSqlDWTableDataset object itself.
      */
@@ -162,7 +198,7 @@ public final class AzureSqlDWTableDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

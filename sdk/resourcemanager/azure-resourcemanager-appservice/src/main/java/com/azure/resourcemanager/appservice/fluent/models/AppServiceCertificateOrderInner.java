@@ -13,11 +13,14 @@ import com.azure.resourcemanager.appservice.models.CertificateProductType;
 import com.azure.resourcemanager.appservice.models.ProvisioningState;
 import com.azure.resourcemanager.appservice.models.ResourceNotRenewableReason;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** SSL certificate purchase order. */
+/**
+ * SSL certificate purchase order.
+ */
 @Fluent
 public final class AppServiceCertificateOrderInner extends Resource {
     /*
@@ -32,7 +35,9 @@ public final class AppServiceCertificateOrderInner extends Resource {
     @JsonProperty(value = "kind")
     private String kind;
 
-    /** Creates an instance of AppServiceCertificateOrderInner class. */
+    /**
+     * Creates an instance of AppServiceCertificateOrderInner class.
+     */
     public AppServiceCertificateOrderInner() {
     }
 
@@ -65,14 +70,18 @@ public final class AppServiceCertificateOrderInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppServiceCertificateOrderInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppServiceCertificateOrderInner withTags(Map<String, String> tags) {
         super.withTags(tags);

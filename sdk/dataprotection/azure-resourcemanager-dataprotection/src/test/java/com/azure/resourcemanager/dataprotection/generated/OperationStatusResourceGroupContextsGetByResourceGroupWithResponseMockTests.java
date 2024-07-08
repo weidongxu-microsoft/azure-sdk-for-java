@@ -30,45 +30,31 @@ public final class OperationStatusResourceGroupContextsGetByResourceGroupWithRes
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"endTime\":\"2021-04-05T04:42:26Z\",\"id\":\"iqndieuzaofj\",\"name\":\"vcyy\",\"properties\":{\"objectType\":\"OperationExtendedInfo\"},\"startTime\":\"2021-05-03T11:29:59Z\",\"status\":\"otcubi\"}";
+        String responseStr
+            = "{\"endTime\":\"2021-02-19T08:58:21Z\",\"id\":\"piymerteea\",\"name\":\"xqiekkkzddrtk\",\"properties\":{\"objectType\":\"OperationExtendedInfo\"},\"startTime\":\"2021-06-22T03:21:50Z\",\"status\":\"mxvavrefdee\"}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        DataProtectionManager manager =
-            DataProtectionManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        DataProtectionManager manager = DataProtectionManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        OperationResource response =
-            manager
-                .operationStatusResourceGroupContexts()
-                .getByResourceGroupWithResponse("omi", "ox", com.azure.core.util.Context.NONE)
-                .getValue();
+        OperationResource response = manager.operationStatusResourceGroupContexts()
+            .getByResourceGroupWithResponse("xeizzg", "klnsrmffey", com.azure.core.util.Context.NONE).getValue();
 
-        Assertions.assertEquals(OffsetDateTime.parse("2021-04-05T04:42:26Z"), response.endTime());
-        Assertions.assertEquals("iqndieuzaofj", response.id());
-        Assertions.assertEquals("vcyy", response.name());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-05-03T11:29:59Z"), response.startTime());
-        Assertions.assertEquals("otcubi", response.status());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-02-19T08:58:21Z"), response.endTime());
+        Assertions.assertEquals("piymerteea", response.id());
+        Assertions.assertEquals("xqiekkkzddrtk", response.name());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-06-22T03:21:50Z"), response.startTime());
+        Assertions.assertEquals("mxvavrefdee", response.status());
     }
 }

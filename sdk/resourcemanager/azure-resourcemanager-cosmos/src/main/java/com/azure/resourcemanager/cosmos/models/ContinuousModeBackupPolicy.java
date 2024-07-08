@@ -6,27 +6,53 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The object representing continuous mode backup policy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The object representing continuous mode backup policy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = ContinuousModeBackupPolicy.class,
+    visible = true)
 @JsonTypeName("Continuous")
 @Fluent
 public final class ContinuousModeBackupPolicy extends BackupPolicy {
+    /*
+     * Describes the mode of backups.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private BackupPolicyType type = BackupPolicyType.CONTINUOUS;
+
     /*
      * Configuration values for continuous mode backup
      */
     @JsonProperty(value = "continuousModeProperties")
     private ContinuousModeProperties continuousModeProperties;
 
-    /** Creates an instance of ContinuousModeBackupPolicy class. */
+    /**
+     * Creates an instance of ContinuousModeBackupPolicy class.
+     */
     public ContinuousModeBackupPolicy() {
     }
 
     /**
+     * Get the type property: Describes the mode of backups.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public BackupPolicyType type() {
+        return this.type;
+    }
+
+    /**
      * Get the continuousModeProperties property: Configuration values for continuous mode backup.
-     *
+     * 
      * @return the continuousModeProperties value.
      */
     public ContinuousModeProperties continuousModeProperties() {
@@ -35,7 +61,7 @@ public final class ContinuousModeBackupPolicy extends BackupPolicy {
 
     /**
      * Set the continuousModeProperties property: Configuration values for continuous mode backup.
-     *
+     * 
      * @param continuousModeProperties the continuousModeProperties value to set.
      * @return the ContinuousModeBackupPolicy object itself.
      */
@@ -44,7 +70,9 @@ public final class ContinuousModeBackupPolicy extends BackupPolicy {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ContinuousModeBackupPolicy withMigrationState(BackupPolicyMigrationState migrationState) {
         super.withMigrationState(migrationState);
@@ -53,7 +81,7 @@ public final class ContinuousModeBackupPolicy extends BackupPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -5,6 +5,7 @@ package com.azure.cosmos.implementation.changefeed.epkversion;
 import com.azure.cosmos.BridgeInternal;
 import com.azure.cosmos.CosmosAsyncContainer;
 import com.azure.cosmos.CosmosException;
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.implementation.Constants;
 import com.azure.cosmos.implementation.Exceptions;
 import com.azure.cosmos.implementation.InternalObjectNode;
@@ -74,7 +75,11 @@ class LeaseStoreImpl implements LeaseStore {
         InternalObjectNode containerDocument = new InternalObjectNode();
         containerDocument.setId(markerDocId);
 
-        return this.client.createItem(this.leaseCollectionLink, containerDocument, new CosmosItemRequestOptions(), false)
+        return this.client.createItem(
+            this.leaseCollectionLink,
+                containerDocument,
+                this.requestOptionsFactory.createItemRequestOptions(ServiceItemLeaseV1.fromDocument(containerDocument)),
+                false)
             .map( item -> {
                 return true;
             })
@@ -96,9 +101,16 @@ class LeaseStoreImpl implements LeaseStore {
         String lockId = this.getStoreLockName();
         InternalObjectNode containerDocument = new InternalObjectNode();
         containerDocument.setId(lockId);
-        BridgeInternal.setProperty(containerDocument, Constants.Properties.TTL, Long.valueOf(lockExpirationTime.getSeconds()).intValue());
+        containerDocument.set(
+            Constants.Properties.TTL,
+            Long.valueOf(lockExpirationTime.getSeconds()).intValue(),
+            CosmosItemSerializer.DEFAULT_SERIALIZER);
 
-        return this.client.createItem(this.leaseCollectionLink, containerDocument, new CosmosItemRequestOptions(), false)
+        return this.client.createItem(
+            this.leaseCollectionLink,
+                containerDocument,
+                this.requestOptionsFactory.createItemRequestOptions(ServiceItemLeaseV1.fromDocument(containerDocument)),
+                false)
             .map(documentResourceResponse -> {
                 if (BridgeInternal.getProperties(documentResourceResponse) != null) {
                     this.lockETag = BridgeInternal.getProperties(documentResourceResponse).getETag();

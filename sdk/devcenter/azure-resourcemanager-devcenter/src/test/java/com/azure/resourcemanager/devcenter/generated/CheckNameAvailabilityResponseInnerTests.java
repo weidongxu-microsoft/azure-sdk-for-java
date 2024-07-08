@@ -12,25 +12,22 @@ import org.junit.jupiter.api.Assertions;
 public final class CheckNameAvailabilityResponseInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        CheckNameAvailabilityResponseInner model =
-            BinaryData
-                .fromString("{\"nameAvailable\":false,\"reason\":\"Invalid\",\"message\":\"aakc\"}")
+        CheckNameAvailabilityResponseInner model
+            = BinaryData.fromString("{\"nameAvailable\":true,\"reason\":\"AlreadyExists\",\"message\":\"chisze\"}")
                 .toObject(CheckNameAvailabilityResponseInner.class);
-        Assertions.assertEquals(false, model.nameAvailable());
-        Assertions.assertEquals(CheckNameAvailabilityReason.INVALID, model.reason());
-        Assertions.assertEquals("aakc", model.message());
+        Assertions.assertEquals(true, model.nameAvailable());
+        Assertions.assertEquals(CheckNameAvailabilityReason.ALREADY_EXISTS, model.reason());
+        Assertions.assertEquals("chisze", model.message());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        CheckNameAvailabilityResponseInner model =
-            new CheckNameAvailabilityResponseInner()
-                .withNameAvailable(false)
-                .withReason(CheckNameAvailabilityReason.INVALID)
-                .withMessage("aakc");
+        CheckNameAvailabilityResponseInner model = new CheckNameAvailabilityResponseInner().withNameAvailable(true)
+            .withReason(CheckNameAvailabilityReason.ALREADY_EXISTS)
+            .withMessage("chisze");
         model = BinaryData.fromObject(model).toObject(CheckNameAvailabilityResponseInner.class);
-        Assertions.assertEquals(false, model.nameAvailable());
-        Assertions.assertEquals(CheckNameAvailabilityReason.INVALID, model.reason());
-        Assertions.assertEquals("aakc", model.message());
+        Assertions.assertEquals(true, model.nameAvailable());
+        Assertions.assertEquals(CheckNameAvailabilityReason.ALREADY_EXISTS, model.reason());
+        Assertions.assertEquals("chisze", model.message());
     }
 }

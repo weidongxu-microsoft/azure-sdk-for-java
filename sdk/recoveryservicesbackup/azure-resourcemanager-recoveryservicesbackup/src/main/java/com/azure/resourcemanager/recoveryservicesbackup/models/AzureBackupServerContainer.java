@@ -5,104 +5,164 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** AzureBackupServer (DPMVenus) workload-specific protection container. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "containerType")
+/**
+ * AzureBackupServer (DPMVenus) workload-specific protection container.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "containerType",
+    defaultImpl = AzureBackupServerContainer.class,
+    visible = true)
 @JsonTypeName("AzureBackupServerContainer")
 @Fluent
 public final class AzureBackupServerContainer extends DpmContainer {
-    /** Creates an instance of AzureBackupServerContainer class. */
+    /*
+     * Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2.
+     * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
+     * Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload
+     * Backup is VMAppContainer
+     */
+    @JsonTypeId
+    @JsonProperty(value = "containerType", required = true)
+    private ProtectableContainerType containerType = ProtectableContainerType.AZURE_BACKUP_SERVER_CONTAINER;
+
+    /**
+     * Creates an instance of AzureBackupServerContainer class.
+     */
     public AzureBackupServerContainer() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the containerType property: Type of the container. The value of this property for: 1. Compute Azure VM is
+     * Microsoft.Compute/virtualMachines 2.
+     * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
+     * Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload
+     * Backup is VMAppContainer.
+     * 
+     * @return the containerType value.
+     */
+    @Override
+    public ProtectableContainerType containerType() {
+        return this.containerType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withCanReRegister(Boolean canReRegister) {
         super.withCanReRegister(canReRegister);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withContainerId(String containerId) {
         super.withContainerId(containerId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withProtectedItemCount(Long protectedItemCount) {
         super.withProtectedItemCount(protectedItemCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withDpmAgentVersion(String dpmAgentVersion) {
         super.withDpmAgentVersion(dpmAgentVersion);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withDpmServers(List<String> dpmServers) {
         super.withDpmServers(dpmServers);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withUpgradeAvailable(Boolean upgradeAvailable) {
         super.withUpgradeAvailable(upgradeAvailable);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withProtectionStatus(String protectionStatus) {
         super.withProtectionStatus(protectionStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withExtendedInfo(DpmContainerExtendedInfo extendedInfo) {
         super.withExtendedInfo(extendedInfo);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withFriendlyName(String friendlyName) {
         super.withFriendlyName(friendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withBackupManagementType(BackupManagementType backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withRegistrationStatus(String registrationStatus) {
         super.withRegistrationStatus(registrationStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withHealthStatus(String healthStatus) {
         super.withHealthStatus(healthStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBackupServerContainer withProtectableObjectType(String protectableObjectType) {
         super.withProtectableObjectType(protectableObjectType);
@@ -111,7 +171,7 @@ public final class AzureBackupServerContainer extends DpmContainer {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

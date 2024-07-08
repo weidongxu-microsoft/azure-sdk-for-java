@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.KubeEnvironmentInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Kubernetes Environments. */
+/**
+ * Collection of Kubernetes Environments.
+ */
 @Fluent
 public final class KubeEnvironmentCollection {
     /*
@@ -25,7 +28,9 @@ public final class KubeEnvironmentCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of KubeEnvironmentCollection class. */
+    /**
+     * Creates an instance of KubeEnvironmentCollection class.
+     */
     public KubeEnvironmentCollection() {
     }
 
@@ -65,8 +70,8 @@ public final class KubeEnvironmentCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
+            throw LOGGER.atError()
+                .log(
                     new IllegalArgumentException("Missing required property value in model KubeEnvironmentCollection"));
         } else {
             value().forEach(e -> e.validate());

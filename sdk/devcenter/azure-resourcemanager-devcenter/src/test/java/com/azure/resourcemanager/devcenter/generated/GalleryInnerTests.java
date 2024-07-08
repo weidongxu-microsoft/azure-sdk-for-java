@@ -11,18 +11,16 @@ import org.junit.jupiter.api.Assertions;
 public final class GalleryInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        GalleryInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"provisioningState\":\"Updating\",\"galleryResourceId\":\"hhbcsglummajtjao\"},\"id\":\"obnbdxkqpxokaj\",\"name\":\"onpimexgstxg\",\"type\":\"po\"}")
-                .toObject(GalleryInner.class);
-        Assertions.assertEquals("hhbcsglummajtjao", model.galleryResourceId());
+        GalleryInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Updating\",\"galleryResourceId\":\"vf\"},\"id\":\"kymuctqhjfbebr\",\"name\":\"cxerf\",\"type\":\"wutttxfvjrbi\"}")
+            .toObject(GalleryInner.class);
+        Assertions.assertEquals("vf", model.galleryResourceId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        GalleryInner model = new GalleryInner().withGalleryResourceId("hhbcsglummajtjao");
+        GalleryInner model = new GalleryInner().withGalleryResourceId("vf");
         model = BinaryData.fromObject(model).toObject(GalleryInner.class);
-        Assertions.assertEquals("hhbcsglummajtjao", model.galleryResourceId());
+        Assertions.assertEquals("vf", model.galleryResourceId());
     }
 }

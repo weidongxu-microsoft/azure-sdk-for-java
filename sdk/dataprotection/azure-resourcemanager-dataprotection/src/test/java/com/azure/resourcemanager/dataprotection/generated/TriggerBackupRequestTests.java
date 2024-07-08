@@ -13,25 +13,20 @@ import org.junit.jupiter.api.Assertions;
 public final class TriggerBackupRequestTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        TriggerBackupRequest model =
-            BinaryData
-                .fromString(
-                    "{\"backupRuleOptions\":{\"ruleName\":\"yqzrnkcqvyxlw\",\"triggerOption\":{\"retentionTagOverride\":\"lsicohoqqnwv\"}}}")
-                .toObject(TriggerBackupRequest.class);
-        Assertions.assertEquals("yqzrnkcqvyxlw", model.backupRuleOptions().ruleName());
-        Assertions.assertEquals("lsicohoqqnwv", model.backupRuleOptions().triggerOption().retentionTagOverride());
+        TriggerBackupRequest model = BinaryData.fromString(
+            "{\"backupRuleOptions\":{\"ruleName\":\"yudxytlmoy\",\"triggerOption\":{\"retentionTagOverride\":\"vwfudwpzntxhd\"}}}")
+            .toObject(TriggerBackupRequest.class);
+        Assertions.assertEquals("yudxytlmoy", model.backupRuleOptions().ruleName());
+        Assertions.assertEquals("vwfudwpzntxhd", model.backupRuleOptions().triggerOption().retentionTagOverride());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        TriggerBackupRequest model =
-            new TriggerBackupRequest()
-                .withBackupRuleOptions(
-                    new AdHocBackupRuleOptions()
-                        .withRuleName("yqzrnkcqvyxlw")
-                        .withTriggerOption(new AdhocBackupTriggerOption().withRetentionTagOverride("lsicohoqqnwv")));
+        TriggerBackupRequest model
+            = new TriggerBackupRequest().withBackupRuleOptions(new AdHocBackupRuleOptions().withRuleName("yudxytlmoy")
+                .withTriggerOption(new AdhocBackupTriggerOption().withRetentionTagOverride("vwfudwpzntxhd")));
         model = BinaryData.fromObject(model).toObject(TriggerBackupRequest.class);
-        Assertions.assertEquals("yqzrnkcqvyxlw", model.backupRuleOptions().ruleName());
-        Assertions.assertEquals("lsicohoqqnwv", model.backupRuleOptions().triggerOption().retentionTagOverride());
+        Assertions.assertEquals("yudxytlmoy", model.backupRuleOptions().ruleName());
+        Assertions.assertEquals("vwfudwpzntxhd", model.backupRuleOptions().triggerOption().retentionTagOverride());
     }
 }

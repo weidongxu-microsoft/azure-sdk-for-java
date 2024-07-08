@@ -8,39 +8,57 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Export command settings. */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type",
-    defaultImpl = ExportSettings.class)
+/**
+ * Export command settings.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ExportSettings.class, visible = true)
 @JsonTypeName("ExportSettings")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "SnowflakeExportCopyCommand", value = SnowflakeExportCopyCommand.class),
     @JsonSubTypes.Type(
         name = "AzureDatabricksDeltaLakeExportCommand",
-        value = AzureDatabricksDeltaLakeExportCommand.class)
-})
+        value = AzureDatabricksDeltaLakeExportCommand.class) })
 @Fluent
 public class ExportSettings {
     /*
+     * The export setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ExportSettings";
+
+    /*
      * Export command settings.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of ExportSettings class. */
+    /**
+     * Creates an instance of ExportSettings class.
+     */
     public ExportSettings() {
     }
 
     /**
+     * Get the type property: The export setting type.
+     * 
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the additionalProperties property: Export command settings.
-     *
+     * 
      * @return the additionalProperties value.
      */
     @JsonAnyGetter
@@ -50,7 +68,7 @@ public class ExportSettings {
 
     /**
      * Set the additionalProperties property: Export command settings.
-     *
+     * 
      * @param additionalProperties the additionalProperties value to set.
      * @return the ExportSettings object itself.
      */
@@ -62,14 +80,14 @@ public class ExportSettings {
     @JsonAnySetter
     void withAdditionalProperties(String key, Object value) {
         if (additionalProperties == null) {
-            additionalProperties = new HashMap<>();
+            additionalProperties = new LinkedHashMap<>();
         }
         additionalProperties.put(key, value);
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

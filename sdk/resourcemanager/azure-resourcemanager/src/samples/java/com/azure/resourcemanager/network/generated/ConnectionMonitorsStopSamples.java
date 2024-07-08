@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ConnectionMonitors Stop. */
+/**
+ * Samples for ConnectionMonitors Stop.
+ */
 public final class ConnectionMonitorsStopSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherConnectionMonitorStop.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherConnectionMonitorStop.json
      */
     /**
      * Sample code: Stop connection monitor.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void stopConnectionMonitor(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getConnectionMonitors()

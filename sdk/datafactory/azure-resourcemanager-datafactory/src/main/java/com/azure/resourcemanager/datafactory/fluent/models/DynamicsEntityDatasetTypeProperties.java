@@ -7,7 +7,9 @@ package com.azure.resourcemanager.datafactory.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Dynamics entity dataset properties. */
+/**
+ * Dynamics entity dataset properties.
+ */
 @Fluent
 public final class DynamicsEntityDatasetTypeProperties {
     /*
@@ -16,13 +18,15 @@ public final class DynamicsEntityDatasetTypeProperties {
     @JsonProperty(value = "entityName")
     private Object entityName;
 
-    /** Creates an instance of DynamicsEntityDatasetTypeProperties class. */
+    /**
+     * Creates an instance of DynamicsEntityDatasetTypeProperties class.
+     */
     public DynamicsEntityDatasetTypeProperties() {
     }
 
     /**
      * Get the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the entityName value.
      */
     public Object entityName() {
@@ -31,7 +35,7 @@ public final class DynamicsEntityDatasetTypeProperties {
 
     /**
      * Set the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param entityName the entityName value to set.
      * @return the DynamicsEntityDatasetTypeProperties object itself.
      */
@@ -42,7 +46,7 @@ public final class DynamicsEntityDatasetTypeProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

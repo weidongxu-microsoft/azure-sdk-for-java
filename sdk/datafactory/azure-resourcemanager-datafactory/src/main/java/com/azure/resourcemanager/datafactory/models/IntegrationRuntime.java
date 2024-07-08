@@ -10,24 +10,29 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Azure Data Factory nested object which serves as a compute resource for activities. */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type",
-    defaultImpl = IntegrationRuntime.class)
+/**
+ * Azure Data Factory nested object which serves as a compute resource for activities.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = IntegrationRuntime.class, visible = true)
 @JsonTypeName("IntegrationRuntime")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "Managed", value = ManagedIntegrationRuntime.class),
-    @JsonSubTypes.Type(name = "SelfHosted", value = SelfHostedIntegrationRuntime.class)
-})
+    @JsonSubTypes.Type(name = "SelfHosted", value = SelfHostedIntegrationRuntime.class) })
 @Fluent
 public class IntegrationRuntime {
+    /*
+     * Type of integration runtime.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private IntegrationRuntimeType type = IntegrationRuntimeType.fromString("IntegrationRuntime");
+
     /*
      * Integration runtime description.
      */
@@ -37,15 +42,27 @@ public class IntegrationRuntime {
     /*
      * Azure Data Factory nested object which serves as a compute resource for activities.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of IntegrationRuntime class. */
+    /**
+     * Creates an instance of IntegrationRuntime class.
+     */
     public IntegrationRuntime() {
     }
 
     /**
+     * Get the type property: Type of integration runtime.
+     * 
+     * @return the type value.
+     */
+    public IntegrationRuntimeType type() {
+        return this.type;
+    }
+
+    /**
      * Get the description property: Integration runtime description.
-     *
+     * 
      * @return the description value.
      */
     public String description() {
@@ -54,7 +71,7 @@ public class IntegrationRuntime {
 
     /**
      * Set the description property: Integration runtime description.
-     *
+     * 
      * @param description the description value to set.
      * @return the IntegrationRuntime object itself.
      */
@@ -66,7 +83,7 @@ public class IntegrationRuntime {
     /**
      * Get the additionalProperties property: Azure Data Factory nested object which serves as a compute resource for
      * activities.
-     *
+     * 
      * @return the additionalProperties value.
      */
     @JsonAnyGetter
@@ -77,7 +94,7 @@ public class IntegrationRuntime {
     /**
      * Set the additionalProperties property: Azure Data Factory nested object which serves as a compute resource for
      * activities.
-     *
+     * 
      * @param additionalProperties the additionalProperties value to set.
      * @return the IntegrationRuntime object itself.
      */
@@ -89,14 +106,14 @@ public class IntegrationRuntime {
     @JsonAnySetter
     void withAdditionalProperties(String key, Object value) {
         if (additionalProperties == null) {
-            additionalProperties = new HashMap<>();
+            additionalProperties = new LinkedHashMap<>();
         }
         additionalProperties.put(key, value);
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

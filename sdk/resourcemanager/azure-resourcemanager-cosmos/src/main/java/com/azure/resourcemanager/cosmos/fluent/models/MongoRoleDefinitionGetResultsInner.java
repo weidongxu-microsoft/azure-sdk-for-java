@@ -10,9 +10,12 @@ import com.azure.resourcemanager.cosmos.models.MongoRoleDefinitionType;
 import com.azure.resourcemanager.cosmos.models.Privilege;
 import com.azure.resourcemanager.cosmos.models.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** An Azure Cosmos DB Mongo Role Definition. */
+/**
+ * An Azure Cosmos DB Mongo Role Definition.
+ */
 @Fluent
 public final class MongoRoleDefinitionGetResultsInner extends ArmProxyResource {
     /*
@@ -21,7 +24,9 @@ public final class MongoRoleDefinitionGetResultsInner extends ArmProxyResource {
     @JsonProperty(value = "properties")
     private MongoRoleDefinitionResource innerProperties;
 
-    /** Creates an instance of MongoRoleDefinitionGetResultsInner class. */
+    /**
+     * Creates an instance of MongoRoleDefinitionGetResultsInner class.
+     */
     public MongoRoleDefinitionGetResultsInner() {
     }
 

@@ -4,14 +4,17 @@
 
 package com.azure.resourcemanager.appcontainers.generated;
 
-/** Samples for Jobs Delete. */
+/**
+ * Samples for Jobs Delete.
+ */
 public final class JobsDeleteSamples {
     /*
-     * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Job_Delete.json
+     * x-ms-original-file:
+     * specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Delete.json
      */
     /**
      * Sample code: Delete Container Apps Job.
-     *
+     * 
      * @param manager Entry point to ContainerAppsApiManager.
      */
     public static void deleteContainerAppsJob(com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {

@@ -3,21 +3,19 @@
 
 package com.azure.cosmos.rx;
 
-import com.azure.cosmos.BridgeInternal;
 import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosAsyncContainer;
 import com.azure.cosmos.CosmosAsyncDatabase;
 import com.azure.cosmos.CosmosClientBuilder;
-import com.azure.cosmos.implementation.Resource;
-import com.azure.cosmos.models.ModelBridgeInternal;
-import com.azure.cosmos.util.CosmosPagedFlux;
-import com.azure.cosmos.implementation.InternalObjectNode;
-import com.azure.cosmos.models.CosmosQueryRequestOptions;
-import com.azure.cosmos.models.FeedResponse;
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.implementation.FeedResponseListValidator;
 import com.azure.cosmos.implementation.FeedResponseValidator;
+import com.azure.cosmos.implementation.InternalObjectNode;
 import com.azure.cosmos.implementation.Utils;
 import com.azure.cosmos.implementation.query.OffsetContinuationToken;
+import com.azure.cosmos.models.CosmosQueryRequestOptions;
+import com.azure.cosmos.models.FeedResponse;
+import com.azure.cosmos.util.CosmosPagedFlux;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.reactivex.subscribers.TestSubscriber;
 import org.testng.annotations.AfterClass;
@@ -39,11 +37,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OffsetLimitQueryTests extends TestSuiteBase {
     private CosmosAsyncDatabase createdDatabase;
     private CosmosAsyncContainer createdCollection;
-    private ArrayList<InternalObjectNode> docs = new ArrayList<>();
+    private final ArrayList<InternalObjectNode> docs = new ArrayList<>();
 
     private String partitionKey = "mypk";
     private int firstPk = 0;
     private int secondPk = 1;
+    private int thirdPk = 2;
     private String field = "field";
 
     private CosmosAsyncClient client;
@@ -53,7 +52,7 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         super(clientBuilder);
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
+    @Test(groups = {"query"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
     public void queryDocuments(Boolean qmEnabled) {
         int skipCount = 4;
         int takeCount = 10;
@@ -80,7 +79,7 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         validateQuerySuccess(queryObservable.byPage(5), validator, TIMEOUT);
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT)
+    @Test(groups = {"query"}, timeOut = TIMEOUT)
     public void drainAllDocumentsUsingOffsetLimit() {
         int skipCount = 0;
         int takeCount = 2;
@@ -110,7 +109,45 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         assertThat(finalResponse.getContinuationToken()).isNull();
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT)
+    @Test(groups = {"query"}, timeOut = TIMEOUT)
+    public void drainAllDistinctDocumentsUsingOffsetLimit() {
+        int skipCount = 0;
+        int takeCount = 300;
+        String query = "SELECT DISTINCT c.id from c OFFSET " + skipCount + " LIMIT " + takeCount;
+        CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
+        CosmosPagedFlux<InternalObjectNode> queryObservable;
+
+        int totalDocsObtained = 0;
+
+        queryObservable = createdCollection.queryItems(query, options, InternalObjectNode.class);
+        Iterator<FeedResponse<InternalObjectNode>> iterator = queryObservable.byPage(5).toIterable().iterator();
+        while (iterator.hasNext()) {
+            FeedResponse<InternalObjectNode> next = iterator.next();
+            totalDocsObtained += next.getResults().size();
+        }
+        assertThat(totalDocsObtained).isEqualTo(docs.size());
+    }
+
+    @Test(groups = {"query"}, timeOut = TIMEOUT)
+    public void drainAllDistinctDocumentsUsingOrderByAndOffsetLimit() {
+        int skipCount = 0;
+        int takeCount = 300;
+        String query = "SELECT DISTINCT c.id from c ORDER BY c.id OFFSET " + skipCount + " LIMIT " + takeCount;
+        CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
+        CosmosPagedFlux<InternalObjectNode> queryObservable;
+
+        int totalDocsObtained = 0;
+
+        queryObservable = createdCollection.queryItems(query, options, InternalObjectNode.class);
+        Iterator<FeedResponse<InternalObjectNode>> iterator = queryObservable.byPage(5).toIterable().iterator();
+        while (iterator.hasNext()) {
+            FeedResponse<InternalObjectNode> next = iterator.next();
+            totalDocsObtained += next.getResults().size();
+        }
+        assertThat(totalDocsObtained).isEqualTo(docs.size());
+    }
+
+    @Test(groups = {"query"}, timeOut = TIMEOUT)
     public void offsetContinuationTokenRoundTrips() {
         // Positive
         OffsetContinuationToken offsetContinuationToken = new OffsetContinuationToken(42, "asdf");
@@ -131,7 +168,7 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
             .isFalse();
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT * 10)
+    @Test(groups = {"query"}, timeOut = TIMEOUT * 10)
     public void queryDocumentsWithOffsetContinuationTokens() {
         int skipCount = 3;
         int takeCount = 10;
@@ -139,7 +176,7 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         this.queryWithContinuationTokensAndPageSizes(query, new int[] {1, 5, 15}, takeCount);
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
+    @Test(groups = {"query"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
     public void queryDocumentsWithDistinct(Boolean qmEnabled) {
         int skipCount = 4;
         int takeCount = 10;
@@ -167,7 +204,35 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         validateQuerySuccess(queryObservable.byPage(5), validator, TIMEOUT);
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
+    @Test(groups = {"query"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
+    public void queryDocumentsWithDistinctAndOrderBy(Boolean qmEnabled) {
+        int skipCount = 4;
+        int takeCount = 10;
+        String query =
+            String.format("SELECT DISTINCT c.id from c ORDER BY c.id OFFSET %s LIMIT %s", skipCount, takeCount);
+        CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
+
+        if (qmEnabled != null) {
+            options.setQueryMetricsEnabled(qmEnabled);
+        }
+
+        options.setMaxDegreeOfParallelism(2);
+        CosmosPagedFlux<InternalObjectNode> queryObservable = createdCollection.queryItems(query, options, InternalObjectNode.class);
+
+        List<String> expectedIds =
+            docs.stream().skip(4).limit(10).map(doc -> doc.getResourceId()).collect(Collectors.toList());
+
+        FeedResponseListValidator<InternalObjectNode> validator =
+            new FeedResponseListValidator.Builder<InternalObjectNode>()
+                .containsExactly(expectedIds)
+                .numberOfPages(3)
+                .hasValidQueryMetrics(qmEnabled)
+                .build();
+
+        validateQuerySuccess(queryObservable.byPage(5), validator, TIMEOUT);
+    }
+
+    @Test(groups = {"query"}, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
     public void queryDocumentsWithAggregate(Boolean qmEnabled) {
         int skipCount = 0;
         int takeCount = 10;
@@ -184,12 +249,12 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         // The pipeline execution sequence is Aggregrate, skip, and top/limit, hence finding the max from among the docs
         InternalObjectNode expectedDoc = docs
             .stream()
-            .max(Comparator.comparing(r -> ModelBridgeInternal.getIntFromJsonSerializable(r, field)))
+            .max(Comparator.comparing(r -> r.getInt(field)))
             .get();
 
         FeedResponseListValidator<JsonNode> validator =
             new FeedResponseListValidator.Builder<JsonNode>()
-                .withAggregateValue(ModelBridgeInternal.getIntFromJsonSerializable(expectedDoc, field))
+                .withAggregateValue(expectedDoc.getInt(field))
                 .numberOfPages(1)
                 .hasValidQueryMetrics(qmEnabled)
                 .build();
@@ -247,26 +312,34 @@ public class OffsetLimitQueryTests extends TestSuiteBase {
         for (int i = 0; i < 10; i++) {
             InternalObjectNode d = new InternalObjectNode();
             d.setId(Integer.toString(i));
-            BridgeInternal.setProperty(d, field, i);
-            BridgeInternal.setProperty(d, partitionKey, firstPk);
+            d.set(field, i, CosmosItemSerializer.DEFAULT_SERIALIZER);
+            d.set(partitionKey, firstPk, CosmosItemSerializer.DEFAULT_SERIALIZER);
             docs.add(d);
         }
 
         for (int i = 10; i < 20; i++) {
             InternalObjectNode d = new InternalObjectNode();
             d.setId(Integer.toString(i));
-            BridgeInternal.setProperty(d, field, i);
-            BridgeInternal.setProperty(d, partitionKey, secondPk);
+            d.set(field, i, CosmosItemSerializer.DEFAULT_SERIALIZER);
+            d.set(partitionKey, secondPk, CosmosItemSerializer.DEFAULT_SERIALIZER);
+            docs.add(d);
+        }
+
+        for (int i = 20; i < 100; i++) {
+            InternalObjectNode d = new InternalObjectNode();
+            d.setId(Integer.toString(i));
+            d.set(field, i, CosmosItemSerializer.DEFAULT_SERIALIZER);
+            d.set(partitionKey, thirdPk, CosmosItemSerializer.DEFAULT_SERIALIZER);
             docs.add(d);
         }
     }
 
-    @AfterClass(groups = {"simple"}, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
+    @AfterClass(groups = {"query"}, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
     public void afterClass() {
         safeClose(client);
     }
 
-    @BeforeClass(groups = {"simple"}, timeOut = 3 * SETUP_TIMEOUT)
+    @BeforeClass(groups = {"query"}, timeOut = 3 * SETUP_TIMEOUT)
     public void beforeClass() throws Exception {
         client = this.getClientBuilder().buildAsyncClient();
         createdCollection = getSharedMultiPartitionCosmosContainer(client);

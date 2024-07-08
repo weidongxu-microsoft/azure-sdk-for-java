@@ -9,11 +9,14 @@ import com.azure.resourcemanager.appservice.models.Channels;
 import com.azure.resourcemanager.appservice.models.NotificationLevel;
 import com.azure.resourcemanager.appservice.models.ResourceScopeType;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-/** Recommendation resource specific properties. */
+/**
+ * Recommendation resource specific properties.
+ */
 @Fluent
 public final class RecommendationProperties {
     /*
@@ -119,8 +122,7 @@ public final class RecommendationProperties {
     private OffsetDateTime notificationExpirationTime;
 
     /*
-     * Last timestamp in UTC this instance was actually notified. Null means that this recommendation hasn't been
-     * notified yet.
+     * Last timestamp in UTC this instance was actually notified. Null means that this recommendation hasn't been notified yet.
      */
     @JsonProperty(value = "notifiedTime")
     private OffsetDateTime notifiedTime;
@@ -155,7 +157,9 @@ public final class RecommendationProperties {
     @JsonProperty(value = "forwardLink")
     private String forwardLink;
 
-    /** Creates an instance of RecommendationProperties class. */
+    /**
+     * Creates an instance of RecommendationProperties class.
+     */
     public RecommendationProperties() {
     }
 

@@ -14,51 +14,36 @@ import org.junit.jupiter.api.Assertions;
 public final class DppWorkerRequestTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DppWorkerRequest model =
-            BinaryData
-                .fromString(
-                    "{\"subscriptionId\":\"etaebu\",\"uri\":\"vdmovsmzlxwabm\",\"headers\":{\"btndo\":[\"kif\",\"vtpuqujmqlgk\"],\"ed\":[\"n\",\"bjcntujitc\"]},\"supportedGroupVersions\":[\"waezkojvd\"],\"cultureInfo\":\"zfoqouicybxar\",\"parameters\":{\"x\":\"zuf\",\"khazxkhnzbonlwn\":\"iqopidoamciod\",\"szzcmrvexztv\":\"oegokdwbwh\",\"gsfraoyzkoow\":\"t\"},\"httpMethod\":\"mnguxawqaldsyu\"}")
-                .toObject(DppWorkerRequest.class);
-        Assertions.assertEquals("etaebu", model.subscriptionId());
-        Assertions.assertEquals("vdmovsmzlxwabm", model.uri());
-        Assertions.assertEquals("kif", model.headers().get("btndo").get(0));
-        Assertions.assertEquals("waezkojvd", model.supportedGroupVersions().get(0));
-        Assertions.assertEquals("zfoqouicybxar", model.cultureInfo());
-        Assertions.assertEquals("zuf", model.parameters().get("x"));
-        Assertions.assertEquals("mnguxawqaldsyu", model.httpMethod());
+        DppWorkerRequest model = BinaryData.fromString(
+            "{\"subscriptionId\":\"xt\",\"uri\":\"umh\",\"headers\":{\"qpvuzlmvfelf\":[\"kkxwslol\"]},\"supportedGroupVersions\":[\"plcrpwjxeznoig\",\"rnjwmw\",\"pn\",\"saz\"],\"cultureInfo\":\"joqkagfhsxt\",\"parameters\":{\"mkqjj\":\"gzxnfaazpxdtnk\",\"pyouaibrebqaays\":\"wuenvr\"},\"httpMethod\":\"ixqtn\"}")
+            .toObject(DppWorkerRequest.class);
+        Assertions.assertEquals("xt", model.subscriptionId());
+        Assertions.assertEquals("umh", model.uri());
+        Assertions.assertEquals("kkxwslol", model.headers().get("qpvuzlmvfelf").get(0));
+        Assertions.assertEquals("plcrpwjxeznoig", model.supportedGroupVersions().get(0));
+        Assertions.assertEquals("joqkagfhsxt", model.cultureInfo());
+        Assertions.assertEquals("gzxnfaazpxdtnk", model.parameters().get("mkqjj"));
+        Assertions.assertEquals("ixqtn", model.httpMethod());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DppWorkerRequest model =
-            new DppWorkerRequest()
-                .withSubscriptionId("etaebu")
-                .withUri("vdmovsmzlxwabm")
-                .withHeaders(
-                    mapOf("btndo", Arrays.asList("kif", "vtpuqujmqlgk"), "ed", Arrays.asList("n", "bjcntujitc")))
-                .withSupportedGroupVersions(Arrays.asList("waezkojvd"))
-                .withCultureInfo("zfoqouicybxar")
-                .withParameters(
-                    mapOf(
-                        "x",
-                        "zuf",
-                        "khazxkhnzbonlwn",
-                        "iqopidoamciod",
-                        "szzcmrvexztv",
-                        "oegokdwbwh",
-                        "gsfraoyzkoow",
-                        "t"))
-                .withHttpMethod("mnguxawqaldsyu");
+        DppWorkerRequest model = new DppWorkerRequest().withSubscriptionId("xt").withUri("umh")
+            .withHeaders(mapOf("qpvuzlmvfelf", Arrays.asList("kkxwslol")))
+            .withSupportedGroupVersions(Arrays.asList("plcrpwjxeznoig", "rnjwmw", "pn", "saz"))
+            .withCultureInfo("joqkagfhsxt")
+            .withParameters(mapOf("mkqjj", "gzxnfaazpxdtnk", "pyouaibrebqaays", "wuenvr")).withHttpMethod("ixqtn");
         model = BinaryData.fromObject(model).toObject(DppWorkerRequest.class);
-        Assertions.assertEquals("etaebu", model.subscriptionId());
-        Assertions.assertEquals("vdmovsmzlxwabm", model.uri());
-        Assertions.assertEquals("kif", model.headers().get("btndo").get(0));
-        Assertions.assertEquals("waezkojvd", model.supportedGroupVersions().get(0));
-        Assertions.assertEquals("zfoqouicybxar", model.cultureInfo());
-        Assertions.assertEquals("zuf", model.parameters().get("x"));
-        Assertions.assertEquals("mnguxawqaldsyu", model.httpMethod());
+        Assertions.assertEquals("xt", model.subscriptionId());
+        Assertions.assertEquals("umh", model.uri());
+        Assertions.assertEquals("kkxwslol", model.headers().get("qpvuzlmvfelf").get(0));
+        Assertions.assertEquals("plcrpwjxeznoig", model.supportedGroupVersions().get(0));
+        Assertions.assertEquals("joqkagfhsxt", model.cultureInfo());
+        Assertions.assertEquals("gzxnfaazpxdtnk", model.parameters().get("mkqjj"));
+        Assertions.assertEquals("ixqtn", model.httpMethod());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

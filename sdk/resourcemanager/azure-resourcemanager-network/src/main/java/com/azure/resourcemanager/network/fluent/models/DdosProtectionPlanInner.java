@@ -9,10 +9,13 @@ import com.azure.core.management.Resource;
 import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** A DDoS protection plan in a resource group. */
+/**
+ * A DDoS protection plan in a resource group.
+ */
 @Fluent
 public final class DdosProtectionPlanInner extends Resource {
     /*
@@ -27,7 +30,9 @@ public final class DdosProtectionPlanInner extends Resource {
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of DdosProtectionPlanInner class. */
+    /**
+     * Creates an instance of DdosProtectionPlanInner class.
+     */
     public DdosProtectionPlanInner() {
     }
 
@@ -49,14 +54,18 @@ public final class DdosProtectionPlanInner extends Resource {
         return this.etag;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DdosProtectionPlanInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DdosProtectionPlanInner withTags(Map<String, String> tags) {
         super.withTags(tags);

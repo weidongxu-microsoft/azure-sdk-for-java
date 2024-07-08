@@ -5,23 +5,30 @@
 package com.azure.resourcemanager.selfhelp.models;
 
 import com.azure.core.util.ExpandableStringEnum;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Importance level of the insight. */
+/**
+ * Importance level of the insight.
+ */
 public final class ImportanceLevel extends ExpandableStringEnum<ImportanceLevel> {
-    /** Static value Critical for ImportanceLevel. */
+    /**
+     * Static value Critical for ImportanceLevel.
+     */
     public static final ImportanceLevel CRITICAL = fromString("Critical");
 
-    /** Static value Warning for ImportanceLevel. */
+    /**
+     * Static value Warning for ImportanceLevel.
+     */
     public static final ImportanceLevel WARNING = fromString("Warning");
 
-    /** Static value Information for ImportanceLevel. */
+    /**
+     * Static value Information for ImportanceLevel.
+     */
     public static final ImportanceLevel INFORMATION = fromString("Information");
 
     /**
      * Creates a new instance of ImportanceLevel value.
-     *
+     * 
      * @deprecated Use the {@link #fromString(String)} factory method.
      */
     @Deprecated
@@ -30,18 +37,17 @@ public final class ImportanceLevel extends ExpandableStringEnum<ImportanceLevel>
 
     /**
      * Creates or finds a ImportanceLevel from its string representation.
-     *
+     * 
      * @param name a name to look for.
      * @return the corresponding ImportanceLevel.
      */
-    @JsonCreator
     public static ImportanceLevel fromString(String name) {
         return fromString(name, ImportanceLevel.class);
     }
 
     /**
      * Gets known ImportanceLevel values.
-     *
+     * 
      * @return known ImportanceLevel values.
      */
     public static Collection<ImportanceLevel> values() {

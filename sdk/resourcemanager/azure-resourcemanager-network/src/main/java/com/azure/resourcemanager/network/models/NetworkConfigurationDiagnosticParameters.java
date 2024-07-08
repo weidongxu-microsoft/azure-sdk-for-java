@@ -9,12 +9,13 @@ import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Parameters to get network configuration diagnostic. */
+/**
+ * Parameters to get network configuration diagnostic.
+ */
 @Fluent
 public final class NetworkConfigurationDiagnosticParameters {
     /*
-     * The ID of the target resource to perform network configuration diagnostic. Valid options are VM,
-     * NetworkInterface, VMSS/NetworkInterface and Application Gateway.
+     * The ID of the target resource to perform network configuration diagnostic. Valid options are VM, NetworkInterface, VMSS/NetworkInterface and Application Gateway.
      */
     @JsonProperty(value = "targetResourceId", required = true)
     private String targetResourceId;
@@ -31,14 +32,16 @@ public final class NetworkConfigurationDiagnosticParameters {
     @JsonProperty(value = "profiles", required = true)
     private List<NetworkConfigurationDiagnosticProfile> profiles;
 
-    /** Creates an instance of NetworkConfigurationDiagnosticParameters class. */
+    /**
+     * Creates an instance of NetworkConfigurationDiagnosticParameters class.
+     */
     public NetworkConfigurationDiagnosticParameters() {
     }
 
     /**
      * Get the targetResourceId property: The ID of the target resource to perform network configuration diagnostic.
      * Valid options are VM, NetworkInterface, VMSS/NetworkInterface and Application Gateway.
-     *
+     * 
      * @return the targetResourceId value.
      */
     public String targetResourceId() {
@@ -48,7 +51,7 @@ public final class NetworkConfigurationDiagnosticParameters {
     /**
      * Set the targetResourceId property: The ID of the target resource to perform network configuration diagnostic.
      * Valid options are VM, NetworkInterface, VMSS/NetworkInterface and Application Gateway.
-     *
+     * 
      * @param targetResourceId the targetResourceId value to set.
      * @return the NetworkConfigurationDiagnosticParameters object itself.
      */
@@ -59,7 +62,7 @@ public final class NetworkConfigurationDiagnosticParameters {
 
     /**
      * Get the verbosityLevel property: Verbosity level.
-     *
+     * 
      * @return the verbosityLevel value.
      */
     public VerbosityLevel verbosityLevel() {
@@ -68,7 +71,7 @@ public final class NetworkConfigurationDiagnosticParameters {
 
     /**
      * Set the verbosityLevel property: Verbosity level.
-     *
+     * 
      * @param verbosityLevel the verbosityLevel value to set.
      * @return the NetworkConfigurationDiagnosticParameters object itself.
      */
@@ -79,7 +82,7 @@ public final class NetworkConfigurationDiagnosticParameters {
 
     /**
      * Get the profiles property: List of network configuration diagnostic profiles.
-     *
+     * 
      * @return the profiles value.
      */
     public List<NetworkConfigurationDiagnosticProfile> profiles() {
@@ -88,7 +91,7 @@ public final class NetworkConfigurationDiagnosticParameters {
 
     /**
      * Set the profiles property: List of network configuration diagnostic profiles.
-     *
+     * 
      * @param profiles the profiles value to set.
      * @return the NetworkConfigurationDiagnosticParameters object itself.
      */
@@ -99,22 +102,19 @@ public final class NetworkConfigurationDiagnosticParameters {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (targetResourceId() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property targetResourceId in model"
-                            + " NetworkConfigurationDiagnosticParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property targetResourceId in model NetworkConfigurationDiagnosticParameters"));
         }
         if (profiles() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property profiles in model NetworkConfigurationDiagnosticParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property profiles in model NetworkConfigurationDiagnosticParameters"));
         } else {
             profiles().forEach(e -> e.validate());
         }

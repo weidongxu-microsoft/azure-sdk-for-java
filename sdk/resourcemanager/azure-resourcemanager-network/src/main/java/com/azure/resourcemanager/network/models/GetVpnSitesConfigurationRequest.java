@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** List of Vpn-Sites. */
+/**
+ * List of Vpn-Sites.
+ */
 @Fluent
 public final class GetVpnSitesConfigurationRequest {
     /*
@@ -24,7 +27,9 @@ public final class GetVpnSitesConfigurationRequest {
     @JsonProperty(value = "outputBlobSasUrl", required = true)
     private String outputBlobSasUrl;
 
-    /** Creates an instance of GetVpnSitesConfigurationRequest class. */
+    /**
+     * Creates an instance of GetVpnSitesConfigurationRequest class.
+     */
     public GetVpnSitesConfigurationRequest() {
     }
 
@@ -75,10 +80,9 @@ public final class GetVpnSitesConfigurationRequest {
      */
     public void validate() {
         if (outputBlobSasUrl() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property outputBlobSasUrl in model GetVpnSitesConfigurationRequest"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property outputBlobSasUrl in model GetVpnSitesConfigurationRequest"));
         }
     }
 

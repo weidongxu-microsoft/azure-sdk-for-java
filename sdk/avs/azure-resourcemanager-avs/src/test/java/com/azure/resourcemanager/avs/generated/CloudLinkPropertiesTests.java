@@ -11,17 +11,16 @@ import org.junit.jupiter.api.Assertions;
 public final class CloudLinkPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        CloudLinkProperties model =
-            BinaryData
-                .fromString("{\"status\":\"Disconnected\",\"linkedCloud\":\"kfcktqum\"}")
-                .toObject(CloudLinkProperties.class);
-        Assertions.assertEquals("kfcktqum", model.linkedCloud());
+        CloudLinkProperties model = BinaryData
+            .fromString("{\"provisioningState\":\"Succeeded\",\"status\":\"Building\",\"linkedCloud\":\"wsubisnja\"}")
+            .toObject(CloudLinkProperties.class);
+        Assertions.assertEquals("wsubisnja", model.linkedCloud());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        CloudLinkProperties model = new CloudLinkProperties().withLinkedCloud("kfcktqum");
+        CloudLinkProperties model = new CloudLinkProperties().withLinkedCloud("wsubisnja");
         model = BinaryData.fromObject(model).toObject(CloudLinkProperties.class);
-        Assertions.assertEquals("kfcktqum", model.linkedCloud());
+        Assertions.assertEquals("wsubisnja", model.linkedCloud());
     }
 }

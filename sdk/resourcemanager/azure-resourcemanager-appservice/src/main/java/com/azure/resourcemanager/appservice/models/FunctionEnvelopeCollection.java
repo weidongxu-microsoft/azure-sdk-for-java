@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.FunctionEnvelopeInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Kudu function information elements. */
+/**
+ * Collection of Kudu function information elements.
+ */
 @Fluent
 public final class FunctionEnvelopeCollection {
     /*
@@ -25,7 +28,9 @@ public final class FunctionEnvelopeCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of FunctionEnvelopeCollection class. */
+    /**
+     * Creates an instance of FunctionEnvelopeCollection class.
+     */
     public FunctionEnvelopeCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class FunctionEnvelopeCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model FunctionEnvelopeCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model FunctionEnvelopeCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

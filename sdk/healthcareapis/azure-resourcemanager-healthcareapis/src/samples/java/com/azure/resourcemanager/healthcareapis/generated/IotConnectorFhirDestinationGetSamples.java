@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.healthcareapis.generated;
 
-import com.azure.core.util.Context;
-
-/** Samples for IotConnectorFhirDestination Get. */
+/**
+ * Samples for IotConnectorFhirDestination Get.
+ */
 public final class IotConnectorFhirDestinationGetSamples {
     /*
-     * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_fhirdestination_Get.json
+     * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_fhirdestination_Get.json
      */
     /**
      * Sample code: Get an IoT Connector destination.
-     *
+     * 
      * @param manager Entry point to HealthcareApisManager.
      */
-    public static void getAnIoTConnectorDestination(
-        com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
-        manager.iotConnectorFhirDestinations().getWithResponse("testRG", "workspace1", "blue", "dest1", Context.NONE);
+    public static void
+        getAnIoTConnectorDestination(com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+        manager.iotConnectorFhirDestinations()
+            .getWithResponse("testRG", "workspace1", "blue", "dest1", com.azure.core.util.Context.NONE);
     }
 }

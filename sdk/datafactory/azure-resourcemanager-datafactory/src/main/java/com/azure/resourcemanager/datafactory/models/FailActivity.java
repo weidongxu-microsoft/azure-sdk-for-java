@@ -8,6 +8,7 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.FailActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
@@ -18,51 +19,96 @@ import java.util.List;
  * activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is
  * contained in it.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = FailActivity.class, visible = true)
 @JsonTypeName("Fail")
 @Fluent
 public final class FailActivity extends ControlActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Fail";
+
     /*
      * Fail activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private FailActivityTypeProperties innerTypeProperties = new FailActivityTypeProperties();
 
-    /** Creates an instance of FailActivity class. */
+    /**
+     * Creates an instance of FailActivity class.
+     */
     public FailActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Fail activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private FailActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FailActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FailActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FailActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FailActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FailActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FailActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -72,7 +118,7 @@ public final class FailActivity extends ControlActivity {
     /**
      * Get the message property: The error message that surfaced in the Fail activity. It can be dynamic content that's
      * evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the message value.
      */
     public Object message() {
@@ -82,7 +128,7 @@ public final class FailActivity extends ControlActivity {
     /**
      * Set the message property: The error message that surfaced in the Fail activity. It can be dynamic content that's
      * evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param message the message value to set.
      * @return the FailActivity object itself.
      */
@@ -98,7 +144,7 @@ public final class FailActivity extends ControlActivity {
      * Get the errorCode property: The error code that categorizes the error type of the Fail activity. It can be
      * dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the errorCode value.
      */
     public Object errorCode() {
@@ -109,7 +155,7 @@ public final class FailActivity extends ControlActivity {
      * Set the errorCode property: The error code that categorizes the error type of the Fail activity. It can be
      * dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param errorCode the errorCode value to set.
      * @return the FailActivity object itself.
      */
@@ -123,17 +169,16 @@ public final class FailActivity extends ControlActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model FailActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model FailActivity"));
         } else {
             innerTypeProperties().validate();
         }

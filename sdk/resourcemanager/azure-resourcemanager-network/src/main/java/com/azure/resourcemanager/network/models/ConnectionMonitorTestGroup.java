@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Describes the connection monitor test group. */
+/**
+ * Describes the connection monitor test group.
+ */
 @Fluent
 public final class ConnectionMonitorTestGroup {
     /*
@@ -42,7 +45,9 @@ public final class ConnectionMonitorTestGroup {
     @JsonProperty(value = "destinations", required = true)
     private List<String> destinations;
 
-    /** Creates an instance of ConnectionMonitorTestGroup class. */
+    /**
+     * Creates an instance of ConnectionMonitorTestGroup class.
+     */
     public ConnectionMonitorTestGroup() {
     }
 
@@ -153,27 +158,24 @@ public final class ConnectionMonitorTestGroup {
      */
     public void validate() {
         if (name() == null) {
-            throw LOGGER
-                .logExceptionAsError(
+            throw LOGGER.atError()
+                .log(
                     new IllegalArgumentException("Missing required property name in model ConnectionMonitorTestGroup"));
         }
         if (testConfigurations() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property testConfigurations in model ConnectionMonitorTestGroup"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property testConfigurations in model ConnectionMonitorTestGroup"));
         }
         if (sources() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property sources in model ConnectionMonitorTestGroup"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property sources in model ConnectionMonitorTestGroup"));
         }
         if (destinations() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property destinations in model ConnectionMonitorTestGroup"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property destinations in model ConnectionMonitorTestGroup"));
         }
     }
 

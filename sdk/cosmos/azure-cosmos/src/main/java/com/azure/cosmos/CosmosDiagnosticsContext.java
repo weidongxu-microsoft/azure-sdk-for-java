@@ -9,6 +9,7 @@ import com.azure.cosmos.implementation.DistinctClientSideRequestStatisticsCollec
 import com.azure.cosmos.implementation.FeedResponseDiagnostics;
 import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
 import com.azure.cosmos.implementation.OperationType;
+import com.azure.cosmos.implementation.OverridableRequestOptions;
 import com.azure.cosmos.implementation.RequestTimeline;
 import com.azure.cosmos.implementation.ResourceType;
 import com.azure.cosmos.implementation.Utils;
@@ -79,7 +80,14 @@ public final class CosmosDiagnosticsContext {
 
     private Double samplingRateSnapshot;
 
+    private boolean isSampledOut;
+
     private ArrayList<CosmosDiagnosticsRequestInfo> requestInfo = null;
+
+    private final Integer sequenceNumber;
+
+    private String queryStatement;
+    private OverridableRequestOptions requestOptions;
 
     CosmosDiagnosticsContext(
         String spanName,
@@ -95,7 +103,10 @@ public final class CosmosDiagnosticsContext {
         CosmosDiagnosticsThresholds thresholds,
         String trackingId,
         String connectionMode,
-        String userAgent) {
+        String userAgent,
+        Integer sequenceNumber,
+        String queryStatement,
+        OverridableRequestOptions requestOptions) {
 
         checkNotNull(spanName, "Argument 'spanName' must not be null.");
         checkNotNull(accountName, "Argument 'accountName' must not be null.");
@@ -124,6 +135,10 @@ public final class CosmosDiagnosticsContext {
         this.trackingId = trackingId;
         this.userAgent = userAgent;
         this.connectionMode = connectionMode;
+        this.sequenceNumber = sequenceNumber;
+        this.isSampledOut = false;
+        this.queryStatement = queryStatement;
+        this.requestOptions = requestOptions;
     }
 
     /**
@@ -204,6 +219,16 @@ public final class CosmosDiagnosticsContext {
     }
 
     /**
+     * For feed operations the sequence number allows identifying the order of diagnostics. For each page produced
+     * in the page flux the sequence number will be incremented by 1. For point operations the sequence number
+     * is always null.
+     * @return null for point operations or the monotonically increasing sequence number of pages/diagnostics
+     */
+    Integer getSequenceNumber() {
+        return this.sequenceNumber;
+    }
+
+    /**
      * The effective consistency level of the operation
      * @return the effective consistency level of the operation
      */
@@ -240,6 +265,14 @@ public final class CosmosDiagnosticsContext {
     }
 
     /**
+     * The query statement send by client
+     * @return the query statement
+     */
+    public String getQueryStatement() {
+        return this.queryStatement;
+    }
+
+    /**
      * Indicates whether the latency, request charge or payload size of the operation exceeded the given threshold
      * @return a flag indicating whether the latency, request charge or payload size of the operation
      * exceeded its threshold.
@@ -254,11 +287,13 @@ public final class CosmosDiagnosticsContext {
         }
 
         if (this.operationType.isPointOperation()) {
-            if (this.thresholds.getPointOperationLatencyThreshold().compareTo(this.duration) < 0) {
+            if (Duration.ZERO.equals(this.thresholds.getPointOperationLatencyThreshold())
+                || this.thresholds.getPointOperationLatencyThreshold().compareTo(this.duration) < 0) {
                 return true;
             }
         } else {
-            if (this.thresholds.getNonPointOperationLatencyThreshold().compareTo(this.duration) < 0) {
+            if (Duration.ZERO.equals(this.thresholds.getNonPointOperationLatencyThreshold())
+            || this.thresholds.getNonPointOperationLatencyThreshold().compareTo(this.duration) < 0) {
                 return true;
             }
         }
@@ -272,6 +307,16 @@ public final class CosmosDiagnosticsContext {
 
     void addDiagnostics(CosmosDiagnostics cosmosDiagnostics) {
         checkNotNull(cosmosDiagnostics, "Argument 'cosmosDiagnostics' must not be null.");
+        if (cosmosDiagnostics.getDiagnosticsContext() == this) {
+            return;
+        }
+
+        if (cosmosDiagnostics.getFeedResponseDiagnostics() != null &&
+            !diagAccessor.isDiagnosticsCapturedInPagedFlux(cosmosDiagnostics).get()) {
+
+            return;
+        }
+
         synchronized (this.spanName) {
             if (this.samplingRateSnapshot != null) {
                 diagAccessor.setSamplingRateSnapshot(cosmosDiagnostics, this.samplingRateSnapshot);
@@ -468,28 +513,40 @@ public final class CosmosDiagnosticsContext {
     }
 
     void startOperation() {
-        checkState(
-            this.startTime == null,
-            "Method 'startOperation' must not be called multiple times.");
         synchronized (this.spanName) {
+            checkState(
+                this.startTime == null,
+                "Method 'startOperation' must not be called multiple times.");
             this.startTime = Instant.now();
 
             this.cachedRequestDiagnostics = null;
         }
     }
 
-    synchronized boolean endOperation(int statusCode, int subStatusCode, Integer actualItemCount, Throwable finalError) {
+    boolean endOperation(int statusCode,
+                                      int subStatusCode,
+                                      Integer actualItemCount,
+                                      Double requestCharge,
+                                      CosmosDiagnostics diagnostics,
+                                      Throwable finalError) {
         synchronized (this.spanName) {
             boolean hasCompletedOperation = this.isCompleted.compareAndSet(false, true);
             if (hasCompletedOperation) {
-                this.recordOperation(statusCode, subStatusCode, actualItemCount, finalError);
+                this.recordOperation(
+                    statusCode, subStatusCode, actualItemCount, requestCharge, diagnostics, finalError);
             }
 
             return hasCompletedOperation;
         }
     }
 
-    synchronized void recordOperation(int statusCode, int subStatusCode, Integer actualItemCount, Throwable finalError) {
+    void recordOperation(int statusCode,
+                                      int subStatusCode,
+                                      Integer actualItemCount,
+                                      Double requestCharge,
+                                      CosmosDiagnostics diagnostics,
+                                      Throwable finalError) {
+
         synchronized (this.spanName) {
             this.statusCode = statusCode;
             this.subStatusCode = subStatusCode;
@@ -499,16 +556,37 @@ public final class CosmosDiagnosticsContext {
                     this.actualItemCount.addAndGet(actualItemCount);
                 }
             }
-            this.duration = Duration.between(this.startTime, Instant.now());
+
+            if (this.startTime != null) {
+                this.duration = Duration.between(this.startTime, Instant.now());
+            } else {
+                this.duration = null;
+            }
+
+            if (diagnostics != null) {
+                this.addDiagnostics(diagnostics);
+            }
+
+            if (requestCharge != null) {
+                this.addRequestCharge(requestCharge.floatValue());
+            }
+
             this.cachedRequestDiagnostics = null;
         }
     }
 
-    synchronized void setSamplingRateSnapshot(double samplingRate) {
-        this.samplingRateSnapshot = samplingRate;
-        for (CosmosDiagnostics d : this.diagnostics) {
-            diagAccessor.setSamplingRateSnapshot(d, samplingRate);
+    void setSamplingRateSnapshot(double samplingRate, boolean isSampledOut) {
+        synchronized (this.spanName) {
+            this.samplingRateSnapshot = samplingRate;
+            this.isSampledOut = isSampledOut;
+            for (CosmosDiagnostics d : this.diagnostics) {
+                diagAccessor.setSamplingRateSnapshot(d, samplingRate);
+            }
         }
+    }
+
+    boolean isSampledOut() {
+        return this.isSampledOut;
     }
 
     String getRequestDiagnostics() {
@@ -528,6 +606,9 @@ public final class CosmosDiagnosticsContext {
         if (this.trackingId != null && !this.trackingId.isEmpty()) {
             ctxNode.put("trackingId", this.trackingId);
         }
+        if (this.sequenceNumber != null) {
+            ctxNode.put("sequenceNumber", this.sequenceNumber);
+        }
         ctxNode.put("consistency", this.consistencyLevel.toString());
         ctxNode.put("status", this.statusCode);
         if (this.subStatusCode != 0) {
@@ -545,8 +626,16 @@ public final class CosmosDiagnosticsContext {
             ctxNode.put("actualItems", this.actualItemCount.get());
         }
 
+        if (this.queryStatement != null && queryStatement.length() > 0) {
+            ctxNode.put("queryStatement", this.queryStatement);
+        }
+
         if (this.finalError != null) {
-            ctxNode.put("exception", this.finalError.toString());
+            if (this.finalError instanceof CosmosException) {
+                ctxNode.put("exception", ((CosmosException)this.finalError).toString(false));
+            } else {
+                ctxNode.put("exception", this.finalError.getMessage());
+            }
         }
 
         if (this.diagnostics != null && this.diagnostics.size() > 0) {
@@ -655,7 +744,7 @@ public final class CosmosDiagnosticsContext {
     private static void addRequestInfoForStoreResponses(
         ClientSideRequestStatistics requestStats,
         List<CosmosDiagnosticsRequestInfo> requestInfo,
-        List<ClientSideRequestStatistics.StoreResponseStatistics> storeResponses) {
+        Collection<ClientSideRequestStatistics.StoreResponseStatistics> storeResponses) {
 
         for (ClientSideRequestStatistics.StoreResponseStatistics responseStats: storeResponses) {
 
@@ -826,6 +915,14 @@ public final class CosmosDiagnosticsContext {
         }
     }
 
+    OverridableRequestOptions getRequestOptions() {
+        return this.requestOptions;
+    }
+
+    void setRequestOptions(OverridableRequestOptions requestOptions) {
+        this.requestOptions = requestOptions;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////
     // the following helper/accessor only helps to access this class outside of this package.//
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -844,7 +941,10 @@ public final class CosmosDiagnosticsContext {
                                                            String operationId,
                                                            ConsistencyLevel consistencyLevel, Integer maxItemCount,
                                                            CosmosDiagnosticsThresholds thresholds, String trackingId,
-                                                           String connectionMode, String userAgent) {
+                                                           String connectionMode, String userAgent,
+                                                           Integer sequenceNumber,
+                                                           String queryStatement,
+                                                           OverridableRequestOptions requestOptions) {
 
                         return new CosmosDiagnosticsContext(
                             spanName,
@@ -860,7 +960,23 @@ public final class CosmosDiagnosticsContext {
                             thresholds,
                             trackingId,
                             connectionMode,
-                            userAgent);
+                            userAgent,
+                            sequenceNumber,
+                            queryStatement,
+                            requestOptions
+                            );
+                    }
+
+                    @Override
+                    public OverridableRequestOptions getRequestOptions(CosmosDiagnosticsContext ctx) {
+                        checkNotNull(ctx, "Argument 'ctx' must not be null.");
+                        return ctx.getRequestOptions();
+                    }
+
+                    @Override
+                    public void setRequestOptions(CosmosDiagnosticsContext ctx, OverridableRequestOptions requestOptions) {
+                        checkNotNull(ctx, "Argument 'ctx' must not be null.");
+                        ctx.setRequestOptions(requestOptions);
                     }
 
                     @Override
@@ -878,23 +994,7 @@ public final class CosmosDiagnosticsContext {
                     public void recordOperation(CosmosDiagnosticsContext ctx, int statusCode, int subStatusCode,
                                                 Integer actualItemCount, Double requestCharge,
                                                 CosmosDiagnostics diagnostics, Throwable finalError) {
-                        validateAndRecordOperationResult(ctx, requestCharge, diagnostics);
-                        ctx.recordOperation(statusCode, subStatusCode, actualItemCount, finalError);
-                    }
-
-                    private void validateAndRecordOperationResult(
-                        CosmosDiagnosticsContext ctx,
-                        Double requestCharge,
-                        CosmosDiagnostics diagnostics) {
-
-                        checkNotNull(ctx, "Argument 'ctx' must not be null.");
-                        if (diagnostics != null) {
-                            ctx.addDiagnostics(diagnostics);
-                        }
-
-                        if (requestCharge != null) {
-                            ctx.addRequestCharge(requestCharge.floatValue());
-                        }
+                        ctx.recordOperation(statusCode, subStatusCode, actualItemCount, requestCharge, diagnostics, finalError);
                     }
 
                     @Override
@@ -902,8 +1002,7 @@ public final class CosmosDiagnosticsContext {
                                              Integer actualItemCount, Double requestCharge,
                                              CosmosDiagnostics diagnostics, Throwable finalError) {
 
-                        validateAndRecordOperationResult(ctx, requestCharge, diagnostics);
-                        return ctx.endOperation(statusCode, subStatusCode, actualItemCount, finalError);
+                        return ctx.endOperation(statusCode, subStatusCode, actualItemCount, requestCharge, diagnostics, finalError);
                     }
 
                     @Override
@@ -968,9 +1067,32 @@ public final class CosmosDiagnosticsContext {
                     }
 
                     @Override
-                    public void setSamplingRateSnapshot(CosmosDiagnosticsContext ctx, double samplingRate) {
+                    public void setSamplingRateSnapshot(CosmosDiagnosticsContext ctx, double samplingRate, boolean isSampledOut) {
                         checkNotNull(ctx, "Argument 'ctx' must not be null.");
-                        ctx.setSamplingRateSnapshot(samplingRate);
+                        ctx.setSamplingRateSnapshot(samplingRate, isSampledOut);
+                    }
+
+                    @Override
+                    public Integer getSequenceNumber(CosmosDiagnosticsContext ctx) {
+                        checkNotNull(ctx, "Argument 'ctx' must not be null.");
+                        return ctx.getSequenceNumber();
+                    }
+
+                    @Override
+                    public boolean isEmptyCompletion(CosmosDiagnosticsContext ctx) {
+                        checkNotNull(ctx, "Argument 'ctx' must not be null.");
+                        Integer sequenceNumber = ctx.getSequenceNumber();
+                        if (sequenceNumber == null || sequenceNumber == 1) {
+                            return false;
+                        }
+
+                        return true;
+                    }
+
+                    @Override
+                    public String getQueryStatement(CosmosDiagnosticsContext ctx) {
+                        checkNotNull(ctx, "Argument 'ctx' must not be null.");
+                        return ctx.getQueryStatement();
                     }
                 });
     }

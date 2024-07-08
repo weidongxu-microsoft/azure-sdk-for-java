@@ -7,24 +7,21 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.MetadataItem;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class MetadataItemTests {
-    @Test
-    public void testDeserialize() {
-        MetadataItem model =
-            BinaryData
-                .fromString("{\"name\":\"ouyftaakc\",\"value\":\"wiyzvqtmnubexkp\"}")
-                .toObject(MetadataItem.class);
-        Assertions.assertEquals("ouyftaakc", model.name());
-        Assertions.assertEquals("wiyzvqtmnubexkp", model.value());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        MetadataItem model
+            = BinaryData.fromString("{\"name\":\"qkvpuvksgplsakn\",\"value\":\"n\"}").toObject(MetadataItem.class);
+        Assertions.assertEquals("qkvpuvksgplsakn", model.name());
+        Assertions.assertEquals("n", model.value());
     }
 
-    @Test
-    public void testSerialize() {
-        MetadataItem model = new MetadataItem().withName("ouyftaakc").withValue("wiyzvqtmnubexkp");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        MetadataItem model = new MetadataItem().withName("qkvpuvksgplsakn").withValue("n");
         model = BinaryData.fromObject(model).toObject(MetadataItem.class);
-        Assertions.assertEquals("ouyftaakc", model.name());
-        Assertions.assertEquals("wiyzvqtmnubexkp", model.value());
+        Assertions.assertEquals("qkvpuvksgplsakn", model.name());
+        Assertions.assertEquals("n", model.value());
     }
 }

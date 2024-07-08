@@ -8,71 +8,127 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.AzureMLUpdateResourceActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Azure ML Update Resource management activity. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Azure ML Update Resource management activity.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = AzureMLUpdateResourceActivity.class,
+    visible = true)
 @JsonTypeName("AzureMLUpdateResource")
 @Fluent
 public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
     /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureMLUpdateResource";
+
+    /*
      * Azure ML Update Resource management activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private AzureMLUpdateResourceActivityTypeProperties innerTypeProperties =
-        new AzureMLUpdateResourceActivityTypeProperties();
+    private AzureMLUpdateResourceActivityTypeProperties innerTypeProperties
+        = new AzureMLUpdateResourceActivityTypeProperties();
 
-    /** Creates an instance of AzureMLUpdateResourceActivity class. */
+    /**
+     * Creates an instance of AzureMLUpdateResourceActivity class.
+     */
     public AzureMLUpdateResourceActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Azure ML Update Resource management activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AzureMLUpdateResourceActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureMLUpdateResourceActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureMLUpdateResourceActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureMLUpdateResourceActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureMLUpdateResourceActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureMLUpdateResourceActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureMLUpdateResourceActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureMLUpdateResourceActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureMLUpdateResourceActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -82,7 +138,7 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
     /**
      * Get the trainedModelName property: Name of the Trained Model module in the Web Service experiment to be updated.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the trainedModelName value.
      */
     public Object trainedModelName() {
@@ -92,7 +148,7 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
     /**
      * Set the trainedModelName property: Name of the Trained Model module in the Web Service experiment to be updated.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @param trainedModelName the trainedModelName value to set.
      * @return the AzureMLUpdateResourceActivity object itself.
      */
@@ -107,7 +163,7 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
     /**
      * Get the trainedModelLinkedServiceName property: Name of Azure Storage linked service holding the .ilearner file
      * that will be uploaded by the update operation.
-     *
+     * 
      * @return the trainedModelLinkedServiceName value.
      */
     public LinkedServiceReference trainedModelLinkedServiceName() {
@@ -117,12 +173,12 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
     /**
      * Set the trainedModelLinkedServiceName property: Name of Azure Storage linked service holding the .ilearner file
      * that will be uploaded by the update operation.
-     *
+     * 
      * @param trainedModelLinkedServiceName the trainedModelLinkedServiceName value to set.
      * @return the AzureMLUpdateResourceActivity object itself.
      */
-    public AzureMLUpdateResourceActivity withTrainedModelLinkedServiceName(
-        LinkedServiceReference trainedModelLinkedServiceName) {
+    public AzureMLUpdateResourceActivity
+        withTrainedModelLinkedServiceName(LinkedServiceReference trainedModelLinkedServiceName) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new AzureMLUpdateResourceActivityTypeProperties();
         }
@@ -134,7 +190,7 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
      * Get the trainedModelFilePath property: The relative file path in trainedModelLinkedService to represent the
      * .ilearner file that will be uploaded by the update operation. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the trainedModelFilePath value.
      */
     public Object trainedModelFilePath() {
@@ -145,7 +201,7 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
      * Set the trainedModelFilePath property: The relative file path in trainedModelLinkedService to represent the
      * .ilearner file that will be uploaded by the update operation. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param trainedModelFilePath the trainedModelFilePath value to set.
      * @return the AzureMLUpdateResourceActivity object itself.
      */
@@ -159,17 +215,16 @@ public final class AzureMLUpdateResourceActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model AzureMLUpdateResourceActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model AzureMLUpdateResourceActivity"));
         } else {
             innerTypeProperties().validate();
         }

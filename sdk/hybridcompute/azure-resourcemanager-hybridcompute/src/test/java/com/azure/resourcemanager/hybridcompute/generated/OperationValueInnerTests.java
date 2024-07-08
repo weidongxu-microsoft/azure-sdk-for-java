@@ -11,11 +11,9 @@ import com.azure.resourcemanager.hybridcompute.models.OperationValueDisplay;
 public final class OperationValueInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        OperationValueInner model =
-            BinaryData
-                .fromString(
-                    "{\"origin\":\"dzxibqeojnxqbzvd\",\"name\":\"t\",\"display\":{\"operation\":\"eic\",\"resource\":\"w\",\"description\":\"zao\",\"provider\":\"uhrhcffcyddgl\"}}")
-                .toObject(OperationValueInner.class);
+        OperationValueInner model = BinaryData.fromString(
+            "{\"origin\":\"tbobz\",\"name\":\"pcjwv\",\"display\":{\"operation\":\"ld\",\"resource\":\"gx\",\"description\":\"rslpmutwuoeg\",\"provider\":\"khjwn\"},\"isDataAction\":false}")
+            .toObject(OperationValueInner.class);
     }
 
     @org.junit.jupiter.api.Test

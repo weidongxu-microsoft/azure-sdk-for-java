@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.HybridConnectionInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of hostname bindings. */
+/**
+ * Collection of hostname bindings.
+ */
 @Fluent
 public final class HybridConnectionCollection {
     /*
@@ -25,7 +28,9 @@ public final class HybridConnectionCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of HybridConnectionCollection class. */
+    /**
+     * Creates an instance of HybridConnectionCollection class.
+     */
     public HybridConnectionCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class HybridConnectionCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model HybridConnectionCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model HybridConnectionCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

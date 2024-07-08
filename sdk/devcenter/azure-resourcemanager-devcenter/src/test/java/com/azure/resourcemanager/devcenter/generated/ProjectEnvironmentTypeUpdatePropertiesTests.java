@@ -17,39 +17,33 @@ import org.junit.jupiter.api.Assertions;
 public final class ProjectEnvironmentTypeUpdatePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ProjectEnvironmentTypeUpdateProperties model =
-            BinaryData
-                .fromString(
-                    "{\"deploymentTargetId\":\"smtxpsieb\",\"status\":\"Disabled\",\"creatorRoleAssignment\":{\"roles\":{\"tkncwsc\":{\"roleName\":\"apskrdqm\",\"description\":\"jdhtldwkyzxu\"}}},\"userRoleAssignments\":{\"otogtwrupqs\":{\"roles\":{}},\"micykvceoveilo\":{\"roles\":{}},\"tyfjfcnjbkcnxdhb\":{\"roles\":{}},\"phywpnvj\":{\"roles\":{}}}}")
-                .toObject(ProjectEnvironmentTypeUpdateProperties.class);
-        Assertions.assertEquals("smtxpsieb", model.deploymentTargetId());
-        Assertions.assertEquals(EnvironmentTypeEnableStatus.DISABLED, model.status());
+        ProjectEnvironmentTypeUpdateProperties model = BinaryData.fromString(
+            "{\"deploymentTargetId\":\"dvstkw\",\"displayName\":\"tchealmf\",\"status\":\"Enabled\",\"creatorRoleAssignment\":{\"roles\":{\"udxepxgyqagv\":{\"roleName\":\"dvwvgpio\",\"description\":\"wxrt\"},\"j\":{\"roleName\":\"mnpkukghimdblxg\",\"description\":\"mfnjh\"}}},\"userRoleAssignments\":{\"vxwc\":{\"roles\":{\"a\":{\"roleName\":\"kfoqreyfkzikfj\",\"description\":\"n\"}}},\"zikhl\":{\"roles\":{\"abfatkl\":{\"roleName\":\"c\",\"description\":\"elsfeaen\"},\"xagl\":{\"roleName\":\"xbjhwuaanozjosph\",\"description\":\"ulpjr\"},\"fcktqumiekke\":{\"roleName\":\"imjwosyt\",\"description\":\"tcs\"}}}}}")
+            .toObject(ProjectEnvironmentTypeUpdateProperties.class);
+        Assertions.assertEquals("dvstkw", model.deploymentTargetId());
+        Assertions.assertEquals("tchealmf", model.displayName());
+        Assertions.assertEquals(EnvironmentTypeEnableStatus.ENABLED, model.status());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ProjectEnvironmentTypeUpdateProperties model =
-            new ProjectEnvironmentTypeUpdateProperties()
-                .withDeploymentTargetId("smtxpsieb")
-                .withStatus(EnvironmentTypeEnableStatus.DISABLED)
-                .withCreatorRoleAssignment(
-                    new ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment()
-                        .withRoles(mapOf("tkncwsc", new EnvironmentRole())))
+        ProjectEnvironmentTypeUpdateProperties model
+            = new ProjectEnvironmentTypeUpdateProperties().withDeploymentTargetId("dvstkw")
+                .withDisplayName("tchealmf")
+                .withStatus(EnvironmentTypeEnableStatus.ENABLED)
+                .withCreatorRoleAssignment(new ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment()
+                    .withRoles(mapOf("udxepxgyqagv", new EnvironmentRole(), "j", new EnvironmentRole())))
                 .withUserRoleAssignments(
-                    mapOf(
-                        "otogtwrupqs",
-                        new UserRoleAssignmentValue().withRoles(mapOf()),
-                        "micykvceoveilo",
-                        new UserRoleAssignmentValue().withRoles(mapOf()),
-                        "tyfjfcnjbkcnxdhb",
-                        new UserRoleAssignmentValue().withRoles(mapOf()),
-                        "phywpnvj",
-                        new UserRoleAssignmentValue().withRoles(mapOf())));
+                    mapOf("vxwc", new UserRoleAssignmentValue().withRoles(mapOf("a", new EnvironmentRole())), "zikhl",
+                        new UserRoleAssignmentValue().withRoles(mapOf("abfatkl", new EnvironmentRole(), "xagl",
+                            new EnvironmentRole(), "fcktqumiekke", new EnvironmentRole()))));
         model = BinaryData.fromObject(model).toObject(ProjectEnvironmentTypeUpdateProperties.class);
-        Assertions.assertEquals("smtxpsieb", model.deploymentTargetId());
-        Assertions.assertEquals(EnvironmentTypeEnableStatus.DISABLED, model.status());
+        Assertions.assertEquals("dvstkw", model.deploymentTargetId());
+        Assertions.assertEquals("tchealmf", model.displayName());
+        Assertions.assertEquals(EnvironmentTypeEnableStatus.ENABLED, model.status());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

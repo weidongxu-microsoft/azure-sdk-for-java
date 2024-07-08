@@ -11,20 +11,18 @@ import org.junit.jupiter.api.Assertions;
 public final class ContainerAppProbeTcpSocketTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ContainerAppProbeTcpSocket model =
-            BinaryData
-                .fromString("{\"host\":\"qdpfuvglsbjjca\",\"port\":615108235}")
-                .toObject(ContainerAppProbeTcpSocket.class);
-        Assertions.assertEquals("qdpfuvglsbjjca", model.host());
-        Assertions.assertEquals(615108235, model.port());
+        ContainerAppProbeTcpSocket model = BinaryData.fromString("{\"host\":\"mrsreuzvxurisjnh\",\"port\":1189641650}")
+            .toObject(ContainerAppProbeTcpSocket.class);
+        Assertions.assertEquals("mrsreuzvxurisjnh", model.host());
+        Assertions.assertEquals(1189641650, model.port());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ContainerAppProbeTcpSocket model =
-            new ContainerAppProbeTcpSocket().withHost("qdpfuvglsbjjca").withPort(615108235);
+        ContainerAppProbeTcpSocket model
+            = new ContainerAppProbeTcpSocket().withHost("mrsreuzvxurisjnh").withPort(1189641650);
         model = BinaryData.fromObject(model).toObject(ContainerAppProbeTcpSocket.class);
-        Assertions.assertEquals("qdpfuvglsbjjca", model.host());
-        Assertions.assertEquals(615108235, model.port());
+        Assertions.assertEquals("mrsreuzvxurisjnh", model.host());
+        Assertions.assertEquals(1189641650, model.port());
     }
 }

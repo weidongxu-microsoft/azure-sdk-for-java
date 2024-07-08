@@ -7,6 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitAuthorizationInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -26,7 +27,9 @@ public final class AuthorizationListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of AuthorizationListResult class. */
+    /**
+     * Creates an instance of AuthorizationListResult class.
+     */
     public AuthorizationListResult() {
     }
 

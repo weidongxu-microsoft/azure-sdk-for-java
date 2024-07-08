@@ -6,15 +6,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Azure VM (Mercury) workload-specific backup policy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "backupManagementType")
+/**
+ * Azure VM (Mercury) workload-specific backup policy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "backupManagementType",
+    defaultImpl = AzureVmWorkloadProtectionPolicy.class,
+    visible = true)
 @JsonTypeName("AzureWorkload")
 @Fluent
 public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "backupManagementType", required = true)
+    private String backupManagementType = "AzureWorkload";
+
     /*
      * Type of workload for the backup management
      */
@@ -39,13 +53,26 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
     @JsonProperty(value = "makePolicyConsistent")
     private Boolean makePolicyConsistent;
 
-    /** Creates an instance of AzureVmWorkloadProtectionPolicy class. */
+    /**
+     * Creates an instance of AzureVmWorkloadProtectionPolicy class.
+     */
     public AzureVmWorkloadProtectionPolicy() {
     }
 
     /**
+     * Get the backupManagementType property: This property will be used as the discriminator for deciding the specific
+     * types in the polymorphic chain of types.
+     * 
+     * @return the backupManagementType value.
+     */
+    @Override
+    public String backupManagementType() {
+        return this.backupManagementType;
+    }
+
+    /**
      * Get the workLoadType property: Type of workload for the backup management.
-     *
+     * 
      * @return the workLoadType value.
      */
     public WorkloadType workLoadType() {
@@ -54,7 +81,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the workLoadType property: Type of workload for the backup management.
-     *
+     * 
      * @param workLoadType the workLoadType value to set.
      * @return the AzureVmWorkloadProtectionPolicy object itself.
      */
@@ -65,7 +92,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Get the settings property: Common settings for the backup management.
-     *
+     * 
      * @return the settings value.
      */
     public Settings settings() {
@@ -74,7 +101,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the settings property: Common settings for the backup management.
-     *
+     * 
      * @param settings the settings value to set.
      * @return the AzureVmWorkloadProtectionPolicy object itself.
      */
@@ -85,7 +112,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Get the subProtectionPolicy property: List of sub-protection policies which includes schedule and retention.
-     *
+     * 
      * @return the subProtectionPolicy value.
      */
     public List<SubProtectionPolicy> subProtectionPolicy() {
@@ -94,7 +121,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the subProtectionPolicy property: List of sub-protection policies which includes schedule and retention.
-     *
+     * 
      * @param subProtectionPolicy the subProtectionPolicy value to set.
      * @return the AzureVmWorkloadProtectionPolicy object itself.
      */
@@ -105,7 +132,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Get the makePolicyConsistent property: Fix the policy inconsistency.
-     *
+     * 
      * @return the makePolicyConsistent value.
      */
     public Boolean makePolicyConsistent() {
@@ -114,7 +141,7 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the makePolicyConsistent property: Fix the policy inconsistency.
-     *
+     * 
      * @param makePolicyConsistent the makePolicyConsistent value to set.
      * @return the AzureVmWorkloadProtectionPolicy object itself.
      */
@@ -123,24 +150,28 @@ public final class AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadProtectionPolicy withProtectedItemsCount(Integer protectedItemsCount) {
         super.withProtectedItemsCount(protectedItemsCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadProtectionPolicy withResourceGuardOperationRequests(
-        List<String> resourceGuardOperationRequests) {
+    public AzureVmWorkloadProtectionPolicy
+        withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
         return this;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

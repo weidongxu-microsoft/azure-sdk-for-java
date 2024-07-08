@@ -14,9 +14,12 @@ import com.azure.resourcemanager.appservice.models.StaticSiteLinkedBackend;
 import com.azure.resourcemanager.appservice.models.StaticSiteTemplateOptions;
 import com.azure.resourcemanager.appservice.models.StaticSiteUserProvidedFunctionApp;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** A static site. */
+/**
+ * A static site.
+ */
 @Fluent
 public final class StaticSite {
     /*
@@ -116,8 +119,7 @@ public final class StaticSite {
     private EnterpriseGradeCdnStatus enterpriseGradeCdnStatus;
 
     /*
-     * State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled',
-     * 'Disabled' or an empty string.
+     * State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string.
      */
     @JsonProperty(value = "publicNetworkAccess")
     private String publicNetworkAccess;
@@ -128,7 +130,9 @@ public final class StaticSite {
     @JsonProperty(value = "databaseConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<DatabaseConnectionOverview> databaseConnections;
 
-    /** Creates an instance of StaticSite class. */
+    /**
+     * Creates an instance of StaticSite class.
+     */
     public StaticSite() {
     }
 

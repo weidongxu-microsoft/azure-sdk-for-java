@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.SqlServerTableDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The on-premises SQL Server dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The on-premises SQL Server dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SqlServerTableDataset.class, visible = true)
 @JsonTypeName("SqlServerTable")
 @Fluent
 public final class SqlServerTableDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SqlServerTable";
+
     /*
      * On-premises SQL Server dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private SqlServerTableDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of SqlServerTableDataset class. */
+    /**
+     * Creates an instance of SqlServerTableDataset class.
+     */
     public SqlServerTableDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: On-premises SQL Server dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SqlServerTableDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerTableDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class SqlServerTableDataset extends Dataset {
     /**
      * Get the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -98,7 +134,7 @@ public final class SqlServerTableDataset extends Dataset {
     /**
      * Set the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the SqlServerTableDataset object itself.
      */
@@ -113,7 +149,7 @@ public final class SqlServerTableDataset extends Dataset {
     /**
      * Get the schema property: The schema name of the SQL Server dataset. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the schema value.
      */
     public Object schemaTypePropertiesSchema() {
@@ -123,7 +159,7 @@ public final class SqlServerTableDataset extends Dataset {
     /**
      * Set the schema property: The schema name of the SQL Server dataset. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param schema the schema value to set.
      * @return the SqlServerTableDataset object itself.
      */
@@ -138,7 +174,7 @@ public final class SqlServerTableDataset extends Dataset {
     /**
      * Get the table property: The table name of the SQL Server dataset. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the table value.
      */
     public Object table() {
@@ -148,7 +184,7 @@ public final class SqlServerTableDataset extends Dataset {
     /**
      * Set the table property: The table name of the SQL Server dataset. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param table the table value to set.
      * @return the SqlServerTableDataset object itself.
      */
@@ -162,7 +198,7 @@ public final class SqlServerTableDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

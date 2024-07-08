@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.devcenter.implementation;
 
 import com.azure.core.annotation.ServiceClient;
+import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpResponse;
@@ -12,8 +13,8 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.exception.ManagementError;
 import com.azure.core.management.exception.ManagementException;
-import com.azure.core.management.polling.PollResult;
 import com.azure.core.management.polling.PollerFactory;
+import com.azure.core.management.polling.PollResult;
 import com.azure.core.util.Context;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
@@ -25,18 +26,22 @@ import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.resourcemanager.devcenter.fluent.AttachedNetworksClient;
 import com.azure.resourcemanager.devcenter.fluent.CatalogsClient;
 import com.azure.resourcemanager.devcenter.fluent.CheckNameAvailabilitiesClient;
+import com.azure.resourcemanager.devcenter.fluent.CheckScopedNameAvailabilitiesClient;
 import com.azure.resourcemanager.devcenter.fluent.DevBoxDefinitionsClient;
 import com.azure.resourcemanager.devcenter.fluent.DevCenterManagementClient;
 import com.azure.resourcemanager.devcenter.fluent.DevCentersClient;
+import com.azure.resourcemanager.devcenter.fluent.EnvironmentDefinitionsClient;
 import com.azure.resourcemanager.devcenter.fluent.EnvironmentTypesClient;
 import com.azure.resourcemanager.devcenter.fluent.GalleriesClient;
-import com.azure.resourcemanager.devcenter.fluent.ImageVersionsClient;
 import com.azure.resourcemanager.devcenter.fluent.ImagesClient;
+import com.azure.resourcemanager.devcenter.fluent.ImageVersionsClient;
 import com.azure.resourcemanager.devcenter.fluent.NetworkConnectionsClient;
-import com.azure.resourcemanager.devcenter.fluent.OperationStatusesClient;
 import com.azure.resourcemanager.devcenter.fluent.OperationsClient;
+import com.azure.resourcemanager.devcenter.fluent.OperationStatusesClient;
 import com.azure.resourcemanager.devcenter.fluent.PoolsClient;
 import com.azure.resourcemanager.devcenter.fluent.ProjectAllowedEnvironmentTypesClient;
+import com.azure.resourcemanager.devcenter.fluent.ProjectCatalogEnvironmentDefinitionsClient;
+import com.azure.resourcemanager.devcenter.fluent.ProjectCatalogsClient;
 import com.azure.resourcemanager.devcenter.fluent.ProjectEnvironmentTypesClient;
 import com.azure.resourcemanager.devcenter.fluent.ProjectsClient;
 import com.azure.resourcemanager.devcenter.fluent.SchedulesClient;
@@ -51,303 +56,411 @@ import java.time.Duration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** Initializes a new instance of the DevCenterManagementClientImpl type. */
+/**
+ * Initializes a new instance of the DevCenterManagementClientImpl type.
+ */
 @ServiceClient(builder = DevCenterManagementClientBuilder.class)
 public final class DevCenterManagementClientImpl implements DevCenterManagementClient {
-    /** The ID of the target subscription. */
+    /**
+     * The ID of the target subscription.
+     */
     private final String subscriptionId;
 
     /**
      * Gets The ID of the target subscription.
-     *
+     * 
      * @return the subscriptionId value.
      */
     public String getSubscriptionId() {
         return this.subscriptionId;
     }
 
-    /** server parameter. */
+    /**
+     * server parameter.
+     */
     private final String endpoint;
 
     /**
      * Gets server parameter.
-     *
+     * 
      * @return the endpoint value.
      */
     public String getEndpoint() {
         return this.endpoint;
     }
 
-    /** Api Version. */
+    /**
+     * Api Version.
+     */
     private final String apiVersion;
 
     /**
      * Gets Api Version.
-     *
+     * 
      * @return the apiVersion value.
      */
     public String getApiVersion() {
         return this.apiVersion;
     }
 
-    /** The HTTP pipeline to send requests through. */
+    /**
+     * The HTTP pipeline to send requests through.
+     */
     private final HttpPipeline httpPipeline;
 
     /**
      * Gets The HTTP pipeline to send requests through.
-     *
+     * 
      * @return the httpPipeline value.
      */
     public HttpPipeline getHttpPipeline() {
         return this.httpPipeline;
     }
 
-    /** The serializer to serialize an object into a string. */
+    /**
+     * The serializer to serialize an object into a string.
+     */
     private final SerializerAdapter serializerAdapter;
 
     /**
      * Gets The serializer to serialize an object into a string.
-     *
+     * 
      * @return the serializerAdapter value.
      */
     SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;
     }
 
-    /** The default poll interval for long-running operation. */
+    /**
+     * The default poll interval for long-running operation.
+     */
     private final Duration defaultPollInterval;
 
     /**
      * Gets The default poll interval for long-running operation.
-     *
+     * 
      * @return the defaultPollInterval value.
      */
     public Duration getDefaultPollInterval() {
         return this.defaultPollInterval;
     }
 
-    /** The DevCentersClient object to access its operations. */
+    /**
+     * The DevCentersClient object to access its operations.
+     */
     private final DevCentersClient devCenters;
 
     /**
      * Gets the DevCentersClient object to access its operations.
-     *
+     * 
      * @return the DevCentersClient object.
      */
     public DevCentersClient getDevCenters() {
         return this.devCenters;
     }
 
-    /** The ProjectsClient object to access its operations. */
+    /**
+     * The ProjectsClient object to access its operations.
+     */
     private final ProjectsClient projects;
 
     /**
      * Gets the ProjectsClient object to access its operations.
-     *
+     * 
      * @return the ProjectsClient object.
      */
     public ProjectsClient getProjects() {
         return this.projects;
     }
 
-    /** The AttachedNetworksClient object to access its operations. */
+    /**
+     * The AttachedNetworksClient object to access its operations.
+     */
     private final AttachedNetworksClient attachedNetworks;
 
     /**
      * Gets the AttachedNetworksClient object to access its operations.
-     *
+     * 
      * @return the AttachedNetworksClient object.
      */
     public AttachedNetworksClient getAttachedNetworks() {
         return this.attachedNetworks;
     }
 
-    /** The GalleriesClient object to access its operations. */
+    /**
+     * The ProjectCatalogsClient object to access its operations.
+     */
+    private final ProjectCatalogsClient projectCatalogs;
+
+    /**
+     * Gets the ProjectCatalogsClient object to access its operations.
+     * 
+     * @return the ProjectCatalogsClient object.
+     */
+    public ProjectCatalogsClient getProjectCatalogs() {
+        return this.projectCatalogs;
+    }
+
+    /**
+     * The EnvironmentDefinitionsClient object to access its operations.
+     */
+    private final EnvironmentDefinitionsClient environmentDefinitions;
+
+    /**
+     * Gets the EnvironmentDefinitionsClient object to access its operations.
+     * 
+     * @return the EnvironmentDefinitionsClient object.
+     */
+    public EnvironmentDefinitionsClient getEnvironmentDefinitions() {
+        return this.environmentDefinitions;
+    }
+
+    /**
+     * The ProjectCatalogEnvironmentDefinitionsClient object to access its operations.
+     */
+    private final ProjectCatalogEnvironmentDefinitionsClient projectCatalogEnvironmentDefinitions;
+
+    /**
+     * Gets the ProjectCatalogEnvironmentDefinitionsClient object to access its operations.
+     * 
+     * @return the ProjectCatalogEnvironmentDefinitionsClient object.
+     */
+    public ProjectCatalogEnvironmentDefinitionsClient getProjectCatalogEnvironmentDefinitions() {
+        return this.projectCatalogEnvironmentDefinitions;
+    }
+
+    /**
+     * The GalleriesClient object to access its operations.
+     */
     private final GalleriesClient galleries;
 
     /**
      * Gets the GalleriesClient object to access its operations.
-     *
+     * 
      * @return the GalleriesClient object.
      */
     public GalleriesClient getGalleries() {
         return this.galleries;
     }
 
-    /** The ImagesClient object to access its operations. */
+    /**
+     * The ImagesClient object to access its operations.
+     */
     private final ImagesClient images;
 
     /**
      * Gets the ImagesClient object to access its operations.
-     *
+     * 
      * @return the ImagesClient object.
      */
     public ImagesClient getImages() {
         return this.images;
     }
 
-    /** The ImageVersionsClient object to access its operations. */
+    /**
+     * The ImageVersionsClient object to access its operations.
+     */
     private final ImageVersionsClient imageVersions;
 
     /**
      * Gets the ImageVersionsClient object to access its operations.
-     *
+     * 
      * @return the ImageVersionsClient object.
      */
     public ImageVersionsClient getImageVersions() {
         return this.imageVersions;
     }
 
-    /** The CatalogsClient object to access its operations. */
+    /**
+     * The CatalogsClient object to access its operations.
+     */
     private final CatalogsClient catalogs;
 
     /**
      * Gets the CatalogsClient object to access its operations.
-     *
+     * 
      * @return the CatalogsClient object.
      */
     public CatalogsClient getCatalogs() {
         return this.catalogs;
     }
 
-    /** The EnvironmentTypesClient object to access its operations. */
+    /**
+     * The EnvironmentTypesClient object to access its operations.
+     */
     private final EnvironmentTypesClient environmentTypes;
 
     /**
      * Gets the EnvironmentTypesClient object to access its operations.
-     *
+     * 
      * @return the EnvironmentTypesClient object.
      */
     public EnvironmentTypesClient getEnvironmentTypes() {
         return this.environmentTypes;
     }
 
-    /** The ProjectAllowedEnvironmentTypesClient object to access its operations. */
+    /**
+     * The ProjectAllowedEnvironmentTypesClient object to access its operations.
+     */
     private final ProjectAllowedEnvironmentTypesClient projectAllowedEnvironmentTypes;
 
     /**
      * Gets the ProjectAllowedEnvironmentTypesClient object to access its operations.
-     *
+     * 
      * @return the ProjectAllowedEnvironmentTypesClient object.
      */
     public ProjectAllowedEnvironmentTypesClient getProjectAllowedEnvironmentTypes() {
         return this.projectAllowedEnvironmentTypes;
     }
 
-    /** The ProjectEnvironmentTypesClient object to access its operations. */
+    /**
+     * The ProjectEnvironmentTypesClient object to access its operations.
+     */
     private final ProjectEnvironmentTypesClient projectEnvironmentTypes;
 
     /**
      * Gets the ProjectEnvironmentTypesClient object to access its operations.
-     *
+     * 
      * @return the ProjectEnvironmentTypesClient object.
      */
     public ProjectEnvironmentTypesClient getProjectEnvironmentTypes() {
         return this.projectEnvironmentTypes;
     }
 
-    /** The DevBoxDefinitionsClient object to access its operations. */
+    /**
+     * The DevBoxDefinitionsClient object to access its operations.
+     */
     private final DevBoxDefinitionsClient devBoxDefinitions;
 
     /**
      * Gets the DevBoxDefinitionsClient object to access its operations.
-     *
+     * 
      * @return the DevBoxDefinitionsClient object.
      */
     public DevBoxDefinitionsClient getDevBoxDefinitions() {
         return this.devBoxDefinitions;
     }
 
-    /** The OperationsClient object to access its operations. */
+    /**
+     * The OperationsClient object to access its operations.
+     */
     private final OperationsClient operations;
 
     /**
      * Gets the OperationsClient object to access its operations.
-     *
+     * 
      * @return the OperationsClient object.
      */
     public OperationsClient getOperations() {
         return this.operations;
     }
 
-    /** The OperationStatusesClient object to access its operations. */
+    /**
+     * The OperationStatusesClient object to access its operations.
+     */
     private final OperationStatusesClient operationStatuses;
 
     /**
      * Gets the OperationStatusesClient object to access its operations.
-     *
+     * 
      * @return the OperationStatusesClient object.
      */
     public OperationStatusesClient getOperationStatuses() {
         return this.operationStatuses;
     }
 
-    /** The UsagesClient object to access its operations. */
+    /**
+     * The UsagesClient object to access its operations.
+     */
     private final UsagesClient usages;
 
     /**
      * Gets the UsagesClient object to access its operations.
-     *
+     * 
      * @return the UsagesClient object.
      */
     public UsagesClient getUsages() {
         return this.usages;
     }
 
-    /** The CheckNameAvailabilitiesClient object to access its operations. */
+    /**
+     * The CheckNameAvailabilitiesClient object to access its operations.
+     */
     private final CheckNameAvailabilitiesClient checkNameAvailabilities;
 
     /**
      * Gets the CheckNameAvailabilitiesClient object to access its operations.
-     *
+     * 
      * @return the CheckNameAvailabilitiesClient object.
      */
     public CheckNameAvailabilitiesClient getCheckNameAvailabilities() {
         return this.checkNameAvailabilities;
     }
 
-    /** The SkusClient object to access its operations. */
+    /**
+     * The CheckScopedNameAvailabilitiesClient object to access its operations.
+     */
+    private final CheckScopedNameAvailabilitiesClient checkScopedNameAvailabilities;
+
+    /**
+     * Gets the CheckScopedNameAvailabilitiesClient object to access its operations.
+     * 
+     * @return the CheckScopedNameAvailabilitiesClient object.
+     */
+    public CheckScopedNameAvailabilitiesClient getCheckScopedNameAvailabilities() {
+        return this.checkScopedNameAvailabilities;
+    }
+
+    /**
+     * The SkusClient object to access its operations.
+     */
     private final SkusClient skus;
 
     /**
      * Gets the SkusClient object to access its operations.
-     *
+     * 
      * @return the SkusClient object.
      */
     public SkusClient getSkus() {
         return this.skus;
     }
 
-    /** The PoolsClient object to access its operations. */
+    /**
+     * The PoolsClient object to access its operations.
+     */
     private final PoolsClient pools;
 
     /**
      * Gets the PoolsClient object to access its operations.
-     *
+     * 
      * @return the PoolsClient object.
      */
     public PoolsClient getPools() {
         return this.pools;
     }
 
-    /** The SchedulesClient object to access its operations. */
+    /**
+     * The SchedulesClient object to access its operations.
+     */
     private final SchedulesClient schedules;
 
     /**
      * Gets the SchedulesClient object to access its operations.
-     *
+     * 
      * @return the SchedulesClient object.
      */
     public SchedulesClient getSchedules() {
         return this.schedules;
     }
 
-    /** The NetworkConnectionsClient object to access its operations. */
+    /**
+     * The NetworkConnectionsClient object to access its operations.
+     */
     private final NetworkConnectionsClient networkConnections;
 
     /**
      * Gets the NetworkConnectionsClient object to access its operations.
-     *
+     * 
      * @return the NetworkConnectionsClient object.
      */
     public NetworkConnectionsClient getNetworkConnections() {
@@ -356,7 +469,7 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
 
     /**
      * Initializes an instance of DevCenterManagementClient client.
-     *
+     * 
      * @param httpPipeline The HTTP pipeline to send requests through.
      * @param serializerAdapter The serializer to serialize an object into a string.
      * @param defaultPollInterval The default poll interval for long-running operation.
@@ -364,22 +477,20 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
      * @param subscriptionId The ID of the target subscription.
      * @param endpoint server parameter.
      */
-    DevCenterManagementClientImpl(
-        HttpPipeline httpPipeline,
-        SerializerAdapter serializerAdapter,
-        Duration defaultPollInterval,
-        AzureEnvironment environment,
-        String subscriptionId,
-        String endpoint) {
+    DevCenterManagementClientImpl(HttpPipeline httpPipeline, SerializerAdapter serializerAdapter,
+        Duration defaultPollInterval, AzureEnvironment environment, String subscriptionId, String endpoint) {
         this.httpPipeline = httpPipeline;
         this.serializerAdapter = serializerAdapter;
         this.defaultPollInterval = defaultPollInterval;
         this.subscriptionId = subscriptionId;
         this.endpoint = endpoint;
-        this.apiVersion = "2023-04-01";
+        this.apiVersion = "2024-02-01";
         this.devCenters = new DevCentersClientImpl(this);
         this.projects = new ProjectsClientImpl(this);
         this.attachedNetworks = new AttachedNetworksClientImpl(this);
+        this.projectCatalogs = new ProjectCatalogsClientImpl(this);
+        this.environmentDefinitions = new EnvironmentDefinitionsClientImpl(this);
+        this.projectCatalogEnvironmentDefinitions = new ProjectCatalogEnvironmentDefinitionsClientImpl(this);
         this.galleries = new GalleriesClientImpl(this);
         this.images = new ImagesClientImpl(this);
         this.imageVersions = new ImageVersionsClientImpl(this);
@@ -392,6 +503,7 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
         this.operationStatuses = new OperationStatusesClientImpl(this);
         this.usages = new UsagesClientImpl(this);
         this.checkNameAvailabilities = new CheckNameAvailabilitiesClientImpl(this);
+        this.checkScopedNameAvailabilities = new CheckScopedNameAvailabilitiesClientImpl(this);
         this.skus = new SkusClientImpl(this);
         this.pools = new PoolsClientImpl(this);
         this.schedules = new SchedulesClientImpl(this);
@@ -400,7 +512,7 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
 
     /**
      * Gets default client context.
-     *
+     * 
      * @return the default client context.
      */
     public Context getContext() {
@@ -409,7 +521,7 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
 
     /**
      * Merges default client context with provided context.
-     *
+     * 
      * @param context the context to be merged with default client context.
      * @return the merged context.
      */
@@ -419,7 +531,7 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
 
     /**
      * Gets long running operation result.
-     *
+     * 
      * @param activationResponse the response of activation operation.
      * @param httpPipeline the http pipeline.
      * @param pollResultType type of poll result.
@@ -429,26 +541,15 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
      * @param <U> type of final result.
      * @return poller flux for poll result and final result.
      */
-    public <T, U> PollerFlux<PollResult<T>, U> getLroResult(
-        Mono<Response<Flux<ByteBuffer>>> activationResponse,
-        HttpPipeline httpPipeline,
-        Type pollResultType,
-        Type finalResultType,
-        Context context) {
-        return PollerFactory
-            .create(
-                serializerAdapter,
-                httpPipeline,
-                pollResultType,
-                finalResultType,
-                defaultPollInterval,
-                activationResponse,
-                context);
+    public <T, U> PollerFlux<PollResult<T>, U> getLroResult(Mono<Response<Flux<ByteBuffer>>> activationResponse,
+        HttpPipeline httpPipeline, Type pollResultType, Type finalResultType, Context context) {
+        return PollerFactory.create(serializerAdapter, httpPipeline, pollResultType, finalResultType,
+            defaultPollInterval, activationResponse, context);
     }
 
     /**
      * Gets the final result, or an error, based on last async poll response.
-     *
+     * 
      * @param response the last async poll response.
      * @param <T> type of poll result.
      * @param <U> type of final result.
@@ -461,19 +562,16 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
             HttpResponse errorResponse = null;
             PollResult.Error lroError = response.getValue().getError();
             if (lroError != null) {
-                errorResponse =
-                    new HttpResponseImpl(
-                        lroError.getResponseStatusCode(), lroError.getResponseHeaders(), lroError.getResponseBody());
+                errorResponse = new HttpResponseImpl(lroError.getResponseStatusCode(), lroError.getResponseHeaders(),
+                    lroError.getResponseBody());
 
                 errorMessage = response.getValue().getError().getMessage();
                 String errorBody = response.getValue().getError().getResponseBody();
                 if (errorBody != null) {
                     // try to deserialize error body to ManagementError
                     try {
-                        managementError =
-                            this
-                                .getSerializerAdapter()
-                                .deserialize(errorBody, ManagementError.class, SerializerEncoding.JSON);
+                        managementError = this.getSerializerAdapter()
+                            .deserialize(errorBody, ManagementError.class, SerializerEncoding.JSON);
                         if (managementError.getCode() == null || managementError.getMessage() == null) {
                             managementError = null;
                         }
@@ -514,7 +612,7 @@ public final class DevCenterManagementClientImpl implements DevCenterManagementC
         }
 
         public String getHeaderValue(String s) {
-            return httpHeaders.getValue(s);
+            return httpHeaders.getValue(HttpHeaderName.fromString(s));
         }
 
         public HttpHeaders getHeaders() {

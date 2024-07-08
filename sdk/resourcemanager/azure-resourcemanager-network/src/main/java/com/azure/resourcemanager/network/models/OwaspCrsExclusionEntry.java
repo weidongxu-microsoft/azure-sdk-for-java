@@ -9,7 +9,9 @@ import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Allow to exclude some variable satisfy the condition for the WAF check. */
+/**
+ * Allow to exclude some variable satisfy the condition for the WAF check.
+ */
 @Fluent
 public final class OwaspCrsExclusionEntry {
     /*
@@ -19,15 +21,13 @@ public final class OwaspCrsExclusionEntry {
     private OwaspCrsExclusionEntryMatchVariable matchVariable;
 
     /*
-     * When matchVariable is a collection, operate on the selector to specify which elements in the collection this
-     * exclusion applies to.
+     * When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.
      */
     @JsonProperty(value = "selectorMatchOperator", required = true)
     private OwaspCrsExclusionEntrySelectorMatchOperator selectorMatchOperator;
 
     /*
-     * When matchVariable is a collection, operator used to specify which elements in the collection this exclusion
-     * applies to.
+     * When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to.
      */
     @JsonProperty(value = "selector", required = true)
     private String selector;
@@ -38,13 +38,15 @@ public final class OwaspCrsExclusionEntry {
     @JsonProperty(value = "exclusionManagedRuleSets")
     private List<ExclusionManagedRuleSet> exclusionManagedRuleSets;
 
-    /** Creates an instance of OwaspCrsExclusionEntry class. */
+    /**
+     * Creates an instance of OwaspCrsExclusionEntry class.
+     */
     public OwaspCrsExclusionEntry() {
     }
 
     /**
      * Get the matchVariable property: The variable to be excluded.
-     *
+     * 
      * @return the matchVariable value.
      */
     public OwaspCrsExclusionEntryMatchVariable matchVariable() {
@@ -53,7 +55,7 @@ public final class OwaspCrsExclusionEntry {
 
     /**
      * Set the matchVariable property: The variable to be excluded.
-     *
+     * 
      * @param matchVariable the matchVariable value to set.
      * @return the OwaspCrsExclusionEntry object itself.
      */
@@ -65,7 +67,7 @@ public final class OwaspCrsExclusionEntry {
     /**
      * Get the selectorMatchOperator property: When matchVariable is a collection, operate on the selector to specify
      * which elements in the collection this exclusion applies to.
-     *
+     * 
      * @return the selectorMatchOperator value.
      */
     public OwaspCrsExclusionEntrySelectorMatchOperator selectorMatchOperator() {
@@ -75,12 +77,12 @@ public final class OwaspCrsExclusionEntry {
     /**
      * Set the selectorMatchOperator property: When matchVariable is a collection, operate on the selector to specify
      * which elements in the collection this exclusion applies to.
-     *
+     * 
      * @param selectorMatchOperator the selectorMatchOperator value to set.
      * @return the OwaspCrsExclusionEntry object itself.
      */
-    public OwaspCrsExclusionEntry withSelectorMatchOperator(
-        OwaspCrsExclusionEntrySelectorMatchOperator selectorMatchOperator) {
+    public OwaspCrsExclusionEntry
+        withSelectorMatchOperator(OwaspCrsExclusionEntrySelectorMatchOperator selectorMatchOperator) {
         this.selectorMatchOperator = selectorMatchOperator;
         return this;
     }
@@ -88,7 +90,7 @@ public final class OwaspCrsExclusionEntry {
     /**
      * Get the selector property: When matchVariable is a collection, operator used to specify which elements in the
      * collection this exclusion applies to.
-     *
+     * 
      * @return the selector value.
      */
     public String selector() {
@@ -98,7 +100,7 @@ public final class OwaspCrsExclusionEntry {
     /**
      * Set the selector property: When matchVariable is a collection, operator used to specify which elements in the
      * collection this exclusion applies to.
-     *
+     * 
      * @param selector the selector value to set.
      * @return the OwaspCrsExclusionEntry object itself.
      */
@@ -109,7 +111,7 @@ public final class OwaspCrsExclusionEntry {
 
     /**
      * Get the exclusionManagedRuleSets property: The managed rule sets that are associated with the exclusion.
-     *
+     * 
      * @return the exclusionManagedRuleSets value.
      */
     public List<ExclusionManagedRuleSet> exclusionManagedRuleSets() {
@@ -118,7 +120,7 @@ public final class OwaspCrsExclusionEntry {
 
     /**
      * Set the exclusionManagedRuleSets property: The managed rule sets that are associated with the exclusion.
-     *
+     * 
      * @param exclusionManagedRuleSets the exclusionManagedRuleSets value to set.
      * @return the OwaspCrsExclusionEntry object itself.
      */
@@ -129,25 +131,23 @@ public final class OwaspCrsExclusionEntry {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (matchVariable() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property matchVariable in model OwaspCrsExclusionEntry"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property matchVariable in model OwaspCrsExclusionEntry"));
         }
         if (selectorMatchOperator() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property selectorMatchOperator in model OwaspCrsExclusionEntry"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property selectorMatchOperator in model OwaspCrsExclusionEntry"));
         }
         if (selector() == null) {
-            throw LOGGER
-                .logExceptionAsError(
+            throw LOGGER.atError()
+                .log(
                     new IllegalArgumentException("Missing required property selector in model OwaspCrsExclusionEntry"));
         }
         if (exclusionManagedRuleSets() != null) {

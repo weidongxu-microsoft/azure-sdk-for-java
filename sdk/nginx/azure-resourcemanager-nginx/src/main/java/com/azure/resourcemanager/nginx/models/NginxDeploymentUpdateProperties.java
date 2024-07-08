@@ -7,7 +7,9 @@ package com.azure.resourcemanager.nginx.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The NginxDeploymentUpdateProperties model. */
+/**
+ * The NginxDeploymentUpdateProperties model.
+ */
 @Fluent
 public final class NginxDeploymentUpdateProperties {
     /*
@@ -22,13 +24,33 @@ public final class NginxDeploymentUpdateProperties {
     @JsonProperty(value = "logging")
     private NginxLogging logging;
 
-    /** Creates an instance of NginxDeploymentUpdateProperties class. */
+    /*
+     * Information on how the deployment will be scaled.
+     */
+    @JsonProperty(value = "scalingProperties")
+    private NginxDeploymentScalingProperties scalingProperties;
+
+    /*
+     * The userProfile property.
+     */
+    @JsonProperty(value = "userProfile")
+    private NginxDeploymentUserProfile userProfile;
+
+    /*
+     * Autoupgrade settings of a deployment.
+     */
+    @JsonProperty(value = "autoUpgradeProfile")
+    private AutoUpgradeProfile autoUpgradeProfile;
+
+    /**
+     * Creates an instance of NginxDeploymentUpdateProperties class.
+     */
     public NginxDeploymentUpdateProperties() {
     }
 
     /**
      * Get the enableDiagnosticsSupport property: The enableDiagnosticsSupport property.
-     *
+     * 
      * @return the enableDiagnosticsSupport value.
      */
     public Boolean enableDiagnosticsSupport() {
@@ -37,7 +59,7 @@ public final class NginxDeploymentUpdateProperties {
 
     /**
      * Set the enableDiagnosticsSupport property: The enableDiagnosticsSupport property.
-     *
+     * 
      * @param enableDiagnosticsSupport the enableDiagnosticsSupport value to set.
      * @return the NginxDeploymentUpdateProperties object itself.
      */
@@ -48,7 +70,7 @@ public final class NginxDeploymentUpdateProperties {
 
     /**
      * Get the logging property: The logging property.
-     *
+     * 
      * @return the logging value.
      */
     public NginxLogging logging() {
@@ -57,7 +79,7 @@ public final class NginxDeploymentUpdateProperties {
 
     /**
      * Set the logging property: The logging property.
-     *
+     * 
      * @param logging the logging value to set.
      * @return the NginxDeploymentUpdateProperties object itself.
      */
@@ -67,13 +89,82 @@ public final class NginxDeploymentUpdateProperties {
     }
 
     /**
+     * Get the scalingProperties property: Information on how the deployment will be scaled.
+     * 
+     * @return the scalingProperties value.
+     */
+    public NginxDeploymentScalingProperties scalingProperties() {
+        return this.scalingProperties;
+    }
+
+    /**
+     * Set the scalingProperties property: Information on how the deployment will be scaled.
+     * 
+     * @param scalingProperties the scalingProperties value to set.
+     * @return the NginxDeploymentUpdateProperties object itself.
+     */
+    public NginxDeploymentUpdateProperties withScalingProperties(NginxDeploymentScalingProperties scalingProperties) {
+        this.scalingProperties = scalingProperties;
+        return this;
+    }
+
+    /**
+     * Get the userProfile property: The userProfile property.
+     * 
+     * @return the userProfile value.
+     */
+    public NginxDeploymentUserProfile userProfile() {
+        return this.userProfile;
+    }
+
+    /**
+     * Set the userProfile property: The userProfile property.
+     * 
+     * @param userProfile the userProfile value to set.
+     * @return the NginxDeploymentUpdateProperties object itself.
+     */
+    public NginxDeploymentUpdateProperties withUserProfile(NginxDeploymentUserProfile userProfile) {
+        this.userProfile = userProfile;
+        return this;
+    }
+
+    /**
+     * Get the autoUpgradeProfile property: Autoupgrade settings of a deployment.
+     * 
+     * @return the autoUpgradeProfile value.
+     */
+    public AutoUpgradeProfile autoUpgradeProfile() {
+        return this.autoUpgradeProfile;
+    }
+
+    /**
+     * Set the autoUpgradeProfile property: Autoupgrade settings of a deployment.
+     * 
+     * @param autoUpgradeProfile the autoUpgradeProfile value to set.
+     * @return the NginxDeploymentUpdateProperties object itself.
+     */
+    public NginxDeploymentUpdateProperties withAutoUpgradeProfile(AutoUpgradeProfile autoUpgradeProfile) {
+        this.autoUpgradeProfile = autoUpgradeProfile;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (logging() != null) {
             logging().validate();
+        }
+        if (scalingProperties() != null) {
+            scalingProperties().validate();
+        }
+        if (userProfile() != null) {
+            userProfile().validate();
+        }
+        if (autoUpgradeProfile() != null) {
+            autoUpgradeProfile().validate();
         }
     }
 }

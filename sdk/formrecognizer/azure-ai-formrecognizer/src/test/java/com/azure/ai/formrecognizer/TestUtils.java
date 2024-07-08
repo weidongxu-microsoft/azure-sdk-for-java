@@ -7,14 +7,10 @@ import com.azure.ai.formrecognizer.models.FormRecognizerAudience;
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpClient;
 import com.azure.core.test.InterceptorManager;
-import com.azure.core.test.models.TestProxySanitizer;
-import com.azure.core.test.models.TestProxySanitizerType;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.FluxUtil;
 import com.azure.core.util.polling.SyncPoller;
-import com.azure.core.util.serializer.JacksonAdapter;
-import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.identity.AzureAuthorityHosts;
 import org.junit.jupiter.params.provider.Arguments;
 import reactor.test.StepVerifier;
@@ -38,8 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Contains helper methods for generating inputs for test methods
  */
 final class TestUtils {
-    private static final String REDACTED_VALUE = "REDACTED";
-    private static final String URL_REGEX = "(?<=http://|https://)([^/?]+)";
     // Duration
     static final Duration ONE_NANO_DURATION = Duration.ofMillis(1);
     // Local test files
@@ -63,7 +57,8 @@ final class TestUtils {
     static final String VALID_HTTPS_LOCALHOST = "https://localhost:8080";
     static final String VALID_HTTP_LOCALHOST = "http://localhost:8080";
     static final String VALID_URL = "https://resources/contoso-allinone.jpg";
-
+    // Disables OperationLocation and Location Sanitizer
+    static final String[] REMOVE_SANITIZER_ID = {"AZSDK2003", "AZSDK2030"};
     private TestUtils() {
     }
 
@@ -110,10 +105,6 @@ final class TestUtils {
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Local file not found.", e);
         }
-    }
-
-    static SerializerAdapter getSerializerAdapter() {
-        return JacksonAdapter.createDefaultSerializerAdapter();
     }
 
     /**
@@ -177,16 +168,6 @@ final class TestUtils {
         return interceptorManager.isPlaybackMode()
             ? syncPoller.setPollInterval(Duration.ofMillis(1))
             : syncPoller;
-    }
-
-    public static List<TestProxySanitizer> getTestProxySanitizers() {
-        return Arrays.asList(
-            new TestProxySanitizer("$..targetModelLocation", null, REDACTED_VALUE, TestProxySanitizerType.BODY_KEY),
-            new TestProxySanitizer("$..targetResourceId", null, REDACTED_VALUE, TestProxySanitizerType.BODY_KEY),
-            new TestProxySanitizer("$..urlSource", null, REDACTED_VALUE, TestProxySanitizerType.BODY_KEY),
-            new TestProxySanitizer("$..azureBlobSource.containerUrl", null, REDACTED_VALUE, TestProxySanitizerType.BODY_KEY),
-            new TestProxySanitizer("$..source", null, REDACTED_VALUE, TestProxySanitizerType.BODY_KEY),
-            new TestProxySanitizer("$..resourceLocation", null, REDACTED_VALUE, TestProxySanitizerType.BODY_KEY));
     }
 }
 

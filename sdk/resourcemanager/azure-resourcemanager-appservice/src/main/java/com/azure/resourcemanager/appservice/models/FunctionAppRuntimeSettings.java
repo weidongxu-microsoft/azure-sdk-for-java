@@ -7,11 +7,14 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Function App runtime settings. */
+/**
+ * Function App runtime settings.
+ */
 @Immutable
 public final class FunctionAppRuntimeSettings {
     /*
@@ -99,7 +102,9 @@ public final class FunctionAppRuntimeSettings {
     @JsonProperty(value = "isDefault", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean isDefault;
 
-    /** Creates an instance of FunctionAppRuntimeSettings class. */
+    /**
+     * Creates an instance of FunctionAppRuntimeSettings class.
+     */
     public FunctionAppRuntimeSettings() {
     }
 

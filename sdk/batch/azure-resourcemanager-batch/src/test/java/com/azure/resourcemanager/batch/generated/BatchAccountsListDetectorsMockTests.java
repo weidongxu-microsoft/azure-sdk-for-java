@@ -12,7 +12,6 @@ import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
-import com.azure.core.util.Context;
 import com.azure.resourcemanager.batch.BatchManager;
 import com.azure.resourcemanager.batch.models.DetectorResponse;
 import java.nio.ByteBuffer;
@@ -32,38 +31,27 @@ public final class BatchAccountsListDetectorsMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"value\":[{\"properties\":{\"value\":\"rjaltolmncw\"},\"etag\":\"bqwcsdbnwdcf\",\"id\":\"ucqdpfuvglsb\",\"name\":\"jcanvxbvtvudut\",\"type\":\"cormr\"}]}";
+        String responseStr
+            = "{\"value\":[{\"properties\":{\"value\":\"iby\"},\"etag\":\"dl\",\"id\":\"h\",\"name\":\"hfwpracstwit\",\"type\":\"khevxccedc\"}]}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        BatchManager manager =
-            BatchManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        BatchManager manager = BatchManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        PagedIterable<DetectorResponse> response =
-            manager.batchAccounts().listDetectors("uyqaxzfeqztppr", "o", Context.NONE);
+        PagedIterable<DetectorResponse> response
+            = manager.batchAccounts().listDetectors("r", "qvujzraehtwdwrf", com.azure.core.util.Context.NONE);
 
-        Assertions.assertEquals("rjaltolmncw", response.iterator().next().value());
+        Assertions.assertEquals("iby", response.iterator().next().value());
     }
 }

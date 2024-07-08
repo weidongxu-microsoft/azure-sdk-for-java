@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.models.ListUsagesResult;
 public final class ListUsagesResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ListUsagesResult model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"currentValue\":5460739394049509501,\"limit\":8841790636704603719,\"unit\":\"Count\",\"name\":{\"localizedValue\":\"wqapnedgfbcvk\",\"value\":\"q\"}},{\"currentValue\":6395460850482092633,\"limit\":4392400281438783051,\"unit\":\"Count\",\"name\":{\"localizedValue\":\"vo\",\"value\":\"sotbob\"}}],\"nextLink\":\"opcjwvnhd\"}")
-                .toObject(ListUsagesResult.class);
+        ListUsagesResult model = BinaryData.fromString(
+            "{\"value\":[{\"currentValue\":3315527665591795528,\"limit\":1707025009474935054,\"unit\":\"Count\",\"name\":{\"localizedValue\":\"tiewdj\",\"value\":\"bquwrbehw\"},\"id\":\"o\"},{\"currentValue\":4445959478393833005,\"limit\":2445477372246079945,\"unit\":\"Count\",\"name\":{\"localizedValue\":\"vvhmxtdrj\",\"value\":\"tac\"},\"id\":\"bj\"}],\"nextLink\":\"wzcjznmwcpmgua\"}")
+            .toObject(ListUsagesResult.class);
     }
 
     @org.junit.jupiter.api.Test

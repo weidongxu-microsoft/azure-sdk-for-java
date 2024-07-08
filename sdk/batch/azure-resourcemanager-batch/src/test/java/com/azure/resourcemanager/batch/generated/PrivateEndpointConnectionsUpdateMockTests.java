@@ -11,7 +11,6 @@ import com.azure.core.http.HttpRequest;
 import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
-import com.azure.core.util.Context;
 import com.azure.resourcemanager.batch.BatchManager;
 import com.azure.resourcemanager.batch.fluent.models.PrivateEndpointConnectionInner;
 import com.azure.resourcemanager.batch.models.PrivateEndpointConnection;
@@ -34,53 +33,33 @@ public final class PrivateEndpointConnectionsUpdateMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"properties\":{\"provisioningState\":\"Succeeded\",\"privateEndpoint\":{\"id\":\"tpwoqhihejq\"},\"groupIds\":[\"pnfqntcyp\",\"xjvfoimwksl\",\"rcizjxvyd\",\"ceacvlhvygdy\"],\"privateLinkServiceConnectionState\":{\"status\":\"Rejected\",\"description\":\"rtwnawjslbi\",\"actionsRequired\":\"ojgcyzt\"}},\"etag\":\"mznbaeqphch\",\"id\":\"nrnrp\",\"name\":\"ehuwrykqgaifmvik\",\"type\":\"bydvkhbejdz\"}";
+        String responseStr
+            = "{\"properties\":{\"provisioningState\":\"Succeeded\",\"privateEndpoint\":{\"id\":\"dnhxmsi\"},\"groupIds\":[\"miloxggdufiqndie\"],\"privateLinkServiceConnectionState\":{\"status\":\"Approved\",\"description\":\"fjchvc\",\"actionsRequired\":\"ys\"}},\"etag\":\"dotcubiipuip\",\"id\":\"oqonma\",\"name\":\"jeknizshq\",\"type\":\"cimpevfg\"}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        BatchManager manager =
-            BatchManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        BatchManager manager = BatchManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        PrivateEndpointConnection response =
-            manager
-                .privateEndpointConnections()
-                .update(
-                    "rymsgaojfmw",
-                    "cotmr",
-                    "hirctymoxoftpipi",
-                    new PrivateEndpointConnectionInner()
-                        .withPrivateLinkServiceConnectionState(
-                            new PrivateLinkServiceConnectionState()
-                                .withStatus(PrivateLinkServiceConnectionStatus.REJECTED)
-                                .withDescription("gz")),
-                    "ublwpcesutrg",
-                    Context.NONE);
+        PrivateEndpointConnection response
+            = manager.privateEndpointConnections().update("ajjziuxxpshne", "kulfg", "lqubkwdlen",
+                new PrivateEndpointConnectionInner().withPrivateLinkServiceConnectionState(
+                    new PrivateLinkServiceConnectionState().withStatus(PrivateLinkServiceConnectionStatus.DISCONNECTED)
+                        .withDescription("rxgibbd")),
+                "biorktal", com.azure.core.util.Context.NONE);
 
-        Assertions
-            .assertEquals(
-                PrivateLinkServiceConnectionStatus.REJECTED, response.privateLinkServiceConnectionState().status());
-        Assertions.assertEquals("rtwnawjslbi", response.privateLinkServiceConnectionState().description());
+        Assertions.assertEquals(PrivateLinkServiceConnectionStatus.APPROVED,
+            response.privateLinkServiceConnectionState().status());
+        Assertions.assertEquals("fjchvc", response.privateLinkServiceConnectionState().description());
     }
 }

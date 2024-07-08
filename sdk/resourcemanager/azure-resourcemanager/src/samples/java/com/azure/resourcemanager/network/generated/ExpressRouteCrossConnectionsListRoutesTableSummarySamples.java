@@ -4,28 +4,25 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ExpressRouteCrossConnections ListRoutesTableSummary. */
+/**
+ * Samples for ExpressRouteCrossConnections ListRoutesTableSummary.
+ */
 public final class ExpressRouteCrossConnectionsListRoutesTableSummarySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCrossConnectionsRouteTableSummary.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCrossConnectionsRouteTableSummary.json
      */
     /**
      * Sample code: GetExpressRouteCrossConnectionsRouteTableSummary.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getExpressRouteCrossConnectionsRouteTableSummary(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+    public static void
+        getExpressRouteCrossConnectionsRouteTableSummary(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.networks()
             .manager()
             .serviceClient()
             .getExpressRouteCrossConnections()
-            .listRoutesTableSummary(
-                "CrossConnection-SiliconValley",
-                "<circuitServiceKey>",
-                "AzurePrivatePeering",
-                "primary",
-                com.azure.core.util.Context.NONE);
+            .listRoutesTableSummary("CrossConnection-SiliconValley", "<circuitServiceKey>", "AzurePrivatePeering",
+                "primary", com.azure.core.util.Context.NONE);
     }
 }

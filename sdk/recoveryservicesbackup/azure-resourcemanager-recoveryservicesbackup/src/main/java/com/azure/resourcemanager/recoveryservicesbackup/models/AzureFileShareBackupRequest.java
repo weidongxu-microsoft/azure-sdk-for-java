@@ -6,28 +6,55 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 
-/** AzureFileShare workload-specific backup request. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * AzureFileShare workload-specific backup request.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = AzureFileShareBackupRequest.class,
+    visible = true)
 @JsonTypeName("AzureFileShareBackupRequest")
 @Fluent
 public final class AzureFileShareBackupRequest extends BackupRequest {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureFileShareBackupRequest";
+
     /*
      * Backup copy will expire after the time specified (UTC).
      */
     @JsonProperty(value = "recoveryPointExpiryTimeInUTC")
     private OffsetDateTime recoveryPointExpiryTimeInUtc;
 
-    /** Creates an instance of AzureFileShareBackupRequest class. */
+    /**
+     * Creates an instance of AzureFileShareBackupRequest class.
+     */
     public AzureFileShareBackupRequest() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the recoveryPointExpiryTimeInUtc property: Backup copy will expire after the time specified (UTC).
-     *
+     * 
      * @return the recoveryPointExpiryTimeInUtc value.
      */
     public OffsetDateTime recoveryPointExpiryTimeInUtc() {
@@ -36,7 +63,7 @@ public final class AzureFileShareBackupRequest extends BackupRequest {
 
     /**
      * Set the recoveryPointExpiryTimeInUtc property: Backup copy will expire after the time specified (UTC).
-     *
+     * 
      * @param recoveryPointExpiryTimeInUtc the recoveryPointExpiryTimeInUtc value to set.
      * @return the AzureFileShareBackupRequest object itself.
      */
@@ -47,7 +74,7 @@ public final class AzureFileShareBackupRequest extends BackupRequest {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

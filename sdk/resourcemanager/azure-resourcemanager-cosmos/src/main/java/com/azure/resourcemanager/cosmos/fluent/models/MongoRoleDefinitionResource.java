@@ -9,9 +9,12 @@ import com.azure.resourcemanager.cosmos.models.MongoRoleDefinitionType;
 import com.azure.resourcemanager.cosmos.models.Privilege;
 import com.azure.resourcemanager.cosmos.models.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Azure Cosmos DB Mongo Role Definition resource object. */
+/**
+ * Azure Cosmos DB Mongo Role Definition resource object.
+ */
 @Fluent
 public final class MongoRoleDefinitionResource {
     /*
@@ -33,9 +36,7 @@ public final class MongoRoleDefinitionResource {
     private String databaseName;
 
     /*
-     * A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the
-     * entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable
-     * as privilege.
+     * A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege.
      */
     @JsonProperty(value = "privileges")
     private List<Privilege> privileges;
@@ -46,7 +47,9 @@ public final class MongoRoleDefinitionResource {
     @JsonProperty(value = "roles")
     private List<Role> roles;
 
-    /** Creates an instance of MongoRoleDefinitionResource class. */
+    /**
+     * Creates an instance of MongoRoleDefinitionResource class.
+     */
     public MongoRoleDefinitionResource() {
     }
 

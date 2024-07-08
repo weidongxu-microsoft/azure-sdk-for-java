@@ -14,25 +14,30 @@ import org.junit.jupiter.api.Assertions;
 public final class MonitoringSettingsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        MonitoringSettings model =
-            BinaryData
-                .fromString(
-                    "{\"azureMonitorAlertSettings\":{\"alertsForAllJobFailures\":\"Enabled\"},\"classicAlertSettings\":{\"alertsForCriticalOperations\":\"Enabled\"}}")
-                .toObject(MonitoringSettings.class);
-        Assertions.assertEquals(AlertsState.ENABLED, model.azureMonitorAlertSettings().alertsForAllJobFailures());
-        Assertions.assertEquals(AlertsState.ENABLED, model.classicAlertSettings().alertsForCriticalOperations());
+        MonitoringSettings model = BinaryData.fromString(
+            "{\"azureMonitorAlertSettings\":{\"alertsForAllJobFailures\":\"Disabled\",\"alertsForAllReplicationIssues\":\"Enabled\",\"alertsForAllFailoverIssues\":\"Disabled\"},\"classicAlertSettings\":{\"alertsForCriticalOperations\":\"Disabled\",\"emailNotificationsForSiteRecovery\":\"Disabled\"}}")
+            .toObject(MonitoringSettings.class);
+        Assertions.assertEquals(AlertsState.DISABLED, model.azureMonitorAlertSettings().alertsForAllJobFailures());
+        Assertions.assertEquals(AlertsState.ENABLED, model.azureMonitorAlertSettings().alertsForAllReplicationIssues());
+        Assertions.assertEquals(AlertsState.DISABLED, model.azureMonitorAlertSettings().alertsForAllFailoverIssues());
+        Assertions.assertEquals(AlertsState.DISABLED, model.classicAlertSettings().alertsForCriticalOperations());
+        Assertions.assertEquals(AlertsState.DISABLED, model.classicAlertSettings().emailNotificationsForSiteRecovery());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        MonitoringSettings model =
-            new MonitoringSettings()
-                .withAzureMonitorAlertSettings(
-                    new AzureMonitorAlertSettings().withAlertsForAllJobFailures(AlertsState.ENABLED))
-                .withClassicAlertSettings(
-                    new ClassicAlertSettings().withAlertsForCriticalOperations(AlertsState.ENABLED));
+        MonitoringSettings model = new MonitoringSettings()
+            .withAzureMonitorAlertSettings(
+                new AzureMonitorAlertSettings().withAlertsForAllJobFailures(AlertsState.DISABLED)
+                    .withAlertsForAllReplicationIssues(AlertsState.ENABLED)
+                    .withAlertsForAllFailoverIssues(AlertsState.DISABLED))
+            .withClassicAlertSettings(new ClassicAlertSettings().withAlertsForCriticalOperations(AlertsState.DISABLED)
+                .withEmailNotificationsForSiteRecovery(AlertsState.DISABLED));
         model = BinaryData.fromObject(model).toObject(MonitoringSettings.class);
-        Assertions.assertEquals(AlertsState.ENABLED, model.azureMonitorAlertSettings().alertsForAllJobFailures());
-        Assertions.assertEquals(AlertsState.ENABLED, model.classicAlertSettings().alertsForCriticalOperations());
+        Assertions.assertEquals(AlertsState.DISABLED, model.azureMonitorAlertSettings().alertsForAllJobFailures());
+        Assertions.assertEquals(AlertsState.ENABLED, model.azureMonitorAlertSettings().alertsForAllReplicationIssues());
+        Assertions.assertEquals(AlertsState.DISABLED, model.azureMonitorAlertSettings().alertsForAllFailoverIssues());
+        Assertions.assertEquals(AlertsState.DISABLED, model.classicAlertSettings().alertsForCriticalOperations());
+        Assertions.assertEquals(AlertsState.DISABLED, model.classicAlertSettings().emailNotificationsForSiteRecovery());
     }
 }

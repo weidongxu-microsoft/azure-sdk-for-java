@@ -11,18 +11,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.util.Context;
 import com.azure.core.util.polling.SyncPoller;
+import com.azure.resourcemanager.eventgrid.fluent.models.CustomDomainOwnershipValidationResultInner;
 import com.azure.resourcemanager.eventgrid.fluent.models.NamespaceInner;
 import com.azure.resourcemanager.eventgrid.fluent.models.NamespaceSharedAccessKeysInner;
 import com.azure.resourcemanager.eventgrid.models.NamespaceRegenerateKeyRequest;
 import com.azure.resourcemanager.eventgrid.models.NamespaceUpdateParameters;
 
-/** An instance of this class provides access to all the operations defined in NamespacesClient. */
+/**
+ * An instance of this class provides access to all the operations defined in NamespacesClient.
+ */
 public interface NamespacesClient {
     /**
      * Get a namespace.
-     *
-     * <p>Get properties of a namespace.
-     *
+     * 
+     * Get properties of a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param context The context to associate with this operation.
@@ -32,14 +35,14 @@ public interface NamespacesClient {
      * @return properties of a namespace along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<NamespaceInner> getByResourceGroupWithResponse(
-        String resourceGroupName, String namespaceName, Context context);
+    Response<NamespaceInner> getByResourceGroupWithResponse(String resourceGroupName, String namespaceName,
+        Context context);
 
     /**
      * Get a namespace.
-     *
-     * <p>Get properties of a namespace.
-     *
+     * 
+     * Get properties of a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -52,9 +55,9 @@ public interface NamespacesClient {
 
     /**
      * Create or update a namespace.
-     *
-     * <p>Asynchronously creates or updates a new namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously creates or updates a new namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceInfo Namespace information.
@@ -64,14 +67,14 @@ public interface NamespacesClient {
      * @return the {@link SyncPoller} for polling of namespace resource.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginCreateOrUpdate(
-        String resourceGroupName, String namespaceName, NamespaceInner namespaceInfo);
+    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginCreateOrUpdate(String resourceGroupName,
+        String namespaceName, NamespaceInner namespaceInfo);
 
     /**
      * Create or update a namespace.
-     *
-     * <p>Asynchronously creates or updates a new namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously creates or updates a new namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceInfo Namespace information.
@@ -82,14 +85,14 @@ public interface NamespacesClient {
      * @return the {@link SyncPoller} for polling of namespace resource.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginCreateOrUpdate(
-        String resourceGroupName, String namespaceName, NamespaceInner namespaceInfo, Context context);
+    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginCreateOrUpdate(String resourceGroupName,
+        String namespaceName, NamespaceInner namespaceInfo, Context context);
 
     /**
      * Create or update a namespace.
-     *
-     * <p>Asynchronously creates or updates a new namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously creates or updates a new namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceInfo Namespace information.
@@ -103,9 +106,9 @@ public interface NamespacesClient {
 
     /**
      * Create or update a namespace.
-     *
-     * <p>Asynchronously creates or updates a new namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously creates or updates a new namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceInfo Namespace information.
@@ -116,14 +119,14 @@ public interface NamespacesClient {
      * @return namespace resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    NamespaceInner createOrUpdate(
-        String resourceGroupName, String namespaceName, NamespaceInner namespaceInfo, Context context);
+    NamespaceInner createOrUpdate(String resourceGroupName, String namespaceName, NamespaceInner namespaceInfo,
+        Context context);
 
     /**
      * Delete a namespace.
-     *
-     * <p>Delete existing namespace.
-     *
+     * 
+     * Delete existing namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -136,9 +139,9 @@ public interface NamespacesClient {
 
     /**
      * Delete a namespace.
-     *
-     * <p>Delete existing namespace.
-     *
+     * 
+     * Delete existing namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param context The context to associate with this operation.
@@ -152,9 +155,9 @@ public interface NamespacesClient {
 
     /**
      * Delete a namespace.
-     *
-     * <p>Delete existing namespace.
-     *
+     * 
+     * Delete existing namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -166,9 +169,9 @@ public interface NamespacesClient {
 
     /**
      * Delete a namespace.
-     *
-     * <p>Delete existing namespace.
-     *
+     * 
+     * Delete existing namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param context The context to associate with this operation.
@@ -181,9 +184,9 @@ public interface NamespacesClient {
 
     /**
      * Update a namespace.
-     *
-     * <p>Asynchronously updates a namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously updates a namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceUpdateParameters Namespace update information.
@@ -193,14 +196,14 @@ public interface NamespacesClient {
      * @return the {@link SyncPoller} for polling of namespace resource.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginUpdate(
-        String resourceGroupName, String namespaceName, NamespaceUpdateParameters namespaceUpdateParameters);
+    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginUpdate(String resourceGroupName, String namespaceName,
+        NamespaceUpdateParameters namespaceUpdateParameters);
 
     /**
      * Update a namespace.
-     *
-     * <p>Asynchronously updates a namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously updates a namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceUpdateParameters Namespace update information.
@@ -211,17 +214,14 @@ public interface NamespacesClient {
      * @return the {@link SyncPoller} for polling of namespace resource.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginUpdate(
-        String resourceGroupName,
-        String namespaceName,
-        NamespaceUpdateParameters namespaceUpdateParameters,
-        Context context);
+    SyncPoller<PollResult<NamespaceInner>, NamespaceInner> beginUpdate(String resourceGroupName, String namespaceName,
+        NamespaceUpdateParameters namespaceUpdateParameters, Context context);
 
     /**
      * Update a namespace.
-     *
-     * <p>Asynchronously updates a namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously updates a namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceUpdateParameters Namespace update information.
@@ -231,14 +231,14 @@ public interface NamespacesClient {
      * @return namespace resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    NamespaceInner update(
-        String resourceGroupName, String namespaceName, NamespaceUpdateParameters namespaceUpdateParameters);
+    NamespaceInner update(String resourceGroupName, String namespaceName,
+        NamespaceUpdateParameters namespaceUpdateParameters);
 
     /**
      * Update a namespace.
-     *
-     * <p>Asynchronously updates a namespace with the specified parameters.
-     *
+     * 
+     * Asynchronously updates a namespace with the specified parameters.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param namespaceUpdateParameters Namespace update information.
@@ -249,17 +249,14 @@ public interface NamespacesClient {
      * @return namespace resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    NamespaceInner update(
-        String resourceGroupName,
-        String namespaceName,
-        NamespaceUpdateParameters namespaceUpdateParameters,
-        Context context);
+    NamespaceInner update(String resourceGroupName, String namespaceName,
+        NamespaceUpdateParameters namespaceUpdateParameters, Context context);
 
     /**
      * List namespaces under an Azure subscription.
-     *
-     * <p>List all the namespaces under an Azure subscription.
-     *
+     * 
+     * List all the namespaces under an Azure subscription.
+     * 
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return result of the List Namespaces operation as paginated response with {@link PagedIterable}.
@@ -269,17 +266,16 @@ public interface NamespacesClient {
 
     /**
      * List namespaces under an Azure subscription.
-     *
-     * <p>List all the namespaces under an Azure subscription.
-     *
+     * 
+     * List all the namespaces under an Azure subscription.
+     * 
      * @param filter The query used to filter the search results using OData syntax. Filtering is permitted on the
-     *     'name' property only and with limited number of OData operations. These operations are: the 'contains'
-     *     function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal).
-     *     No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE,
-     *     'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq
-     *     'westus'.
+     * 'name' property only and with limited number of OData operations. These operations are: the 'contains' function
+     * as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic
+     * operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne
+     * 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'.
      * @param top The number of results to return per page for the list operation. Valid range for top parameter is 1 to
-     *     100. If not specified, the default number of results to be returned is 20 items per page.
+     * 100. If not specified, the default number of results to be returned is 20 items per page.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -291,9 +287,9 @@ public interface NamespacesClient {
 
     /**
      * List namespaces under a resource group.
-     *
-     * <p>List all the namespaces under a resource group.
-     *
+     * 
+     * List all the namespaces under a resource group.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -305,18 +301,17 @@ public interface NamespacesClient {
 
     /**
      * List namespaces under a resource group.
-     *
-     * <p>List all the namespaces under a resource group.
-     *
+     * 
+     * List all the namespaces under a resource group.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param filter The query used to filter the search results using OData syntax. Filtering is permitted on the
-     *     'name' property only and with limited number of OData operations. These operations are: the 'contains'
-     *     function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal).
-     *     No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE,
-     *     'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq
-     *     'westus'.
+     * 'name' property only and with limited number of OData operations. These operations are: the 'contains' function
+     * as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic
+     * operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne
+     * 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'.
      * @param top The number of results to return per page for the list operation. Valid range for top parameter is 1 to
-     *     100. If not specified, the default number of results to be returned is 20 items per page.
+     * 100. If not specified, the default number of results to be returned is 20 items per page.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -324,14 +319,14 @@ public interface NamespacesClient {
      * @return result of the List Namespaces operation as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<NamespaceInner> listByResourceGroup(
-        String resourceGroupName, String filter, Integer top, Context context);
+    PagedIterable<NamespaceInner> listByResourceGroup(String resourceGroupName, String filter, Integer top,
+        Context context);
 
     /**
      * List keys for a namespace.
-     *
-     * <p>List the two keys used to publish to a namespace.
-     *
+     * 
+     * List the two keys used to publish to a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @param context The context to associate with this operation.
@@ -341,14 +336,14 @@ public interface NamespacesClient {
      * @return shared access keys of the Namespace along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<NamespaceSharedAccessKeysInner> listSharedAccessKeysWithResponse(
-        String resourceGroupName, String namespaceName, Context context);
+    Response<NamespaceSharedAccessKeysInner> listSharedAccessKeysWithResponse(String resourceGroupName,
+        String namespaceName, Context context);
 
     /**
      * List keys for a namespace.
-     *
-     * <p>List the two keys used to publish to a namespace.
-     *
+     * 
+     * List the two keys used to publish to a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the namespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -361,9 +356,9 @@ public interface NamespacesClient {
 
     /**
      * Regenerate key for a namespace.
-     *
-     * <p>Regenerate a shared access key for a namespace.
-     *
+     * 
+     * Regenerate a shared access key for a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the Namespace.
      * @param regenerateKeyRequest Request body to regenerate key.
@@ -378,9 +373,9 @@ public interface NamespacesClient {
 
     /**
      * Regenerate key for a namespace.
-     *
-     * <p>Regenerate a shared access key for a namespace.
-     *
+     * 
+     * Regenerate a shared access key for a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the Namespace.
      * @param regenerateKeyRequest Request body to regenerate key.
@@ -392,16 +387,14 @@ public interface NamespacesClient {
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     SyncPoller<PollResult<NamespaceSharedAccessKeysInner>, NamespaceSharedAccessKeysInner> beginRegenerateKey(
-        String resourceGroupName,
-        String namespaceName,
-        NamespaceRegenerateKeyRequest regenerateKeyRequest,
+        String resourceGroupName, String namespaceName, NamespaceRegenerateKeyRequest regenerateKeyRequest,
         Context context);
 
     /**
      * Regenerate key for a namespace.
-     *
-     * <p>Regenerate a shared access key for a namespace.
-     *
+     * 
+     * Regenerate a shared access key for a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the Namespace.
      * @param regenerateKeyRequest Request body to regenerate key.
@@ -411,14 +404,14 @@ public interface NamespacesClient {
      * @return shared access keys of the Namespace.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    NamespaceSharedAccessKeysInner regenerateKey(
-        String resourceGroupName, String namespaceName, NamespaceRegenerateKeyRequest regenerateKeyRequest);
+    NamespaceSharedAccessKeysInner regenerateKey(String resourceGroupName, String namespaceName,
+        NamespaceRegenerateKeyRequest regenerateKeyRequest);
 
     /**
      * Regenerate key for a namespace.
-     *
-     * <p>Regenerate a shared access key for a namespace.
-     *
+     * 
+     * Regenerate a shared access key for a namespace.
+     * 
      * @param resourceGroupName The name of the resource group within the user's subscription.
      * @param namespaceName Name of the Namespace.
      * @param regenerateKeyRequest Request body to regenerate key.
@@ -429,9 +422,72 @@ public interface NamespacesClient {
      * @return shared access keys of the Namespace.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    NamespaceSharedAccessKeysInner regenerateKey(
-        String resourceGroupName,
-        String namespaceName,
-        NamespaceRegenerateKeyRequest regenerateKeyRequest,
-        Context context);
+    NamespaceSharedAccessKeysInner regenerateKey(String resourceGroupName, String namespaceName,
+        NamespaceRegenerateKeyRequest regenerateKeyRequest, Context context);
+
+    /**
+     * Validate ownership for all custom domains in a namespace.
+     * 
+     * Performs ownership validation via checking TXT records for all custom domains in a namespace.
+     * 
+     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param namespaceName Name of the Namespace.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of namespace custom domain ownership validation result.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    SyncPoller<PollResult<CustomDomainOwnershipValidationResultInner>, CustomDomainOwnershipValidationResultInner>
+        beginValidateCustomDomainOwnership(String resourceGroupName, String namespaceName);
+
+    /**
+     * Validate ownership for all custom domains in a namespace.
+     * 
+     * Performs ownership validation via checking TXT records for all custom domains in a namespace.
+     * 
+     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param namespaceName Name of the Namespace.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of namespace custom domain ownership validation result.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    SyncPoller<PollResult<CustomDomainOwnershipValidationResultInner>, CustomDomainOwnershipValidationResultInner>
+        beginValidateCustomDomainOwnership(String resourceGroupName, String namespaceName, Context context);
+
+    /**
+     * Validate ownership for all custom domains in a namespace.
+     * 
+     * Performs ownership validation via checking TXT records for all custom domains in a namespace.
+     * 
+     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param namespaceName Name of the Namespace.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return namespace custom domain ownership validation result.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    CustomDomainOwnershipValidationResultInner validateCustomDomainOwnership(String resourceGroupName,
+        String namespaceName);
+
+    /**
+     * Validate ownership for all custom domains in a namespace.
+     * 
+     * Performs ownership validation via checking TXT records for all custom domains in a namespace.
+     * 
+     * @param resourceGroupName The name of the resource group within the user's subscription.
+     * @param namespaceName Name of the Namespace.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return namespace custom domain ownership validation result.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    CustomDomainOwnershipValidationResultInner validateCustomDomainOwnership(String resourceGroupName,
+        String namespaceName, Context context);
 }

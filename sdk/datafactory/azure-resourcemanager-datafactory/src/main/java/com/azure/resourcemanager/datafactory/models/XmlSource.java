@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Xml source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Xml source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = XmlSource.class, visible = true)
 @JsonTypeName("XmlSource")
 @Fluent
 public final class XmlSource extends CopySource {
+    /*
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "XmlSource";
+
     /*
      * Xml store settings.
      */
@@ -33,13 +43,25 @@ public final class XmlSource extends CopySource {
     @JsonProperty(value = "additionalColumns")
     private Object additionalColumns;
 
-    /** Creates an instance of XmlSource class. */
+    /**
+     * Creates an instance of XmlSource class.
+     */
     public XmlSource() {
     }
 
     /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the storeSettings property: Xml store settings.
-     *
+     * 
      * @return the storeSettings value.
      */
     public StoreReadSettings storeSettings() {
@@ -48,7 +70,7 @@ public final class XmlSource extends CopySource {
 
     /**
      * Set the storeSettings property: Xml store settings.
-     *
+     * 
      * @param storeSettings the storeSettings value to set.
      * @return the XmlSource object itself.
      */
@@ -59,7 +81,7 @@ public final class XmlSource extends CopySource {
 
     /**
      * Get the formatSettings property: Xml format settings.
-     *
+     * 
      * @return the formatSettings value.
      */
     public XmlReadSettings formatSettings() {
@@ -68,7 +90,7 @@ public final class XmlSource extends CopySource {
 
     /**
      * Set the formatSettings property: Xml format settings.
-     *
+     * 
      * @param formatSettings the formatSettings value to set.
      * @return the XmlSource object itself.
      */
@@ -80,7 +102,7 @@ public final class XmlSource extends CopySource {
     /**
      * Get the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @return the additionalColumns value.
      */
     public Object additionalColumns() {
@@ -90,7 +112,7 @@ public final class XmlSource extends CopySource {
     /**
      * Set the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @param additionalColumns the additionalColumns value to set.
      * @return the XmlSource object itself.
      */
@@ -99,28 +121,36 @@ public final class XmlSource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlSource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlSource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlSource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public XmlSource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -129,7 +159,7 @@ public final class XmlSource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

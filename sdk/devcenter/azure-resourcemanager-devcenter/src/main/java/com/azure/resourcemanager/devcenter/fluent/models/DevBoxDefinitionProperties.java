@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.devcenter.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.resourcemanager.devcenter.models.CatalogResourceValidationStatus;
 import com.azure.resourcemanager.devcenter.models.HibernateSupport;
 import com.azure.resourcemanager.devcenter.models.ImageReference;
 import com.azure.resourcemanager.devcenter.models.ImageValidationErrorDetails;
@@ -13,7 +14,9 @@ import com.azure.resourcemanager.devcenter.models.ProvisioningState;
 import com.azure.resourcemanager.devcenter.models.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties of a Dev Box definition. */
+/**
+ * Properties of a Dev Box definition.
+ */
 @Fluent
 public final class DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProperties {
     /*
@@ -35,18 +38,26 @@ public final class DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProp
     private ImageValidationErrorDetails imageValidationErrorDetails;
 
     /*
+     * Validation status for the Dev Box Definition.
+     */
+    @JsonProperty(value = "validationStatus", access = JsonProperty.Access.WRITE_ONLY)
+    private CatalogResourceValidationStatus validationStatus;
+
+    /*
      * Image reference information for the currently active image (only populated during updates).
      */
     @JsonProperty(value = "activeImageReference", access = JsonProperty.Access.WRITE_ONLY)
     private ImageReference activeImageReference;
 
-    /** Creates an instance of DevBoxDefinitionProperties class. */
+    /**
+     * Creates an instance of DevBoxDefinitionProperties class.
+     */
     public DevBoxDefinitionProperties() {
     }
 
     /**
      * Get the provisioningState property: The provisioning state of the resource.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
@@ -55,7 +66,7 @@ public final class DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProp
 
     /**
      * Get the imageValidationStatus property: Validation status of the configured image.
-     *
+     * 
      * @return the imageValidationStatus value.
      */
     public ImageValidationStatus imageValidationStatus() {
@@ -65,7 +76,7 @@ public final class DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProp
     /**
      * Get the imageValidationErrorDetails property: Details for image validator error. Populated when the image
      * validation is not successful.
-     *
+     * 
      * @return the imageValidationErrorDetails value.
      */
     public ImageValidationErrorDetails imageValidationErrorDetails() {
@@ -73,37 +84,54 @@ public final class DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProp
     }
 
     /**
+     * Get the validationStatus property: Validation status for the Dev Box Definition.
+     * 
+     * @return the validationStatus value.
+     */
+    public CatalogResourceValidationStatus validationStatus() {
+        return this.validationStatus;
+    }
+
+    /**
      * Get the activeImageReference property: Image reference information for the currently active image (only populated
      * during updates).
-     *
+     * 
      * @return the activeImageReference value.
      */
     public ImageReference activeImageReference() {
         return this.activeImageReference;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DevBoxDefinitionProperties withImageReference(ImageReference imageReference) {
         super.withImageReference(imageReference);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DevBoxDefinitionProperties withSku(Sku sku) {
         super.withSku(sku);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DevBoxDefinitionProperties withOsStorageType(String osStorageType) {
         super.withOsStorageType(osStorageType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DevBoxDefinitionProperties withHibernateSupport(HibernateSupport hibernateSupport) {
         super.withHibernateSupport(hibernateSupport);
@@ -112,7 +140,7 @@ public final class DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProp
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

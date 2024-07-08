@@ -22,8 +22,14 @@ public final class OperationListResult {
     private List<OperationInner> value;
 
     /**
+     * Creates an instance of OperationListResult class.
+     */
+    public OperationListResult() {
+    }
+
+    /**
      * Get the value property: List of Storage operations supported by the Storage resource provider.
-     *
+     * 
      * @return the value value.
      */
     public List<OperationInner> value() {
@@ -32,7 +38,7 @@ public final class OperationListResult {
 
     /**
      * Set the value property: List of Storage operations supported by the Storage resource provider.
-     *
+     * 
      * @param value the value value to set.
      * @return the OperationListResult object itself.
      */
@@ -43,7 +49,7 @@ public final class OperationListResult {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

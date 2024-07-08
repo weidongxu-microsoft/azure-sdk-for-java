@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.PostgreSqlTableDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The PostgreSQL table dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The PostgreSQL table dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = PostgreSqlTableDataset.class, visible = true)
 @JsonTypeName("PostgreSqlTable")
 @Fluent
 public final class PostgreSqlTableDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "PostgreSqlTable";
+
     /*
      * PostgreSQL table dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private PostgreSqlTableDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of PostgreSqlTableDataset class. */
+    /**
+     * Creates an instance of PostgreSqlTableDataset class.
+     */
     public PostgreSqlTableDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: PostgreSQL table dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private PostgreSqlTableDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PostgreSqlTableDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class PostgreSqlTableDataset extends Dataset {
     /**
      * Get the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -98,7 +134,7 @@ public final class PostgreSqlTableDataset extends Dataset {
     /**
      * Set the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the PostgreSqlTableDataset object itself.
      */
@@ -112,7 +148,7 @@ public final class PostgreSqlTableDataset extends Dataset {
 
     /**
      * Get the table property: The PostgreSQL table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the table value.
      */
     public Object table() {
@@ -121,7 +157,7 @@ public final class PostgreSqlTableDataset extends Dataset {
 
     /**
      * Set the table property: The PostgreSQL table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param table the table value to set.
      * @return the PostgreSqlTableDataset object itself.
      */
@@ -135,7 +171,7 @@ public final class PostgreSqlTableDataset extends Dataset {
 
     /**
      * Get the schema property: The PostgreSQL schema name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the schema value.
      */
     public Object schemaTypePropertiesSchema() {
@@ -144,7 +180,7 @@ public final class PostgreSqlTableDataset extends Dataset {
 
     /**
      * Set the schema property: The PostgreSQL schema name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param schema the schema value to set.
      * @return the PostgreSqlTableDataset object itself.
      */
@@ -158,7 +194,7 @@ public final class PostgreSqlTableDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

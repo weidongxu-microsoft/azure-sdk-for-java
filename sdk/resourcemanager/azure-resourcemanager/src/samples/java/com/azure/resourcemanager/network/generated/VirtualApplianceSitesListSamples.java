@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualApplianceSites List. */
+/**
+ * Samples for VirtualApplianceSites List.
+ */
 public final class VirtualApplianceSitesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualApplianceSiteList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceSiteList.json
      */
     /**
      * Sample code: List all Network Virtual Appliance sites for a given Network Virtual Appliance.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance(
         com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualApplianceSites()

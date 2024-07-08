@@ -11,9 +11,12 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayCookieBasedAff
 import com.azure.resourcemanager.network.models.ApplicationGatewayProtocol;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of Backend address pool settings of an application gateway. */
+/**
+ * Properties of Backend address pool settings of an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
     /*
@@ -35,8 +38,7 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
     private ApplicationGatewayCookieBasedAffinity cookieBasedAffinity;
 
     /*
-     * Request timeout in seconds. Application Gateway will fail the request if response is not received within
-     * RequestTimeout. Acceptable values are from 1 second to 86400 seconds.
+     * Request timeout in seconds. Application Gateway will fail the request if response is not received within RequestTimeout. Acceptable values are from 1 second to 86400 seconds.
      */
     @JsonProperty(value = "requestTimeout")
     private Integer requestTimeout;
@@ -90,8 +92,7 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
     private Boolean probeEnabled;
 
     /*
-     * Path which should be used as a prefix for all HTTP requests. Null means no path will be prefixed. Default value
-     * is null.
+     * Path which should be used as a prefix for all HTTP requests. Null means no path will be prefixed. Default value is null.
      */
     @JsonProperty(value = "path")
     private String path;
@@ -102,7 +103,9 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of ApplicationGatewayBackendHttpSettingsPropertiesFormat class. */
+    /**
+     * Creates an instance of ApplicationGatewayBackendHttpSettingsPropertiesFormat class.
+     */
     public ApplicationGatewayBackendHttpSettingsPropertiesFormat() {
     }
 
@@ -161,8 +164,8 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
      * @param cookieBasedAffinity the cookieBasedAffinity value to set.
      * @return the ApplicationGatewayBackendHttpSettingsPropertiesFormat object itself.
      */
-    public ApplicationGatewayBackendHttpSettingsPropertiesFormat withCookieBasedAffinity(
-        ApplicationGatewayCookieBasedAffinity cookieBasedAffinity) {
+    public ApplicationGatewayBackendHttpSettingsPropertiesFormat
+        withCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity cookieBasedAffinity) {
         this.cookieBasedAffinity = cookieBasedAffinity;
         return this;
     }
@@ -226,8 +229,8 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
      * @param authenticationCertificates the authenticationCertificates value to set.
      * @return the ApplicationGatewayBackendHttpSettingsPropertiesFormat object itself.
      */
-    public ApplicationGatewayBackendHttpSettingsPropertiesFormat withAuthenticationCertificates(
-        List<SubResource> authenticationCertificates) {
+    public ApplicationGatewayBackendHttpSettingsPropertiesFormat
+        withAuthenticationCertificates(List<SubResource> authenticationCertificates) {
         this.authenticationCertificates = authenticationCertificates;
         return this;
     }
@@ -247,8 +250,8 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
      * @param trustedRootCertificates the trustedRootCertificates value to set.
      * @return the ApplicationGatewayBackendHttpSettingsPropertiesFormat object itself.
      */
-    public ApplicationGatewayBackendHttpSettingsPropertiesFormat withTrustedRootCertificates(
-        List<SubResource> trustedRootCertificates) {
+    public ApplicationGatewayBackendHttpSettingsPropertiesFormat
+        withTrustedRootCertificates(List<SubResource> trustedRootCertificates) {
         this.trustedRootCertificates = trustedRootCertificates;
         return this;
     }
@@ -268,8 +271,8 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
      * @param connectionDraining the connectionDraining value to set.
      * @return the ApplicationGatewayBackendHttpSettingsPropertiesFormat object itself.
      */
-    public ApplicationGatewayBackendHttpSettingsPropertiesFormat withConnectionDraining(
-        ApplicationGatewayConnectionDraining connectionDraining) {
+    public ApplicationGatewayBackendHttpSettingsPropertiesFormat
+        withConnectionDraining(ApplicationGatewayConnectionDraining connectionDraining) {
         this.connectionDraining = connectionDraining;
         return this;
     }
@@ -311,8 +314,8 @@ public final class ApplicationGatewayBackendHttpSettingsPropertiesFormat {
      * @param pickHostnameFromBackendAddress the pickHostnameFromBackendAddress value to set.
      * @return the ApplicationGatewayBackendHttpSettingsPropertiesFormat object itself.
      */
-    public ApplicationGatewayBackendHttpSettingsPropertiesFormat withPickHostnameFromBackendAddress(
-        Boolean pickHostnameFromBackendAddress) {
+    public ApplicationGatewayBackendHttpSettingsPropertiesFormat
+        withPickHostnameFromBackendAddress(Boolean pickHostnameFromBackendAddress) {
         this.pickHostnameFromBackendAddress = pickHostnameFromBackendAddress;
         return this;
     }

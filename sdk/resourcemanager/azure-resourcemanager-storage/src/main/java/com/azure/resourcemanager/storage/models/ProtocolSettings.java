@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Protocol settings for file service. */
+/**
+ * Protocol settings for file service.
+ */
 @Fluent
 public final class ProtocolSettings {
     /*
@@ -17,8 +19,14 @@ public final class ProtocolSettings {
     private SmbSetting smb;
 
     /**
+     * Creates an instance of ProtocolSettings class.
+     */
+    public ProtocolSettings() {
+    }
+
+    /**
      * Get the smb property: Setting for SMB protocol.
-     *
+     * 
      * @return the smb value.
      */
     public SmbSetting smb() {
@@ -27,7 +35,7 @@ public final class ProtocolSettings {
 
     /**
      * Set the smb property: Setting for SMB protocol.
-     *
+     * 
      * @param smb the smb value to set.
      * @return the ProtocolSettings object itself.
      */
@@ -38,7 +46,7 @@ public final class ProtocolSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

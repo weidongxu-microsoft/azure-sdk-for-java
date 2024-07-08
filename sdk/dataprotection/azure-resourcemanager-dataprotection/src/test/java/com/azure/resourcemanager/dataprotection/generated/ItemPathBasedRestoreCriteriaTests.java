@@ -12,26 +12,22 @@ import org.junit.jupiter.api.Assertions;
 public final class ItemPathBasedRestoreCriteriaTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ItemPathBasedRestoreCriteria model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"ItemPathBasedRestoreCriteria\",\"itemPath\":\"whbotzingamv\",\"isPathRelativeToBackupItem\":false,\"subItemPathPrefix\":[\"szqzudphqamv\"]}")
-                .toObject(ItemPathBasedRestoreCriteria.class);
-        Assertions.assertEquals("whbotzingamv", model.itemPath());
+        ItemPathBasedRestoreCriteria model = BinaryData.fromString(
+            "{\"objectType\":\"ItemPathBasedRestoreCriteria\",\"itemPath\":\"xywr\",\"isPathRelativeToBackupItem\":false,\"subItemPathPrefix\":[\"kl\",\"hpluodpvruudlg\",\"ibthostgktstvd\",\"eclze\"]}")
+            .toObject(ItemPathBasedRestoreCriteria.class);
+        Assertions.assertEquals("xywr", model.itemPath());
         Assertions.assertEquals(false, model.isPathRelativeToBackupItem());
-        Assertions.assertEquals("szqzudphqamv", model.subItemPathPrefix().get(0));
+        Assertions.assertEquals("kl", model.subItemPathPrefix().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ItemPathBasedRestoreCriteria model =
-            new ItemPathBasedRestoreCriteria()
-                .withItemPath("whbotzingamv")
-                .withIsPathRelativeToBackupItem(false)
-                .withSubItemPathPrefix(Arrays.asList("szqzudphqamv"));
+        ItemPathBasedRestoreCriteria model
+            = new ItemPathBasedRestoreCriteria().withItemPath("xywr").withIsPathRelativeToBackupItem(false)
+                .withSubItemPathPrefix(Arrays.asList("kl", "hpluodpvruudlg", "ibthostgktstvd", "eclze"));
         model = BinaryData.fromObject(model).toObject(ItemPathBasedRestoreCriteria.class);
-        Assertions.assertEquals("whbotzingamv", model.itemPath());
+        Assertions.assertEquals("xywr", model.itemPath());
         Assertions.assertEquals(false, model.isPathRelativeToBackupItem());
-        Assertions.assertEquals("szqzudphqamv", model.subItemPathPrefix().get(0));
+        Assertions.assertEquals("kl", model.subItemPathPrefix().get(0));
     }
 }

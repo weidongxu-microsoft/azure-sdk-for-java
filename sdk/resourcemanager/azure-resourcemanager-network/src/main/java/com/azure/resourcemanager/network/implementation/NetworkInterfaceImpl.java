@@ -9,6 +9,7 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.network.NetworkManager;
 import com.azure.resourcemanager.network.fluent.models.ApplicationSecurityGroupInner;
 import com.azure.resourcemanager.network.models.ApplicationSecurityGroup;
+import com.azure.resourcemanager.network.models.DeleteOptions;
 import com.azure.resourcemanager.network.models.IpAllocationMethod;
 import com.azure.resourcemanager.network.models.LoadBalancer;
 import com.azure.resourcemanager.network.models.Network;
@@ -31,7 +32,10 @@ import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -58,11 +62,14 @@ class NetworkInterfaceImpl
     private NetworkSecurityGroup existingNetworkSecurityGroupToAssociate;
     /** cached related resources. */
     private NetworkSecurityGroup networkSecurityGroup;
+    /** the name of specified ip config name */
+    private Map<String, DeleteOptions> specifiedIpConfigNames;
 
     NetworkInterfaceImpl(String name, NetworkInterfaceInner innerModel, final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
         this.nicName = name;
         this.namer = this.manager().resourceManager().internalContext().createIdentifierProvider(this.nicName);
+        this.specifiedIpConfigNames = new HashMap<String, DeleteOptions>();
         initializeChildrenFromInner();
     }
 
@@ -455,7 +462,7 @@ class NetworkInterfaceImpl
 
     @Override
     protected void initializeChildrenFromInner() {
-        this.nicIPConfigurations = new TreeMap<>();
+        this.nicIPConfigurations = new TreeMap<>(Comparator.comparing(key -> key.toLowerCase(Locale.ROOT)));
         List<NetworkInterfaceIpConfigurationInner> inners = this.innerModel().ipConfigurations();
         if (inners != null) {
             for (NetworkInterfaceIpConfigurationInner inner : inners) {
@@ -561,9 +568,25 @@ class NetworkInterfaceImpl
                 .withNetworkSecurityGroup(new NetworkSecurityGroupInner().withId(networkSecurityGroup.id()));
         }
 
-        NicIpConfigurationImpl.ensureConfigurations(this.nicIPConfigurations.values());
+        NicIpConfigurationImpl.ensureConfigurations(this.nicIPConfigurations.values(), this.specifiedIpConfigNames);
 
         // Reset and update IP configs
         this.innerModel().withIpConfigurations(innersFromWrappers(this.nicIPConfigurations.values()));
+    }
+
+    @Override
+    public NetworkInterfaceImpl withPrimaryPublicIPAddressDeleteOptions(DeleteOptions deleteOptions) {
+        this.ensureDeleteOptions(deleteOptions, "primary");
+        return this;
+    }
+
+    @Override
+    public NetworkInterfaceImpl update() {
+        this.specifiedIpConfigNames = new HashMap<String, DeleteOptions>();
+        return super.update();
+    }
+
+    public void ensureDeleteOptions(DeleteOptions deleteOptions, String ipConfigName) {
+        this.specifiedIpConfigNames.put(ipConfigName, deleteOptions);
     }
 }

@@ -4,14 +4,16 @@
 
 package com.azure.resourcemanager.devcenter.generated;
 
-/** Samples for DevBoxDefinitions Get. */
+/**
+ * Samples for DevBoxDefinitions Get.
+ */
 public final class DevBoxDefinitionsGetSamples {
     /*
-     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevBoxDefinitions_Get.json
+     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_Get.json
      */
     /**
      * Sample code: DevBoxDefinitions_Get.
-     *
+     * 
      * @param manager Entry point to DevCenterManager.
      */
     public static void devBoxDefinitionsGet(com.azure.resourcemanager.devcenter.DevCenterManager manager) {

@@ -6,17 +6,27 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Vault level Job. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jobType")
+/**
+ * Vault level Job.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "jobType", defaultImpl = VaultJob.class, visible = true)
 @JsonTypeName("VaultJob")
 @Fluent
 public final class VaultJob extends Job {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "jobType", required = true)
+    private String jobType = "VaultJob";
+
     /*
      * Time elapsed during the execution of this job.
      */
@@ -41,13 +51,26 @@ public final class VaultJob extends Job {
     @JsonProperty(value = "extendedInfo")
     private VaultJobExtendedInfo extendedInfo;
 
-    /** Creates an instance of VaultJob class. */
+    /**
+     * Creates an instance of VaultJob class.
+     */
     public VaultJob() {
     }
 
     /**
+     * Get the jobType property: This property will be used as the discriminator for deciding the specific types in the
+     * polymorphic chain of types.
+     * 
+     * @return the jobType value.
+     */
+    @Override
+    public String jobType() {
+        return this.jobType;
+    }
+
+    /**
      * Get the duration property: Time elapsed during the execution of this job.
-     *
+     * 
      * @return the duration value.
      */
     public Duration duration() {
@@ -56,7 +79,7 @@ public final class VaultJob extends Job {
 
     /**
      * Set the duration property: Time elapsed during the execution of this job.
-     *
+     * 
      * @param duration the duration value to set.
      * @return the VaultJob object itself.
      */
@@ -67,7 +90,7 @@ public final class VaultJob extends Job {
 
     /**
      * Get the actionsInfo property: Gets or sets the state/actions applicable on this job like cancel/retry.
-     *
+     * 
      * @return the actionsInfo value.
      */
     public List<JobSupportedAction> actionsInfo() {
@@ -76,7 +99,7 @@ public final class VaultJob extends Job {
 
     /**
      * Set the actionsInfo property: Gets or sets the state/actions applicable on this job like cancel/retry.
-     *
+     * 
      * @param actionsInfo the actionsInfo value to set.
      * @return the VaultJob object itself.
      */
@@ -87,7 +110,7 @@ public final class VaultJob extends Job {
 
     /**
      * Get the errorDetails property: Error details on execution of this job.
-     *
+     * 
      * @return the errorDetails value.
      */
     public List<VaultJobErrorInfo> errorDetails() {
@@ -96,7 +119,7 @@ public final class VaultJob extends Job {
 
     /**
      * Set the errorDetails property: Error details on execution of this job.
-     *
+     * 
      * @param errorDetails the errorDetails value to set.
      * @return the VaultJob object itself.
      */
@@ -107,7 +130,7 @@ public final class VaultJob extends Job {
 
     /**
      * Get the extendedInfo property: Additional information about the job.
-     *
+     * 
      * @return the extendedInfo value.
      */
     public VaultJobExtendedInfo extendedInfo() {
@@ -116,7 +139,7 @@ public final class VaultJob extends Job {
 
     /**
      * Set the extendedInfo property: Additional information about the job.
-     *
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the VaultJob object itself.
      */
@@ -125,49 +148,63 @@ public final class VaultJob extends Job {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withEntityFriendlyName(String entityFriendlyName) {
         super.withEntityFriendlyName(entityFriendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withBackupManagementType(BackupManagementType backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withOperation(String operation) {
         super.withOperation(operation);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withStatus(String status) {
         super.withStatus(status);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withStartTime(OffsetDateTime startTime) {
         super.withStartTime(startTime);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withEndTime(OffsetDateTime endTime) {
         super.withEndTime(endTime);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VaultJob withActivityId(String activityId) {
         super.withActivityId(activityId);
@@ -176,7 +213,7 @@ public final class VaultJob extends Job {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

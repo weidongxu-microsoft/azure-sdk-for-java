@@ -15,32 +15,28 @@ import org.junit.jupiter.api.Assertions;
 public final class HybridComputePrivateLinkScopeInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        HybridComputePrivateLinkScopeInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"publicNetworkAccess\":\"Disabled\",\"provisioningState\":\"kcglhslaz\",\"privateLinkScopeId\":\"yggdtjixh\"},\"location\":\"uofqwe\",\"tags\":{\"bcibvyvdcsitynn\":\"menevfyexfwh\",\"f\":\"amdecte\",\"eypvhezrkg\":\"qsc\",\"sle\":\"hcjrefovgmk\"},\"id\":\"yvxyqjp\",\"name\":\"cattpngjcrcczsq\",\"type\":\"jh\"}")
-                .toObject(HybridComputePrivateLinkScopeInner.class);
-        Assertions.assertEquals("uofqwe", model.location());
-        Assertions.assertEquals("menevfyexfwh", model.tags().get("bcibvyvdcsitynn"));
-        Assertions.assertEquals(PublicNetworkAccessType.DISABLED, model.properties().publicNetworkAccess());
+        HybridComputePrivateLinkScopeInner model = BinaryData.fromString(
+            "{\"properties\":{\"publicNetworkAccess\":\"SecuredByPerimeter\",\"provisioningState\":\"sfraoyzko\",\"privateLinkScopeId\":\"tlmngu\",\"privateEndpointConnections\":[{\"id\":\"aldsy\",\"name\":\"ximerqfobwyznk\",\"type\":\"kutwpf\",\"properties\":{\"privateEndpoint\":{\"id\":\"m\"},\"privateLinkServiceConnectionState\":{\"status\":\"skdsnfdsdoakg\",\"description\":\"dlmkkzevdl\",\"actionsRequired\":\"wpusdsttwvogv\"},\"provisioningState\":\"ejdcngqqmoakuf\",\"groupIds\":[\"zr\",\"rdgrtw\",\"enuuzkopbm\"]}},{\"id\":\"rfdwoyu\",\"name\":\"ziuiefozbhdm\",\"type\":\"l\",\"properties\":{\"privateEndpoint\":{\"id\":\"oftrmaequia\"},\"privateLinkServiceConnectionState\":{\"status\":\"icslfaoq\",\"description\":\"piyylhalnswhccsp\",\"actionsRequired\":\"aivwitqscywu\"},\"provisioningState\":\"woluhczbwemhair\",\"groupIds\":[\"gzd\",\"msweypqwdxggicc\",\"n\"]}}]},\"location\":\"huexmk\",\"tags\":{\"dtclusiypb\":\"stvlzywemhzrnc\",\"ukyhejhzis\":\"fgytguslfeadcyg\",\"jzraehtwdwrf\":\"gfpelolppvksrpqv\"},\"id\":\"swibyr\",\"name\":\"dl\",\"type\":\"h\"}")
+            .toObject(HybridComputePrivateLinkScopeInner.class);
+        Assertions.assertEquals("huexmk", model.location());
+        Assertions.assertEquals("stvlzywemhzrnc", model.tags().get("dtclusiypb"));
+        Assertions.assertEquals(PublicNetworkAccessType.SECURED_BY_PERIMETER, model.properties().publicNetworkAccess());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        HybridComputePrivateLinkScopeInner model =
-            new HybridComputePrivateLinkScopeInner()
-                .withLocation("uofqwe")
-                .withTags(
-                    mapOf("bcibvyvdcsitynn", "menevfyexfwh", "f", "amdecte", "eypvhezrkg", "qsc", "sle", "hcjrefovgmk"))
-                .withProperties(
-                    new HybridComputePrivateLinkScopeProperties()
-                        .withPublicNetworkAccess(PublicNetworkAccessType.DISABLED));
+        HybridComputePrivateLinkScopeInner model = new HybridComputePrivateLinkScopeInner().withLocation("huexmk")
+            .withTags(mapOf("dtclusiypb", "stvlzywemhzrnc", "ukyhejhzis", "fgytguslfeadcyg", "jzraehtwdwrf",
+                "gfpelolppvksrpqv"))
+            .withProperties(new HybridComputePrivateLinkScopeProperties()
+                .withPublicNetworkAccess(PublicNetworkAccessType.SECURED_BY_PERIMETER));
         model = BinaryData.fromObject(model).toObject(HybridComputePrivateLinkScopeInner.class);
-        Assertions.assertEquals("uofqwe", model.location());
-        Assertions.assertEquals("menevfyexfwh", model.tags().get("bcibvyvdcsitynn"));
-        Assertions.assertEquals(PublicNetworkAccessType.DISABLED, model.properties().publicNetworkAccess());
+        Assertions.assertEquals("huexmk", model.location());
+        Assertions.assertEquals("stvlzywemhzrnc", model.tags().get("dtclusiypb"));
+        Assertions.assertEquals(PublicNetworkAccessType.SECURED_BY_PERIMETER, model.properties().publicNetworkAccess());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

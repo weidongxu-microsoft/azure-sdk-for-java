@@ -7,9 +7,12 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** The azure resource error info. */
+/**
+ * The azure resource error info.
+ */
 @Fluent
 public final class AzureResourceErrorInfo extends ErrorInfo {
     /*
@@ -24,7 +27,9 @@ public final class AzureResourceErrorInfo extends ErrorInfo {
     @JsonProperty(value = "details")
     private List<AzureResourceErrorInfo> details;
 
-    /** Creates an instance of AzureResourceErrorInfo class. */
+    /**
+     * Creates an instance of AzureResourceErrorInfo class.
+     */
     public AzureResourceErrorInfo() {
     }
 
@@ -68,7 +73,9 @@ public final class AzureResourceErrorInfo extends ErrorInfo {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureResourceErrorInfo withCode(String code) {
         super.withCode(code);
@@ -84,9 +91,8 @@ public final class AzureResourceErrorInfo extends ErrorInfo {
     public void validate() {
         super.validate();
         if (message() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property message in model AzureResourceErrorInfo"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property message in model AzureResourceErrorInfo"));
         }
         if (details() != null) {
             details().forEach(e -> e.validate());

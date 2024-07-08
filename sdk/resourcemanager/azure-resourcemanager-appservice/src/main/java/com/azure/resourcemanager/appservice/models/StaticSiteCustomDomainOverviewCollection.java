@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.StaticSiteCustomDomainOverviewArmResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of static site custom domains. */
+/**
+ * Collection of static site custom domains.
+ */
 @Fluent
 public final class StaticSiteCustomDomainOverviewCollection {
     /*
@@ -25,7 +28,9 @@ public final class StaticSiteCustomDomainOverviewCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of StaticSiteCustomDomainOverviewCollection class. */
+    /**
+     * Creates an instance of StaticSiteCustomDomainOverviewCollection class.
+     */
     public StaticSiteCustomDomainOverviewCollection() {
     }
 
@@ -44,8 +49,8 @@ public final class StaticSiteCustomDomainOverviewCollection {
      * @param value the value value to set.
      * @return the StaticSiteCustomDomainOverviewCollection object itself.
      */
-    public StaticSiteCustomDomainOverviewCollection withValue(
-        List<StaticSiteCustomDomainOverviewArmResourceInner> value) {
+    public StaticSiteCustomDomainOverviewCollection
+        withValue(List<StaticSiteCustomDomainOverviewArmResourceInner> value) {
         this.value = value;
         return this;
     }
@@ -66,10 +71,9 @@ public final class StaticSiteCustomDomainOverviewCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model StaticSiteCustomDomainOverviewCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model StaticSiteCustomDomainOverviewCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

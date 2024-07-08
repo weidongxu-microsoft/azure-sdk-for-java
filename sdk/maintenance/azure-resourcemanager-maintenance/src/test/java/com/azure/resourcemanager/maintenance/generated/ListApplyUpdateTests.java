@@ -15,30 +15,23 @@ import org.junit.jupiter.api.Assertions;
 public final class ListApplyUpdateTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ListApplyUpdate model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"status\":\"RetryNow\",\"resourceId\":\"zqqedq\",\"lastUpdateTime\":\"2021-11-23T05:43:53Z\"},\"id\":\"iqfouflmmnkz\",\"name\":\"modmglougpb\",\"type\":\"wtmutduq\"}]}")
-                .toObject(ListApplyUpdate.class);
-        Assertions.assertEquals(UpdateStatus.RETRY_NOW, model.value().get(0).status());
-        Assertions.assertEquals("zqqedq", model.value().get(0).resourceId());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-11-23T05:43:53Z"), model.value().get(0).lastUpdateTime());
+        ListApplyUpdate model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"status\":\"InProgress\",\"resourceId\":\"ualaexqpvfadmw\",\"lastUpdateTime\":\"2021-02-27T12:21:31Z\"},\"id\":\"gvxp\",\"name\":\"gomz\",\"type\":\"fmisg\"}]}")
+            .toObject(ListApplyUpdate.class);
+        Assertions.assertEquals(UpdateStatus.IN_PROGRESS, model.value().get(0).status());
+        Assertions.assertEquals("ualaexqpvfadmw", model.value().get(0).resourceId());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-02-27T12:21:31Z"), model.value().get(0).lastUpdateTime());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ListApplyUpdate model =
-            new ListApplyUpdate()
-                .withValue(
-                    Arrays
-                        .asList(
-                            new ApplyUpdateInner()
-                                .withStatus(UpdateStatus.RETRY_NOW)
-                                .withResourceId("zqqedq")
-                                .withLastUpdateTime(OffsetDateTime.parse("2021-11-23T05:43:53Z"))));
+        ListApplyUpdate model
+            = new ListApplyUpdate().withValue(Arrays.asList(new ApplyUpdateInner().withStatus(UpdateStatus.IN_PROGRESS)
+                .withResourceId("ualaexqpvfadmw")
+                .withLastUpdateTime(OffsetDateTime.parse("2021-02-27T12:21:31Z"))));
         model = BinaryData.fromObject(model).toObject(ListApplyUpdate.class);
-        Assertions.assertEquals(UpdateStatus.RETRY_NOW, model.value().get(0).status());
-        Assertions.assertEquals("zqqedq", model.value().get(0).resourceId());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-11-23T05:43:53Z"), model.value().get(0).lastUpdateTime());
+        Assertions.assertEquals(UpdateStatus.IN_PROGRESS, model.value().get(0).status());
+        Assertions.assertEquals("ualaexqpvfadmw", model.value().get(0).resourceId());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-02-27T12:21:31Z"), model.value().get(0).lastUpdateTime());
     }
 }

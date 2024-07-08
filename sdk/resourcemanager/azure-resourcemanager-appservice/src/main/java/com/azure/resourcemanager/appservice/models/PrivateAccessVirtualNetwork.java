@@ -6,9 +6,12 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Description of a Virtual Network that is useable for private site access. */
+/**
+ * Description of a Virtual Network that is useable for private site access.
+ */
 @Fluent
 public final class PrivateAccessVirtualNetwork {
     /*
@@ -30,13 +33,14 @@ public final class PrivateAccessVirtualNetwork {
     private String resourceId;
 
     /*
-     * A List of subnets that access is allowed to on this Virtual Network. An empty array (but not null) is
-     * interpreted to mean that all subnets are allowed within this Virtual Network.
+     * A List of subnets that access is allowed to on this Virtual Network. An empty array (but not null) is interpreted to mean that all subnets are allowed within this Virtual Network.
      */
     @JsonProperty(value = "subnets")
     private List<PrivateAccessSubnet> subnets;
 
-    /** Creates an instance of PrivateAccessVirtualNetwork class. */
+    /**
+     * Creates an instance of PrivateAccessVirtualNetwork class.
+     */
     public PrivateAccessVirtualNetwork() {
     }
 

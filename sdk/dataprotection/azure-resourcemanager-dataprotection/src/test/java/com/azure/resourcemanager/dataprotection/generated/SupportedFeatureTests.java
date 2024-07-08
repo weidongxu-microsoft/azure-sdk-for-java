@@ -13,26 +13,22 @@ import org.junit.jupiter.api.Assertions;
 public final class SupportedFeatureTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        SupportedFeature model =
-            BinaryData
-                .fromString(
-                    "{\"featureName\":\"fzxiavrmb\",\"supportStatus\":\"AlphaPreview\",\"exposureControlledFeatures\":[\"i\",\"rjqc\"]}")
-                .toObject(SupportedFeature.class);
-        Assertions.assertEquals("fzxiavrmb", model.featureName());
-        Assertions.assertEquals(FeatureSupportStatus.ALPHA_PREVIEW, model.supportStatus());
-        Assertions.assertEquals("i", model.exposureControlledFeatures().get(0));
+        SupportedFeature model = BinaryData.fromString(
+            "{\"featureName\":\"k\",\"supportStatus\":\"PublicPreview\",\"exposureControlledFeatures\":[\"mvikl\",\"ydv\"]}")
+            .toObject(SupportedFeature.class);
+        Assertions.assertEquals("k", model.featureName());
+        Assertions.assertEquals(FeatureSupportStatus.PUBLIC_PREVIEW, model.supportStatus());
+        Assertions.assertEquals("mvikl", model.exposureControlledFeatures().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SupportedFeature model =
-            new SupportedFeature()
-                .withFeatureName("fzxiavrmb")
-                .withSupportStatus(FeatureSupportStatus.ALPHA_PREVIEW)
-                .withExposureControlledFeatures(Arrays.asList("i", "rjqc"));
+        SupportedFeature model
+            = new SupportedFeature().withFeatureName("k").withSupportStatus(FeatureSupportStatus.PUBLIC_PREVIEW)
+                .withExposureControlledFeatures(Arrays.asList("mvikl", "ydv"));
         model = BinaryData.fromObject(model).toObject(SupportedFeature.class);
-        Assertions.assertEquals("fzxiavrmb", model.featureName());
-        Assertions.assertEquals(FeatureSupportStatus.ALPHA_PREVIEW, model.supportStatus());
-        Assertions.assertEquals("i", model.exposureControlledFeatures().get(0));
+        Assertions.assertEquals("k", model.featureName());
+        Assertions.assertEquals(FeatureSupportStatus.PUBLIC_PREVIEW, model.supportStatus());
+        Assertions.assertEquals("mvikl", model.exposureControlledFeatures().get(0));
     }
 }

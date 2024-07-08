@@ -9,6 +9,7 @@ import com.azure.core.management.SubResource;
 import com.azure.core.management.provider.IdentifierProvider;
 import com.azure.core.management.serializer.SerializerFactory;
 import com.azure.core.util.Context;
+import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
@@ -110,14 +111,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 /** The implementation for VirtualMachine and its create and update interfaces. */
 class VirtualMachineImpl
@@ -866,6 +871,12 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withCustomData(String base64EncodedCustomData) {
         this.innerModel().osProfile().withCustomData(base64EncodedCustomData);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withUserData(String base64EncodedUserData) {
+        this.innerModel().withUserData(base64EncodedUserData);
         return this;
     }
 
@@ -1729,6 +1740,11 @@ class VirtualMachineImpl
     }
 
     @Override
+    public boolean isEncryptionAtHost() {
+        return !Objects.isNull(this.innerModel().securityProfile()) && this.innerModel().securityProfile().encryptionAtHost();
+    }
+
+    @Override
     public Map<Integer, VirtualMachineUnmanagedDataDisk> unmanagedDataDisks() {
         Map<Integer, VirtualMachineUnmanagedDataDisk> dataDisks = new HashMap<>();
         if (!isManagedDiskEnabled()) {
@@ -1999,6 +2015,28 @@ class VirtualMachineImpl
     }
 
     @Override
+    public DeleteOptions primaryNetworkInterfaceDeleteOptions() {
+        String nicId = primaryNetworkInterfaceId();
+        return networkInterfaceDeleteOptions(nicId);
+    }
+
+    @Override
+    public DeleteOptions networkInterfaceDeleteOptions(String networkInterfaceId) {
+        if (CoreUtils.isNullOrEmpty(networkInterfaceId)
+            || this.innerModel().networkProfile() == null
+            || this.innerModel().networkProfile().networkInterfaces() == null) {
+            return null;
+        }
+        return this.innerModel().networkProfile()
+            .networkInterfaces()
+            .stream()
+            .filter(nic -> networkInterfaceId.equalsIgnoreCase(nic.id()))
+            .findAny()
+            .map(NetworkInterfaceReference::deleteOption)
+            .orElse(null);
+    }
+
+    @Override
     public VirtualMachinePriorityTypes priority() {
         return this.innerModel().priority();
     }
@@ -2006,6 +2044,11 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineEvictionPolicyTypes evictionPolicy() {
         return this.innerModel().evictionPolicy();
+    }
+
+    @Override
+    public String userData() {
+        return this.innerModel().userData();
     }
 
     // CreateUpdateTaskGroup.ResourceCreator.beforeGroupCreateOrUpdate implementation
@@ -2092,7 +2135,7 @@ class VirtualMachineImpl
                         .manager()
                         .serviceClient()
                         .getVirtualMachines()
-                        .createOrUpdateWithResponseAsync(resourceGroupName(), vmName, innerModel())
+                        .createOrUpdateWithResponseAsync(resourceGroupName(), vmName, innerModel(), null, null)
                         .block(),
                 inner ->
                     new VirtualMachineImpl(
@@ -2175,6 +2218,7 @@ class VirtualMachineImpl
         creatableSecondaryNetworkInterfaceKeys.clear();
         existingSecondaryNetworkInterfacesToAssociate.clear();
         secondaryNetworkInterfaceDeleteOptions.clear();
+        primaryNetworkInterfaceDeleteOptions = null;
     }
 
     VirtualMachineImpl withUnmanagedDataDisk(UnmanagedDataDiskImpl dataDisk) {
@@ -2208,8 +2252,67 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withOsDiskDeleteOptions(DeleteOptions deleteOptions) {
+        if (deleteOptions == null
+            || this.innerModel().storageProfile() == null || this.innerModel().storageProfile().osDisk() == null) {
+            return null;
+        }
+        this.innerModel().storageProfile().osDisk().withDeleteOption(diskDeleteOptionsFromDeleteOptions(deleteOptions));
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withPrimaryNetworkInterfaceDeleteOptions(DeleteOptions deleteOptions) {
         this.primaryNetworkInterfaceDeleteOptions = deleteOptions;
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withNetworkInterfacesDeleteOptions(DeleteOptions deleteOptions, String... nicIds) {
+        if (this.innerModel().networkProfile() != null
+            && this.innerModel().networkProfile().networkInterfaces() != null) {
+            // vararg "nicIds" will never be null, an array will always be created to hold the variables
+            Set<String> nicIdSet = Arrays.stream(nicIds).map(nicId -> nicId.toLowerCase(Locale.ROOT)).collect(Collectors.toSet());
+            this.innerModel().networkProfile().networkInterfaces().forEach(
+                nic -> {
+                    if (nicIdSet.contains(nic.id().toLowerCase(Locale.ROOT))) {
+                        nic.withDeleteOption(deleteOptions);
+                    }
+                }
+            );
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withNetworkInterfacesDeleteOptions(DeleteOptions deleteOptions) {
+        this.innerModel().networkProfile().networkInterfaces().forEach(
+            nic -> nic.withDeleteOption(deleteOptions)
+        );
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withDataDisksDeleteOptions(DeleteOptions deleteOptions, Integer... luns) {
+        if (this.innerModel().storageProfile() != null && this.innerModel().storageProfile().dataDisks() != null) {
+            // vararg "luns" will never be null, an array will always be created to hold the variables
+            Set<Integer> lunSet = Arrays.stream(luns).filter(Objects::nonNull).collect(Collectors.toSet());
+            this.innerModel().storageProfile().dataDisks().forEach(
+                dataDisk -> {
+                    if (lunSet.contains(dataDisk.lun())) {
+                        dataDisk.withDeleteOption(diskDeleteOptionsFromDeleteOptions(deleteOptions));
+                    }
+                }
+            );
+        }
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withDataDisksDeleteOptions(DeleteOptions deleteOptions) {
+        this.innerModel().storageProfile().dataDisks().forEach(
+            dataDisk -> dataDisk.withDeleteOption(diskDeleteOptionsFromDeleteOptions(deleteOptions))
+        );
         return this;
     }
 
@@ -2397,10 +2500,17 @@ class VirtualMachineImpl
                 NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
                 nicReference.withPrimary(true);
                 nicReference.withId(primaryNetworkInterface.id());
-                if (this.primaryNetworkInterfaceDeleteOptions != null) {
-                    nicReference.withDeleteOption(this.primaryNetworkInterfaceDeleteOptions);
-                }
                 this.innerModel().networkProfile().networkInterfaces().add(nicReference);
+            }
+        }
+
+        // sets the delete options for primary network interface
+        if (this.primaryNetworkInterfaceDeleteOptions != null) {
+            String primaryNetworkInterfaceId = primaryNetworkInterfaceId();
+            if (primaryNetworkInterfaceId != null) {
+                this.innerModel().networkProfile().networkInterfaces().stream()
+                    .filter(nic -> primaryNetworkInterfaceId.equals(nic.id()))
+                    .forEach(nic -> nic.withDeleteOption(this.primaryNetworkInterfaceDeleteOptions));
             }
         }
 
@@ -2693,6 +2803,7 @@ class VirtualMachineImpl
         updateParameter.withProximityPlacementGroup(this.innerModel().proximityPlacementGroup());
         updateParameter.withPriority(this.innerModel().priority());
         updateParameter.withEvictionPolicy(this.innerModel().evictionPolicy());
+        updateParameter.withUserData(this.innerModel().userData());
     }
 
     RoleAssignmentHelper.IdProvider idProvider() {
@@ -2817,6 +2928,18 @@ class VirtualMachineImpl
             ensureSecurityProfile().withUefiSettings(uefiSettings);
         }
         return uefiSettings;
+    }
+
+    @Override
+    public VirtualMachineImpl withEncryptionAtHost() {
+        ensureSecurityProfile().withEncryptionAtHost(true);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withoutEncryptionAtHost() {
+        ensureSecurityProfile().withEncryptionAtHost(false);
+        return this;
     }
 
     /** Class to manage Data disk collection. */

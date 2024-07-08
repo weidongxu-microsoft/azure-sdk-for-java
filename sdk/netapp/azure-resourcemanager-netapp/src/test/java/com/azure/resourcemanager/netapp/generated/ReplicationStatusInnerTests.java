@@ -13,32 +13,28 @@ import org.junit.jupiter.api.Assertions;
 public final class ReplicationStatusInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ReplicationStatusInner model =
-            BinaryData
-                .fromString(
-                    "{\"healthy\":false,\"relationshipStatus\":\"Idle\",\"mirrorState\":\"Mirrored\",\"totalProgress\":\"jusrtslhspk\",\"errorMessage\":\"emaofmxagkvt\"}")
-                .toObject(ReplicationStatusInner.class);
+        ReplicationStatusInner model = BinaryData.fromString(
+            "{\"healthy\":false,\"relationshipStatus\":\"Transferring\",\"mirrorState\":\"Broken\",\"totalProgress\":\"helxprglya\",\"errorMessage\":\"dckcbc\"}")
+            .toObject(ReplicationStatusInner.class);
         Assertions.assertEquals(false, model.healthy());
-        Assertions.assertEquals(RelationshipStatus.IDLE, model.relationshipStatus());
-        Assertions.assertEquals(MirrorState.MIRRORED, model.mirrorState());
-        Assertions.assertEquals("jusrtslhspk", model.totalProgress());
-        Assertions.assertEquals("emaofmxagkvt", model.errorMessage());
+        Assertions.assertEquals(RelationshipStatus.TRANSFERRING, model.relationshipStatus());
+        Assertions.assertEquals(MirrorState.BROKEN, model.mirrorState());
+        Assertions.assertEquals("helxprglya", model.totalProgress());
+        Assertions.assertEquals("dckcbc", model.errorMessage());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ReplicationStatusInner model =
-            new ReplicationStatusInner()
-                .withHealthy(false)
-                .withRelationshipStatus(RelationshipStatus.IDLE)
-                .withMirrorState(MirrorState.MIRRORED)
-                .withTotalProgress("jusrtslhspk")
-                .withErrorMessage("emaofmxagkvt");
+        ReplicationStatusInner model = new ReplicationStatusInner().withHealthy(false)
+            .withRelationshipStatus(RelationshipStatus.TRANSFERRING)
+            .withMirrorState(MirrorState.BROKEN)
+            .withTotalProgress("helxprglya")
+            .withErrorMessage("dckcbc");
         model = BinaryData.fromObject(model).toObject(ReplicationStatusInner.class);
         Assertions.assertEquals(false, model.healthy());
-        Assertions.assertEquals(RelationshipStatus.IDLE, model.relationshipStatus());
-        Assertions.assertEquals(MirrorState.MIRRORED, model.mirrorState());
-        Assertions.assertEquals("jusrtslhspk", model.totalProgress());
-        Assertions.assertEquals("emaofmxagkvt", model.errorMessage());
+        Assertions.assertEquals(RelationshipStatus.TRANSFERRING, model.relationshipStatus());
+        Assertions.assertEquals(MirrorState.BROKEN, model.mirrorState());
+        Assertions.assertEquals("helxprglya", model.totalProgress());
+        Assertions.assertEquals("dckcbc", model.errorMessage());
     }
 }

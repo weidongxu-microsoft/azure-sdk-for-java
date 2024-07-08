@@ -7,25 +7,28 @@ package com.azure.resourcemanager.devcenter.generated;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for EnvironmentTypes CreateOrUpdate. */
+/**
+ * Samples for EnvironmentTypes CreateOrUpdate.
+ */
 public final class EnvironmentTypesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/EnvironmentTypes_Put.json
+     * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentTypes_Put.json
      */
     /**
      * Sample code: EnvironmentTypes_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to DevCenterManager.
      */
     public static void environmentTypesCreateOrUpdate(com.azure.resourcemanager.devcenter.DevCenterManager manager) {
-        manager
-            .environmentTypes()
+        manager.environmentTypes()
             .define("DevTest")
             .withExistingDevcenter("rg1", "Contoso")
             .withTags(mapOf("Owner", "superuser"))
+            .withDisplayName("Dev")
             .create();
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

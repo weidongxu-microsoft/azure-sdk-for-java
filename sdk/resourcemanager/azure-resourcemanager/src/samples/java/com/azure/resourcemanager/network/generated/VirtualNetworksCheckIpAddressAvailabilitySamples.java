@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualNetworks CheckIpAddressAvailability. */
+/**
+ * Samples for VirtualNetworks CheckIpAddressAvailability.
+ */
 public final class VirtualNetworksCheckIpAddressAvailabilitySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCheckIPAddressAvailability.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkCheckIPAddressAvailability.json
      */
     /**
      * Sample code: Check IP address availability.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void checkIPAddressAvailability(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworks()

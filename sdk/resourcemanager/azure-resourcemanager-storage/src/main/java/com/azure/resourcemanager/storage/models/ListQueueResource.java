@@ -9,7 +9,9 @@ import com.azure.resourcemanager.storage.fluent.models.ListQueueInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Response schema. Contains list of queues returned. */
+/**
+ * Response schema. Contains list of queues returned.
+ */
 @Immutable
 public final class ListQueueResource {
     /*
@@ -25,8 +27,14 @@ public final class ListQueueResource {
     private String nextLink;
 
     /**
+     * Creates an instance of ListQueueResource class.
+     */
+    public ListQueueResource() {
+    }
+
+    /**
      * Get the value property: List of queues returned.
-     *
+     * 
      * @return the value value.
      */
     public List<ListQueueInner> value() {
@@ -35,7 +43,7 @@ public final class ListQueueResource {
 
     /**
      * Get the nextLink property: Request URL that can be used to list next page of queues.
-     *
+     * 
      * @return the nextLink value.
      */
     public String nextLink() {
@@ -44,7 +52,7 @@ public final class ListQueueResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -6,77 +6,59 @@ package com.azure.resourcemanager.maintenance.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.maintenance.MaintenanceManager;
 import com.azure.resourcemanager.maintenance.models.MaintenanceConfiguration;
 import com.azure.resourcemanager.maintenance.models.MaintenanceScope;
+import com.azure.resourcemanager.maintenance.models.RebootOptions;
 import com.azure.resourcemanager.maintenance.models.Visibility;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class PublicMaintenanceConfigurationsGetWithResponseMockTests {
     @Test
     public void testGetWithResponse() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"location\":\"aruoujmkcjhwqyt\",\"tags\":{\"ewgdrjervn\":\"bnw\"},\"properties\":{\"namespace\":\"qp\",\"extensionProperties\":{\"l\":\"ndoygmifthnzdnd\",\"ynduha\":\"nayqi\",\"bgycduiertgccym\":\"hqlkthumaqo\",\"lqlfm\":\"aolps\"},\"maintenanceScope\":\"Extension\",\"maintenanceWindow\":{\"startDateTime\":\"glzpswiydm\",\"expirationDateTime\":\"yhz\",\"duration\":\"ss\",\"timeZone\":\"bzmnvdfznud\",\"recurEvery\":\"dvxzbncblylpst\"},\"visibility\":\"Custom\",\"installPatches\":{\"rebootSetting\":\"Always\",\"windowsParameters\":{\"kbNumbersToExclude\":[\"zucerscdntnev\"],\"kbNumbersToInclude\":[\"jmygtdsslswtmwer\"],\"classificationsToInclude\":[\"zpyqsemwab\"],\"excludeKbsRequiringReboot\":true},\"linuxParameters\":{\"packageNameMasksToExclude\":[\"szhedplvw\",\"wubmwmbesldn\",\"wwtppj\",\"lcxog\"],\"packageNameMasksToInclude\":[\"onz\",\"nsikvmkqzeqqkdl\",\"fzxmhhvhgureodkw\"],\"classificationsToInclude\":[\"agxti\",\"qdxbxwa\",\"bogqxndlkzgxhu\"]}}},\"id\":\"plbpodxun\",\"name\":\"bebxmubyyntwl\",\"type\":\"bqtkoievseotgqr\"}";
 
-        String responseStr =
-            "{\"location\":\"ionpimexg\",\"tags\":{\"gmaajrm\":\"gcpo\"},\"properties\":{\"namespace\":\"wzrlovmclwhij\",\"extensionProperties\":{\"s\":\"jctbza\",\"ukdkexxppofmxa\":\"sycbkbfk\",\"jpgd\":\"c\",\"j\":\"toc\"},\"maintenanceScope\":\"InGuestPatch\",\"maintenanceWindow\":{\"startDateTime\":\"o\",\"expirationDateTime\":\"xhdzxibqeojnx\",\"duration\":\"zvddntwndeicbtwn\",\"timeZone\":\"aoqvuh\",\"recurEvery\":\"cffcyddglmj\"},\"visibility\":\"Public\"},\"id\":\"kw\",\"name\":\"yeicxmqciwqvhk\",\"type\":\"ixuigdtopbobj\"}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        MaintenanceManager manager = MaintenanceManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        MaintenanceConfiguration response = manager.publicMaintenanceConfigurations()
+            .getWithResponse("vwpm", com.azure.core.util.Context.NONE)
+            .getValue();
 
-        MaintenanceManager manager =
-            MaintenanceManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        MaintenanceConfiguration response =
-            manager
-                .publicMaintenanceConfigurations()
-                .getWithResponse("odxobnbdxkqpxok", com.azure.core.util.Context.NONE)
-                .getValue();
-
-        Assertions.assertEquals("ionpimexg", response.location());
-        Assertions.assertEquals("gcpo", response.tags().get("gmaajrm"));
-        Assertions.assertEquals("wzrlovmclwhij", response.namespace());
-        Assertions.assertEquals("jctbza", response.extensionProperties().get("s"));
-        Assertions.assertEquals(MaintenanceScope.IN_GUEST_PATCH, response.maintenanceScope());
-        Assertions.assertEquals(Visibility.PUBLIC, response.visibility());
-        Assertions.assertEquals("o", response.startDateTime());
-        Assertions.assertEquals("xhdzxibqeojnx", response.expirationDateTime());
-        Assertions.assertEquals("zvddntwndeicbtwn", response.duration());
-        Assertions.assertEquals("aoqvuh", response.timeZone());
-        Assertions.assertEquals("cffcyddglmj", response.recurEvery());
+        Assertions.assertEquals("aruoujmkcjhwqyt", response.location());
+        Assertions.assertEquals("bnw", response.tags().get("ewgdrjervn"));
+        Assertions.assertEquals("qp", response.namespace());
+        Assertions.assertEquals("ndoygmifthnzdnd", response.extensionProperties().get("l"));
+        Assertions.assertEquals(MaintenanceScope.EXTENSION, response.maintenanceScope());
+        Assertions.assertEquals(Visibility.CUSTOM, response.visibility());
+        Assertions.assertEquals(RebootOptions.ALWAYS, response.installPatches().rebootSetting());
+        Assertions.assertEquals("zucerscdntnev",
+            response.installPatches().windowsParameters().kbNumbersToExclude().get(0));
+        Assertions.assertEquals("jmygtdsslswtmwer",
+            response.installPatches().windowsParameters().kbNumbersToInclude().get(0));
+        Assertions.assertEquals("zpyqsemwab",
+            response.installPatches().windowsParameters().classificationsToInclude().get(0));
+        Assertions.assertEquals(true, response.installPatches().windowsParameters().excludeKbsRequiringReboot());
+        Assertions.assertEquals("szhedplvw",
+            response.installPatches().linuxParameters().packageNameMasksToExclude().get(0));
+        Assertions.assertEquals("onz", response.installPatches().linuxParameters().packageNameMasksToInclude().get(0));
+        Assertions.assertEquals("agxti", response.installPatches().linuxParameters().classificationsToInclude().get(0));
+        Assertions.assertEquals("glzpswiydm", response.startDateTime());
+        Assertions.assertEquals("yhz", response.expirationDateTime());
+        Assertions.assertEquals("ss", response.duration());
+        Assertions.assertEquals("bzmnvdfznud", response.timeZone());
+        Assertions.assertEquals("dvxzbncblylpst", response.recurEvery());
     }
 }

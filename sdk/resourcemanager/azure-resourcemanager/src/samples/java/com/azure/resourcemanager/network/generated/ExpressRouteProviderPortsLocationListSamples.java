@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ExpressRouteProviderPortsLocation List. */
+/**
+ * Samples for ExpressRouteProviderPortsLocation List.
+ */
 public final class ExpressRouteProviderPortsLocationListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/expressRouteProviderPortList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/expressRouteProviderPortList.json
      */
     /**
      * Sample code: ExpressRouteProviderPortList.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void expressRouteProviderPortList(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getExpressRouteProviderPortsLocations()

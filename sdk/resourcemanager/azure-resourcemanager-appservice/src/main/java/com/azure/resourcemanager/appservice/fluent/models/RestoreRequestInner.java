@@ -9,9 +9,12 @@ import com.azure.resourcemanager.appservice.models.BackupRestoreOperationType;
 import com.azure.resourcemanager.appservice.models.DatabaseBackupSetting;
 import com.azure.resourcemanager.appservice.models.ProxyOnlyResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Description of a restore request. */
+/**
+ * Description of a restore request.
+ */
 @Fluent
 public final class RestoreRequestInner extends ProxyOnlyResource {
     /*
@@ -20,7 +23,9 @@ public final class RestoreRequestInner extends ProxyOnlyResource {
     @JsonProperty(value = "properties")
     private RestoreRequestProperties innerProperties;
 
-    /** Creates an instance of RestoreRequestInner class. */
+    /**
+     * Creates an instance of RestoreRequestInner class.
+     */
     public RestoreRequestInner() {
     }
 
@@ -33,7 +38,9 @@ public final class RestoreRequestInner extends ProxyOnlyResource {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestoreRequestInner withKind(String kind) {
         super.withKind(kind);
@@ -164,8 +171,8 @@ public final class RestoreRequestInner extends ProxyOnlyResource {
     /**
      * Get the ignoreConflictingHostNames property: Changes a logic when restoring an app with custom domains.
      * &lt;code&gt;true&lt;/code&gt; to remove custom domains automatically. If &lt;code&gt;false&lt;/code&gt;, custom
-     * domains are added to the app's object when it is being restored, but that might fail due to conflicts during the
-     * operation.
+     * domains are added to
+     * the app's object when it is being restored, but that might fail due to conflicts during the operation.
      *
      * @return the ignoreConflictingHostNames value.
      */
@@ -176,8 +183,8 @@ public final class RestoreRequestInner extends ProxyOnlyResource {
     /**
      * Set the ignoreConflictingHostNames property: Changes a logic when restoring an app with custom domains.
      * &lt;code&gt;true&lt;/code&gt; to remove custom domains automatically. If &lt;code&gt;false&lt;/code&gt;, custom
-     * domains are added to the app's object when it is being restored, but that might fail due to conflicts during the
-     * operation.
+     * domains are added to
+     * the app's object when it is being restored, but that might fail due to conflicts during the operation.
      *
      * @param ignoreConflictingHostNames the ignoreConflictingHostNames value to set.
      * @return the RestoreRequestInner object itself.

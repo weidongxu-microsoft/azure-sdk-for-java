@@ -7,9 +7,12 @@ import com.azure.cosmos.CosmosAsyncContainer;
 import com.azure.cosmos.CosmosAsyncDatabase;
 import com.azure.cosmos.CosmosBridgeInternal;
 import com.azure.cosmos.implementation.AsyncDocumentClient;
+import com.azure.cosmos.implementation.ChangeFeedOperationState;
 import com.azure.cosmos.implementation.Document;
 import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
+import com.azure.cosmos.implementation.OperationType;
 import com.azure.cosmos.implementation.PartitionKeyRange;
+import com.azure.cosmos.implementation.ResourceType;
 import com.azure.cosmos.implementation.changefeed.ChangeFeedContextClient;
 import com.azure.cosmos.implementation.routing.Range;
 import com.azure.cosmos.models.CosmosBulkOperationResponse;
@@ -53,6 +56,8 @@ public class ChangeFeedContextClientImpl implements ChangeFeedContextClient {
     private final AsyncDocumentClient documentClient;
     private final CosmosAsyncContainer cosmosContainer;
     private Scheduler scheduler;
+   private static final ImplementationBridgeHelpers.CosmosAsyncDatabaseHelper.CosmosAsyncDatabaseAccessor cosmosAsyncDatabaseAccessor =
+        ImplementationBridgeHelpers.CosmosAsyncDatabaseHelper.getCosmosAsyncDatabaseAccessor();
 
     /**
      * Initializes a new instance of the {@link ChangeFeedContextClient} interface.
@@ -87,7 +92,7 @@ public class ChangeFeedContextClientImpl implements ChangeFeedContextClient {
     }
 
     @Override
-    public Mono<List<PartitionKeyRange>> getOverlappingRanges(Range<String> range) {
+    public Mono<List<PartitionKeyRange>> getOverlappingRanges(Range<String> range, boolean forceRefresh) {
         AsyncDocumentClient clientWrapper =
                 CosmosBridgeInternal.getAsyncDocumentClient(this.cosmosContainer.getDatabase());
 
@@ -99,7 +104,7 @@ public class ChangeFeedContextClientImpl implements ChangeFeedContextClient {
                             null,
                             collection.getResourceId(),
                             range,
-                            true,
+                            forceRefresh,
                             null);
                 })
                 .flatMap(pkRangesValueHolder -> {
@@ -124,14 +129,29 @@ public class ChangeFeedContextClientImpl implements ChangeFeedContextClient {
                                                                    CosmosChangeFeedRequestOptions changeFeedRequestOptions,
                                                                    Class<T> klass) {
 
+        return this.createDocumentChangeFeedQuery(collectionLink, changeFeedRequestOptions, klass, true);
+    }
+
+    @Override
+    public  <T> Flux<FeedResponse<T>> createDocumentChangeFeedQuery(CosmosAsyncContainer collectionLink,
+                                                                    CosmosChangeFeedRequestOptions changeFeedRequestOptions,
+                                                                    Class<T> klass,
+                                                                    boolean isSplitHandlingDisabled) {
+
+        // Case 1: when split handling should be disabled
         // ChangeFeed processor relies on getting GoneException signals
         // to handle split of leases - so we need to suppress the split-proofing
         // in the underlying fetcher/pipeline for the change feed processor.
-        CosmosChangeFeedRequestOptions effectiveRequestOptions =
+        // Case 2: when split handling should be enabled
+        // A ChangeFeedProcessor instance which is backed by a client with a stale
+        // PKRange cache will run into 410/1002s (PartitionKeyRangeGone) if disable split handling is true
+        // in getCurrentState and getEstimatedLag scenarios therefore disable split handling should explicitly be set to false
+        if (isSplitHandlingDisabled) {
             ModelBridgeInternal.disableSplitHandling(changeFeedRequestOptions);
-
+        }
+        CosmosAsyncDatabase database = collectionLink.getDatabase();
         AsyncDocumentClient clientWrapper =
-            CosmosBridgeInternal.getAsyncDocumentClient(collectionLink.getDatabase());
+            CosmosBridgeInternal.getAsyncDocumentClient(database);
         Flux<FeedResponse<T>> feedResponseFlux =
             clientWrapper
                 .getCollectionCache()
@@ -144,15 +164,23 @@ public class ChangeFeedContextClientImpl implements ChangeFeedContextClient {
                         throw new IllegalStateException("Collection cannot be null");
                     }
 
+                    ChangeFeedOperationState state = new ChangeFeedOperationState(
+                        cosmosAsyncDatabaseAccessor.getCosmosAsyncClient(database),
+                        "queryChangeFeed." + collection.getId(),
+                        database.getId(),
+                        collection.getId(),
+                        ResourceType.Document,
+                        OperationType.ReadFeed,
+                        null,
+                        changeFeedRequestOptions,
+                        null);
+
                     return clientWrapper
-                        .queryDocumentChangeFeed(collection, effectiveRequestOptions, Document.class)
+                        .queryDocumentChangeFeedFromPagedFlux(collection, state, Document.class)
                         .map(response -> {
                             List<T> results = response.getResults()
                                                              .stream()
-                                                             .map(document ->
-                                                                 ModelBridgeInternal.toObjectFromJsonSerializable(
-                                                                     document,
-                                                                     klass))
+                                                             .map(document -> document.toObject(klass))
                                                              .collect(Collectors.toList());
                             return BridgeInternal.toFeedResponsePage(
                                 results,

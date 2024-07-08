@@ -35,8 +35,8 @@ import com.azure.storage.common.implementation.credentials.CredentialValidator;
 import com.azure.storage.common.policy.RequestRetryOptions;
 import com.azure.storage.common.sas.CommonSasQueryParameters;
 import com.azure.storage.file.share.implementation.AzureFileStorageImpl;
-import com.azure.storage.file.share.implementation.AzureFileStorageImplBuilder;
 import com.azure.storage.file.share.implementation.util.BuilderHelper;
+import com.azure.storage.file.share.models.ShareAudience;
 import com.azure.storage.file.share.models.ShareTokenIntent;
 
 import java.net.MalformedURLException;
@@ -184,6 +184,7 @@ public class ShareFileClientBuilder implements
     private ShareTokenIntent shareTokenIntent;
     private boolean allowSourceTrailingDot;
     private boolean allowTrailingDot;
+    private ShareAudience audience;
 
     /**
      * Creates a builder instance that is able to configure and construct {@link ShareFileClient FileClients} and {@link
@@ -197,7 +198,7 @@ public class ShareFileClientBuilder implements
         return version != null ? version : ShareServiceVersion.getLatest();
     }
 
-    private AzureFileStorageImpl constructImpl(ShareServiceVersion serviceVersion) {
+    private AzureFileStorageImpl constructImpl() {
         Objects.requireNonNull(shareName, "'shareName' cannot be null.");
         Objects.requireNonNull(resourcePath, "'resourcePath' cannot be null.");
         CredentialValidator.validateSingleCredentialIsPresent(
@@ -206,16 +207,10 @@ public class ShareFileClientBuilder implements
         HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(
             storageSharedKeyCredential, tokenCredential, azureSasCredential, sasToken,
             endpoint, retryOptions, coreRetryOptions, logOptions,
-            clientOptions, httpClient, perCallPolicies, perRetryPolicies, configuration, LOGGER);
+            clientOptions, httpClient, perCallPolicies, perRetryPolicies, configuration, audience, LOGGER);
 
-        return new AzureFileStorageImplBuilder()
-            .url(endpoint)
-            .pipeline(pipeline)
-            .version(serviceVersion.getVersion())
-            .fileRequestIntent(shareTokenIntent)
-            .allowSourceTrailingDot(allowSourceTrailingDot)
-            .allowTrailingDot(allowTrailingDot)
-            .buildClient();
+        return new AzureFileStorageImpl(pipeline, getServiceVersion().getVersion(), shareTokenIntent, endpoint,
+            allowTrailingDot, allowSourceTrailingDot);
     }
 
     /**
@@ -236,7 +231,7 @@ public class ShareFileClientBuilder implements
      */
     public ShareDirectoryAsyncClient buildDirectoryAsyncClient() {
         ShareServiceVersion serviceVersion = getServiceVersion();
-        return new ShareDirectoryAsyncClient(constructImpl(serviceVersion), shareName, resourcePath,
+        return new ShareDirectoryAsyncClient(constructImpl(), shareName, resourcePath,
             shareSnapshot, accountName, serviceVersion, sasToken != null ? new AzureSasCredential(sasToken) : azureSasCredential);
     }
 
@@ -257,7 +252,9 @@ public class ShareFileClientBuilder implements
      * @throws IllegalStateException If multiple credentials have been specified.
      */
     public ShareDirectoryClient buildDirectoryClient() {
-        return new ShareDirectoryClient(this.buildDirectoryAsyncClient());
+        ShareServiceVersion serviceVersion = getServiceVersion();
+        return new ShareDirectoryClient(constructImpl(), shareName, resourcePath,
+            shareSnapshot, accountName, serviceVersion, sasToken != null ? new AzureSasCredential(sasToken) : azureSasCredential);
     }
 
     /**
@@ -278,7 +275,7 @@ public class ShareFileClientBuilder implements
      */
     public ShareFileAsyncClient buildFileAsyncClient() {
         ShareServiceVersion serviceVersion = getServiceVersion();
-        return new ShareFileAsyncClient(constructImpl(serviceVersion), shareName, resourcePath, shareSnapshot,
+        return new ShareFileAsyncClient(constructImpl(), shareName, resourcePath, shareSnapshot,
             accountName, serviceVersion, sasToken != null ? new AzureSasCredential(sasToken) : azureSasCredential);
     }
 
@@ -299,7 +296,10 @@ public class ShareFileClientBuilder implements
      * @throws IllegalStateException If multiple credentials have been specified.
      */
     public ShareFileClient buildFileClient() {
-        return new ShareFileClient(this.buildFileAsyncClient());
+        ShareServiceVersion serviceVersion = getServiceVersion();
+        return new ShareFileClient(new ShareFileAsyncClient(constructImpl(), shareName, resourcePath, shareSnapshot,
+            accountName, serviceVersion, sasToken != null ? new AzureSasCredential(sasToken) : azureSasCredential), constructImpl(), shareName, resourcePath, shareSnapshot,
+            accountName, serviceVersion, sasToken != null ? new AzureSasCredential(sasToken) : azureSasCredential);
     }
 
     /**
@@ -726,6 +726,17 @@ public class ShareFileClientBuilder implements
      */
     public ShareFileClientBuilder shareTokenIntent(ShareTokenIntent shareTokenIntent) {
         this.shareTokenIntent = shareTokenIntent;
+        return this;
+    }
+
+    /**
+     * Sets the Audience to use for authentication with Azure Active Directory (AAD). The audience is not considered
+     * when using a shared key.
+     * @param audience {@link ShareAudience} to be used when requesting a token from Azure Active Directory (AAD).
+     * @return the updated ShareFileClientBuilder object
+     */
+    public ShareFileClientBuilder audience(ShareAudience audience) {
+        this.audience = audience;
         return this;
     }
 }

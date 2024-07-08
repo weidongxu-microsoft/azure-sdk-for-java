@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.QuickbaseLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Linked service for Quickbase. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Linked service for Quickbase.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = QuickbaseLinkedService.class, visible = true)
 @JsonTypeName("Quickbase")
 @Fluent
 public final class QuickbaseLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Quickbase";
+
     /*
      * Quickbase linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private QuickbaseLinkedServiceTypeProperties innerTypeProperties = new QuickbaseLinkedServiceTypeProperties();
 
-    /** Creates an instance of QuickbaseLinkedService class. */
+    /**
+     * Creates an instance of QuickbaseLinkedService class.
+     */
     public QuickbaseLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Quickbase linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private QuickbaseLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public QuickbaseLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public QuickbaseLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public QuickbaseLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public QuickbaseLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +97,7 @@ public final class QuickbaseLinkedService extends LinkedService {
 
     /**
      * Get the url property: The url to connect Quickbase source. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the url value.
      */
     public Object url() {
@@ -76,7 +106,7 @@ public final class QuickbaseLinkedService extends LinkedService {
 
     /**
      * Set the url property: The url to connect Quickbase source. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param url the url value to set.
      * @return the QuickbaseLinkedService object itself.
      */
@@ -90,7 +120,7 @@ public final class QuickbaseLinkedService extends LinkedService {
 
     /**
      * Get the userToken property: The user token for the Quickbase source.
-     *
+     * 
      * @return the userToken value.
      */
     public SecretBase userToken() {
@@ -99,7 +129,7 @@ public final class QuickbaseLinkedService extends LinkedService {
 
     /**
      * Set the userToken property: The user token for the Quickbase source.
-     *
+     * 
      * @param userToken the userToken value to set.
      * @return the QuickbaseLinkedService object itself.
      */
@@ -113,22 +143,22 @@ public final class QuickbaseLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the QuickbaseLinkedService object itself.
      */
-    public QuickbaseLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public QuickbaseLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new QuickbaseLinkedServiceTypeProperties();
         }
@@ -138,17 +168,16 @@ public final class QuickbaseLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model QuickbaseLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model QuickbaseLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for Database ListMetricDefinitions. */
+/**
+ * Samples for Database ListMetricDefinitions.
+ */
 public final class DatabaseListMetricDefinitionsSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseGetMetricDefinitions.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBDatabaseGetMetricDefinitions.json
      */
     /**
      * Sample code: CosmosDBDatabaseGetMetricDefinitions.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBDatabaseGetMetricDefinitions(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getDatabases()

@@ -14,8 +14,8 @@ import com.azure.resourcemanager.eventgrid.fluent.models.DomainInner;
 import com.azure.resourcemanager.eventgrid.fluent.models.DomainSharedAccessKeysInner;
 import com.azure.resourcemanager.eventgrid.models.Domain;
 import com.azure.resourcemanager.eventgrid.models.DomainRegenerateKeyRequest;
-import com.azure.resourcemanager.eventgrid.models.DomainSharedAccessKeys;
 import com.azure.resourcemanager.eventgrid.models.Domains;
+import com.azure.resourcemanager.eventgrid.models.DomainSharedAccessKeys;
 
 public final class DomainsImpl implements Domains {
     private static final ClientLogger LOGGER = new ClientLogger(DomainsImpl.class);
@@ -29,15 +29,12 @@ public final class DomainsImpl implements Domains {
         this.serviceManager = serviceManager;
     }
 
-    public Response<Domain> getByResourceGroupWithResponse(
-        String resourceGroupName, String domainName, Context context) {
-        Response<DomainInner> inner =
-            this.serviceClient().getByResourceGroupWithResponse(resourceGroupName, domainName, context);
+    public Response<Domain> getByResourceGroupWithResponse(String resourceGroupName, String domainName,
+        Context context) {
+        Response<DomainInner> inner
+            = this.serviceClient().getByResourceGroupWithResponse(resourceGroupName, domainName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new DomainImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -63,35 +60,32 @@ public final class DomainsImpl implements Domains {
 
     public PagedIterable<Domain> list() {
         PagedIterable<DomainInner> inner = this.serviceClient().list();
-        return Utils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
     }
 
     public PagedIterable<Domain> list(String filter, Integer top, Context context) {
         PagedIterable<DomainInner> inner = this.serviceClient().list(filter, top, context);
-        return Utils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
     }
 
     public PagedIterable<Domain> listByResourceGroup(String resourceGroupName) {
         PagedIterable<DomainInner> inner = this.serviceClient().listByResourceGroup(resourceGroupName);
-        return Utils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
     }
 
-    public PagedIterable<Domain> listByResourceGroup(
-        String resourceGroupName, String filter, Integer top, Context context) {
-        PagedIterable<DomainInner> inner =
-            this.serviceClient().listByResourceGroup(resourceGroupName, filter, top, context);
-        return Utils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
+    public PagedIterable<Domain> listByResourceGroup(String resourceGroupName, String filter, Integer top,
+        Context context) {
+        PagedIterable<DomainInner> inner
+            = this.serviceClient().listByResourceGroup(resourceGroupName, filter, top, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new DomainImpl(inner1, this.manager()));
     }
 
-    public Response<DomainSharedAccessKeys> listSharedAccessKeysWithResponse(
-        String resourceGroupName, String domainName, Context context) {
-        Response<DomainSharedAccessKeysInner> inner =
-            this.serviceClient().listSharedAccessKeysWithResponse(resourceGroupName, domainName, context);
+    public Response<DomainSharedAccessKeys> listSharedAccessKeysWithResponse(String resourceGroupName,
+        String domainName, Context context) {
+        Response<DomainSharedAccessKeysInner> inner
+            = this.serviceClient().listSharedAccessKeysWithResponse(resourceGroupName, domainName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new DomainSharedAccessKeysImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -107,27 +101,22 @@ public final class DomainsImpl implements Domains {
         }
     }
 
-    public Response<DomainSharedAccessKeys> regenerateKeyWithResponse(
-        String resourceGroupName, String domainName, DomainRegenerateKeyRequest regenerateKeyRequest, Context context) {
-        Response<DomainSharedAccessKeysInner> inner =
-            this
-                .serviceClient()
-                .regenerateKeyWithResponse(resourceGroupName, domainName, regenerateKeyRequest, context);
+    public Response<DomainSharedAccessKeys> regenerateKeyWithResponse(String resourceGroupName, String domainName,
+        DomainRegenerateKeyRequest regenerateKeyRequest, Context context) {
+        Response<DomainSharedAccessKeysInner> inner = this.serviceClient()
+            .regenerateKeyWithResponse(resourceGroupName, domainName, regenerateKeyRequest, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new DomainSharedAccessKeysImpl(inner.getValue(), this.manager()));
         } else {
             return null;
         }
     }
 
-    public DomainSharedAccessKeys regenerateKey(
-        String resourceGroupName, String domainName, DomainRegenerateKeyRequest regenerateKeyRequest) {
-        DomainSharedAccessKeysInner inner =
-            this.serviceClient().regenerateKey(resourceGroupName, domainName, regenerateKeyRequest);
+    public DomainSharedAccessKeys regenerateKey(String resourceGroupName, String domainName,
+        DomainRegenerateKeyRequest regenerateKeyRequest) {
+        DomainSharedAccessKeysInner inner
+            = this.serviceClient().regenerateKey(resourceGroupName, domainName, regenerateKeyRequest);
         if (inner != null) {
             return new DomainSharedAccessKeysImpl(inner, this.manager());
         } else {
@@ -136,77 +125,57 @@ public final class DomainsImpl implements Domains {
     }
 
     public Domain getById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String domainName = Utils.getValueFromIdByName(id, "domains");
+        String domainName = ResourceManagerUtils.getValueFromIdByName(id, "domains");
         if (domainName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
         }
         return this.getByResourceGroupWithResponse(resourceGroupName, domainName, Context.NONE).getValue();
     }
 
     public Response<Domain> getByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String domainName = Utils.getValueFromIdByName(id, "domains");
+        String domainName = ResourceManagerUtils.getValueFromIdByName(id, "domains");
         if (domainName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
         }
         return this.getByResourceGroupWithResponse(resourceGroupName, domainName, context);
     }
 
     public void deleteById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String domainName = Utils.getValueFromIdByName(id, "domains");
+        String domainName = ResourceManagerUtils.getValueFromIdByName(id, "domains");
         if (domainName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
         }
         this.delete(resourceGroupName, domainName, Context.NONE);
     }
 
     public void deleteByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String domainName = Utils.getValueFromIdByName(id, "domains");
+        String domainName = ResourceManagerUtils.getValueFromIdByName(id, "domains");
         if (domainName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'domains'.", id)));
         }
         this.delete(resourceGroupName, domainName, context);
     }

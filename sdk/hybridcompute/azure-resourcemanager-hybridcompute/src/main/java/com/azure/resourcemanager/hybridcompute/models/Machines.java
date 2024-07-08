@@ -8,11 +8,13 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
 
-/** Resource collection API of Machines. */
+/**
+ * Resource collection API of Machines.
+ */
 public interface Machines {
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param context The context to associate with this operation.
@@ -24,8 +26,8 @@ public interface Machines {
     Response<Void> deleteByResourceGroupWithResponse(String resourceGroupName, String machineName, Context context);
 
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -36,7 +38,7 @@ public interface Machines {
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param expand The expand expression to apply on the operation.
@@ -46,12 +48,12 @@ public interface Machines {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return describes a hybrid machine along with {@link Response}.
      */
-    Response<Machine> getByResourceGroupWithResponse(
-        String resourceGroupName, String machineName, InstanceViewTypes expand, Context context);
+    Response<Machine> getByResourceGroupWithResponse(String resourceGroupName, String machineName, String expand,
+        Context context);
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -62,9 +64,63 @@ public interface Machines {
     Machine getByResourceGroup(String resourceGroupName, String machineName);
 
     /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result.
+     */
+    MachineAssessPatchesResult assessPatches(String resourceGroupName, String name);
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result.
+     */
+    MachineAssessPatchesResult assessPatches(String resourceGroupName, String name, Context context);
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation.
+     */
+    MachineInstallPatchesResult installPatches(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput);
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation.
+     */
+    MachineInstallPatchesResult installPatches(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput, Context context);
+
+    /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -76,20 +132,21 @@ public interface Machines {
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param expand Expands referenced resources.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response as paginated response with {@link PagedIterable}.
      */
-    PagedIterable<Machine> listByResourceGroup(String resourceGroupName, Context context);
+    PagedIterable<Machine> listByResourceGroup(String resourceGroupName, String expand, Context context);
 
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response as paginated response with {@link PagedIterable}.
@@ -99,7 +156,7 @@ public interface Machines {
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.

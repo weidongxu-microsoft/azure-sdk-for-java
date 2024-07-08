@@ -20,6 +20,7 @@ import reactor.util.annotation.Nullable;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import static com.azure.monitor.opentelemetry.exporter.implementation.MappingsBuilder.MappingType.LOG;
 import static io.opentelemetry.api.common.AttributeKey.stringArrayKey;
 import static io.opentelemetry.api.common.AttributeKey.stringKey;
 
@@ -41,7 +42,7 @@ public class LogDataMapper {
 
     static {
         MappingsBuilder mappingsBuilder =
-            new MappingsBuilder()
+            new MappingsBuilder(LOG)
                 .prefix(
                     LOG4J_MDC_PREFIX,
                     (telemetryBuilder, key, value) -> {
@@ -98,22 +99,25 @@ public class LogDataMapper {
         this.telemetryInitializer = telemetryInitializer;
     }
 
-    public TelemetryItem map(LogRecordData log, @Nullable String stack, @Nullable Long itemCount) {
+    public TelemetryItem map(LogRecordData log, @Nullable String stack, @Nullable Double sampleRate) {
+        if (sampleRate == null) {
+            sampleRate = getSampleRate(log);
+        }
         if (stack == null) {
-            return createMessageTelemetryItem(log, itemCount);
+            return createMessageTelemetryItem(log, sampleRate);
         } else {
-            return createExceptionTelemetryItem(log, stack, itemCount);
+            return createExceptionTelemetryItem(log, stack, sampleRate);
         }
     }
 
-    private TelemetryItem createMessageTelemetryItem(LogRecordData log, @Nullable Long itemCount) {
+    private TelemetryItem createMessageTelemetryItem(LogRecordData log, @Nullable Double sampleRate) {
         MessageTelemetryBuilder telemetryBuilder = MessageTelemetryBuilder.create();
         telemetryInitializer.accept(telemetryBuilder, log.getResource());
 
         // set standard properties
         setOperationTags(telemetryBuilder, log);
-        setTime(telemetryBuilder, log.getTimestampEpochNanos());
-        setItemCount(telemetryBuilder, log, itemCount);
+        setTime(telemetryBuilder, log);
+        setSampleRate(telemetryBuilder, sampleRate);
 
         // update tags
         Attributes attributes = log.getAttributes();
@@ -136,14 +140,14 @@ public class LogDataMapper {
     }
 
     private TelemetryItem createExceptionTelemetryItem(
-        LogRecordData log, String stack, @Nullable Long itemCount) {
+        LogRecordData log, String stack, @Nullable Double sampleRate) {
         ExceptionTelemetryBuilder telemetryBuilder = ExceptionTelemetryBuilder.create();
         telemetryInitializer.accept(telemetryBuilder, log.getResource());
 
         // set standard properties
         setOperationTags(telemetryBuilder, log);
-        setTime(telemetryBuilder, log.getTimestampEpochNanos());
-        setItemCount(telemetryBuilder, log, itemCount);
+        setTime(telemetryBuilder, log);
+        setSampleRate(telemetryBuilder, sampleRate);
 
         // update tags
         Attributes attributes = log.getAttributes();
@@ -195,18 +199,27 @@ public class LogDataMapper {
         }
     }
 
-    private static void setTime(AbstractTelemetryBuilder telemetryBuilder, long epochNanos) {
-        telemetryBuilder.setTime(FormattedTime.offSetDateTimeFromEpochNanos(epochNanos));
+    private static void setTime(AbstractTelemetryBuilder telemetryBuilder, LogRecordData log) {
+        telemetryBuilder.setTime(FormattedTime.offSetDateTimeFromEpochNanos(getTimestampEpochNanosWithFallback(log)));
     }
 
-    private static void setItemCount(
-        AbstractTelemetryBuilder telemetryBuilder, LogRecordData log, @Nullable Long itemCount) {
-        if (itemCount == null) {
-            itemCount = log.getAttributes().get(AiSemanticAttributes.ITEM_COUNT);
+    private static long getTimestampEpochNanosWithFallback(LogRecordData log) {
+        long timestamp = log.getTimestampEpochNanos();
+        if (timestamp != 0) {
+            return timestamp;
         }
-        if (itemCount != null && itemCount != 1) {
-            telemetryBuilder.setSampleRate(100.0f / itemCount);
+        return log.getObservedTimestampEpochNanos();
+    }
+
+    private static void setSampleRate(AbstractTelemetryBuilder telemetryBuilder, @Nullable Double sampleRate) {
+        if (sampleRate != null) {
+            telemetryBuilder.setSampleRate(sampleRate.floatValue());
         }
+    }
+
+    @Nullable
+    private static Double getSampleRate(LogRecordData log) {
+        return log.getAttributes().get(AiSemanticAttributes.SAMPLE_RATE);
     }
 
     private static void setFunctionExtraTraceAttributes(

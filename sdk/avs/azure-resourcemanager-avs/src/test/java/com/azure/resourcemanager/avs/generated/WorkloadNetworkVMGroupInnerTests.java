@@ -12,26 +12,22 @@ import org.junit.jupiter.api.Assertions;
 public final class WorkloadNetworkVMGroupInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WorkloadNetworkVMGroupInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"displayName\":\"oujmkcjhwqytj\",\"members\":[\"n\"],\"status\":\"FAILURE\",\"provisioningState\":\"Updating\",\"revision\":4853504646193342370},\"id\":\"ervnaenqpehi\",\"name\":\"doy\",\"type\":\"mifthnzdnd\"}")
-                .toObject(WorkloadNetworkVMGroupInner.class);
-        Assertions.assertEquals("oujmkcjhwqytj", model.displayName());
-        Assertions.assertEquals("n", model.members().get(0));
-        Assertions.assertEquals(4853504646193342370L, model.revision());
+        WorkloadNetworkVMGroupInner model = BinaryData.fromString(
+            "{\"properties\":{\"displayName\":\"zheydbsdshmk\",\"members\":[\"ehvbbxurip\",\"tfnhtbaxkgxywr\",\"kpyklyhp\"],\"status\":\"FAILURE\",\"provisioningState\":\"Updating\",\"revision\":4054155365384402790},\"id\":\"dlgzibthostgkt\",\"name\":\"tvdxeclzedqb\",\"type\":\"vh\"}")
+            .toObject(WorkloadNetworkVMGroupInner.class);
+        Assertions.assertEquals("zheydbsdshmk", model.displayName());
+        Assertions.assertEquals("ehvbbxurip", model.members().get(0));
+        Assertions.assertEquals(4054155365384402790L, model.revision());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        WorkloadNetworkVMGroupInner model =
-            new WorkloadNetworkVMGroupInner()
-                .withDisplayName("oujmkcjhwqytj")
-                .withMembers(Arrays.asList("n"))
-                .withRevision(4853504646193342370L);
+        WorkloadNetworkVMGroupInner model = new WorkloadNetworkVMGroupInner().withDisplayName("zheydbsdshmk")
+            .withMembers(Arrays.asList("ehvbbxurip", "tfnhtbaxkgxywr", "kpyklyhp"))
+            .withRevision(4054155365384402790L);
         model = BinaryData.fromObject(model).toObject(WorkloadNetworkVMGroupInner.class);
-        Assertions.assertEquals("oujmkcjhwqytj", model.displayName());
-        Assertions.assertEquals("n", model.members().get(0));
-        Assertions.assertEquals(4853504646193342370L, model.revision());
+        Assertions.assertEquals("zheydbsdshmk", model.displayName());
+        Assertions.assertEquals("ehvbbxurip", model.members().get(0));
+        Assertions.assertEquals(4054155365384402790L, model.revision());
     }
 }

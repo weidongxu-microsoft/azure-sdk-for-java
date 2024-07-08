@@ -6,27 +6,54 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Operation status extended info for ILR provision action. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * Operation status extended info for ILR provision action.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = OperationStatusProvisionIlrExtendedInfo.class,
+    visible = true)
 @JsonTypeName("OperationStatusProvisionILRExtendedInfo")
 @Fluent
 public final class OperationStatusProvisionIlrExtendedInfo extends OperationStatusExtendedInfo {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "OperationStatusProvisionILRExtendedInfo";
+
     /*
      * Target details for file / folder restore.
      */
     @JsonProperty(value = "recoveryTarget")
     private InstantItemRecoveryTarget recoveryTarget;
 
-    /** Creates an instance of OperationStatusProvisionIlrExtendedInfo class. */
+    /**
+     * Creates an instance of OperationStatusProvisionIlrExtendedInfo class.
+     */
     public OperationStatusProvisionIlrExtendedInfo() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the recoveryTarget property: Target details for file / folder restore.
-     *
+     * 
      * @return the recoveryTarget value.
      */
     public InstantItemRecoveryTarget recoveryTarget() {
@@ -35,7 +62,7 @@ public final class OperationStatusProvisionIlrExtendedInfo extends OperationStat
 
     /**
      * Set the recoveryTarget property: Target details for file / folder restore.
-     *
+     * 
      * @param recoveryTarget the recoveryTarget value to set.
      * @return the OperationStatusProvisionIlrExtendedInfo object itself.
      */
@@ -46,7 +73,7 @@ public final class OperationStatusProvisionIlrExtendedInfo extends OperationStat
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

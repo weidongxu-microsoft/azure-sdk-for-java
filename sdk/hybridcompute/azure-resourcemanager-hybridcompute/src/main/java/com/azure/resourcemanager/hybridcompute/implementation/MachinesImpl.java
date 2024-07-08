@@ -10,9 +10,13 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.hybridcompute.fluent.MachinesClient;
+import com.azure.resourcemanager.hybridcompute.fluent.models.MachineAssessPatchesResultInner;
 import com.azure.resourcemanager.hybridcompute.fluent.models.MachineInner;
-import com.azure.resourcemanager.hybridcompute.models.InstanceViewTypes;
+import com.azure.resourcemanager.hybridcompute.fluent.models.MachineInstallPatchesResultInner;
 import com.azure.resourcemanager.hybridcompute.models.Machine;
+import com.azure.resourcemanager.hybridcompute.models.MachineAssessPatchesResult;
+import com.azure.resourcemanager.hybridcompute.models.MachineInstallPatchesParameters;
+import com.azure.resourcemanager.hybridcompute.models.MachineInstallPatchesResult;
 import com.azure.resourcemanager.hybridcompute.models.Machines;
 
 public final class MachinesImpl implements Machines {
@@ -22,14 +26,14 @@ public final class MachinesImpl implements Machines {
 
     private final com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager;
 
-    public MachinesImpl(
-        MachinesClient innerClient, com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager) {
+    public MachinesImpl(MachinesClient innerClient,
+        com.azure.resourcemanager.hybridcompute.HybridComputeManager serviceManager) {
         this.innerClient = innerClient;
         this.serviceManager = serviceManager;
     }
 
-    public Response<Void> deleteByResourceGroupWithResponse(
-        String resourceGroupName, String machineName, Context context) {
+    public Response<Void> deleteByResourceGroupWithResponse(String resourceGroupName, String machineName,
+        Context context) {
         return this.serviceClient().deleteWithResponse(resourceGroupName, machineName, context);
     }
 
@@ -37,15 +41,12 @@ public final class MachinesImpl implements Machines {
         this.serviceClient().delete(resourceGroupName, machineName);
     }
 
-    public Response<Machine> getByResourceGroupWithResponse(
-        String resourceGroupName, String machineName, InstanceViewTypes expand, Context context) {
-        Response<MachineInner> inner =
-            this.serviceClient().getByResourceGroupWithResponse(resourceGroupName, machineName, expand, context);
+    public Response<Machine> getByResourceGroupWithResponse(String resourceGroupName, String machineName, String expand,
+        Context context) {
+        Response<MachineInner> inner
+            = this.serviceClient().getByResourceGroupWithResponse(resourceGroupName, machineName, expand, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new MachineImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -61,24 +62,65 @@ public final class MachinesImpl implements Machines {
         }
     }
 
-    public PagedIterable<Machine> listByResourceGroup(String resourceGroupName) {
-        PagedIterable<MachineInner> inner = this.serviceClient().listByResourceGroup(resourceGroupName);
-        return Utils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
+    public MachineAssessPatchesResult assessPatches(String resourceGroupName, String name) {
+        MachineAssessPatchesResultInner inner = this.serviceClient().assessPatches(resourceGroupName, name);
+        if (inner != null) {
+            return new MachineAssessPatchesResultImpl(inner, this.manager());
+        } else {
+            return null;
+        }
     }
 
-    public PagedIterable<Machine> listByResourceGroup(String resourceGroupName, Context context) {
-        PagedIterable<MachineInner> inner = this.serviceClient().listByResourceGroup(resourceGroupName, context);
-        return Utils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
+    public MachineAssessPatchesResult assessPatches(String resourceGroupName, String name, Context context) {
+        MachineAssessPatchesResultInner inner = this.serviceClient().assessPatches(resourceGroupName, name, context);
+        if (inner != null) {
+            return new MachineAssessPatchesResultImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
+    public MachineInstallPatchesResult installPatches(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput) {
+        MachineInstallPatchesResultInner inner
+            = this.serviceClient().installPatches(resourceGroupName, name, installPatchesInput);
+        if (inner != null) {
+            return new MachineInstallPatchesResultImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
+    public MachineInstallPatchesResult installPatches(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput, Context context) {
+        MachineInstallPatchesResultInner inner
+            = this.serviceClient().installPatches(resourceGroupName, name, installPatchesInput, context);
+        if (inner != null) {
+            return new MachineInstallPatchesResultImpl(inner, this.manager());
+        } else {
+            return null;
+        }
+    }
+
+    public PagedIterable<Machine> listByResourceGroup(String resourceGroupName) {
+        PagedIterable<MachineInner> inner = this.serviceClient().listByResourceGroup(resourceGroupName);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
+    }
+
+    public PagedIterable<Machine> listByResourceGroup(String resourceGroupName, String expand, Context context) {
+        PagedIterable<MachineInner> inner
+            = this.serviceClient().listByResourceGroup(resourceGroupName, expand, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
     }
 
     public PagedIterable<Machine> list() {
         PagedIterable<MachineInner> inner = this.serviceClient().list();
-        return Utils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
     }
 
     public PagedIterable<Machine> list(Context context) {
         PagedIterable<MachineInner> inner = this.serviceClient().list(context);
-        return Utils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new MachineImpl(inner1, this.manager()));
     }
 
     private MachinesClient serviceClient() {

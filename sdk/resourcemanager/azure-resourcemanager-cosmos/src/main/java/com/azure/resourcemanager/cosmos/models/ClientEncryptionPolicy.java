@@ -7,9 +7,12 @@ package com.azure.resourcemanager.cosmos.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Cosmos DB client encryption policy. */
+/**
+ * Cosmos DB client encryption policy.
+ */
 @Fluent
 public final class ClientEncryptionPolicy {
     /*
@@ -19,13 +22,14 @@ public final class ClientEncryptionPolicy {
     private List<ClientEncryptionIncludedPath> includedPaths;
 
     /*
-     * Version of the client encryption policy definition. Supported versions are 1 and 2. Version 2 supports id and
-     * partition key path encryption.
+     * Version of the client encryption policy definition. Supported versions are 1 and 2. Version 2 supports id and partition key path encryption.
      */
     @JsonProperty(value = "policyFormatVersion", required = true)
     private int policyFormatVersion;
 
-    /** Creates an instance of ClientEncryptionPolicy class. */
+    /**
+     * Creates an instance of ClientEncryptionPolicy class.
+     */
     public ClientEncryptionPolicy() {
     }
 
@@ -78,10 +82,9 @@ public final class ClientEncryptionPolicy {
      */
     public void validate() {
         if (includedPaths() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property includedPaths in model ClientEncryptionPolicy"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property includedPaths in model ClientEncryptionPolicy"));
         } else {
             includedPaths().forEach(e -> e.validate());
         }

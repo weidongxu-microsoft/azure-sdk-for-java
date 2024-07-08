@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for AppServiceCertificateOrders ResendEmail. */
+/**
+ * Samples for AppServiceCertificateOrders ResendEmail.
+ */
 public final class AppServiceCertificateOrdersResendEmailSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/ResendAppServiceCertificateOrderEmail.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ResendAppServiceCertificateOrderEmail.json
      */
     /**
      * Sample code: Resend App Service Certificate Order email.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void resendAppServiceCertificateOrderEmail(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getAppServiceCertificateOrders()

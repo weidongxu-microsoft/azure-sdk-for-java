@@ -9,34 +9,27 @@ import com.azure.resourcemanager.batch.models.CachingType;
 import com.azure.resourcemanager.batch.models.DataDisk;
 import com.azure.resourcemanager.batch.models.StorageAccountType;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class DataDiskTests {
-    @Test
-    public void testDeserialize() {
-        DataDisk model =
-            BinaryData
-                .fromString(
-                    "{\"lun\":1420775781,\"caching\":\"ReadWrite\",\"diskSizeGB\":75465955,\"storageAccountType\":\"Standard_LRS\"}")
-                .toObject(DataDisk.class);
-        Assertions.assertEquals(1420775781, model.lun());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        DataDisk model = BinaryData.fromString(
+            "{\"lun\":1394705984,\"caching\":\"ReadWrite\",\"diskSizeGB\":2111014163,\"storageAccountType\":\"StandardSSD_LRS\"}")
+            .toObject(DataDisk.class);
+        Assertions.assertEquals(1394705984, model.lun());
         Assertions.assertEquals(CachingType.READ_WRITE, model.caching());
-        Assertions.assertEquals(75465955, model.diskSizeGB());
-        Assertions.assertEquals(StorageAccountType.STANDARD_LRS, model.storageAccountType());
+        Assertions.assertEquals(2111014163, model.diskSizeGB());
+        Assertions.assertEquals(StorageAccountType.STANDARD_SSD_LRS, model.storageAccountType());
     }
 
-    @Test
-    public void testSerialize() {
-        DataDisk model =
-            new DataDisk()
-                .withLun(1420775781)
-                .withCaching(CachingType.READ_WRITE)
-                .withDiskSizeGB(75465955)
-                .withStorageAccountType(StorageAccountType.STANDARD_LRS);
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        DataDisk model = new DataDisk().withLun(1394705984).withCaching(CachingType.READ_WRITE)
+            .withDiskSizeGB(2111014163).withStorageAccountType(StorageAccountType.STANDARD_SSD_LRS);
         model = BinaryData.fromObject(model).toObject(DataDisk.class);
-        Assertions.assertEquals(1420775781, model.lun());
+        Assertions.assertEquals(1394705984, model.lun());
         Assertions.assertEquals(CachingType.READ_WRITE, model.caching());
-        Assertions.assertEquals(75465955, model.diskSizeGB());
-        Assertions.assertEquals(StorageAccountType.STANDARD_LRS, model.storageAccountType());
+        Assertions.assertEquals(2111014163, model.diskSizeGB());
+        Assertions.assertEquals(StorageAccountType.STANDARD_SSD_LRS, model.storageAccountType());
     }
 }

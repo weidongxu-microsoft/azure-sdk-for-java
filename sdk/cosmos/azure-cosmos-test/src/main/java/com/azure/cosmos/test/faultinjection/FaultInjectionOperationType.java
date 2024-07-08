@@ -36,6 +36,10 @@ public enum FaultInjectionOperationType {
      */
     PATCH_ITEM,
     /**
+     * Batch item.
+     */
+    BATCH_ITEM,
+    /**
      * Read container request.
      */
     METADATA_REQUEST_CONTAINER,
@@ -54,5 +58,9 @@ public enum FaultInjectionOperationType {
     /**
      * Address refresh request.
      */
-    METADATA_REQUEST_ADDRESS_REFRESH;
+    METADATA_REQUEST_ADDRESS_REFRESH,
+    /**
+     * Read change feed items
+     */
+    READ_FEED_ITEM
 }

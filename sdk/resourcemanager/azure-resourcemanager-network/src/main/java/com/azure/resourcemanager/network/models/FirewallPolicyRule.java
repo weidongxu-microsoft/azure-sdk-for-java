@@ -7,23 +7,28 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Properties of a rule. */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "ruleType",
-    defaultImpl = FirewallPolicyRule.class)
+/**
+ * Properties of a rule.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "ruleType", defaultImpl = FirewallPolicyRule.class, visible = true)
 @JsonTypeName("FirewallPolicyRule")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "ApplicationRule", value = ApplicationRule.class),
     @JsonSubTypes.Type(name = "NatRule", value = NatRule.class),
-    @JsonSubTypes.Type(name = "NetworkRule", value = NetworkRule.class)
-})
+    @JsonSubTypes.Type(name = "NetworkRule", value = NetworkRule.class) })
 @Fluent
 public class FirewallPolicyRule {
+    /*
+     * Rule Type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "ruleType", required = true)
+    private FirewallPolicyRuleType ruleType;
+
     /*
      * Name of the rule.
      */
@@ -36,13 +41,25 @@ public class FirewallPolicyRule {
     @JsonProperty(value = "description")
     private String description;
 
-    /** Creates an instance of FirewallPolicyRule class. */
+    /**
+     * Creates an instance of FirewallPolicyRule class.
+     */
     public FirewallPolicyRule() {
+        this.ruleType = FirewallPolicyRuleType.fromString("FirewallPolicyRule");
+    }
+
+    /**
+     * Get the ruleType property: Rule Type.
+     * 
+     * @return the ruleType value.
+     */
+    public FirewallPolicyRuleType ruleType() {
+        return this.ruleType;
     }
 
     /**
      * Get the name property: Name of the rule.
-     *
+     * 
      * @return the name value.
      */
     public String name() {
@@ -51,7 +68,7 @@ public class FirewallPolicyRule {
 
     /**
      * Set the name property: Name of the rule.
-     *
+     * 
      * @param name the name value to set.
      * @return the FirewallPolicyRule object itself.
      */
@@ -62,7 +79,7 @@ public class FirewallPolicyRule {
 
     /**
      * Get the description property: Description of the rule.
-     *
+     * 
      * @return the description value.
      */
     public String description() {
@@ -71,7 +88,7 @@ public class FirewallPolicyRule {
 
     /**
      * Set the description property: Description of the rule.
-     *
+     * 
      * @param description the description value to set.
      * @return the FirewallPolicyRule object itself.
      */
@@ -82,7 +99,7 @@ public class FirewallPolicyRule {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

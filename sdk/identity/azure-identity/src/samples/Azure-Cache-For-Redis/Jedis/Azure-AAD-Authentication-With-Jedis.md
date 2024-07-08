@@ -1,12 +1,12 @@
-## Azure Cache for Redis: Azure AD with Jedis client library
+## Azure Cache for Redis: Microsoft Entra ID with Jedis client library
 
 ### Table of contents
 
 - [Prerequisites](#prerequisites)
-- [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-hello-world)
-- [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
-- [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
-- [Authenticate with Azure AD - Azure Jedis Wrapper](#authenticate-with-azure-ad-azure-jedis-wrapper)
+- [Authenticate with Microsoft Entra ID - Hello World](#authenticate-with-azure-ad-hello-world)
+- [Authenticate with Microsoft Entra ID - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
+- [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
+- [Authenticate with Microsoft Entra ID - Azure Jedis Wrapper](#authenticate-with-azure-ad-azure-jedis-wrapper)
 - [Troubleshooting](#troubleshooting)
 
 
@@ -18,57 +18,57 @@
     <dependency>
         <groupId>com.azure</groupId>
         <artifactId>azure-identity</artifactId>
-        <version>1.8.2</version>
+        <version>1.11.2</version> <!-- {x-version-update;com.azure:azure-identity;dependency} -->
     </dependency>
     
     <dependency>
         <groupId>redis.clients</groupId>
         <artifactId>jedis</artifactId>
-        <version>4.3.2</version>
+        <version>5.1.0</version>  <!-- {x-version-update;redis.clients:jedis;external_dependency} -->
     </dependency>
     ```
 
 #### Samples Guidance
-* [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-hello-world):
-    This sample is recommended for users getting started to use Azure AD authentication with Azure Cache for Redis.
+* [Authenticate with Microsoft Entra ID - Hello World](#authenticate-with-azure-ad-hello-world):
+    This sample is recommended for users getting started to use Microsoft Entra authentication with Azure Cache for Redis.
 
-* [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
-  This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with Azure AD upon token expiry.
+* [Authenticate with Microsoft Entra ID - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
+  This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with Microsoft Entra ID upon token expiry.
 
-* [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
+* [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
   This sample is recommended to users looking to build long-running applications that would like to integrate our recommended wrapper implementation in their application which handles reconnection and re-authentication on user's behalf.
 
-* [Authenticate with Azure AD - Azure Jedis Wrapper](#authenticate-with-azure-ad-azure-jedis-wrapper):
+* [Authenticate with Microsoft Entra ID - Azure Jedis Wrapper](#authenticate-with-azure-ad-azure-jedis-wrapper):
   This sample is recommended to users building long-running applications that would like to integrate our recommended wrapper implementation in their application which handles reconnection and reauthentication on user's behalf.
 
 
-#### Authenticate with Azure AD: Hello World
-This sample is intended to assist in authenticating with Azure AD via the Jedis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the Jedis instance.
+#### Authenticate with Microsoft Entra ID: Hello World
+This sample is intended to assist in authenticating with Microsoft Entra ID via the Jedis client library. It focuses on displaying the logic required to fetch a Microsoft Entra access token and to use it as password when setting up the Jedis instance.
 
 ##### Migration Guidance
-When migrating your existing your application code, you need to replace the password input with the Azure AD token.
-Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library as shown below and replace it with the password configuring/retrieving logic in your application code.
+When migrating your existing your application code, you need to replace the password input with the Microsoft Entra token.
+Integrate the logic in your application code to fetch a Microsoft Entra access token via the Azure Identity library as shown below and replace it with the password configuring/retrieving logic in your application code.
 
 ```java
 //Construct a Token Credential from Identity library, e.g. DefaultAzureCredential / ClientSecretCredential / Client CertificateCredential / ManagedIdentityCredential etc.
 DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredentialBuilder().build();
 
-// Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-// Note: The Scopes parameter will change as the Azure AD Authentication support hits public preview and eventually GA's.
+// Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
 String token = defaultAzureCredential
     .getToken(new TokenRequestContext()
-        .addScopes("https://*.cacheinfra.windows.net:10225/appid/.default")).block().getToken();
+        .addScopes("https://redis.azure.com/.default")).block().getToken();
 
 // SSL connection is required.
 boolean useSsl = true;
 // TODO: Replace Host Name with Azure Cache for Redis Host Name.
 String cacheHostname = "<HOST_NAME>";
+String username = extractUsernameFromToken(token);
 
 // Create Jedis client and connect to the Azure Cache for Redis over the TLS/SSL port using the access token as password.
 // Note, Redis Cache Host Name and Port are required below
 Jedis jedis = new Jedis(cacheHostname, 6380, DefaultJedisClientConfig.builder()
-    .password(token) // Azure AD Access Token as password is required.
-    .user("<USERNAME>") // Username is Required
+    .password(token) // Microsoft Entra access token as password is required.
+    .user(username) // Username is Required
     .ssl(useSsl) // SSL Connection is Required
     .build());
 
@@ -78,10 +78,31 @@ System.out.println(jedis.get("Az:key"));
 
 // Close the Jedis Client
 jedis.close();
+
+
+private static String extractUsernameFromToken(String token) {
+    String[] parts = token.split("\\.");
+    String base64 = parts[1];
+
+    switch (base64.length() % 4) {
+        case 2:
+            base64 += "==";
+            break;
+        case 3:
+            base64 += "=";
+            break;
+    }
+
+    byte[] jsonBytes = Base64.getDecoder().decode(base64);
+    String json = new String(jsonBytes, StandardCharsets.UTF_8);
+    JsonObject jwt = JsonParser.parseString(json).getAsJsonObject();
+
+    return jwt.get("oid").getAsString();
+}
 ```
 
-##### Supported Token Credentials for Azure AD Authentication
-**Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch an Azure AD access token. The other supported `TokenCredential` implementations that can be used from [Azure Identity for Java](https://learn.microsoft.com/azure/developer/java/sdk/identity) are as follows:
+##### Supported Token Credentials for Microsoft Entra Authentication
+**Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch a Microsoft Entra access token. The other supported `TokenCredential` implementations that can be used from [Azure Identity for Java](https://learn.microsoft.com/azure/developer/java/sdk/identity) are as follows:
 * [Client Certificate Credential](https://learn.microsoft.com/azure/developer/java/sdk/identity-service-principal-auth#client-certificate-credential)
 * [Client Secret Credential](https://learn.microsoft.com/azure/developer/java/sdk/identity-service-principal-auth#client-secret-credential)
 * [Managed Identity Credential](https://learn.microsoft.com/azure/developer/java/sdk/identity-azure-hosted-auth#managed-identity-credential)
@@ -90,30 +111,30 @@ jedis.close();
 * [Interactive Browser Credential](https://learn.microsoft.com/azure/developer/java/sdk/identity-user-auth#interactive-browser-credential)
 * [Device Code Credential](https://learn.microsoft.com/azure/developer/java/sdk/identity-user-auth#device-code-credential)
 
-#### Authenticate with Azure AD: Handle Reauthentication
-This sample is intended to assist in authenticating with Azure AD via Jedis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the Jedis instance. It also shows how to recreate and authenticate the Jedis instance when its connection is broken in error/exception scenarios.
+#### Authenticate with Microsoft Entra ID: Handle Reauthentication
+This sample is intended to assist in authenticating with Microsoft Entra ID via Jedis client library. It focuses on displaying the logic required to fetch a Microsoft Entra access token and to use it as password when setting up the Jedis instance. It also shows how to recreate and authenticate the Jedis instance when its connection is broken in error/exception scenarios.
 
 ##### Migration Guidance
-When migrating your existing your application code, you need to replace the password input with the Azure AD token.
-Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library as shown below and replace it with the password configuring/retrieving logic in your application code.
+When migrating your existing your application code, you need to replace the password input with the Microsoft Entra token.
+Integrate the logic in your application code to fetch a Microsoft Entra access token via the Azure Identity library as shown below and replace it with the password configuring/retrieving logic in your application code.
 
 ```java
 //Construct a Token Credential from Identity library, e.g. DefaultAzureCredential / ClientSecretCredential / Client CertificateCredential / ManagedIdentityCredential etc.
 DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredentialBuilder().build();
 
-// Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-// Note: The Scopes parameter will change as the Azure AD Authentication support hits public preview and eventually GA's.
-TokenRequestContext trc = new TokenRequestContext().addScopes("acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default");
+// Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
+TokenRequestContext trc = new TokenRequestContext().addScopes("https://redis.azure.com/.default");
 AccessToken accessToken = getAccessToken(defaultAzureCredential, trc);
 
 // SSL connection is required.
 boolean useSsl = true;
 // TODO: Replace <HOST_NAME> with Azure Cache for Redis Host name.
 String cacheHostname = "<HOST_NAME>";
+String username = extractUsernameFromToken(accessToken.getToken());
 
 // Create Jedis client and connect to the Azure Cache for Redis over the TLS/SSL port using the access token as password.
-// Note: Cache Host Name, Port, Username, Azure AD Access Token and ssl connections are required below.
-Jedis jedis = createJedisClient(cacheHostname, 6380, "<USERNAME>", accessToken, useSsl);
+// Note: Cache Host Name, Port, Microsoft Entra access token and SSL connections are required below.
+Jedis jedis = createJedisClient(cacheHostname, 6380, username, accessToken, useSsl);
 
 int maxTries = 3;
 int i = 0;
@@ -133,7 +154,8 @@ while (i < maxTries) {
         // Check if the client is broken, if it is then close and recreate it to create a new healthy connection.
         if (jedis.isBroken()) {
             jedis.close();
-            jedis = createJedisClient(cacheHostname, 6380, "USERNAME", getAccessToken(defaultAzureCredential, trc), useSsl);
+            accessToken = getAccessToken(defaultAzureCredential, trc);
+            jedis = createJedisClient(cacheHostname, 6380, username, accessToken, useSsl);
         }
     }
     i++;
@@ -154,22 +176,41 @@ private static Jedis createJedisClient(String cacheHostname, int port, String us
 private static AccessToken getAccessToken(TokenCredential tokenCredential, TokenRequestContext trc) {
     return tokenCredential.getToken(trc).block();
 }
+
+private static String extractUsernameFromToken(String token) {
+    String[] parts = token.split("\\.");
+    String base64 = parts[1];
+
+    switch (base64.length() % 4) {
+        case 2:
+            base64 += "==";
+            break;
+        case 3:
+            base64 += "=";
+            break;
+    }
+
+    byte[] jsonBytes = Base64.getDecoder().decode(base64);
+    String json = new String(jsonBytes, StandardCharsets.UTF_8);
+    JsonObject jwt = JsonParser.parseString(json).getAsJsonObject();
+
+    return jwt.get("oid").getAsString();
+}
 ```
 
-#### Authenticate with Azure AD: Using Token Cache
-This sample is intended to assist in authenticating with Azure AD via the Jedis client library. It focuses on displaying the logic required to fetch an Azure AD access token using a token cache and to use it as password when setting up the Jedis instance. It also shows how to recreate and authenticate the Jedis instance using the cached access token when the client's connection is broken in error/exception scenarios. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
+#### Authenticate with Microsoft Entra ID: Using Token Cache
+This sample is intended to assist in authenticating with Microsoft Entra ID via the Jedis client library. It focuses on displaying the logic required to fetch a Microsoft Entra access token using a token cache and to use it as password when setting up the Jedis instance. It also shows how to recreate and authenticate the Jedis instance using the cached access token when the client's connection is broken in error/exception scenarios. The token cache stores and proactively refreshes the Microsoft Entra access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 
 ##### Migration Guidance
-When migrating your existing your application code, you need to replace the password input with the Azure AD token.
-Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library. Store the token in a token cache, as shown below. Replace the token with the password configuring/retrieving logic in your application code.
+When migrating your existing your application code, you need to replace the password input with the Microsoft Entra token.
+Integrate the logic in your application code to fetch a Microsoft Entra access token via the Azure Identity library. Store the token in a token cache, as shown below. Replace the token with the password configuring/retrieving logic in your application code.
 
 ```java
 //Construct a Token Credential from Identity library, e.g. DefaultAzureCredential / ClientSecretCredential / Client CertificateCredential / ManagedIdentityCredential etc.
 DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredentialBuilder().build();
 
-// Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-// Note: The Scopes parameter will change as the Azure AD Authentication support hits public preview and eventually GA's.
-TokenRequestContext trc = new TokenRequestContext().addScopes("acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default");
+// Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
+TokenRequestContext trc = new TokenRequestContext().addScopes("https://redis.azure.com/.default");
 TokenRefreshCache tokenRefreshCache = new TokenRefreshCache(defaultAzureCredential, trc);
 AccessToken accessToken = tokenRefreshCache.getAccessToken();
 
@@ -177,15 +218,15 @@ AccessToken accessToken = tokenRefreshCache.getAccessToken();
 boolean useSsl = true;
 // TODO: Replace <HOST_NAME> with Azure Cache for Redis Host name.
 String cacheHostname = "<HOST_NAME>";
+String username = extractUsernameFromToken(accessToken.getToken());
 
 // Create Jedis client and connect to the Azure Cache for Redis over the TLS/SSL port using the access token as password.
-// Note: Cache Host Name, Port, Username, Azure AD Access Token and ssl connections are required below.
-Jedis jedis = createJedisClient(cacheHostname, 6380, "<USERNAME>", accessToken, useSsl);
+// Note: Cache Host Name, Port, Microsoft Entra access token and SSL connections are required below.
+Jedis jedis = createJedisClient(cacheHostname, 6380, username, accessToken, useSsl);
 
 // Configure the jedis instance for proactive authentication before token expires.
 tokenRefreshCache
-    .setJedisInstanceToAuthenticate(jedis)
-    .setUsername("<USERNAME>");
+    .setJedisInstanceToAuthenticate(jedis);
     
 int maxTries = 3;
 int i = 0;
@@ -205,7 +246,12 @@ while (i < maxTries) {
         // Check if the client is broken, if it is then close and recreate it to create a new healthy connection.
         if (jedis.isBroken()) {
             jedis.close();
-            jedis = createJedisClient(cacheHostname, 6380, "<USERNAME>", tokenRefreshCache.getAccessToken(), useSsl);
+            accessToken = tokenRefreshCache.getAccessToken();
+            jedis = createJedisClient(cacheHostname, 6380, username, accessToken, useSsl);
+            
+            // Configure the jedis instance for proactive authentication before token expires.
+            tokenRefreshCache
+                .setJedisInstanceToAuthenticate(jedis);
         }
     }
     i++;
@@ -220,6 +266,26 @@ private static Jedis createJedisClient(String cacheHostname, int port, String us
         .user(username)
         .ssl(useSsl)
         .build());
+}
+
+private static String extractUsernameFromToken(String token) {
+    String[] parts = token.split("\\.");
+    String base64 = parts[1];
+
+    switch (base64.length() % 4) {
+        case 2:
+            base64 += "==";
+            break;
+        case 3:
+            base64 += "=";
+            break;
+    }
+
+    byte[] jsonBytes = Base64.getDecoder().decode(base64);
+    String json = new String(jsonBytes, StandardCharsets.UTF_8);
+    JsonObject jwt = JsonParser.parseString(json).getAsJsonObject();
+
+    return jwt.get("oid").getAsString();
 }
 
 /**
@@ -265,6 +331,7 @@ public static class TokenRefreshCache {
         // Add your task here
         public void run() {
             accessToken = tokenCredential.getToken(tokenRequestContext).block();
+            username = extractUsernameFromToken(accessToken.getToken());
             System.out.println("Refreshed Token with Expiry: " + accessToken.getExpiresAt().toEpochSecond());
 
             if (jedisInstanceToAuthenticate != null && !CoreUtils.isNullOrEmpty(username)) {
@@ -291,25 +358,15 @@ public static class TokenRefreshCache {
         this.jedisInstanceToAuthenticate = jedisInstanceToAuthenticate;
         return this;
     }
-
-    /**
-     * Sets the username to authenticate jedis instance with.
-     * @param username the username to authenticate with
-     * @return the updated instance
-     */
-    public TokenRefreshCache setUsername(String username) {
-        this.username = username;
-        return this;
-    }
 }
 ```
 
-#### Authenticate with Azure AD: Azure Jedis Wrapper
+#### Authenticate with Microsoft Entra ID: Azure Jedis Wrapper
 This sample is intended to assist in the migration from Jedis to `AzureJedisClientBuilder`. It focuses on side-by-side comparisons for similar operations between the two libraries.
 
 ##### Migration benefits
 
-A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. Jedis by itself doesn't support Azure AD authentication with token generation, failure retries, broken connection handling, and cache reauthentication. Using `AzureJedisClient` will improve developer productivity and code maintainability.
+A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. Jedis by itself doesn't support Microsoft Entra authentication with token generation, failure retries, broken connection handling, and cache reauthentication. Using `AzureJedisClient` will improve developer productivity and code maintainability.
 
 ##### Client instantiation
 
@@ -337,7 +394,7 @@ The following table compares the capabilities of the Jedis and Azure Jedis clien
 | Feature | Jedis | Azure Jedis |
 |--|--|--|
 | Connect to Redis Cache | Yes |Yes |
-| Azure AD Authentication Support | No | Yes|
+| Microsoft Entra Authentication Support | No | Yes|
 | Retry Failure | No| Yes |
 | Reauthenticate | No |Yes |
 | Handle Broken Connection | No |Yes |
@@ -354,10 +411,9 @@ DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredentialBuilde
 // Create Jedis Client using the builder as follows.
 Jedis jedisClient = new AzureJedisClientBuilder()
     .cacheHostName("<HOST_NAME>") // TODO: Replace <HOST_NAME> with Azure Cache for Redis Host name.
-    .port(6380) // Port is requried.
+    .port(6380) // Port is required.
     .useSSL(true) // SSL Connection is required.
-    .username("<USERNAME>") // Username is required.
-    .credential(defaultAzureCredential) // A Token Credential is required to fetch Azure AD Access tokens.
+    .credential(defaultAzureCredential) // A Token Credential is required to fetch Microsoft Entra access tokens.
     .build();
 
 // Set a value against your key in the Redis cache.
@@ -374,7 +430,7 @@ jedisClient.close();
 In this error scenario, the username provided and the access token used as password are not compatible.
 To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 * In **Data Access Configuration**, you've assigned the required role to your user/service principal identity.
-* In **Advanced settings**, the **AAD access authorization** box is selected. If not, select it and select the **Save** button.
+* Under **Authentication** -> **Microsoft Entra Authentication** category the **Enable Microsoft Entra Authentication** box is selected. If not, select it and select the **Save** button.
 
 ##### Permissions not granted / NOPERM Error
 In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action.
@@ -382,3 +438,9 @@ To mitigate this error, navigate to your Azure Cache for Redis resource in the A
 * In **Data Access Configuration**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
 * In the event you're using a custom role, ensure the permissions granted under your custom role include the one required for your target action.
 
+
+##### Managed Identity not working from Local Development Machine
+Managed identity does not work from a local development machine. To use managed identity, your code must be running 
+in an Azure VM (or another type of resource in Azure). To run locally with Entra ID authentication, you'll need to 
+use a service principal or user account. This is a common source of confusion, so ensure that when developing locally,
+you configure your application to use a service principal or user credentials for authentication.

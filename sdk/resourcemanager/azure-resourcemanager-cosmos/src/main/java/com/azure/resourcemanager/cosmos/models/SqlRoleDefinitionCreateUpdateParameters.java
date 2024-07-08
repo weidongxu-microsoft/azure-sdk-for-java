@@ -7,9 +7,12 @@ package com.azure.resourcemanager.cosmos.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.cosmos.fluent.models.SqlRoleDefinitionResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Parameters to create and update an Azure Cosmos DB SQL Role Definition. */
+/**
+ * Parameters to create and update an Azure Cosmos DB SQL Role Definition.
+ */
 @Fluent
 public final class SqlRoleDefinitionCreateUpdateParameters {
     /*
@@ -18,7 +21,9 @@ public final class SqlRoleDefinitionCreateUpdateParameters {
     @JsonProperty(value = "properties")
     private SqlRoleDefinitionResource innerProperties;
 
-    /** Creates an instance of SqlRoleDefinitionCreateUpdateParameters class. */
+    /**
+     * Creates an instance of SqlRoleDefinitionCreateUpdateParameters class.
+     */
     public SqlRoleDefinitionCreateUpdateParameters() {
     }
 

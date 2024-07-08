@@ -9,9 +9,12 @@ import com.azure.resourcemanager.cosmos.models.ArmProxyResource;
 import com.azure.resourcemanager.cosmos.models.Permission;
 import com.azure.resourcemanager.cosmos.models.RoleDefinitionType;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** An Azure Cosmos DB SQL Role Definition. */
+/**
+ * An Azure Cosmos DB SQL Role Definition.
+ */
 @Fluent
 public final class SqlRoleDefinitionGetResultsInner extends ArmProxyResource {
     /*
@@ -20,7 +23,9 @@ public final class SqlRoleDefinitionGetResultsInner extends ArmProxyResource {
     @JsonProperty(value = "properties")
     private SqlRoleDefinitionResource innerProperties;
 
-    /** Creates an instance of SqlRoleDefinitionGetResultsInner class. */
+    /**
+     * Creates an instance of SqlRoleDefinitionGetResultsInner class.
+     */
     public SqlRoleDefinitionGetResultsInner() {
     }
 

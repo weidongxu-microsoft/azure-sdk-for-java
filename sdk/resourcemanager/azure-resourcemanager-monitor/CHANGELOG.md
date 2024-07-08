@@ -1,6 +1,6 @@
 # Release History
 
-## 2.29.0-beta.1 (Unreleased)
+## 2.41.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -8,11 +8,103 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 2.40.0 (2024-06-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.39.0 (2024-05-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.38.0 (2024-04-16)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.37.0 (2024-03-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.36.0 (2024-02-29)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.35.0 (2024-01-26)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.34.0 (2023-12-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.33.0 (2023-11-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.32.0 (2023-10-27)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.31.0 (2023-09-28)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.30.0 (2023-08-25)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.29.0 (2023-07-28)
+
+### Bugs Fixed
+
 - Fixed a bug that methods in `MetricDefinitions` and `DiagnosticSettings`, which have `resourceId` as one of their 
   parameters, throw exception on resources whose names contain white spaces.
 - Fixed `DiagnosticSettings.deleteByIds()` to make it work.
-
-### Other Changes
 
 ## 2.28.0 (2023-06-25)
 

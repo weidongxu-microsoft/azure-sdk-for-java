@@ -16,59 +16,48 @@ import org.junit.jupiter.api.Assertions;
 public final class AzureBackupFindRestorableTimeRangesRequestResourceTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AzureBackupFindRestorableTimeRangesRequestResource model =
-            BinaryData
-                .fromString(
-                    "{\"content\":{\"sourceDataStoreType\":\"ArchiveStore\",\"startTime\":\"xrbuukzclew\",\"endTime\":\"mlwpazt\"},\"subscriptionId\":\"ofncckwyfzqwhxxb\",\"uri\":\"qa\",\"headers\":{\"iolxor\":[\"qztpp\"],\"obqwcsdbnwdcfh\":[\"lt\",\"lmncw\"],\"t\":[\"qdpfuvglsbjjca\",\"vxb\"]},\"supportedGroupVersions\":[\"utncorm\"],\"cultureInfo\":\"xqtvcofu\",\"parameters\":{\"u\":\"vkg\",\"aznqntoru\":\"gdknnqv\"},\"httpMethod\":\"gsahmkycgrauw\"}")
-                .toObject(AzureBackupFindRestorableTimeRangesRequestResource.class);
-        Assertions.assertEquals("ofncckwyfzqwhxxb", model.subscriptionId());
-        Assertions.assertEquals("qa", model.uri());
-        Assertions.assertEquals("qztpp", model.headers().get("iolxor").get(0));
-        Assertions.assertEquals("utncorm", model.supportedGroupVersions().get(0));
-        Assertions.assertEquals("xqtvcofu", model.cultureInfo());
-        Assertions.assertEquals("vkg", model.parameters().get("u"));
-        Assertions.assertEquals("gsahmkycgrauw", model.httpMethod());
+        AzureBackupFindRestorableTimeRangesRequestResource model = BinaryData.fromString(
+            "{\"content\":{\"sourceDataStoreType\":\"ArchiveStore\",\"startTime\":\"tmdvypgikdgs\",\"endTime\":\"w\"},\"subscriptionId\":\"irryuzhlh\",\"uri\":\"oqrvqqaatjin\",\"headers\":{\"tkkgllqwjy\":[\"upmfiibfg\",\"jioolvrwxk\"],\"l\":[\"jayvblmhv\",\"zuhbxvvyhgsopb\",\"rqufegxuvwz\",\"bnhlmc\"],\"ijejvegrhbpn\":[\"ngitvgbmhrixkwm\"]},\"supportedGroupVersions\":[\"exccbdreaxhcexd\",\"rvqahqkghtpwi\",\"nhyjsv\",\"ycxzbfvoo\"],\"cultureInfo\":\"rvmtgjq\",\"parameters\":{\"yhgfipnsx\":\"ostronz\"},\"httpMethod\":\"cwaekrrjre\"}")
+            .toObject(AzureBackupFindRestorableTimeRangesRequestResource.class);
+        Assertions.assertEquals("irryuzhlh", model.subscriptionId());
+        Assertions.assertEquals("oqrvqqaatjin", model.uri());
+        Assertions.assertEquals("upmfiibfg", model.headers().get("tkkgllqwjy").get(0));
+        Assertions.assertEquals("exccbdreaxhcexd", model.supportedGroupVersions().get(0));
+        Assertions.assertEquals("rvmtgjq", model.cultureInfo());
+        Assertions.assertEquals("ostronz", model.parameters().get("yhgfipnsx"));
+        Assertions.assertEquals("cwaekrrjre", model.httpMethod());
         Assertions.assertEquals(RestoreSourceDataStoreType.ARCHIVE_STORE, model.content().sourceDataStoreType());
-        Assertions.assertEquals("xrbuukzclew", model.content().startTime());
-        Assertions.assertEquals("mlwpazt", model.content().endTime());
+        Assertions.assertEquals("tmdvypgikdgs", model.content().startTime());
+        Assertions.assertEquals("w", model.content().endTime());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AzureBackupFindRestorableTimeRangesRequestResource model =
-            new AzureBackupFindRestorableTimeRangesRequestResource()
-                .withSubscriptionId("ofncckwyfzqwhxxb")
-                .withUri("qa")
-                .withHeaders(
-                    mapOf(
-                        "iolxor",
-                        Arrays.asList("qztpp"),
-                        "obqwcsdbnwdcfh",
-                        Arrays.asList("lt", "lmncw"),
-                        "t",
-                        Arrays.asList("qdpfuvglsbjjca", "vxb")))
-                .withSupportedGroupVersions(Arrays.asList("utncorm"))
-                .withCultureInfo("xqtvcofu")
-                .withParameters(mapOf("u", "vkg", "aznqntoru", "gdknnqv"))
-                .withHttpMethod("gsahmkycgrauw")
-                .withContent(
-                    new AzureBackupFindRestorableTimeRangesRequest()
-                        .withSourceDataStoreType(RestoreSourceDataStoreType.ARCHIVE_STORE)
-                        .withStartTime("xrbuukzclew")
-                        .withEndTime("mlwpazt"));
+        AzureBackupFindRestorableTimeRangesRequestResource model
+            = new AzureBackupFindRestorableTimeRangesRequestResource().withSubscriptionId("irryuzhlh")
+                .withUri("oqrvqqaatjin")
+                .withHeaders(mapOf("tkkgllqwjy", Arrays.asList("upmfiibfg", "jioolvrwxk"), "l",
+                    Arrays.asList("jayvblmhv", "zuhbxvvyhgsopb", "rqufegxuvwz", "bnhlmc"), "ijejvegrhbpn",
+                    Arrays.asList("ngitvgbmhrixkwm")))
+                .withSupportedGroupVersions(Arrays.asList("exccbdreaxhcexd", "rvqahqkghtpwi", "nhyjsv", "ycxzbfvoo"))
+                .withCultureInfo("rvmtgjq").withParameters(mapOf("yhgfipnsx", "ostronz")).withHttpMethod("cwaekrrjre")
+                .withContent(new AzureBackupFindRestorableTimeRangesRequest()
+                    .withSourceDataStoreType(RestoreSourceDataStoreType.ARCHIVE_STORE).withStartTime("tmdvypgikdgs")
+                    .withEndTime("w"));
         model = BinaryData.fromObject(model).toObject(AzureBackupFindRestorableTimeRangesRequestResource.class);
-        Assertions.assertEquals("ofncckwyfzqwhxxb", model.subscriptionId());
-        Assertions.assertEquals("qa", model.uri());
-        Assertions.assertEquals("qztpp", model.headers().get("iolxor").get(0));
-        Assertions.assertEquals("utncorm", model.supportedGroupVersions().get(0));
-        Assertions.assertEquals("xqtvcofu", model.cultureInfo());
-        Assertions.assertEquals("vkg", model.parameters().get("u"));
-        Assertions.assertEquals("gsahmkycgrauw", model.httpMethod());
+        Assertions.assertEquals("irryuzhlh", model.subscriptionId());
+        Assertions.assertEquals("oqrvqqaatjin", model.uri());
+        Assertions.assertEquals("upmfiibfg", model.headers().get("tkkgllqwjy").get(0));
+        Assertions.assertEquals("exccbdreaxhcexd", model.supportedGroupVersions().get(0));
+        Assertions.assertEquals("rvmtgjq", model.cultureInfo());
+        Assertions.assertEquals("ostronz", model.parameters().get("yhgfipnsx"));
+        Assertions.assertEquals("cwaekrrjre", model.httpMethod());
         Assertions.assertEquals(RestoreSourceDataStoreType.ARCHIVE_STORE, model.content().sourceDataStoreType());
-        Assertions.assertEquals("xrbuukzclew", model.content().startTime());
-        Assertions.assertEquals("mlwpazt", model.content().endTime());
+        Assertions.assertEquals("tmdvypgikdgs", model.content().startTime());
+        Assertions.assertEquals("w", model.content().endTime());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

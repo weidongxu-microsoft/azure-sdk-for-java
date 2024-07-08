@@ -14,10 +14,13 @@ import com.azure.resourcemanager.appservice.models.Hostname;
 import com.azure.resourcemanager.appservice.models.ProvisioningState;
 import com.azure.resourcemanager.appservice.models.ResourceNotRenewableReason;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Domain resource specific properties. */
+/**
+ * Domain resource specific properties.
+ */
 @Fluent
 public final class DomainProperties {
     /*
@@ -93,9 +96,8 @@ public final class DomainProperties {
     private Boolean autoRenew;
 
     /*
-     * <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value
-     * will be <code>true</code> if domain registration status is active and
-     * it is hosted on name servers Azure has programmatic access to.
+     * <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and
+     *  it is hosted on name servers Azure has programmatic access to.
      */
     @JsonProperty(value = "readyForDnsRecordManagement", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean readyForDnsRecordManagement;
@@ -142,7 +144,9 @@ public final class DomainProperties {
     @JsonProperty(value = "authCode")
     private String authCode;
 
-    /** Creates an instance of DomainProperties class. */
+    /**
+     * Creates an instance of DomainProperties class.
+     */
     public DomainProperties() {
     }
 
@@ -327,7 +331,8 @@ public final class DomainProperties {
     /**
      * Get the readyForDnsRecordManagement property: &lt;code&gt;true&lt;/code&gt; if Azure can assign this domain to
      * App Service apps; otherwise, &lt;code&gt;false&lt;/code&gt;. This value will be &lt;code&gt;true&lt;/code&gt; if
-     * domain registration status is active and it is hosted on name servers Azure has programmatic access to.
+     * domain registration status is active and
+     * it is hosted on name servers Azure has programmatic access to.
      *
      * @return the readyForDnsRecordManagement value.
      */
@@ -460,31 +465,28 @@ public final class DomainProperties {
      */
     public void validate() {
         if (contactAdmin() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property contactAdmin in model DomainProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property contactAdmin in model DomainProperties"));
         } else {
             contactAdmin().validate();
         }
         if (contactBilling() == null) {
-            throw LOGGER
-                .logExceptionAsError(
+            throw LOGGER.atError()
+                .log(
                     new IllegalArgumentException("Missing required property contactBilling in model DomainProperties"));
         } else {
             contactBilling().validate();
         }
         if (contactRegistrant() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property contactRegistrant in model DomainProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property contactRegistrant in model DomainProperties"));
         } else {
             contactRegistrant().validate();
         }
         if (contactTech() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property contactTech in model DomainProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property contactTech in model DomainProperties"));
         } else {
             contactTech().validate();
         }
@@ -492,9 +494,8 @@ public final class DomainProperties {
             managedHostNames().forEach(e -> e.validate());
         }
         if (consent() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property consent in model DomainProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property consent in model DomainProperties"));
         } else {
             consent().validate();
         }

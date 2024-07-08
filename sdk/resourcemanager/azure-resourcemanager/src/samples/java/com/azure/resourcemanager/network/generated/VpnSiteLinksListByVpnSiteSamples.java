@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VpnSiteLinks ListByVpnSite. */
+/**
+ * Samples for VpnSiteLinks ListByVpnSite.
+ */
 public final class VpnSiteLinksListByVpnSiteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VpnSiteLinkListByVpnSite.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnSiteLinkListByVpnSite.json
      */
     /**
      * Sample code: VpnSiteLinkListByVpnSite.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void vpnSiteLinkListByVpnSite(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVpnSiteLinks()

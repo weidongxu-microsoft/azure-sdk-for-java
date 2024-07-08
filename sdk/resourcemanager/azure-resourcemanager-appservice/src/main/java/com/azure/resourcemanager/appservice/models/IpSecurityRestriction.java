@@ -7,10 +7,13 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** IP security restriction on an app. */
+/**
+ * IP security restriction on an app.
+ */
 @Fluent
 public final class IpSecurityRestriction {
     /*
@@ -82,16 +85,14 @@ public final class IpSecurityRestriction {
      * The matching logic is ..
      * - If the property is null or empty (default), all hosts(or lack of) are allowed.
      * - A value is compared using ordinal-ignore-case (excluding port number).
-     * - Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com matches the
-     * subdomain foo.contoso.com
-     * but not the root domain contoso.com or multi-level foo.bar.contoso.com
+     * - Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com matches the subdomain foo.contoso.com
+     *  but not the root domain contoso.com or multi-level foo.bar.contoso.com
      * - Unicode host names are allowed but are converted to Punycode for matching.
      *
      * X-Forwarded-For (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples).
      * The matching logic is ..
      * - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed.
-     * - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the
-     * property.
+     * - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property.
      *
      * X-Azure-FDID and X-FD-HealthProbe.
      * The matching logic is exact match.
@@ -100,13 +101,16 @@ public final class IpSecurityRestriction {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, List<String>> headers;
 
-    /** Creates an instance of IpSecurityRestriction class. */
+    /**
+     * Creates an instance of IpSecurityRestriction class.
+     */
     public IpSecurityRestriction() {
     }
 
     /**
-     * Get the ipAddress property: IP address the security restriction is valid for. It can be in form of pure ipv4
-     * address (required SubnetMask property) or CIDR notation such as ipv4/mask (leading bit match). For CIDR,
+     * Get the ipAddress property: IP address the security restriction is valid for.
+     * It can be in form of pure ipv4 address (required SubnetMask property) or
+     * CIDR notation such as ipv4/mask (leading bit match). For CIDR,
      * SubnetMask property must not be specified.
      *
      * @return the ipAddress value.
@@ -116,8 +120,9 @@ public final class IpSecurityRestriction {
     }
 
     /**
-     * Set the ipAddress property: IP address the security restriction is valid for. It can be in form of pure ipv4
-     * address (required SubnetMask property) or CIDR notation such as ipv4/mask (leading bit match). For CIDR,
+     * Set the ipAddress property: IP address the security restriction is valid for.
+     * It can be in form of pure ipv4 address (required SubnetMask property) or
+     * CIDR notation such as ipv4/mask (leading bit match). For CIDR,
      * SubnetMask property must not be specified.
      *
      * @param ipAddress the ipAddress value to set.
@@ -309,19 +314,23 @@ public final class IpSecurityRestriction {
     }
 
     /**
-     * Get the headers property: IP restriction rule headers. X-Forwarded-Host
-     * (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples). The matching logic is .. -
-     * If the property is null or empty (default), all hosts(or lack of) are allowed. - A value is compared using
-     * ordinal-ignore-case (excluding port number). - Subdomain wildcards are permitted but don't match the root domain.
-     * For example, *.contoso.com matches the subdomain foo.contoso.com but not the root domain contoso.com or
-     * multi-level foo.bar.contoso.com - Unicode host names are allowed but are converted to Punycode for matching.
+     * Get the headers property: IP restriction rule headers.
+     * X-Forwarded-Host (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples).
+     * The matching logic is ..
+     * - If the property is null or empty (default), all hosts(or lack of) are allowed.
+     * - A value is compared using ordinal-ignore-case (excluding port number).
+     * - Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com matches the
+     * subdomain foo.contoso.com
+     * but not the root domain contoso.com or multi-level foo.bar.contoso.com
+     * - Unicode host names are allowed but are converted to Punycode for matching.
      *
-     * <p>X-Forwarded-For (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples). The
-     * matching logic is .. - If the property is null or empty (default), any forwarded-for chains (or lack of) are
-     * allowed. - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the
-     * property.
+     * X-Forwarded-For (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples).
+     * The matching logic is ..
+     * - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed.
+     * - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property.
      *
-     * <p>X-Azure-FDID and X-FD-HealthProbe. The matching logic is exact match.
+     * X-Azure-FDID and X-FD-HealthProbe.
+     * The matching logic is exact match.
      *
      * @return the headers value.
      */
@@ -330,19 +339,23 @@ public final class IpSecurityRestriction {
     }
 
     /**
-     * Set the headers property: IP restriction rule headers. X-Forwarded-Host
-     * (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples). The matching logic is .. -
-     * If the property is null or empty (default), all hosts(or lack of) are allowed. - A value is compared using
-     * ordinal-ignore-case (excluding port number). - Subdomain wildcards are permitted but don't match the root domain.
-     * For example, *.contoso.com matches the subdomain foo.contoso.com but not the root domain contoso.com or
-     * multi-level foo.bar.contoso.com - Unicode host names are allowed but are converted to Punycode for matching.
+     * Set the headers property: IP restriction rule headers.
+     * X-Forwarded-Host (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples).
+     * The matching logic is ..
+     * - If the property is null or empty (default), all hosts(or lack of) are allowed.
+     * - A value is compared using ordinal-ignore-case (excluding port number).
+     * - Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com matches the
+     * subdomain foo.contoso.com
+     * but not the root domain contoso.com or multi-level foo.bar.contoso.com
+     * - Unicode host names are allowed but are converted to Punycode for matching.
      *
-     * <p>X-Forwarded-For (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples). The
-     * matching logic is .. - If the property is null or empty (default), any forwarded-for chains (or lack of) are
-     * allowed. - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the
-     * property.
+     * X-Forwarded-For (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples).
+     * The matching logic is ..
+     * - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed.
+     * - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property.
      *
-     * <p>X-Azure-FDID and X-FD-HealthProbe. The matching logic is exact match.
+     * X-Azure-FDID and X-FD-HealthProbe.
+     * The matching logic is exact match.
      *
      * @param headers the headers value to set.
      * @return the IpSecurityRestriction object itself.

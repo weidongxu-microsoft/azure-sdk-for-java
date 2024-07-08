@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for SqlResources GetSqlDatabase. */
+/**
+ * Samples for SqlResources GetSqlDatabase.
+ */
 public final class SqlResourcesGetSqlDatabaseSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlDatabaseGet.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBSqlDatabaseGet.json
      */
     /**
      * Sample code: CosmosDBSqlDatabaseGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBSqlDatabaseGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getSqlResources()

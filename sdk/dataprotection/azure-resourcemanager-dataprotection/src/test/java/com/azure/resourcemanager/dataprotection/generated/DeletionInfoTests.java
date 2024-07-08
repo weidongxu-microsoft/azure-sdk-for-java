@@ -10,11 +10,9 @@ import com.azure.resourcemanager.dataprotection.models.DeletionInfo;
 public final class DeletionInfoTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DeletionInfo model =
-            BinaryData
-                .fromString(
-                    "{\"deletionTime\":\"podxunkb\",\"billingEndDate\":\"xmubyyntwlrbq\",\"scheduledPurgeTime\":\"oievseotgqrlltm\",\"deleteActivityID\":\"lauwzizxbmpgcjef\"}")
-                .toObject(DeletionInfo.class);
+        DeletionInfo model = BinaryData.fromString(
+            "{\"deletionTime\":\"d\",\"billingEndDate\":\"ygdvwv\",\"scheduledPurgeTime\":\"iohgwxrtfud\",\"deleteActivityID\":\"pxgy\"}")
+            .toObject(DeletionInfo.class);
     }
 
     @org.junit.jupiter.api.Test

@@ -7,19 +7,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Base class for backup item. Workload-specific backup items are derived from this class. */
+/**
+ * Base class for backup item. Workload-specific backup items are derived from this class.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "workloadItemType",
-    defaultImpl = WorkloadItem.class)
+    defaultImpl = WorkloadItem.class,
+    visible = true)
 @JsonTypeName("WorkloadItem")
-@JsonSubTypes({@JsonSubTypes.Type(name = "AzureVmWorkloadItem", value = AzureVmWorkloadItem.class)})
+@JsonSubTypes({ @JsonSubTypes.Type(name = "AzureVmWorkloadItem", value = AzureVmWorkloadItem.class) })
 @Fluent
 public class WorkloadItem {
+    /*
+     * Type of the backup item.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "workloadItemType", required = true)
+    private String workloadItemType;
+
     /*
      * Type of backup management to backup an item.
      */
@@ -44,13 +54,25 @@ public class WorkloadItem {
     @JsonProperty(value = "protectionState")
     private ProtectionStatus protectionState;
 
-    /** Creates an instance of WorkloadItem class. */
+    /**
+     * Creates an instance of WorkloadItem class.
+     */
     public WorkloadItem() {
+        this.workloadItemType = "WorkloadItem";
+    }
+
+    /**
+     * Get the workloadItemType property: Type of the backup item.
+     * 
+     * @return the workloadItemType value.
+     */
+    public String workloadItemType() {
+        return this.workloadItemType;
     }
 
     /**
      * Get the backupManagementType property: Type of backup management to backup an item.
-     *
+     * 
      * @return the backupManagementType value.
      */
     public String backupManagementType() {
@@ -59,7 +81,7 @@ public class WorkloadItem {
 
     /**
      * Set the backupManagementType property: Type of backup management to backup an item.
-     *
+     * 
      * @param backupManagementType the backupManagementType value to set.
      * @return the WorkloadItem object itself.
      */
@@ -70,7 +92,7 @@ public class WorkloadItem {
 
     /**
      * Get the workloadType property: Type of workload for the backup management.
-     *
+     * 
      * @return the workloadType value.
      */
     public String workloadType() {
@@ -79,7 +101,7 @@ public class WorkloadItem {
 
     /**
      * Set the workloadType property: Type of workload for the backup management.
-     *
+     * 
      * @param workloadType the workloadType value to set.
      * @return the WorkloadItem object itself.
      */
@@ -90,7 +112,7 @@ public class WorkloadItem {
 
     /**
      * Get the friendlyName property: Friendly name of the backup item.
-     *
+     * 
      * @return the friendlyName value.
      */
     public String friendlyName() {
@@ -99,7 +121,7 @@ public class WorkloadItem {
 
     /**
      * Set the friendlyName property: Friendly name of the backup item.
-     *
+     * 
      * @param friendlyName the friendlyName value to set.
      * @return the WorkloadItem object itself.
      */
@@ -110,7 +132,7 @@ public class WorkloadItem {
 
     /**
      * Get the protectionState property: State of the back up item.
-     *
+     * 
      * @return the protectionState value.
      */
     public ProtectionStatus protectionState() {
@@ -119,7 +141,7 @@ public class WorkloadItem {
 
     /**
      * Set the protectionState property: State of the back up item.
-     *
+     * 
      * @param protectionState the protectionState value to set.
      * @return the WorkloadItem object itself.
      */
@@ -130,7 +152,7 @@ public class WorkloadItem {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

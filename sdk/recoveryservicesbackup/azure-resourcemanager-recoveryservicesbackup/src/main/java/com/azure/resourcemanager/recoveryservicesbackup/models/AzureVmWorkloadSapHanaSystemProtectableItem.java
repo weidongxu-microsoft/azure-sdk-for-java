@@ -5,97 +5,157 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Azure VM workload-specific protectable item representing SAP HANA System. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectableItemType")
+/**
+ * Azure VM workload-specific protectable item representing SAP HANA System.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectableItemType",
+    defaultImpl = AzureVmWorkloadSapHanaSystemProtectableItem.class,
+    visible = true)
 @JsonTypeName("SAPHanaSystem")
 @Fluent
 public final class AzureVmWorkloadSapHanaSystemProtectableItem extends AzureVmWorkloadProtectableItem {
-    /** Creates an instance of AzureVmWorkloadSapHanaSystemProtectableItem class. */
+    /*
+     * Type of the backup item.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectableItemType", required = true)
+    private String protectableItemType = "SAPHanaSystem";
+
+    /**
+     * Creates an instance of AzureVmWorkloadSapHanaSystemProtectableItem class.
+     */
     public AzureVmWorkloadSapHanaSystemProtectableItem() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the protectableItemType property: Type of the backup item.
+     * 
+     * @return the protectableItemType value.
+     */
+    @Override
+    public String protectableItemType() {
+        return this.protectableItemType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withParentName(String parentName) {
         super.withParentName(parentName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withParentUniqueName(String parentUniqueName) {
         super.withParentUniqueName(parentUniqueName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withServerName(String serverName) {
         super.withServerName(serverName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withIsAutoProtectable(Boolean isAutoProtectable) {
         super.withIsAutoProtectable(isAutoProtectable);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withIsAutoProtected(Boolean isAutoProtected) {
         super.withIsAutoProtected(isAutoProtected);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withSubinquireditemcount(Integer subinquireditemcount) {
         super.withSubinquireditemcount(subinquireditemcount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withSubprotectableitemcount(Integer subprotectableitemcount) {
         super.withSubprotectableitemcount(subprotectableitemcount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureVmWorkloadSapHanaSystemProtectableItem withPrebackupvalidation(
-        PreBackupValidation prebackupvalidation) {
+    public AzureVmWorkloadSapHanaSystemProtectableItem
+        withPrebackupvalidation(PreBackupValidation prebackupvalidation) {
         super.withPrebackupvalidation(prebackupvalidation);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureVmWorkloadSapHanaSystemProtectableItem withIsProtectable(Boolean isProtectable) {
+        super.withIsProtectable(isProtectable);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withBackupManagementType(String backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withWorkloadType(String workloadType) {
         super.withWorkloadType(workloadType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withFriendlyName(String friendlyName) {
         super.withFriendlyName(friendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaSystemProtectableItem withProtectionState(ProtectionStatus protectionState) {
         super.withProtectionState(protectionState);
@@ -104,7 +164,7 @@ public final class AzureVmWorkloadSapHanaSystemProtectableItem extends AzureVmWo
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

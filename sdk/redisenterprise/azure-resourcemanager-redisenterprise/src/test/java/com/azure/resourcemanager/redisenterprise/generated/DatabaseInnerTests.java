@@ -9,7 +9,9 @@ import com.azure.resourcemanager.redisenterprise.fluent.models.DatabaseInner;
 import com.azure.resourcemanager.redisenterprise.models.AofFrequency;
 import com.azure.resourcemanager.redisenterprise.models.ClusteringPolicy;
 import com.azure.resourcemanager.redisenterprise.models.DatabasePropertiesGeoReplication;
+import com.azure.resourcemanager.redisenterprise.models.DeferUpgradeSetting;
 import com.azure.resourcemanager.redisenterprise.models.EvictionPolicy;
+import com.azure.resourcemanager.redisenterprise.models.LinkedDatabase;
 import com.azure.resourcemanager.redisenterprise.models.Module;
 import com.azure.resourcemanager.redisenterprise.models.Persistence;
 import com.azure.resourcemanager.redisenterprise.models.Protocol;
@@ -20,60 +22,54 @@ import org.junit.jupiter.api.Assertions;
 public final class DatabaseInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DatabaseInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"clientProtocol\":\"Encrypted\",\"port\":248377661,\"provisioningState\":\"Succeeded\",\"resourceState\":\"Creating\",\"clusteringPolicy\":\"OSSCluster\",\"evictionPolicy\":\"VolatileRandom\",\"persistence\":{\"aofEnabled\":true,\"rdbEnabled\":false,\"aofFrequency\":\"always\",\"rdbFrequency\":\"6h\"},\"modules\":[{\"name\":\"ftutqxlngxlefgu\",\"args\":\"xkrxdqmi\",\"version\":\"thz\"},{\"name\":\"vqdra\",\"args\":\"jybige\",\"version\":\"qfbow\"},{\"name\":\"kanyktzlcuiywg\",\"args\":\"wgndrvynhzgpp\",\"version\":\"cgyncocpecf\"},{\"name\":\"m\",\"args\":\"oo\",\"version\":\"xlzevgbmqjqabcy\"}],\"geoReplication\":{\"groupNickname\":\"vkwlzuvccfwnf\",\"linkedDatabases\":[]}},\"id\":\"fionl\",\"name\":\"bxetqgtzxdpn\",\"type\":\"bqqwxrj\"}")
-                .toObject(DatabaseInner.class);
-        Assertions.assertEquals(Protocol.ENCRYPTED, model.clientProtocol());
-        Assertions.assertEquals(248377661, model.port());
-        Assertions.assertEquals(ClusteringPolicy.OSSCLUSTER, model.clusteringPolicy());
-        Assertions.assertEquals(EvictionPolicy.VOLATILE_RANDOM, model.evictionPolicy());
-        Assertions.assertEquals(true, model.persistence().aofEnabled());
-        Assertions.assertEquals(false, model.persistence().rdbEnabled());
-        Assertions.assertEquals(AofFrequency.ALWAYS, model.persistence().aofFrequency());
+        DatabaseInner model = BinaryData.fromString(
+            "{\"properties\":{\"clientProtocol\":\"Plaintext\",\"port\":292078453,\"provisioningState\":\"Updating\",\"resourceState\":\"Scaling\",\"clusteringPolicy\":\"EnterpriseCluster\",\"evictionPolicy\":\"NoEviction\",\"persistence\":{\"aofEnabled\":false,\"rdbEnabled\":true,\"aofFrequency\":\"1s\",\"rdbFrequency\":\"6h\"},\"modules\":[{\"name\":\"sgfyccsnew\",\"args\":\"wzjeiach\",\"version\":\"osfln\"},{\"name\":\"osfqpteehzzv\",\"args\":\"yqrimzin\",\"version\":\"swjdkirso\"},{\"name\":\"dqxhcrmnohjtckwh\",\"args\":\"oifiyipjxsqwpgr\",\"version\":\"znorcj\"},{\"name\":\"vsnb\",\"args\":\"qabnmoc\",\"version\":\"ysh\"}],\"geoReplication\":{\"groupNickname\":\"afbljjgpbtoqcjmk\",\"linkedDatabases\":[{\"id\":\"bqidtqaj\",\"state\":\"UnlinkFailed\"}]},\"redisVersion\":\"pku\",\"deferUpgrade\":\"NotDeferred\"},\"id\":\"rlkhbzhfepgzgq\",\"name\":\"xzlocxscp\",\"type\":\"ierhhbcsglummaj\"}")
+            .toObject(DatabaseInner.class);
+        Assertions.assertEquals(Protocol.PLAINTEXT, model.clientProtocol());
+        Assertions.assertEquals(292078453, model.port());
+        Assertions.assertEquals(ClusteringPolicy.ENTERPRISE_CLUSTER, model.clusteringPolicy());
+        Assertions.assertEquals(EvictionPolicy.NO_EVICTION, model.evictionPolicy());
+        Assertions.assertEquals(false, model.persistence().aofEnabled());
+        Assertions.assertEquals(true, model.persistence().rdbEnabled());
+        Assertions.assertEquals(AofFrequency.ONES, model.persistence().aofFrequency());
         Assertions.assertEquals(RdbFrequency.SIXH, model.persistence().rdbFrequency());
-        Assertions.assertEquals("ftutqxlngxlefgu", model.modules().get(0).name());
-        Assertions.assertEquals("xkrxdqmi", model.modules().get(0).args());
-        Assertions.assertEquals("vkwlzuvccfwnf", model.geoReplication().groupNickname());
+        Assertions.assertEquals("sgfyccsnew", model.modules().get(0).name());
+        Assertions.assertEquals("wzjeiach", model.modules().get(0).args());
+        Assertions.assertEquals("afbljjgpbtoqcjmk", model.geoReplication().groupNickname());
+        Assertions.assertEquals("bqidtqaj", model.geoReplication().linkedDatabases().get(0).id());
+        Assertions.assertEquals(DeferUpgradeSetting.NOT_DEFERRED, model.deferUpgrade());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DatabaseInner model =
-            new DatabaseInner()
-                .withClientProtocol(Protocol.ENCRYPTED)
-                .withPort(248377661)
-                .withClusteringPolicy(ClusteringPolicy.OSSCLUSTER)
-                .withEvictionPolicy(EvictionPolicy.VOLATILE_RANDOM)
-                .withPersistence(
-                    new Persistence()
-                        .withAofEnabled(true)
-                        .withRdbEnabled(false)
-                        .withAofFrequency(AofFrequency.ALWAYS)
-                        .withRdbFrequency(RdbFrequency.SIXH))
-                .withModules(
-                    Arrays
-                        .asList(
-                            new Module().withName("ftutqxlngxlefgu").withArgs("xkrxdqmi"),
-                            new Module().withName("vqdra").withArgs("jybige"),
-                            new Module().withName("kanyktzlcuiywg").withArgs("wgndrvynhzgpp"),
-                            new Module().withName("m").withArgs("oo")))
-                .withGeoReplication(
-                    new DatabasePropertiesGeoReplication()
-                        .withGroupNickname("vkwlzuvccfwnf")
-                        .withLinkedDatabases(Arrays.asList()));
+        DatabaseInner model = new DatabaseInner().withClientProtocol(Protocol.PLAINTEXT)
+            .withPort(292078453)
+            .withClusteringPolicy(ClusteringPolicy.ENTERPRISE_CLUSTER)
+            .withEvictionPolicy(EvictionPolicy.NO_EVICTION)
+            .withPersistence(new Persistence().withAofEnabled(false)
+                .withRdbEnabled(true)
+                .withAofFrequency(AofFrequency.ONES)
+                .withRdbFrequency(RdbFrequency.SIXH))
+            .withModules(Arrays.asList(new Module().withName("sgfyccsnew").withArgs("wzjeiach"),
+                new Module().withName("osfqpteehzzv").withArgs("yqrimzin"),
+                new Module().withName("dqxhcrmnohjtckwh").withArgs("oifiyipjxsqwpgr"),
+                new Module().withName("vsnb").withArgs("qabnmoc")))
+            .withGeoReplication(new DatabasePropertiesGeoReplication().withGroupNickname("afbljjgpbtoqcjmk")
+                .withLinkedDatabases(Arrays.asList(new LinkedDatabase().withId("bqidtqaj"))))
+            .withDeferUpgrade(DeferUpgradeSetting.NOT_DEFERRED);
         model = BinaryData.fromObject(model).toObject(DatabaseInner.class);
-        Assertions.assertEquals(Protocol.ENCRYPTED, model.clientProtocol());
-        Assertions.assertEquals(248377661, model.port());
-        Assertions.assertEquals(ClusteringPolicy.OSSCLUSTER, model.clusteringPolicy());
-        Assertions.assertEquals(EvictionPolicy.VOLATILE_RANDOM, model.evictionPolicy());
-        Assertions.assertEquals(true, model.persistence().aofEnabled());
-        Assertions.assertEquals(false, model.persistence().rdbEnabled());
-        Assertions.assertEquals(AofFrequency.ALWAYS, model.persistence().aofFrequency());
+        Assertions.assertEquals(Protocol.PLAINTEXT, model.clientProtocol());
+        Assertions.assertEquals(292078453, model.port());
+        Assertions.assertEquals(ClusteringPolicy.ENTERPRISE_CLUSTER, model.clusteringPolicy());
+        Assertions.assertEquals(EvictionPolicy.NO_EVICTION, model.evictionPolicy());
+        Assertions.assertEquals(false, model.persistence().aofEnabled());
+        Assertions.assertEquals(true, model.persistence().rdbEnabled());
+        Assertions.assertEquals(AofFrequency.ONES, model.persistence().aofFrequency());
         Assertions.assertEquals(RdbFrequency.SIXH, model.persistence().rdbFrequency());
-        Assertions.assertEquals("ftutqxlngxlefgu", model.modules().get(0).name());
-        Assertions.assertEquals("xkrxdqmi", model.modules().get(0).args());
-        Assertions.assertEquals("vkwlzuvccfwnf", model.geoReplication().groupNickname());
+        Assertions.assertEquals("sgfyccsnew", model.modules().get(0).name());
+        Assertions.assertEquals("wzjeiach", model.modules().get(0).args());
+        Assertions.assertEquals("afbljjgpbtoqcjmk", model.geoReplication().groupNickname());
+        Assertions.assertEquals("bqidtqaj", model.geoReplication().linkedDatabases().get(0).id());
+        Assertions.assertEquals(DeferUpgradeSetting.NOT_DEFERRED, model.deferUpgrade());
     }
 }

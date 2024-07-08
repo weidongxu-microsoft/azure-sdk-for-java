@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** KeyPolicy assigned to the storage account. */
+/**
+ * KeyPolicy assigned to the storage account.
+ */
 @Fluent
 public final class KeyPolicy {
     /*
@@ -17,8 +19,14 @@ public final class KeyPolicy {
     private int keyExpirationPeriodInDays;
 
     /**
+     * Creates an instance of KeyPolicy class.
+     */
+    public KeyPolicy() {
+    }
+
+    /**
      * Get the keyExpirationPeriodInDays property: The key expiration period in days.
-     *
+     * 
      * @return the keyExpirationPeriodInDays value.
      */
     public int keyExpirationPeriodInDays() {
@@ -27,7 +35,7 @@ public final class KeyPolicy {
 
     /**
      * Set the keyExpirationPeriodInDays property: The key expiration period in days.
-     *
+     * 
      * @param keyExpirationPeriodInDays the keyExpirationPeriodInDays value to set.
      * @return the KeyPolicy object itself.
      */
@@ -38,7 +46,7 @@ public final class KeyPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

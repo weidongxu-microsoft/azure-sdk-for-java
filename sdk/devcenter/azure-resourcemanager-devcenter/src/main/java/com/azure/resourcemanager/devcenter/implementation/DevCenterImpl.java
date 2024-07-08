@@ -9,7 +9,9 @@ import com.azure.core.management.SystemData;
 import com.azure.core.util.Context;
 import com.azure.resourcemanager.devcenter.fluent.models.DevCenterInner;
 import com.azure.resourcemanager.devcenter.models.DevCenter;
+import com.azure.resourcemanager.devcenter.models.DevCenterProjectCatalogSettings;
 import com.azure.resourcemanager.devcenter.models.DevCenterUpdate;
+import com.azure.resourcemanager.devcenter.models.Encryption;
 import com.azure.resourcemanager.devcenter.models.ManagedServiceIdentity;
 import com.azure.resourcemanager.devcenter.models.ProvisioningState;
 import java.util.Collections;
@@ -61,6 +63,18 @@ public final class DevCenterImpl implements DevCenter, DevCenter.Definition, Dev
         return this.innerModel().devCenterUri();
     }
 
+    public Encryption encryption() {
+        return this.innerModel().encryption();
+    }
+
+    public String displayName() {
+        return this.innerModel().displayName();
+    }
+
+    public DevCenterProjectCatalogSettings projectCatalogSettings() {
+        return this.innerModel().projectCatalogSettings();
+    }
+
     public Region region() {
         return Region.fromName(this.regionName());
     }
@@ -93,20 +107,16 @@ public final class DevCenterImpl implements DevCenter, DevCenter.Definition, Dev
     }
 
     public DevCenter create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDevCenters()
-                .createOrUpdate(resourceGroupName, devCenterName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getDevCenters()
+            .createOrUpdate(resourceGroupName, devCenterName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public DevCenter create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDevCenters()
-                .createOrUpdate(resourceGroupName, devCenterName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient()
+            .getDevCenters()
+            .createOrUpdate(resourceGroupName, devCenterName, this.innerModel(), context);
         return this;
     }
 
@@ -122,47 +132,39 @@ public final class DevCenterImpl implements DevCenter, DevCenter.Definition, Dev
     }
 
     public DevCenter apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDevCenters()
-                .update(resourceGroupName, devCenterName, updateBody, Context.NONE);
+        this.innerObject = serviceManager.serviceClient()
+            .getDevCenters()
+            .update(resourceGroupName, devCenterName, updateBody, Context.NONE);
         return this;
     }
 
     public DevCenter apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDevCenters()
-                .update(resourceGroupName, devCenterName, updateBody, context);
+        this.innerObject = serviceManager.serviceClient()
+            .getDevCenters()
+            .update(resourceGroupName, devCenterName, updateBody, context);
         return this;
     }
 
     DevCenterImpl(DevCenterInner innerObject, com.azure.resourcemanager.devcenter.DevCenterManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.devCenterName = Utils.getValueFromIdByName(innerObject.id(), "devcenters");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.devCenterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "devcenters");
     }
 
     public DevCenter refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDevCenters()
-                .getByResourceGroupWithResponse(resourceGroupName, devCenterName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getDevCenters()
+            .getByResourceGroupWithResponse(resourceGroupName, devCenterName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public DevCenter refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getDevCenters()
-                .getByResourceGroupWithResponse(resourceGroupName, devCenterName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getDevCenters()
+            .getByResourceGroupWithResponse(resourceGroupName, devCenterName, context)
+            .getValue();
         return this;
     }
 
@@ -192,6 +194,36 @@ public final class DevCenterImpl implements DevCenter, DevCenter.Definition, Dev
             return this;
         } else {
             this.updateBody.withIdentity(identity);
+            return this;
+        }
+    }
+
+    public DevCenterImpl withEncryption(Encryption encryption) {
+        if (isInCreateMode()) {
+            this.innerModel().withEncryption(encryption);
+            return this;
+        } else {
+            this.updateBody.withEncryption(encryption);
+            return this;
+        }
+    }
+
+    public DevCenterImpl withDisplayName(String displayName) {
+        if (isInCreateMode()) {
+            this.innerModel().withDisplayName(displayName);
+            return this;
+        } else {
+            this.updateBody.withDisplayName(displayName);
+            return this;
+        }
+    }
+
+    public DevCenterImpl withProjectCatalogSettings(DevCenterProjectCatalogSettings projectCatalogSettings) {
+        if (isInCreateMode()) {
+            this.innerModel().withProjectCatalogSettings(projectCatalogSettings);
+            return this;
+        } else {
+            this.updateBody.withProjectCatalogSettings(projectCatalogSettings);
             return this;
         }
     }

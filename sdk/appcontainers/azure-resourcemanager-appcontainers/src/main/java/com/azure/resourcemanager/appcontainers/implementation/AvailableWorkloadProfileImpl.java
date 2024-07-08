@@ -14,8 +14,7 @@ public final class AvailableWorkloadProfileImpl implements AvailableWorkloadProf
 
     private final com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager;
 
-    AvailableWorkloadProfileImpl(
-        AvailableWorkloadProfileInner innerObject,
+    AvailableWorkloadProfileImpl(AvailableWorkloadProfileInner innerObject,
         com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;

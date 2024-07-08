@@ -8,42 +8,35 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.VMExtension;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class VMExtensionTests {
-    @Test
-    public void testDeserialize() {
-        VMExtension model =
-            BinaryData
-                .fromString(
-                    "{\"name\":\"maqolbgycduie\",\"publisher\":\"tgccymvaolpss\",\"type\":\"qlfmmdnbb\",\"typeHandlerVersion\":\"zpswiydmc\",\"autoUpgradeMinorVersion\":true,\"settings\":\"datadxssadbzm\",\"protectedSettings\":\"datadfznudaodv\",\"provisionAfterExtensions\":[\"ncblylpst\",\"bhhxsrzdzuc\",\"rsc\",\"ntnev\"]}")
-                .toObject(VMExtension.class);
-        Assertions.assertEquals("maqolbgycduie", model.name());
-        Assertions.assertEquals("tgccymvaolpss", model.publisher());
-        Assertions.assertEquals("qlfmmdnbb", model.type());
-        Assertions.assertEquals("zpswiydmc", model.typeHandlerVersion());
-        Assertions.assertEquals(true, model.autoUpgradeMinorVersion());
-        Assertions.assertEquals("ncblylpst", model.provisionAfterExtensions().get(0));
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        VMExtension model = BinaryData.fromString(
+            "{\"name\":\"nqpeh\",\"publisher\":\"ndoygmifthnzdnd\",\"type\":\"l\",\"typeHandlerVersion\":\"ayqigynduhav\",\"autoUpgradeMinorVersion\":false,\"enableAutomaticUpgrade\":false,\"settings\":\"dataumaq\",\"protectedSettings\":\"databgycduiertgccym\",\"provisionAfterExtensions\":[\"l\",\"ssl\",\"lfmmdnbbglzpswi\"]}")
+            .toObject(VMExtension.class);
+        Assertions.assertEquals("nqpeh", model.name());
+        Assertions.assertEquals("ndoygmifthnzdnd", model.publisher());
+        Assertions.assertEquals("l", model.type());
+        Assertions.assertEquals("ayqigynduhav", model.typeHandlerVersion());
+        Assertions.assertEquals(false, model.autoUpgradeMinorVersion());
+        Assertions.assertEquals(false, model.enableAutomaticUpgrade());
+        Assertions.assertEquals("l", model.provisionAfterExtensions().get(0));
     }
 
-    @Test
-    public void testSerialize() {
-        VMExtension model =
-            new VMExtension()
-                .withName("maqolbgycduie")
-                .withPublisher("tgccymvaolpss")
-                .withType("qlfmmdnbb")
-                .withTypeHandlerVersion("zpswiydmc")
-                .withAutoUpgradeMinorVersion(true)
-                .withSettings("datadxssadbzm")
-                .withProtectedSettings("datadfznudaodv")
-                .withProvisionAfterExtensions(Arrays.asList("ncblylpst", "bhhxsrzdzuc", "rsc", "ntnev"));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        VMExtension model = new VMExtension().withName("nqpeh").withPublisher("ndoygmifthnzdnd").withType("l")
+            .withTypeHandlerVersion("ayqigynduhav").withAutoUpgradeMinorVersion(false).withEnableAutomaticUpgrade(false)
+            .withSettings("dataumaq").withProtectedSettings("databgycduiertgccym")
+            .withProvisionAfterExtensions(Arrays.asList("l", "ssl", "lfmmdnbbglzpswi"));
         model = BinaryData.fromObject(model).toObject(VMExtension.class);
-        Assertions.assertEquals("maqolbgycduie", model.name());
-        Assertions.assertEquals("tgccymvaolpss", model.publisher());
-        Assertions.assertEquals("qlfmmdnbb", model.type());
-        Assertions.assertEquals("zpswiydmc", model.typeHandlerVersion());
-        Assertions.assertEquals(true, model.autoUpgradeMinorVersion());
-        Assertions.assertEquals("ncblylpst", model.provisionAfterExtensions().get(0));
+        Assertions.assertEquals("nqpeh", model.name());
+        Assertions.assertEquals("ndoygmifthnzdnd", model.publisher());
+        Assertions.assertEquals("l", model.type());
+        Assertions.assertEquals("ayqigynduhav", model.typeHandlerVersion());
+        Assertions.assertEquals(false, model.autoUpgradeMinorVersion());
+        Assertions.assertEquals(false, model.enableAutomaticUpgrade());
+        Assertions.assertEquals("l", model.provisionAfterExtensions().get(0));
     }
 }

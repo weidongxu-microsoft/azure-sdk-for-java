@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Binary source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Binary source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = BinarySource.class, visible = true)
 @JsonTypeName("BinarySource")
 @Fluent
 public final class BinarySource extends CopySource {
+    /*
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "BinarySource";
+
     /*
      * Binary store settings.
      */
@@ -26,13 +36,25 @@ public final class BinarySource extends CopySource {
     @JsonProperty(value = "formatSettings")
     private BinaryReadSettings formatSettings;
 
-    /** Creates an instance of BinarySource class. */
+    /**
+     * Creates an instance of BinarySource class.
+     */
     public BinarySource() {
     }
 
     /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the storeSettings property: Binary store settings.
-     *
+     * 
      * @return the storeSettings value.
      */
     public StoreReadSettings storeSettings() {
@@ -41,7 +63,7 @@ public final class BinarySource extends CopySource {
 
     /**
      * Set the storeSettings property: Binary store settings.
-     *
+     * 
      * @param storeSettings the storeSettings value to set.
      * @return the BinarySource object itself.
      */
@@ -52,7 +74,7 @@ public final class BinarySource extends CopySource {
 
     /**
      * Get the formatSettings property: Binary format settings.
-     *
+     * 
      * @return the formatSettings value.
      */
     public BinaryReadSettings formatSettings() {
@@ -61,7 +83,7 @@ public final class BinarySource extends CopySource {
 
     /**
      * Set the formatSettings property: Binary format settings.
-     *
+     * 
      * @param formatSettings the formatSettings value to set.
      * @return the BinarySource object itself.
      */
@@ -70,28 +92,36 @@ public final class BinarySource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BinarySource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BinarySource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BinarySource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BinarySource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -100,7 +130,7 @@ public final class BinarySource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

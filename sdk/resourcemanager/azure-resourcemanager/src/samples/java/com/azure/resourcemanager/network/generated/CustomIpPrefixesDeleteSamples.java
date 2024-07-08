@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for CustomIpPrefixes Delete. */
+/**
+ * Samples for CustomIpPrefixes Delete.
+ */
 public final class CustomIpPrefixesDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/CustomIpPrefixDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/CustomIpPrefixDelete.json
      */
     /**
      * Sample code: Delete custom IP prefix.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteCustomIPPrefix(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getCustomIpPrefixes()

@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
-/** NetApp account patch resource. */
+/**
+ * NetApp account patch resource.
+ */
 @Fluent
 public final class NetAppAccountPatch extends Resource {
     /*
@@ -20,27 +22,59 @@ public final class NetAppAccountPatch extends Resource {
     @JsonProperty(value = "properties")
     private AccountProperties innerProperties;
 
-    /** Creates an instance of NetAppAccountPatch class. */
+    /*
+     * The identity used for the resource.
+     */
+    @JsonProperty(value = "identity")
+    private ManagedServiceIdentity identity;
+
+    /**
+     * Creates an instance of NetAppAccountPatch class.
+     */
     public NetAppAccountPatch() {
     }
 
     /**
      * Get the innerProperties property: NetApp Account properties.
-     *
+     * 
      * @return the innerProperties value.
      */
     private AccountProperties innerProperties() {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the identity property: The identity used for the resource.
+     * 
+     * @return the identity value.
+     */
+    public ManagedServiceIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity property: The identity used for the resource.
+     * 
+     * @param identity the identity value to set.
+     * @return the NetAppAccountPatch object itself.
+     */
+    public NetAppAccountPatch withIdentity(ManagedServiceIdentity identity) {
+        this.identity = identity;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public NetAppAccountPatch withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public NetAppAccountPatch withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -49,7 +83,7 @@ public final class NetAppAccountPatch extends Resource {
 
     /**
      * Get the provisioningState property: Azure lifecycle management.
-     *
+     * 
      * @return the provisioningState value.
      */
     public String provisioningState() {
@@ -58,7 +92,7 @@ public final class NetAppAccountPatch extends Resource {
 
     /**
      * Get the activeDirectories property: Active Directories.
-     *
+     * 
      * @return the activeDirectories value.
      */
     public List<ActiveDirectory> activeDirectories() {
@@ -67,7 +101,7 @@ public final class NetAppAccountPatch extends Resource {
 
     /**
      * Set the activeDirectories property: Active Directories.
-     *
+     * 
      * @param activeDirectories the activeDirectories value to set.
      * @return the NetAppAccountPatch object itself.
      */
@@ -81,7 +115,7 @@ public final class NetAppAccountPatch extends Resource {
 
     /**
      * Get the encryption property: Encryption settings.
-     *
+     * 
      * @return the encryption value.
      */
     public AccountEncryption encryption() {
@@ -90,7 +124,7 @@ public final class NetAppAccountPatch extends Resource {
 
     /**
      * Set the encryption property: Encryption settings.
-     *
+     * 
      * @param encryption the encryption value to set.
      * @return the NetAppAccountPatch object itself.
      */
@@ -105,7 +139,7 @@ public final class NetAppAccountPatch extends Resource {
     /**
      * Get the disableShowmount property: Shows the status of disableShowmount for all volumes under the subscription,
      * null equals false.
-     *
+     * 
      * @return the disableShowmount value.
      */
     public Boolean disableShowmount() {
@@ -114,12 +148,15 @@ public final class NetAppAccountPatch extends Resource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (innerProperties() != null) {
             innerProperties().validate();
+        }
+        if (identity() != null) {
+            identity().validate();
         }
     }
 }

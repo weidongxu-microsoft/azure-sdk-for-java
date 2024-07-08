@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.WorkflowEnvelopeInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Kudu workflow information elements. */
+/**
+ * Collection of Kudu workflow information elements.
+ */
 @Fluent
 public final class WorkflowEnvelopeCollection {
     /*
@@ -25,7 +28,9 @@ public final class WorkflowEnvelopeCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of WorkflowEnvelopeCollection class. */
+    /**
+     * Creates an instance of WorkflowEnvelopeCollection class.
+     */
     public WorkflowEnvelopeCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class WorkflowEnvelopeCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model WorkflowEnvelopeCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model WorkflowEnvelopeCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

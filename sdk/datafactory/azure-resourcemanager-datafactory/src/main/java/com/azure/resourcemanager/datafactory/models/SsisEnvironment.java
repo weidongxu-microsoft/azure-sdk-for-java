@@ -6,15 +6,25 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Ssis environment. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Ssis environment.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SsisEnvironment.class, visible = true)
 @JsonTypeName("Environment")
 @Fluent
 public final class SsisEnvironment extends SsisObjectMetadata {
+    /*
+     * Type of metadata.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private SsisObjectMetadataType type = SsisObjectMetadataType.ENVIRONMENT;
+
     /*
      * Folder id which contains environment.
      */
@@ -27,13 +37,25 @@ public final class SsisEnvironment extends SsisObjectMetadata {
     @JsonProperty(value = "variables")
     private List<SsisVariable> variables;
 
-    /** Creates an instance of SsisEnvironment class. */
+    /**
+     * Creates an instance of SsisEnvironment class.
+     */
     public SsisEnvironment() {
     }
 
     /**
+     * Get the type property: Type of metadata.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public SsisObjectMetadataType type() {
+        return this.type;
+    }
+
+    /**
      * Get the folderId property: Folder id which contains environment.
-     *
+     * 
      * @return the folderId value.
      */
     public Long folderId() {
@@ -42,7 +64,7 @@ public final class SsisEnvironment extends SsisObjectMetadata {
 
     /**
      * Set the folderId property: Folder id which contains environment.
-     *
+     * 
      * @param folderId the folderId value to set.
      * @return the SsisEnvironment object itself.
      */
@@ -53,7 +75,7 @@ public final class SsisEnvironment extends SsisObjectMetadata {
 
     /**
      * Get the variables property: Variable in environment.
-     *
+     * 
      * @return the variables value.
      */
     public List<SsisVariable> variables() {
@@ -62,7 +84,7 @@ public final class SsisEnvironment extends SsisObjectMetadata {
 
     /**
      * Set the variables property: Variable in environment.
-     *
+     * 
      * @param variables the variables value to set.
      * @return the SsisEnvironment object itself.
      */
@@ -71,21 +93,27 @@ public final class SsisEnvironment extends SsisObjectMetadata {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SsisEnvironment withId(Long id) {
         super.withId(id);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SsisEnvironment withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SsisEnvironment withDescription(String description) {
         super.withDescription(description);
@@ -94,7 +122,7 @@ public final class SsisEnvironment extends SsisObjectMetadata {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

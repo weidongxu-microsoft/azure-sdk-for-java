@@ -7,23 +7,50 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.fluent.models.AdminPropertiesFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.List;
 
-/** Network admin rule. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "kind")
+/**
+ * Network admin rule.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "kind",
+    defaultImpl = EffectiveSecurityAdminRule.class,
+    visible = true)
 @JsonTypeName("Custom")
 @Fluent
 public final class EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRule {
+    /*
+     * Whether the rule is custom or default.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "kind", required = true)
+    private EffectiveAdminRuleKind kind = EffectiveAdminRuleKind.CUSTOM;
+
     /*
      * Indicates the properties of the security admin rule
      */
     @JsonProperty(value = "properties")
     private AdminPropertiesFormat innerProperties;
 
-    /** Creates an instance of EffectiveSecurityAdminRule class. */
+    /**
+     * Creates an instance of EffectiveSecurityAdminRule class.
+     */
     public EffectiveSecurityAdminRule() {
+    }
+
+    /**
+     * Get the kind property: Whether the rule is custom or default.
+     *
+     * @return the kind value.
+     */
+    @Override
+    public EffectiveAdminRuleKind kind() {
+        return this.kind;
     }
 
     /**
@@ -35,36 +62,46 @@ public final class EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdmin
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EffectiveSecurityAdminRule withId(String id) {
         super.withId(id);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EffectiveSecurityAdminRule withConfigurationDescription(String configurationDescription) {
         super.withConfigurationDescription(configurationDescription);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EffectiveSecurityAdminRule withRuleCollectionDescription(String ruleCollectionDescription) {
         super.withRuleCollectionDescription(ruleCollectionDescription);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public EffectiveSecurityAdminRule withRuleCollectionAppliesToGroups(
-        List<NetworkManagerSecurityGroupItem> ruleCollectionAppliesToGroups) {
+    public EffectiveSecurityAdminRule
+        withRuleCollectionAppliesToGroups(List<NetworkManagerSecurityGroupItem> ruleCollectionAppliesToGroups) {
         super.withRuleCollectionAppliesToGroups(ruleCollectionAppliesToGroups);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EffectiveSecurityAdminRule withRuleGroups(List<ConfigurationGroup> ruleGroups) {
         super.withRuleGroups(ruleGroups);
@@ -289,6 +326,15 @@ public final class EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdmin
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.models.AllowedEnvironmentTypeListResu
 public final class AllowedEnvironmentTypeListResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AllowedEnvironmentTypeListResult model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"provisioningState\":\"Creating\"},\"id\":\"hcbkhajde\",\"name\":\"eamdp\",\"type\":\"agalpbuxwgipwhon\"},{\"properties\":{\"provisioningState\":\"Succeeded\"},\"id\":\"hwankixzbinjepu\",\"name\":\"tmryw\",\"type\":\"uzoqft\"},{\"properties\":{\"provisioningState\":\"Canceled\"},\"id\":\"n\",\"name\":\"cqvyxlwhzlsico\",\"type\":\"oqqnwvlryav\"}],\"nextLink\":\"heun\"}")
-                .toObject(AllowedEnvironmentTypeListResult.class);
+        AllowedEnvironmentTypeListResult model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"provisioningState\":\"StorageProvisioningFailed\",\"displayName\":\"xyawj\"},\"id\":\"aq\",\"name\":\"slyjpkiid\",\"type\":\"yexz\"},{\"properties\":{\"provisioningState\":\"Deleting\",\"displayName\":\"hnrztfol\"},\"id\":\"nxknalaulp\",\"name\":\"ggdtpnapnyiro\",\"type\":\"uhpigvp\"},{\"properties\":{\"provisioningState\":\"TransientFailure\",\"displayName\":\"git\"},\"id\":\"edjvcslynqw\",\"name\":\"ncw\",\"type\":\"zhxgktrmgucn\"},{\"properties\":{\"provisioningState\":\"NotSpecified\",\"displayName\":\"oellwp\"},\"id\":\"d\",\"name\":\"gpfqbuace\",\"type\":\"pzfqrhhuaoppp\"}],\"nextLink\":\"eqx\"}")
+            .toObject(AllowedEnvironmentTypeListResult.class);
     }
 
     @org.junit.jupiter.api.Test

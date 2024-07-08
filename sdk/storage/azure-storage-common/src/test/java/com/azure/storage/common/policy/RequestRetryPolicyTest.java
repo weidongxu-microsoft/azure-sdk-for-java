@@ -104,14 +104,14 @@ public class RequestRetryPolicyTest {
 
                 @Override
                 public HttpResponse sendSync(HttpRequest request, Context context) {
-                    beforeSendingRequest(request);
-                    return response;
+                    return send(request).block();
                 }
 
                 @Override
                 public Mono<HttpResponse> send(HttpRequest request) {
                     beforeSendingRequest(request);
-                    return Mono.just(response);
+                    return count < 3
+                        ? Mono.just(response).delaySubscription(Duration.ofSeconds(5)) : Mono.just(response);
                 }
             })
             .policies(new RequestRetryPolicy(retryTestOptions))
@@ -246,6 +246,22 @@ public class RequestRetryPolicyTest {
     public void retryPolicyRetriesExceptions(Throwable throwable, boolean shouldBeRetried) {
         assertEquals(shouldBeRetried, RequestRetryPolicy.shouldErrorBeRetried(throwable, 0, 1).canBeRetried);
     }
+
+    /*@ParameterizedTest
+    @MethodSource("retryPolicyRetriesStatusCodeSupplier")
+    public void retryPolicyRetriesStatusCode(int statusCode, boolean isPrimary, boolean shouldBeRetried) {
+        assertEquals(shouldBeRetried, RequestRetryPolicy.shouldResponseBeRetried(statusCode, isPrimary, null));
+    }
+
+    @ParameterizedTest
+    @MethodSource("retryPolicyRetriesStatusCodeSupplier")
+    public void retryPolicyRetriesResponse(int statusCode, boolean isPrimary, boolean shouldBeRetried) {
+        MockHttpResponse response = new MockHttpResponse(null, 404,
+            new HttpHeaders().set(HttpHeaderName.fromString("x-ms-copy-source-error-code"), "" + statusCode));
+
+        assertEquals(shouldBeRetried, RequestRetryPolicy.shouldResponseBeRetried(0, isPrimary, response));
+
+    }*/
 
     @ParameterizedTest
     @MethodSource("retryPolicyRetriesStatusCodeSupplier")

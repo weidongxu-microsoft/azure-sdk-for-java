@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.eventgrid.generated;
 
-/** Samples for EventSubscriptions ListRegionalByResourceGroup. */
+/**
+ * Samples for EventSubscriptions ListRegionalByResourceGroup.
+ */
 public final class EventSubscriptionsListRegionalByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_ListRegionalByResourceGroup.json
+     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_ListRegionalByResourceGroup.json
      */
     /**
      * Sample code: EventSubscriptions_ListRegionalByResourceGroup.
-     *
+     * 
      * @param manager Entry point to EventGridManager.
      */
-    public static void eventSubscriptionsListRegionalByResourceGroup(
-        com.azure.resourcemanager.eventgrid.EventGridManager manager) {
-        manager
-            .eventSubscriptions()
+    public static void
+        eventSubscriptionsListRegionalByResourceGroup(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+        manager.eventSubscriptions()
             .listRegionalByResourceGroup("examplerg", "westus2", null, null, com.azure.core.util.Context.NONE);
     }
 }

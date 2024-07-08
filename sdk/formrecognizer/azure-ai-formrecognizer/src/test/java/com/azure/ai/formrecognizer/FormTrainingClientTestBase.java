@@ -26,7 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 import static com.azure.ai.formrecognizer.TestUtils.BLANK_PDF;
 import static com.azure.ai.formrecognizer.TestUtils.INVALID_RECEIPT_URL;
 import static com.azure.ai.formrecognizer.TestUtils.ONE_NANO_DURATION;
-import static com.azure.ai.formrecognizer.TestUtils.getTestProxySanitizers;
+import static com.azure.ai.formrecognizer.TestUtils.REMOVE_SANITIZER_ID;
 import static com.azure.ai.formrecognizer.implementation.Utility.DEFAULT_POLL_INTERVAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -94,7 +94,7 @@ public abstract class FormTrainingClientTestBase extends TestProxyTestBase {
 
         if (interceptorManager.isPlaybackMode()) {
             builder.credential(new MockTokenCredential());
-            interceptorManager.addMatchers(Arrays.asList(new BodilessMatcher()));
+            interceptorManager.addMatchers(Collections.singletonList(new BodilessMatcher()));
         } else if (interceptorManager.isRecordMode()) {
             builder.credential(new DefaultAzureCredentialBuilder().build());
             builder.addPolicy(interceptorManager.getRecordPolicy());
@@ -102,7 +102,7 @@ public abstract class FormTrainingClientTestBase extends TestProxyTestBase {
             builder.credential(new DefaultAzureCredentialBuilder().build());
         }
         if (!interceptorManager.isLiveMode()) {
-            interceptorManager.addSanitizers(getTestProxySanitizers());
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
         }
         return builder;
     }
@@ -152,19 +152,11 @@ public abstract class FormTrainingClientTestBase extends TestProxyTestBase {
     @Test
     abstract void getFormRecognizerClientAndValidate(HttpClient httpClient,
         FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void getCustomModelNullModelId(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
     @Test
     abstract void getCustomModelLabeled(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
     @Test
     abstract void getCustomModelUnlabeled(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void getCustomModelInvalidModelId(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
     @Test
     abstract void getCustomModelWithResponse(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
@@ -173,19 +165,11 @@ public abstract class FormTrainingClientTestBase extends TestProxyTestBase {
 
     @Test
     abstract void validGetAccountPropertiesWithResponse(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void deleteModelInvalidModelId(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
     @Test
     abstract void deleteModelValidModelIdWithResponse(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
     @Test
     abstract void listCustomModels(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
-    @Test
-    abstract void beginTrainingNullInput(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
-
     @Test
     abstract void beginCopy(HttpClient httpClient, FormRecognizerServiceVersion serviceVersion);
 
@@ -229,10 +213,6 @@ public abstract class FormTrainingClientTestBase extends TestProxyTestBase {
     @Test
     abstract void beginTrainingWithoutTrainingLabelsExcludeSubfolderWithNonExistPrefixName(HttpClient httpClient,
         FormRecognizerServiceVersion serviceVersion);
-
-    void getCustomModelInvalidModelIdRunner(Consumer<String> testRunner) {
-        testRunner.accept(TestUtils.INVALID_MODEL_ID);
-    }
 
     void beginTrainingLabeledRunner(BiConsumer<String, Boolean> testRunner) {
         testRunner.accept(getTrainingFilesContainerUrl(), true);

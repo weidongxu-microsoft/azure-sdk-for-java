@@ -15,8 +15,6 @@ trigger:
       - sdk/monitor/azure-monitor-opentelemetry-exporter/pom.xml
       - sdk/monitor/azure-monitor-query/pom.xml
       - sdk/monitor/azure-monitor-query-perf/pom.xml
-      - sdk/monitor/azure-monitor-spring-native/pom.xml
-      - sdk/monitor/azure-monitor-spring-native-test/pom.xml
 
 pr:
   branches:
@@ -34,8 +32,6 @@ pr:
       - sdk/monitor/azure-monitor-opentelemetry-exporter/pom.xml
       - sdk/monitor/azure-monitor-query/pom.xml
       - sdk/monitor/azure-monitor-query-perf/pom.xml
-      - sdk/monitor/azure-monitor-spring-native/pom.xml
-      - sdk/monitor/azure-monitor-spring-native-test/pom.xml
 
 parameters:
 - name: release_dependsonlivetests
@@ -50,10 +46,6 @@ parameters:
   displayName: 'azure-monitor-opentelemetry-exporter'
   type: boolean
   default: true
-- name: release_azuremonitorspringnative
-  displayName: 'azure-monitor-spring-native'
-  type: boolean
-  default: true
 - name: release_azuremonitorquery
   displayName: 'azure-monitor-query'
   type: boolean
@@ -63,7 +55,6 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: monitor
-    EnableBatchRelease: true
     Artifacts:
       - name: azure-monitor-ingestion
         groupId: com.azure
@@ -73,17 +64,11 @@ extends:
         groupId: com.azure
         safeName: azuremonitoropentelemetryexporter
         releaseInBatch: ${{ parameters.release_azuremonitoropentelemetryexporter }}
-      - name: azure-monitor-spring-native
-        groupId: com.azure.spring
-        safeName: azuremonitorspringnative
-        releaseInBatch: ${{ parameters.release_azuremonitorspringnative }}
       - name: azure-monitor-query
         groupId: com.azure
         safeName: azuremonitorquery
         releaseInBatch: ${{ parameters.release_azuremonitorquery }}
     AdditionalModules:
-      - name: azure-monitor-spring-native-test
-        groupId: com.azure.spring
       - name: azure-monitor-query-perf
         groupId: com.azure
       - name: azure-monitor-ingestion-perf

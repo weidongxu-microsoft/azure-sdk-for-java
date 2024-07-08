@@ -10,7 +10,9 @@ import com.azure.core.management.SystemData;
 import com.azure.resourcemanager.appcontainers.models.ManagedEnvironmentStorageProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Storage resource for managedEnvironment. */
+/**
+ * Storage resource for managedEnvironment.
+ */
 @Fluent
 public final class ManagedEnvironmentStorageInner extends ProxyResource {
     /*
@@ -25,13 +27,15 @@ public final class ManagedEnvironmentStorageInner extends ProxyResource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of ManagedEnvironmentStorageInner class. */
+    /**
+     * Creates an instance of ManagedEnvironmentStorageInner class.
+     */
     public ManagedEnvironmentStorageInner() {
     }
 
     /**
      * Get the properties property: Storage properties.
-     *
+     * 
      * @return the properties value.
      */
     public ManagedEnvironmentStorageProperties properties() {
@@ -40,7 +44,7 @@ public final class ManagedEnvironmentStorageInner extends ProxyResource {
 
     /**
      * Set the properties property: Storage properties.
-     *
+     * 
      * @param properties the properties value to set.
      * @return the ManagedEnvironmentStorageInner object itself.
      */
@@ -51,7 +55,7 @@ public final class ManagedEnvironmentStorageInner extends ProxyResource {
 
     /**
      * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-     *
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
@@ -60,7 +64,7 @@ public final class ManagedEnvironmentStorageInner extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

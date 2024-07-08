@@ -6,27 +6,49 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Azure Search Index sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Azure Search Index sink.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AzureSearchIndexSink.class, visible = true)
 @JsonTypeName("AzureSearchIndexSink")
 @Fluent
 public final class AzureSearchIndexSink extends CopySink {
+    /*
+     * Copy sink type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureSearchIndexSink";
+
     /*
      * Specify the write behavior when upserting documents into Azure Search Index.
      */
     @JsonProperty(value = "writeBehavior")
     private AzureSearchIndexWriteBehaviorType writeBehavior;
 
-    /** Creates an instance of AzureSearchIndexSink class. */
+    /**
+     * Creates an instance of AzureSearchIndexSink class.
+     */
     public AzureSearchIndexSink() {
     }
 
     /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the writeBehavior property: Specify the write behavior when upserting documents into Azure Search Index.
-     *
+     * 
      * @return the writeBehavior value.
      */
     public AzureSearchIndexWriteBehaviorType writeBehavior() {
@@ -35,7 +57,7 @@ public final class AzureSearchIndexSink extends CopySink {
 
     /**
      * Set the writeBehavior property: Specify the write behavior when upserting documents into Azure Search Index.
-     *
+     * 
      * @param writeBehavior the writeBehavior value to set.
      * @return the AzureSearchIndexSink object itself.
      */
@@ -44,42 +66,54 @@ public final class AzureSearchIndexSink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSearchIndexSink withWriteBatchSize(Object writeBatchSize) {
         super.withWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSearchIndexSink withWriteBatchTimeout(Object writeBatchTimeout) {
         super.withWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSearchIndexSink withSinkRetryCount(Object sinkRetryCount) {
         super.withSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSearchIndexSink withSinkRetryWait(Object sinkRetryWait) {
         super.withSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSearchIndexSink withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureSearchIndexSink withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -88,7 +122,7 @@ public final class AzureSearchIndexSink extends CopySink {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

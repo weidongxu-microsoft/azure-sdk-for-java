@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.fluent.models.ApplicationGatewayPrivateLinkConfigurationProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Private Link Configuration on an application gateway. */
+/**
+ * Private Link Configuration on an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayPrivateLinkConfiguration extends SubResource {
     /*
@@ -37,7 +40,9 @@ public final class ApplicationGatewayPrivateLinkConfiguration extends SubResourc
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewayPrivateLinkConfiguration class. */
+    /**
+     * Creates an instance of ApplicationGatewayPrivateLinkConfiguration class.
+     */
     public ApplicationGatewayPrivateLinkConfiguration() {
     }
 
@@ -88,7 +93,9 @@ public final class ApplicationGatewayPrivateLinkConfiguration extends SubResourc
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationGatewayPrivateLinkConfiguration withId(String id) {
         super.withId(id);
@@ -110,8 +117,8 @@ public final class ApplicationGatewayPrivateLinkConfiguration extends SubResourc
      * @param ipConfigurations the ipConfigurations value to set.
      * @return the ApplicationGatewayPrivateLinkConfiguration object itself.
      */
-    public ApplicationGatewayPrivateLinkConfiguration withIpConfigurations(
-        List<ApplicationGatewayPrivateLinkIpConfiguration> ipConfigurations) {
+    public ApplicationGatewayPrivateLinkConfiguration
+        withIpConfigurations(List<ApplicationGatewayPrivateLinkIpConfiguration> ipConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayPrivateLinkConfigurationProperties();
         }

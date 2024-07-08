@@ -3,11 +3,12 @@
 
 package com.azure.cosmos.implementation.query;
 
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.implementation.RequestTimeline;
 import com.azure.cosmos.implementation.routing.Range;
-import com.azure.cosmos.BridgeInternal;
 import com.azure.cosmos.implementation.JsonSerializable;
 import com.azure.cosmos.implementation.Constants;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.List;
 
@@ -27,13 +28,14 @@ public final class PartitionedQueryExecutionInfo extends JsonSerializable {
         this.queryInfo = queryInfo;
         this.queryRanges = queryRanges;
 
-        BridgeInternal.setProperty(this,
-                PartitionedQueryExecutionInfoInternal.PARTITIONED_QUERY_EXECUTION_INFO_VERSION_PROPERTY,
-                Constants.PartitionedQueryExecutionInfo.VERSION_1);
+        this.set(
+            PartitionedQueryExecutionInfoInternal.PARTITIONED_QUERY_EXECUTION_INFO_VERSION_PROPERTY,
+            Constants.PartitionedQueryExecutionInfo.VERSION_1,
+            CosmosItemSerializer.DEFAULT_SERIALIZER);
     }
 
-    public PartitionedQueryExecutionInfo(byte[] bytes, RequestTimeline queryPlanRequestTimeline) {
-        super(bytes);
+    public PartitionedQueryExecutionInfo(ObjectNode content, RequestTimeline queryPlanRequestTimeline) {
+        super(content);
         this.queryPlanRequestTimeline = queryPlanRequestTimeline;
     }
 

@@ -7,6 +7,7 @@ package com.azure.resourcemanager.redisenterprise.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.redisenterprise.models.ClusteringPolicy;
 import com.azure.resourcemanager.redisenterprise.models.DatabasePropertiesGeoReplication;
+import com.azure.resourcemanager.redisenterprise.models.DeferUpgradeSetting;
 import com.azure.resourcemanager.redisenterprise.models.EvictionPolicy;
 import com.azure.resourcemanager.redisenterprise.models.Module;
 import com.azure.resourcemanager.redisenterprise.models.Persistence;
@@ -18,14 +19,13 @@ import java.util.List;
 
 /**
  * RedisEnterprise database properties
- *
- * <p>Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags.
+ * 
+ * Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags.
  */
 @Fluent
 public final class DatabaseProperties {
     /*
-     * Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-     * TLS-encrypted.
+     * Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted.
      */
     @JsonProperty(value = "clientProtocol")
     private Protocol clientProtocol;
@@ -78,14 +78,28 @@ public final class DatabaseProperties {
     @JsonProperty(value = "geoReplication")
     private DatabasePropertiesGeoReplication geoReplication;
 
-    /** Creates an instance of DatabaseProperties class. */
+    /*
+     * Version of Redis the database is running on, e.g. '6.0'
+     */
+    @JsonProperty(value = "redisVersion", access = JsonProperty.Access.WRITE_ONLY)
+    private String redisVersion;
+
+    /*
+     * Option to defer upgrade when newest version is released - default is NotDeferred. Learn more:  https://aka.ms/redisversionupgrade
+     */
+    @JsonProperty(value = "deferUpgrade")
+    private DeferUpgradeSetting deferUpgrade;
+
+    /**
+     * Creates an instance of DatabaseProperties class.
+     */
     public DatabaseProperties() {
     }
 
     /**
      * Get the clientProtocol property: Specifies whether redis clients can connect using TLS-encrypted or plaintext
      * redis protocols. Default is TLS-encrypted.
-     *
+     * 
      * @return the clientProtocol value.
      */
     public Protocol clientProtocol() {
@@ -95,7 +109,7 @@ public final class DatabaseProperties {
     /**
      * Set the clientProtocol property: Specifies whether redis clients can connect using TLS-encrypted or plaintext
      * redis protocols. Default is TLS-encrypted.
-     *
+     * 
      * @param clientProtocol the clientProtocol value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -107,7 +121,7 @@ public final class DatabaseProperties {
     /**
      * Get the port property: TCP port of the database endpoint. Specified at create time. Defaults to an available
      * port.
-     *
+     * 
      * @return the port value.
      */
     public Integer port() {
@@ -117,7 +131,7 @@ public final class DatabaseProperties {
     /**
      * Set the port property: TCP port of the database endpoint. Specified at create time. Defaults to an available
      * port.
-     *
+     * 
      * @param port the port value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -128,7 +142,7 @@ public final class DatabaseProperties {
 
     /**
      * Get the provisioningState property: Current provisioning status of the database.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
@@ -137,7 +151,7 @@ public final class DatabaseProperties {
 
     /**
      * Get the resourceState property: Current resource status of the database.
-     *
+     * 
      * @return the resourceState value.
      */
     public ResourceState resourceState() {
@@ -146,7 +160,7 @@ public final class DatabaseProperties {
 
     /**
      * Get the clusteringPolicy property: Clustering policy - default is OSSCluster. Specified at create time.
-     *
+     * 
      * @return the clusteringPolicy value.
      */
     public ClusteringPolicy clusteringPolicy() {
@@ -155,7 +169,7 @@ public final class DatabaseProperties {
 
     /**
      * Set the clusteringPolicy property: Clustering policy - default is OSSCluster. Specified at create time.
-     *
+     * 
      * @param clusteringPolicy the clusteringPolicy value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -166,7 +180,7 @@ public final class DatabaseProperties {
 
     /**
      * Get the evictionPolicy property: Redis eviction policy - default is VolatileLRU.
-     *
+     * 
      * @return the evictionPolicy value.
      */
     public EvictionPolicy evictionPolicy() {
@@ -175,7 +189,7 @@ public final class DatabaseProperties {
 
     /**
      * Set the evictionPolicy property: Redis eviction policy - default is VolatileLRU.
-     *
+     * 
      * @param evictionPolicy the evictionPolicy value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -186,7 +200,7 @@ public final class DatabaseProperties {
 
     /**
      * Get the persistence property: Persistence settings.
-     *
+     * 
      * @return the persistence value.
      */
     public Persistence persistence() {
@@ -195,7 +209,7 @@ public final class DatabaseProperties {
 
     /**
      * Set the persistence property: Persistence settings.
-     *
+     * 
      * @param persistence the persistence value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -207,7 +221,7 @@ public final class DatabaseProperties {
     /**
      * Get the modules property: Optional set of redis modules to enable in this database - modules can only be added at
      * creation time.
-     *
+     * 
      * @return the modules value.
      */
     public List<Module> modules() {
@@ -217,7 +231,7 @@ public final class DatabaseProperties {
     /**
      * Set the modules property: Optional set of redis modules to enable in this database - modules can only be added at
      * creation time.
-     *
+     * 
      * @param modules the modules value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -228,7 +242,7 @@ public final class DatabaseProperties {
 
     /**
      * Get the geoReplication property: Optional set of properties to configure geo replication for this database.
-     *
+     * 
      * @return the geoReplication value.
      */
     public DatabasePropertiesGeoReplication geoReplication() {
@@ -237,7 +251,7 @@ public final class DatabaseProperties {
 
     /**
      * Set the geoReplication property: Optional set of properties to configure geo replication for this database.
-     *
+     * 
      * @param geoReplication the geoReplication value to set.
      * @return the DatabaseProperties object itself.
      */
@@ -247,8 +261,39 @@ public final class DatabaseProperties {
     }
 
     /**
+     * Get the redisVersion property: Version of Redis the database is running on, e.g. '6.0'.
+     * 
+     * @return the redisVersion value.
+     */
+    public String redisVersion() {
+        return this.redisVersion;
+    }
+
+    /**
+     * Get the deferUpgrade property: Option to defer upgrade when newest version is released - default is NotDeferred.
+     * Learn more: https://aka.ms/redisversionupgrade.
+     * 
+     * @return the deferUpgrade value.
+     */
+    public DeferUpgradeSetting deferUpgrade() {
+        return this.deferUpgrade;
+    }
+
+    /**
+     * Set the deferUpgrade property: Option to defer upgrade when newest version is released - default is NotDeferred.
+     * Learn more: https://aka.ms/redisversionupgrade.
+     * 
+     * @param deferUpgrade the deferUpgrade value to set.
+     * @return the DatabaseProperties object itself.
+     */
+    public DatabaseProperties withDeferUpgrade(DeferUpgradeSetting deferUpgrade) {
+        this.deferUpgrade = deferUpgrade;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

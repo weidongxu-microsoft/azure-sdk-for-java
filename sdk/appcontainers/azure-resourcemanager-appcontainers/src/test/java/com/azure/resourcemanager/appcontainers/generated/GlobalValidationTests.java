@@ -13,26 +13,24 @@ import org.junit.jupiter.api.Assertions;
 public final class GlobalValidationTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        GlobalValidation model =
-            BinaryData
-                .fromString(
-                    "{\"unauthenticatedClientAction\":\"AllowAnonymous\",\"redirectToProvider\":\"qnjaqwix\",\"excludedPaths\":[\"r\",\"zvcputegjvwmfda\",\"scmdvpjhulsuu\",\"mkjozkrwf\"]}")
-                .toObject(GlobalValidation.class);
-        Assertions.assertEquals(UnauthenticatedClientActionV2.ALLOW_ANONYMOUS, model.unauthenticatedClientAction());
-        Assertions.assertEquals("qnjaqwix", model.redirectToProvider());
-        Assertions.assertEquals("r", model.excludedPaths().get(0));
+        GlobalValidation model = BinaryData.fromString(
+            "{\"unauthenticatedClientAction\":\"RedirectToLoginPage\",\"redirectToProvider\":\"rkujy\",\"excludedPaths\":[\"eju\"]}")
+            .toObject(GlobalValidation.class);
+        Assertions.assertEquals(UnauthenticatedClientActionV2.REDIRECT_TO_LOGIN_PAGE,
+            model.unauthenticatedClientAction());
+        Assertions.assertEquals("rkujy", model.redirectToProvider());
+        Assertions.assertEquals("eju", model.excludedPaths().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        GlobalValidation model =
-            new GlobalValidation()
-                .withUnauthenticatedClientAction(UnauthenticatedClientActionV2.ALLOW_ANONYMOUS)
-                .withRedirectToProvider("qnjaqwix")
-                .withExcludedPaths(Arrays.asList("r", "zvcputegjvwmfda", "scmdvpjhulsuu", "mkjozkrwf"));
+        GlobalValidation model = new GlobalValidation()
+            .withUnauthenticatedClientAction(UnauthenticatedClientActionV2.REDIRECT_TO_LOGIN_PAGE)
+            .withRedirectToProvider("rkujy").withExcludedPaths(Arrays.asList("eju"));
         model = BinaryData.fromObject(model).toObject(GlobalValidation.class);
-        Assertions.assertEquals(UnauthenticatedClientActionV2.ALLOW_ANONYMOUS, model.unauthenticatedClientAction());
-        Assertions.assertEquals("qnjaqwix", model.redirectToProvider());
-        Assertions.assertEquals("r", model.excludedPaths().get(0));
+        Assertions.assertEquals(UnauthenticatedClientActionV2.REDIRECT_TO_LOGIN_PAGE,
+            model.unauthenticatedClientAction());
+        Assertions.assertEquals("rkujy", model.redirectToProvider());
+        Assertions.assertEquals("eju", model.excludedPaths().get(0));
     }
 }

@@ -6,27 +6,54 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Simple policy retention. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "retentionPolicyType")
+/**
+ * Simple policy retention.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "retentionPolicyType",
+    defaultImpl = SimpleRetentionPolicy.class,
+    visible = true)
 @JsonTypeName("SimpleRetentionPolicy")
 @Fluent
 public final class SimpleRetentionPolicy extends RetentionPolicy {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "retentionPolicyType", required = true)
+    private String retentionPolicyType = "SimpleRetentionPolicy";
+
     /*
      * Retention duration of the protection policy.
      */
     @JsonProperty(value = "retentionDuration")
     private RetentionDuration retentionDuration;
 
-    /** Creates an instance of SimpleRetentionPolicy class. */
+    /**
+     * Creates an instance of SimpleRetentionPolicy class.
+     */
     public SimpleRetentionPolicy() {
     }
 
     /**
+     * Get the retentionPolicyType property: This property will be used as the discriminator for deciding the specific
+     * types in the polymorphic chain of types.
+     * 
+     * @return the retentionPolicyType value.
+     */
+    @Override
+    public String retentionPolicyType() {
+        return this.retentionPolicyType;
+    }
+
+    /**
      * Get the retentionDuration property: Retention duration of the protection policy.
-     *
+     * 
      * @return the retentionDuration value.
      */
     public RetentionDuration retentionDuration() {
@@ -35,7 +62,7 @@ public final class SimpleRetentionPolicy extends RetentionPolicy {
 
     /**
      * Set the retentionDuration property: Retention duration of the protection policy.
-     *
+     * 
      * @param retentionDuration the retentionDuration value to set.
      * @return the SimpleRetentionPolicy object itself.
      */
@@ -46,7 +73,7 @@ public final class SimpleRetentionPolicy extends RetentionPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

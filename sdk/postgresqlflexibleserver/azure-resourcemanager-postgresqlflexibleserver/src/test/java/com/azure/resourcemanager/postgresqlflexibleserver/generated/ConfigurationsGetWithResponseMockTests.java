@@ -6,66 +6,35 @@ package com.azure.resourcemanager.postgresqlflexibleserver.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.postgresqlflexibleserver.PostgreSqlManager;
 import com.azure.resourcemanager.postgresqlflexibleserver.models.Configuration;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class ConfigurationsGetWithResponseMockTests {
     @Test
     public void testGetWithResponse() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"properties\":{\"value\":\"meisls\",\"description\":\"asylwx\",\"defaultValue\":\"aumweoohguufu\",\"dataType\":\"Integer\",\"allowedValues\":\"jathwtzo\",\"source\":\"a\",\"isDynamicConfig\":false,\"isReadOnly\":false,\"isConfigPendingRestart\":true,\"unit\":\"bwjscjpahlxveab\",\"documentationLink\":\"xnmwmqtibxyijddt\"},\"id\":\"cttadi\",\"name\":\"aeukm\",\"type\":\"sieekpndzaapm\"}";
 
-        String responseStr =
-            "{\"properties\":{\"value\":\"kby\",\"description\":\"t\",\"defaultValue\":\"fhpagmhrskdsnf\",\"dataType\":\"Enumeration\",\"allowedValues\":\"akgtdlmkkzevdlh\",\"source\":\"pusdstt\",\"isDynamicConfig\":true,\"isReadOnly\":true,\"isConfigPendingRestart\":false,\"unit\":\"jdcngqqm\",\"documentationLink\":\"kufgmj\"},\"id\":\"wr\",\"name\":\"grtwae\",\"type\":\"u\"}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        PostgreSqlManager manager = PostgreSqlManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Configuration response = manager.configurations()
+            .getWithResponse("ankjpdnjzh", "joylh", "lmuoyxprimrsopte", com.azure.core.util.Context.NONE)
+            .getValue();
 
-        PostgreSqlManager manager =
-            PostgreSqlManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        Configuration response =
-            manager
-                .configurations()
-                .getWithResponse("wtl", "nguxawqaldsy", "uximerqfobw", com.azure.core.util.Context.NONE)
-                .getValue();
-
-        Assertions.assertEquals("kby", response.value());
-        Assertions.assertEquals("pusdstt", response.source());
+        Assertions.assertEquals("meisls", response.value());
+        Assertions.assertEquals("a", response.source());
     }
 }

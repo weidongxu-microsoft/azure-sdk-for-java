@@ -8,12 +8,14 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
 
-/** Resource collection API of Sites. */
+/**
+ * Resource collection API of Sites.
+ */
 public interface Sites {
     /**
      * Deletes the specified mobile network site. This will also delete any network functions that are a part of this
      * site.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param mobileNetworkName The name of the mobile network.
      * @param siteName The name of the mobile network site.
@@ -26,7 +28,7 @@ public interface Sites {
     /**
      * Deletes the specified mobile network site. This will also delete any network functions that are a part of this
      * site.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param mobileNetworkName The name of the mobile network.
      * @param siteName The name of the mobile network site.
@@ -39,7 +41,7 @@ public interface Sites {
 
     /**
      * Gets information about the specified mobile network site.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param mobileNetworkName The name of the mobile network.
      * @param siteName The name of the mobile network site.
@@ -49,12 +51,12 @@ public interface Sites {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return information about the specified mobile network site along with {@link Response}.
      */
-    Response<Site> getWithResponse(
-        String resourceGroupName, String mobileNetworkName, String siteName, Context context);
+    Response<Site> getWithResponse(String resourceGroupName, String mobileNetworkName, String siteName,
+        Context context);
 
     /**
      * Gets information about the specified mobile network site.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param mobileNetworkName The name of the mobile network.
      * @param siteName The name of the mobile network site.
@@ -67,7 +69,7 @@ public interface Sites {
 
     /**
      * Lists all sites in the mobile network.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param mobileNetworkName The name of the mobile network.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -79,7 +81,7 @@ public interface Sites {
 
     /**
      * Lists all sites in the mobile network.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param mobileNetworkName The name of the mobile network.
      * @param context The context to associate with this operation.
@@ -91,8 +93,37 @@ public interface Sites {
     PagedIterable<Site> listByMobileNetwork(String resourceGroupName, String mobileNetworkName, Context context);
 
     /**
+     * Deletes a packet core under the specified mobile network site.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param mobileNetworkName The name of the mobile network.
+     * @param siteName The name of the mobile network site.
+     * @param parameters Parameters supplied to delete a packet core under a site.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    void deletePacketCore(String resourceGroupName, String mobileNetworkName, String siteName,
+        SiteDeletePacketCore parameters);
+
+    /**
+     * Deletes a packet core under the specified mobile network site.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param mobileNetworkName The name of the mobile network.
+     * @param siteName The name of the mobile network site.
+     * @param parameters Parameters supplied to delete a packet core under a site.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    void deletePacketCore(String resourceGroupName, String mobileNetworkName, String siteName,
+        SiteDeletePacketCore parameters, Context context);
+
+    /**
      * Gets information about the specified mobile network site.
-     *
+     * 
      * @param id the resource ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -103,7 +134,7 @@ public interface Sites {
 
     /**
      * Gets information about the specified mobile network site.
-     *
+     * 
      * @param id the resource ID.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -116,7 +147,7 @@ public interface Sites {
     /**
      * Deletes the specified mobile network site. This will also delete any network functions that are a part of this
      * site.
-     *
+     * 
      * @param id the resource ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -127,7 +158,7 @@ public interface Sites {
     /**
      * Deletes the specified mobile network site. This will also delete any network functions that are a part of this
      * site.
-     *
+     * 
      * @param id the resource ID.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -138,7 +169,7 @@ public interface Sites {
 
     /**
      * Begins definition for a new Site resource.
-     *
+     * 
      * @param name resource name.
      * @return the first stage of the new Site definition.
      */

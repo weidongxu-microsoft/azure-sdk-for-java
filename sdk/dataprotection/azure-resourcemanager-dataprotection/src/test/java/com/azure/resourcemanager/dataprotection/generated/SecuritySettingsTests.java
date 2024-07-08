@@ -15,28 +15,23 @@ import org.junit.jupiter.api.Assertions;
 public final class SecuritySettingsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        SecuritySettings model =
-            BinaryData
-                .fromString(
-                    "{\"softDeleteSettings\":{\"state\":\"On\",\"retentionDurationInDays\":76.87214061401316},\"immutabilitySettings\":{\"state\":\"Locked\"}}")
-                .toObject(SecuritySettings.class);
-        Assertions.assertEquals(SoftDeleteState.ON, model.softDeleteSettings().state());
-        Assertions.assertEquals(76.87214061401316D, model.softDeleteSettings().retentionDurationInDays());
-        Assertions.assertEquals(ImmutabilityState.LOCKED, model.immutabilitySettings().state());
+        SecuritySettings model = BinaryData.fromString(
+            "{\"softDeleteSettings\":{\"state\":\"Off\",\"retentionDurationInDays\":86.02980488274106},\"immutabilitySettings\":{\"state\":\"Unlocked\"}}")
+            .toObject(SecuritySettings.class);
+        Assertions.assertEquals(SoftDeleteState.OFF, model.softDeleteSettings().state());
+        Assertions.assertEquals(86.02980488274106D, model.softDeleteSettings().retentionDurationInDays());
+        Assertions.assertEquals(ImmutabilityState.UNLOCKED, model.immutabilitySettings().state());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SecuritySettings model =
-            new SecuritySettings()
-                .withSoftDeleteSettings(
-                    new SoftDeleteSettings()
-                        .withState(SoftDeleteState.ON)
-                        .withRetentionDurationInDays(76.87214061401316D))
-                .withImmutabilitySettings(new ImmutabilitySettings().withState(ImmutabilityState.LOCKED));
+        SecuritySettings model = new SecuritySettings()
+            .withSoftDeleteSettings(
+                new SoftDeleteSettings().withState(SoftDeleteState.OFF).withRetentionDurationInDays(86.02980488274106D))
+            .withImmutabilitySettings(new ImmutabilitySettings().withState(ImmutabilityState.UNLOCKED));
         model = BinaryData.fromObject(model).toObject(SecuritySettings.class);
-        Assertions.assertEquals(SoftDeleteState.ON, model.softDeleteSettings().state());
-        Assertions.assertEquals(76.87214061401316D, model.softDeleteSettings().retentionDurationInDays());
-        Assertions.assertEquals(ImmutabilityState.LOCKED, model.immutabilitySettings().state());
+        Assertions.assertEquals(SoftDeleteState.OFF, model.softDeleteSettings().state());
+        Assertions.assertEquals(86.02980488274106D, model.softDeleteSettings().retentionDurationInDays());
+        Assertions.assertEquals(ImmutabilityState.UNLOCKED, model.immutabilitySettings().state());
     }
 }

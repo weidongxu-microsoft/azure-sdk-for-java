@@ -3,36 +3,39 @@
 package com.azure.cosmos.rx;
 
 import com.azure.cosmos.BridgeInternal;
-import com.azure.cosmos.ConnectionMode;
 import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosAsyncContainer;
 import com.azure.cosmos.CosmosAsyncDatabase;
 import com.azure.cosmos.CosmosBridgeInternal;
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.cosmos.CosmosException;
-import com.azure.cosmos.models.CosmosItemIdentity;
-import com.azure.cosmos.models.ModelBridgeInternal;
-import com.azure.cosmos.util.CosmosPagedFlux;
-import com.azure.cosmos.implementation.ItemOperations;
-import com.azure.cosmos.implementation.InternalObjectNode;
-import com.azure.cosmos.implementation.apachecommons.lang.tuple.Pair;
-import com.azure.cosmos.models.CosmosQueryRequestOptions;
-import com.azure.cosmos.models.FeedResponse;
-import com.azure.cosmos.models.PartitionKey;
-import com.azure.cosmos.implementation.Resource;
+import com.azure.cosmos.CosmosItemSerializer;
+import com.azure.cosmos.CosmosItemSerializerNoExceptionWrapping;
 import com.azure.cosmos.implementation.FailureValidator;
 import com.azure.cosmos.implementation.FeedResponseListValidator;
 import com.azure.cosmos.implementation.FeedResponseValidator;
+import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
+import com.azure.cosmos.implementation.InternalObjectNode;
+import com.azure.cosmos.implementation.ItemOperations;
 import com.azure.cosmos.implementation.QueryMetrics;
+import com.azure.cosmos.implementation.Resource;
 import com.azure.cosmos.implementation.TestUtils;
 import com.azure.cosmos.implementation.Utils.ValueHolder;
+import com.azure.cosmos.implementation.apachecommons.lang.NotImplementedException;
+import com.azure.cosmos.implementation.apachecommons.lang.tuple.Pair;
+import com.azure.cosmos.implementation.guava25.base.Function;
+import com.azure.cosmos.implementation.guava27.Strings;
 import com.azure.cosmos.implementation.query.CompositeContinuationToken;
 import com.azure.cosmos.implementation.routing.Range;
+import com.azure.cosmos.models.CosmosItemIdentity;
+import com.azure.cosmos.models.CosmosQueryRequestOptions;
+import com.azure.cosmos.models.CosmosReadManyRequestOptions;
+import com.azure.cosmos.models.FeedResponse;
+import com.azure.cosmos.models.PartitionKey;
+import com.azure.cosmos.util.CosmosPagedFlux;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.azure.cosmos.implementation.guava27.Strings;
 import io.reactivex.subscribers.TestSubscriber;
 import org.assertj.core.groups.Tuple;
-import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -66,7 +69,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         return TestUtils.getCollectionNameLink(createdDatabase.getId(), createdCollection.getId());
     }
 
-    @Factory(dataProvider = "clientBuildersWithDirect")
+    @Factory(dataProvider = "clientBuildersWithSessionConsistency")
     public ParallelDocumentQueryTest(CosmosClientBuilder clientBuilder) {
         super(clientBuilder);
     }
@@ -80,7 +83,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         };
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
+    @Test(groups = { "query" }, timeOut = TIMEOUT, dataProvider = "queryMetricsArgProvider")
     public void queryDocuments(Boolean qmEnabled) {
         String query = "SELECT * from c where c.prop = 99";
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -92,7 +95,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         options.setMaxDegreeOfParallelism(2);
         CosmosPagedFlux<InternalObjectNode> queryObservable = createdCollection.queryItems(query, options, InternalObjectNode.class);
 
-        List<InternalObjectNode> expectedDocs = createdDocuments.stream().filter(d -> 99 == ModelBridgeInternal.getIntFromJsonSerializable(d,"prop") ).collect(Collectors.toList());
+        List<InternalObjectNode> expectedDocs = createdDocuments.stream().filter(d -> 99 == d.getInt("prop") ).collect(Collectors.toList());
         assertThat(expectedDocs).isNotEmpty();
 
         FeedResponseListValidator<InternalObjectNode> validator = new FeedResponseListValidator.Builder<InternalObjectNode>()
@@ -106,7 +109,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         validateQuerySuccess(queryObservable.byPage(5), validator, TIMEOUT);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
     public void queryMetricEquality() throws Exception {
         String query = "SELECT * from c where c.prop = 99";
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -114,12 +117,14 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         options.setQueryMetricsEnabled(true);
         options.setMaxDegreeOfParallelism(0);
 
+        int preferredPageSize = 5;
+
         CosmosPagedFlux<InternalObjectNode> queryObservable = createdCollection.queryItems(query, options, InternalObjectNode.class);
-        List<FeedResponse<InternalObjectNode>> resultList1 = queryObservable.byPage(5).collectList().block();
+        List<FeedResponse<InternalObjectNode>> resultList1 = queryObservable.byPage(preferredPageSize).collectList().block();
 
         options.setMaxDegreeOfParallelism(4);
         CosmosPagedFlux<InternalObjectNode> threadedQueryObs = createdCollection.queryItems(query, options, InternalObjectNode.class);
-        List<FeedResponse<InternalObjectNode>> resultList2 = threadedQueryObs.byPage().collectList().block();
+        List<FeedResponse<InternalObjectNode>> resultList2 = threadedQueryObs.byPage(preferredPageSize).collectList().block();
 
         assertThat(resultList1.size()).isEqualTo(resultList2.size());
         for(int i = 0; i < resultList1.size(); i++){
@@ -141,7 +146,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
             .isEqualTo(BridgeInternal.getClientSideMetrics(queryMetrics1).getRequestCharge());
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
     public void queryDocuments_NoResults() {
         String query = "SELECT * from root r where r.id = '2'";
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -158,7 +163,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         validateQuerySuccess(queryObservable.byPage(), validator);
     }
 
-    @Test(groups = { "simple" }, timeOut = 2 * TIMEOUT)
+    @Test(groups = { "query" }, timeOut = 2 * TIMEOUT)
     public void queryDocumentsWithPageSize() {
         String query = "SELECT * from root";
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -185,7 +190,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         validateQuerySuccess(queryObservable.byPage(pageSize), validator, 2 * subscriberValidationTimeout);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
     public void invalidQuerySyntax() {
         String query = "I am an invalid query";
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -200,7 +205,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         validateQueryFailure(queryObservable.byPage(), validator);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
     public void crossPartitionQueryNotEnabled() {
         String query = "SELECT * from root";
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -218,12 +223,12 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         validateQuerySuccess(queryObservable.byPage(), validator);
     }
 
-    @Test(groups = { "simple" }, timeOut = 2 * TIMEOUT)
+    @Test(groups = { "query" }, timeOut = 2 * TIMEOUT)
     public void partitionKeyRangeId() {
         int sum = 0;
 
         for (String partitionKeyRangeId :
-            CosmosBridgeInternal.getAsyncDocumentClient(client).readPartitionKeyRanges(getCollectionLink(), null)
+            CosmosBridgeInternal.getAsyncDocumentClient(client).readPartitionKeyRanges(getCollectionLink(), (CosmosQueryRequestOptions) null)
                 .flatMap(p -> Flux.fromIterable(p.getResults()))
                 .map(Resource::getId).collectList().single().block()) {
             String query = "SELECT * from root";
@@ -240,7 +245,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(sum).isEqualTo(createdDocuments.size());
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
     public void compositeContinuationTokenRoundTrip() throws Exception {
         {
             // Positive
@@ -283,7 +288,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         }
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT * 10)
+    @Test(groups = { "query" }, timeOut = TIMEOUT * 10)
     public void queryDocumentsWithCompositeContinuationTokens() throws Exception {
         String query = "SELECT * FROM c";
 
@@ -294,7 +299,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         this.queryWithContinuationTokensAndPageSizes(query, new int[] {1, 10, 100}, expectedDocs);
     }
 
-    @Test(groups = { "simple" })
+    @Test(groups = { "query" })
     public void queryDocumentsStringValue(){
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
 
@@ -312,7 +317,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(fetchedResults).containsAll(expectedValues);
     }
 
-    @Test(groups = { "simple" })
+    @Test(groups = { "query" })
     @SuppressWarnings("rawtypes")
     public void queryDocumentsArrayValue(){
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -345,13 +350,13 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(fetchedResults).containsAll(expectedValues);
     }
 
-    @Test(groups = { "simple" })
+    @Test(groups = { "query" })
     public void queryDocumentsIntegerValue(){
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
 
         options.setMaxDegreeOfParallelism(2);
 
-        List<Integer> expectedValues = createdDocuments.stream().map(d -> ModelBridgeInternal.getIntFromJsonSerializable(d,"prop")).collect(Collectors.toList());
+        List<Integer> expectedValues = createdDocuments.stream().map(d -> d.getInt("prop")).collect(Collectors.toList());
 
         String query = "Select value c.prop from c";
 
@@ -363,7 +368,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(fetchedResults).containsAll(expectedValues);
     }
 
-    @Test(groups = {"simple"})
+    @Test(groups = {"query"})
     public void queryDocumentsBooleanValue() {
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
 
@@ -371,7 +376,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
 
         List<Boolean> expectedValues = createdDocuments
                                            .stream()
-                                           .map(d -> ModelBridgeInternal.getBooleanFromJsonSerializable(d, "boolProp"))
+                                           .map(d -> d.getBoolean("boolProp"))
                                            .collect(Collectors.toList());
 
         String query = "Select value c.boolProp from c";
@@ -384,14 +389,14 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(fetchedResults).containsAll(expectedValues);
     }
 
-    @Test(groups = {"simple"})
+    @Test(groups = {"query"})
     public void queryDocumentsDoubleValue() {
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
 
         options.setMaxDegreeOfParallelism(2);
 
         List<Double> expectedValues = createdDocuments.stream()
-                                           .map(d -> ModelBridgeInternal.getDoubleFromJsonSerializable(d, "_value"))
+                                           .map(d ->d.getDouble("_value"))
                                            .collect(Collectors.toList());
 
         String query = "Select value c._value from c";
@@ -404,7 +409,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(fetchedResults).containsAll(expectedValues);
     }
 
-    @Test(groups = {"simple"})
+    @Test(groups = {"query"})
     public void queryDocumentsDoubleValueToInt() {
         // When try try to fetch double value using integer class, it should fail
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
@@ -422,7 +427,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(resultException).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(groups = { "simple" })
+    @Test(groups = { "query" })
     public void queryDocumentsPojo(){
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
 
@@ -434,9 +439,9 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
 
         List<Tuple> assertTuples = createdDocuments.stream()
             .map(internalObjectNode -> tuple(internalObjectNode.getId(),
-                ModelBridgeInternal.getObjectFromJsonSerializable(internalObjectNode, "mypk"),
-                ModelBridgeInternal.getObjectFromJsonSerializable(internalObjectNode, "prop"),
-                ModelBridgeInternal.getObjectFromJsonSerializable(internalObjectNode, "boolProp")))
+                internalObjectNode.get("mypk"),
+                internalObjectNode.get("prop"),
+                internalObjectNode.get("boolProp")))
             .collect(Collectors.toList());
 
         assertThat(fetchedResults).extracting(TestObject::getId,
@@ -446,14 +451,14 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
             .containsAll(assertTuples);
     }
 
-    @Test(groups = { "simple" })
+    @Test(groups = { "query" })
     public void queryDocumentsNestedPropValue(){
         CosmosQueryRequestOptions options = new CosmosQueryRequestOptions();
 
         options.setMaxDegreeOfParallelism(2);
 
         List<NestedObject> expectedValues = createdDocuments.stream()
-            .map(d -> ModelBridgeInternal.toObjectFromJsonSerializable(d,TestObject.class))
+            .map(d -> d.toObject(TestObject.class))
             .map(d -> d.getNestedProp()).collect(Collectors.toList());
 
         String query = "Select value c.nestedProp from c";
@@ -467,7 +472,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(fetchedResults).containsExactlyInAnyOrderElementsOf(expectedValues);
     }
 
-    @BeforeClass(groups = { "simple" }, timeOut = 4 * SETUP_TIMEOUT)
+    @BeforeClass(groups = { "query" }, timeOut = 4 * SETUP_TIMEOUT)
     public void before_ParallelDocumentQueryTest() {
         client = getClientBuilder().buildAsyncClient();
         createdDatabase = getSharedCosmosDatabase(client);
@@ -507,7 +512,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         return items;
     }
 
-    @AfterClass(groups = { "simple" }, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
+    @AfterClass(groups = { "query" }, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
     public void afterClass() {
         safeClose(client);
     }
@@ -620,7 +625,7 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         }
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT, enabled = false)
+    @Test(groups = { "query" }, timeOut = TIMEOUT, enabled = false)
     public void invalidQuerySytax() throws Exception {
 
         String query = "I am an invalid query";
@@ -683,14 +688,12 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         return receivedDocuments;
     }
 
-    //TODO: Fix the test for GW mode
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
-    public void readManyWithItemOperations() throws Exception {
-
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
+    public void readManyWithItemOperations() {
         List<Pair<String, PartitionKey>> pairList = new ArrayList<>();
         for (int i = 0; i < createdDocuments.size(); i = i + 3) {
             pairList.add(Pair.of(createdDocuments.get(i).getId(),
-                new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(createdDocuments.get(i), "mypk"))));
+                new PartitionKey(createdDocuments.get(i).get("mypk"))));
         }
         FeedResponse<JsonNode> documentFeedResponse =
             ItemOperations.readManyAsync(createdCollection, pairList, JsonNode.class).block();
@@ -699,18 +702,13 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
             .containsAll(pairList.stream().map(p -> p.getLeft()).collect(Collectors.toList()));
     }
 
-    //TODO: Fix the test for GW mode
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
-    public void readMany() throws Exception {
-        if (this.getConnectionPolicy().getConnectionMode() == ConnectionMode.GATEWAY) {
-            throw new SkipException("Skipping gateway mode. This needs to be fixed");
-        }
-
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
+    public void readMany() {
         List<CosmosItemIdentity> itemIdentities = new ArrayList<>();
         for (int i = 0; i < createdDocuments.size(); i = i + 3) {
             itemIdentities.add(
                 new CosmosItemIdentity(
-                    new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(createdDocuments.get(i), "mypk")),
+                    new PartitionKey(createdDocuments.get(i).get("mypk")),
                     createdDocuments.get(i).getId()));
         }
         FeedResponse<JsonNode> documentFeedResponse =
@@ -721,20 +719,15 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(documentFeedResponse.getCosmosDiagnostics()).isNotNull();
     }
 
-    //TODO: Fix the test for GW mode
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
-    public void readManyIdSameAsPartitionKey() throws Exception {
-        if (this.getConnectionPolicy().getConnectionMode() == ConnectionMode.GATEWAY) {
-            throw new SkipException("Skipping gateway mode. This needs to be fixed");
-        }
-
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
+    public void readManyIdSameAsPartitionKey() {
         CosmosAsyncContainer containerWithIdAsPartitionKey = getSharedMultiPartitionCosmosContainerWithIdAsPartitionKey(client);
         List<InternalObjectNode> newItems = prepareCosmosContainer(containerWithIdAsPartitionKey);
         List<CosmosItemIdentity> itemIdentities = new ArrayList<>();
         for (int i = 0; i < newItems.size(); i = i + 3) {
             itemIdentities.add(
                 new CosmosItemIdentity(
-                    new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(newItems.get(i), "id")),
+                    new PartitionKey(newItems.get(i).get("id")),
                     newItems.get(i).getId()));
         }
         FeedResponse<JsonNode> documentFeedResponse =
@@ -742,5 +735,51 @@ public class ParallelDocumentQueryTest extends TestSuiteBase {
         assertThat(documentFeedResponse.getResults().size()).isEqualTo(itemIdentities.size());
         assertThat(documentFeedResponse.getResults().stream().map(jsonNode -> jsonNode.get("id").textValue()).collect(Collectors.toList()))
             .containsAll(itemIdentities.stream().map(i -> i.getId()).collect(Collectors.toList()));
+    }
+
+    @Test(groups = { "query" }, timeOut = TIMEOUT)
+    public void readManyWithFactoryMethod() {
+        List<CosmosItemIdentity> itemIdentities = new ArrayList<>();
+        for (int i = 0; i < createdDocuments.size(); i = i + 3) {
+            itemIdentities.add(
+                    new CosmosItemIdentity(
+                            new PartitionKey(createdDocuments.get(i).get("mypk")),
+                            createdDocuments.get(i).getId()));
+        }
+
+        Function<JsonNode, String> factoryMethod = (objectNode) -> objectNode.get("id").asText();
+        CosmosReadManyRequestOptions queryRequestOptions = new CosmosReadManyRequestOptions();
+        ImplementationBridgeHelpers
+                .CosmosReadManyRequestOptionsHelper
+                .getCosmosReadManyRequestOptionsAccessor()
+                .getImpl(queryRequestOptions)
+                .setCustomItemSerializer(
+                    new CosmosItemSerializerNoExceptionWrapping() {
+                        @Override
+                        public <T> Map<String, Object> serialize(T item) {
+                            throw new NotImplementedException("Not supported");
+                        }
+
+                        @Override
+                        public <T> T deserialize(Map<String, Object> jsonNodeMap, Class<T> classType) {
+                            if (classType == String.class) {
+                                return (T)jsonNodeMap.get("id");
+                            }
+
+                            return CosmosItemSerializer.DEFAULT_SERIALIZER.deserialize(jsonNodeMap, classType);
+                        }
+                    });
+
+        FeedResponse<String> documentFeedResponse =
+                ImplementationBridgeHelpers
+                        .CosmosAsyncContainerHelper
+                        .getCosmosAsyncContainerAccessor()
+                        .readMany(createdCollection, itemIdentities, queryRequestOptions, String.class)
+                        .block();
+
+        assertThat(documentFeedResponse.getResults().size()).isEqualTo(itemIdentities.size());
+        assertThat(documentFeedResponse.getResults())
+                .containsAll(itemIdentities.stream().map(i -> i.getId()).collect(Collectors.toList()));
+        assertThat(documentFeedResponse.getCosmosDiagnostics()).isNotNull();
     }
 }

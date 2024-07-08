@@ -7,11 +7,14 @@ package com.azure.resourcemanager.eventgrid.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.eventgrid.models.InboundIpRule;
 import com.azure.resourcemanager.eventgrid.models.PublicNetworkAccess;
+import com.azure.resourcemanager.eventgrid.models.UpdateTopicsConfigurationInfo;
 import com.azure.resourcemanager.eventgrid.models.UpdateTopicSpacesConfigurationInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Information of namespace update parameter properties. */
+/**
+ * Information of namespace update parameter properties.
+ */
 @Fluent
 public final class NamespaceUpdateParameterProperties {
     /*
@@ -21,28 +24,33 @@ public final class NamespaceUpdateParameterProperties {
     private UpdateTopicSpacesConfigurationInfo topicSpacesConfiguration;
 
     /*
-     * This determines if traffic is allowed over public network. By default it is enabled.
-     * You can further restrict to specific IPs by configuring <seealso
-     * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules"
-     * />
+     * Topics configuration properties that can be updated.
+     */
+    @JsonProperty(value = "topicsConfiguration")
+    private UpdateTopicsConfigurationInfo topicsConfiguration;
+
+    /*
+     * This determines if traffic is allowed over public network. By default it is enabled. 
+     * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules" />
      */
     @JsonProperty(value = "publicNetworkAccess")
     private PublicNetworkAccess publicNetworkAccess;
 
     /*
-     * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if
-     * PublicNetworkAccess is enabled.
+     * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.
      */
     @JsonProperty(value = "inboundIpRules")
     private List<InboundIpRule> inboundIpRules;
 
-    /** Creates an instance of NamespaceUpdateParameterProperties class. */
+    /**
+     * Creates an instance of NamespaceUpdateParameterProperties class.
+     */
     public NamespaceUpdateParameterProperties() {
     }
 
     /**
      * Get the topicSpacesConfiguration property: Topic spaces configuration properties that can be updated.
-     *
+     * 
      * @return the topicSpacesConfiguration value.
      */
     public UpdateTopicSpacesConfigurationInfo topicSpacesConfiguration() {
@@ -51,22 +59,44 @@ public final class NamespaceUpdateParameterProperties {
 
     /**
      * Set the topicSpacesConfiguration property: Topic spaces configuration properties that can be updated.
-     *
+     * 
      * @param topicSpacesConfiguration the topicSpacesConfiguration value to set.
      * @return the NamespaceUpdateParameterProperties object itself.
      */
-    public NamespaceUpdateParameterProperties withTopicSpacesConfiguration(
-        UpdateTopicSpacesConfigurationInfo topicSpacesConfiguration) {
+    public NamespaceUpdateParameterProperties
+        withTopicSpacesConfiguration(UpdateTopicSpacesConfigurationInfo topicSpacesConfiguration) {
         this.topicSpacesConfiguration = topicSpacesConfiguration;
         return this;
     }
 
     /**
+     * Get the topicsConfiguration property: Topics configuration properties that can be updated.
+     * 
+     * @return the topicsConfiguration value.
+     */
+    public UpdateTopicsConfigurationInfo topicsConfiguration() {
+        return this.topicsConfiguration;
+    }
+
+    /**
+     * Set the topicsConfiguration property: Topics configuration properties that can be updated.
+     * 
+     * @param topicsConfiguration the topicsConfiguration value to set.
+     * @return the NamespaceUpdateParameterProperties object itself.
+     */
+    public NamespaceUpdateParameterProperties
+        withTopicsConfiguration(UpdateTopicsConfigurationInfo topicsConfiguration) {
+        this.topicsConfiguration = topicsConfiguration;
+        return this;
+    }
+
+    /**
      * Get the publicNetworkAccess property: This determines if traffic is allowed over public network. By default it is
-     * enabled. You can further restrict to specific IPs by configuring &lt;seealso
+     * enabled.
+     * You can further restrict to specific IPs by configuring &lt;seealso
      * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules"
      * /&gt;.
-     *
+     * 
      * @return the publicNetworkAccess value.
      */
     public PublicNetworkAccess publicNetworkAccess() {
@@ -75,10 +105,11 @@ public final class NamespaceUpdateParameterProperties {
 
     /**
      * Set the publicNetworkAccess property: This determines if traffic is allowed over public network. By default it is
-     * enabled. You can further restrict to specific IPs by configuring &lt;seealso
+     * enabled.
+     * You can further restrict to specific IPs by configuring &lt;seealso
      * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules"
      * /&gt;.
-     *
+     * 
      * @param publicNetworkAccess the publicNetworkAccess value to set.
      * @return the NamespaceUpdateParameterProperties object itself.
      */
@@ -90,7 +121,7 @@ public final class NamespaceUpdateParameterProperties {
     /**
      * Get the inboundIpRules property: This can be used to restrict traffic from specific IPs instead of all IPs. Note:
      * These are considered only if PublicNetworkAccess is enabled.
-     *
+     * 
      * @return the inboundIpRules value.
      */
     public List<InboundIpRule> inboundIpRules() {
@@ -100,7 +131,7 @@ public final class NamespaceUpdateParameterProperties {
     /**
      * Set the inboundIpRules property: This can be used to restrict traffic from specific IPs instead of all IPs. Note:
      * These are considered only if PublicNetworkAccess is enabled.
-     *
+     * 
      * @param inboundIpRules the inboundIpRules value to set.
      * @return the NamespaceUpdateParameterProperties object itself.
      */
@@ -111,12 +142,15 @@ public final class NamespaceUpdateParameterProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (topicSpacesConfiguration() != null) {
             topicSpacesConfiguration().validate();
+        }
+        if (topicsConfiguration() != null) {
+            topicsConfiguration().validate();
         }
         if (inboundIpRules() != null) {
             inboundIpRules().forEach(e -> e.validate());

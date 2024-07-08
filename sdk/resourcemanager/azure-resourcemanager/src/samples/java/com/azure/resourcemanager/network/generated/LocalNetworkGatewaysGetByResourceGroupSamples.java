@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for LocalNetworkGateways GetByResourceGroup. */
+/**
+ * Samples for LocalNetworkGateways GetByResourceGroup.
+ */
 public final class LocalNetworkGatewaysGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LocalNetworkGatewayGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LocalNetworkGatewayGet.json
      */
     /**
      * Sample code: GetLocalNetworkGateway.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getLocalNetworkGateway(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getLocalNetworkGateways()

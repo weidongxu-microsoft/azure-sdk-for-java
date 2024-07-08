@@ -17,51 +17,41 @@ import org.junit.jupiter.api.Assertions;
 public final class VolumePropertiesDataProtectionTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        VolumePropertiesDataProtection model =
-            BinaryData
-                .fromString(
-                    "{\"backup\":{\"backupPolicyId\":\"iw\",\"policyEnforced\":true,\"backupEnabled\":true},\"replication\":{\"replicationId\":\"zpuzycisp\",\"endpointType\":\"dst\",\"replicationSchedule\":\"daily\",\"remoteVolumeResourceId\":\"mgkbrpyydhibn\",\"remoteVolumeRegion\":\"qkpikadrgvtqagnb\"},\"snapshot\":{\"snapshotPolicyId\":\"hijggme\"},\"volumeRelocation\":{\"relocationRequested\":true,\"readyToBeFinalized\":false}}")
-                .toObject(VolumePropertiesDataProtection.class);
-        Assertions.assertEquals("iw", model.backup().backupPolicyId());
-        Assertions.assertEquals(true, model.backup().policyEnforced());
-        Assertions.assertEquals(true, model.backup().backupEnabled());
-        Assertions.assertEquals("zpuzycisp", model.replication().replicationId());
+        VolumePropertiesDataProtection model = BinaryData.fromString(
+            "{\"backup\":{\"backupPolicyId\":\"jfauvjfdxxi\",\"policyEnforced\":false,\"backupVaultId\":\"t\"},\"replication\":{\"replicationId\":\"qtdo\",\"endpointType\":\"dst\",\"replicationSchedule\":\"_10minutely\",\"remoteVolumeResourceId\":\"vwvxyslqbhsfx\",\"remoteVolumeRegion\":\"lyt\"},\"snapshot\":{\"snapshotPolicyId\":\"mpew\"},\"volumeRelocation\":{\"relocationRequested\":true,\"readyToBeFinalized\":true}}")
+            .toObject(VolumePropertiesDataProtection.class);
+        Assertions.assertEquals("jfauvjfdxxi", model.backup().backupPolicyId());
+        Assertions.assertEquals(false, model.backup().policyEnforced());
+        Assertions.assertEquals("t", model.backup().backupVaultId());
         Assertions.assertEquals(EndpointType.DST, model.replication().endpointType());
-        Assertions.assertEquals(ReplicationSchedule.DAILY, model.replication().replicationSchedule());
-        Assertions.assertEquals("mgkbrpyydhibn", model.replication().remoteVolumeResourceId());
-        Assertions.assertEquals("qkpikadrgvtqagnb", model.replication().remoteVolumeRegion());
-        Assertions.assertEquals("hijggme", model.snapshot().snapshotPolicyId());
+        Assertions.assertEquals(ReplicationSchedule.ONE_ZEROMINUTELY, model.replication().replicationSchedule());
+        Assertions.assertEquals("vwvxyslqbhsfx", model.replication().remoteVolumeResourceId());
+        Assertions.assertEquals("lyt", model.replication().remoteVolumeRegion());
+        Assertions.assertEquals("mpew", model.snapshot().snapshotPolicyId());
         Assertions.assertEquals(true, model.volumeRelocation().relocationRequested());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        VolumePropertiesDataProtection model =
-            new VolumePropertiesDataProtection()
-                .withBackup(
-                    new VolumeBackupProperties()
-                        .withBackupPolicyId("iw")
-                        .withPolicyEnforced(true)
-                        .withBackupEnabled(true))
-                .withReplication(
-                    new ReplicationObject()
-                        .withReplicationId("zpuzycisp")
-                        .withEndpointType(EndpointType.DST)
-                        .withReplicationSchedule(ReplicationSchedule.DAILY)
-                        .withRemoteVolumeResourceId("mgkbrpyydhibn")
-                        .withRemoteVolumeRegion("qkpikadrgvtqagnb"))
-                .withSnapshot(new VolumeSnapshotProperties().withSnapshotPolicyId("hijggme"))
-                .withVolumeRelocation(new VolumeRelocationProperties().withRelocationRequested(true));
+        VolumePropertiesDataProtection model = new VolumePropertiesDataProtection()
+            .withBackup(new VolumeBackupProperties().withBackupPolicyId("jfauvjfdxxi")
+                .withPolicyEnforced(false)
+                .withBackupVaultId("t"))
+            .withReplication(new ReplicationObject().withEndpointType(EndpointType.DST)
+                .withReplicationSchedule(ReplicationSchedule.ONE_ZEROMINUTELY)
+                .withRemoteVolumeResourceId("vwvxyslqbhsfx")
+                .withRemoteVolumeRegion("lyt"))
+            .withSnapshot(new VolumeSnapshotProperties().withSnapshotPolicyId("mpew"))
+            .withVolumeRelocation(new VolumeRelocationProperties().withRelocationRequested(true));
         model = BinaryData.fromObject(model).toObject(VolumePropertiesDataProtection.class);
-        Assertions.assertEquals("iw", model.backup().backupPolicyId());
-        Assertions.assertEquals(true, model.backup().policyEnforced());
-        Assertions.assertEquals(true, model.backup().backupEnabled());
-        Assertions.assertEquals("zpuzycisp", model.replication().replicationId());
+        Assertions.assertEquals("jfauvjfdxxi", model.backup().backupPolicyId());
+        Assertions.assertEquals(false, model.backup().policyEnforced());
+        Assertions.assertEquals("t", model.backup().backupVaultId());
         Assertions.assertEquals(EndpointType.DST, model.replication().endpointType());
-        Assertions.assertEquals(ReplicationSchedule.DAILY, model.replication().replicationSchedule());
-        Assertions.assertEquals("mgkbrpyydhibn", model.replication().remoteVolumeResourceId());
-        Assertions.assertEquals("qkpikadrgvtqagnb", model.replication().remoteVolumeRegion());
-        Assertions.assertEquals("hijggme", model.snapshot().snapshotPolicyId());
+        Assertions.assertEquals(ReplicationSchedule.ONE_ZEROMINUTELY, model.replication().replicationSchedule());
+        Assertions.assertEquals("vwvxyslqbhsfx", model.replication().remoteVolumeResourceId());
+        Assertions.assertEquals("lyt", model.replication().remoteVolumeRegion());
+        Assertions.assertEquals("mpew", model.snapshot().snapshotPolicyId());
         Assertions.assertEquals(true, model.volumeRelocation().relocationRequested());
     }
 }

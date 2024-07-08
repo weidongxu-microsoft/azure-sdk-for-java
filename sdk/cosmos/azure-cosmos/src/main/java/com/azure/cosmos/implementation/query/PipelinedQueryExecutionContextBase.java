@@ -2,16 +2,15 @@
 // Licensed under the MIT License.
 package com.azure.cosmos.implementation.query;
 
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.implementation.DiagnosticsClientContext;
 import com.azure.cosmos.implementation.DocumentCollection;
 import com.azure.cosmos.implementation.Utils;
 import com.azure.cosmos.models.CosmosQueryRequestOptions;
 import com.azure.cosmos.models.ModelBridgeInternal;
-import com.fasterxml.jackson.databind.JsonNode;
 import reactor.core.publisher.Flux;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * While this class is public, but it is not part of our published public APIs.
@@ -22,16 +21,19 @@ public abstract class PipelinedQueryExecutionContextBase<T>
 
     protected final int actualPageSize;
     private final QueryInfo queryInfo;
-    protected final Function<JsonNode, T> factoryMethod;
+    protected final CosmosItemSerializer itemSerializer;
+    protected final Class<T> classOfT;
 
     protected PipelinedQueryExecutionContextBase(
         int actualPageSize,
         QueryInfo queryInfo,
-        Function<JsonNode, T> factoryMethod) {
+        CosmosItemSerializer itemSerializer,
+        Class<T> classOfT) {
 
         this.actualPageSize = actualPageSize;
         this.queryInfo = queryInfo;
-        this.factoryMethod = factoryMethod;
+        this.itemSerializer = itemSerializer;
+        this.classOfT = classOfT;
     }
 
     public static <T> Flux<PipelinedQueryExecutionContextBase<T>> createAsync(
@@ -52,21 +54,25 @@ public abstract class PipelinedQueryExecutionContextBase<T>
 
         int pageSize = Math.min(actualPageSize, Utils.getValueOrDefault(queryInfo.getTop(), (actualPageSize)));
 
-        final Function<JsonNode, T> factoryMethod = DefaultDocumentQueryExecutionContext
-            .getEffectiveFactoryMethod(cosmosQueryRequestOptions, queryInfo.hasSelectValue(), classOfT);
+        CosmosItemSerializer candidateSerializer = client.getEffectiveItemSerializer(cosmosQueryRequestOptions);
+        final CosmosItemSerializer itemSerializer  = candidateSerializer != CosmosItemSerializer.DEFAULT_SERIALIZER
+            ? candidateSerializer
+            : ValueUnwrapCosmosItemSerializer.create(queryInfo.hasSelectValue());
 
         if (queryInfo.hasOrderBy()
             || queryInfo.hasAggregates()
             || queryInfo.hasGroupBy()
             || queryInfo.hasDCount()
-            || queryInfo.hasDistinct()) {
+            || queryInfo.hasDistinct()
+            || queryInfo.hasNonStreamingOrderBy()) {
 
             return PipelinedDocumentQueryExecutionContext.createAsyncCore(
                 diagnosticsClientContext,
                 client,
                 initParams,
                 pageSize,
-                factoryMethod,
+                itemSerializer,
+                classOfT,
                 collection);
         }
 
@@ -75,7 +81,8 @@ public abstract class PipelinedQueryExecutionContextBase<T>
             client,
             initParams,
             pageSize,
-            factoryMethod,
+            itemSerializer,
+            classOfT,
             collection);
     }
 
@@ -95,35 +102,28 @@ public abstract class PipelinedQueryExecutionContextBase<T>
             createSkipComponentFunction = createBaseComponent;
         }
 
-        BiFunction<String, PipelinedDocumentQueryParams<T>, Flux<IDocumentQueryExecutionComponent<T>>> createTopComponentFunction;
-        if (queryInfo.hasTop()) {
-            createTopComponentFunction =
+        BiFunction<String, PipelinedDocumentQueryParams<T>, Flux<IDocumentQueryExecutionComponent<T>>> createLimitComponentFunction;
+        if (queryInfo.hasLimit()) {
+            createLimitComponentFunction =
                 (continuationToken, documentQueryParams) ->
-                    TopDocumentQueryExecutionContext.createAsync(createSkipComponentFunction,
-                        queryInfo.getTop(),
-                        queryInfo.getTop(),
-                        continuationToken,
-                        documentQueryParams);
+                    TakeDocumentQueryExecutionContext.createAsync(createSkipComponentFunction,
+                    queryInfo.getLimit(),
+                    continuationToken,
+                    documentQueryParams,
+                    TakeDocumentQueryExecutionContext.TakeEnum.LIMIT);
         } else {
-            createTopComponentFunction = createSkipComponentFunction;
+            createLimitComponentFunction = createSkipComponentFunction;
         }
 
-        BiFunction<String, PipelinedDocumentQueryParams<T>, Flux<IDocumentQueryExecutionComponent<T>>> createTakeComponentFunction;
-        if (queryInfo.hasLimit()) {
-            return (continuationToken, documentQueryParams) -> {
-                int totalLimit = queryInfo.getLimit();
-                if (queryInfo.hasOffset()) {
-                    // This is being done to match the limit from rewritten query
-                    totalLimit = queryInfo.getOffset() + queryInfo.getLimit();
-                }
-                return TopDocumentQueryExecutionContext.createAsync(createTopComponentFunction,
-                    queryInfo.getLimit(),
-                    totalLimit,
-                    continuationToken,
-                    documentQueryParams);
-            };
+        if (queryInfo.hasTop()) {
+            return (continuationToken, documentQueryParams) ->
+                TakeDocumentQueryExecutionContext.createAsync(createLimitComponentFunction,
+                queryInfo.getTop(),
+                continuationToken,
+                documentQueryParams,
+                TakeDocumentQueryExecutionContext.TakeEnum.TOP);
         } else {
-            return createTopComponentFunction;
+            return createLimitComponentFunction;
         }
     }
 

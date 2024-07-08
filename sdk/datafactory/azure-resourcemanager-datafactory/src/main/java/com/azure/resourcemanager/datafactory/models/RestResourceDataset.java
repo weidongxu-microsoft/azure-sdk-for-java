@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.RestResourceDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** A Rest service dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A Rest service dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = RestResourceDataset.class, visible = true)
 @JsonTypeName("RestResource")
 @Fluent
 public final class RestResourceDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "RestResource";
+
     /*
      * Properties specific to this dataset type.
      */
     @JsonProperty(value = "typeProperties")
     private RestResourceDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of RestResourceDataset class. */
+    /**
+     * Creates an instance of RestResourceDataset class.
+     */
     public RestResourceDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Properties specific to this dataset type.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private RestResourceDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestResourceDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class RestResourceDataset extends Dataset {
     /**
      * Get the relativeUrl property: The relative URL to the resource that the RESTful API provides. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the relativeUrl value.
      */
     public Object relativeUrl() {
@@ -98,7 +134,7 @@ public final class RestResourceDataset extends Dataset {
     /**
      * Set the relativeUrl property: The relative URL to the resource that the RESTful API provides. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param relativeUrl the relativeUrl value to set.
      * @return the RestResourceDataset object itself.
      */
@@ -113,7 +149,7 @@ public final class RestResourceDataset extends Dataset {
     /**
      * Get the requestMethod property: The HTTP method used to call the RESTful API. The default is GET. Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @return the requestMethod value.
      */
     public Object requestMethod() {
@@ -123,7 +159,7 @@ public final class RestResourceDataset extends Dataset {
     /**
      * Set the requestMethod property: The HTTP method used to call the RESTful API. The default is GET. Type: string
      * (or Expression with resultType string).
-     *
+     * 
      * @param requestMethod the requestMethod value to set.
      * @return the RestResourceDataset object itself.
      */
@@ -138,7 +174,7 @@ public final class RestResourceDataset extends Dataset {
     /**
      * Get the requestBody property: The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the requestBody value.
      */
     public Object requestBody() {
@@ -148,7 +184,7 @@ public final class RestResourceDataset extends Dataset {
     /**
      * Set the requestBody property: The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param requestBody the requestBody value to set.
      * @return the RestResourceDataset object itself.
      */
@@ -161,23 +197,21 @@ public final class RestResourceDataset extends Dataset {
     }
 
     /**
-     * Get the additionalHeaders property: The additional HTTP headers in the request to the RESTful API. Type: string
-     * (or Expression with resultType string).
-     *
+     * Get the additionalHeaders property: The additional HTTP headers in the request to the RESTful API.
+     * 
      * @return the additionalHeaders value.
      */
-    public Object additionalHeaders() {
+    public Map<String, Object> additionalHeaders() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().additionalHeaders();
     }
 
     /**
-     * Set the additionalHeaders property: The additional HTTP headers in the request to the RESTful API. Type: string
-     * (or Expression with resultType string).
-     *
+     * Set the additionalHeaders property: The additional HTTP headers in the request to the RESTful API.
+     * 
      * @param additionalHeaders the additionalHeaders value to set.
      * @return the RestResourceDataset object itself.
      */
-    public RestResourceDataset withAdditionalHeaders(Object additionalHeaders) {
+    public RestResourceDataset withAdditionalHeaders(Map<String, Object> additionalHeaders) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new RestResourceDatasetTypeProperties();
         }
@@ -186,23 +220,21 @@ public final class RestResourceDataset extends Dataset {
     }
 
     /**
-     * Get the paginationRules property: The pagination rules to compose next page requests. Type: string (or Expression
-     * with resultType string).
-     *
+     * Get the paginationRules property: The pagination rules to compose next page requests.
+     * 
      * @return the paginationRules value.
      */
-    public Object paginationRules() {
+    public Map<String, Object> paginationRules() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().paginationRules();
     }
 
     /**
-     * Set the paginationRules property: The pagination rules to compose next page requests. Type: string (or Expression
-     * with resultType string).
-     *
+     * Set the paginationRules property: The pagination rules to compose next page requests.
+     * 
      * @param paginationRules the paginationRules value to set.
      * @return the RestResourceDataset object itself.
      */
-    public RestResourceDataset withPaginationRules(Object paginationRules) {
+    public RestResourceDataset withPaginationRules(Map<String, Object> paginationRules) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new RestResourceDatasetTypeProperties();
         }
@@ -212,7 +244,7 @@ public final class RestResourceDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

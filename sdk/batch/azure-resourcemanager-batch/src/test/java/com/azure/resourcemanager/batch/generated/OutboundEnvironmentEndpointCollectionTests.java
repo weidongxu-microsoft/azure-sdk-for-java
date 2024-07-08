@@ -7,24 +7,21 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.OutboundEnvironmentEndpointCollection;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class OutboundEnvironmentEndpointCollectionTests {
-    @Test
-    public void testDeserialize() {
-        OutboundEnvironmentEndpointCollection model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"category\":\"x\",\"endpoints\":[]},{\"category\":\"yc\",\"endpoints\":[]},{\"category\":\"p\",\"endpoints\":[]},{\"category\":\"ymareqnajxqugj\",\"endpoints\":[]}],\"nextLink\":\"ubeddg\"}")
-                .toObject(OutboundEnvironmentEndpointCollection.class);
-        Assertions.assertEquals("ubeddg", model.nextLink());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        OutboundEnvironmentEndpointCollection model = BinaryData.fromString(
+            "{\"value\":[{\"category\":\"dsg\",\"endpoints\":[{\"domainName\":\"kycgrauwj\",\"description\":\"taeburuvdm\",\"endpointDetails\":[{}]}]},{\"category\":\"zlxwabmqoefkifr\",\"endpoints\":[{\"domainName\":\"qujmqlgkf\",\"description\":\"ndo\",\"endpointDetails\":[{}]},{\"domainName\":\"bjcntujitc\",\"description\":\"df\",\"endpointDetails\":[{},{},{}]},{\"domainName\":\"ezkojvdcp\",\"description\":\"oqouicybxarzgszu\",\"endpointDetails\":[{}]},{\"domainName\":\"iqopidoamciod\",\"description\":\"haz\",\"endpointDetails\":[{},{}]}]}],\"nextLink\":\"zbonlwnt\"}")
+            .toObject(OutboundEnvironmentEndpointCollection.class);
+        Assertions.assertEquals("zbonlwnt", model.nextLink());
     }
 
-    @Test
-    public void testSerialize() {
-        OutboundEnvironmentEndpointCollection model =
-            new OutboundEnvironmentEndpointCollection().withNextLink("ubeddg");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        OutboundEnvironmentEndpointCollection model
+            = new OutboundEnvironmentEndpointCollection().withNextLink("zbonlwnt");
         model = BinaryData.fromObject(model).toObject(OutboundEnvironmentEndpointCollection.class);
-        Assertions.assertEquals("ubeddg", model.nextLink());
+        Assertions.assertEquals("zbonlwnt", model.nextLink());
     }
 }

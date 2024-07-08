@@ -6,14 +6,28 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Delimited text read settings. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Delimited text read settings.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = DelimitedTextReadSettings.class,
+    visible = true)
 @JsonTypeName("DelimitedTextReadSettings")
 @Fluent
 public final class DelimitedTextReadSettings extends FormatReadSettings {
+    /*
+     * The read setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DelimitedTextReadSettings";
+
     /*
      * Indicates the number of non-empty rows to skip when reading data from input files. Type: integer (or Expression
      * with resultType integer).
@@ -27,14 +41,26 @@ public final class DelimitedTextReadSettings extends FormatReadSettings {
     @JsonProperty(value = "compressionProperties")
     private CompressionReadSettings compressionProperties;
 
-    /** Creates an instance of DelimitedTextReadSettings class. */
+    /**
+     * Creates an instance of DelimitedTextReadSettings class.
+     */
     public DelimitedTextReadSettings() {
+    }
+
+    /**
+     * Get the type property: The read setting type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the skipLineCount property: Indicates the number of non-empty rows to skip when reading data from input
      * files. Type: integer (or Expression with resultType integer).
-     *
+     * 
      * @return the skipLineCount value.
      */
     public Object skipLineCount() {
@@ -44,7 +70,7 @@ public final class DelimitedTextReadSettings extends FormatReadSettings {
     /**
      * Set the skipLineCount property: Indicates the number of non-empty rows to skip when reading data from input
      * files. Type: integer (or Expression with resultType integer).
-     *
+     * 
      * @param skipLineCount the skipLineCount value to set.
      * @return the DelimitedTextReadSettings object itself.
      */
@@ -55,7 +81,7 @@ public final class DelimitedTextReadSettings extends FormatReadSettings {
 
     /**
      * Get the compressionProperties property: Compression settings.
-     *
+     * 
      * @return the compressionProperties value.
      */
     public CompressionReadSettings compressionProperties() {
@@ -64,7 +90,7 @@ public final class DelimitedTextReadSettings extends FormatReadSettings {
 
     /**
      * Set the compressionProperties property: Compression settings.
-     *
+     * 
      * @param compressionProperties the compressionProperties value to set.
      * @return the DelimitedTextReadSettings object itself.
      */
@@ -75,7 +101,7 @@ public final class DelimitedTextReadSettings extends FormatReadSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

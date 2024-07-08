@@ -10,9 +10,12 @@ import com.azure.resourcemanager.appservice.models.KubeEnvironmentProfile;
 import com.azure.resourcemanager.appservice.models.ProvisioningState;
 import com.azure.resourcemanager.appservice.models.StatusOptions;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
-/** AppServicePlanPatchResource resource specific properties. */
+/**
+ * AppServicePlanPatchResource resource specific properties.
+ */
 @Fluent
 public final class AppServicePlanPatchResourceProperties {
     /*
@@ -155,7 +158,9 @@ public final class AppServicePlanPatchResourceProperties {
     @JsonProperty(value = "zoneRedundant")
     private Boolean zoneRedundant;
 
-    /** Creates an instance of AppServicePlanPatchResourceProperties class. */
+    /**
+     * Creates an instance of AppServicePlanPatchResourceProperties class.
+     */
     public AppServicePlanPatchResourceProperties() {
     }
 
@@ -214,8 +219,8 @@ public final class AppServicePlanPatchResourceProperties {
      * @param hostingEnvironmentProfile the hostingEnvironmentProfile value to set.
      * @return the AppServicePlanPatchResourceProperties object itself.
      */
-    public AppServicePlanPatchResourceProperties withHostingEnvironmentProfile(
-        HostingEnvironmentProfile hostingEnvironmentProfile) {
+    public AppServicePlanPatchResourceProperties
+        withHostingEnvironmentProfile(HostingEnvironmentProfile hostingEnvironmentProfile) {
         this.hostingEnvironmentProfile = hostingEnvironmentProfile;
         return this;
     }
@@ -250,8 +255,9 @@ public final class AppServicePlanPatchResourceProperties {
 
     /**
      * Get the perSiteScaling property: If &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be
-     * scaled independently. If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all
-     * instances of the plan.
+     * scaled independently.
+     * If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the
+     * plan.
      *
      * @return the perSiteScaling value.
      */
@@ -261,8 +267,9 @@ public final class AppServicePlanPatchResourceProperties {
 
     /**
      * Set the perSiteScaling property: If &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be
-     * scaled independently. If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all
-     * instances of the plan.
+     * scaled independently.
+     * If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the
+     * plan.
      *
      * @param perSiteScaling the perSiteScaling value to set.
      * @return the AppServicePlanPatchResourceProperties object itself.
@@ -528,16 +535,16 @@ public final class AppServicePlanPatchResourceProperties {
      * @param kubeEnvironmentProfile the kubeEnvironmentProfile value to set.
      * @return the AppServicePlanPatchResourceProperties object itself.
      */
-    public AppServicePlanPatchResourceProperties withKubeEnvironmentProfile(
-        KubeEnvironmentProfile kubeEnvironmentProfile) {
+    public AppServicePlanPatchResourceProperties
+        withKubeEnvironmentProfile(KubeEnvironmentProfile kubeEnvironmentProfile) {
         this.kubeEnvironmentProfile = kubeEnvironmentProfile;
         return this;
     }
 
     /**
      * Get the zoneRedundant property: If &lt;code&gt;true&lt;/code&gt;, this App Service Plan will perform availability
-     * zone balancing. If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone
-     * balancing.
+     * zone balancing.
+     * If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone balancing.
      *
      * @return the zoneRedundant value.
      */
@@ -547,8 +554,8 @@ public final class AppServicePlanPatchResourceProperties {
 
     /**
      * Set the zoneRedundant property: If &lt;code&gt;true&lt;/code&gt;, this App Service Plan will perform availability
-     * zone balancing. If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone
-     * balancing.
+     * zone balancing.
+     * If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone balancing.
      *
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the AppServicePlanPatchResourceProperties object itself.

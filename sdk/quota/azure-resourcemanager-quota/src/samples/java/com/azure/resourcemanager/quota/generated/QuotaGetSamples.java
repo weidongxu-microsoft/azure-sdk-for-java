@@ -4,38 +4,36 @@
 
 package com.azure.resourcemanager.quota.generated;
 
-/** Samples for Quota Get. */
+/**
+ * Samples for Quota Get.
+ */
 public final class QuotaGetSamples {
     /*
-     * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/getNetworkOneSkuQuotaLimit.json
+     * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkOneSkuQuotaLimit.json
      */
     /**
      * Sample code: Quotas_UsagesRequest_ForNetwork.
-     *
+     * 
      * @param manager Entry point to QuotaManager.
      */
     public static void quotasUsagesRequestForNetwork(com.azure.resourcemanager.quota.QuotaManager manager) {
-        manager
-            .quotas()
-            .getWithResponse(
-                "MinPublicIpInterNetworkPrefixLength",
+        manager.quotas()
+            .getWithResponse("MinPublicIpInterNetworkPrefixLength",
                 "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus",
                 com.azure.core.util.Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/getComputeOneSkuQuotaLimit.json
+     * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeOneSkuQuotaLimit.json
      */
     /**
      * Sample code: Quotas_Get_Request_ForCompute.
-     *
+     * 
      * @param manager Entry point to QuotaManager.
      */
     public static void quotasGetRequestForCompute(com.azure.resourcemanager.quota.QuotaManager manager) {
-        manager
-            .quotas()
-            .getWithResponse(
-                "standardNDSFamily",
+        manager.quotas()
+            .getWithResponse("standardNDSFamily",
                 "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
                 com.azure.core.util.Context.NONE);
     }

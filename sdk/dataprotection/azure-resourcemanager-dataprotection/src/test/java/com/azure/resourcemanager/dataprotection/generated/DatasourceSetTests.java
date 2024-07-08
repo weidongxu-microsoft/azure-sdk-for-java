@@ -5,44 +5,38 @@
 package com.azure.resourcemanager.dataprotection.generated;
 
 import com.azure.core.util.BinaryData;
+import com.azure.resourcemanager.dataprotection.models.BaseResourceProperties;
 import com.azure.resourcemanager.dataprotection.models.DatasourceSet;
 import org.junit.jupiter.api.Assertions;
 
 public final class DatasourceSetTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DatasourceSet model =
-            BinaryData
-                .fromString(
-                    "{\"datasourceType\":\"xbczwtruwiqz\",\"objectType\":\"j\",\"resourceID\":\"sovmyokacspkwl\",\"resourceLocation\":\"dobpxjmflbvvn\",\"resourceName\":\"rkcciwwzjuqk\",\"resourceType\":\"sa\",\"resourceUri\":\"wkuofoskghsauu\"}")
-                .toObject(DatasourceSet.class);
-        Assertions.assertEquals("xbczwtruwiqz", model.datasourceType());
-        Assertions.assertEquals("j", model.objectType());
-        Assertions.assertEquals("sovmyokacspkwl", model.resourceId());
-        Assertions.assertEquals("dobpxjmflbvvn", model.resourceLocation());
-        Assertions.assertEquals("rkcciwwzjuqk", model.resourceName());
-        Assertions.assertEquals("sa", model.resourceType());
-        Assertions.assertEquals("wkuofoskghsauu", model.resourceUri());
+        DatasourceSet model = BinaryData.fromString(
+            "{\"datasourceType\":\"lwzbhvgyugu\",\"objectType\":\"vmkfssxqu\",\"resourceID\":\"kfplgmgsxnk\",\"resourceLocation\":\"kde\",\"resourceName\":\"pvlopwiyighxpkd\",\"resourceType\":\"baiuebbaumny\",\"resourceUri\":\"ped\",\"resourceProperties\":{\"objectType\":\"BaseResourceProperties\"}}")
+            .toObject(DatasourceSet.class);
+        Assertions.assertEquals("lwzbhvgyugu", model.datasourceType());
+        Assertions.assertEquals("vmkfssxqu", model.objectType());
+        Assertions.assertEquals("kfplgmgsxnk", model.resourceId());
+        Assertions.assertEquals("kde", model.resourceLocation());
+        Assertions.assertEquals("pvlopwiyighxpkd", model.resourceName());
+        Assertions.assertEquals("baiuebbaumny", model.resourceType());
+        Assertions.assertEquals("ped", model.resourceUri());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DatasourceSet model =
-            new DatasourceSet()
-                .withDatasourceType("xbczwtruwiqz")
-                .withObjectType("j")
-                .withResourceId("sovmyokacspkwl")
-                .withResourceLocation("dobpxjmflbvvn")
-                .withResourceName("rkcciwwzjuqk")
-                .withResourceType("sa")
-                .withResourceUri("wkuofoskghsauu");
+        DatasourceSet model = new DatasourceSet().withDatasourceType("lwzbhvgyugu").withObjectType("vmkfssxqu")
+            .withResourceId("kfplgmgsxnk").withResourceLocation("kde").withResourceName("pvlopwiyighxpkd")
+            .withResourceType("baiuebbaumny").withResourceUri("ped")
+            .withResourceProperties(new BaseResourceProperties());
         model = BinaryData.fromObject(model).toObject(DatasourceSet.class);
-        Assertions.assertEquals("xbczwtruwiqz", model.datasourceType());
-        Assertions.assertEquals("j", model.objectType());
-        Assertions.assertEquals("sovmyokacspkwl", model.resourceId());
-        Assertions.assertEquals("dobpxjmflbvvn", model.resourceLocation());
-        Assertions.assertEquals("rkcciwwzjuqk", model.resourceName());
-        Assertions.assertEquals("sa", model.resourceType());
-        Assertions.assertEquals("wkuofoskghsauu", model.resourceUri());
+        Assertions.assertEquals("lwzbhvgyugu", model.datasourceType());
+        Assertions.assertEquals("vmkfssxqu", model.objectType());
+        Assertions.assertEquals("kfplgmgsxnk", model.resourceId());
+        Assertions.assertEquals("kde", model.resourceLocation());
+        Assertions.assertEquals("pvlopwiyighxpkd", model.resourceName());
+        Assertions.assertEquals("baiuebbaumny", model.resourceType());
+        Assertions.assertEquals("ped", model.resourceUri());
     }
 }

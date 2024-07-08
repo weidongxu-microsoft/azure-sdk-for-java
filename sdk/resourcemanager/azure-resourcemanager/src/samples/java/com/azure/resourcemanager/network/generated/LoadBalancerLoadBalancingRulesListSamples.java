@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for LoadBalancerLoadBalancingRules List. */
+/**
+ * Samples for LoadBalancerLoadBalancingRules List.
+ */
 public final class LoadBalancerLoadBalancingRulesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerLoadBalancingRuleList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerLoadBalancingRuleList.json
      */
     /**
      * Sample code: LoadBalancerLoadBalancingRuleList.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void loadBalancerLoadBalancingRuleList(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getLoadBalancerLoadBalancingRules()

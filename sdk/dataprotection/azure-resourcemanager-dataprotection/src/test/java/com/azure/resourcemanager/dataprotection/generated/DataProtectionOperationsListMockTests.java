@@ -31,44 +31,39 @@ public final class DataProtectionOperationsListMockTests {
         HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
         ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
 
-        String responseStr =
-            "{\"value\":[{\"display\":{\"description\":\"xcpjuisavokqdzf\",\"operation\":\"zivj\",\"provider\":\"rqttbajlkatnw\",\"resource\":\"iopid\"},\"name\":\"qfkuvscxkdmli\",\"isDataAction\":true,\"origin\":\"brxk\",\"properties\":{\"serviceSpecification\":{\"logSpecifications\":[]}}}]}";
+        String responseStr
+            = "{\"value\":[{\"display\":{\"description\":\"fhpfeoajvgcxtx\",\"operation\":\"sheafid\",\"provider\":\"ugsresmkssjhoi\",\"resource\":\"xfkfwegprhptill\"},\"name\":\"biqtgdq\",\"isDataAction\":true,\"origin\":\"wsldrizetpwbr\",\"properties\":{\"serviceSpecification\":{\"logSpecifications\":[{\"blobDuration\":\"phbqz\",\"displayName\":\"zakakankjpdn\",\"name\":\"ha\"}]}}}]}";
 
         Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
         Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
+        Mockito.when(httpResponse.getBody())
             .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
+        Mockito.when(httpResponse.getBodyAsByteArray())
             .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        Mockito.when(httpClient.send(httpRequest.capture(), Mockito.any())).thenReturn(Mono.defer(() -> {
+            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
+            return Mono.just(httpResponse);
+        }));
 
-        DataProtectionManager manager =
-            DataProtectionManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
+        DataProtectionManager manager = DataProtectionManager.configure().withHttpClient(httpClient).authenticate(
+            tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+            new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        PagedIterable<ClientDiscoveryValueForSingleApi> response =
-            manager.dataProtectionOperations().list(com.azure.core.util.Context.NONE);
+        PagedIterable<ClientDiscoveryValueForSingleApi> response
+            = manager.dataProtectionOperations().list(com.azure.core.util.Context.NONE);
 
-        Assertions.assertEquals("xcpjuisavokqdzf", response.iterator().next().display().description());
-        Assertions.assertEquals("zivj", response.iterator().next().display().operation());
-        Assertions.assertEquals("rqttbajlkatnw", response.iterator().next().display().provider());
-        Assertions.assertEquals("iopid", response.iterator().next().display().resource());
-        Assertions.assertEquals("qfkuvscxkdmli", response.iterator().next().name());
+        Assertions.assertEquals("fhpfeoajvgcxtx", response.iterator().next().display().description());
+        Assertions.assertEquals("sheafid", response.iterator().next().display().operation());
+        Assertions.assertEquals("ugsresmkssjhoi", response.iterator().next().display().provider());
+        Assertions.assertEquals("xfkfwegprhptill", response.iterator().next().display().resource());
+        Assertions.assertEquals("biqtgdq", response.iterator().next().name());
         Assertions.assertEquals(true, response.iterator().next().isDataAction());
-        Assertions.assertEquals("brxk", response.iterator().next().origin());
+        Assertions.assertEquals("wsldrizetpwbr", response.iterator().next().origin());
+        Assertions.assertEquals("phbqz",
+            response.iterator().next().properties().serviceSpecification().logSpecifications().get(0).blobDuration());
+        Assertions.assertEquals("zakakankjpdn",
+            response.iterator().next().properties().serviceSpecification().logSpecifications().get(0).displayName());
+        Assertions.assertEquals("ha",
+            response.iterator().next().properties().serviceSpecification().logSpecifications().get(0).name());
     }
 }

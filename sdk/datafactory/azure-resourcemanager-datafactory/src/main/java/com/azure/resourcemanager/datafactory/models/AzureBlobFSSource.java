@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Azure BlobFS source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Azure BlobFS source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AzureBlobFSSource.class, visible = true)
 @JsonTypeName("AzureBlobFSSource")
 @Fluent
 public final class AzureBlobFSSource extends CopySource {
+    /*
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureBlobFSSource";
+
     /*
      * Treat empty as null. Type: boolean (or Expression with resultType boolean).
      */
@@ -27,19 +37,31 @@ public final class AzureBlobFSSource extends CopySource {
     private Object skipHeaderLineCount;
 
     /*
-     * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression
-     * with resultType boolean).
+     * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with
+     * resultType boolean).
      */
     @JsonProperty(value = "recursive")
     private Object recursive;
 
-    /** Creates an instance of AzureBlobFSSource class. */
+    /**
+     * Creates an instance of AzureBlobFSSource class.
+     */
     public AzureBlobFSSource() {
     }
 
     /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the treatEmptyAsNull property: Treat empty as null. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the treatEmptyAsNull value.
      */
     public Object treatEmptyAsNull() {
@@ -48,7 +70,7 @@ public final class AzureBlobFSSource extends CopySource {
 
     /**
      * Set the treatEmptyAsNull property: Treat empty as null. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param treatEmptyAsNull the treatEmptyAsNull value to set.
      * @return the AzureBlobFSSource object itself.
      */
@@ -60,7 +82,7 @@ public final class AzureBlobFSSource extends CopySource {
     /**
      * Get the skipHeaderLineCount property: Number of header lines to skip from each blob. Type: integer (or Expression
      * with resultType integer).
-     *
+     * 
      * @return the skipHeaderLineCount value.
      */
     public Object skipHeaderLineCount() {
@@ -70,7 +92,7 @@ public final class AzureBlobFSSource extends CopySource {
     /**
      * Set the skipHeaderLineCount property: Number of header lines to skip from each blob. Type: integer (or Expression
      * with resultType integer).
-     *
+     * 
      * @param skipHeaderLineCount the skipHeaderLineCount value to set.
      * @return the AzureBlobFSSource object itself.
      */
@@ -82,7 +104,7 @@ public final class AzureBlobFSSource extends CopySource {
     /**
      * Get the recursive property: If true, files under the folder path will be read recursively. Default is true. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the recursive value.
      */
     public Object recursive() {
@@ -92,7 +114,7 @@ public final class AzureBlobFSSource extends CopySource {
     /**
      * Set the recursive property: If true, files under the folder path will be read recursively. Default is true. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param recursive the recursive value to set.
      * @return the AzureBlobFSSource object itself.
      */
@@ -101,28 +123,36 @@ public final class AzureBlobFSSource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSSource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSSource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSSource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSSource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -131,7 +161,7 @@ public final class AzureBlobFSSource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

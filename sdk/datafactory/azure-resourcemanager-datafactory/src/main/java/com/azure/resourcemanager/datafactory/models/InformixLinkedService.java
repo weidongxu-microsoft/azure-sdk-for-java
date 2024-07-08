@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.InformixLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Informix linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Informix linked service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = InformixLinkedService.class, visible = true)
 @JsonTypeName("Informix")
 @Fluent
 public final class InformixLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Informix";
+
     /*
      * Informix linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private InformixLinkedServiceTypeProperties innerTypeProperties = new InformixLinkedServiceTypeProperties();
 
-    /** Creates an instance of InformixLinkedService class. */
+    /**
+     * Creates an instance of InformixLinkedService class.
+     */
     public InformixLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Informix linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private InformixLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InformixLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InformixLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InformixLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InformixLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,8 +97,9 @@ public final class InformixLinkedService extends LinkedService {
 
     /**
      * Get the connectionString property: The non-access credential portion of the connection string as well as an
-     * optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
-     *
+     * optional encrypted credential. Type: string, or SecureString, or AzureKeyVaultSecretReference, or Expression with
+     * resultType string.
+     * 
      * @return the connectionString value.
      */
     public Object connectionString() {
@@ -77,8 +108,9 @@ public final class InformixLinkedService extends LinkedService {
 
     /**
      * Set the connectionString property: The non-access credential portion of the connection string as well as an
-     * optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
-     *
+     * optional encrypted credential. Type: string, or SecureString, or AzureKeyVaultSecretReference, or Expression with
+     * resultType string.
+     * 
      * @param connectionString the connectionString value to set.
      * @return the InformixLinkedService object itself.
      */
@@ -93,7 +125,7 @@ public final class InformixLinkedService extends LinkedService {
     /**
      * Get the authenticationType property: Type of authentication used to connect to the Informix as ODBC data store.
      * Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the authenticationType value.
      */
     public Object authenticationType() {
@@ -103,7 +135,7 @@ public final class InformixLinkedService extends LinkedService {
     /**
      * Set the authenticationType property: Type of authentication used to connect to the Informix as ODBC data store.
      * Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the InformixLinkedService object itself.
      */
@@ -118,7 +150,7 @@ public final class InformixLinkedService extends LinkedService {
     /**
      * Get the credential property: The access credential portion of the connection string specified in driver-specific
      * property-value format.
-     *
+     * 
      * @return the credential value.
      */
     public SecretBase credential() {
@@ -128,7 +160,7 @@ public final class InformixLinkedService extends LinkedService {
     /**
      * Set the credential property: The access credential portion of the connection string specified in driver-specific
      * property-value format.
-     *
+     * 
      * @param credential the credential value to set.
      * @return the InformixLinkedService object itself.
      */
@@ -143,7 +175,7 @@ public final class InformixLinkedService extends LinkedService {
     /**
      * Get the username property: User name for Basic authentication. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -153,7 +185,7 @@ public final class InformixLinkedService extends LinkedService {
     /**
      * Set the username property: User name for Basic authentication. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param username the username value to set.
      * @return the InformixLinkedService object itself.
      */
@@ -167,7 +199,7 @@ public final class InformixLinkedService extends LinkedService {
 
     /**
      * Get the password property: Password for Basic authentication.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -176,7 +208,7 @@ public final class InformixLinkedService extends LinkedService {
 
     /**
      * Set the password property: Password for Basic authentication.
-     *
+     * 
      * @param password the password value to set.
      * @return the InformixLinkedService object itself.
      */
@@ -190,22 +222,22 @@ public final class InformixLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the InformixLinkedService object itself.
      */
-    public InformixLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public InformixLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new InformixLinkedServiceTypeProperties();
         }
@@ -215,17 +247,16 @@ public final class InformixLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model InformixLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model InformixLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

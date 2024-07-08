@@ -7,12 +7,15 @@ package com.azure.resourcemanager.appservice.generated;
 import com.azure.resourcemanager.appservice.fluent.models.SiteAuthSettingsInner;
 import com.azure.resourcemanager.appservice.models.BuiltInAuthenticationProvider;
 import com.azure.resourcemanager.appservice.models.UnauthenticatedClientAction;
+
 import java.util.Arrays;
 
-/** Samples for WebApps UpdateAuthSettings. */
+/**
+ * Samples for WebApps UpdateAuthSettings.
+ */
 public final class WebAppsUpdateAuthSettingsSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/UpdateAuthSettings.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/UpdateAuthSettings.json
      */
     /**
      * Sample code: Update Auth Settings.
@@ -20,16 +23,12 @@ public final class WebAppsUpdateAuthSettingsSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void updateAuthSettings(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getWebApps()
-            .updateAuthSettingsWithResponse(
-                "testrg123",
-                "sitef6141",
-                new SiteAuthSettingsInner()
-                    .withEnabled(true)
+            .updateAuthSettingsWithResponse("testrg123", "sitef6141",
+                new SiteAuthSettingsInner().withEnabled(true)
                     .withRuntimeVersion("~1")
                     .withUnauthenticatedClientAction(UnauthenticatedClientAction.REDIRECT_TO_LOGIN_PAGE)
                     .withTokenStoreEnabled(true)

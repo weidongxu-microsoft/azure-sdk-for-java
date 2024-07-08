@@ -10,7 +10,9 @@ import com.azure.resourcemanager.cosmos.models.CreateUpdateOptions;
 import com.azure.resourcemanager.cosmos.models.SqlStoredProcedureResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties to create and update Azure Cosmos DB storedProcedure. */
+/**
+ * Properties to create and update Azure Cosmos DB storedProcedure.
+ */
 @Fluent
 public final class SqlStoredProcedureCreateUpdateProperties {
     /*
@@ -20,19 +22,20 @@ public final class SqlStoredProcedureCreateUpdateProperties {
     private SqlStoredProcedureResource resource;
 
     /*
-     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-     * request.
+     * A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
      */
     @JsonProperty(value = "options")
     private CreateUpdateOptions options;
 
-    /** Creates an instance of SqlStoredProcedureCreateUpdateProperties class. */
+    /**
+     * Creates an instance of SqlStoredProcedureCreateUpdateProperties class.
+     */
     public SqlStoredProcedureCreateUpdateProperties() {
     }
 
     /**
      * Get the resource property: The standard JSON format of a storedProcedure.
-     *
+     * 
      * @return the resource value.
      */
     public SqlStoredProcedureResource resource() {
@@ -41,7 +44,7 @@ public final class SqlStoredProcedureCreateUpdateProperties {
 
     /**
      * Set the resource property: The standard JSON format of a storedProcedure.
-     *
+     * 
      * @param resource the resource value to set.
      * @return the SqlStoredProcedureCreateUpdateProperties object itself.
      */
@@ -53,7 +56,7 @@ public final class SqlStoredProcedureCreateUpdateProperties {
     /**
      * Get the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @return the options value.
      */
     public CreateUpdateOptions options() {
@@ -63,7 +66,7 @@ public final class SqlStoredProcedureCreateUpdateProperties {
     /**
      * Set the options property: A key-value pair of options to be applied for the request. This corresponds to the
      * headers sent with the request.
-     *
+     * 
      * @param options the options value to set.
      * @return the SqlStoredProcedureCreateUpdateProperties object itself.
      */
@@ -74,15 +77,14 @@ public final class SqlStoredProcedureCreateUpdateProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (resource() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property resource in model SqlStoredProcedureCreateUpdateProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property resource in model SqlStoredProcedureCreateUpdateProperties"));
         } else {
             resource().validate();
         }

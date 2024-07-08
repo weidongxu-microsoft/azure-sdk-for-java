@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.CassandraLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Linked service for Cassandra data source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Linked service for Cassandra data source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = CassandraLinkedService.class, visible = true)
 @JsonTypeName("Cassandra")
 @Fluent
 public final class CassandraLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Cassandra";
+
     /*
      * Cassandra linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private CassandraLinkedServiceTypeProperties innerTypeProperties = new CassandraLinkedServiceTypeProperties();
 
-    /** Creates an instance of CassandraLinkedService class. */
+    /**
+     * Creates an instance of CassandraLinkedService class.
+     */
     public CassandraLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Cassandra linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private CassandraLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CassandraLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +97,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Get the host property: Host name for connection. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the host value.
      */
     public Object host() {
@@ -76,7 +106,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Set the host property: Host name for connection. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param host the host value to set.
      * @return the CassandraLinkedService object itself.
      */
@@ -91,7 +121,7 @@ public final class CassandraLinkedService extends LinkedService {
     /**
      * Get the authenticationType property: AuthenticationType to be used for connection. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the authenticationType value.
      */
     public Object authenticationType() {
@@ -101,7 +131,7 @@ public final class CassandraLinkedService extends LinkedService {
     /**
      * Set the authenticationType property: AuthenticationType to be used for connection. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the CassandraLinkedService object itself.
      */
@@ -115,7 +145,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Get the port property: The port for the connection. Type: integer (or Expression with resultType integer).
-     *
+     * 
      * @return the port value.
      */
     public Object port() {
@@ -124,7 +154,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Set the port property: The port for the connection. Type: integer (or Expression with resultType integer).
-     *
+     * 
      * @param port the port value to set.
      * @return the CassandraLinkedService object itself.
      */
@@ -138,7 +168,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Get the username property: Username for authentication. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -147,7 +177,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Set the username property: Username for authentication. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param username the username value to set.
      * @return the CassandraLinkedService object itself.
      */
@@ -161,7 +191,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Get the password property: Password for authentication.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -170,7 +200,7 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Set the password property: Password for authentication.
-     *
+     * 
      * @param password the password value to set.
      * @return the CassandraLinkedService object itself.
      */
@@ -184,22 +214,22 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the CassandraLinkedService object itself.
      */
-    public CassandraLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public CassandraLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new CassandraLinkedServiceTypeProperties();
         }
@@ -209,17 +239,16 @@ public final class CassandraLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model CassandraLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model CassandraLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

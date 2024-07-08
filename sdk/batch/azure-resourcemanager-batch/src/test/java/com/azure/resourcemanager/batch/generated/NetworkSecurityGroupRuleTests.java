@@ -9,34 +9,28 @@ import com.azure.resourcemanager.batch.models.NetworkSecurityGroupRule;
 import com.azure.resourcemanager.batch.models.NetworkSecurityGroupRuleAccess;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class NetworkSecurityGroupRuleTests {
-    @Test
-    public void testDeserialize() {
-        NetworkSecurityGroupRule model =
-            BinaryData
-                .fromString(
-                    "{\"priority\":1383619855,\"access\":\"Deny\",\"sourceAddressPrefix\":\"tbobz\",\"sourcePortRanges\":[\"cjwvn\",\"dldwmgxc\"]}")
-                .toObject(NetworkSecurityGroupRule.class);
-        Assertions.assertEquals(1383619855, model.priority());
-        Assertions.assertEquals(NetworkSecurityGroupRuleAccess.DENY, model.access());
-        Assertions.assertEquals("tbobz", model.sourceAddressPrefix());
-        Assertions.assertEquals("cjwvn", model.sourcePortRanges().get(0));
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        NetworkSecurityGroupRule model = BinaryData.fromString(
+            "{\"priority\":1262943142,\"access\":\"Allow\",\"sourceAddressPrefix\":\"pwdreqnovvqf\",\"sourcePortRanges\":[\"jxywsuws\",\"rsndsytgadgvra\"]}")
+            .toObject(NetworkSecurityGroupRule.class);
+        Assertions.assertEquals(1262943142, model.priority());
+        Assertions.assertEquals(NetworkSecurityGroupRuleAccess.ALLOW, model.access());
+        Assertions.assertEquals("pwdreqnovvqf", model.sourceAddressPrefix());
+        Assertions.assertEquals("jxywsuws", model.sourcePortRanges().get(0));
     }
 
-    @Test
-    public void testSerialize() {
-        NetworkSecurityGroupRule model =
-            new NetworkSecurityGroupRule()
-                .withPriority(1383619855)
-                .withAccess(NetworkSecurityGroupRuleAccess.DENY)
-                .withSourceAddressPrefix("tbobz")
-                .withSourcePortRanges(Arrays.asList("cjwvn", "dldwmgxc"));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        NetworkSecurityGroupRule model = new NetworkSecurityGroupRule().withPriority(1262943142)
+            .withAccess(NetworkSecurityGroupRuleAccess.ALLOW).withSourceAddressPrefix("pwdreqnovvqf")
+            .withSourcePortRanges(Arrays.asList("jxywsuws", "rsndsytgadgvra"));
         model = BinaryData.fromObject(model).toObject(NetworkSecurityGroupRule.class);
-        Assertions.assertEquals(1383619855, model.priority());
-        Assertions.assertEquals(NetworkSecurityGroupRuleAccess.DENY, model.access());
-        Assertions.assertEquals("tbobz", model.sourceAddressPrefix());
-        Assertions.assertEquals("cjwvn", model.sourcePortRanges().get(0));
+        Assertions.assertEquals(1262943142, model.priority());
+        Assertions.assertEquals(NetworkSecurityGroupRuleAccess.ALLOW, model.access());
+        Assertions.assertEquals("pwdreqnovvqf", model.sourceAddressPrefix());
+        Assertions.assertEquals("jxywsuws", model.sourcePortRanges().get(0));
     }
 }

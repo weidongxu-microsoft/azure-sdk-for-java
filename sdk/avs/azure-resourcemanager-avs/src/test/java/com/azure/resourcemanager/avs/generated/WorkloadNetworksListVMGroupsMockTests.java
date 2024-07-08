@@ -6,65 +6,36 @@ package com.azure.resourcemanager.avs.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.avs.AvsManager;
 import com.azure.resourcemanager.avs.models.WorkloadNetworkVMGroup;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class WorkloadNetworksListVMGroupsMockTests {
     @Test
     public void testListVMGroups() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"value\":[{\"properties\":{\"displayName\":\"fpubntnbatz\",\"members\":[\"sowsaael\"],\"status\":\"FAILURE\",\"provisioningState\":\"Building\",\"revision\":6305699352283667401},\"id\":\"lrvkmjc\",\"name\":\"mjvlgfgg\",\"type\":\"vkyylizrzbjpsf\"}]}";
 
-        String responseStr =
-            "{\"value\":[{\"properties\":{\"displayName\":\"yvvjskgfmo\",\"members\":[\"hpqgatjeaahhvj\"],\"status\":\"SUCCESS\",\"provisioningState\":\"Updating\",\"revision\":4553438778846408776},\"id\":\"bjjidjksyxky\",\"name\":\"vxevblb\",\"type\":\"ednljl\"}]}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        AvsManager manager = AvsManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        PagedIterable<WorkloadNetworkVMGroup> response
+            = manager.workloadNetworks().listVMGroups("qaxsipietgbebjf", "lbmoichd", com.azure.core.util.Context.NONE);
 
-        AvsManager manager =
-            AvsManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        PagedIterable<WorkloadNetworkVMGroup> response =
-            manager.workloadNetworks().listVMGroups("zkgimsid", "asi", com.azure.core.util.Context.NONE);
-
-        Assertions.assertEquals("yvvjskgfmo", response.iterator().next().displayName());
-        Assertions.assertEquals("hpqgatjeaahhvj", response.iterator().next().members().get(0));
-        Assertions.assertEquals(4553438778846408776L, response.iterator().next().revision());
+        Assertions.assertEquals("fpubntnbatz", response.iterator().next().displayName());
+        Assertions.assertEquals("sowsaael", response.iterator().next().members().get(0));
+        Assertions.assertEquals(6305699352283667401L, response.iterator().next().revision());
     }
 }

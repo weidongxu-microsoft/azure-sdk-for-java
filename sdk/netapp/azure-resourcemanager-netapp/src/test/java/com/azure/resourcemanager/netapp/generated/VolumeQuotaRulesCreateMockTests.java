@@ -6,81 +6,51 @@ package com.azure.resourcemanager.netapp.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.netapp.NetAppFilesManager;
 import com.azure.resourcemanager.netapp.models.Type;
 import com.azure.resourcemanager.netapp.models.VolumeQuotaRule;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class VolumeQuotaRulesCreateMockTests {
     @Test
     public void testCreate() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"properties\":{\"provisioningState\":\"Succeeded\",\"quotaSizeInKiBs\":4495626237459310184,\"quotaType\":\"DefaultUserQuota\",\"quotaTarget\":\"urbuhhlkyqltq\"},\"location\":\"ogtu\",\"tags\":{\"n\":\"fdjktsysidfvclgl\",\"qogsfikayian\":\"uijtkbu\",\"t\":\"haru\",\"yjqtt\":\"iqxf\"},\"id\":\"wkpqhjpenuygbq\",\"name\":\"qqekewvnqvcdlgu\",\"type\":\"ucmfdj\"}";
 
-        String responseStr =
-            "{\"properties\":{\"provisioningState\":\"Succeeded\",\"quotaSizeInKiBs\":3395635652856224250,\"quotaType\":\"IndividualUserQuota\",\"quotaTarget\":\"edm\"},\"location\":\"kvnlvxbcuiiznkt\",\"tags\":{\"bmikost\":\"nsnvpd\",\"kiwbuqnyoph\":\"z\"},\"id\":\"fy\",\"name\":\"sgcrpfbcunezzce\",\"type\":\"elfwy\"}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        NetAppFilesManager manager = NetAppFilesManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        VolumeQuotaRule response = manager.volumeQuotaRules()
+            .define("jbgdlfgtdysnaquf")
+            .withRegion("yjleziunjx")
+            .withExistingVolume("o", "gebx", "cnwfepbnwgfmxjg", "g")
+            .withTags(mapOf("qa", "antkwcegyamlbns", "m", "jjvpilguooqja", "hrtdtpdelq", "itgueiookjbs"))
+            .withQuotaSizeInKiBs(989283416847724320L)
+            .withQuotaType(Type.DEFAULT_USER_QUOTA)
+            .withQuotaTarget("jrwdkqz")
+            .create();
 
-        NetAppFilesManager manager =
-            NetAppFilesManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        VolumeQuotaRule response =
-            manager
-                .volumeQuotaRules()
-                .define("xfyqonmpqoxwdo")
-                .withRegion("tmwwi")
-                .withExistingVolume("mv", "fgtayxonsup", "ujlzqnhcvsqltn", "oibgsxg")
-                .withTags(mapOf("bcblemb", "hfqpofv", "ihebwtsw", "kbwvqvxkdiv", "gegizvcjfel", "zuwfmdur"))
-                .withQuotaSizeInKiBs(7955310418875154253L)
-                .withQuotaType(Type.DEFAULT_GROUP_QUOTA)
-                .withQuotaTarget("qbi")
-                .create();
-
-        Assertions.assertEquals("kvnlvxbcuiiznkt", response.location());
-        Assertions.assertEquals("nsnvpd", response.tags().get("bmikost"));
-        Assertions.assertEquals(3395635652856224250L, response.quotaSizeInKiBs());
-        Assertions.assertEquals(Type.INDIVIDUAL_USER_QUOTA, response.quotaType());
-        Assertions.assertEquals("edm", response.quotaTarget());
+        Assertions.assertEquals("ogtu", response.location());
+        Assertions.assertEquals("fdjktsysidfvclgl", response.tags().get("n"));
+        Assertions.assertEquals(4495626237459310184L, response.quotaSizeInKiBs());
+        Assertions.assertEquals(Type.DEFAULT_USER_QUOTA, response.quotaType());
+        Assertions.assertEquals("urbuhhlkyqltq", response.quotaTarget());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

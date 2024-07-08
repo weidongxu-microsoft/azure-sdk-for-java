@@ -10,9 +10,12 @@ import com.azure.resourcemanager.network.models.ExpressRouteCircuitServiceProvid
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.azure.resourcemanager.network.models.ServiceProviderProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of ExpressRouteCircuit. */
+/**
+ * Properties of ExpressRouteCircuit.
+ */
 @Fluent
 public final class ExpressRouteCircuitPropertiesFormat {
     /*
@@ -111,7 +114,15 @@ public final class ExpressRouteCircuitPropertiesFormat {
     @JsonProperty(value = "authorizationStatus", access = JsonProperty.Access.WRITE_ONLY)
     private String authorizationStatus;
 
-    /** Creates an instance of ExpressRouteCircuitPropertiesFormat class. */
+    /*
+     * Flag denoting rate-limiting status of the ExpressRoute direct-port circuit.
+     */
+    @JsonProperty(value = "enableDirectPortRateLimit")
+    private Boolean enableDirectPortRateLimit;
+
+    /**
+     * Creates an instance of ExpressRouteCircuitPropertiesFormat class.
+     */
     public ExpressRouteCircuitPropertiesFormat() {
     }
 
@@ -170,8 +181,8 @@ public final class ExpressRouteCircuitPropertiesFormat {
      * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set.
      * @return the ExpressRouteCircuitPropertiesFormat object itself.
      */
-    public ExpressRouteCircuitPropertiesFormat withServiceProviderProvisioningState(
-        ServiceProviderProvisioningState serviceProviderProvisioningState) {
+    public ExpressRouteCircuitPropertiesFormat
+        withServiceProviderProvisioningState(ServiceProviderProvisioningState serviceProviderProvisioningState) {
         this.serviceProviderProvisioningState = serviceProviderProvisioningState;
         return this;
     }
@@ -191,8 +202,8 @@ public final class ExpressRouteCircuitPropertiesFormat {
      * @param authorizations the authorizations value to set.
      * @return the ExpressRouteCircuitPropertiesFormat object itself.
      */
-    public ExpressRouteCircuitPropertiesFormat withAuthorizations(
-        List<ExpressRouteCircuitAuthorizationInner> authorizations) {
+    public ExpressRouteCircuitPropertiesFormat
+        withAuthorizations(List<ExpressRouteCircuitAuthorizationInner> authorizations) {
         this.authorizations = authorizations;
         return this;
     }
@@ -272,8 +283,8 @@ public final class ExpressRouteCircuitPropertiesFormat {
      * @param serviceProviderProperties the serviceProviderProperties value to set.
      * @return the ExpressRouteCircuitPropertiesFormat object itself.
      */
-    public ExpressRouteCircuitPropertiesFormat withServiceProviderProperties(
-        ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
+    public ExpressRouteCircuitPropertiesFormat
+        withServiceProviderProperties(ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
         this.serviceProviderProperties = serviceProviderProperties;
         return this;
     }
@@ -407,6 +418,28 @@ public final class ExpressRouteCircuitPropertiesFormat {
      */
     public String authorizationStatus() {
         return this.authorizationStatus;
+    }
+
+    /**
+     * Get the enableDirectPortRateLimit property: Flag denoting rate-limiting status of the ExpressRoute direct-port
+     * circuit.
+     *
+     * @return the enableDirectPortRateLimit value.
+     */
+    public Boolean enableDirectPortRateLimit() {
+        return this.enableDirectPortRateLimit;
+    }
+
+    /**
+     * Set the enableDirectPortRateLimit property: Flag denoting rate-limiting status of the ExpressRoute direct-port
+     * circuit.
+     *
+     * @param enableDirectPortRateLimit the enableDirectPortRateLimit value to set.
+     * @return the ExpressRouteCircuitPropertiesFormat object itself.
+     */
+    public ExpressRouteCircuitPropertiesFormat withEnableDirectPortRateLimit(Boolean enableDirectPortRateLimit) {
+        this.enableDirectPortRateLimit = enableDirectPortRateLimit;
+        return this;
     }
 
     /**

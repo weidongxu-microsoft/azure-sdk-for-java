@@ -4,23 +4,24 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ConnectivityConfigurations Get. */
+/**
+ * Samples for ConnectivityConfigurations Get.
+ */
 public final class ConnectivityConfigurationsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectivityConfigurationGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectivityConfigurationGet.json
      */
     /**
      * Sample code: ConnectivityConfigurationsGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void connectivityConfigurationsGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getConnectivityConfigurations()
-            .getWithResponse(
-                "myResourceGroup", "testNetworkManager", "myTestConnectivityConfig", com.azure.core.util.Context.NONE);
+            .getWithResponse("myResourceGroup", "testNetworkManager", "myTestConnectivityConfig",
+                com.azure.core.util.Context.NONE);
     }
 }

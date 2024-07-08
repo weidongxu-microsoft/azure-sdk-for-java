@@ -8,57 +8,91 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.SftpServerLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** A linked service for an SSH File Transfer Protocol (SFTP) server. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A linked service for an SSH File Transfer Protocol (SFTP) server.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = SftpServerLinkedService.class,
+    visible = true)
 @JsonTypeName("Sftp")
 @Fluent
 public final class SftpServerLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Sftp";
+
     /*
      * Properties specific to this linked service type.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private SftpServerLinkedServiceTypeProperties innerTypeProperties = new SftpServerLinkedServiceTypeProperties();
 
-    /** Creates an instance of SftpServerLinkedService class. */
+    /**
+     * Creates an instance of SftpServerLinkedService class.
+     */
     public SftpServerLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Properties specific to this linked service type.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SftpServerLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SftpServerLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SftpServerLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SftpServerLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SftpServerLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +101,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Get the host property: The SFTP server host name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the host value.
      */
     public Object host() {
@@ -76,7 +110,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Set the host property: The SFTP server host name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param host the host value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -91,7 +125,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Get the port property: The TCP port number that the SFTP server uses to listen for client connections. Default
      * value is 22. Type: integer (or Expression with resultType integer), minimum: 0.
-     *
+     * 
      * @return the port value.
      */
     public Object port() {
@@ -101,7 +135,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Set the port property: The TCP port number that the SFTP server uses to listen for client connections. Default
      * value is 22. Type: integer (or Expression with resultType integer), minimum: 0.
-     *
+     * 
      * @param port the port value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -115,7 +149,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Get the authenticationType property: The authentication type to be used to connect to the FTP server.
-     *
+     * 
      * @return the authenticationType value.
      */
     public SftpAuthenticationType authenticationType() {
@@ -124,7 +158,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Set the authenticationType property: The authentication type to be used to connect to the FTP server.
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -139,7 +173,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Get the username property: The username used to log on to the SFTP server. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -149,7 +183,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Set the username property: The username used to log on to the SFTP server. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param username the username value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -163,7 +197,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Get the password property: Password to logon the SFTP server for Basic authentication.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -172,7 +206,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Set the password property: Password to logon the SFTP server for Basic authentication.
-     *
+     * 
      * @param password the password value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -186,22 +220,22 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the SftpServerLinkedService object itself.
      */
-    public SftpServerLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public SftpServerLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new SftpServerLinkedServiceTypeProperties();
         }
@@ -214,7 +248,7 @@ public final class SftpServerLinkedService extends LinkedService {
      * on-premises copy. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or
      * PrivateKeyContent should be specified. SSH private key should be OpenSSH format. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the privateKeyPath value.
      */
     public Object privateKeyPath() {
@@ -226,7 +260,7 @@ public final class SftpServerLinkedService extends LinkedService {
      * on-premises copy. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or
      * PrivateKeyContent should be specified. SSH private key should be OpenSSH format. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param privateKeyPath the privateKeyPath value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -242,7 +276,7 @@ public final class SftpServerLinkedService extends LinkedService {
      * Get the privateKeyContent property: Base64 encoded SSH private key content for SshPublicKey authentication. For
      * on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be
      * specified. SSH private key should be OpenSSH format.
-     *
+     * 
      * @return the privateKeyContent value.
      */
     public SecretBase privateKeyContent() {
@@ -253,7 +287,7 @@ public final class SftpServerLinkedService extends LinkedService {
      * Set the privateKeyContent property: Base64 encoded SSH private key content for SshPublicKey authentication. For
      * on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be
      * specified. SSH private key should be OpenSSH format.
-     *
+     * 
      * @param privateKeyContent the privateKeyContent value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -267,7 +301,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Get the passPhrase property: The password to decrypt the SSH private key if the SSH private key is encrypted.
-     *
+     * 
      * @return the passPhrase value.
      */
     public SecretBase passPhrase() {
@@ -276,7 +310,7 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Set the passPhrase property: The password to decrypt the SSH private key if the SSH private key is encrypted.
-     *
+     * 
      * @param passPhrase the passPhrase value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -291,7 +325,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Get the skipHostKeyValidation property: If true, skip the SSH host key validation. Default value is false. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the skipHostKeyValidation value.
      */
     public Object skipHostKeyValidation() {
@@ -301,7 +335,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Set the skipHostKeyValidation property: If true, skip the SSH host key validation. Default value is false. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param skipHostKeyValidation the skipHostKeyValidation value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -316,7 +350,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Get the hostKeyFingerprint property: The host key finger-print of the SFTP server. When SkipHostKeyValidation is
      * false, HostKeyFingerprint should be specified. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the hostKeyFingerprint value.
      */
     public Object hostKeyFingerprint() {
@@ -326,7 +360,7 @@ public final class SftpServerLinkedService extends LinkedService {
     /**
      * Set the hostKeyFingerprint property: The host key finger-print of the SFTP server. When SkipHostKeyValidation is
      * false, HostKeyFingerprint should be specified. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param hostKeyFingerprint the hostKeyFingerprint value to set.
      * @return the SftpServerLinkedService object itself.
      */
@@ -340,17 +374,16 @@ public final class SftpServerLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model SftpServerLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model SftpServerLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

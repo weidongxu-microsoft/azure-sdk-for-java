@@ -7,7 +7,9 @@ package com.azure.resourcemanager.appcontainers.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Volume mount for the Container App. */
+/**
+ * Volume mount for the Container App.
+ */
 @Fluent
 public final class VolumeMount {
     /*
@@ -22,13 +24,21 @@ public final class VolumeMount {
     @JsonProperty(value = "mountPath")
     private String mountPath;
 
-    /** Creates an instance of VolumeMount class. */
+    /*
+     * Path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root).
+     */
+    @JsonProperty(value = "subPath")
+    private String subPath;
+
+    /**
+     * Creates an instance of VolumeMount class.
+     */
     public VolumeMount() {
     }
 
     /**
      * Get the volumeName property: This must match the Name of a Volume.
-     *
+     * 
      * @return the volumeName value.
      */
     public String volumeName() {
@@ -37,7 +47,7 @@ public final class VolumeMount {
 
     /**
      * Set the volumeName property: This must match the Name of a Volume.
-     *
+     * 
      * @param volumeName the volumeName value to set.
      * @return the VolumeMount object itself.
      */
@@ -47,8 +57,9 @@ public final class VolumeMount {
     }
 
     /**
-     * Get the mountPath property: Path within the container at which the volume should be mounted.Must not contain ':'.
-     *
+     * Get the mountPath property: Path within the container at which the volume should be mounted.Must not contain
+     * ':'.
+     * 
      * @return the mountPath value.
      */
     public String mountPath() {
@@ -56,8 +67,9 @@ public final class VolumeMount {
     }
 
     /**
-     * Set the mountPath property: Path within the container at which the volume should be mounted.Must not contain ':'.
-     *
+     * Set the mountPath property: Path within the container at which the volume should be mounted.Must not contain
+     * ':'.
+     * 
      * @param mountPath the mountPath value to set.
      * @return the VolumeMount object itself.
      */
@@ -67,8 +79,30 @@ public final class VolumeMount {
     }
 
     /**
+     * Get the subPath property: Path within the volume from which the container's volume should be mounted. Defaults
+     * to "" (volume's root).
+     * 
+     * @return the subPath value.
+     */
+    public String subPath() {
+        return this.subPath;
+    }
+
+    /**
+     * Set the subPath property: Path within the volume from which the container's volume should be mounted. Defaults
+     * to "" (volume's root).
+     * 
+     * @param subPath the subPath value to set.
+     * @return the VolumeMount object itself.
+     */
+    public VolumeMount withSubPath(String subPath) {
+        this.subPath = subPath;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

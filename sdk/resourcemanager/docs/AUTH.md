@@ -18,9 +18,9 @@ To use the APIs in the Azure Management Libraries for Java, as the first step yo
 
 ## Prerequisites
 
-* An [Azure tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant) for Graph RBAC.
+* An [Azure tenant](https://learn.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant) for Graph RBAC.
 * An [Azure subscription](https://azure.microsoft.com/free/) for resource management.
-* An Azure Active Directory service principal. You can create a service principal via [Azure Portal](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal), [Azure CLI](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli) or [Azure Powershell](https://docs.microsoft.com/azure/active-directory/develop/howto-authenticate-service-principal-powershell).
+* A Microsoft Entra service principal. You can create a service principal via [Azure Portal](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal), [Azure CLI](https://learn.microsoft.com/cli/azure/azure-cli-sp-tutorial-1) or [Azure Powershell](https://learn.microsoft.com/azure/active-directory/develop/howto-authenticate-service-principal-powershell).
 
 ## Simple Authentication
 
@@ -30,15 +30,12 @@ If you want to authenticate as simple as possible, you need to prepare `TokenCre
   * The `TokenCredential` is an interface in the `azure-core` package for credentials that can provide a token. 
   * Azure Identity offers multiple implementations of the `TokenCredential` class in the `azure-identity` package. To learn more, see [credentials in Azure Identity](https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/identity/azure-identity#credentials).
 
-Sample code to create a simple `ClientSecretCredential`:
+Sample code to create a simple `ManagedIdentityCredential`:
 
-```java readme-sample-buildClientSecretCredential
-ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
+```java readme-sample-buildManagedIdentityCredential
+ManagedIdentityCredential managedIdentityCredential = new ManagedIdentityCredentialBuilder()
+    // client ID is optional
     .clientId("<YOUR_CLIENT_ID>")
-    .clientSecret("<YOUR_CLIENT_SECRET>")
-    .tenantId("<YOUR_TENANT_ID>")
-    // authority host is optional
-    .authorityHost("<AZURE_AUTHORITY_HOST>")
     .build();
 ```
 
@@ -50,7 +47,7 @@ The value of `AZURE_AUTHORITY_HOST` can be set via [`AzureAuthorityHosts`](https
   
 |variable name|value
 |-|-
-|`AZURE_TENANT_ID`|id of the principal's Azure Active Directory tenant
+|`AZURE_TENANT_ID`|id of the principal's Microsoft Entra tenant
 |`AZURE_SUBSCRIPTION_ID`|id of the subscription for the Azure resources
 
 Sample code to create a `AzureProfile`:
@@ -64,7 +61,7 @@ The sample code assumes global Azure. Please change `AzureEnvironment.AZURE` var
 
 Sample code for Azure Germany, with `EnvironmentCredential`:
 
-```java readme-sample-init
+```java readme-sample-buildEnvironmentCredential
 AzureProfile profile = new AzureProfile(AzureEnvironment.AZURE_GERMANY);
 EnvironmentCredential credential = new EnvironmentCredentialBuilder()
     .authorityHost(profile.getEnvironment().getActiveDirectoryEndpoint())

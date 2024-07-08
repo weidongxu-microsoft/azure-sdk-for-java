@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.RevisionInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Container App Revisions collection ARM resource. */
+/**
+ * Container App Revisions collection ARM resource.
+ */
 @Fluent
 public final class RevisionCollection {
     /*
@@ -25,7 +28,9 @@ public final class RevisionCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of RevisionCollection class. */
+    /**
+     * Creates an instance of RevisionCollection class.
+     */
     public RevisionCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class RevisionCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model RevisionCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model RevisionCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

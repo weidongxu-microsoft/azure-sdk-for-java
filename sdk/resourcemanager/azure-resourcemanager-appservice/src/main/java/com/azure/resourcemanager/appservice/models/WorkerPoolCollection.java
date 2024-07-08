@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.WorkerPoolResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of worker pools. */
+/**
+ * Collection of worker pools.
+ */
 @Fluent
 public final class WorkerPoolCollection {
     /*
@@ -25,7 +28,9 @@ public final class WorkerPoolCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of WorkerPoolCollection class. */
+    /**
+     * Creates an instance of WorkerPoolCollection class.
+     */
     public WorkerPoolCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class WorkerPoolCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model WorkerPoolCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model WorkerPoolCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

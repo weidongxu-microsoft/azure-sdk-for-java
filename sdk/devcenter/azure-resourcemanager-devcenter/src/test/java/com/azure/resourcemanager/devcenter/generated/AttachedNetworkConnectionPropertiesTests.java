@@ -11,18 +11,16 @@ import org.junit.jupiter.api.Assertions;
 public final class AttachedNetworkConnectionPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AttachedNetworkConnectionProperties model =
-            BinaryData
-                .fromString(
-                    "{\"provisioningState\":\"RolloutInProgress\",\"networkConnectionId\":\"ifiyipjxsqwpgrj\",\"networkConnectionLocation\":\"norcjxvsnbyxqab\",\"healthCheckStatus\":\"Running\",\"domainJoinType\":\"HybridAzureADJoin\"}")
-                .toObject(AttachedNetworkConnectionProperties.class);
+        AttachedNetworkConnectionProperties model = BinaryData.fromString(
+            "{\"provisioningState\":\"RolloutInProgress\",\"networkConnectionId\":\"ifiyipjxsqwpgrj\",\"networkConnectionLocation\":\"norcjxvsnbyxqab\",\"healthCheckStatus\":\"Running\",\"domainJoinType\":\"HybridAzureADJoin\"}")
+            .toObject(AttachedNetworkConnectionProperties.class);
         Assertions.assertEquals("ifiyipjxsqwpgrj", model.networkConnectionId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AttachedNetworkConnectionProperties model =
-            new AttachedNetworkConnectionProperties().withNetworkConnectionId("ifiyipjxsqwpgrj");
+        AttachedNetworkConnectionProperties model
+            = new AttachedNetworkConnectionProperties().withNetworkConnectionId("ifiyipjxsqwpgrj");
         model = BinaryData.fromObject(model).toObject(AttachedNetworkConnectionProperties.class);
         Assertions.assertEquals("ifiyipjxsqwpgrj", model.networkConnectionId());
     }

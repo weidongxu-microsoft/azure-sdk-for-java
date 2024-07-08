@@ -14,9 +14,12 @@ import com.azure.resourcemanager.appservice.models.UpgradeAvailability;
 import com.azure.resourcemanager.appservice.models.UpgradePreference;
 import com.azure.resourcemanager.appservice.models.VirtualNetworkProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Description of an App Service Environment. */
+/**
+ * Description of an App Service Environment.
+ */
 @Fluent
 public final class AppServiceEnvironmentInner {
     /*
@@ -80,9 +83,8 @@ public final class AppServiceEnvironmentInner {
     private Integer frontEndScaleFactor;
 
     /*
-     * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment
-     * can be suspended, e.g. when the management endpoint is no longer available
-     * (most likely because NSG blocked the incoming traffic).
+     * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
+     *  (most likely because NSG blocked the incoming traffic).
      */
     @JsonProperty(value = "suspended", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean suspended;
@@ -141,7 +143,9 @@ public final class AppServiceEnvironmentInner {
     @JsonProperty(value = "upgradeAvailability", access = JsonProperty.Access.WRITE_ONLY)
     private UpgradeAvailability upgradeAvailability;
 
-    /** Creates an instance of AppServiceEnvironmentInner class. */
+    /**
+     * Creates an instance of AppServiceEnvironmentInner class.
+     */
     public AppServiceEnvironmentInner() {
     }
 
@@ -306,7 +310,8 @@ public final class AppServiceEnvironmentInner {
     /**
      * Get the suspended property: &lt;code&gt;true&lt;/code&gt; if the App Service Environment is suspended; otherwise,
      * &lt;code&gt;false&lt;/code&gt;. The environment can be suspended, e.g. when the management endpoint is no longer
-     * available (most likely because NSG blocked the incoming traffic).
+     * available
+     * (most likely because NSG blocked the incoming traffic).
      *
      * @return the suspended value.
      */
@@ -438,8 +443,8 @@ public final class AppServiceEnvironmentInner {
      * @param customDnsSuffixConfiguration the customDnsSuffixConfiguration value to set.
      * @return the AppServiceEnvironmentInner object itself.
      */
-    public AppServiceEnvironmentInner withCustomDnsSuffixConfiguration(
-        CustomDnsSuffixConfigurationInner customDnsSuffixConfiguration) {
+    public AppServiceEnvironmentInner
+        withCustomDnsSuffixConfiguration(CustomDnsSuffixConfigurationInner customDnsSuffixConfiguration) {
         this.customDnsSuffixConfiguration = customDnsSuffixConfiguration;
         return this;
     }
@@ -459,8 +464,8 @@ public final class AppServiceEnvironmentInner {
      * @param networkingConfiguration the networkingConfiguration value to set.
      * @return the AppServiceEnvironmentInner object itself.
      */
-    public AppServiceEnvironmentInner withNetworkingConfiguration(
-        AseV3NetworkingConfigurationInner networkingConfiguration) {
+    public AppServiceEnvironmentInner
+        withNetworkingConfiguration(AseV3NetworkingConfigurationInner networkingConfiguration) {
         this.networkingConfiguration = networkingConfiguration;
         return this;
     }
@@ -481,10 +486,9 @@ public final class AppServiceEnvironmentInner {
      */
     public void validate() {
         if (virtualNetwork() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property virtualNetwork in model AppServiceEnvironmentInner"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property virtualNetwork in model AppServiceEnvironmentInner"));
         } else {
             virtualNetwork().validate();
         }

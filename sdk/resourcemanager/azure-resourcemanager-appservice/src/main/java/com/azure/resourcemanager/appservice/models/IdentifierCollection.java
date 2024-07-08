@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.IdentifierInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of identifiers. */
+/**
+ * Collection of identifiers.
+ */
 @Fluent
 public final class IdentifierCollection {
     /*
@@ -25,7 +28,9 @@ public final class IdentifierCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of IdentifierCollection class. */
+    /**
+     * Creates an instance of IdentifierCollection class.
+     */
     public IdentifierCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class IdentifierCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model IdentifierCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model IdentifierCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

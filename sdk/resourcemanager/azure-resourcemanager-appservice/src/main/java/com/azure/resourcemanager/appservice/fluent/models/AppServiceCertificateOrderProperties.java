@@ -14,11 +14,14 @@ import com.azure.resourcemanager.appservice.models.ProvisioningState;
 import com.azure.resourcemanager.appservice.models.ResourceNotRenewableReason;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** AppServiceCertificateOrder resource specific properties. */
+/**
+ * AppServiceCertificateOrder resource specific properties.
+ */
 @Fluent
 public final class AppServiceCertificateOrderProperties {
     /*
@@ -59,8 +62,7 @@ public final class AppServiceCertificateOrderProperties {
     private CertificateProductType productType;
 
     /*
-     * <code>true</code> if the certificate should be automatically renewed when it expires; otherwise,
-     * <code>false</code>.
+     * <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.
      */
     @JsonProperty(value = "autoRenew")
     private Boolean autoRenew;
@@ -143,7 +145,9 @@ public final class AppServiceCertificateOrderProperties {
     @JsonProperty(value = "contact", access = JsonProperty.Access.WRITE_ONLY)
     private CertificateOrderContact contact;
 
-    /** Creates an instance of AppServiceCertificateOrderProperties class. */
+    /**
+     * Creates an instance of AppServiceCertificateOrderProperties class.
+     */
     public AppServiceCertificateOrderProperties() {
     }
 
@@ -415,20 +419,16 @@ public final class AppServiceCertificateOrderProperties {
      */
     public void validate() {
         if (certificates() != null) {
-            certificates()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            certificates().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
         if (productType() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property productType in model AppServiceCertificateOrderProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property productType in model AppServiceCertificateOrderProperties"));
         }
         if (signedCertificate() != null) {
             signedCertificate().validate();

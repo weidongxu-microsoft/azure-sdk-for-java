@@ -10,11 +10,9 @@ import com.azure.resourcemanager.support.models.ServiceLevelAgreement;
 public final class ServiceLevelAgreementTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ServiceLevelAgreement model =
-            BinaryData
-                .fromString(
-                    "{\"startTime\":\"2021-07-27T17:19:12Z\",\"expirationTime\":\"2021-12-03T01:38:31Z\",\"slaMinutes\":1015475658}")
-                .toObject(ServiceLevelAgreement.class);
+        ServiceLevelAgreement model = BinaryData.fromString(
+            "{\"startTime\":\"2021-03-01T08:49:54Z\",\"expirationTime\":\"2020-12-25T09:40:11Z\",\"slaMinutes\":1243858380}")
+            .toObject(ServiceLevelAgreement.class);
     }
 
     @org.junit.jupiter.api.Test

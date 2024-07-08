@@ -6,26 +6,44 @@ package com.azure.storage.file.datalake;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
+import com.azure.core.credential.AzureSasCredential;
+import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
+import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.ResponseBase;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.storage.blob.specialized.BlockBlobClient;
 import com.azure.storage.blob.specialized.SpecializedBlobClientBuilder;
+import com.azure.storage.common.Utility;
 import com.azure.storage.common.implementation.Constants;
 import com.azure.storage.common.implementation.StorageImplUtils;
+import com.azure.storage.file.datalake.implementation.models.CpkInfo;
+import com.azure.storage.file.datalake.implementation.models.FileSystemsListPathsHeaders;
+import com.azure.storage.file.datalake.implementation.models.PathList;
+import com.azure.storage.file.datalake.implementation.models.PathResourceType;
+import com.azure.storage.file.datalake.implementation.util.DataLakeImplUtils;
+import com.azure.storage.file.datalake.implementation.util.TransformUtils;
 import com.azure.storage.file.datalake.models.CustomerProvidedKey;
 import com.azure.storage.file.datalake.models.DataLakeRequestConditions;
+import com.azure.storage.file.datalake.models.DataLakeStorageException;
 import com.azure.storage.file.datalake.models.PathHttpHeaders;
 import com.azure.storage.file.datalake.models.PathInfo;
 import com.azure.storage.file.datalake.models.PathItem;
 import com.azure.storage.file.datalake.options.DataLakePathCreateOptions;
 import com.azure.storage.file.datalake.options.DataLakePathDeleteOptions;
-import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * This class provides a client that contains directory operations for Azure Storage Data Lake. Operations provided by
@@ -45,15 +63,25 @@ import java.util.Objects;
  */
 @ServiceClient(builder = DataLakePathClientBuilder.class)
 public class DataLakeDirectoryClient extends DataLakePathClient {
+    private static final ClientLogger LOGGER = new ClientLogger(DataLakeDirectoryClient.class);
     private final DataLakeDirectoryAsyncClient dataLakeDirectoryAsyncClient;
 
-    DataLakeDirectoryClient(DataLakeDirectoryAsyncClient pathAsyncClient, BlockBlobClient blockBlobClient) {
-        super(pathAsyncClient, blockBlobClient);
-        this.dataLakeDirectoryAsyncClient = pathAsyncClient;
+    DataLakeDirectoryClient(DataLakeDirectoryAsyncClient dataLakeDirectoryAsyncClient, BlockBlobClient blockBlobClient,
+        HttpPipeline pipeline, String url, DataLakeServiceVersion serviceVersion, String accountName,
+        String fileSystemName, String directoryName, AzureSasCredential sasToken, CpkInfo customerProvidedKey,
+        boolean isTokenCredentialAuthenticated) {
+        super(dataLakeDirectoryAsyncClient, blockBlobClient, pipeline, url, serviceVersion, accountName, fileSystemName,
+            directoryName, PathResourceType.DIRECTORY, sasToken, customerProvidedKey, isTokenCredentialAuthenticated);
+        this.dataLakeDirectoryAsyncClient = dataLakeDirectoryAsyncClient;
     }
 
-    private DataLakeDirectoryClient(DataLakePathClient dataLakePathClient) {
-        super(dataLakePathClient.dataLakePathAsyncClient, dataLakePathClient.blockBlobClient);
+    DataLakeDirectoryClient(DataLakePathClient dataLakePathClient) {
+        super(dataLakePathClient.dataLakePathAsyncClient, dataLakePathClient.blockBlobClient,
+            dataLakePathClient.getHttpPipeline(), dataLakePathClient.getAccountUrl(),
+            dataLakePathClient.getServiceVersion(), dataLakePathClient.getAccountName(),
+            dataLakePathClient.getFileSystemName(), Utility.urlEncode(dataLakePathClient.pathName),
+            PathResourceType.DIRECTORY, dataLakePathClient.getSasToken(), dataLakePathClient.getCpkInfo(),
+            dataLakePathClient.isTokenCredentialAuthenticated());
         this.dataLakeDirectoryAsyncClient = new DataLakeDirectoryAsyncClient(
             dataLakePathClient.dataLakePathAsyncClient);
     }
@@ -93,9 +121,18 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
      * @return a {@link DataLakeDirectoryClient} with the specified {@code customerProvidedKey}.
      */
     public DataLakeDirectoryClient getCustomerProvidedKeyClient(CustomerProvidedKey customerProvidedKey) {
+        CpkInfo finalCustomerProvidedKey = null;
+        if (customerProvidedKey != null) {
+            finalCustomerProvidedKey = new CpkInfo()
+                .setEncryptionKey(customerProvidedKey.getKey())
+                .setEncryptionKeySha256(customerProvidedKey.getKeySha256())
+                .setEncryptionAlgorithm(customerProvidedKey.getEncryptionAlgorithm());
+        }
         return new DataLakeDirectoryClient(
             dataLakeDirectoryAsyncClient.getCustomerProvidedKeyAsyncClient(customerProvidedKey),
-            blockBlobClient.getCustomerProvidedKeyClient(Transforms.toBlobCustomerProvidedKey(customerProvidedKey)));
+            blockBlobClient.getCustomerProvidedKeyClient(Transforms.toBlobCustomerProvidedKey(customerProvidedKey)),
+            getHttpPipeline(), getAccountUrl(), getServiceVersion(), getAccountName(), getFileSystemName(),
+            getObjectPath(), getSasToken(), finalCustomerProvidedKey, isTokenCredentialAuthenticated());
     }
 
     /**
@@ -117,6 +154,57 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete() {
         deleteWithResponse(false, null, null, Context.NONE).getValue();
+    }
+
+    /**
+     * Recursively deletes a directory and all contents within the directory.
+     *
+     * <p><strong>Code Samples</strong></p>
+     *
+     * <!-- src_embed com.azure.storage.file.datalake.DataLakeDirectoryClient.deleteRecursively -->
+     * <pre>
+     * client.deleteRecursively&#40;&#41;;
+     * System.out.println&#40;&quot;Delete request completed&quot;&#41;;
+     * </pre>
+     * <!-- end com.azure.storage.file.datalake.DataLakeDirectoryClient.deleteRecursively -->
+     *
+     * <p>For more information see the
+     * <a href="https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/delete">Azure
+     * Docs</a></p>
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void deleteRecursively() {
+        deleteRecursivelyWithResponse(null, null, Context.NONE).getValue();
+    }
+
+    /**
+     * Recursively deletes a directory and all contents within the directory.
+     *
+     * <p><strong>Code Samples</strong></p>
+     *
+     * <!-- src_embed com.azure.storage.file.datalake.DataLakeDirectoryClient.deleteRecursivelyWithResponse#DataLakeRequestConditions-Duration-Context -->
+     * <pre>
+     * DataLakeRequestConditions deleteRequestConditions = new DataLakeRequestConditions&#40;&#41;
+     *     .setLeaseId&#40;leaseId&#41;;
+     * client.deleteRecursivelyWithResponse&#40;deleteRequestConditions, timeout, new Context&#40;key1, value1&#41;&#41;;
+     * System.out.println&#40;&quot;Delete request completed&quot;&#41;;
+     * </pre>
+     * <!-- end com.azure.storage.file.datalake.DataLakeDirectoryClient.deleteRecursivelyWithResponse#DataLakeRequestConditions-Duration-Context -->
+     *
+     * <p>For more information see the
+     * <a href="https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/delete">Azure
+     * Docs</a></p>
+     *
+     * @param requestConditions {@link DataLakeRequestConditions}
+     * @param timeout An optional timeout value beyond which a {@link RuntimeException} will be raised.
+     * @param context Additional context that is passed through the Http pipeline during the service call.
+     *
+     * @return A reactive response signalling completion.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<Void> deleteRecursivelyWithResponse(DataLakeRequestConditions requestConditions, Duration timeout,
+        Context context) {
+        return deleteWithResponse(true, requestConditions, timeout, context);
     }
 
     /**
@@ -150,10 +238,7 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     public Response<Void> deleteWithResponse(boolean recursive, DataLakeRequestConditions requestConditions,
         Duration timeout, Context context) {
         // TODO (rickle-msft): Update for continuation token if we support HNS off
-        Mono<Response<Void>> response = dataLakePathAsyncClient.deleteWithResponse(recursive, requestConditions,
-            context);
-
-        return StorageImplUtils.blockWithOptionalTimeout(response, timeout);
+        return super.deleteWithResponse(recursive, requestConditions, timeout, context);
     }
 
     /**
@@ -214,8 +299,7 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Boolean> deleteIfExistsWithResponse(DataLakePathDeleteOptions options, Duration timeout,
         Context context) {
-        return StorageImplUtils.blockWithOptionalTimeout(dataLakePathAsyncClient.deleteIfExistsWithResponse(options,
-            context), timeout);
+        return super.deleteIfExistsWithResponse(options, timeout, context);
     }
 
     /**
@@ -238,8 +322,13 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     public DataLakeFileClient getFileClient(String fileName) {
         Objects.requireNonNull(fileName, "'fileName' can not be set to null");
 
-        return new DataLakeFileClient(dataLakeDirectoryAsyncClient.getFileAsyncClient(fileName),
-            dataLakeDirectoryAsyncClient.prepareBuilderAppendPath(fileName).buildBlockBlobClient());
+        String pathPrefix = getObjectPath().isEmpty() ? "" : getObjectPath() + "/";
+        BlockBlobClient blockBlobClient = dataLakeDirectoryAsyncClient.prepareBuilderAppendPath(pathPrefix + fileName)
+            .buildBlockBlobClient();
+
+        return new DataLakeFileClient(dataLakeDirectoryAsyncClient.getFileAsyncClient(fileName), blockBlobClient,
+            getHttpPipeline(), getAccountUrl(), getServiceVersion(), getAccountName(), getFileSystemName(),
+            pathPrefix + fileName, this.getSasToken(), getCpkInfo(), isTokenCredentialAuthenticated());
     }
 
     /**
@@ -358,7 +447,7 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
      * String umask = &quot;umask&quot;;
      * String owner = &quot;rwx&quot;;
      * String group = &quot;r--&quot;;
-     * String leaseId = UUID.randomUUID&#40;&#41;.toString&#40;&#41;;
+     * String leaseId = CoreUtils.randomUuid&#40;&#41;.toString&#40;&#41;;
      * Integer duration = 15;
      * DataLakePathCreateOptions options = new DataLakePathCreateOptions&#40;&#41;
      *     .setPermissions&#40;permissions&#41;
@@ -454,9 +543,11 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     public Response<DataLakeFileClient> createFileIfNotExistsWithResponse(String fileName, DataLakePathCreateOptions
         options, Duration timeout, Context context) {
         DataLakeFileClient dataLakeFileClient = getFileClient(fileName);
-        Response<PathInfo> response = StorageImplUtils.blockWithOptionalTimeout(
-            dataLakeFileClient.dataLakePathAsyncClient.createIfNotExistsWithResponse(options, context), timeout);
+        Response<PathInfo> response = dataLakeFileClient.createIfNotExistsWithResponse(options, timeout, context);
         return new SimpleResponse<>(response, dataLakeFileClient);
+//        Response<PathInfo> response = StorageImplUtils.blockWithOptionalTimeout(
+//            dataLakeFileClient.dataLakePathAsyncClient.createIfNotExistsWithResponse(options, context), timeout);
+//        return new SimpleResponse<>(response, dataLakeFileClient);
     }
 
     /**
@@ -566,8 +657,9 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Boolean> deleteFileIfExistsWithResponse(String fileName, DataLakePathDeleteOptions options,
         Duration timeout, Context context) {
-        return StorageImplUtils.blockWithOptionalTimeout(dataLakeDirectoryAsyncClient
-            .deleteFileIfExistsWithResponse(fileName, options, context), timeout);
+        return getFileClient(fileName).deleteIfExistsWithResponse(options, timeout, context);
+//        return StorageImplUtils.blockWithOptionalTimeout(dataLakeDirectoryAsyncClient
+//            .deleteFileIfExistsWithResponse(fileName, options, context), timeout);
     }
 
     /**
@@ -591,8 +683,14 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     public DataLakeDirectoryClient getSubdirectoryClient(String subdirectoryName) {
         Objects.requireNonNull(subdirectoryName, "'subdirectoryName' can not be set to null");
 
+        String pathPrefix = getObjectPath().isEmpty() ? "" : getObjectPath() + "/";
+
+        BlockBlobClient blockBlobClient = prepareBuilderAppendPath(pathPrefix + subdirectoryName).buildBlockBlobClient();
+
         return new DataLakeDirectoryClient(dataLakeDirectoryAsyncClient.getSubdirectoryAsyncClient(subdirectoryName),
-            dataLakeDirectoryAsyncClient.prepareBuilderAppendPath(subdirectoryName).buildBlockBlobClient());
+            blockBlobClient, getHttpPipeline(), getAccountUrl(), getServiceVersion(),
+            getAccountName(), getFileSystemName(), pathPrefix + subdirectoryName, this.getSasToken(), getCpkInfo(),
+            isTokenCredentialAuthenticated());
     }
 
     /**
@@ -713,7 +811,7 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
      * String umask = &quot;umask&quot;;
      * String owner = &quot;rwx&quot;;
      * String group = &quot;r--&quot;;
-     * String leaseId = UUID.randomUUID&#40;&#41;.toString&#40;&#41;;
+     * String leaseId = CoreUtils.randomUuid&#40;&#41;.toString&#40;&#41;;
      * Integer duration = 15;
      * DataLakePathCreateOptions options = new DataLakePathCreateOptions&#40;&#41;
      *     .setPermissions&#40;permissions&#41;
@@ -928,10 +1026,12 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Boolean> deleteSubdirectoryIfExistsWithResponse(String subdirectoryName,
         DataLakePathDeleteOptions options, Duration timeout, Context context) {
-        DataLakeDirectoryAsyncClient dataLakeDirectoryClient = dataLakeDirectoryAsyncClient
-            .getSubdirectoryAsyncClient(subdirectoryName);
-        return StorageImplUtils.blockWithOptionalTimeout(dataLakeDirectoryClient.deleteIfExistsWithResponse(options,
-            context), timeout);
+        DataLakeDirectoryClient dataLakeDirectoryClient = this.getSubdirectoryClient(subdirectoryName);
+        return dataLakeDirectoryClient.deleteIfExistsWithResponse(options, timeout, context);
+//        DataLakeDirectoryAsyncClient dataLakeDirectoryClient = dataLakeDirectoryAsyncClient
+//            .getSubdirectoryAsyncClient(subdirectoryName);
+//        return StorageImplUtils.blockWithOptionalTimeout(dataLakeDirectoryClient.deleteIfExistsWithResponse(options,
+//            context), timeout);
     }
 
     /**
@@ -997,21 +1097,9 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     public Response<DataLakeDirectoryClient> renameWithResponse(String destinationFileSystem, String destinationPath,
         DataLakeRequestConditions sourceRequestConditions, DataLakeRequestConditions destinationRequestConditions,
         Duration timeout, Context context) {
-
-        Mono<Response<DataLakeDirectoryClient>> response =
-            dataLakeDirectoryAsyncClient.renameWithResponse(destinationFileSystem, destinationPath,
-                    sourceRequestConditions, destinationRequestConditions, context)
-                .map(asyncResponse ->
-                new SimpleResponse<>(asyncResponse.getRequest(), asyncResponse.getStatusCode(),
-                    asyncResponse.getHeaders(),
-                    new DataLakeDirectoryClient(new DataLakeDirectoryAsyncClient(asyncResponse.getValue()),
-                        new SpecializedBlobClientBuilder()
-                            .blobAsyncClient(asyncResponse.getValue().blockBlobAsyncClient)
-                            .buildBlockBlobClient())));
-
-
-        Response<DataLakeDirectoryClient> resp = StorageImplUtils.blockWithOptionalTimeout(response, timeout);
-        return new SimpleResponse<>(resp, new DataLakeDirectoryClient(resp.getValue()));
+        Response<DataLakePathClient> response = renameWithResponseWithTimeout(destinationFileSystem, destinationPath,
+            sourceRequestConditions, destinationRequestConditions, timeout, context);
+        return new SimpleResponse<>(response, new DataLakeDirectoryClient(response.getValue()));
     }
 
     /**
@@ -1064,7 +1152,47 @@ public class DataLakeDirectoryClient extends DataLakePathClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<PathItem> listPaths(boolean recursive, boolean userPrincipleNameReturned, Integer maxResults,
         Duration timeout) {
-        return new PagedIterable<>(dataLakeDirectoryAsyncClient.listPathsWithOptionalTimeout(recursive,
-            userPrincipleNameReturned, maxResults, timeout));
+        BiFunction<String, Integer, PagedResponse<PathItem>> retriever = (marker, pageSize) -> {
+            Callable<ResponseBase<FileSystemsListPathsHeaders, PathList>> operation = () ->
+                this.fileSystemDataLakeStorage.getFileSystems().listPathsWithResponse(recursive, null, null, marker,
+                    getDirectoryPath(), pageSize == null ? maxResults : pageSize, userPrincipleNameReturned,
+                    Context.NONE);
+
+            ResponseBase<FileSystemsListPathsHeaders, PathList> response = StorageImplUtils.sendRequest(operation,
+                timeout, DataLakeStorageException.class);
+
+            List<PathItem> value = response.getValue() == null
+                ? Collections.emptyList()
+                : response.getValue().getPaths().stream()
+                .map(Transforms::toPathItem)
+                .collect(Collectors.toList());
+
+            return new PagedResponseBase<>(
+                response.getRequest(),
+                response.getStatusCode(),
+                response.getHeaders(),
+                value,
+                response.getDeserializedHeaders().getXMsContinuation(),
+                response.getDeserializedHeaders());
+        };
+
+
+        return new PagedIterable<>(pageSize -> retriever.apply(null, pageSize), retriever);
+    }
+
+    /**
+     * Prepares a SpecializedBlobClientBuilder with the pathname appended to the end of the current BlockBlobClient's
+     * url
+     * @param pathName The name of the path to append
+     * @return {@link SpecializedBlobClientBuilder}
+     */
+    SpecializedBlobClientBuilder prepareBuilderAppendPath(String pathName) {
+        String blobUrl = DataLakeImplUtils.endpointToDesiredEndpoint(getPathUrl(), "blob", "dfs");
+
+        return new SpecializedBlobClientBuilder()
+            .pipeline(getHttpPipeline())
+            .serviceVersion(TransformUtils.toBlobServiceVersion(getServiceVersion()))
+            .endpoint(blobUrl)
+            .blobName(pathName);
     }
 }

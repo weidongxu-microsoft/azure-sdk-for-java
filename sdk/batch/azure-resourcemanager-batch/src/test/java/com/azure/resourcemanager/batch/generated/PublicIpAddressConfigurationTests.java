@@ -9,27 +9,23 @@ import com.azure.resourcemanager.batch.models.IpAddressProvisioningType;
 import com.azure.resourcemanager.batch.models.PublicIpAddressConfiguration;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class PublicIpAddressConfigurationTests {
-    @Test
-    public void testDeserialize() {
-        PublicIpAddressConfiguration model =
-            BinaryData
-                .fromString("{\"provision\":\"UserManaged\",\"ipAddressIds\":[\"mutwuoe\",\"rpkhjwn\"]}")
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        PublicIpAddressConfiguration model
+            = BinaryData.fromString("{\"provision\":\"BatchManaged\",\"ipAddressIds\":[\"qnzarrwl\"]}")
                 .toObject(PublicIpAddressConfiguration.class);
-        Assertions.assertEquals(IpAddressProvisioningType.USER_MANAGED, model.provision());
-        Assertions.assertEquals("mutwuoe", model.ipAddressIds().get(0));
+        Assertions.assertEquals(IpAddressProvisioningType.BATCH_MANAGED, model.provision());
+        Assertions.assertEquals("qnzarrwl", model.ipAddressIds().get(0));
     }
 
-    @Test
-    public void testSerialize() {
-        PublicIpAddressConfiguration model =
-            new PublicIpAddressConfiguration()
-                .withProvision(IpAddressProvisioningType.USER_MANAGED)
-                .withIpAddressIds(Arrays.asList("mutwuoe", "rpkhjwn"));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        PublicIpAddressConfiguration model = new PublicIpAddressConfiguration()
+            .withProvision(IpAddressProvisioningType.BATCH_MANAGED).withIpAddressIds(Arrays.asList("qnzarrwl"));
         model = BinaryData.fromObject(model).toObject(PublicIpAddressConfiguration.class);
-        Assertions.assertEquals(IpAddressProvisioningType.USER_MANAGED, model.provision());
-        Assertions.assertEquals("mutwuoe", model.ipAddressIds().get(0));
+        Assertions.assertEquals(IpAddressProvisioningType.BATCH_MANAGED, model.provision());
+        Assertions.assertEquals("qnzarrwl", model.ipAddressIds().get(0));
     }
 }

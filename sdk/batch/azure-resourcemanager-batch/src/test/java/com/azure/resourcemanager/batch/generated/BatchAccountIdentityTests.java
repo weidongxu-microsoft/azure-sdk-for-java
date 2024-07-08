@@ -11,31 +11,27 @@ import com.azure.resourcemanager.batch.models.UserAssignedIdentities;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class BatchAccountIdentityTests {
-    @Test
-    public void testDeserialize() {
-        BatchAccountIdentity model =
-            BinaryData
-                .fromString(
-                    "{\"principalId\":\"jbpzvgnwzsymg\",\"tenantId\":\"uf\",\"type\":\"None\",\"userAssignedIdentities\":{\"ithxqhabifpi\":{\"principalId\":\"hdbihan\",\"clientId\":\"hfcbjysa\"},\"ivyqniwbybrkxvd\":{\"principalId\":\"wczbys\",\"clientId\":\"pqxu\"}}}")
-                .toObject(BatchAccountIdentity.class);
-        Assertions.assertEquals(ResourceIdentityType.NONE, model.type());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        BatchAccountIdentity model = BinaryData.fromString(
+            "{\"principalId\":\"rcryuanzwuxzdxta\",\"tenantId\":\"lhmwhfpmrqobm\",\"type\":\"UserAssigned\",\"userAssignedIdentities\":{\"kohdbiha\":{\"principalId\":\"ryrtihfxtijbpzv\",\"clientId\":\"wzsymglzufcy\"},\"git\":{\"principalId\":\"fhfcb\",\"clientId\":\"s\"},\"n\":{\"principalId\":\"qhabifpikxwcz\",\"clientId\":\"scnpqxuhivy\"},\"grtfwvu\":{\"principalId\":\"b\",\"clientId\":\"rkxvdum\"}}}")
+            .toObject(BatchAccountIdentity.class);
+        Assertions.assertEquals(ResourceIdentityType.USER_ASSIGNED, model.type());
     }
 
-    @Test
-    public void testSerialize() {
-        BatchAccountIdentity model =
-            new BatchAccountIdentity()
-                .withType(ResourceIdentityType.NONE)
-                .withUserAssignedIdentities(
-                    mapOf(
-                        "ithxqhabifpi", new UserAssignedIdentities(), "ivyqniwbybrkxvd", new UserAssignedIdentities()));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        BatchAccountIdentity model
+            = new BatchAccountIdentity().withType(ResourceIdentityType.USER_ASSIGNED).withUserAssignedIdentities(
+                mapOf("kohdbiha", new UserAssignedIdentities(), "git", new UserAssignedIdentities(), "n",
+                    new UserAssignedIdentities(), "grtfwvu", new UserAssignedIdentities()));
         model = BinaryData.fromObject(model).toObject(BatchAccountIdentity.class);
-        Assertions.assertEquals(ResourceIdentityType.NONE, model.type());
+        Assertions.assertEquals(ResourceIdentityType.USER_ASSIGNED, model.type());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

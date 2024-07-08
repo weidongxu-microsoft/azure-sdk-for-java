@@ -12,19 +12,18 @@ import org.junit.jupiter.api.Assertions;
 public final class EndpointBaseUpdateParametersTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        EndpointBaseUpdateParameters model =
-            BinaryData
-                .fromString("{\"properties\":{\"description\":\"kwh\"}}")
-                .toObject(EndpointBaseUpdateParameters.class);
-        Assertions.assertEquals("kwh", model.properties().description());
+        EndpointBaseUpdateParameters model = BinaryData
+            .fromString(
+                "{\"properties\":{\"endpointType\":\"EndpointBaseUpdateProperties\",\"description\":\"dfvzwdzuhty\"}}")
+            .toObject(EndpointBaseUpdateParameters.class);
+        Assertions.assertEquals("dfvzwdzuhty", model.properties().description());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        EndpointBaseUpdateParameters model =
-            new EndpointBaseUpdateParameters()
-                .withProperties(new EndpointBaseUpdateProperties().withDescription("kwh"));
+        EndpointBaseUpdateParameters model = new EndpointBaseUpdateParameters()
+            .withProperties(new EndpointBaseUpdateProperties().withDescription("dfvzwdzuhty"));
         model = BinaryData.fromObject(model).toObject(EndpointBaseUpdateParameters.class);
-        Assertions.assertEquals("kwh", model.properties().description());
+        Assertions.assertEquals("dfvzwdzuhty", model.properties().description());
     }
 }

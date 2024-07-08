@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.network.models.AvailableProvidersListCountry;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** List of available countries with details. */
+/**
+ * List of available countries with details.
+ */
 @Fluent
 public final class AvailableProvidersListInner {
     /*
@@ -19,7 +22,9 @@ public final class AvailableProvidersListInner {
     @JsonProperty(value = "countries", required = true)
     private List<AvailableProvidersListCountry> countries;
 
-    /** Creates an instance of AvailableProvidersListInner class. */
+    /**
+     * Creates an instance of AvailableProvidersListInner class.
+     */
     public AvailableProvidersListInner() {
     }
 
@@ -50,10 +55,9 @@ public final class AvailableProvidersListInner {
      */
     public void validate() {
         if (countries() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property countries in model AvailableProvidersListInner"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property countries in model AvailableProvidersListInner"));
         } else {
             countries().forEach(e -> e.validate());
         }

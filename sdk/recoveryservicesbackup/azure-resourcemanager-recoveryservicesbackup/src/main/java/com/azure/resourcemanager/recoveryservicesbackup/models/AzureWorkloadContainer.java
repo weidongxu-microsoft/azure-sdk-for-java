@@ -7,23 +7,35 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 
-/** Container for the workloads running inside Azure Compute or Classic Compute. */
+/**
+ * Container for the workloads running inside Azure Compute or Classic Compute.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "containerType",
-    defaultImpl = AzureWorkloadContainer.class)
+    defaultImpl = AzureWorkloadContainer.class,
+    visible = true)
 @JsonTypeName("AzureWorkloadContainer")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "SQLAGWorkLoadContainer", value = AzureSqlagWorkloadContainerProtectionContainer.class),
-    @JsonSubTypes.Type(name = "VMAppContainer", value = AzureVMAppContainerProtectionContainer.class)
-})
+    @JsonSubTypes.Type(name = "VMAppContainer", value = AzureVMAppContainerProtectionContainer.class) })
 @Fluent
 public class AzureWorkloadContainer extends ProtectionContainer {
+    /*
+     * Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2.
+     * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
+     * Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload
+     * Backup is VMAppContainer
+     */
+    @JsonTypeId
+    @JsonProperty(value = "containerType", required = true)
+    private ProtectableContainerType containerType = ProtectableContainerType.AZURE_WORKLOAD_CONTAINER;
+
     /*
      * ARM ID of the virtual machine represented by this Azure Workload Container
      */
@@ -54,13 +66,29 @@ public class AzureWorkloadContainer extends ProtectionContainer {
     @JsonProperty(value = "operationType")
     private OperationType operationType;
 
-    /** Creates an instance of AzureWorkloadContainer class. */
+    /**
+     * Creates an instance of AzureWorkloadContainer class.
+     */
     public AzureWorkloadContainer() {
     }
 
     /**
+     * Get the containerType property: Type of the container. The value of this property for: 1. Compute Azure VM is
+     * Microsoft.Compute/virtualMachines 2.
+     * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
+     * Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload
+     * Backup is VMAppContainer.
+     * 
+     * @return the containerType value.
+     */
+    @Override
+    public ProtectableContainerType containerType() {
+        return this.containerType;
+    }
+
+    /**
      * Get the sourceResourceId property: ARM ID of the virtual machine represented by this Azure Workload Container.
-     *
+     * 
      * @return the sourceResourceId value.
      */
     public String sourceResourceId() {
@@ -69,7 +97,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Set the sourceResourceId property: ARM ID of the virtual machine represented by this Azure Workload Container.
-     *
+     * 
      * @param sourceResourceId the sourceResourceId value to set.
      * @return the AzureWorkloadContainer object itself.
      */
@@ -80,7 +108,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Get the lastUpdatedTime property: Time stamp when this container was updated.
-     *
+     * 
      * @return the lastUpdatedTime value.
      */
     public OffsetDateTime lastUpdatedTime() {
@@ -89,7 +117,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Set the lastUpdatedTime property: Time stamp when this container was updated.
-     *
+     * 
      * @param lastUpdatedTime the lastUpdatedTime value to set.
      * @return the AzureWorkloadContainer object itself.
      */
@@ -100,7 +128,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Get the extendedInfo property: Additional details of a workload container.
-     *
+     * 
      * @return the extendedInfo value.
      */
     public AzureWorkloadContainerExtendedInfo extendedInfo() {
@@ -109,7 +137,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Set the extendedInfo property: Additional details of a workload container.
-     *
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the AzureWorkloadContainer object itself.
      */
@@ -120,7 +148,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Get the workloadType property: Workload type for which registration was sent.
-     *
+     * 
      * @return the workloadType value.
      */
     public WorkloadType workloadType() {
@@ -129,7 +157,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Set the workloadType property: Workload type for which registration was sent.
-     *
+     * 
      * @param workloadType the workloadType value to set.
      * @return the AzureWorkloadContainer object itself.
      */
@@ -140,7 +168,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Get the operationType property: Re-Do Operation.
-     *
+     * 
      * @return the operationType value.
      */
     public OperationType operationType() {
@@ -149,7 +177,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Set the operationType property: Re-Do Operation.
-     *
+     * 
      * @param operationType the operationType value to set.
      * @return the AzureWorkloadContainer object itself.
      */
@@ -158,35 +186,45 @@ public class AzureWorkloadContainer extends ProtectionContainer {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainer withFriendlyName(String friendlyName) {
         super.withFriendlyName(friendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainer withBackupManagementType(BackupManagementType backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainer withRegistrationStatus(String registrationStatus) {
         super.withRegistrationStatus(registrationStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainer withHealthStatus(String healthStatus) {
         super.withHealthStatus(healthStatus);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadContainer withProtectableObjectType(String protectableObjectType) {
         super.withProtectableObjectType(protectableObjectType);
@@ -195,7 +233,7 @@ public class AzureWorkloadContainer extends ProtectionContainer {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

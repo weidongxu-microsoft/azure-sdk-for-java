@@ -8,72 +8,128 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.DatabricksSparkJarActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** DatabricksSparkJar activity. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * DatabricksSparkJar activity.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = DatabricksSparkJarActivity.class,
+    visible = true)
 @JsonTypeName("DatabricksSparkJar")
 @Fluent
 public final class DatabricksSparkJarActivity extends ExecutionActivity {
     /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DatabricksSparkJar";
+
+    /*
      * Databricks SparkJar activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private DatabricksSparkJarActivityTypeProperties innerTypeProperties =
-        new DatabricksSparkJarActivityTypeProperties();
+    private DatabricksSparkJarActivityTypeProperties innerTypeProperties
+        = new DatabricksSparkJarActivityTypeProperties();
 
-    /** Creates an instance of DatabricksSparkJarActivity class. */
+    /**
+     * Creates an instance of DatabricksSparkJarActivity class.
+     */
     public DatabricksSparkJarActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Databricks SparkJar activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private DatabricksSparkJarActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksSparkJarActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksSparkJarActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksSparkJarActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksSparkJarActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatabricksSparkJarActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatabricksSparkJarActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksSparkJarActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksSparkJarActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -83,7 +139,7 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
     /**
      * Get the mainClassName property: The full name of the class containing the main method to be executed. This class
      * must be contained in a JAR provided as a library. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the mainClassName value.
      */
     public Object mainClassName() {
@@ -93,7 +149,7 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
     /**
      * Set the mainClassName property: The full name of the class containing the main method to be executed. This class
      * must be contained in a JAR provided as a library. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param mainClassName the mainClassName value to set.
      * @return the DatabricksSparkJarActivity object itself.
      */
@@ -107,7 +163,7 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
 
     /**
      * Get the parameters property: Parameters that will be passed to the main method.
-     *
+     * 
      * @return the parameters value.
      */
     public List<Object> parameters() {
@@ -116,7 +172,7 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
 
     /**
      * Set the parameters property: Parameters that will be passed to the main method.
-     *
+     * 
      * @param parameters the parameters value to set.
      * @return the DatabricksSparkJarActivity object itself.
      */
@@ -130,7 +186,7 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
 
     /**
      * Get the libraries property: A list of libraries to be installed on the cluster that will execute the job.
-     *
+     * 
      * @return the libraries value.
      */
     public List<Map<String, Object>> libraries() {
@@ -139,7 +195,7 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
 
     /**
      * Set the libraries property: A list of libraries to be installed on the cluster that will execute the job.
-     *
+     * 
      * @param libraries the libraries value to set.
      * @return the DatabricksSparkJarActivity object itself.
      */
@@ -153,17 +209,16 @@ public final class DatabricksSparkJarActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model DatabricksSparkJarActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model DatabricksSparkJarActivity"));
         } else {
             innerTypeProperties().validate();
         }

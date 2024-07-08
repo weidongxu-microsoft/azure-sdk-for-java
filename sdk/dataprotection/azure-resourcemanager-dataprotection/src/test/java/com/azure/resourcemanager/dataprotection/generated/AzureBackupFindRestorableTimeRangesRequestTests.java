@@ -12,26 +12,23 @@ import org.junit.jupiter.api.Assertions;
 public final class AzureBackupFindRestorableTimeRangesRequestTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AzureBackupFindRestorableTimeRangesRequest model =
-            BinaryData
-                .fromString(
-                    "{\"sourceDataStoreType\":\"ArchiveStore\",\"startTime\":\"vlvqhjkbegi\",\"endTime\":\"nmxiebwwaloayqc\"}")
-                .toObject(AzureBackupFindRestorableTimeRangesRequest.class);
-        Assertions.assertEquals(RestoreSourceDataStoreType.ARCHIVE_STORE, model.sourceDataStoreType());
-        Assertions.assertEquals("vlvqhjkbegi", model.startTime());
-        Assertions.assertEquals("nmxiebwwaloayqc", model.endTime());
+        AzureBackupFindRestorableTimeRangesRequest model = BinaryData
+            .fromString(
+                "{\"sourceDataStoreType\":\"VaultStore\",\"startTime\":\"fzxmhhvhgureodkw\",\"endTime\":\"dagxtibqd\"}")
+            .toObject(AzureBackupFindRestorableTimeRangesRequest.class);
+        Assertions.assertEquals(RestoreSourceDataStoreType.VAULT_STORE, model.sourceDataStoreType());
+        Assertions.assertEquals("fzxmhhvhgureodkw", model.startTime());
+        Assertions.assertEquals("dagxtibqd", model.endTime());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AzureBackupFindRestorableTimeRangesRequest model =
-            new AzureBackupFindRestorableTimeRangesRequest()
-                .withSourceDataStoreType(RestoreSourceDataStoreType.ARCHIVE_STORE)
-                .withStartTime("vlvqhjkbegi")
-                .withEndTime("nmxiebwwaloayqc");
+        AzureBackupFindRestorableTimeRangesRequest model = new AzureBackupFindRestorableTimeRangesRequest()
+            .withSourceDataStoreType(RestoreSourceDataStoreType.VAULT_STORE).withStartTime("fzxmhhvhgureodkw")
+            .withEndTime("dagxtibqd");
         model = BinaryData.fromObject(model).toObject(AzureBackupFindRestorableTimeRangesRequest.class);
-        Assertions.assertEquals(RestoreSourceDataStoreType.ARCHIVE_STORE, model.sourceDataStoreType());
-        Assertions.assertEquals("vlvqhjkbegi", model.startTime());
-        Assertions.assertEquals("nmxiebwwaloayqc", model.endTime());
+        Assertions.assertEquals(RestoreSourceDataStoreType.VAULT_STORE, model.sourceDataStoreType());
+        Assertions.assertEquals("fzxmhhvhgureodkw", model.startTime());
+        Assertions.assertEquals("dagxtibqd", model.endTime());
     }
 }

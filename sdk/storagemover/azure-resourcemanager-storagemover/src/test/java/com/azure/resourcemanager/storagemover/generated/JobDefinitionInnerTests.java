@@ -12,38 +12,34 @@ import org.junit.jupiter.api.Assertions;
 public final class JobDefinitionInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        JobDefinitionInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"description\":\"bqqwxrj\",\"copyMode\":\"Mirror\",\"sourceName\":\"al\",\"sourceResourceId\":\"wsubisnja\",\"sourceSubpath\":\"mngnzscxaqw\",\"targetName\":\"ochcbonqvpkvl\",\"targetResourceId\":\"njeaseipheofloke\",\"targetSubpath\":\"ienjbdlwtgr\",\"latestJobRunName\":\"djpjumasxazjpq\",\"latestJobRunResourceId\":\"gual\",\"latestJobRunStatus\":\"Canceling\",\"agentName\":\"hejjz\",\"agentResourceId\":\"dudgwdslfhot\",\"provisioningState\":\"Succeeded\"},\"id\":\"npwlbjnpg\",\"name\":\"cftadeh\",\"type\":\"nltyfsoppusuesnz\"}")
-                .toObject(JobDefinitionInner.class);
-        Assertions.assertEquals("bqqwxrj", model.description());
+        JobDefinitionInner model = BinaryData.fromString(
+            "{\"properties\":{\"description\":\"exfwhy\",\"copyMode\":\"Mirror\",\"sourceName\":\"i\",\"sourceResourceId\":\"yvdcsitynnaa\",\"sourceSubpath\":\"ectehf\",\"targetName\":\"qsc\",\"targetResourceId\":\"ypvhezrkg\",\"targetSubpath\":\"c\",\"latestJobRunName\":\"efovgmk\",\"latestJobRunResourceId\":\"leyyvx\",\"latestJobRunStatus\":\"PausedByBandwidthManagement\",\"agentName\":\"k\",\"agentResourceId\":\"t\",\"provisioningState\":\"Succeeded\"},\"id\":\"jcrcczsqpjhvmda\",\"name\":\"v\",\"type\":\"ysou\"}")
+            .toObject(JobDefinitionInner.class);
+        Assertions.assertEquals("exfwhy", model.description());
         Assertions.assertEquals(CopyMode.MIRROR, model.copyMode());
-        Assertions.assertEquals("al", model.sourceName());
-        Assertions.assertEquals("mngnzscxaqw", model.sourceSubpath());
-        Assertions.assertEquals("ochcbonqvpkvl", model.targetName());
-        Assertions.assertEquals("ienjbdlwtgr", model.targetSubpath());
-        Assertions.assertEquals("hejjz", model.agentName());
+        Assertions.assertEquals("i", model.sourceName());
+        Assertions.assertEquals("ectehf", model.sourceSubpath());
+        Assertions.assertEquals("qsc", model.targetName());
+        Assertions.assertEquals("c", model.targetSubpath());
+        Assertions.assertEquals("k", model.agentName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        JobDefinitionInner model =
-            new JobDefinitionInner()
-                .withDescription("bqqwxrj")
-                .withCopyMode(CopyMode.MIRROR)
-                .withSourceName("al")
-                .withSourceSubpath("mngnzscxaqw")
-                .withTargetName("ochcbonqvpkvl")
-                .withTargetSubpath("ienjbdlwtgr")
-                .withAgentName("hejjz");
+        JobDefinitionInner model = new JobDefinitionInner().withDescription("exfwhy")
+            .withCopyMode(CopyMode.MIRROR)
+            .withSourceName("i")
+            .withSourceSubpath("ectehf")
+            .withTargetName("qsc")
+            .withTargetSubpath("c")
+            .withAgentName("k");
         model = BinaryData.fromObject(model).toObject(JobDefinitionInner.class);
-        Assertions.assertEquals("bqqwxrj", model.description());
+        Assertions.assertEquals("exfwhy", model.description());
         Assertions.assertEquals(CopyMode.MIRROR, model.copyMode());
-        Assertions.assertEquals("al", model.sourceName());
-        Assertions.assertEquals("mngnzscxaqw", model.sourceSubpath());
-        Assertions.assertEquals("ochcbonqvpkvl", model.targetName());
-        Assertions.assertEquals("ienjbdlwtgr", model.targetSubpath());
-        Assertions.assertEquals("hejjz", model.agentName());
+        Assertions.assertEquals("i", model.sourceName());
+        Assertions.assertEquals("ectehf", model.sourceSubpath());
+        Assertions.assertEquals("qsc", model.targetName());
+        Assertions.assertEquals("c", model.targetSubpath());
+        Assertions.assertEquals("k", model.agentName());
     }
 }

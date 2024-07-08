@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for VirtualNetworkGateways ResetVpnClientSharedKey. */
+/**
+ * Samples for VirtualNetworkGateways ResetVpnClientSharedKey.
+ */
 public final class VirtualNetworkGatewaysResetVpnClientSharedKeySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayResetVpnClientSharedKey.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayResetVpnClientSharedKey.json
      */
     /**
      * Sample code: ResetVpnClientSharedKey.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void resetVpnClientSharedKey(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()

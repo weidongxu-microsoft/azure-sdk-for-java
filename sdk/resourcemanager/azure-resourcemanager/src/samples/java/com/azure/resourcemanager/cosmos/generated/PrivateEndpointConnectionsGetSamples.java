@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for PrivateEndpointConnections Get. */
+/**
+ * Samples for PrivateEndpointConnections Get.
+ */
 public final class PrivateEndpointConnectionsGetSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBPrivateEndpointConnectionGet.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBPrivateEndpointConnectionGet.json
      */
     /**
      * Sample code: Gets private endpoint connection.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getsPrivateEndpointConnection(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getPrivateEndpointConnections()

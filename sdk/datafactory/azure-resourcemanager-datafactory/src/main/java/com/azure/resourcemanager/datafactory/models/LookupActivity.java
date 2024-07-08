@@ -8,70 +8,122 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.LookupActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Lookup activity. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Lookup activity.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = LookupActivity.class, visible = true)
 @JsonTypeName("Lookup")
 @Fluent
 public final class LookupActivity extends ExecutionActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Lookup";
+
     /*
      * Lookup activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private LookupActivityTypeProperties innerTypeProperties = new LookupActivityTypeProperties();
 
-    /** Creates an instance of LookupActivity class. */
+    /**
+     * Creates an instance of LookupActivity class.
+     */
     public LookupActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Lookup activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private LookupActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LookupActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LookupActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LookupActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LookupActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LookupActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LookupActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LookupActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LookupActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -80,7 +132,7 @@ public final class LookupActivity extends ExecutionActivity {
 
     /**
      * Get the source property: Dataset-specific source properties, same as copy activity source.
-     *
+     * 
      * @return the source value.
      */
     public CopySource source() {
@@ -89,7 +141,7 @@ public final class LookupActivity extends ExecutionActivity {
 
     /**
      * Set the source property: Dataset-specific source properties, same as copy activity source.
-     *
+     * 
      * @param source the source value to set.
      * @return the LookupActivity object itself.
      */
@@ -103,7 +155,7 @@ public final class LookupActivity extends ExecutionActivity {
 
     /**
      * Get the dataset property: Lookup activity dataset reference.
-     *
+     * 
      * @return the dataset value.
      */
     public DatasetReference dataset() {
@@ -112,7 +164,7 @@ public final class LookupActivity extends ExecutionActivity {
 
     /**
      * Set the dataset property: Lookup activity dataset reference.
-     *
+     * 
      * @param dataset the dataset value to set.
      * @return the LookupActivity object itself.
      */
@@ -127,7 +179,7 @@ public final class LookupActivity extends ExecutionActivity {
     /**
      * Get the firstRowOnly property: Whether to return first row or all rows. Default value is true. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @return the firstRowOnly value.
      */
     public Object firstRowOnly() {
@@ -137,7 +189,7 @@ public final class LookupActivity extends ExecutionActivity {
     /**
      * Set the firstRowOnly property: Whether to return first row or all rows. Default value is true. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @param firstRowOnly the firstRowOnly value to set.
      * @return the LookupActivity object itself.
      */
@@ -151,17 +203,16 @@ public final class LookupActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model LookupActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model LookupActivity"));
         } else {
             innerTypeProperties().validate();
         }

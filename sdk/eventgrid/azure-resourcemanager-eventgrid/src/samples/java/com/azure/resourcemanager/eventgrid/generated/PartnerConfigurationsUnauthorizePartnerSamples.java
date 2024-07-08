@@ -8,22 +8,22 @@ import com.azure.resourcemanager.eventgrid.models.Partner;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-/** Samples for PartnerConfigurations UnauthorizePartner. */
+/**
+ * Samples for PartnerConfigurations UnauthorizePartner.
+ */
 public final class PartnerConfigurationsUnauthorizePartnerSamples {
     /*
-     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PartnerConfigurations_UnauthorizePartner.json
+     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerConfigurations_UnauthorizePartner.json
      */
     /**
      * Sample code: PartnerConfigurations_UnauthorizePartner.
-     *
+     * 
      * @param manager Entry point to EventGridManager.
      */
-    public static void partnerConfigurationsUnauthorizePartner(
-        com.azure.resourcemanager.eventgrid.EventGridManager manager) {
-        manager
-            .partnerConfigurations()
-            .unauthorizePartnerWithResponse(
-                "examplerg",
+    public static void
+        partnerConfigurationsUnauthorizePartner(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+        manager.partnerConfigurations()
+            .unauthorizePartnerWithResponse("examplerg",
                 new Partner()
                     .withPartnerRegistrationImmutableId(UUID.fromString("941892bc-f5d0-4d1c-8fb5-477570fc2b71"))
                     .withPartnerName("Contoso.Finance")

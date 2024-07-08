@@ -12,29 +12,22 @@ import org.junit.jupiter.api.Assertions;
 public final class TargetDiskNetworkAccessSettingsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        TargetDiskNetworkAccessSettings model =
-            BinaryData
-                .fromString(
-                    "{\"targetDiskNetworkAccessOption\":\"EnablePrivateAccessForAllDisks\",\"targetDiskAccessId\":\"yospspshc\"}")
-                .toObject(TargetDiskNetworkAccessSettings.class);
-        Assertions
-            .assertEquals(
-                TargetDiskNetworkAccessOption.ENABLE_PRIVATE_ACCESS_FOR_ALL_DISKS,
-                model.targetDiskNetworkAccessOption());
-        Assertions.assertEquals("yospspshc", model.targetDiskAccessId());
+        TargetDiskNetworkAccessSettings model = BinaryData.fromString(
+            "{\"targetDiskNetworkAccessOption\":\"EnablePublicAccessForAllDisks\",\"targetDiskAccessId\":\"jagmdi\"}")
+            .toObject(TargetDiskNetworkAccessSettings.class);
+        Assertions.assertEquals(TargetDiskNetworkAccessOption.ENABLE_PUBLIC_ACCESS_FOR_ALL_DISKS,
+            model.targetDiskNetworkAccessOption());
+        Assertions.assertEquals("jagmdi", model.targetDiskAccessId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        TargetDiskNetworkAccessSettings model =
-            new TargetDiskNetworkAccessSettings()
-                .withTargetDiskNetworkAccessOption(TargetDiskNetworkAccessOption.ENABLE_PRIVATE_ACCESS_FOR_ALL_DISKS)
-                .withTargetDiskAccessId("yospspshc");
+        TargetDiskNetworkAccessSettings model = new TargetDiskNetworkAccessSettings()
+            .withTargetDiskNetworkAccessOption(TargetDiskNetworkAccessOption.ENABLE_PUBLIC_ACCESS_FOR_ALL_DISKS)
+            .withTargetDiskAccessId("jagmdi");
         model = BinaryData.fromObject(model).toObject(TargetDiskNetworkAccessSettings.class);
-        Assertions
-            .assertEquals(
-                TargetDiskNetworkAccessOption.ENABLE_PRIVATE_ACCESS_FOR_ALL_DISKS,
-                model.targetDiskNetworkAccessOption());
-        Assertions.assertEquals("yospspshc", model.targetDiskAccessId());
+        Assertions.assertEquals(TargetDiskNetworkAccessOption.ENABLE_PUBLIC_ACCESS_FOR_ALL_DISKS,
+            model.targetDiskNetworkAccessOption());
+        Assertions.assertEquals("jagmdi", model.targetDiskAccessId());
     }
 }

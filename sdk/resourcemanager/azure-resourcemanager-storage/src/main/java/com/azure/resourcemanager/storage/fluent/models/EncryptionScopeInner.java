@@ -12,7 +12,9 @@ import com.azure.resourcemanager.storage.models.EncryptionScopeState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
-/** The Encryption Scope resource. */
+/**
+ * The Encryption Scope resource.
+ */
 @Fluent
 public final class EncryptionScopeInner extends ProxyResource {
     /*
@@ -22,8 +24,14 @@ public final class EncryptionScopeInner extends ProxyResource {
     private EncryptionScopeProperties innerEncryptionScopeProperties;
 
     /**
+     * Creates an instance of EncryptionScopeInner class.
+     */
+    public EncryptionScopeInner() {
+    }
+
+    /**
      * Get the innerEncryptionScopeProperties property: Properties of the encryption scope.
-     *
+     * 
      * @return the innerEncryptionScopeProperties value.
      */
     private EncryptionScopeProperties innerEncryptionScopeProperties() {
@@ -33,7 +41,7 @@ public final class EncryptionScopeInner extends ProxyResource {
     /**
      * Get the source property: The provider for the encryption scope. Possible values (case-insensitive):
      * Microsoft.Storage, Microsoft.KeyVault.
-     *
+     * 
      * @return the source value.
      */
     public EncryptionScopeSource source() {
@@ -43,7 +51,7 @@ public final class EncryptionScopeInner extends ProxyResource {
     /**
      * Set the source property: The provider for the encryption scope. Possible values (case-insensitive):
      * Microsoft.Storage, Microsoft.KeyVault.
-     *
+     * 
      * @param source the source value to set.
      * @return the EncryptionScopeInner object itself.
      */
@@ -57,7 +65,7 @@ public final class EncryptionScopeInner extends ProxyResource {
 
     /**
      * Get the state property: The state of the encryption scope. Possible values (case-insensitive): Enabled, Disabled.
-     *
+     * 
      * @return the state value.
      */
     public EncryptionScopeState state() {
@@ -66,7 +74,7 @@ public final class EncryptionScopeInner extends ProxyResource {
 
     /**
      * Set the state property: The state of the encryption scope. Possible values (case-insensitive): Enabled, Disabled.
-     *
+     * 
      * @param state the state value to set.
      * @return the EncryptionScopeInner object itself.
      */
@@ -80,7 +88,7 @@ public final class EncryptionScopeInner extends ProxyResource {
 
     /**
      * Get the creationTime property: Gets the creation date and time of the encryption scope in UTC.
-     *
+     * 
      * @return the creationTime value.
      */
     public OffsetDateTime creationTime() {
@@ -91,7 +99,7 @@ public final class EncryptionScopeInner extends ProxyResource {
 
     /**
      * Get the lastModifiedTime property: Gets the last modification date and time of the encryption scope in UTC.
-     *
+     * 
      * @return the lastModifiedTime value.
      */
     public OffsetDateTime lastModifiedTime() {
@@ -103,7 +111,7 @@ public final class EncryptionScopeInner extends ProxyResource {
     /**
      * Get the keyVaultProperties property: The key vault properties for the encryption scope. This is a required field
      * if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'.
-     *
+     * 
      * @return the keyVaultProperties value.
      */
     public EncryptionScopeKeyVaultProperties keyVaultProperties() {
@@ -115,7 +123,7 @@ public final class EncryptionScopeInner extends ProxyResource {
     /**
      * Set the keyVaultProperties property: The key vault properties for the encryption scope. This is a required field
      * if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'.
-     *
+     * 
      * @param keyVaultProperties the keyVaultProperties value to set.
      * @return the EncryptionScopeInner object itself.
      */
@@ -130,7 +138,7 @@ public final class EncryptionScopeInner extends ProxyResource {
     /**
      * Get the requireInfrastructureEncryption property: A boolean indicating whether or not the service applies a
      * secondary layer of encryption with platform managed keys for data at rest.
-     *
+     * 
      * @return the requireInfrastructureEncryption value.
      */
     public Boolean requireInfrastructureEncryption() {
@@ -142,7 +150,7 @@ public final class EncryptionScopeInner extends ProxyResource {
     /**
      * Set the requireInfrastructureEncryption property: A boolean indicating whether or not the service applies a
      * secondary layer of encryption with platform managed keys for data at rest.
-     *
+     * 
      * @param requireInfrastructureEncryption the requireInfrastructureEncryption value to set.
      * @return the EncryptionScopeInner object itself.
      */
@@ -156,7 +164,7 @@ public final class EncryptionScopeInner extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

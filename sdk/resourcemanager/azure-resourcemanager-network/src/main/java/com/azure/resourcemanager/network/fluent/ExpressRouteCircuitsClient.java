@@ -22,15 +22,16 @@ import com.azure.resourcemanager.network.models.TagsObject;
 import com.azure.resourcemanager.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.resourcemanager.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.resourcemanager.resources.fluentcore.collection.InnerSupportsListing;
-import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in ExpressRouteCircuitsClient. */
-public interface ExpressRouteCircuitsClient
-    extends InnerSupportsGet<ExpressRouteCircuitInner>,
-        InnerSupportsListing<ExpressRouteCircuitInner>,
-        InnerSupportsDelete<Void> {
+import java.nio.ByteBuffer;
+
+/**
+ * An instance of this class provides access to all the operations defined in ExpressRouteCircuitsClient.
+ */
+public interface ExpressRouteCircuitsClient extends InnerSupportsGet<ExpressRouteCircuitInner>,
+    InnerSupportsListing<ExpressRouteCircuitInner>, InnerSupportsDelete<Void> {
     /**
      * Deletes the specified express route circuit.
      *
@@ -131,11 +132,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return information about the specified express route circuit along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<ExpressRouteCircuitInner>> getByResourceGroupWithResponseAsync(
-        String resourceGroupName, String circuitName);
+    Mono<Response<ExpressRouteCircuitInner>> getByResourceGroupWithResponseAsync(String resourceGroupName,
+        String circuitName);
 
     /**
      * Gets information about the specified express route circuit.
@@ -162,8 +163,8 @@ public interface ExpressRouteCircuitsClient
      * @return information about the specified express route circuit along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<ExpressRouteCircuitInner> getByResourceGroupWithResponse(
-        String resourceGroupName, String circuitName, Context context);
+    Response<ExpressRouteCircuitInner> getByResourceGroupWithResponse(String resourceGroupName, String circuitName,
+        Context context);
 
     /**
      * Gets information about the specified express route circuit.
@@ -190,8 +191,8 @@ public interface ExpressRouteCircuitsClient
      * @return expressRouteCircuit resource along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
+    Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String circuitName,
+        ExpressRouteCircuitInner parameters);
 
     /**
      * Creates or updates an express route circuit.
@@ -205,8 +206,8 @@ public interface ExpressRouteCircuitsClient
      * @return the {@link PollerFlux} for polling of expressRouteCircuit resource.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    PollerFlux<PollResult<ExpressRouteCircuitInner>, ExpressRouteCircuitInner> beginCreateOrUpdateAsync(
-        String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
+    PollerFlux<PollResult<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>
+        beginCreateOrUpdateAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
 
     /**
      * Creates or updates an express route circuit.
@@ -220,8 +221,8 @@ public interface ExpressRouteCircuitsClient
      * @return the {@link SyncPoller} for polling of expressRouteCircuit resource.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<PollResult<ExpressRouteCircuitInner>, ExpressRouteCircuitInner> beginCreateOrUpdate(
-        String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
+    SyncPoller<PollResult<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>
+        beginCreateOrUpdate(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
 
     /**
      * Creates or updates an express route circuit.
@@ -251,8 +252,8 @@ public interface ExpressRouteCircuitsClient
      * @return expressRouteCircuit resource on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<ExpressRouteCircuitInner> createOrUpdateAsync(
-        String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
+    Mono<ExpressRouteCircuitInner> createOrUpdateAsync(String resourceGroupName, String circuitName,
+        ExpressRouteCircuitInner parameters);
 
     /**
      * Creates or updates an express route circuit.
@@ -266,8 +267,8 @@ public interface ExpressRouteCircuitsClient
      * @return expressRouteCircuit resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitInner createOrUpdate(
-        String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters);
+    ExpressRouteCircuitInner createOrUpdate(String resourceGroupName, String circuitName,
+        ExpressRouteCircuitInner parameters);
 
     /**
      * Creates or updates an express route circuit.
@@ -282,8 +283,8 @@ public interface ExpressRouteCircuitsClient
      * @return expressRouteCircuit resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitInner createOrUpdate(
-        String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters, Context context);
+    ExpressRouteCircuitInner createOrUpdate(String resourceGroupName, String circuitName,
+        ExpressRouteCircuitInner parameters, Context context);
 
     /**
      * Updates an express route circuit tags.
@@ -297,8 +298,8 @@ public interface ExpressRouteCircuitsClient
      * @return expressRouteCircuit resource along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<ExpressRouteCircuitInner>> updateTagsWithResponseAsync(
-        String resourceGroupName, String circuitName, TagsObject parameters);
+    Mono<Response<ExpressRouteCircuitInner>> updateTagsWithResponseAsync(String resourceGroupName, String circuitName,
+        TagsObject parameters);
 
     /**
      * Updates an express route circuit tags.
@@ -327,8 +328,8 @@ public interface ExpressRouteCircuitsClient
      * @return expressRouteCircuit resource along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<ExpressRouteCircuitInner> updateTagsWithResponse(
-        String resourceGroupName, String circuitName, TagsObject parameters, Context context);
+    Response<ExpressRouteCircuitInner> updateTagsWithResponse(String resourceGroupName, String circuitName,
+        TagsObject parameters, Context context);
 
     /**
      * Updates an express route circuit tags.
@@ -355,11 +356,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised ARP table associated with the express route circuit in a resource group along
-     *     with {@link Response} on successful completion of {@link Mono}.
+     * with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Flux<ByteBuffer>>> listArpTableWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    Mono<Response<Flux<ByteBuffer>>> listArpTableWithResponseAsync(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
@@ -372,7 +373,7 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link PollerFlux} for polling of the currently advertised ARP table associated with the express
-     *     route circuit in a resource group.
+     * route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     PollerFlux<PollResult<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>
@@ -389,7 +390,7 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of the currently advertised ARP table associated with the express
-     *     route circuit in a resource group.
+     * route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     SyncPoller<PollResult<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>
@@ -407,12 +408,12 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of the currently advertised ARP table associated with the express
-     *     route circuit in a resource group.
+     * route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     SyncPoller<PollResult<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>
-        beginListArpTable(
-            String resourceGroupName, String circuitName, String peeringName, String devicePath, Context context);
+        beginListArpTable(String resourceGroupName, String circuitName, String peeringName, String devicePath,
+            Context context);
 
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
@@ -425,11 +426,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised ARP table associated with the express route circuit in a resource group on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    Mono<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
@@ -444,8 +445,8 @@ public interface ExpressRouteCircuitsClient
      * @return the currently advertised ARP table associated with the express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitsArpTableListResultInner listArpTable(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    ExpressRouteCircuitsArpTableListResultInner listArpTable(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
@@ -461,8 +462,8 @@ public interface ExpressRouteCircuitsClient
      * @return the currently advertised ARP table associated with the express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitsArpTableListResultInner listArpTable(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath, Context context);
+    ExpressRouteCircuitsArpTableListResultInner listArpTable(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath, Context context);
 
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
@@ -475,11 +476,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised routes table associated with the express route circuit in a resource group along
-     *     with {@link Response} on successful completion of {@link Mono}.
+     * with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Flux<ByteBuffer>>> listRoutesTableWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    Mono<Response<Flux<ByteBuffer>>> listRoutesTableWithResponseAsync(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
@@ -492,11 +493,10 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link PollerFlux} for polling of the currently advertised routes table associated with the express
-     *     route circuit in a resource group.
+     * route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    PollerFlux<
-            PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
+    PollerFlux<PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
         beginListRoutesTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath);
 
     /**
@@ -510,11 +510,10 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of the currently advertised routes table associated with the express
-     *     route circuit in a resource group.
+     * route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<
-            PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
+    SyncPoller<PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
         beginListRoutesTable(String resourceGroupName, String circuitName, String peeringName, String devicePath);
 
     /**
@@ -529,13 +528,12 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of the currently advertised routes table associated with the express
-     *     route circuit in a resource group.
+     * route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<
-            PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
-        beginListRoutesTable(
-            String resourceGroupName, String circuitName, String peeringName, String devicePath, Context context);
+    SyncPoller<PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
+        beginListRoutesTable(String resourceGroupName, String circuitName, String peeringName, String devicePath,
+            Context context);
 
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
@@ -548,11 +546,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised routes table associated with the express route circuit in a resource group on
-     *     successful completion of {@link Mono}.
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    Mono<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(String resourceGroupName,
+        String circuitName, String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
@@ -567,8 +565,8 @@ public interface ExpressRouteCircuitsClient
      * @return the currently advertised routes table associated with the express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
@@ -584,8 +582,8 @@ public interface ExpressRouteCircuitsClient
      * @return the currently advertised routes table associated with the express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath, Context context);
+    ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(String resourceGroupName, String circuitName,
+        String peeringName, String devicePath, Context context);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -598,11 +596,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised routes table summary associated with the express route circuit in a resource
-     *     group along with {@link Response} on successful completion of {@link Mono}.
+     * group along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Flux<ByteBuffer>>> listRoutesTableSummaryWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    Mono<Response<Flux<ByteBuffer>>> listRoutesTableSummaryWithResponseAsync(String resourceGroupName,
+        String circuitName, String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -615,14 +613,12 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link PollerFlux} for polling of the currently advertised routes table summary associated with the
-     *     express route circuit in a resource group.
+     * express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    PollerFlux<
-            PollResult<ExpressRouteCircuitsRoutesTableSummaryListResultInner>,
-            ExpressRouteCircuitsRoutesTableSummaryListResultInner>
-        beginListRoutesTableSummaryAsync(
-            String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    PollerFlux<PollResult<ExpressRouteCircuitsRoutesTableSummaryListResultInner>, ExpressRouteCircuitsRoutesTableSummaryListResultInner>
+        beginListRoutesTableSummaryAsync(String resourceGroupName, String circuitName, String peeringName,
+            String devicePath);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -635,14 +631,12 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of the currently advertised routes table summary associated with the
-     *     express route circuit in a resource group.
+     * express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<
-            PollResult<ExpressRouteCircuitsRoutesTableSummaryListResultInner>,
-            ExpressRouteCircuitsRoutesTableSummaryListResultInner>
-        beginListRoutesTableSummary(
-            String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    SyncPoller<PollResult<ExpressRouteCircuitsRoutesTableSummaryListResultInner>, ExpressRouteCircuitsRoutesTableSummaryListResultInner>
+        beginListRoutesTableSummary(String resourceGroupName, String circuitName, String peeringName,
+            String devicePath);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -656,14 +650,12 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of the currently advertised routes table summary associated with the
-     *     express route circuit in a resource group.
+     * express route circuit in a resource group.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<
-            PollResult<ExpressRouteCircuitsRoutesTableSummaryListResultInner>,
-            ExpressRouteCircuitsRoutesTableSummaryListResultInner>
-        beginListRoutesTableSummary(
-            String resourceGroupName, String circuitName, String peeringName, String devicePath, Context context);
+    SyncPoller<PollResult<ExpressRouteCircuitsRoutesTableSummaryListResultInner>, ExpressRouteCircuitsRoutesTableSummaryListResultInner>
+        beginListRoutesTableSummary(String resourceGroupName, String circuitName, String peeringName, String devicePath,
+            Context context);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -676,11 +668,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised routes table summary associated with the express route circuit in a resource
-     *     group on successful completion of {@link Mono}.
+     * group on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    Mono<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(String resourceGroupName,
+        String circuitName, String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -693,11 +685,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised routes table summary associated with the express route circuit in a resource
-     *     group.
+     * group.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitsRoutesTableSummaryListResultInner listRoutesTableSummary(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath);
+    ExpressRouteCircuitsRoutesTableSummaryListResultInner listRoutesTableSummary(String resourceGroupName,
+        String circuitName, String peeringName, String devicePath);
 
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -711,11 +703,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the currently advertised routes table summary associated with the express route circuit in a resource
-     *     group.
+     * group.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    ExpressRouteCircuitsRoutesTableSummaryListResultInner listRoutesTableSummary(
-        String resourceGroupName, String circuitName, String peeringName, String devicePath, Context context);
+    ExpressRouteCircuitsRoutesTableSummaryListResultInner listRoutesTableSummary(String resourceGroupName,
+        String circuitName, String peeringName, String devicePath, Context context);
 
     /**
      * Gets all the stats from an express route circuit in a resource group.
@@ -726,11 +718,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return all the stats from an express route circuit in a resource group along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<ExpressRouteCircuitStatsInner>> getStatsWithResponseAsync(
-        String resourceGroupName, String circuitName);
+    Mono<Response<ExpressRouteCircuitStatsInner>> getStatsWithResponseAsync(String resourceGroupName,
+        String circuitName);
 
     /**
      * Gets all the stats from an express route circuit in a resource group.
@@ -757,8 +749,8 @@ public interface ExpressRouteCircuitsClient
      * @return all the stats from an express route circuit in a resource group along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<ExpressRouteCircuitStatsInner> getStatsWithResponse(
-        String resourceGroupName, String circuitName, Context context);
+    Response<ExpressRouteCircuitStatsInner> getStatsWithResponse(String resourceGroupName, String circuitName,
+        Context context);
 
     /**
      * Gets all the stats from an express route circuit in a resource group.
@@ -783,11 +775,11 @@ public interface ExpressRouteCircuitsClient
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return all stats from an express route circuit in a resource group along with {@link Response} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<ExpressRouteCircuitStatsInner>> getPeeringStatsWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName);
+    Mono<Response<ExpressRouteCircuitStatsInner>> getPeeringStatsWithResponseAsync(String resourceGroupName,
+        String circuitName, String peeringName);
 
     /**
      * Gets all stats from an express route circuit in a resource group.
@@ -801,8 +793,8 @@ public interface ExpressRouteCircuitsClient
      * @return all stats from an express route circuit in a resource group on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<ExpressRouteCircuitStatsInner> getPeeringStatsAsync(
-        String resourceGroupName, String circuitName, String peeringName);
+    Mono<ExpressRouteCircuitStatsInner> getPeeringStatsAsync(String resourceGroupName, String circuitName,
+        String peeringName);
 
     /**
      * Gets all stats from an express route circuit in a resource group.
@@ -817,8 +809,8 @@ public interface ExpressRouteCircuitsClient
      * @return all stats from an express route circuit in a resource group along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<ExpressRouteCircuitStatsInner> getPeeringStatsWithResponse(
-        String resourceGroupName, String circuitName, String peeringName, Context context);
+    Response<ExpressRouteCircuitStatsInner> getPeeringStatsWithResponse(String resourceGroupName, String circuitName,
+        String peeringName, Context context);
 
     /**
      * Gets all stats from an express route circuit in a resource group.

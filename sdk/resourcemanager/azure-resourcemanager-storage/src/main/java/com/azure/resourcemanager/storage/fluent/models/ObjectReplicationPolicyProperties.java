@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** The Storage Account ObjectReplicationPolicy properties. */
+/**
+ * The Storage Account ObjectReplicationPolicy properties.
+ */
 @Fluent
 public final class ObjectReplicationPolicyProperties {
     /*
@@ -45,8 +47,14 @@ public final class ObjectReplicationPolicyProperties {
     private List<ObjectReplicationPolicyRule> rules;
 
     /**
+     * Creates an instance of ObjectReplicationPolicyProperties class.
+     */
+    public ObjectReplicationPolicyProperties() {
+    }
+
+    /**
      * Get the policyId property: A unique id for object replication policy.
-     *
+     * 
      * @return the policyId value.
      */
     public String policyId() {
@@ -55,7 +63,7 @@ public final class ObjectReplicationPolicyProperties {
 
     /**
      * Get the enabledTime property: Indicates when the policy is enabled on the source account.
-     *
+     * 
      * @return the enabledTime value.
      */
     public OffsetDateTime enabledTime() {
@@ -65,7 +73,7 @@ public final class ObjectReplicationPolicyProperties {
     /**
      * Get the sourceAccount property: Required. Source account name. It should be full resource id if
      * allowCrossTenantReplication set to false.
-     *
+     * 
      * @return the sourceAccount value.
      */
     public String sourceAccount() {
@@ -75,7 +83,7 @@ public final class ObjectReplicationPolicyProperties {
     /**
      * Set the sourceAccount property: Required. Source account name. It should be full resource id if
      * allowCrossTenantReplication set to false.
-     *
+     * 
      * @param sourceAccount the sourceAccount value to set.
      * @return the ObjectReplicationPolicyProperties object itself.
      */
@@ -87,7 +95,7 @@ public final class ObjectReplicationPolicyProperties {
     /**
      * Get the destinationAccount property: Required. Destination account name. It should be full resource id if
      * allowCrossTenantReplication set to false.
-     *
+     * 
      * @return the destinationAccount value.
      */
     public String destinationAccount() {
@@ -97,7 +105,7 @@ public final class ObjectReplicationPolicyProperties {
     /**
      * Set the destinationAccount property: Required. Destination account name. It should be full resource id if
      * allowCrossTenantReplication set to false.
-     *
+     * 
      * @param destinationAccount the destinationAccount value to set.
      * @return the ObjectReplicationPolicyProperties object itself.
      */
@@ -108,7 +116,7 @@ public final class ObjectReplicationPolicyProperties {
 
     /**
      * Get the rules property: The storage account object replication rules.
-     *
+     * 
      * @return the rules value.
      */
     public List<ObjectReplicationPolicyRule> rules() {
@@ -117,7 +125,7 @@ public final class ObjectReplicationPolicyProperties {
 
     /**
      * Set the rules property: The storage account object replication rules.
-     *
+     * 
      * @param rules the rules value to set.
      * @return the ObjectReplicationPolicyProperties object itself.
      */
@@ -128,21 +136,19 @@ public final class ObjectReplicationPolicyProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (sourceAccount() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property sourceAccount in model ObjectReplicationPolicyProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property sourceAccount in model ObjectReplicationPolicyProperties"));
         }
         if (destinationAccount() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property destinationAccount in model ObjectReplicationPolicyProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property destinationAccount in model ObjectReplicationPolicyProperties"));
         }
         if (rules() != null) {
             rules().forEach(e -> e.validate());

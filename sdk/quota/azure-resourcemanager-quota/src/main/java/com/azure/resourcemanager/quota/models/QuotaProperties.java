@@ -7,7 +7,9 @@ package com.azure.resourcemanager.quota.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Quota properties for the specified resource. */
+/**
+ * Quota properties for the specified resource.
+ */
 @Fluent
 public final class QuotaProperties {
     /*
@@ -17,8 +19,7 @@ public final class QuotaProperties {
     private LimitJsonObject limit;
 
     /*
-     * The quota units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET
-     * response in the request body of your PUT operation.
+     *  The quota units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation.
      */
     @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
     private String unit;
@@ -57,13 +58,15 @@ public final class QuotaProperties {
     @JsonProperty(value = "properties")
     private Object properties;
 
-    /** Creates an instance of QuotaProperties class. */
+    /**
+     * Creates an instance of QuotaProperties class.
+     */
     public QuotaProperties() {
     }
 
     /**
      * Get the limit property: Resource quota limit properties.
-     *
+     * 
      * @return the limit value.
      */
     public LimitJsonObject limit() {
@@ -72,7 +75,7 @@ public final class QuotaProperties {
 
     /**
      * Set the limit property: Resource quota limit properties.
-     *
+     * 
      * @param limit the limit value to set.
      * @return the QuotaProperties object itself.
      */
@@ -84,7 +87,7 @@ public final class QuotaProperties {
     /**
      * Get the unit property: The quota units, such as Count and Bytes. When requesting quota, use the **unit** value
      * returned in the GET response in the request body of your PUT operation.
-     *
+     * 
      * @return the unit value.
      */
     public String unit() {
@@ -94,7 +97,7 @@ public final class QuotaProperties {
     /**
      * Get the name property: Resource name provided by the resource provider. Use this property name when requesting
      * quota.
-     *
+     * 
      * @return the name value.
      */
     public ResourceName name() {
@@ -104,7 +107,7 @@ public final class QuotaProperties {
     /**
      * Set the name property: Resource name provided by the resource provider. Use this property name when requesting
      * quota.
-     *
+     * 
      * @param name the name value to set.
      * @return the QuotaProperties object itself.
      */
@@ -115,7 +118,7 @@ public final class QuotaProperties {
 
     /**
      * Get the resourceType property: The name of the resource type. Optional field.
-     *
+     * 
      * @return the resourceType value.
      */
     public String resourceType() {
@@ -124,7 +127,7 @@ public final class QuotaProperties {
 
     /**
      * Set the resourceType property: The name of the resource type. Optional field.
-     *
+     * 
      * @param resourceType the resourceType value to set.
      * @return the QuotaProperties object itself.
      */
@@ -134,10 +137,12 @@ public final class QuotaProperties {
     }
 
     /**
-     * Get the quotaPeriod property: The time period over which the quota usage values are summarized. For example: *P1D
-     * (per one day) *PT1M (per one minute) *PT1S (per one second). This parameter is optional because, for some
-     * resources like compute, the period is irrelevant.
-     *
+     * Get the quotaPeriod property: The time period over which the quota usage values are summarized. For example:
+     * *P1D (per one day)
+     * *PT1M (per one minute)
+     * *PT1S (per one second).
+     * This parameter is optional because, for some resources like compute, the period is irrelevant.
+     * 
      * @return the quotaPeriod value.
      */
     public String quotaPeriod() {
@@ -146,7 +151,7 @@ public final class QuotaProperties {
 
     /**
      * Get the isQuotaApplicable property: States if quota can be requested for this resource.
-     *
+     * 
      * @return the isQuotaApplicable value.
      */
     public Boolean isQuotaApplicable() {
@@ -155,7 +160,7 @@ public final class QuotaProperties {
 
     /**
      * Get the properties property: Additional properties for the specific resource provider.
-     *
+     * 
      * @return the properties value.
      */
     public Object properties() {
@@ -164,7 +169,7 @@ public final class QuotaProperties {
 
     /**
      * Set the properties property: Additional properties for the specific resource provider.
-     *
+     * 
      * @param properties the properties value to set.
      * @return the QuotaProperties object itself.
      */
@@ -175,7 +180,7 @@ public final class QuotaProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

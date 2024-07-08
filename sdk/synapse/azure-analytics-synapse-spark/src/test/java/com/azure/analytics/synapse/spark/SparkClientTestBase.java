@@ -99,6 +99,10 @@ public abstract class SparkClientTestBase extends TestProxyTestBase {
             policies.add(interceptorManager.getRecordPolicy());
         }
 
+        if (!interceptorManager.isLiveMode()) {
+            interceptorManager.removeSanitizers("AZSDK3425", "AZSDK3430");
+        }
+
         HttpPipeline pipeline = new HttpPipelineBuilder()
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .httpClient(httpClient)

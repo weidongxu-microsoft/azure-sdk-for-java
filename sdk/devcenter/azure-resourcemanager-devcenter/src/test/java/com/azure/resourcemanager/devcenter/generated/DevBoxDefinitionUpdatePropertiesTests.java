@@ -15,43 +15,38 @@ import org.junit.jupiter.api.Assertions;
 public final class DevBoxDefinitionUpdatePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DevBoxDefinitionUpdateProperties model =
-            BinaryData
-                .fromString(
-                    "{\"imageReference\":{\"id\":\"pnapnyiropuh\",\"exactVersion\":\"gvpgy\"},\"sku\":{\"name\":\"qgitxmed\",\"tier\":\"Free\",\"size\":\"lynqwwncwzzh\",\"family\":\"ktrmgucnapkt\",\"capacity\":203480893},\"osStorageType\":\"lwptfdy\",\"hibernateSupport\":\"Enabled\"}")
-                .toObject(DevBoxDefinitionUpdateProperties.class);
-        Assertions.assertEquals("pnapnyiropuh", model.imageReference().id());
-        Assertions.assertEquals("qgitxmed", model.sku().name());
-        Assertions.assertEquals(SkuTier.FREE, model.sku().tier());
-        Assertions.assertEquals("lynqwwncwzzh", model.sku().size());
-        Assertions.assertEquals("ktrmgucnapkt", model.sku().family());
-        Assertions.assertEquals(203480893, model.sku().capacity());
-        Assertions.assertEquals("lwptfdy", model.osStorageType());
-        Assertions.assertEquals(HibernateSupport.ENABLED, model.hibernateSupport());
+        DevBoxDefinitionUpdateProperties model = BinaryData.fromString(
+            "{\"imageReference\":{\"id\":\"htwdwrftswibyrcd\",\"exactVersion\":\"h\"},\"sku\":{\"name\":\"fwpracstwi\",\"tier\":\"Standard\",\"size\":\"evxccedcp\",\"family\":\"dyodnwzxltj\",\"capacity\":424916927},\"osStorageType\":\"ltiugcxnavv\",\"hibernateSupport\":\"Disabled\"}")
+            .toObject(DevBoxDefinitionUpdateProperties.class);
+        Assertions.assertEquals("htwdwrftswibyrcd", model.imageReference().id());
+        Assertions.assertEquals("fwpracstwi", model.sku().name());
+        Assertions.assertEquals(SkuTier.STANDARD, model.sku().tier());
+        Assertions.assertEquals("evxccedcp", model.sku().size());
+        Assertions.assertEquals("dyodnwzxltj", model.sku().family());
+        Assertions.assertEquals(424916927, model.sku().capacity());
+        Assertions.assertEquals("ltiugcxnavv", model.osStorageType());
+        Assertions.assertEquals(HibernateSupport.DISABLED, model.hibernateSupport());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DevBoxDefinitionUpdateProperties model =
-            new DevBoxDefinitionUpdateProperties()
-                .withImageReference(new ImageReference().withId("pnapnyiropuh"))
-                .withSku(
-                    new Sku()
-                        .withName("qgitxmed")
-                        .withTier(SkuTier.FREE)
-                        .withSize("lynqwwncwzzh")
-                        .withFamily("ktrmgucnapkt")
-                        .withCapacity(203480893))
-                .withOsStorageType("lwptfdy")
-                .withHibernateSupport(HibernateSupport.ENABLED);
+        DevBoxDefinitionUpdateProperties model
+            = new DevBoxDefinitionUpdateProperties().withImageReference(new ImageReference().withId("htwdwrftswibyrcd"))
+                .withSku(new Sku().withName("fwpracstwi")
+                    .withTier(SkuTier.STANDARD)
+                    .withSize("evxccedcp")
+                    .withFamily("dyodnwzxltj")
+                    .withCapacity(424916927))
+                .withOsStorageType("ltiugcxnavv")
+                .withHibernateSupport(HibernateSupport.DISABLED);
         model = BinaryData.fromObject(model).toObject(DevBoxDefinitionUpdateProperties.class);
-        Assertions.assertEquals("pnapnyiropuh", model.imageReference().id());
-        Assertions.assertEquals("qgitxmed", model.sku().name());
-        Assertions.assertEquals(SkuTier.FREE, model.sku().tier());
-        Assertions.assertEquals("lynqwwncwzzh", model.sku().size());
-        Assertions.assertEquals("ktrmgucnapkt", model.sku().family());
-        Assertions.assertEquals(203480893, model.sku().capacity());
-        Assertions.assertEquals("lwptfdy", model.osStorageType());
-        Assertions.assertEquals(HibernateSupport.ENABLED, model.hibernateSupport());
+        Assertions.assertEquals("htwdwrftswibyrcd", model.imageReference().id());
+        Assertions.assertEquals("fwpracstwi", model.sku().name());
+        Assertions.assertEquals(SkuTier.STANDARD, model.sku().tier());
+        Assertions.assertEquals("evxccedcp", model.sku().size());
+        Assertions.assertEquals("dyodnwzxltj", model.sku().family());
+        Assertions.assertEquals(424916927, model.sku().capacity());
+        Assertions.assertEquals("ltiugcxnavv", model.osStorageType());
+        Assertions.assertEquals(HibernateSupport.DISABLED, model.hibernateSupport());
     }
 }

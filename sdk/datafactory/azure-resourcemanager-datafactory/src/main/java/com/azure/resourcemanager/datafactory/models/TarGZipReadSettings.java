@@ -6,28 +6,50 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The TarGZip compression read settings. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The TarGZip compression read settings.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = TarGZipReadSettings.class, visible = true)
 @JsonTypeName("TarGZipReadSettings")
 @Fluent
 public final class TarGZipReadSettings extends CompressionReadSettings {
+    /*
+     * The Compression setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "TarGZipReadSettings";
+
     /*
      * Preserve the compression file name as folder path. Type: boolean (or Expression with resultType boolean).
      */
     @JsonProperty(value = "preserveCompressionFileNameAsFolder")
     private Object preserveCompressionFileNameAsFolder;
 
-    /** Creates an instance of TarGZipReadSettings class. */
+    /**
+     * Creates an instance of TarGZipReadSettings class.
+     */
     public TarGZipReadSettings() {
+    }
+
+    /**
+     * Get the type property: The Compression setting type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the preserveCompressionFileNameAsFolder property: Preserve the compression file name as folder path. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the preserveCompressionFileNameAsFolder value.
      */
     public Object preserveCompressionFileNameAsFolder() {
@@ -37,7 +59,7 @@ public final class TarGZipReadSettings extends CompressionReadSettings {
     /**
      * Set the preserveCompressionFileNameAsFolder property: Preserve the compression file name as folder path. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param preserveCompressionFileNameAsFolder the preserveCompressionFileNameAsFolder value to set.
      * @return the TarGZipReadSettings object itself.
      */
@@ -48,7 +70,7 @@ public final class TarGZipReadSettings extends CompressionReadSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

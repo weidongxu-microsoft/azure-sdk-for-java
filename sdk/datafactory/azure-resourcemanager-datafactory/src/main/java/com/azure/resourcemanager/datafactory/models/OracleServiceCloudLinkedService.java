@@ -8,58 +8,92 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.OracleServiceCloudLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Oracle Service Cloud linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Oracle Service Cloud linked service.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = OracleServiceCloudLinkedService.class,
+    visible = true)
 @JsonTypeName("OracleServiceCloud")
 @Fluent
 public final class OracleServiceCloudLinkedService extends LinkedService {
     /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "OracleServiceCloud";
+
+    /*
      * Oracle Service Cloud linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private OracleServiceCloudLinkedServiceTypeProperties innerTypeProperties =
-        new OracleServiceCloudLinkedServiceTypeProperties();
+    private OracleServiceCloudLinkedServiceTypeProperties innerTypeProperties
+        = new OracleServiceCloudLinkedServiceTypeProperties();
 
-    /** Creates an instance of OracleServiceCloudLinkedService class. */
+    /**
+     * Creates an instance of OracleServiceCloudLinkedService class.
+     */
     public OracleServiceCloudLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Oracle Service Cloud linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private OracleServiceCloudLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OracleServiceCloudLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OracleServiceCloudLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OracleServiceCloudLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OracleServiceCloudLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -68,7 +102,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the host property: The URL of the Oracle Service Cloud instance.
-     *
+     * 
      * @return the host value.
      */
     public Object host() {
@@ -77,7 +111,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Set the host property: The URL of the Oracle Service Cloud instance.
-     *
+     * 
      * @param host the host value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
@@ -91,7 +125,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the username property: The user name that you use to access Oracle Service Cloud server.
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -100,7 +134,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Set the username property: The user name that you use to access Oracle Service Cloud server.
-     *
+     * 
      * @param username the username value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
@@ -114,7 +148,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the password property: The password corresponding to the user name that you provided in the username key.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -123,7 +157,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Set the password property: The password corresponding to the user name that you provided in the username key.
-     *
+     * 
      * @param password the password value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
@@ -138,7 +172,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
     /**
      * Get the useEncryptedEndpoints property: Specifies whether the data source endpoints are encrypted using HTTPS.
      * The default value is true. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the useEncryptedEndpoints value.
      */
     public Object useEncryptedEndpoints() {
@@ -148,7 +182,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
     /**
      * Set the useEncryptedEndpoints property: Specifies whether the data source endpoints are encrypted using HTTPS.
      * The default value is true. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param useEncryptedEndpoints the useEncryptedEndpoints value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
@@ -164,7 +198,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
      * Get the useHostVerification property: Specifies whether to require the host name in the server's certificate to
      * match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @return the useHostVerification value.
      */
     public Object useHostVerification() {
@@ -175,7 +209,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
      * Set the useHostVerification property: Specifies whether to require the host name in the server's certificate to
      * match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @param useHostVerification the useHostVerification value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
@@ -190,7 +224,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
     /**
      * Get the usePeerVerification property: Specifies whether to verify the identity of the server when connecting over
      * SSL. The default value is true. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the usePeerVerification value.
      */
     public Object usePeerVerification() {
@@ -200,7 +234,7 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
     /**
      * Set the usePeerVerification property: Specifies whether to verify the identity of the server when connecting over
      * SSL. The default value is true. Type: boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param usePeerVerification the usePeerVerification value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
@@ -214,22 +248,22 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the OracleServiceCloudLinkedService object itself.
      */
-    public OracleServiceCloudLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public OracleServiceCloudLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new OracleServiceCloudLinkedServiceTypeProperties();
         }
@@ -239,17 +273,16 @@ public final class OracleServiceCloudLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model OracleServiceCloudLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model OracleServiceCloudLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

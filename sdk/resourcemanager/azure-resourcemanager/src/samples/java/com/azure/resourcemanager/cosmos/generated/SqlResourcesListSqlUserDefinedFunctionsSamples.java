@@ -4,23 +4,24 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for SqlResources ListSqlUserDefinedFunctions. */
+/**
+ * Samples for SqlResources ListSqlUserDefinedFunctions.
+ */
 public final class SqlResourcesListSqlUserDefinedFunctionsSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlUserDefinedFunctionList.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBSqlUserDefinedFunctionList.json
      */
     /**
      * Sample code: CosmosDBSqlUserDefinedFunctionList.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBSqlUserDefinedFunctionList(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getSqlResources()
-            .listSqlUserDefinedFunctions(
-                "rgName", "ddb1", "databaseName", "containerName", com.azure.core.util.Context.NONE);
+            .listSqlUserDefinedFunctions("rgName", "ddb1", "databaseName", "containerName",
+                com.azure.core.util.Context.NONE);
     }
 }

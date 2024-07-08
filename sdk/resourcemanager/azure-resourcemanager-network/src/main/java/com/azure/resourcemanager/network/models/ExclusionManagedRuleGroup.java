@@ -7,9 +7,12 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Defines a managed rule group to use for exclusion. */
+/**
+ * Defines a managed rule group to use for exclusion.
+ */
 @Fluent
 public final class ExclusionManagedRuleGroup {
     /*
@@ -24,7 +27,9 @@ public final class ExclusionManagedRuleGroup {
     @JsonProperty(value = "rules")
     private List<ExclusionManagedRule> rules;
 
-    /** Creates an instance of ExclusionManagedRuleGroup class. */
+    /**
+     * Creates an instance of ExclusionManagedRuleGroup class.
+     */
     public ExclusionManagedRuleGroup() {
     }
 
@@ -77,10 +82,9 @@ public final class ExclusionManagedRuleGroup {
      */
     public void validate() {
         if (ruleGroupName() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property ruleGroupName in model ExclusionManagedRuleGroup"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property ruleGroupName in model ExclusionManagedRuleGroup"));
         }
         if (rules() != null) {
             rules().forEach(e -> e.validate());

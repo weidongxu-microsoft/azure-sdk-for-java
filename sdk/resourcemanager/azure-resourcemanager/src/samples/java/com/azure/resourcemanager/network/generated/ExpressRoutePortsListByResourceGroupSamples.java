@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ExpressRoutePorts ListByResourceGroup. */
+/**
+ * Samples for ExpressRoutePorts ListByResourceGroup.
+ */
 public final class ExpressRoutePortsListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRoutePortListByResourceGroup.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRoutePortListByResourceGroup.json
      */
     /**
      * Sample code: ExpressRoutePortListByResourceGroup.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void expressRoutePortListByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getExpressRoutePorts()

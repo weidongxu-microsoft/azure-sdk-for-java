@@ -16,51 +16,38 @@ import org.junit.jupiter.api.Assertions;
 public final class VolumeQuotaRulesListTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        VolumeQuotaRulesList model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"provisioningState\":\"Deleting\",\"quotaSizeInKiBs\":5281574535669148481,\"quotaType\":\"IndividualGroupQuota\",\"quotaTarget\":\"f\"},\"location\":\"kgjubgdknnqvsazn\",\"tags\":{\"mkycgra\":\"orudsgsa\"},\"id\":\"wjue\",\"name\":\"aeburuvdmo\",\"type\":\"s\"},{\"properties\":{\"provisioningState\":\"Patching\",\"quotaSizeInKiBs\":1943240829085978893,\"quotaType\":\"DefaultUserQuota\",\"quotaTarget\":\"efkifr\"},\"location\":\"puqujmqlgkfbtn\",\"tags\":{\"jitcjedftwwaez\":\"ongbjcnt\",\"i\":\"ojvdcpzfoqo\"},\"id\":\"ybxarzgszu\",\"name\":\"oxciqopidoamcio\",\"type\":\"hkh\"},{\"properties\":{\"provisioningState\":\"Patching\",\"quotaSizeInKiBs\":1835597225257472163,\"quotaType\":\"IndividualUserQuota\",\"quotaTarget\":\"lwntoego\"},\"location\":\"wbw\",\"tags\":{\"cmrvexzt\":\"z\",\"gsfraoyzkoow\":\"bt\",\"aldsy\":\"lmnguxaw\"},\"id\":\"uximerqfobw\",\"name\":\"znkbykutwpfhpagm\",\"type\":\"r\"}]}")
-                .toObject(VolumeQuotaRulesList.class);
-        Assertions.assertEquals("kgjubgdknnqvsazn", model.value().get(0).location());
-        Assertions.assertEquals("orudsgsa", model.value().get(0).tags().get("mkycgra"));
-        Assertions.assertEquals(5281574535669148481L, model.value().get(0).quotaSizeInKiBs());
-        Assertions.assertEquals(Type.INDIVIDUAL_GROUP_QUOTA, model.value().get(0).quotaType());
-        Assertions.assertEquals("f", model.value().get(0).quotaTarget());
+        VolumeQuotaRulesList model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"provisioningState\":\"Deleting\",\"quotaSizeInKiBs\":4753379128237183611,\"quotaType\":\"DefaultGroupQuota\",\"quotaTarget\":\"tsgumhj\"},\"location\":\"ikkx\",\"tags\":{\"vuzlm\":\"olbq\"},\"id\":\"felfktg\",\"name\":\"lcrpw\",\"type\":\"xeznoi\"},{\"properties\":{\"provisioningState\":\"Patching\",\"quotaSizeInKiBs\":336408309015246228,\"quotaType\":\"DefaultUserQuota\",\"quotaTarget\":\"nbsazejjoqkag\"},\"location\":\"sxtta\",\"tags\":{\"mkqjj\":\"xnfaazpxdtnk\",\"pyouaibrebqaays\":\"wuenvr\"},\"id\":\"kixqtnqtt\",\"name\":\"zlwfffiakp\",\"type\":\"pqqmted\"}]}")
+            .toObject(VolumeQuotaRulesList.class);
+        Assertions.assertEquals("ikkx", model.value().get(0).location());
+        Assertions.assertEquals("olbq", model.value().get(0).tags().get("vuzlm"));
+        Assertions.assertEquals(4753379128237183611L, model.value().get(0).quotaSizeInKiBs());
+        Assertions.assertEquals(Type.DEFAULT_GROUP_QUOTA, model.value().get(0).quotaType());
+        Assertions.assertEquals("tsgumhj", model.value().get(0).quotaTarget());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        VolumeQuotaRulesList model =
-            new VolumeQuotaRulesList()
-                .withValue(
-                    Arrays
-                        .asList(
-                            new VolumeQuotaRuleInner()
-                                .withLocation("kgjubgdknnqvsazn")
-                                .withTags(mapOf("mkycgra", "orudsgsa"))
-                                .withQuotaSizeInKiBs(5281574535669148481L)
-                                .withQuotaType(Type.INDIVIDUAL_GROUP_QUOTA)
-                                .withQuotaTarget("f"),
-                            new VolumeQuotaRuleInner()
-                                .withLocation("puqujmqlgkfbtn")
-                                .withTags(mapOf("jitcjedftwwaez", "ongbjcnt", "i", "ojvdcpzfoqo"))
-                                .withQuotaSizeInKiBs(1943240829085978893L)
-                                .withQuotaType(Type.DEFAULT_USER_QUOTA)
-                                .withQuotaTarget("efkifr"),
-                            new VolumeQuotaRuleInner()
-                                .withLocation("wbw")
-                                .withTags(mapOf("cmrvexzt", "z", "gsfraoyzkoow", "bt", "aldsy", "lmnguxaw"))
-                                .withQuotaSizeInKiBs(1835597225257472163L)
-                                .withQuotaType(Type.INDIVIDUAL_USER_QUOTA)
-                                .withQuotaTarget("lwntoego")));
+        VolumeQuotaRulesList model = new VolumeQuotaRulesList().withValue(Arrays.asList(
+            new VolumeQuotaRuleInner().withLocation("ikkx")
+                .withTags(mapOf("vuzlm", "olbq"))
+                .withQuotaSizeInKiBs(4753379128237183611L)
+                .withQuotaType(Type.DEFAULT_GROUP_QUOTA)
+                .withQuotaTarget("tsgumhj"),
+            new VolumeQuotaRuleInner().withLocation("sxtta")
+                .withTags(mapOf("mkqjj", "xnfaazpxdtnk", "pyouaibrebqaays", "wuenvr"))
+                .withQuotaSizeInKiBs(336408309015246228L)
+                .withQuotaType(Type.DEFAULT_USER_QUOTA)
+                .withQuotaTarget("nbsazejjoqkag")));
         model = BinaryData.fromObject(model).toObject(VolumeQuotaRulesList.class);
-        Assertions.assertEquals("kgjubgdknnqvsazn", model.value().get(0).location());
-        Assertions.assertEquals("orudsgsa", model.value().get(0).tags().get("mkycgra"));
-        Assertions.assertEquals(5281574535669148481L, model.value().get(0).quotaSizeInKiBs());
-        Assertions.assertEquals(Type.INDIVIDUAL_GROUP_QUOTA, model.value().get(0).quotaType());
-        Assertions.assertEquals("f", model.value().get(0).quotaTarget());
+        Assertions.assertEquals("ikkx", model.value().get(0).location());
+        Assertions.assertEquals("olbq", model.value().get(0).tags().get("vuzlm"));
+        Assertions.assertEquals(4753379128237183611L, model.value().get(0).quotaSizeInKiBs());
+        Assertions.assertEquals(Type.DEFAULT_GROUP_QUOTA, model.value().get(0).quotaType());
+        Assertions.assertEquals("tsgumhj", model.value().get(0).quotaTarget());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

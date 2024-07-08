@@ -8,6 +8,7 @@ import com.azure.core.management.Region;
 import com.azure.core.management.SystemData;
 import com.azure.core.util.Context;
 import com.azure.resourcemanager.maintenance.fluent.models.MaintenanceConfigurationInner;
+import com.azure.resourcemanager.maintenance.models.InputPatchConfiguration;
 import com.azure.resourcemanager.maintenance.models.MaintenanceConfiguration;
 import com.azure.resourcemanager.maintenance.models.MaintenanceScope;
 import com.azure.resourcemanager.maintenance.models.Visibility;
@@ -70,6 +71,10 @@ public final class MaintenanceConfigurationImpl
         return this.innerModel().visibility();
     }
 
+    public InputPatchConfiguration installPatches() {
+        return this.innerModel().installPatches();
+    }
+
     public String startDateTime() {
         return this.innerModel().startDateTime();
     }
@@ -120,22 +125,18 @@ public final class MaintenanceConfigurationImpl
     }
 
     public MaintenanceConfiguration create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMaintenanceConfigurations()
-                .createOrUpdateWithResponse(resourceGroupName, resourceName, this.innerModel(), Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMaintenanceConfigurations()
+            .createOrUpdateWithResponse(resourceGroupName, resourceName, this.innerModel(), Context.NONE)
+            .getValue();
         return this;
     }
 
     public MaintenanceConfiguration create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMaintenanceConfigurations()
-                .createOrUpdateWithResponse(resourceGroupName, resourceName, this.innerModel(), context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMaintenanceConfigurations()
+            .createOrUpdateWithResponse(resourceGroupName, resourceName, this.innerModel(), context)
+            .getValue();
         return this;
     }
 
@@ -150,51 +151,42 @@ public final class MaintenanceConfigurationImpl
     }
 
     public MaintenanceConfiguration apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMaintenanceConfigurations()
-                .updateWithResponse(resourceGroupName, resourceName, this.innerModel(), Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMaintenanceConfigurations()
+            .updateWithResponse(resourceGroupName, resourceName, this.innerModel(), Context.NONE)
+            .getValue();
         return this;
     }
 
     public MaintenanceConfiguration apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMaintenanceConfigurations()
-                .updateWithResponse(resourceGroupName, resourceName, this.innerModel(), context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMaintenanceConfigurations()
+            .updateWithResponse(resourceGroupName, resourceName, this.innerModel(), context)
+            .getValue();
         return this;
     }
 
-    MaintenanceConfigurationImpl(
-        MaintenanceConfigurationInner innerObject,
+    MaintenanceConfigurationImpl(MaintenanceConfigurationInner innerObject,
         com.azure.resourcemanager.maintenance.MaintenanceManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourcegroups");
-        this.resourceName = Utils.getValueFromIdByName(innerObject.id(), "maintenanceConfigurations");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourcegroups");
+        this.resourceName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "maintenanceConfigurations");
     }
 
     public MaintenanceConfiguration refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMaintenanceConfigurations()
-                .getByResourceGroupWithResponse(resourceGroupName, resourceName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMaintenanceConfigurations()
+            .getByResourceGroupWithResponse(resourceGroupName, resourceName, Context.NONE)
+            .getValue();
         return this;
     }
 
     public MaintenanceConfiguration refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getMaintenanceConfigurations()
-                .getByResourceGroupWithResponse(resourceGroupName, resourceName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient()
+            .getMaintenanceConfigurations()
+            .getByResourceGroupWithResponse(resourceGroupName, resourceName, context)
+            .getValue();
         return this;
     }
 
@@ -230,6 +222,11 @@ public final class MaintenanceConfigurationImpl
 
     public MaintenanceConfigurationImpl withVisibility(Visibility visibility) {
         this.innerModel().withVisibility(visibility);
+        return this;
+    }
+
+    public MaintenanceConfigurationImpl withInstallPatches(InputPatchConfiguration installPatches) {
+        this.innerModel().withInstallPatches(installPatches);
         return this;
     }
 

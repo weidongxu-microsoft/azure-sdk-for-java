@@ -20,11 +20,13 @@ import java.util.Arrays;
 import static com.azure.containers.containerregistry.TestUtils.ALPINE_REPOSITORY_NAME;
 import static com.azure.containers.containerregistry.TestUtils.HTTP_STATUS_CODE_202;
 import static com.azure.containers.containerregistry.TestUtils.LATEST_TAG_NAME;
-import static com.azure.containers.containerregistry.TestUtils.SKIP_AUTH_TOKEN_REQUEST_FUNCTION;
+import static com.azure.containers.containerregistry.TestUtils.REGISTRY_ENDPOINT;
+import static com.azure.containers.containerregistry.TestUtils.REGISTRY_NAME;
 import static com.azure.containers.containerregistry.TestUtils.V1_TAG_NAME;
 import static com.azure.containers.containerregistry.TestUtils.V2_TAG_NAME;
 import static com.azure.containers.containerregistry.TestUtils.V3_TAG_NAME;
 import static com.azure.containers.containerregistry.TestUtils.V4_TAG_NAME;
+import static com.azure.containers.containerregistry.TestUtils.importImage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -40,16 +42,18 @@ public class RegistryArtifactTests extends ContainerRegistryClientsTestBase {
 
 
     @BeforeEach
-    void beforeEach() {
-        TestUtils.importImage(
+    void beforeEach() throws InterruptedException {
+        importImage(
             getTestMode(),
+            REGISTRY_NAME,
             repositoryName,
             Arrays.asList(
                 LATEST_TAG_NAME,
                 V1_TAG_NAME,
                 V2_TAG_NAME,
                 V3_TAG_NAME,
-                V4_TAG_NAME));
+                V4_TAG_NAME),
+            REGISTRY_ENDPOINT);
 
         if (getTestMode() == TestMode.PLAYBACK) {
             httpClient = interceptorManager.getPlaybackClient();
@@ -77,14 +81,12 @@ public class RegistryArtifactTests extends ContainerRegistryClientsTestBase {
 
     private HttpClient buildAsyncAssertingClient(HttpClient httpClient) {
         return new AssertingHttpClientBuilder(httpClient)
-            .skipRequest(SKIP_AUTH_TOKEN_REQUEST_FUNCTION)
             .assertAsync()
             .build();
     }
 
     private HttpClient buildSyncAssertingClient(HttpClient httpClient) {
         return new AssertingHttpClientBuilder(httpClient)
-            .skipRequest(SKIP_AUTH_TOKEN_REQUEST_FUNCTION)
             .assertSync()
             .build();
     }

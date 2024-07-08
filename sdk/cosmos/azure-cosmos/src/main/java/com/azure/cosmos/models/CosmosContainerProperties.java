@@ -7,6 +7,7 @@ import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
 import com.azure.cosmos.implementation.Resource;
 import com.azure.cosmos.implementation.apachecommons.lang.StringUtils;
 import com.azure.cosmos.util.Beta;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -56,8 +57,8 @@ public final class CosmosContainerProperties {
         documentCollection.setPartitionKey(partitionKeyDefinition);
     }
 
-    CosmosContainerProperties(String json) {
-        this.documentCollection = new DocumentCollection(json);
+    CosmosContainerProperties(ObjectNode jsonNode) {
+        this.documentCollection = new DocumentCollection(jsonNode);
     }
 
     // Converting container to CosmosContainerProperties
@@ -346,6 +347,28 @@ public final class CosmosContainerProperties {
         return this;
     }
 
+    /**
+     * Gets the Vector Embedding Policy containing paths for embeddings along with path-specific settings for the item
+     * used in performing vector search on the items in a collection in the Azure CosmosDB database service.
+     *
+     * @return the Vector Embedding Policy.
+     */
+    public CosmosVectorEmbeddingPolicy getVectorEmbeddingPolicy() {
+        return this.documentCollection.getVectorEmbeddingPolicy();
+    }
+
+    /**
+     * Sets the Vector Embedding Policy containing paths for embeddings along with path-specific settings for the item
+     * used in performing vector search on the items in a collection in the Azure CosmosDB database service.
+     *
+     * @param value the Vector Embedding Policy.
+     * @return the CosmosContainerProperties.
+     */
+    public CosmosContainerProperties setVectorEmbeddingPolicy(CosmosVectorEmbeddingPolicy value) {
+        this.documentCollection.setVectorEmbeddingPolicy(value);
+        return this;
+    }
+
     Resource getResource() {
         return this.documentCollection;
     }
@@ -386,6 +409,11 @@ public final class CosmosContainerProperties {
     static void initialize() {
         ImplementationBridgeHelpers.CosmosContainerPropertiesHelper.setCosmosContainerPropertiesAccessor(
             new ImplementationBridgeHelpers.CosmosContainerPropertiesHelper.CosmosContainerPropertiesAccessor() {
+                @Override
+                public CosmosContainerProperties create(DocumentCollection documentCollection) {
+                    return new CosmosContainerProperties(documentCollection);
+                }
+
                 @Override
                 public String getSelfLink(CosmosContainerProperties cosmosContainerProperties) {
                     return cosmosContainerProperties.getSelfLink();

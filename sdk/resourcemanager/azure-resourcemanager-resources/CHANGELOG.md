@@ -1,6 +1,109 @@
 # Release History
 
-## 2.29.0-beta.1 (Unreleased)
+## 2.41.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.40.0 (2024-06-24)
+
+### Features Added
+
+- Supported Deployment Stack. See https://learn.microsoft.com/azure/azure-resource-manager/bicep/deployment-stacks
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` of resources to `2024-03-01`.
+
+## 2.39.0 (2024-05-24)
+
+### Features Added
+
+- Supported `mode` and `metadata` in `PolicyDefinition` class.
+
+## 2.38.0 (2024-04-16)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.37.0 (2024-03-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.36.0 (2024-02-29)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.35.0 (2024-01-26)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.34.0 (2023-12-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.33.0 (2023-11-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.32.0 (2023-10-27)
+
+### Breaking Changes
+
+- Removed unused classes `ActionType`, `Origin`.
+
+## 2.31.0 (2023-09-28)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.30.0 (2023-08-25)
+
+### Bugs Fixed
+
+- Fixed a bug that `GenericResources.deleteById` might select the wrong default api-version for resources whose child 
+  resource type collides with other resources.
+
+## 2.30.0-beta.1 (2023-08-18)
+
+### Features Added
+
+- Supported Deployment Stack as preview. See https://learn.microsoft.com/azure/azure-resource-manager/bicep/deployment-stacks
+
+## 2.29.0 (2023-07-28)
 
 ### Bugs Fixed
 

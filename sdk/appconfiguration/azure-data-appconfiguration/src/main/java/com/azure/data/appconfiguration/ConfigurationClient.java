@@ -6,10 +6,12 @@ package com.azure.data.appconfiguration;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.exception.ResourceModifiedException;
 import com.azure.core.exception.ResourceNotFoundException;
 import com.azure.core.http.HttpResponse;
+import com.azure.core.http.MatchConditions;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
@@ -17,6 +19,7 @@ import com.azure.core.http.rest.ResponseBase;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.polling.PollOperationDetails;
 import com.azure.core.util.polling.SyncPoller;
 import com.azure.data.appconfiguration.implementation.AzureAppConfigurationImpl;
 import com.azure.data.appconfiguration.implementation.CreateSnapshotUtilClient;
@@ -27,24 +30,25 @@ import com.azure.data.appconfiguration.implementation.models.GetSnapshotHeaders;
 import com.azure.data.appconfiguration.implementation.models.KeyValue;
 import com.azure.data.appconfiguration.implementation.models.PutKeyValueHeaders;
 import com.azure.data.appconfiguration.models.ConfigurationSetting;
-import com.azure.data.appconfiguration.models.ConfigurationSettingSnapshot;
-import com.azure.data.appconfiguration.models.CreateSnapshotOperationDetail;
+import com.azure.data.appconfiguration.models.ConfigurationSnapshot;
+import com.azure.data.appconfiguration.models.ConfigurationSnapshotStatus;
 import com.azure.data.appconfiguration.models.FeatureFlagConfigurationSetting;
 import com.azure.data.appconfiguration.models.SecretReferenceConfigurationSetting;
 import com.azure.data.appconfiguration.models.SettingFields;
 import com.azure.data.appconfiguration.models.SettingSelector;
+import com.azure.data.appconfiguration.models.SnapshotFields;
 import com.azure.data.appconfiguration.models.SnapshotSelector;
-import com.azure.data.appconfiguration.models.SnapshotStatus;
 
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.azure.data.appconfiguration.implementation.ConfigurationSettingDeserializationHelper.toConfigurationSettingWithPagedResponse;
 import static com.azure.data.appconfiguration.implementation.ConfigurationSettingDeserializationHelper.toConfigurationSettingWithResponse;
 import static com.azure.data.appconfiguration.implementation.Utility.ETAG_ANY;
-import static com.azure.data.appconfiguration.implementation.Utility.addTracingNamespace;
-import static com.azure.data.appconfiguration.implementation.Utility.enableSyncRestProxy;
 import static com.azure.data.appconfiguration.implementation.Utility.getETag;
-import static com.azure.data.appconfiguration.implementation.Utility.iterableToList;
+import static com.azure.data.appconfiguration.implementation.Utility.getPageETag;
+import static com.azure.data.appconfiguration.implementation.Utility.handleNotModifiedErrorToValidResponse;
 import static com.azure.data.appconfiguration.implementation.Utility.toKeyValue;
 import static com.azure.data.appconfiguration.implementation.Utility.toSettingFieldsList;
 import static com.azure.data.appconfiguration.implementation.Utility.updateSnapshotSync;
@@ -63,13 +67,13 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * <h2>Getting Started</h2>
  *
  * <p>In order to interact with the App Configuration service you'll need to create an instance of the
- * {@link com.azure.data.appconfiguration.ConfigurationClient} class. To make this possible you'll need the connection
+ * {@link ConfigurationClient} class. To make this possible you'll need the connection
  * string of the configuration store. Alternatively, you can use AAD authentication via
  * <a href="https://learn.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable"> Azure Identity</a>
  * to connect to the service.</p>
  * <ol>
- *   <li>Connection string, see {@link com.azure.data.appconfiguration.ConfigurationClientBuilder#connectionString(java.lang.String) connectionString}.</li>
- *   <li>Azure Active Directory, see {@link com.azure.data.appconfiguration.ConfigurationClientBuilder#credential(com.azure.core.credential.TokenCredential) TokenCredential}.</li>
+ *   <li>Connection string, see {@link ConfigurationClientBuilder#connectionString(String) connectionString}.</li>
+ *   <li>Azure Active Directory, see {@link ConfigurationClientBuilder#credential(TokenCredential) TokenCredential}.</li>
  * </ol>
  *
  * <p><strong>Instantiating a synchronous Configuration Client</strong></p>
@@ -88,8 +92,8 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * See methods in client level class below to explore all capabilities that library provides.</p>
  *
  * <p>For more configuration setting types, see
- * {@link com.azure.data.appconfiguration.models.FeatureFlagConfigurationSetting} and
- * {@link com.azure.data.appconfiguration.models.SecretReferenceConfigurationSetting}.</p>
+ * {@link FeatureFlagConfigurationSetting} and
+ * {@link SecretReferenceConfigurationSetting}.</p>
  *
  * <br/>
  *
@@ -97,11 +101,11 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>Add Configuration Setting</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#addConfigurationSetting(ConfigurationSetting)}
+ * <p>The {@link ConfigurationClient#addConfigurationSetting(ConfigurationSetting)}
  * method can be used to add a configuration setting in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to add a setting with the key "prodDBConnection", label "westUS" and value
- * "db_connection" using {@link com.azure.data.appconfiguration.ConfigurationClient}.</p>
+ * "db_connection" using {@link ConfigurationClient}.</p>
  *
  * <!-- src_embed com.azure.data.appconfiguration.ConfigurationClient.addConfigurationSetting#ConfigurationSetting -->
  * <pre>
@@ -113,7 +117,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.appconfiguration.ConfigurationClient.addConfigurationSetting#ConfigurationSetting -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -121,7 +125,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>Update Configuration Setting</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#setConfigurationSetting(ConfigurationSetting)}
+ * <p>The {@link ConfigurationClient#setConfigurationSetting(ConfigurationSetting)}
  * method can be used to update a configuration setting in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to update setting's value "db_connection" to "updated_db_connection"</p>
@@ -143,7 +147,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.appconfiguration.ConfigurationClient.setConfigurationSetting#ConfigurationSetting -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -151,7 +155,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>Get Configuration Setting</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#getConfigurationSetting(ConfigurationSetting)}
+ * <p>The {@link ConfigurationClient#getConfigurationSetting(ConfigurationSetting)}
  * method can be used to get a configuration setting in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to retrieve the setting with the key "prodDBConnection".</p>
@@ -165,7 +169,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.applicationconfig.configurationclient.getConfigurationSetting#ConfigurationSetting -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -173,7 +177,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>Delete Configuration Setting</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#deleteConfigurationSetting(ConfigurationSetting)}
+ * <p>The {@link ConfigurationClient#deleteConfigurationSetting(ConfigurationSetting)}
  * method can be used to delete a configuration setting in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to delete the setting with the key "prodDBConnection".</p>
@@ -187,7 +191,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.applicationconfig.configurationclient.deleteConfigurationSetting#ConfigurationSetting -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -195,7 +199,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>Set the Configuration Setting to read-only</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#setReadOnly(ConfigurationSetting, boolean)}
+ * <p>The {@link ConfigurationClient#setReadOnly(ConfigurationSetting, boolean)}
  * method can be used to conditionally set a configuration setting to read-only in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to conditionally set the setting to read-only with the key "prodDBConnection".</p>
@@ -210,7 +214,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.applicationconfig.configurationclient.setReadOnly#ConfigurationSetting-boolean -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -218,7 +222,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>Clear read-only of the Configuration Setting</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#setReadOnly(ConfigurationSetting, boolean)}
+ * <p>The {@link ConfigurationClient#setReadOnly(ConfigurationSetting, boolean)}
  * method can be used to conditionally clear read-only of the setting in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to conditionally clear read-only of the setting with the key "prodDBConnection".</p>
@@ -233,7 +237,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.applicationconfig.configurationclient.setReadOnly#ConfigurationSetting-boolean-clearReadOnly -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -241,7 +245,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>List Configuration Settings</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#listConfigurationSettings(SettingSelector)}
+ * <p>The {@link ConfigurationClient#listConfigurationSettings(SettingSelector)}
  * method can be used to list configuration settings in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to list all settings that use the key "prodDBConnection".</p>
@@ -255,7 +259,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.applicationconfig.configurationclient.listConfigurationSettings#settingSelector -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * <br/>
  *
@@ -263,7 +267,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  *
  * <h2>List revisions of a Configuration Setting</h2>
  *
- * <p>The {@link com.azure.data.appconfiguration.ConfigurationClient#listRevisions(SettingSelector)}
+ * <p>The {@link ConfigurationClient#listRevisions(SettingSelector)}
  * method can be used to list all revisions of a configuration setting in the Azure App Configuration.</p>
  *
  * <p>The sample below shows how to list all revision of a setting that use the key "prodDBConnection".</p>
@@ -280,7 +284,7 @@ import static com.azure.data.appconfiguration.implementation.Utility.validateSet
  * </pre>
  * <!-- end com.azure.data.applicationconfig.configurationclient.listRevisions#settingSelector -->
  *
- * <p><strong>Note:</strong> For asynchronous sample, refer to {@link com.azure.data.appconfiguration.ConfigurationAsyncClient}.</p>
+ * <p><strong>Note:</strong> For asynchronous sample, refer to {@link ConfigurationAsyncClient}.</p>
  *
  * @see ConfigurationClientBuilder
  * @see ConfigurationSetting
@@ -350,7 +354,7 @@ public final class ConfigurationClient {
     /**
      * Adds a configuration value in the service if that key and label does not exist. The label value of the
      * ConfigurationSetting is optional.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -386,7 +390,7 @@ public final class ConfigurationClient {
     /**
      * Adds a configuration value in the service if that key and label does not exist. The label value of the
      * ConfigurationSetting is optional.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -427,7 +431,7 @@ public final class ConfigurationClient {
         // return an error.
         final ResponseBase<PutKeyValueHeaders, KeyValue> response =
             serviceClient.putKeyValueWithResponse(setting.getKey(), setting.getLabel(), null, ETAG_ANY,
-                toKeyValue(setting), enableSyncRestProxy(addTracingNamespace(context)));
+                toKeyValue(setting), context);
         return toConfigurationSettingWithResponse(response);
     }
 
@@ -469,7 +473,7 @@ public final class ConfigurationClient {
     /**
      * Creates or updates a configuration value in the service. Partial updates are not supported and the entire
      * configuration setting is updated.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -515,10 +519,10 @@ public final class ConfigurationClient {
     /**
      * Creates or updates a configuration value in the service. Partial updates are not supported and the entire
      * configuration setting is updated.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
-     *
+     * <p>
      * If {@link ConfigurationSetting#getETag() ETag} is specified, the configuration value is updated if the current
      * setting's ETag matches. If the ETag's value is equal to the wildcard character ({@code "*"}), the setting will
      * always be updated.
@@ -572,9 +576,8 @@ public final class ConfigurationClient {
         boolean ifUnchanged, Context context) {
         validateSetting(setting);
         final ResponseBase<PutKeyValueHeaders, KeyValue> response =
-            serviceClient.putKeyValueWithResponse(setting.getKey(), setting.getLabel(),
-                getETag(ifUnchanged, setting), null, toKeyValue(setting),
-                enableSyncRestProxy(addTracingNamespace(context)));
+            serviceClient.putKeyValueWithResponse(setting.getKey(), setting.getLabel(), getETag(ifUnchanged, setting),
+                null, toKeyValue(setting), context);
         return toConfigurationSettingWithResponse(response);
     }
 
@@ -640,7 +643,7 @@ public final class ConfigurationClient {
     /**
      * Attempts to get the ConfigurationSetting with a matching {@link ConfigurationSetting#getKey() key}, and optional
      * {@link ConfigurationSetting#getLabel() label}, optional {@code acceptDateTime} and optional ETag combination.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -675,7 +678,7 @@ public final class ConfigurationClient {
     /**
      * Attempts to get the ConfigurationSetting with a matching {@link ConfigurationSetting#getKey() key}, and optional
      * {@link ConfigurationSetting#getLabel() label}, optional {@code acceptDateTime} and optional ETag combination.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -719,8 +722,8 @@ public final class ConfigurationClient {
         try {
             final ResponseBase<GetKeyValueHeaders, KeyValue> response =
                 serviceClient.getKeyValueWithResponse(setting.getKey(), setting.getLabel(),
-                    acceptDateTime == null ? null : acceptDateTime.toString(), null,
-                    getETag(ifChanged, setting), null, enableSyncRestProxy(addTracingNamespace(context)));
+                    acceptDateTime == null ? null : acceptDateTime.toString(), null, getETag(ifChanged, setting), null,
+                    context);
             return toConfigurationSettingWithResponse(response);
         } catch (HttpResponseException ex) {
             final HttpResponse httpResponse = ex.getResponse();
@@ -763,7 +766,7 @@ public final class ConfigurationClient {
     /**
      * Deletes the {@link ConfigurationSetting} with a matching {@link ConfigurationSetting#getKey() key}, and optional
      * {@link ConfigurationSetting#getLabel() label} and optional ETag combination.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -800,10 +803,10 @@ public final class ConfigurationClient {
     /**
      * Deletes the {@link ConfigurationSetting} with a matching {@link ConfigurationSetting#getKey() key}, and optional
      * {@link ConfigurationSetting#getLabel() label} and optional ETag combination.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
-     *
+     * <p>
      * If {@link ConfigurationSetting#getETag() ETag} is specified and is not the wildcard character ({@code "*"}), then
      * the setting is <b>only</b> deleted if the ETag matches the current ETag; this means that no one has updated the
      * ConfigurationSetting yet.
@@ -846,7 +849,7 @@ public final class ConfigurationClient {
         validateSetting(setting);
         final ResponseBase<DeleteKeyValueHeaders, KeyValue> response =
             serviceClient.deleteKeyValueWithResponse(setting.getKey(), setting.getLabel(),
-                getETag(ifUnchanged, setting), enableSyncRestProxy(addTracingNamespace(context)));
+                getETag(ifUnchanged, setting), context);
         return toConfigurationSettingWithResponse(response);
     }
 
@@ -892,7 +895,7 @@ public final class ConfigurationClient {
 
     /**
      * Sets the read-only status for the {@link ConfigurationSetting}.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -939,7 +942,7 @@ public final class ConfigurationClient {
 
     /**
      * Sets the read-only status for the {@link ConfigurationSetting}.
-     *
+     * <p>
      * For more configuration setting types, see {@link FeatureFlagConfigurationSetting} and
      * {@link SecretReferenceConfigurationSetting}.
      *
@@ -989,7 +992,6 @@ public final class ConfigurationClient {
         validateSetting(setting);
         final String key = setting.getKey();
         final String label = setting.getLabel();
-        context = enableSyncRestProxy(addTracingNamespace(context));
 
         return isReadOnly
             ? toConfigurationSettingWithResponse(serviceClient.putLockWithResponse(key, label, null, null, context))
@@ -1049,21 +1051,30 @@ public final class ConfigurationClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<ConfigurationSetting> listConfigurationSettings(SettingSelector selector, Context context) {
-        return new PagedIterable<>(
-            () -> {
-                final PagedResponse<KeyValue> pagedResponse = serviceClient.getKeyValuesSinglePage(
-                    selector == null ? null : selector.getKeyFilter(),
-                    selector == null ? null : selector.getLabelFilter(),
-                    null,
-                    selector == null ? null : selector.getAcceptDateTime(),
-                    selector == null ? null : toSettingFieldsList(selector.getFields()),
-                    null,
-                    enableSyncRestProxy(addTracingNamespace(context)));
-                return toConfigurationSettingWithPagedResponse(pagedResponse);
-            },
+        final String keyFilter = selector == null ? null : selector.getKeyFilter();
+        final String labelFilter = selector == null ? null : selector.getLabelFilter();
+        final String acceptDateTime = selector == null ? null : selector.getAcceptDateTime();
+        final List<SettingFields> settingFields = selector == null ? null : toSettingFieldsList(selector.getFields());
+        final List<MatchConditions> matchConditionsList = selector == null ? null : selector.getMatchConditions();
+        AtomicInteger pageETagIndex = new AtomicInteger(0);
+        return new PagedIterable<>(() -> {
+            PagedResponse<KeyValue> pagedResponse;
+            try {
+                pagedResponse = serviceClient.getKeyValuesSinglePage(keyFilter, labelFilter, null, acceptDateTime,
+                    settingFields, null, null, getPageETag(matchConditionsList, pageETagIndex), context);
+            } catch (HttpResponseException ex) {
+                return handleNotModifiedErrorToValidResponse(ex, LOGGER);
+            }
+            return toConfigurationSettingWithPagedResponse(pagedResponse);
+        },
             nextLink -> {
-                final PagedResponse<KeyValue> pagedResponse = serviceClient.getKeyValuesNextSinglePage(nextLink,
-                    selector.getAcceptDateTime(), enableSyncRestProxy(addTracingNamespace(context)));
+                PagedResponse<KeyValue> pagedResponse;
+                try {
+                    pagedResponse = serviceClient.getKeyValuesNextSinglePage(nextLink, acceptDateTime, null,
+                        getPageETag(matchConditionsList, pageETagIndex), context);
+                } catch (HttpResponseException ex) {
+                    return handleNotModifiedErrorToValidResponse(ex, LOGGER);
+                }
                 return toConfigurationSettingWithPagedResponse(pagedResponse);
             }
         );
@@ -1106,12 +1117,10 @@ public final class ConfigurationClient {
      * <!-- src_embed com.azure.data.applicationconfig.configurationclient.listConfigurationSettingsForSnapshotMaxOverload -->
      * <pre>
      * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
+     * List&lt;SettingFields&gt; fields = Arrays.asList&#40;SettingFields.KEY&#41;;
      * Context ctx = new Context&#40;key2, value2&#41;;
-     * SettingFields[] fields = new SettingFields[] &#123; SettingFields.KEY &#125;;
-     *
-     * configurationClient.listConfigurationSettingsForSnapshot&#40;snapshotName, fields, ctx&#41;.forEach&#40;setting -&gt; &#123;
-     *     System.out.printf&#40;&quot;Key: %s, Value: %s&quot;, setting.getKey&#40;&#41;, setting.getValue&#40;&#41;&#41;;
-     * &#125;&#41;;
+     * configurationClient.listConfigurationSettingsForSnapshot&#40;snapshotName, fields, ctx&#41;
+     *     .forEach&#40;setting -&gt; System.out.printf&#40;&quot;Key: %s, Value: %s&quot;, setting.getKey&#40;&#41;, setting.getValue&#40;&#41;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.applicationconfig.configurationclient.listConfigurationSettingsForSnapshotMaxOverload -->
      *
@@ -1126,25 +1135,16 @@ public final class ConfigurationClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<ConfigurationSetting> listConfigurationSettingsForSnapshot(String snapshotName,
-        SettingFields[] fields, Context context) {
-        return new PagedIterable<>(
-            () -> {
-                final PagedResponse<KeyValue> pagedResponse = serviceClient.getKeyValuesSinglePage(
-                    null,
-                    null,
-                    null,
-                    null,
-                    fields == null ? null : toSettingFieldsList(fields),
-                    snapshotName,
-                    enableSyncRestProxy(addTracingNamespace(context)));
-                return toConfigurationSettingWithPagedResponse(pagedResponse);
-            },
-            nextLink -> {
-                final PagedResponse<KeyValue> pagedResponse = serviceClient.getKeyValuesNextSinglePage(nextLink,
-                    null, enableSyncRestProxy(addTracingNamespace(context)));
-                return toConfigurationSettingWithPagedResponse(pagedResponse);
-            }
-        );
+        List<SettingFields> fields, Context context) {
+        return new PagedIterable<>(() -> {
+            final PagedResponse<KeyValue> pagedResponse = serviceClient.getKeyValuesSinglePage(null, null, null, null,
+                fields, snapshotName, null, null, context);
+            return toConfigurationSettingWithPagedResponse(pagedResponse);
+        }, nextLink -> {
+            final PagedResponse<KeyValue> pagedResponse = serviceClient.getKeyValuesNextSinglePage(nextLink, null, null,
+                null, context);
+            return toConfigurationSettingWithPagedResponse(pagedResponse);
+        });
     }
 
     /**
@@ -1152,8 +1152,7 @@ public final class ConfigurationClient {
      * in descending order from their {@link ConfigurationSetting#getLastModified() lastModified} date.
      * Revisions expire after a period of time, see <a href="https://azure.microsoft.com/pricing/details/app-configuration/">Pricing</a>
      * for more information.
-     *
-     *
+     * <p>
      * If {@code selector} is {@code null}, then all the {@link ConfigurationSetting ConfigurationSettings} are fetched
      * in their current state. Otherwise, the results returned match the parameters given in {@code selector}.
      *
@@ -1188,7 +1187,7 @@ public final class ConfigurationClient {
      * in descending order from their {@link ConfigurationSetting#getLastModified() lastModified} date.
      * Revisions expire after a period of time, see <a href="https://azure.microsoft.com/pricing/details/app-configuration/">Pricing</a>
      * for more information.
-     *
+     * <p>
      * If {@code selector} is {@code null}, then all the {@link ConfigurationSetting ConfigurationSettings} are fetched
      * in their current state. Otherwise, the results returned match the parameters given in {@code selector}.
      *
@@ -1214,86 +1213,79 @@ public final class ConfigurationClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<ConfigurationSetting> listRevisions(SettingSelector selector, Context context) {
         final String acceptDateTime = selector == null ? null : selector.getAcceptDateTime();
-        return new PagedIterable<>(
-            () -> {
-                final PagedResponse<KeyValue> pagedResponse = serviceClient.getRevisionsSinglePage(
-                    selector == null ? null : selector.getKeyFilter(),
-                    selector == null ? null : selector.getLabelFilter(),
-                    null,
-                    acceptDateTime,
-                    selector == null ? null : toSettingFieldsList(selector.getFields()),
-                    enableSyncRestProxy(addTracingNamespace(context)));
-                return toConfigurationSettingWithPagedResponse(pagedResponse);
-            },
-            nextLink -> {
-                final PagedResponse<KeyValue> pagedResponse = serviceClient.getRevisionsNextSinglePage(nextLink,
-                    acceptDateTime, enableSyncRestProxy(addTracingNamespace(context)));
-                return toConfigurationSettingWithPagedResponse(pagedResponse);
-            }
-        );
+        return new PagedIterable<>(() -> {
+            final PagedResponse<KeyValue> pagedResponse = serviceClient.getRevisionsSinglePage(
+                selector == null ? null : selector.getKeyFilter(), selector == null ? null : selector.getLabelFilter(),
+                null, acceptDateTime, selector == null ? null : toSettingFieldsList(selector.getFields()), context);
+            return toConfigurationSettingWithPagedResponse(pagedResponse);
+        }, nextLink -> {
+            final PagedResponse<KeyValue> pagedResponse = serviceClient.getRevisionsNextSinglePage(nextLink,
+                acceptDateTime, context);
+            return toConfigurationSettingWithPagedResponse(pagedResponse);
+        });
     }
 
     /**
-     * Create a {@link ConfigurationSettingSnapshot} by providing a snapshot name and a
-     * {@link ConfigurationSettingSnapshot}.
+     * Create a {@link ConfigurationSnapshot} by providing a snapshot name and a
+     * {@link ConfigurationSnapshot}.
      *
      * <p><strong>Code Samples</strong></p>
      *
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.beginCreateSnapshotMaxOverload -->
      * <pre>
-     * List&lt;SnapshotSettingFilter&gt; filters = new ArrayList&lt;&gt;&#40;&#41;;
+     * List&lt;ConfigurationSettingsFilter&gt; filters = new ArrayList&lt;&gt;&#40;&#41;;
      * &#47;&#47; Key Name also supports RegExp but only support prefix end with &quot;*&quot;, such as &quot;k*&quot; and is case-sensitive.
-     * filters.add&#40;new SnapshotSettingFilter&#40;&quot;&#123;keyName&#125;&quot;&#41;&#41;;
+     * filters.add&#40;new ConfigurationSettingsFilter&#40;&quot;&#123;keyName&#125;&quot;&#41;&#41;;
      * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
      * Context ctx = new Context&#40;key2, value2&#41;;
      *
-     * SyncPoller&lt;CreateSnapshotOperationDetail, ConfigurationSettingSnapshot&gt; poller =
+     * SyncPoller&lt;PollOperationDetails, ConfigurationSnapshot&gt; poller =
      *     client.beginCreateSnapshot&#40;snapshotName,
-     *         new ConfigurationSettingSnapshot&#40;filters&#41;.setRetentionPeriod&#40;Duration.ofHours&#40;1&#41;&#41;, ctx&#41;;
+     *         new ConfigurationSnapshot&#40;filters&#41;.setRetentionPeriod&#40;Duration.ofHours&#40;1&#41;&#41;, ctx&#41;;
      * poller.setPollInterval&#40;Duration.ofSeconds&#40;10&#41;&#41;;
      * poller.waitForCompletion&#40;&#41;;
-     * ConfigurationSettingSnapshot snapshot = poller.getFinalResult&#40;&#41;;
+     * ConfigurationSnapshot snapshot = poller.getFinalResult&#40;&#41;;
      *
      * System.out.printf&#40;&quot;Snapshot name=%s is created at %s%n&quot;, snapshot.getName&#40;&#41;, snapshot.getCreatedAt&#40;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.beginCreateSnapshotMaxOverload -->
      *
-     * @param name The name of the {@link ConfigurationSettingSnapshot} to create.
+     * @param snapshotName The name of the {@link ConfigurationSnapshot} to create.
      * @param snapshot The snapshot to create.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A {@link SyncPoller} that polls the creating snapshot operation until it has completed or
-     * has failed. The completed operation returns a {@link ConfigurationSettingSnapshot}.
+     * has failed. The completed operation returns a {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<CreateSnapshotOperationDetail, ConfigurationSettingSnapshot> beginCreateSnapshot(
-        String name, ConfigurationSettingSnapshot snapshot, Context context) {
-        return createSnapshotUtilClient.beginCreateSnapshot(name, snapshot, context);
+    public SyncPoller<PollOperationDetails, ConfigurationSnapshot> beginCreateSnapshot(
+        String snapshotName, ConfigurationSnapshot snapshot, Context context) {
+        return createSnapshotUtilClient.beginCreateSnapshot(snapshotName, snapshot, context);
     }
 
     /**
-     * Get a {@link ConfigurationSettingSnapshot} by given the snapshot name.
+     * Get a {@link ConfigurationSnapshot} by given the snapshot name.
      *
      * <p><strong>Code Samples</strong></p>
      *
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.getSnapshotByName -->
      * <pre>
      * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
-     * ConfigurationSettingSnapshot getSnapshot = client.getSnapshot&#40;snapshotName&#41;;
+     * ConfigurationSnapshot getSnapshot = client.getSnapshot&#40;snapshotName&#41;;
      * System.out.printf&#40;&quot;Snapshot name=%s is created at %s, snapshot status is %s.%n&quot;,
      *     getSnapshot.getName&#40;&#41;, getSnapshot.getCreatedAt&#40;&#41;, getSnapshot.getStatus&#40;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.getSnapshotByName -->
      *
-     * @param name the snapshot name.
-     * @return A {@link ConfigurationSettingSnapshot}.
+     * @param snapshotName the snapshot name.
+     * @return A {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConfigurationSettingSnapshot getSnapshot(String name) {
-        return getSnapshotWithResponse(name, Context.NONE).getValue();
+    public ConfigurationSnapshot getSnapshot(String snapshotName) {
+        return getSnapshotWithResponse(snapshotName, null, Context.NONE).getValue();
     }
 
     /**
-     * Get a {@link ConfigurationSettingSnapshot} by given the snapshot name.
+     * Get a {@link ConfigurationSnapshot} by given the snapshot name.
      *
      * <p><strong>Code Samples</strong></p>
      *
@@ -1301,122 +1293,150 @@ public final class ConfigurationClient {
      * <pre>
      * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
      * Context ctx = new Context&#40;key2, value2&#41;;
-     * ConfigurationSettingSnapshot getSnapshot = client.getSnapshotWithResponse&#40;snapshotName, ctx&#41;.getValue&#40;&#41;;
+     * ConfigurationSnapshot getSnapshot = client.getSnapshotWithResponse&#40;
+     *     snapshotName,
+     *     Arrays.asList&#40;SnapshotFields.NAME, SnapshotFields.CREATED_AT, SnapshotFields.STATUS, SnapshotFields.FILTERS&#41;,
+     *     ctx&#41;
+     *     .getValue&#40;&#41;;
+     * &#47;&#47; Only properties `name`, `createAt`, `status` and `filters` have value, and expect null or
+     * &#47;&#47; empty value other than the `fields` specified in the request.
      * System.out.printf&#40;&quot;Snapshot name=%s is created at %s, snapshot status is %s.%n&quot;,
      *     getSnapshot.getName&#40;&#41;, getSnapshot.getCreatedAt&#40;&#41;, getSnapshot.getStatus&#40;&#41;&#41;;
+     * List&lt;ConfigurationSettingsFilter&gt; filters = getSnapshot.getFilters&#40;&#41;;
+     * for &#40;ConfigurationSettingsFilter filter : filters&#41; &#123;
+     *     System.out.printf&#40;&quot;Snapshot filter key=%s, label=%s.%n&quot;, filter.getKey&#40;&#41;, filter.getLabel&#40;&#41;&#41;;
+     * &#125;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.getSnapshotByNameMaxOverload -->
      *
-     * @param name the snapshot name.
+     * @param snapshotName the snapshot name.
+     * @param fields Used to select what fields are present in the returned resource(s).
      * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return A {@link Response} of {@link ConfigurationSettingSnapshot}.
+     * @return A {@link Response} of {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ConfigurationSettingSnapshot> getSnapshotWithResponse(String name, Context context) {
-        final ResponseBase<GetSnapshotHeaders, ConfigurationSettingSnapshot> response =
-            serviceClient.getSnapshotWithResponse(name, null, null, null, context);
+    public Response<ConfigurationSnapshot> getSnapshotWithResponse(String snapshotName, List<SnapshotFields> fields,
+                                                                          Context context) {
+        final ResponseBase<GetSnapshotHeaders, ConfigurationSnapshot> response =
+            serviceClient.getSnapshotWithResponse(snapshotName, null, null, fields, context);
         return new SimpleResponse<>(response, response.getValue());
     }
 
     /**
-     * Update a snapshot status from {@link SnapshotStatus#READY} to {@link SnapshotStatus#ARCHIVED}.
+     * Update a snapshot status from {@link ConfigurationSnapshotStatus#READY} to {@link ConfigurationSnapshotStatus#ARCHIVED}.
      *
      * <p><strong>Code Samples</strong></p>
      *
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.archiveSnapshotByName -->
      * <pre>
      * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
-     * ConfigurationSettingSnapshot archivedSnapshot = client.archiveSnapshot&#40;snapshotName&#41;;
+     * ConfigurationSnapshot archivedSnapshot = client.archiveSnapshot&#40;snapshotName&#41;;
      * System.out.printf&#40;&quot;Archived snapshot name=%s is created at %s, snapshot status is %s.%n&quot;,
      *     archivedSnapshot.getName&#40;&#41;, archivedSnapshot.getCreatedAt&#40;&#41;, archivedSnapshot.getStatus&#40;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.archiveSnapshotByName -->
      *
-     * @param name The snapshot name.
-     * @return A {@link ConfigurationSettingSnapshot}.
+     * @param snapshotName the snapshot name.
+     * @return A {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConfigurationSettingSnapshot archiveSnapshot(String name) {
-        return updateSnapshotSync(name, null, SnapshotStatus.ARCHIVED, false, serviceClient,
+    public ConfigurationSnapshot archiveSnapshot(String snapshotName) {
+        return updateSnapshotSync(snapshotName, null, ConfigurationSnapshotStatus.ARCHIVED, serviceClient,
             Context.NONE).getValue();
     }
 
     /**
-     * Update a snapshot status from {@link SnapshotStatus#READY} to {@link SnapshotStatus#ARCHIVED}.
+     * Update a snapshot status from {@link ConfigurationSnapshotStatus#READY} to {@link ConfigurationSnapshotStatus#ARCHIVED}.
+     *
+     * <p>
+     * To turn on using 'if-match' header, set the second parameter 'ifUnchanged' to true.
+     * It used to perform an operation only if the targeted resource's ETag matches the value provided.
+     * Otherwise, it will throw an exception '412 Precondition Failed'.
+     * </p>
      *
      * <p><strong>Code Samples</strong></p>
      *
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.archiveSnapshotByNameMaxOverload -->
      * <pre>
+     * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
+     * MatchConditions matchConditions = new MatchConditions&#40;&#41;.setIfMatch&#40;&quot;&#123;etag&#125;&quot;&#41;;
      * Context ctx = new Context&#40;key2, value2&#41;;
      *
-     * ConfigurationSettingSnapshot archivedSnapshot = client.archiveSnapshotWithResponse&#40;snapshot, false,
-     *     ctx&#41;.getValue&#40;&#41;;
+     * ConfigurationSnapshot archivedSnapshot = client.archiveSnapshotWithResponse&#40;snapshotName, matchConditions, ctx&#41;
+     *     .getValue&#40;&#41;;
      * System.out.printf&#40;&quot;Archived snapshot name=%s is created at %s, snapshot status is %s.%n&quot;,
      *     archivedSnapshot.getName&#40;&#41;, archivedSnapshot.getCreatedAt&#40;&#41;, archivedSnapshot.getStatus&#40;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.archiveSnapshotByNameMaxOverload -->
      *
-     * @param snapshot The snapshot to be archived.
-     * @param ifUnchanged Flag indicating if the {@code snapshot} {@link ConfigurationSettingSnapshot#getETag ETag} is
-     * used as a IF-MATCH header.
+     * @param snapshotName the snapshot name.
+     * @param matchConditions Specifies HTTP options for conditional requests.
      * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return A {@link Response} of {@link ConfigurationSettingSnapshot}.
+     * @return A {@link Response} of {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ConfigurationSettingSnapshot> archiveSnapshotWithResponse(ConfigurationSettingSnapshot snapshot,
-                                                                              boolean ifUnchanged, Context context) {
-        return updateSnapshotSync(snapshot.getName(), snapshot, SnapshotStatus.ARCHIVED, ifUnchanged, serviceClient,
+    public Response<ConfigurationSnapshot> archiveSnapshotWithResponse(String snapshotName,
+        MatchConditions matchConditions, Context context) {
+        return updateSnapshotSync(snapshotName, matchConditions, ConfigurationSnapshotStatus.ARCHIVED, serviceClient,
             context);
     }
 
     /**
-     * Update a snapshot status from {@link SnapshotStatus#ARCHIVED} to {@link SnapshotStatus#READY}.
+     * Update a snapshot status from {@link ConfigurationSnapshotStatus#ARCHIVED} to {@link ConfigurationSnapshotStatus#READY}.
      *
      * <p><strong>Code Samples</strong></p>
      *
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.recoverSnapshotByName -->
      * <pre>
      * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
-     * ConfigurationSettingSnapshot recoveredSnapshot = client.recoverSnapshot&#40;snapshotName&#41;;
+     * ConfigurationSnapshot recoveredSnapshot = client.recoverSnapshot&#40;snapshotName&#41;;
      * System.out.printf&#40;&quot;Recovered snapshot name=%s is created at %s, snapshot status is %s.%n&quot;,
      *     recoveredSnapshot.getName&#40;&#41;, recoveredSnapshot.getCreatedAt&#40;&#41;, recoveredSnapshot.getStatus&#40;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.recoverSnapshotByName -->
      *
-     * @param name The snapshot name.
-     * @return A {@link ConfigurationSettingSnapshot}.
+     * @param snapshotName the snapshot name.
+     * @return A {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConfigurationSettingSnapshot recoverSnapshot(String name) {
-        return updateSnapshotSync(name, null, SnapshotStatus.READY, false, serviceClient,
+    public ConfigurationSnapshot recoverSnapshot(String snapshotName) {
+        return updateSnapshotSync(snapshotName, null, ConfigurationSnapshotStatus.READY, serviceClient,
             Context.NONE).getValue();
     }
 
     /**
-     * Update a snapshot status from {@link SnapshotStatus#ARCHIVED} to {@link SnapshotStatus#READY}.
+     * Update a snapshot status from {@link ConfigurationSnapshotStatus#ARCHIVED} to {@link ConfigurationSnapshotStatus#READY}.
+     *
+     * <p>
+     * To turn on using 'if-match' header, set the second parameter 'ifUnchanged' to true.
+     * It used to perform an operation only if the targeted resource's ETag matches the value provided.
+     * Otherwise, it will throw an exception '412 Precondition Failed'.
+     * </p>
      *
      * <p><strong>Code Samples</strong></p>
      *
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.recoverSnapshotMaxOverload -->
      * <pre>
-     * ConfigurationSettingSnapshot recoveredSnapshot = client.recoverSnapshotWithResponse&#40;snapshot, false,
-     *     ctx&#41;.getValue&#40;&#41;;
+     * String snapshotName = &quot;&#123;snapshotName&#125;&quot;;
+     * MatchConditions matchConditions = new MatchConditions&#40;&#41;.setIfMatch&#40;&quot;&#123;etag&#125;&quot;&#41;;
+     * Context ctx = new Context&#40;key2, value2&#41;;
+     *
+     * ConfigurationSnapshot recoveredSnapshot = client.recoverSnapshotWithResponse&#40;snapshotName, matchConditions, ctx&#41;
+     *     .getValue&#40;&#41;;
      * System.out.printf&#40;&quot;Recovered snapshot name=%s is created at %s, snapshot status is %s.%n&quot;,
      *     recoveredSnapshot.getName&#40;&#41;, recoveredSnapshot.getCreatedAt&#40;&#41;, recoveredSnapshot.getStatus&#40;&#41;&#41;;
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.recoverSnapshotMaxOverload -->
      *
-     * @param snapshot The snapshot to be archived.
-     * @param ifUnchanged Flag indicating if the {@code snapshot} {@link ConfigurationSettingSnapshot#getETag()} ETag}
-     *                    is used as an IF-MATCH header.
+     * @param snapshotName the snapshot name.
+     * @param matchConditions Specifies HTTP options for conditional requests.
      * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return A {@link Response} of {@link ConfigurationSettingSnapshot}.
+     * @return A {@link Response} of {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ConfigurationSettingSnapshot> recoverSnapshotWithResponse(ConfigurationSettingSnapshot snapshot,
-                                                                              boolean ifUnchanged, Context context) {
-        return updateSnapshotSync(snapshot.getName(), snapshot, SnapshotStatus.READY, ifUnchanged, serviceClient,
+    public Response<ConfigurationSnapshot> recoverSnapshotWithResponse(String snapshotName,
+        MatchConditions matchConditions, Context context) {
+        return updateSnapshotSync(snapshotName, matchConditions, ConfigurationSnapshotStatus.READY, serviceClient,
             context);
     }
 
@@ -1428,7 +1448,7 @@ public final class ConfigurationClient {
      * <!-- src_embed com.azure.data.appconfiguration.configurationclient.listSnapshots -->
      * <pre>
      * String snapshotNameFilter = &quot;&#123;snapshotNamePrefix&#125;*&quot;;
-     * client.listSnapshots&#40;new SnapshotSelector&#40;&#41;.setName&#40;snapshotNameFilter&#41;&#41;
+     * client.listSnapshots&#40;new SnapshotSelector&#40;&#41;.setNameFilter&#40;snapshotNameFilter&#41;&#41;
      *     .forEach&#40;snapshotResult -&gt; &#123;
      *         System.out.printf&#40;&quot;Listed Snapshot name = %s is created at %s, snapshot status is %s.%n&quot;,
      *             snapshotResult.getName&#40;&#41;, snapshotResult.getCreatedAt&#40;&#41;, snapshotResult.getStatus&#40;&#41;&#41;;
@@ -1436,11 +1456,11 @@ public final class ConfigurationClient {
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.listSnapshots -->
      *
-     * @param selector Optional. Used to filter {@link ConfigurationSettingSnapshot} from the service.
-     * @return A {@link PagedIterable} of {@link ConfigurationSettingSnapshot}.
+     * @param selector Optional. Used to filter {@link ConfigurationSnapshot} from the service.
+     * @return A {@link PagedIterable} of {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ConfigurationSettingSnapshot> listSnapshots(SnapshotSelector selector) {
+    public PagedIterable<ConfigurationSnapshot> listSnapshots(SnapshotSelector selector) {
         return listSnapshots(selector, Context.NONE);
     }
 
@@ -1454,7 +1474,7 @@ public final class ConfigurationClient {
      * String snapshotNameFilter = &quot;&#123;snapshotNamePrefix&#125;*&quot;;
      * Context ctx = new Context&#40;key2, value2&#41;;
      *
-     * client.listSnapshots&#40;new SnapshotSelector&#40;&#41;.setName&#40;snapshotNameFilter&#41;, ctx&#41;
+     * client.listSnapshots&#40;new SnapshotSelector&#40;&#41;.setNameFilter&#40;snapshotNameFilter&#41;, ctx&#41;
      *     .forEach&#40;snapshotResult -&gt; &#123;
      *         System.out.printf&#40;&quot;Listed Snapshot name = %s is created at %s, snapshot status is %s.%n&quot;,
      *             snapshotResult.getName&#40;&#41;, snapshotResult.getCreatedAt&#40;&#41;, snapshotResult.getStatus&#40;&#41;&#41;;
@@ -1462,21 +1482,16 @@ public final class ConfigurationClient {
      * </pre>
      * <!-- end com.azure.data.appconfiguration.configurationclient.listSnapshotsMaxOverload -->
      *
-     * @param selector Optional. Used to filter {@link ConfigurationSettingSnapshot} from the service.
+     * @param selector Optional. Used to filter {@link ConfigurationSnapshot} from the service.
      * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return A {@link PagedIterable} of {@link ConfigurationSettingSnapshot}.
+     * @return A {@link PagedIterable} of {@link ConfigurationSnapshot}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ConfigurationSettingSnapshot> listSnapshots(SnapshotSelector selector, Context context) {
-        return new PagedIterable<>(
-            () -> serviceClient.getSnapshotsSinglePage(
-                selector == null ? null : selector.getName(),
-                null,
-                null,
-                selector == null ? null : iterableToList(selector.getSnapshotStatus()),
-                enableSyncRestProxy(addTracingNamespace(context))),
-            nextLink -> serviceClient.getSnapshotsNextSinglePage(nextLink,
-                enableSyncRestProxy(addTracingNamespace(context))));
+    public PagedIterable<ConfigurationSnapshot> listSnapshots(SnapshotSelector selector, Context context) {
+        return new PagedIterable<>(() -> serviceClient.getSnapshotsSinglePage(
+            selector == null ? null : selector.getNameFilter(), null, selector == null ? null : selector.getFields(),
+            selector == null ? null : selector.getStatus(), context),
+            nextLink -> serviceClient.getSnapshotsNextSinglePage(nextLink, context));
     }
 
     /**

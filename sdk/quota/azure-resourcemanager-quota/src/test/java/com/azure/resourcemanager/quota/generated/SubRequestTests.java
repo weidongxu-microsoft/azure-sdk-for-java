@@ -5,7 +5,7 @@
 package com.azure.resourcemanager.quota.generated;
 
 import com.azure.core.util.BinaryData;
-import com.azure.resourcemanager.quota.models.LimitJsonObject;
+import com.azure.resourcemanager.quota.models.LimitObject;
 import com.azure.resourcemanager.quota.models.ResourceName;
 import com.azure.resourcemanager.quota.models.SubRequest;
 import org.junit.jupiter.api.Assertions;
@@ -13,24 +13,20 @@ import org.junit.jupiter.api.Assertions;
 public final class SubRequestTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        SubRequest model =
-            BinaryData
-                .fromString(
-                    "{\"name\":{\"value\":\"jwnzlljfmp\",\"localizedValue\":\"ebvmgxsabkyqd\"},\"resourceType\":\"jitcjczdzevn\",\"unit\":\"krwpdap\",\"provisioningState\":\"InProgress\",\"message\":\"dkvwrwjfe\",\"subRequestId\":\"nhutjeltmrldhugj\",\"limit\":{\"limitObjectType\":\"LimitJsonObject\"}}")
-                .toObject(SubRequest.class);
-        Assertions.assertEquals("jwnzlljfmp", model.name().value());
-        Assertions.assertEquals("krwpdap", model.unit());
+        SubRequest model = BinaryData.fromString(
+            "{\"name\":{\"value\":\"wiyighxpkdw\",\"localizedValue\":\"aiuebbaumnyqu\"},\"resourceType\":\"deoj\",\"unit\":\"bckhsmtxpsi\",\"provisioningState\":\"Succeeded\",\"message\":\"hvpesapskrdqm\",\"subRequestId\":\"jdhtldwkyzxu\",\"limit\":{\"limitObjectType\":\"LimitValue\"}}")
+            .toObject(SubRequest.class);
+        Assertions.assertEquals("wiyighxpkdw", model.name().value());
+        Assertions.assertEquals("bckhsmtxpsi", model.unit());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SubRequest model =
-            new SubRequest()
-                .withName(new ResourceName().withValue("jwnzlljfmp"))
-                .withUnit("krwpdap")
-                .withLimit(new LimitJsonObject());
+        SubRequest model = new SubRequest().withName(new ResourceName().withValue("wiyighxpkdw"))
+            .withUnit("bckhsmtxpsi")
+            .withLimit(new LimitObject());
         model = BinaryData.fromObject(model).toObject(SubRequest.class);
-        Assertions.assertEquals("jwnzlljfmp", model.name().value());
-        Assertions.assertEquals("krwpdap", model.unit());
+        Assertions.assertEquals("wiyighxpkdw", model.name().value());
+        Assertions.assertEquals("bckhsmtxpsi", model.unit());
     }
 }

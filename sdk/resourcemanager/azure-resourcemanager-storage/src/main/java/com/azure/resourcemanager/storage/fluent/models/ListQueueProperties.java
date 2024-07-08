@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-/** The ListQueueProperties model. */
+/**
+ * The ListQueueProperties model.
+ */
 @Fluent
 public final class ListQueueProperties {
     /*
@@ -20,8 +22,14 @@ public final class ListQueueProperties {
     private Map<String, String> metadata;
 
     /**
+     * Creates an instance of ListQueueProperties class.
+     */
+    public ListQueueProperties() {
+    }
+
+    /**
      * Get the metadata property: A name-value pair that represents queue metadata.
-     *
+     * 
      * @return the metadata value.
      */
     public Map<String, String> metadata() {
@@ -30,7 +38,7 @@ public final class ListQueueProperties {
 
     /**
      * Set the metadata property: A name-value pair that represents queue metadata.
-     *
+     * 
      * @param metadata the metadata value to set.
      * @return the ListQueueProperties object itself.
      */
@@ -41,7 +49,7 @@ public final class ListQueueProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -7,17 +7,26 @@ package com.azure.resourcemanager.elasticsan.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.management.ProxyResource;
 import com.azure.core.management.SystemData;
+import com.azure.resourcemanager.elasticsan.models.EncryptionProperties;
 import com.azure.resourcemanager.elasticsan.models.EncryptionType;
+import com.azure.resourcemanager.elasticsan.models.Identity;
 import com.azure.resourcemanager.elasticsan.models.NetworkRuleSet;
 import com.azure.resourcemanager.elasticsan.models.ProvisioningStates;
 import com.azure.resourcemanager.elasticsan.models.StorageTargetType;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Map;
+import java.util.List;
 
-/** Response for Volume Group request. */
+/**
+ * Response for Volume Group request.
+ */
 @Fluent
 public final class VolumeGroupInner extends ProxyResource {
+    /*
+     * The identity of the resource.
+     */
+    @JsonProperty(value = "identity")
+    private Identity identity;
+
     /*
      * Properties of VolumeGroup.
      */
@@ -25,25 +34,40 @@ public final class VolumeGroupInner extends ProxyResource {
     private VolumeGroupProperties innerProperties;
 
     /*
-     * Resource metadata required by ARM RPC
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /*
-     * Azure resource tags.
+    /**
+     * Creates an instance of VolumeGroupInner class.
      */
-    @JsonProperty(value = "tags")
-    @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
-    private Map<String, String> tags;
-
-    /** Creates an instance of VolumeGroupInner class. */
     public VolumeGroupInner() {
     }
 
     /**
+     * Get the identity property: The identity of the resource.
+     * 
+     * @return the identity value.
+     */
+    public Identity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity property: The identity of the resource.
+     * 
+     * @param identity the identity value to set.
+     * @return the VolumeGroupInner object itself.
+     */
+    public VolumeGroupInner withIdentity(Identity identity) {
+        this.identity = identity;
+        return this;
+    }
+
+    /**
      * Get the innerProperties property: Properties of VolumeGroup.
-     *
+     * 
      * @return the innerProperties value.
      */
     private VolumeGroupProperties innerProperties() {
@@ -51,8 +75,8 @@ public final class VolumeGroupInner extends ProxyResource {
     }
 
     /**
-     * Get the systemData property: Resource metadata required by ARM RPC.
-     *
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     * 
      * @return the systemData value.
      */
     public SystemData systemData() {
@@ -60,28 +84,8 @@ public final class VolumeGroupInner extends ProxyResource {
     }
 
     /**
-     * Get the tags property: Azure resource tags.
-     *
-     * @return the tags value.
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags property: Azure resource tags.
-     *
-     * @param tags the tags value to set.
-     * @return the VolumeGroupInner object itself.
-     */
-    public VolumeGroupInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    /**
      * Get the provisioningState property: State of the operation on the resource.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningStates provisioningState() {
@@ -90,7 +94,7 @@ public final class VolumeGroupInner extends ProxyResource {
 
     /**
      * Get the protocolType property: Type of storage target.
-     *
+     * 
      * @return the protocolType value.
      */
     public StorageTargetType protocolType() {
@@ -99,7 +103,7 @@ public final class VolumeGroupInner extends ProxyResource {
 
     /**
      * Set the protocolType property: Type of storage target.
-     *
+     * 
      * @param protocolType the protocolType value to set.
      * @return the VolumeGroupInner object itself.
      */
@@ -113,7 +117,7 @@ public final class VolumeGroupInner extends ProxyResource {
 
     /**
      * Get the encryption property: Type of encryption.
-     *
+     * 
      * @return the encryption value.
      */
     public EncryptionType encryption() {
@@ -122,7 +126,7 @@ public final class VolumeGroupInner extends ProxyResource {
 
     /**
      * Set the encryption property: Type of encryption.
-     *
+     * 
      * @param encryption the encryption value to set.
      * @return the VolumeGroupInner object itself.
      */
@@ -135,8 +139,31 @@ public final class VolumeGroupInner extends ProxyResource {
     }
 
     /**
+     * Get the encryptionProperties property: Encryption Properties describing Key Vault and Identity information.
+     * 
+     * @return the encryptionProperties value.
+     */
+    public EncryptionProperties encryptionProperties() {
+        return this.innerProperties() == null ? null : this.innerProperties().encryptionProperties();
+    }
+
+    /**
+     * Set the encryptionProperties property: Encryption Properties describing Key Vault and Identity information.
+     * 
+     * @param encryptionProperties the encryptionProperties value to set.
+     * @return the VolumeGroupInner object itself.
+     */
+    public VolumeGroupInner withEncryptionProperties(EncryptionProperties encryptionProperties) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new VolumeGroupProperties();
+        }
+        this.innerProperties().withEncryptionProperties(encryptionProperties);
+        return this;
+    }
+
+    /**
      * Get the networkAcls property: A collection of rules governing the accessibility from specific network locations.
-     *
+     * 
      * @return the networkAcls value.
      */
     public NetworkRuleSet networkAcls() {
@@ -145,7 +172,7 @@ public final class VolumeGroupInner extends ProxyResource {
 
     /**
      * Set the networkAcls property: A collection of rules governing the accessibility from specific network locations.
-     *
+     * 
      * @param networkAcls the networkAcls value to set.
      * @return the VolumeGroupInner object itself.
      */
@@ -158,11 +185,23 @@ public final class VolumeGroupInner extends ProxyResource {
     }
 
     /**
+     * Get the privateEndpointConnections property: The list of Private Endpoint Connections.
+     * 
+     * @return the privateEndpointConnections value.
+     */
+    public List<PrivateEndpointConnectionInner> privateEndpointConnections() {
+        return this.innerProperties() == null ? null : this.innerProperties().privateEndpointConnections();
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (identity() != null) {
+            identity().validate();
+        }
         if (innerProperties() != null) {
             innerProperties().validate();
         }

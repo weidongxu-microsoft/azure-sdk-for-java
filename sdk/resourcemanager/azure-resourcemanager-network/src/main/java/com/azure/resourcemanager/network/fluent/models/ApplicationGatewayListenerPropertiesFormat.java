@@ -10,7 +10,11 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayProtocol;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Properties of listener of an application gateway. */
+import java.util.List;
+
+/**
+ * Properties of listener of an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayListenerPropertiesFormat {
     /*
@@ -49,7 +53,15 @@ public final class ApplicationGatewayListenerPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of ApplicationGatewayListenerPropertiesFormat class. */
+    /*
+     * List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well.
+     */
+    @JsonProperty(value = "hostNames")
+    private List<String> hostNames;
+
+    /**
+     * Creates an instance of ApplicationGatewayListenerPropertiesFormat class.
+     */
     public ApplicationGatewayListenerPropertiesFormat() {
     }
 
@@ -160,6 +172,28 @@ public final class ApplicationGatewayListenerPropertiesFormat {
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the hostNames property: List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special
+     * wildcard characters as well.
+     *
+     * @return the hostNames value.
+     */
+    public List<String> hostNames() {
+        return this.hostNames;
+    }
+
+    /**
+     * Set the hostNames property: List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special
+     * wildcard characters as well.
+     *
+     * @param hostNames the hostNames value to set.
+     * @return the ApplicationGatewayListenerPropertiesFormat object itself.
+     */
+    public ApplicationGatewayListenerPropertiesFormat withHostNames(List<String> hostNames) {
+        this.hostNames = hostNames;
+        return this;
     }
 
     /**

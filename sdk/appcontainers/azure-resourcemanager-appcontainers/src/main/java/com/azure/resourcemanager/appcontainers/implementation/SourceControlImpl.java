@@ -73,21 +73,14 @@ public final class SourceControlImpl implements SourceControl, SourceControl.Def
     }
 
     public SourceControl create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getContainerAppsSourceControls()
-                .createOrUpdate(
-                    resourceGroupName, containerAppName, sourceControlName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient().getContainerAppsSourceControls()
+            .createOrUpdate(resourceGroupName, containerAppName, sourceControlName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public SourceControl create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getContainerAppsSourceControls()
-                .createOrUpdate(resourceGroupName, containerAppName, sourceControlName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient().getContainerAppsSourceControls()
+            .createOrUpdate(resourceGroupName, containerAppName, sourceControlName, this.innerModel(), context);
         return this;
     }
 
@@ -102,51 +95,35 @@ public final class SourceControlImpl implements SourceControl, SourceControl.Def
     }
 
     public SourceControl apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getContainerAppsSourceControls()
-                .createOrUpdate(
-                    resourceGroupName, containerAppName, sourceControlName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient().getContainerAppsSourceControls()
+            .createOrUpdate(resourceGroupName, containerAppName, sourceControlName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public SourceControl apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getContainerAppsSourceControls()
-                .createOrUpdate(resourceGroupName, containerAppName, sourceControlName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient().getContainerAppsSourceControls()
+            .createOrUpdate(resourceGroupName, containerAppName, sourceControlName, this.innerModel(), context);
         return this;
     }
 
-    SourceControlImpl(
-        SourceControlInner innerObject,
+    SourceControlImpl(SourceControlInner innerObject,
         com.azure.resourcemanager.appcontainers.ContainerAppsApiManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
-        this.resourceGroupName = Utils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.containerAppName = Utils.getValueFromIdByName(innerObject.id(), "containerApps");
-        this.sourceControlName = Utils.getValueFromIdByName(innerObject.id(), "sourcecontrols");
+        this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
+        this.containerAppName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "containerApps");
+        this.sourceControlName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "sourcecontrols");
     }
 
     public SourceControl refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getContainerAppsSourceControls()
-                .getWithResponse(resourceGroupName, containerAppName, sourceControlName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient().getContainerAppsSourceControls()
+            .getWithResponse(resourceGroupName, containerAppName, sourceControlName, Context.NONE).getValue();
         return this;
     }
 
     public SourceControl refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getContainerAppsSourceControls()
-                .getWithResponse(resourceGroupName, containerAppName, sourceControlName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient().getContainerAppsSourceControls()
+            .getWithResponse(resourceGroupName, containerAppName, sourceControlName, context).getValue();
         return this;
     }
 

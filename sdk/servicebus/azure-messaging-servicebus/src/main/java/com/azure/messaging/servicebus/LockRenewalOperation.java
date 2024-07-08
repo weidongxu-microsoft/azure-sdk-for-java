@@ -25,7 +25,7 @@ import static com.azure.messaging.servicebus.implementation.ServiceBusConstants.
 /**
  * Represents a renewal session or message lock renewal operation that.
  */
-class LockRenewalOperation implements AutoCloseable {
+class LockRenewalOperation implements AutoCloseable, Disposable {
     private final ClientLogger logger;
     private final AtomicBoolean isDisposed = new AtomicBoolean();
     private final AtomicReference<OffsetDateTime> lockedUntil = new AtomicReference<>();
@@ -96,7 +96,7 @@ class LockRenewalOperation implements AutoCloseable {
                 cancellationProcessor.onComplete();
             }, () -> {
                 if (status.compareAndSet(LockRenewalStatus.RUNNING, LockRenewalStatus.COMPLETE)) {
-                    logger.verbose("Renewing session lock task completed.");
+                    logger.verbose("Renewing lock task completed.");
                 }
 
                 cancellationProcessor.onComplete();
@@ -172,6 +172,16 @@ class LockRenewalOperation implements AutoCloseable {
 
         cancellationProcessor.onComplete();
         subscription.dispose();
+    }
+
+    @Override
+    public void dispose() {
+        close();
+    }
+
+    @Override
+    public boolean isDisposed() {
+        return isDisposed.get();
     }
 
     /**

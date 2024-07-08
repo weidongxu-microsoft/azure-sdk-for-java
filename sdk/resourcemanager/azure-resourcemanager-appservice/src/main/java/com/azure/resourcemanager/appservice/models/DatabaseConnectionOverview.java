@@ -6,9 +6,12 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Static Site Database Connection overview. */
+/**
+ * Static Site Database Connection overview.
+ */
 @Immutable
 public final class DatabaseConnectionOverview {
     /*
@@ -18,9 +21,7 @@ public final class DatabaseConnectionOverview {
     private String resourceId;
 
     /*
-     * If present, the identity is used in conjunction with connection string to connect to the database. Use of the
-     * system-assigned managed identity is indicated with the string 'SystemAssigned', while use of a user-assigned
-     * managed identity is indicated with the resource id of the managed identity resource.
+     * If present, the identity is used in conjunction with connection string to connect to the database. Use of the system-assigned managed identity is indicated with the string 'SystemAssigned', while use of a user-assigned managed identity is indicated with the resource id of the managed identity resource.
      */
     @JsonProperty(value = "connectionIdentity", access = JsonProperty.Access.WRITE_ONLY)
     private String connectionIdentity;
@@ -43,7 +44,9 @@ public final class DatabaseConnectionOverview {
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
-    /** Creates an instance of DatabaseConnectionOverview class. */
+    /**
+     * Creates an instance of DatabaseConnectionOverview class.
+     */
     public DatabaseConnectionOverview() {
     }
 

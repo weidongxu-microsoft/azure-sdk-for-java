@@ -7,17 +7,31 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** Azure File Share workload-specific backup item. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "protectedItemType")
+/**
+ * Azure File Share workload-specific backup item.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "protectedItemType",
+    defaultImpl = AzureFileshareProtectedItem.class,
+    visible = true)
 @JsonTypeName("AzureFileShareProtectedItem")
 @Fluent
 public final class AzureFileshareProtectedItem extends ProtectedItem {
+    /*
+     * backup item type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "protectedItemType", required = true)
+    private String protectedItemType = "AzureFileShareProtectedItem";
+
     /*
      * Friendly name of the fileshare represented by this backup item.
      */
@@ -61,13 +75,25 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
     @JsonProperty(value = "extendedInfo")
     private AzureFileshareProtectedItemExtendedInfo extendedInfo;
 
-    /** Creates an instance of AzureFileshareProtectedItem class. */
+    /**
+     * Creates an instance of AzureFileshareProtectedItem class.
+     */
     public AzureFileshareProtectedItem() {
     }
 
     /**
+     * Get the protectedItemType property: backup item type.
+     * 
+     * @return the protectedItemType value.
+     */
+    @Override
+    public String protectedItemType() {
+        return this.protectedItemType;
+    }
+
+    /**
      * Get the friendlyName property: Friendly name of the fileshare represented by this backup item.
-     *
+     * 
      * @return the friendlyName value.
      */
     public String friendlyName() {
@@ -76,7 +102,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the friendlyName property: Friendly name of the fileshare represented by this backup item.
-     *
+     * 
      * @param friendlyName the friendlyName value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -87,7 +113,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Get the protectionStatus property: Backup status of this backup item.
-     *
+     * 
      * @return the protectionStatus value.
      */
     public String protectionStatus() {
@@ -96,7 +122,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the protectionStatus property: Backup status of this backup item.
-     *
+     * 
      * @param protectionStatus the protectionStatus value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -107,7 +133,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Get the protectionState property: Backup state of this backup item.
-     *
+     * 
      * @return the protectionState value.
      */
     public ProtectionState protectionState() {
@@ -116,7 +142,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the protectionState property: Backup state of this backup item.
-     *
+     * 
      * @param protectionState the protectionState value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -127,7 +153,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Get the lastBackupStatus property: Last backup operation status. Possible values: Healthy, Unhealthy.
-     *
+     * 
      * @return the lastBackupStatus value.
      */
     public String lastBackupStatus() {
@@ -136,7 +162,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the lastBackupStatus property: Last backup operation status. Possible values: Healthy, Unhealthy.
-     *
+     * 
      * @param lastBackupStatus the lastBackupStatus value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -147,7 +173,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Get the lastBackupTime property: Timestamp of the last backup operation on this backup item.
-     *
+     * 
      * @return the lastBackupTime value.
      */
     public OffsetDateTime lastBackupTime() {
@@ -156,7 +182,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the lastBackupTime property: Timestamp of the last backup operation on this backup item.
-     *
+     * 
      * @param lastBackupTime the lastBackupTime value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -167,7 +193,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Get the kpisHealths property: Health details of different KPIs.
-     *
+     * 
      * @return the kpisHealths value.
      */
     public Map<String, KpiResourceHealthDetails> kpisHealths() {
@@ -176,7 +202,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the kpisHealths property: Health details of different KPIs.
-     *
+     * 
      * @param kpisHealths the kpisHealths value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -187,7 +213,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Get the extendedInfo property: Additional information with this backup item.
-     *
+     * 
      * @return the extendedInfo value.
      */
     public AzureFileshareProtectedItemExtendedInfo extendedInfo() {
@@ -196,7 +222,7 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Set the extendedInfo property: Additional information with this backup item.
-     *
+     * 
      * @param extendedInfo the extendedInfo value to set.
      * @return the AzureFileshareProtectedItem object itself.
      */
@@ -205,105 +231,135 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withContainerName(String containerName) {
         super.withContainerName(containerName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withSourceResourceId(String sourceResourceId) {
         super.withSourceResourceId(sourceResourceId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withPolicyId(String policyId) {
         super.withPolicyId(policyId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withLastRecoveryPoint(OffsetDateTime lastRecoveryPoint) {
         super.withLastRecoveryPoint(lastRecoveryPoint);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withBackupSetName(String backupSetName) {
         super.withBackupSetName(backupSetName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withCreateMode(CreateMode createMode) {
         super.withCreateMode(createMode);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withDeferredDeleteTimeInUtc(OffsetDateTime deferredDeleteTimeInUtc) {
         super.withDeferredDeleteTimeInUtc(deferredDeleteTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withIsScheduledForDeferredDelete(Boolean isScheduledForDeferredDelete) {
         super.withIsScheduledForDeferredDelete(isScheduledForDeferredDelete);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withDeferredDeleteTimeRemaining(String deferredDeleteTimeRemaining) {
         super.withDeferredDeleteTimeRemaining(deferredDeleteTimeRemaining);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withIsDeferredDeleteScheduleUpcoming(Boolean isDeferredDeleteScheduleUpcoming) {
         super.withIsDeferredDeleteScheduleUpcoming(isDeferredDeleteScheduleUpcoming);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withIsRehydrate(Boolean isRehydrate) {
         super.withIsRehydrate(isRehydrate);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withIsArchiveEnabled(Boolean isArchiveEnabled) {
         super.withIsArchiveEnabled(isArchiveEnabled);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withPolicyName(String policyName) {
         super.withPolicyName(policyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureFileshareProtectedItem withSoftDeleteRetentionPeriod(Integer softDeleteRetentionPeriod) {
         super.withSoftDeleteRetentionPeriod(softDeleteRetentionPeriod);
@@ -312,21 +368,18 @@ public final class AzureFileshareProtectedItem extends ProtectedItem {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (kpisHealths() != null) {
-            kpisHealths()
-                .values()
-                .forEach(
-                    e -> {
-                        if (e != null) {
-                            e.validate();
-                        }
-                    });
+            kpisHealths().values().forEach(e -> {
+                if (e != null) {
+                    e.validate();
+                }
+            });
         }
         if (extendedInfo() != null) {
             extendedInfo().validate();

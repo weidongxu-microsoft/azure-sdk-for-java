@@ -1,6 +1,6 @@
 # Release History
 
-## 1.19.0-beta.1 (Unreleased)
+## 1.27.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,148 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.26.0 (2024-06-06)
+
+### Features Added
+
+- Added `InterceptoprManager.removeSanitizers` to remove sanitizers used by Test Proxy.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.49.0` to `1.49.1`.
+
+## 1.25.0 (2024-05-01)
+
+### Features Added
+
+- `TestContextManager` added `setTestIteration(Integer)` and `getTrackTestName`.
+- Added annotations `LiveOnly` and `PlaybackOnly` to skip tests from running in other testing modes.
+- Added `TestContextManagerParameterResolver` to manage resolving `TestContextManager` parameters.
+
+### Breaking Changes
+
+- `TestBase` no longer extends `BeforeEachCallback`.
+- `TestBase.setupTest` now takes `TestContextManager` rather than `TestInfo`, which is provided by `TestContextManagerParameterResolver`.
+- `TestBase.teardownTest` no longer takes a parameter.
+- `TestProxyTestBase.setupTestProxy` no lnoger takes a parameter.
+- `TestContextManager` no longer validates that a non-PLAYBACK test was ran in PLAYBACK mode, `TestBase` validates that now.
+- `DoNotRecord` deprecated `skipInPlayback`, if a test should be skipped in PLAYBACK and shouldn't be recorded it should
+  be annotated with both `DoNotRecord` and `LiveOnly`.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.48.0` to `1.49.0`.
+
+## 1.24.2 (2024-04-23)
+
+### Other Changes
+
+- Added more missing sanitizers.
+
+## 1.24.1 (2024-04-05)
+
+### Other Changes
+
+- Added missing sanitizers.
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.47.0` to `1.48.0`.
+
+## 1.24.0 (2024-03-01)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.46.0` to `1.47.0`.
+
+## 1.23.0 (2024-02-02)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.45.1` to `1.46.0`.
+
+## 1.22.0 (2023-11-03)
+
+### Features Added
+
+- Added request retry to Test Proxy. ([#36656](https://github.com/Azure/azure-sdk-for-java/pull/36656))
+
+### Breaking Changes
+
+- Made `TextProxyManager` `final`, removed constructor, made `startProxy` static, and hid `stopProxy`. ([#36656](https://github.com/Azure/azure-sdk-for-java/pull/36656))
+
+### Bugs Fixed
+
+- Fixed a bug where Test Proxy could deadlock during test runs as the error stream wasn't consumed. ([#37140](https://github.com/Azure/azure-sdk-for-java/pull/37140))
+- Fixed a bug where `aarch64` didn't match to `arm64`. ([#37137](https://github.com/Azure/azure-sdk-for-java/pull/37137))
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.44.1` to `1.45.0`.
+
+## 1.21.1 (2023-10-17)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.44.0` to `1.44.1`.
+- Upgraded `reactor-test` from `3.4.31` to `3.4.32`.
+- Upgraded `reactor-netty-http` from `1.0.34` to `1.0.38`.
+- Upgraded `jetty-server` from `9.4.51.v20230217` to `9.4.53.v20231009`.
+- Upgraded `jetty-servlet` from `9.4.51.v20230217` to `9.4.53.v20231009`.
+- Upgraded `commons-compress` from `1.22` to `1.24.0`.
+
+## 1.21.0 (2023-10-06)
+
+### Features Added
+
+- Added support for bulk `AddSanitizers` in Test Proxy. ([#36694](https://github.com/Azure/azure-sdk-for-java/pull/36694))
+
+### Bugs Fixed
+
+- Aligned XML redactions for Test Proxy with previous recording framework. ([#37043](https://github.com/Azure/azure-sdk-for-java/pull/37043))
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.43.0` to `1.44.0`.
+
+## 1.20.0 (2023-09-07)
+
+### Features Added
+
+- Added `TestProxyRecordingOptions` model representing the transport layer options to send to the test proxy when recording.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.42.0` to `1.43.0`.
+
+## 1.19.0 (2023-08-04)
+
+### Features Added
+- Add helper methods for adding sanitizers and matchers
+- Updated the list of headers to redact to include "subscription-key"
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core` from `1.41.0` to `1.42.0`.
 
 ## 1.18.1 (2023-07-06)
 

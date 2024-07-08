@@ -13,32 +13,20 @@ import org.junit.jupiter.api.Assertions;
 public final class DppProxyResourceTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        DppProxyResource model =
-            BinaryData
-                .fromString(
-                    "{\"tags\":{\"npiucgygevqznty\":\"pazyxoegukg\",\"dpydn\":\"mrbpizcdrqj\",\"sjttgzfbish\":\"yhxdeoejzicwi\",\"jdeyeamdpha\":\"bkh\"},\"id\":\"lpbuxwgipwhonowk\",\"name\":\"shwankixzbinje\",\"type\":\"uttmrywnuzoqft\"}")
-                .toObject(DppProxyResource.class);
-        Assertions.assertEquals("pazyxoegukg", model.tags().get("npiucgygevqznty"));
+        DppProxyResource model = BinaryData.fromString(
+            "{\"tags\":{\"zq\":\"gyepsbjt\",\"fjz\":\"gxywpmue\"},\"id\":\"qkqujidsu\",\"name\":\"onobglaocqx\",\"type\":\"ccm\"}")
+            .toObject(DppProxyResource.class);
+        Assertions.assertEquals("gyepsbjt", model.tags().get("zq"));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        DppProxyResource model =
-            new DppProxyResource()
-                .withTags(
-                    mapOf(
-                        "npiucgygevqznty",
-                        "pazyxoegukg",
-                        "dpydn",
-                        "mrbpizcdrqj",
-                        "sjttgzfbish",
-                        "yhxdeoejzicwi",
-                        "jdeyeamdpha",
-                        "bkh"));
+        DppProxyResource model = new DppProxyResource().withTags(mapOf("zq", "gyepsbjt", "fjz", "gxywpmue"));
         model = BinaryData.fromObject(model).toObject(DppProxyResource.class);
-        Assertions.assertEquals("pazyxoegukg", model.tags().get("npiucgygevqznty"));
+        Assertions.assertEquals("gyepsbjt", model.tags().get("zq"));
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

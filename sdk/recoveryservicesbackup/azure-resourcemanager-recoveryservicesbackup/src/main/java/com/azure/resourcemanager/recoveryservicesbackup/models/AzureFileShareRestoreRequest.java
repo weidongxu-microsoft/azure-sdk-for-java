@@ -6,15 +6,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** AzureFileShare Restore Request. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * AzureFileShare Restore Request.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = AzureFileShareRestoreRequest.class,
+    visible = true)
 @JsonTypeName("AzureFileShareRestoreRequest")
 @Fluent
 public final class AzureFileShareRestoreRequest extends RestoreRequest {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureFileShareRestoreRequest";
+
     /*
      * Type of this recovery.
      */
@@ -51,13 +65,26 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
     @JsonProperty(value = "targetDetails")
     private TargetAfsRestoreInfo targetDetails;
 
-    /** Creates an instance of AzureFileShareRestoreRequest class. */
+    /**
+     * Creates an instance of AzureFileShareRestoreRequest class.
+     */
     public AzureFileShareRestoreRequest() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the recoveryType property: Type of this recovery.
-     *
+     * 
      * @return the recoveryType value.
      */
     public RecoveryType recoveryType() {
@@ -66,7 +93,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Set the recoveryType property: Type of this recovery.
-     *
+     * 
      * @param recoveryType the recoveryType value to set.
      * @return the AzureFileShareRestoreRequest object itself.
      */
@@ -77,7 +104,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Get the sourceResourceId property: Source storage account ARM Id.
-     *
+     * 
      * @return the sourceResourceId value.
      */
     public String sourceResourceId() {
@@ -86,7 +113,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Set the sourceResourceId property: Source storage account ARM Id.
-     *
+     * 
      * @param sourceResourceId the sourceResourceId value to set.
      * @return the AzureFileShareRestoreRequest object itself.
      */
@@ -97,7 +124,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Get the copyOptions property: Options to resolve copy conflicts.
-     *
+     * 
      * @return the copyOptions value.
      */
     public CopyOptions copyOptions() {
@@ -106,7 +133,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Set the copyOptions property: Options to resolve copy conflicts.
-     *
+     * 
      * @param copyOptions the copyOptions value to set.
      * @return the AzureFileShareRestoreRequest object itself.
      */
@@ -117,7 +144,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Get the restoreRequestType property: Restore Type (FullShareRestore or ItemLevelRestore).
-     *
+     * 
      * @return the restoreRequestType value.
      */
     public RestoreRequestType restoreRequestType() {
@@ -126,7 +153,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Set the restoreRequestType property: Restore Type (FullShareRestore or ItemLevelRestore).
-     *
+     * 
      * @param restoreRequestType the restoreRequestType value to set.
      * @return the AzureFileShareRestoreRequest object itself.
      */
@@ -138,7 +165,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
     /**
      * Get the restoreFileSpecs property: List of Source Files/Folders(which need to recover) and TargetFolderPath
      * details.
-     *
+     * 
      * @return the restoreFileSpecs value.
      */
     public List<RestoreFileSpecs> restoreFileSpecs() {
@@ -148,7 +175,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
     /**
      * Set the restoreFileSpecs property: List of Source Files/Folders(which need to recover) and TargetFolderPath
      * details.
-     *
+     * 
      * @param restoreFileSpecs the restoreFileSpecs value to set.
      * @return the AzureFileShareRestoreRequest object itself.
      */
@@ -159,7 +186,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Get the targetDetails property: Target File Share Details.
-     *
+     * 
      * @return the targetDetails value.
      */
     public TargetAfsRestoreInfo targetDetails() {
@@ -168,7 +195,7 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
 
     /**
      * Set the targetDetails property: Target File Share Details.
-     *
+     * 
      * @param targetDetails the targetDetails value to set.
      * @return the AzureFileShareRestoreRequest object itself.
      */
@@ -178,8 +205,18 @@ public final class AzureFileShareRestoreRequest extends RestoreRequest {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AzureFileShareRestoreRequest
+        withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
+        super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

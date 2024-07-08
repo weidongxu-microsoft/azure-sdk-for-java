@@ -7,25 +7,23 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.CloudServiceConfiguration;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class CloudServiceConfigurationTests {
-    @Test
-    public void testDeserialize() {
-        CloudServiceConfiguration model =
-            BinaryData
-                .fromString("{\"osFamily\":\"b\",\"osVersion\":\"ceopzfqrhhuaopp\"}")
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        CloudServiceConfiguration model
+            = BinaryData.fromString("{\"osFamily\":\"pfqbuaceopzf\",\"osVersion\":\"hhuao\"}")
                 .toObject(CloudServiceConfiguration.class);
-        Assertions.assertEquals("b", model.osFamily());
-        Assertions.assertEquals("ceopzfqrhhuaopp", model.osVersion());
+        Assertions.assertEquals("pfqbuaceopzf", model.osFamily());
+        Assertions.assertEquals("hhuao", model.osVersion());
     }
 
-    @Test
-    public void testSerialize() {
-        CloudServiceConfiguration model =
-            new CloudServiceConfiguration().withOsFamily("b").withOsVersion("ceopzfqrhhuaopp");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        CloudServiceConfiguration model
+            = new CloudServiceConfiguration().withOsFamily("pfqbuaceopzf").withOsVersion("hhuao");
         model = BinaryData.fromObject(model).toObject(CloudServiceConfiguration.class);
-        Assertions.assertEquals("b", model.osFamily());
-        Assertions.assertEquals("ceopzfqrhhuaopp", model.osVersion());
+        Assertions.assertEquals("pfqbuaceopzf", model.osFamily());
+        Assertions.assertEquals("hhuao", model.osVersion());
     }
 }

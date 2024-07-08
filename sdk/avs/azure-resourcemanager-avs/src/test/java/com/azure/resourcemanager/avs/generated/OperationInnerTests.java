@@ -6,37 +6,19 @@ package com.azure.resourcemanager.avs.generated;
 
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.avs.fluent.models.OperationInner;
-import com.azure.resourcemanager.avs.models.OperationProperties;
-import com.azure.resourcemanager.avs.models.ServiceSpecification;
-import java.util.Arrays;
-import org.junit.jupiter.api.Assertions;
+import com.azure.resourcemanager.avs.models.OperationDisplay;
 
 public final class OperationInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        OperationInner model =
-            BinaryData
-                .fromString(
-                    "{\"name\":\"smy\",\"display\":{\"provider\":\"dtmlxhekuksjt\",\"resource\":\"kc\",\"operation\":\"parcry\",\"description\":\"nzwuxzd\"},\"isDataAction\":false,\"origin\":\"rlhm\",\"properties\":{\"serviceSpecification\":{\"logSpecifications\":[],\"metricSpecifications\":[]}}}")
-                .toObject(OperationInner.class);
-        Assertions.assertEquals(false, model.isDataAction());
-        Assertions.assertEquals("rlhm", model.origin());
+        OperationInner model = BinaryData.fromString(
+            "{\"name\":\"usarhmofc\",\"isDataAction\":false,\"display\":{\"provider\":\"urkdtmlx\",\"resource\":\"kuksjtxukcdm\",\"operation\":\"rcryuanzwuxzdxta\",\"description\":\"lhmwhfpmrqobm\"},\"origin\":\"user,system\",\"actionType\":\"Internal\"}")
+            .toObject(OperationInner.class);
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        OperationInner model =
-            new OperationInner()
-                .withIsDataAction(false)
-                .withOrigin("rlhm")
-                .withProperties(
-                    new OperationProperties()
-                        .withServiceSpecification(
-                            new ServiceSpecification()
-                                .withLogSpecifications(Arrays.asList())
-                                .withMetricSpecifications(Arrays.asList())));
+        OperationInner model = new OperationInner().withDisplay(new OperationDisplay());
         model = BinaryData.fromObject(model).toObject(OperationInner.class);
-        Assertions.assertEquals(false, model.isDataAction());
-        Assertions.assertEquals("rlhm", model.origin());
     }
 }

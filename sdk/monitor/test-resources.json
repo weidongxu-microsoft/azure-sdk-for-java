@@ -31,7 +31,7 @@
       "type": "String"
     },
     "regionId": {
-      "defaultValue": "westus2",
+      "defaultValue": "[resourceGroup().location]",
       "type": "string",
       "metadata": {
         "description": "Which Azure Region to deploy the resource to. This must be a valid Azure regionId."
@@ -45,56 +45,11 @@
       "type": "string",
       "defaultValue": "servicebus.windows.net"
     },
-    "testApplicationId": {
-      "type": "string",
-      "metadata": {
-        "description": "The client id of the service principal used to run tests."
-      }
-    },
-    "testApplicationSecret": {
-      "type": "string",
-      "metadata": {
-        "description": "The application client secret used to run tests."
-      }
-    },
-    "tenantId": {
-      "type": "string",
-      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-      "metadata": {
-        "description": "The tenant id to which the application and resources belong."
-      }
-    },
-    "dataCollectionEndpointName": {
-      "type": "string",
-      "defaultValue": "azmonitordce",
-      "metadata": {
-        "description": "Specifies the name of the Data Collection Endpoint to create."
-      }
-    },
     "location": {
       "type": "string",
-      "defaultValue": "westus2",
-      "allowedValues": [
-        "westus2",
-        "eastus2",
-        "eastus2euap"
-      ],
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "Specifies the location in which to create the Data Collection Endpoint."
-      }
-    },
-    "dataCollectionRuleName": {
-      "type": "string",
-      "defaultValue": "azmonitordcr",
-      "metadata": {
-        "description": "Specifies the name of the Data Collection Rule to create."
-      }
-    },
-    "workspaceName": {
-      "type": "String",
-      "defaultValue": "azmonitorlogsws",
-      "metadata": {
-        "description": "Specifies the Log Analytics workspace name to use."
       }
     }
   },
@@ -103,7 +58,7 @@
     "uniqueAzConfigName": "[concat(parameters('baseName'),'-' , parameters('configurationStores_azconfig_java_name'))]",
     "uniqueAppInsightsName": "[concat(parameters('baseName'),'-' , parameters('appinsights_java_name'))]",
     "endpointValue": "[concat('https://', parameters('baseName'), '-', parameters('configurationStores_azconfig_java_name'), parameters('endpointSuffix'))]",
-    "location": "[resourceGroup().location]",
+    "location": "[parameters('location')]",
     "authorizationApiVersion": "2018-09-01-preview",
     "authorizationRulesName": "[concat('authr', parameters('baseName'))]",
     "eventHubsApiVersion": "2017-04-01",
@@ -111,7 +66,11 @@
     "eventHubsNamespaceKeyName": "RootManageSharedAccessKey",
     "eventHubsNamespaceName": "[concat('eventhub', parameters('baseName'))]",
     "dcrRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/3913510d-42f4-4e42-8a64-420c390055eb')]",
-    "dcrRoleName": "[concat('dcrrole', parameters('baseName'))]"
+    "dcrRoleName": "[concat('dcrrole', parameters('baseName'))]",
+    "dataCollectionRuleName": "[concat(parameters('baseName'), '-', 'azmonitordcr')]",
+    "dataCollectionEndpointName": "[concat(parameters('baseName'), '-', 'azmonitordce')]",
+    "workspaceName": "[concat(parameters('baseName'), '-', 'azmonitorlogsws')]",
+    "additionalWorkspaceName": "[concat(parameters('baseName'), '-', 'azmonitorlogsws2')]"
   },
   "resources": [
     {
@@ -208,7 +167,7 @@
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('dcrRoleId', variables('dcrRoleName')))]",
       "dependsOn": [
-        "[resourceId('Microsoft.Insights/dataCollectionRules', parameters('dataCollectionRuleName'))]"
+        "[resourceId('Microsoft.Insights/dataCollectionRules', variables('dataCollectionRuleName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('dcrRoleId')]",
@@ -217,7 +176,7 @@
     },
     {
       "type": "Microsoft.Insights/dataCollectionEndpoints",
-      "name": "[parameters('dataCollectionEndpointName')]",
+      "name": "[variables('dataCollectionEndpointName')]",
       "location": "[parameters('location')]",
       "apiVersion": "2021-04-01",
       "properties": {
@@ -228,16 +187,16 @@
     },
     {
       "type": "Microsoft.Insights/dataCollectionRules",
-      "name": "[parameters('dataCollectionRuleName')]",
+      "name": "[variables('dataCollectionRuleName')]",
       "location": "[parameters('location')]",
       "apiVersion": "2021-09-01-preview",
       "dependsOn": [
-        "[resourceId('Microsoft.Insights/dataCollectionEndpoints', parameters('dataCollectionEndpointName'))]",
-        "[resourceId('microsoft.operationalinsights/workspaces', parameters('workspaceName'))]",
-        "[resourceId('Microsoft.OperationalInsights/workspaces/tables', parameters('workspaceName'), 'MyTable_CL')]"
+        "[resourceId('Microsoft.Insights/dataCollectionEndpoints', variables('dataCollectionEndpointName'))]",
+        "[resourceId('microsoft.operationalinsights/workspaces', variables('workspaceName'))]",
+        "[resourceId('Microsoft.OperationalInsights/workspaces/tables', variables('workspaceName'), 'MyTable_CL')]"
       ],
       "properties": {
-        "dataCollectionEndpointId": "[resourceId('Microsoft.Insights/dataCollectionEndpoints', parameters('dataCollectionEndpointName'))]",
+        "dataCollectionEndpointId": "[resourceId('Microsoft.Insights/dataCollectionEndpoints', variables('dataCollectionEndpointName'))]",
         "streamDeclarations": {
           "Custom-MyTableRawData": {
             "columns": [
@@ -259,7 +218,7 @@
         "destinations": {
           "logAnalytics": [
             {
-              "workspaceResourceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('workspaceName'))]",
+              "workspaceResourceId": "[resourceId('microsoft.operationalinsights/workspaces', variables('workspaceName'))]",
               "name": "clv2ws1"
             }
           ]
@@ -281,8 +240,28 @@
     {
       "type": "microsoft.operationalinsights/workspaces",
       "apiVersion": "2021-12-01-preview",
-      "name": "[parameters('workspaceName')]",
-      "location": "westus2",
+      "name": "[variables('workspaceName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "sku": {
+          "name": "pergb2018"
+        },
+        "retentionInDays": 30,
+        "features": {
+          "enableLogAccessUsingOnlyResourcePermissions": true
+        },
+        "workspaceCapping": {
+          "dailyQuotaGb": -1
+        },
+        "publicNetworkAccessForIngestion": "Enabled",
+        "publicNetworkAccessForQuery": "Enabled"
+      }
+    },
+    {
+      "type": "microsoft.operationalinsights/workspaces",
+      "apiVersion": "2021-12-01-preview",
+      "name": "[variables('additionalWorkspaceName')]",
+      "location": "[variables('location')]",
       "properties": {
         "sku": {
           "name": "pergb2018"
@@ -301,9 +280,9 @@
     {
       "type": "Microsoft.OperationalInsights/workspaces/tables",
       "apiVersion": "2021-12-01-preview",
-      "name": "[concat(parameters('workspaceName'), '/', 'MyTable_CL')]",
+      "name": "[concat(variables('workspaceName'), '/', 'MyTable_CL')]",
       "dependsOn": [
-        "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaceName'))]"
+        "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
       ],
       "properties": {
         "totalRetentionInDays": 30,
@@ -333,29 +312,17 @@
     }
   ],
   "outputs": {
-    "AZURE_APPCONFIG_CONNECTION_STRING": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores',variables('uniqueAzConfigName')), '2019-02-01-preview').value[0].connectionString]"
-    },
     "roleDefinitionId": {
       "type": "string",
       "value": "[variables('roleDefinitionId')]"
     },
+    "AZURE_APPCONFIG_ENDPOINT": {
+      "type": "string",
+      "value": "[variables('endpointValue')]"
+    },
     "APPLICATIONINSIGHTS_CONNECTION_STRING": {
       "value": "[reference(resourceId('Microsoft.Insights/components', variables('uniqueAppInsightsName')), '2020-02-02-preview').ConnectionString]",
       "type": "string"
-    },
-    "AZURE_TENANT_ID": {
-      "type": "string",
-      "value": "[parameters('tenantId')]"
-    },
-    "AZURE_CLIENT_ID": {
-      "type": "string",
-      "value": "[parameters('testApplicationId')]"
-    },
-    "AZURE_CLIENT_SECRET": {
-      "type": "string",
-      "value": "[parameters('testApplicationSecret')]"
     },
     "AZURE_EVENTHUBS_CONNECTION_STRING": {
       "type": "string",
@@ -371,11 +338,31 @@
     },
     "AZURE_MONITOR_DCE": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionEndpoints', parameters('dataCollectionEndpointName')), '2021-04-01').logsIngestion.endpoint]"
+      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionEndpoints', variables('dataCollectionEndpointName')), '2021-04-01').logsIngestion.endpoint]"
     },
     "AZURE_MONITOR_DCR_ID": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionRules', parameters('dataCollectionRuleName')), '2021-04-01').immutableId]"
+      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionRules', variables('dataCollectionRuleName')), '2021-04-01').immutableId]"
+    },
+    "AZURE_MONITOR_LOGS_WORKSPACE_ID": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))).customerId]"
+    },
+    "AZURE_MONITOR_LOGS_ADDITIONAL_WORKSPACE_ID": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('additionalWorkspaceName'))).customerId]"
+    },
+    "AZURE_MONITOR_LOGS_RESOURCE_ID": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
+    },
+    "AZURE_MONITOR_METRICS_RESOURCE_URI_1": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Eventhub/Namespaces', variables('eventHubsNamespaceName'))]"
+    },
+    "AZURE_MONITOR_METRICS_RESOURCE_URI_2": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.AppConfiguration/configurationStores',variables('uniqueAzConfigName'))]"
     }
   }
 }

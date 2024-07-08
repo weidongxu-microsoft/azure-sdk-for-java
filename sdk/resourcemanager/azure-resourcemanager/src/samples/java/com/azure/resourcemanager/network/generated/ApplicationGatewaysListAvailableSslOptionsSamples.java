@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for ApplicationGateways ListAvailableSslOptions. */
+/**
+ * Samples for ApplicationGateways ListAvailableSslOptions.
+ */
 public final class ApplicationGatewaysListAvailableSslOptionsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayAvailableSslOptionsGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayAvailableSslOptionsGet.json
      */
     /**
      * Sample code: Get Available Ssl Options.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getAvailableSslOptions(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getApplicationGateways()

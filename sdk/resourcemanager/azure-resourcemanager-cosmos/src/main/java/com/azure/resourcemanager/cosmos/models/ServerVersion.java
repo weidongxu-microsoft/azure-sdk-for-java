@@ -6,21 +6,42 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
-/** Describes the ServerVersion of an a MongoDB account. */
+/**
+ * Describes the ServerVersion of an a MongoDB account.
+ */
 public final class ServerVersion extends ExpandableStringEnum<ServerVersion> {
-    /** Static value 3.2 for ServerVersion. */
+    /**
+     * Static value 3.2 for ServerVersion.
+     */
     public static final ServerVersion THREE_TWO = fromString("3.2");
 
-    /** Static value 3.6 for ServerVersion. */
+    /**
+     * Static value 3.6 for ServerVersion.
+     */
     public static final ServerVersion THREE_SIX = fromString("3.6");
 
-    /** Static value 4.0 for ServerVersion. */
+    /**
+     * Static value 4.0 for ServerVersion.
+     */
     public static final ServerVersion FOUR_ZERO = fromString("4.0");
 
-    /** Static value 4.2 for ServerVersion. */
+    /**
+     * Static value 4.2 for ServerVersion.
+     */
     public static final ServerVersion FOUR_TWO = fromString("4.2");
+
+    /**
+     * Static value 5.0 for ServerVersion.
+     */
+    public static final ServerVersion FIVE_ZERO = fromString("5.0");
+
+    /**
+     * Static value 6.0 for ServerVersion.
+     */
+    public static final ServerVersion SIX_ZERO = fromString("6.0");
 
     /**
      * Creates a new instance of ServerVersion value.

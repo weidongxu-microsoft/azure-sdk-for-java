@@ -1,6 +1,6 @@
 # Release History
 
-## 2.29.0-beta.1 (Unreleased)
+## 2.41.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,124 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.40.0 (2024-06-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.39.0 (2024-05-24)
+
+### Features Added
+
+- Supported disabling public network access in `Disk` via `disablePublicNetworkAccess()`, for private link feature.
+- Supported disabling public network access in `Snapshot` via `disablePublicNetworkAccess()`, for private link feature.
+
+## 2.38.0 (2024-04-16)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` of ComputeRP to `2024-03-01`.
+
+## 2.37.0 (2024-03-22)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.36.0 (2024-02-29)
+
+### Features Added
+
+- Supported `withNetworkInterfacesDeleteOptions(DeleteOptions)` and `withDataDisksDeleteOptions(DeleteOptions)` for `VirtualMachine`.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` of GalleryRP to `2023-07-03`.
+
+## 2.35.0 (2024-01-26)
+
+### Features Added
+
+- Supported `WINDOWS_DESKTOP_10_PRO` in `KnownWindowsVirtualMachineImage`.
+- Added `withEncryptionAtHost` in `VirtualMachine`.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-10-02`.
+
+## 2.34.0 (2023-12-22)
+
+### Features Added
+
+- Supported `userData` for `VirtualMachine` in create and update.
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-09-01`.
+
+## 2.33.0 (2023-11-24)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.32.0 (2023-10-27)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
+
+## 2.31.0 (2023-09-28)
+
+### Features Added
+
+- Supported `listByVirtualMachineScaleSet` for `VirtualMachines`.
+
+### Bugs Fixed
+
+- Fixed a bug that `VirtualMachineCustomImages.getById()` returns `HyperVGenerationTypes.V1` for all instances. ([#36619](https://github.com/Azure/azure-sdk-for-java/issues/36619))
+
+## 2.30.0 (2023-08-25)
+
+### Features Added
+
+- Supported updating delete options for OS disk, data disks and network interfaces attached to `VirtualMachine`.
+
+### Bugs Fixed
+
+- Fixed bug that create proximity placement group with `VirtualMachineScaleSet` fails. ([#36417](https://github.com/Azure/azure-sdk-for-java/issues/36417))
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated `api-version` to `2023-07-01`.
+
+## 2.29.0 (2023-07-28)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Updated core dependency from resources.
 
 ## 2.28.0 (2023-06-25)
 

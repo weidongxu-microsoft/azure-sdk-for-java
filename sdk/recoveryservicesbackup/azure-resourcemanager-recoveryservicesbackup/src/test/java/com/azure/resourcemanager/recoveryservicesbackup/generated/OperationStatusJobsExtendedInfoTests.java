@@ -14,28 +14,25 @@ import org.junit.jupiter.api.Assertions;
 public final class OperationStatusJobsExtendedInfoTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        OperationStatusJobsExtendedInfo model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"OperationStatusJobsExtendedInfo\",\"jobIds\":[\"wbjijkgq\",\"nhmbkez\",\"jauj\",\"aan\"],\"failedJobsError\":{\"wxwfekaumrr\":\"iycwkdta\",\"atbnxwbj\":\"mbzmqk\",\"dgo\":\"idbirkfpkso\",\"zkye\":\"ewijymrhbguz\"}}")
-                .toObject(OperationStatusJobsExtendedInfo.class);
-        Assertions.assertEquals("wbjijkgq", model.jobIds().get(0));
-        Assertions.assertEquals("iycwkdta", model.failedJobsError().get("wxwfekaumrr"));
+        OperationStatusJobsExtendedInfo model = BinaryData.fromString(
+            "{\"objectType\":\"OperationStatusJobsExtendedInfo\",\"jobIds\":[\"niylyly\",\"wxzut\",\"qztw\"],\"failedJobsError\":{\"tcdxabbujftaben\":\"mupgxy\",\"cafeddw\":\"bklqpxz\",\"ookrtalvnbw\":\"nlzafwxudgnh\",\"uclvdjj\":\"pbeme\"}}")
+            .toObject(OperationStatusJobsExtendedInfo.class);
+        Assertions.assertEquals("niylyly", model.jobIds().get(0));
+        Assertions.assertEquals("mupgxy", model.failedJobsError().get("tcdxabbujftaben"));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        OperationStatusJobsExtendedInfo model =
-            new OperationStatusJobsExtendedInfo()
-                .withJobIds(Arrays.asList("wbjijkgq", "nhmbkez", "jauj", "aan"))
-                .withFailedJobsError(
-                    mapOf(
-                        "wxwfekaumrr", "iycwkdta", "atbnxwbj", "mbzmqk", "dgo", "idbirkfpkso", "zkye", "ewijymrhbguz"));
+        OperationStatusJobsExtendedInfo model
+            = new OperationStatusJobsExtendedInfo().withJobIds(Arrays.asList("niylyly", "wxzut", "qztw"))
+                .withFailedJobsError(mapOf("tcdxabbujftaben", "mupgxy", "cafeddw", "bklqpxz", "ookrtalvnbw",
+                    "nlzafwxudgnh", "uclvdjj", "pbeme"));
         model = BinaryData.fromObject(model).toObject(OperationStatusJobsExtendedInfo.class);
-        Assertions.assertEquals("wbjijkgq", model.jobIds().get(0));
-        Assertions.assertEquals("iycwkdta", model.failedJobsError().get("wxwfekaumrr"));
+        Assertions.assertEquals("niylyly", model.jobIds().get(0));
+        Assertions.assertEquals("mupgxy", model.failedJobsError().get("tcdxabbujftaben"));
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

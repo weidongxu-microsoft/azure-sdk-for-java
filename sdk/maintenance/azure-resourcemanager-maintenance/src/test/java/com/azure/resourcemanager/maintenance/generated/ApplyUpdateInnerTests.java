@@ -13,26 +13,22 @@ import org.junit.jupiter.api.Assertions;
 public final class ApplyUpdateInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ApplyUpdateInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"status\":\"RetryNow\",\"resourceId\":\"ngsntnbybk\",\"lastUpdateTime\":\"2021-10-18T14:10:44Z\"},\"id\":\"rwclxxwrljdo\",\"name\":\"skcqvkocrcjd\",\"type\":\"wtnhxbnjbiksqr\"}")
-                .toObject(ApplyUpdateInner.class);
+        ApplyUpdateInner model = BinaryData.fromString(
+            "{\"properties\":{\"status\":\"RetryNow\",\"resourceId\":\"ku\",\"lastUpdateTime\":\"2021-10-04T05:41:09Z\"},\"id\":\"kg\",\"name\":\"sauuimj\",\"type\":\"vxieduugidyj\"}")
+            .toObject(ApplyUpdateInner.class);
         Assertions.assertEquals(UpdateStatus.RETRY_NOW, model.status());
-        Assertions.assertEquals("ngsntnbybk", model.resourceId());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-10-18T14:10:44Z"), model.lastUpdateTime());
+        Assertions.assertEquals("ku", model.resourceId());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-10-04T05:41:09Z"), model.lastUpdateTime());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ApplyUpdateInner model =
-            new ApplyUpdateInner()
-                .withStatus(UpdateStatus.RETRY_NOW)
-                .withResourceId("ngsntnbybk")
-                .withLastUpdateTime(OffsetDateTime.parse("2021-10-18T14:10:44Z"));
+        ApplyUpdateInner model = new ApplyUpdateInner().withStatus(UpdateStatus.RETRY_NOW)
+            .withResourceId("ku")
+            .withLastUpdateTime(OffsetDateTime.parse("2021-10-04T05:41:09Z"));
         model = BinaryData.fromObject(model).toObject(ApplyUpdateInner.class);
         Assertions.assertEquals(UpdateStatus.RETRY_NOW, model.status());
-        Assertions.assertEquals("ngsntnbybk", model.resourceId());
-        Assertions.assertEquals(OffsetDateTime.parse("2021-10-18T14:10:44Z"), model.lastUpdateTime());
+        Assertions.assertEquals("ku", model.resourceId());
+        Assertions.assertEquals(OffsetDateTime.parse("2021-10-04T05:41:09Z"), model.lastUpdateTime());
     }
 }

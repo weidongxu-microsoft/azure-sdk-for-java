@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.fluent.models.ApplicationGatewayHttpListenerPropertiesFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Http listener of an application gateway. */
+/**
+ * Http listener of an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayHttpListener extends SubResource {
     /*
@@ -37,7 +40,9 @@ public final class ApplicationGatewayHttpListener extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewayHttpListener class. */
+    /**
+     * Creates an instance of ApplicationGatewayHttpListener class.
+     */
     public ApplicationGatewayHttpListener() {
     }
 
@@ -88,7 +93,9 @@ public final class ApplicationGatewayHttpListener extends SubResource {
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ApplicationGatewayHttpListener withId(String id) {
         super.withId(id);
@@ -282,8 +289,8 @@ public final class ApplicationGatewayHttpListener extends SubResource {
      * @param customErrorConfigurations the customErrorConfigurations value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener withCustomErrorConfigurations(
-        List<ApplicationGatewayCustomError> customErrorConfigurations) {
+    public ApplicationGatewayHttpListener
+        withCustomErrorConfigurations(List<ApplicationGatewayCustomError> customErrorConfigurations) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ApplicationGatewayHttpListenerPropertiesFormat();
         }

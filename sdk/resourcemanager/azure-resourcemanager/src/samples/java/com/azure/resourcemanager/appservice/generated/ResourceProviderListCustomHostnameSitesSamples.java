@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for ResourceProvider ListCustomHostnameSites. */
+/**
+ * Samples for ResourceProvider ListCustomHostnameSites.
+ */
 public final class ResourceProviderListCustomHostnameSitesSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListCustomSpecificHostNameSites.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomSpecificHostNameSites.json
      */
     /**
      * Sample code: Get specific custom hostname under subscription.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getSpecificCustomHostnameUnderSubscription(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+    public static void
+        getSpecificCustomHostnameUnderSubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.webApps()
             .manager()
             .serviceClient()
             .getResourceProviders()
@@ -25,16 +26,15 @@ public final class ResourceProviderListCustomHostnameSitesSamples {
     }
 
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListCustomHostNameSites.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomHostNameSites.json
      */
     /**
      * Sample code: Get custom hostnames under subscription.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getCustomHostnamesUnderSubscription(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getResourceProviders()

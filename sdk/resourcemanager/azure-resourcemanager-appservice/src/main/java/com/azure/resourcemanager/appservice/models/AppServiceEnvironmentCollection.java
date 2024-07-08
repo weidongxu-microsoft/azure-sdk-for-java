@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.AppServiceEnvironmentResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of App Service Environments. */
+/**
+ * Collection of App Service Environments.
+ */
 @Fluent
 public final class AppServiceEnvironmentCollection {
     /*
@@ -25,7 +28,9 @@ public final class AppServiceEnvironmentCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of AppServiceEnvironmentCollection class. */
+    /**
+     * Creates an instance of AppServiceEnvironmentCollection class.
+     */
     public AppServiceEnvironmentCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class AppServiceEnvironmentCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model AppServiceEnvironmentCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model AppServiceEnvironmentCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-/** Properties of the Partner Destination. */
+/**
+ * Properties of the Partner Destination.
+ */
 @Fluent
 public final class PartnerDestinationProperties {
     /*
@@ -27,8 +29,7 @@ public final class PartnerDestinationProperties {
     private String endpointServiceContext;
 
     /*
-     * Expiration time of the partner destination. If this timer expires and the partner destination was never
-     * activated,
+     * Expiration time of the partner destination. If this timer expires and the partner destination was never activated,
      * the partner destination and corresponding channel are deleted.
      */
     @JsonProperty(value = "expirationTimeIfNotActivatedUtc")
@@ -58,13 +59,15 @@ public final class PartnerDestinationProperties {
     @JsonProperty(value = "messageForActivation")
     private String messageForActivation;
 
-    /** Creates an instance of PartnerDestinationProperties class. */
+    /**
+     * Creates an instance of PartnerDestinationProperties class.
+     */
     public PartnerDestinationProperties() {
     }
 
     /**
      * Get the partnerRegistrationImmutableId property: The immutable Id of the corresponding partner registration.
-     *
+     * 
      * @return the partnerRegistrationImmutableId value.
      */
     public UUID partnerRegistrationImmutableId() {
@@ -73,7 +76,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Set the partnerRegistrationImmutableId property: The immutable Id of the corresponding partner registration.
-     *
+     * 
      * @param partnerRegistrationImmutableId the partnerRegistrationImmutableId value to set.
      * @return the PartnerDestinationProperties object itself.
      */
@@ -84,7 +87,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Get the endpointServiceContext property: Endpoint context associated with this partner destination.
-     *
+     * 
      * @return the endpointServiceContext value.
      */
     public String endpointServiceContext() {
@@ -93,7 +96,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Set the endpointServiceContext property: Endpoint context associated with this partner destination.
-     *
+     * 
      * @param endpointServiceContext the endpointServiceContext value to set.
      * @return the PartnerDestinationProperties object itself.
      */
@@ -104,9 +107,9 @@ public final class PartnerDestinationProperties {
 
     /**
      * Get the expirationTimeIfNotActivatedUtc property: Expiration time of the partner destination. If this timer
-     * expires and the partner destination was never activated, the partner destination and corresponding channel are
-     * deleted.
-     *
+     * expires and the partner destination was never activated,
+     * the partner destination and corresponding channel are deleted.
+     * 
      * @return the expirationTimeIfNotActivatedUtc value.
      */
     public OffsetDateTime expirationTimeIfNotActivatedUtc() {
@@ -115,21 +118,21 @@ public final class PartnerDestinationProperties {
 
     /**
      * Set the expirationTimeIfNotActivatedUtc property: Expiration time of the partner destination. If this timer
-     * expires and the partner destination was never activated, the partner destination and corresponding channel are
-     * deleted.
-     *
+     * expires and the partner destination was never activated,
+     * the partner destination and corresponding channel are deleted.
+     * 
      * @param expirationTimeIfNotActivatedUtc the expirationTimeIfNotActivatedUtc value to set.
      * @return the PartnerDestinationProperties object itself.
      */
-    public PartnerDestinationProperties withExpirationTimeIfNotActivatedUtc(
-        OffsetDateTime expirationTimeIfNotActivatedUtc) {
+    public PartnerDestinationProperties
+        withExpirationTimeIfNotActivatedUtc(OffsetDateTime expirationTimeIfNotActivatedUtc) {
         this.expirationTimeIfNotActivatedUtc = expirationTimeIfNotActivatedUtc;
         return this;
     }
 
     /**
      * Get the provisioningState property: Provisioning state of the partner destination.
-     *
+     * 
      * @return the provisioningState value.
      */
     public PartnerDestinationProvisioningState provisioningState() {
@@ -138,7 +141,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Get the activationState property: Activation state of the partner destination.
-     *
+     * 
      * @return the activationState value.
      */
     public PartnerDestinationActivationState activationState() {
@@ -147,7 +150,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Set the activationState property: Activation state of the partner destination.
-     *
+     * 
      * @param activationState the activationState value to set.
      * @return the PartnerDestinationProperties object itself.
      */
@@ -158,7 +161,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Get the endpointBaseUrl property: Endpoint Base URL of the partner destination.
-     *
+     * 
      * @return the endpointBaseUrl value.
      */
     public String endpointBaseUrl() {
@@ -167,7 +170,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Set the endpointBaseUrl property: Endpoint Base URL of the partner destination.
-     *
+     * 
      * @param endpointBaseUrl the endpointBaseUrl value to set.
      * @return the PartnerDestinationProperties object itself.
      */
@@ -178,7 +181,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Get the messageForActivation property: Context or helpful message that can be used during the approval process.
-     *
+     * 
      * @return the messageForActivation value.
      */
     public String messageForActivation() {
@@ -187,7 +190,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Set the messageForActivation property: Context or helpful message that can be used during the approval process.
-     *
+     * 
      * @param messageForActivation the messageForActivation value to set.
      * @return the PartnerDestinationProperties object itself.
      */
@@ -198,7 +201,7 @@ public final class PartnerDestinationProperties {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

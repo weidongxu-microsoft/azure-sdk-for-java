@@ -38,7 +38,7 @@ For your convenience, we have provided a multi-service package that includes som
 <dependency>
   <groupId>com.azure.resourcemanager</groupId>
   <artifactId>azure-resourcemanager</artifactId>
-  <version>2.28.0</version>
+  <version>2.40.0</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
@@ -93,14 +93,14 @@ Azure Management Libraries require a `TokenCredential` implementation for authen
 
 `azure-identity` package and `azure-core-http-netty` package provide the default implementation.
 
-[Azure Identity][azure_identity] provides Azure Active Directory token authentication support across the Azure SDK.
+[Azure Identity][azure_identity] provides Microsoft Entra ID token authentication support across the Azure SDK.
 
 [//]: # ({x-version-update-start;com.azure:azure-identity;dependency})
 ```xml
 <dependency>
   <groupId>com.azure</groupId>
   <artifactId>azure-identity</artifactId>
-  <version>1.9.1</version>
+  <version>1.13.0</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
@@ -112,7 +112,7 @@ Azure Management Libraries require a `TokenCredential` implementation for authen
 <dependency>
   <groupId>com.azure</groupId>
   <artifactId>azure-core-http-netty</artifactId>
-  <version>1.13.4</version>
+  <version>1.15.1</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
@@ -121,15 +121,12 @@ Alternatively, [Azure Core OkHttp HTTP client][azure_core_http_okhttp] is anothe
 
 ### Authentication
 
-By default, Azure Active Directory token authentication depends on correct configure of following environment variables.
+Microsoft Entra ID token authentication relies on the [credential class][azure_identity_credentials] from [Azure Identity][azure_identity] package.
 
-- `AZURE_CLIENT_ID` for Azure client ID.
-- `AZURE_TENANT_ID` for Azure tenant ID.
-- `AZURE_CLIENT_SECRET` or `AZURE_CLIENT_CERTIFICATE_PATH` for client secret or client certificate.
+Azure subscription ID can be configured via `AZURE_SUBSCRIPTION_ID` environment variable.
+Azure tenant ID can be configured via `AZURE_TENANT_ID` environment variable.
 
-In addition, Azure subscription ID can be configured via environment variable `AZURE_SUBSCRIPTION_ID`.
-
-With above configuration, the manager class can be authenticated by following code:
+Assuming the use of the `DefaultAzureCredential` credential class, the client can be authenticated using the following code:
 
 ```java readme-sample-authenticate
 AzureProfile profile = new AzureProfile(AzureEnvironment.AZURE);
@@ -303,7 +300,7 @@ For example, here is sample maven dependency for Compute package.
 <dependency>
   <groupId>com.azure.resourcemanager</groupId>
   <artifactId>azure-resourcemanager-compute</artifactId>
-  <version>2.28.0</version>
+  <version>2.40.0</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
@@ -334,7 +331,7 @@ Azure SDKs for Java offer a consistent logging story to help aid in troubleshoot
 their resolution. The logs produced will capture the flow of an application before reaching the terminal state to help
 locate the root issue. View the [configure logging][logging] for guidance on package required and its configuration.
 
-Sample code to enable logging in Azure Management Libraries for Java.
+Sample code to enable logging in Azure Management Libraries for Java. If you want to troubleshoot HTTP request and response details, you can use `.withLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)`.
 
 ```java readme-sample-configureWithLogging
 AzureResourceManager azure = AzureResourceManager
@@ -448,13 +445,14 @@ For details on contributing to this repository, see the [contributing guide](htt
 
 <!-- LINKS -->
 [docs]: https://azure.github.io/azure-sdk-for-java/
-[jdk]: https://docs.microsoft.com/java/azure/jdk/
+[jdk]: https://learn.microsoft.com/azure/developer/java/fundamentals/
 [azure_subscription]: https://azure.microsoft.com/free/
 [azure_identity]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/identity/azure-identity
+[azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/identity/azure-identity#credentials
 [azure_core_http_netty]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/core/azure-core-http-netty
 [azure_core_http_okhttp]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/core/azure-core-http-okhttp
 [azure_core]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/core/azure-core
-[logging]: https://docs.microsoft.com/azure/developer/java/sdk/logging-overview
+[logging]: https://learn.microsoft.com/azure/developer/java/sdk/logging-overview
 [single_service_packages]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/SINGLE_SERVICE_PACKAGES.md
 [authenticate]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/AUTH.md
 [sample]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/SAMPLE.md

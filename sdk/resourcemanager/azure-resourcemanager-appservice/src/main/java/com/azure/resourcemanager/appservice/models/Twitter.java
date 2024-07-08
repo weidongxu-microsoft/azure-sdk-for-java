@@ -7,12 +7,13 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The configuration settings of the Twitter provider. */
+/**
+ * The configuration settings of the Twitter provider.
+ */
 @Fluent
 public final class Twitter {
     /*
-     * <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise,
-     * <code>true</code>.
+     * <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise, <code>true</code>.
      */
     @JsonProperty(value = "enabled")
     private Boolean enabled;
@@ -23,14 +24,16 @@ public final class Twitter {
     @JsonProperty(value = "registration")
     private TwitterRegistration registration;
 
-    /** Creates an instance of Twitter class. */
+    /**
+     * Creates an instance of Twitter class.
+     */
     public Twitter() {
     }
 
     /**
      * Get the enabled property: &lt;code&gt;false&lt;/code&gt; if the Twitter provider should not be enabled despite
      * the set registration; otherwise, &lt;code&gt;true&lt;/code&gt;.
-     *
+     * 
      * @return the enabled value.
      */
     public Boolean enabled() {
@@ -40,7 +43,7 @@ public final class Twitter {
     /**
      * Set the enabled property: &lt;code&gt;false&lt;/code&gt; if the Twitter provider should not be enabled despite
      * the set registration; otherwise, &lt;code&gt;true&lt;/code&gt;.
-     *
+     * 
      * @param enabled the enabled value to set.
      * @return the Twitter object itself.
      */
@@ -51,7 +54,7 @@ public final class Twitter {
 
     /**
      * Get the registration property: The configuration settings of the app registration for the Twitter provider.
-     *
+     * 
      * @return the registration value.
      */
     public TwitterRegistration registration() {
@@ -60,7 +63,7 @@ public final class Twitter {
 
     /**
      * Set the registration property: The configuration settings of the app registration for the Twitter provider.
-     *
+     * 
      * @param registration the registration value to set.
      * @return the Twitter object itself.
      */
@@ -71,7 +74,7 @@ public final class Twitter {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

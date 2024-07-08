@@ -7,7 +7,9 @@ package com.azure.resourcemanager.storage.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Management policy action for snapshot. */
+/**
+ * Management policy action for snapshot.
+ */
 @Fluent
 public final class ManagementPolicySnapShot {
     /*
@@ -41,8 +43,14 @@ public final class ManagementPolicySnapShot {
     private DateAfterCreation delete;
 
     /**
+     * Creates an instance of ManagementPolicySnapShot class.
+     */
+    public ManagementPolicySnapShot() {
+    }
+
+    /**
      * Get the tierToCool property: The function to tier blob snapshot to cool storage.
-     *
+     * 
      * @return the tierToCool value.
      */
     public DateAfterCreation tierToCool() {
@@ -51,7 +59,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Set the tierToCool property: The function to tier blob snapshot to cool storage.
-     *
+     * 
      * @param tierToCool the tierToCool value to set.
      * @return the ManagementPolicySnapShot object itself.
      */
@@ -62,7 +70,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Get the tierToArchive property: The function to tier blob snapshot to archive storage.
-     *
+     * 
      * @return the tierToArchive value.
      */
     public DateAfterCreation tierToArchive() {
@@ -71,7 +79,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Set the tierToArchive property: The function to tier blob snapshot to archive storage.
-     *
+     * 
      * @param tierToArchive the tierToArchive value to set.
      * @return the ManagementPolicySnapShot object itself.
      */
@@ -82,7 +90,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Get the tierToCold property: The function to tier blobs to cold storage.
-     *
+     * 
      * @return the tierToCold value.
      */
     public DateAfterCreation tierToCold() {
@@ -91,7 +99,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Set the tierToCold property: The function to tier blobs to cold storage.
-     *
+     * 
      * @param tierToCold the tierToCold value to set.
      * @return the ManagementPolicySnapShot object itself.
      */
@@ -103,7 +111,7 @@ public final class ManagementPolicySnapShot {
     /**
      * Get the tierToHot property: The function to tier blobs to hot storage. This action can only be used with Premium
      * Block Blob Storage Accounts.
-     *
+     * 
      * @return the tierToHot value.
      */
     public DateAfterCreation tierToHot() {
@@ -113,7 +121,7 @@ public final class ManagementPolicySnapShot {
     /**
      * Set the tierToHot property: The function to tier blobs to hot storage. This action can only be used with Premium
      * Block Blob Storage Accounts.
-     *
+     * 
      * @param tierToHot the tierToHot value to set.
      * @return the ManagementPolicySnapShot object itself.
      */
@@ -124,7 +132,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Get the delete property: The function to delete the blob snapshot.
-     *
+     * 
      * @return the delete value.
      */
     public DateAfterCreation delete() {
@@ -133,7 +141,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Set the delete property: The function to delete the blob snapshot.
-     *
+     * 
      * @param delete the delete value to set.
      * @return the ManagementPolicySnapShot object itself.
      */
@@ -144,7 +152,7 @@ public final class ManagementPolicySnapShot {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

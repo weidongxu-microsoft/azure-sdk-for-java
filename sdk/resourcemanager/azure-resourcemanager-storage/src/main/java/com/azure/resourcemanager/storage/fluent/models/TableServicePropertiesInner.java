@@ -9,7 +9,9 @@ import com.azure.core.management.ProxyResource;
 import com.azure.resourcemanager.storage.models.CorsRules;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The properties of a storage account’s Table service. */
+/**
+ * The properties of a storage account’s Table service.
+ */
 @Fluent
 public final class TableServicePropertiesInner extends ProxyResource {
     /*
@@ -19,8 +21,14 @@ public final class TableServicePropertiesInner extends ProxyResource {
     private TableServicePropertiesProperties innerTableServiceProperties;
 
     /**
+     * Creates an instance of TableServicePropertiesInner class.
+     */
+    public TableServicePropertiesInner() {
+    }
+
+    /**
      * Get the innerTableServiceProperties property: The properties of a storage account’s Table service.
-     *
+     * 
      * @return the innerTableServiceProperties value.
      */
     private TableServicePropertiesProperties innerTableServiceProperties() {
@@ -31,7 +39,7 @@ public final class TableServicePropertiesInner extends ProxyResource {
      * Get the cors property: Specifies CORS rules for the Table service. You can include up to five CorsRule elements
      * in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and
      * CORS will be disabled for the Table service.
-     *
+     * 
      * @return the cors value.
      */
     public CorsRules cors() {
@@ -42,7 +50,7 @@ public final class TableServicePropertiesInner extends ProxyResource {
      * Set the cors property: Specifies CORS rules for the Table service. You can include up to five CorsRule elements
      * in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and
      * CORS will be disabled for the Table service.
-     *
+     * 
      * @param cors the cors value to set.
      * @return the TableServicePropertiesInner object itself.
      */
@@ -56,7 +64,7 @@ public final class TableServicePropertiesInner extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

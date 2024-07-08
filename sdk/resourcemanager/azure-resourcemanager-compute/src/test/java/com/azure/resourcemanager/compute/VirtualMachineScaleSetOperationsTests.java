@@ -8,6 +8,7 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.Region;
 import com.azure.core.management.SubResource;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.annotation.LiveOnly;
 import com.azure.resourcemanager.authorization.models.BuiltInRole;
 import com.azure.resourcemanager.authorization.models.RoleAssignment;
 import com.azure.resourcemanager.compute.fluent.models.VirtualMachineScaleSetInner;
@@ -18,6 +19,7 @@ import com.azure.resourcemanager.compute.models.KnownLinuxVirtualMachineImage;
 import com.azure.resourcemanager.compute.models.OperatingSystemTypes;
 import com.azure.resourcemanager.compute.models.OrchestrationMode;
 import com.azure.resourcemanager.compute.models.PowerState;
+import com.azure.resourcemanager.compute.models.ProximityPlacementGroupType;
 import com.azure.resourcemanager.compute.models.PurchasePlan;
 import com.azure.resourcemanager.compute.models.ResourceIdentityType;
 import com.azure.resourcemanager.compute.models.Sku;
@@ -944,7 +946,9 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     }
 
     @Test
+    @LiveOnly
     public void canEnableMSIOnVirtualMachineScaleSetWithoutRoleAssignment() throws Exception {
+        // LiveOnly because test needs to be refactored for storing/evaluating PrincipalId
         final String vmssName = generateRandomResourceName("vmss", 10);
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups().define(rgName).withRegion(region).create();
 
@@ -1943,5 +1947,39 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         // flex vmss can have a mixed set of VMs with ephemeral and non-ephemeral os disk
         // which contradicts the FAQ: https://docs.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks#frequently-asked-questions
         Assertions.assertFalse(vm.isOSDiskEphemeral());
+    }
+
+    @Test
+    public void canCreateVMSSWithProximityPlacementGroup() throws Exception {
+        final String vmssName = generateRandomResourceName("vmss", 10);
+
+        Network network = this.networkManager
+            .networks()
+            .define("vmssvnet")
+            .withRegion(region)
+            .withNewResourceGroup(rgName)
+            .withAddressSpace("10.0.0.0/28")
+            .withSubnet("subnet1", "10.0.0.0/28")
+            .create();
+
+        VirtualMachineScaleSet vmss = computeManager.virtualMachineScaleSets()
+            .define(vmssName)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withFlexibleOrchestrationMode()
+            .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_A0)
+            // create ProximityPlacementGroup with the VMSS
+            .withNewProximityPlacementGroup("ppg", ProximityPlacementGroupType.STANDARD)
+            .withExistingPrimaryNetworkSubnet(network, "subnet1")
+            .withoutPrimaryInternetFacingLoadBalancer()
+            .withoutPrimaryInternalLoadBalancer()
+            .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
+            .withRootUsername("Foo12")
+            .withSsh(sshPublicKey())
+            .withVirtualMachinePublicIp()
+            .create();
+
+        Assertions.assertNotNull(vmss.proximityPlacementGroup());
+        Assertions.assertEquals(ProximityPlacementGroupType.STANDARD, vmss.proximityPlacementGroup().proximityPlacementGroupType());
     }
 }

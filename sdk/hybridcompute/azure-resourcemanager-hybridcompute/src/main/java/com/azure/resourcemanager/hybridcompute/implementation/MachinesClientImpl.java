@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.hybridcompute.implementation;
 
+import com.azure.core.annotation.BodyParam;
 import com.azure.core.annotation.Delete;
 import com.azure.core.annotation.ExpectedResponses;
 import com.azure.core.annotation.Get;
@@ -12,6 +13,7 @@ import com.azure.core.annotation.Headers;
 import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.PathParam;
+import com.azure.core.annotation.Post;
 import com.azure.core.annotation.QueryParam;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceInterface;
@@ -24,25 +26,38 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.exception.ManagementException;
+import com.azure.core.management.polling.PollResult;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
+import com.azure.core.util.polling.PollerFlux;
+import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.hybridcompute.fluent.MachinesClient;
+import com.azure.resourcemanager.hybridcompute.fluent.models.MachineAssessPatchesResultInner;
 import com.azure.resourcemanager.hybridcompute.fluent.models.MachineInner;
-import com.azure.resourcemanager.hybridcompute.models.InstanceViewTypes;
+import com.azure.resourcemanager.hybridcompute.fluent.models.MachineInstallPatchesResultInner;
+import com.azure.resourcemanager.hybridcompute.models.MachineInstallPatchesParameters;
 import com.azure.resourcemanager.hybridcompute.models.MachineListResult;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in MachinesClient. */
+/**
+ * An instance of this class provides access to all the operations defined in MachinesClient.
+ */
 public final class MachinesClientImpl implements MachinesClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final MachinesService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final HybridComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of MachinesClientImpl.
-     *
+     * 
      * @param client the instance of the service client containing this operation class.
      */
     MachinesClientImpl(HybridComputeManagementClientImpl client) {
@@ -57,86 +72,80 @@ public final class MachinesClientImpl implements MachinesClient {
     @Host("{$host}")
     @ServiceInterface(name = "HybridComputeManagem")
     public interface MachinesService {
-        @Headers({"Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute"
-                + "/machines/{machineName}")
-        @ExpectedResponses({200, 204})
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}")
+        @ExpectedResponses({ 200, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Void>> delete(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
+        Mono<Response<Void>> delete(@HostParam("$host") String endpoint, @QueryParam("api-version") String apiVersion,
             @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("machineName") String machineName,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("machineName") String machineName,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute"
-                + "/machines/{machineName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<MachineInner>> getByResourceGroup(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("machineName") String machineName,
-            @QueryParam("$expand") InstanceViewTypes expand,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<MachineInner>> getByResourceGroup(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("machineName") String machineName,
+            @QueryParam("$expand") String expand, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute"
-                + "/machines")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/assessPatches")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<MachineListResult>> listByResourceGroup(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<Flux<ByteBuffer>>> assessPatches(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/installPatches")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> installPatches(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name,
+            @BodyParam("application/json") MachineInstallPatchesParameters installPatchesInput,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<MachineListResult>> listByResourceGroup(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("$expand") String expand,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<MachineListResult>> list(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<MachineListResult>> list(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<MachineListResult>> listByResourceGroupNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<MachineListResult>> listBySubscriptionNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -147,16 +156,12 @@ public final class MachinesClientImpl implements MachinesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String machineName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -167,23 +172,14 @@ public final class MachinesClientImpl implements MachinesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .delete(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            machineName,
-                            accept,
-                            context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, machineName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param context The context to associate with this operation.
@@ -193,19 +189,15 @@ public final class MachinesClientImpl implements MachinesClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Void>> deleteWithResponseAsync(
-        String resourceGroupName, String machineName, Context context) {
+    private Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String machineName,
+        Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -216,20 +208,13 @@ public final class MachinesClientImpl implements MachinesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .delete(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                machineName,
-                accept,
-                context);
+        return service.delete(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, machineName, accept, context);
     }
 
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -243,8 +228,8 @@ public final class MachinesClientImpl implements MachinesClient {
     }
 
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param context The context to associate with this operation.
@@ -259,8 +244,8 @@ public final class MachinesClientImpl implements MachinesClient {
     }
 
     /**
-     * The operation to remove a hybrid machine identity in Azure.
-     *
+     * The operation to delete a hybrid machine.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -274,7 +259,7 @@ public final class MachinesClientImpl implements MachinesClient {
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param expand The expand expression to apply on the operation.
@@ -284,19 +269,15 @@ public final class MachinesClientImpl implements MachinesClient {
      * @return describes a hybrid machine along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<MachineInner>> getByResourceGroupWithResponseAsync(
-        String resourceGroupName, String machineName, InstanceViewTypes expand) {
+    private Mono<Response<MachineInner>> getByResourceGroupWithResponseAsync(String resourceGroupName,
+        String machineName, String expand) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -307,24 +288,14 @@ public final class MachinesClientImpl implements MachinesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .getByResourceGroup(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            machineName,
-                            expand,
-                            accept,
-                            context))
+            .withContext(context -> service.getByResourceGroup(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, machineName, expand, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param expand The expand expression to apply on the operation.
@@ -335,19 +306,15 @@ public final class MachinesClientImpl implements MachinesClient {
      * @return describes a hybrid machine along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<MachineInner>> getByResourceGroupWithResponseAsync(
-        String resourceGroupName, String machineName, InstanceViewTypes expand, Context context) {
+    private Mono<Response<MachineInner>> getByResourceGroupWithResponseAsync(String resourceGroupName,
+        String machineName, String expand, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -358,21 +325,13 @@ public final class MachinesClientImpl implements MachinesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .getByResourceGroup(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                machineName,
-                expand,
-                accept,
-                context);
+        return service.getByResourceGroup(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, machineName, expand, accept, context);
     }
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -382,14 +341,14 @@ public final class MachinesClientImpl implements MachinesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<MachineInner> getByResourceGroupAsync(String resourceGroupName, String machineName) {
-        final InstanceViewTypes expand = null;
+        final String expand = null;
         return getByResourceGroupWithResponseAsync(resourceGroupName, machineName, expand)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @param expand The expand expression to apply on the operation.
@@ -400,14 +359,14 @@ public final class MachinesClientImpl implements MachinesClient {
      * @return describes a hybrid machine along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<MachineInner> getByResourceGroupWithResponse(
-        String resourceGroupName, String machineName, InstanceViewTypes expand, Context context) {
+    public Response<MachineInner> getByResourceGroupWithResponse(String resourceGroupName, String machineName,
+        String expand, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, machineName, expand, context).block();
     }
 
     /**
      * Retrieves information about the model view or the instance view of a hybrid machine.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param machineName The name of the hybrid machine.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -417,34 +376,481 @@ public final class MachinesClientImpl implements MachinesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public MachineInner getByResourceGroup(String resourceGroupName, String machineName) {
-        final InstanceViewTypes expand = null;
+        final String expand = null;
         return getByResourceGroupWithResponse(resourceGroupName, machineName, expand, Context.NONE).getValue();
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result along with {@link Response} on successful completion
+     * of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> assessPatchesWithResponseAsync(String resourceGroupName, String name) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (name == null) {
+            return Mono.error(new IllegalArgumentException("Parameter name is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.assessPatches(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, name, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result along with {@link Response} on successful completion
+     * of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> assessPatchesWithResponseAsync(String resourceGroupName, String name,
+        Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (name == null) {
+            return Mono.error(new IllegalArgumentException("Parameter name is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.assessPatches(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, name, accept, context);
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of describes the properties of an AssessPatches result.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<MachineAssessPatchesResultInner>, MachineAssessPatchesResultInner>
+        beginAssessPatchesAsync(String resourceGroupName, String name) {
+        Mono<Response<Flux<ByteBuffer>>> mono = assessPatchesWithResponseAsync(resourceGroupName, name);
+        return this.client.<MachineAssessPatchesResultInner, MachineAssessPatchesResultInner>getLroResult(mono,
+            this.client.getHttpPipeline(), MachineAssessPatchesResultInner.class, MachineAssessPatchesResultInner.class,
+            this.client.getContext());
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of describes the properties of an AssessPatches result.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<MachineAssessPatchesResultInner>, MachineAssessPatchesResultInner>
+        beginAssessPatchesAsync(String resourceGroupName, String name, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono = assessPatchesWithResponseAsync(resourceGroupName, name, context);
+        return this.client.<MachineAssessPatchesResultInner, MachineAssessPatchesResultInner>getLroResult(mono,
+            this.client.getHttpPipeline(), MachineAssessPatchesResultInner.class, MachineAssessPatchesResultInner.class,
+            context);
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of describes the properties of an AssessPatches result.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<MachineAssessPatchesResultInner>, MachineAssessPatchesResultInner>
+        beginAssessPatches(String resourceGroupName, String name) {
+        return this.beginAssessPatchesAsync(resourceGroupName, name).getSyncPoller();
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of describes the properties of an AssessPatches result.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<MachineAssessPatchesResultInner>, MachineAssessPatchesResultInner>
+        beginAssessPatches(String resourceGroupName, String name, Context context) {
+        return this.beginAssessPatchesAsync(resourceGroupName, name, context).getSyncPoller();
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<MachineAssessPatchesResultInner> assessPatchesAsync(String resourceGroupName, String name) {
+        return beginAssessPatchesAsync(resourceGroupName, name).last().flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<MachineAssessPatchesResultInner> assessPatchesAsync(String resourceGroupName, String name,
+        Context context) {
+        return beginAssessPatchesAsync(resourceGroupName, name, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public MachineAssessPatchesResultInner assessPatches(String resourceGroupName, String name) {
+        return assessPatchesAsync(resourceGroupName, name).block();
+    }
+
+    /**
+     * The operation to assess patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes the properties of an AssessPatches result.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public MachineAssessPatchesResultInner assessPatches(String resourceGroupName, String name, Context context) {
+        return assessPatchesAsync(resourceGroupName, name, context).block();
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation along with {@link Response} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> installPatchesWithResponseAsync(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (name == null) {
+            return Mono.error(new IllegalArgumentException("Parameter name is required and cannot be null."));
+        }
+        if (installPatchesInput == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter installPatchesInput is required and cannot be null."));
+        } else {
+            installPatchesInput.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.installPatches(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, name, installPatchesInput, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation along with {@link Response} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> installPatchesWithResponseAsync(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (name == null) {
+            return Mono.error(new IllegalArgumentException("Parameter name is required and cannot be null."));
+        }
+        if (installPatchesInput == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter installPatchesInput is required and cannot be null."));
+        } else {
+            installPatchesInput.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.installPatches(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, name, installPatchesInput, accept, context);
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of the result summary of an installation operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<MachineInstallPatchesResultInner>, MachineInstallPatchesResultInner>
+        beginInstallPatchesAsync(String resourceGroupName, String name,
+            MachineInstallPatchesParameters installPatchesInput) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = installPatchesWithResponseAsync(resourceGroupName, name, installPatchesInput);
+        return this.client.<MachineInstallPatchesResultInner, MachineInstallPatchesResultInner>getLroResult(mono,
+            this.client.getHttpPipeline(), MachineInstallPatchesResultInner.class,
+            MachineInstallPatchesResultInner.class, this.client.getContext());
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of the result summary of an installation operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<MachineInstallPatchesResultInner>, MachineInstallPatchesResultInner>
+        beginInstallPatchesAsync(String resourceGroupName, String name,
+            MachineInstallPatchesParameters installPatchesInput, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = installPatchesWithResponseAsync(resourceGroupName, name, installPatchesInput, context);
+        return this.client.<MachineInstallPatchesResultInner, MachineInstallPatchesResultInner>getLroResult(mono,
+            this.client.getHttpPipeline(), MachineInstallPatchesResultInner.class,
+            MachineInstallPatchesResultInner.class, context);
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of the result summary of an installation operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<MachineInstallPatchesResultInner>, MachineInstallPatchesResultInner>
+        beginInstallPatches(String resourceGroupName, String name,
+            MachineInstallPatchesParameters installPatchesInput) {
+        return this.beginInstallPatchesAsync(resourceGroupName, name, installPatchesInput).getSyncPoller();
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of the result summary of an installation operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<MachineInstallPatchesResultInner>, MachineInstallPatchesResultInner>
+        beginInstallPatches(String resourceGroupName, String name, MachineInstallPatchesParameters installPatchesInput,
+            Context context) {
+        return this.beginInstallPatchesAsync(resourceGroupName, name, installPatchesInput, context).getSyncPoller();
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<MachineInstallPatchesResultInner> installPatchesAsync(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput) {
+        return beginInstallPatchesAsync(resourceGroupName, name, installPatchesInput).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<MachineInstallPatchesResultInner> installPatchesAsync(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput, Context context) {
+        return beginInstallPatchesAsync(resourceGroupName, name, installPatchesInput, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public MachineInstallPatchesResultInner installPatches(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput) {
+        return installPatchesAsync(resourceGroupName, name, installPatchesInput).block();
+    }
+
+    /**
+     * The operation to install patches on a hybrid machine identity in Azure.
+     * 
+     * @param resourceGroupName The name of the resource group.
+     * @param name The name of the hybrid machine.
+     * @param installPatchesInput Input for InstallPatches as directly received by the API.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result summary of an installation operation.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public MachineInstallPatchesResultInner installPatches(String resourceGroupName, String name,
+        MachineInstallPatchesParameters installPatchesInput, Context context) {
+        return installPatchesAsync(resourceGroupName, name, installPatchesInput, context).block();
     }
 
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param expand Expands referenced resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<MachineInner>> listByResourceGroupSinglePageAsync(String resourceGroupName) {
+    private Mono<PagedResponse<MachineInner>> listByResourceGroupSinglePageAsync(String resourceGroupName,
+        String expand) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -452,54 +858,36 @@ public final class MachinesClientImpl implements MachinesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .listByResourceGroup(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            accept,
-                            context))
-            .<PagedResponse<MachineInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.listByResourceGroup(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, expand, accept, context))
+            .<PagedResponse<MachineInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param expand Expands referenced resources.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<MachineInner>> listByResourceGroupSinglePageAsync(
-        String resourceGroupName, Context context) {
+    private Mono<PagedResponse<MachineInner>> listByResourceGroupSinglePageAsync(String resourceGroupName,
+        String expand, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -508,28 +896,33 @@ public final class MachinesClientImpl implements MachinesClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .listByResourceGroup(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .listByResourceGroup(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, expand, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List hybrid machine operation response as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<MachineInner> listByResourceGroupAsync(String resourceGroupName, String expand) {
+        return new PagedFlux<>(() -> listByResourceGroupSinglePageAsync(resourceGroupName, expand),
+            nextLink -> listByResourceGroupNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
+     * the next page of hybrid machines.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -538,16 +931,17 @@ public final class MachinesClientImpl implements MachinesClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<MachineInner> listByResourceGroupAsync(String resourceGroupName) {
-        return new PagedFlux<>(
-            () -> listByResourceGroupSinglePageAsync(resourceGroupName),
+        final String expand = null;
+        return new PagedFlux<>(() -> listByResourceGroupSinglePageAsync(resourceGroupName, expand),
             nextLink -> listByResourceGroupNextSinglePageAsync(nextLink));
     }
 
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param expand Expands referenced resources.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -555,16 +949,15 @@ public final class MachinesClientImpl implements MachinesClient {
      * @return the List hybrid machine operation response as paginated response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<MachineInner> listByResourceGroupAsync(String resourceGroupName, Context context) {
-        return new PagedFlux<>(
-            () -> listByResourceGroupSinglePageAsync(resourceGroupName, context),
+    private PagedFlux<MachineInner> listByResourceGroupAsync(String resourceGroupName, String expand, Context context) {
+        return new PagedFlux<>(() -> listByResourceGroupSinglePageAsync(resourceGroupName, expand, context),
             nextLink -> listByResourceGroupNextSinglePageAsync(nextLink, context));
     }
 
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -573,14 +966,16 @@ public final class MachinesClientImpl implements MachinesClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<MachineInner> listByResourceGroup(String resourceGroupName) {
-        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName));
+        final String expand = null;
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, expand));
     }
 
     /**
      * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get
      * the next page of hybrid machines.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param expand Expands referenced resources.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -588,119 +983,86 @@ public final class MachinesClientImpl implements MachinesClient {
      * @return the List hybrid machine operation response as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<MachineInner> listByResourceGroup(String resourceGroupName, Context context) {
-        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, context));
+    public PagedIterable<MachineInner> listByResourceGroup(String resourceGroupName, String expand, Context context) {
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, expand, context));
     }
 
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<MachineInner>> listSinglePageAsync() {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .list(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
-            .<PagedResponse<MachineInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.list(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), accept, context))
+            .<PagedResponse<MachineInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<MachineInner>> listSinglePageAsync(Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .list(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                accept,
+            .list(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(), accept,
                 context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response as paginated response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<MachineInner> listAsync() {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(), nextLink -> listBySubscriptionNextSinglePageAsync(nextLink));
+        return new PagedFlux<>(() -> listSinglePageAsync(),
+            nextLink -> listBySubscriptionNextSinglePageAsync(nextLink));
     }
 
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -709,14 +1071,14 @@ public final class MachinesClientImpl implements MachinesClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<MachineInner> listAsync(Context context) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(context), nextLink -> listBySubscriptionNextSinglePageAsync(nextLink, context));
+        return new PagedFlux<>(() -> listSinglePageAsync(context),
+            nextLink -> listBySubscriptionNextSinglePageAsync(nextLink, context));
     }
 
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response as paginated response with {@link PagedIterable}.
@@ -729,7 +1091,7 @@ public final class MachinesClientImpl implements MachinesClient {
     /**
      * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the
      * next page of hybrid machines.
-     *
+     * 
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -743,14 +1105,15 @@ public final class MachinesClientImpl implements MachinesClient {
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<MachineInner>> listByResourceGroupNextSinglePageAsync(String nextLink) {
@@ -758,38 +1121,30 @@ public final class MachinesClientImpl implements MachinesClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
             .withContext(
                 context -> service.listByResourceGroupNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<MachineInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .<PagedResponse<MachineInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<MachineInner>> listByResourceGroupNextSinglePageAsync(String nextLink, Context context) {
@@ -797,36 +1152,27 @@ public final class MachinesClientImpl implements MachinesClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listByResourceGroupNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listByResourceGroupNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<MachineInner>> listBySubscriptionNextSinglePageAsync(String nextLink) {
@@ -834,38 +1180,30 @@ public final class MachinesClientImpl implements MachinesClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
             .withContext(
                 context -> service.listBySubscriptionNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<MachineInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .<PagedResponse<MachineInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List hybrid machine operation response along with {@link PagedResponse} on successful completion of
-     *     {@link Mono}.
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<MachineInner>> listBySubscriptionNextSinglePageAsync(String nextLink, Context context) {
@@ -873,23 +1211,13 @@ public final class MachinesClientImpl implements MachinesClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listBySubscriptionNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listBySubscriptionNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 }

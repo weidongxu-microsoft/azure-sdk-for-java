@@ -7,10 +7,13 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Geographic and time constraints for Azure reachability report. */
+/**
+ * Geographic and time constraints for Azure reachability report.
+ */
 @Fluent
 public final class AzureReachabilityReportParameters {
     /*
@@ -43,7 +46,9 @@ public final class AzureReachabilityReportParameters {
     @JsonProperty(value = "endTime", required = true)
     private OffsetDateTime endTime;
 
-    /** Creates an instance of AzureReachabilityReportParameters class. */
+    /**
+     * Creates an instance of AzureReachabilityReportParameters class.
+     */
     public AzureReachabilityReportParameters() {
     }
 
@@ -154,24 +159,21 @@ public final class AzureReachabilityReportParameters {
      */
     public void validate() {
         if (providerLocation() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property providerLocation in model AzureReachabilityReportParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property providerLocation in model AzureReachabilityReportParameters"));
         } else {
             providerLocation().validate();
         }
         if (startTime() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property startTime in model AzureReachabilityReportParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property startTime in model AzureReachabilityReportParameters"));
         }
         if (endTime() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property endTime in model AzureReachabilityReportParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property endTime in model AzureReachabilityReportParameters"));
         }
     }
 

@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.models.ScheduleListResult;
 public final class ScheduleListResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ScheduleListResult model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"provisioningState\":\"RolloutInProgress\",\"type\":\"StopDevBox\",\"frequency\":\"Daily\",\"time\":\"jpxac\",\"timeZone\":\"udfnbyxba\",\"state\":\"Enabled\"},\"id\":\"yvayffimrzr\",\"name\":\"uzqogsexnevf\",\"type\":\"nwnwme\"}],\"nextLink\":\"syyceuzsoibjud\"}")
-                .toObject(ScheduleListResult.class);
+        ScheduleListResult model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"provisioningState\":\"StorageProvisioningFailed\",\"type\":\"StopDevBox\",\"frequency\":\"Daily\",\"time\":\"jcswsmys\",\"timeZone\":\"luqypfcvlerch\",\"state\":\"Enabled\",\"tags\":{\"sspuunnoxyhkx\":\"pjbabwidfc\"},\"location\":\"ddrihpf\"},\"id\":\"qcaaewdaomdjvl\",\"name\":\"jxxkzbrmsgei\",\"type\":\"siykzkdncjdxonbz\"},{\"properties\":{\"provisioningState\":\"RolloutInProgress\",\"type\":\"StopDevBox\",\"frequency\":\"Daily\",\"time\":\"wyrpgogtqxepnyl\",\"timeZone\":\"uajlyj\",\"state\":\"Disabled\",\"tags\":{\"cib\":\"qzhv\",\"uxrkjp\":\"fmo\"},\"location\":\"w\"},\"id\":\"zwiivwzjbhyzs\",\"name\":\"jrkambtrnegvmnv\",\"type\":\"q\"}],\"nextLink\":\"vldspa\"}")
+            .toObject(ScheduleListResult.class);
     }
 
     @org.junit.jupiter.api.Test

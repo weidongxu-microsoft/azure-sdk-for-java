@@ -35,23 +35,30 @@ import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.devcenter.fluent.CatalogsClient;
 import com.azure.resourcemanager.devcenter.fluent.models.CatalogInner;
+import com.azure.resourcemanager.devcenter.fluent.models.SyncErrorDetailsInner;
 import com.azure.resourcemanager.devcenter.models.CatalogListResult;
 import com.azure.resourcemanager.devcenter.models.CatalogUpdate;
 import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in CatalogsClient. */
+/**
+ * An instance of this class provides access to all the operations defined in CatalogsClient.
+ */
 public final class CatalogsClientImpl implements CatalogsClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final CatalogsService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final DevCenterManagementClientImpl client;
 
     /**
      * Initializes an instance of CatalogsClientImpl.
-     *
+     * 
      * @param client the instance of the service client containing this operation class.
      */
     CatalogsClientImpl(DevCenterManagementClientImpl client) {
@@ -66,135 +73,111 @@ public final class CatalogsClientImpl implements CatalogsClient {
     @Host("{$host}")
     @ServiceInterface(name = "DevCenterManagementC")
     public interface CatalogsService {
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<CatalogListResult>> listByDevCenter(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("devCenterName") String devCenterName,
-            @QueryParam("$top") Integer top,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<CatalogListResult>> listByDevCenter(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @QueryParam("$top") Integer top, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<CatalogInner>> get(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("devCenterName") String devCenterName,
-            @PathParam("catalogName") String catalogName,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<CatalogInner>> get(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
-        @ExpectedResponses({201})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
+        @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("devCenterName") String devCenterName,
-            @PathParam("catalogName") String catalogName,
-            @BodyParam("application/json") CatalogInner body,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @BodyParam("application/json") CatalogInner body,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
-        @ExpectedResponses({200, 202})
+        @Headers({ "Content-Type: application/json" })
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> update(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("devCenterName") String devCenterName,
-            @PathParam("catalogName") String catalogName,
-            @BodyParam("application/json") CatalogUpdate body,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<Flux<ByteBuffer>>> update(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @BodyParam("application/json") CatalogUpdate body,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
-        @ExpectedResponses({200, 202, 204})
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}")
+        @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> delete(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("devCenterName") String devCenterName,
-            @PathParam("catalogName") String catalogName,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/sync")
-        @ExpectedResponses({202})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/getSyncErrorDetails")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> sync(
-            @HostParam("$host") String endpoint,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("devCenterName") String devCenterName,
-            @PathParam("catalogName") String catalogName,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<SyncErrorDetailsInner>> getSyncErrorDetails(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/sync")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> sync(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/connect")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> connect(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("devCenterName") String devCenterName,
+            @PathParam("catalogName") String catalogName, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<CatalogListResult>> listByDevCenterNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param top The maximum number of resources to return from the operation. Example: '$top=10'.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of {@link
-     *     Mono}.
+     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<CatalogInner>> listByDevCenterSinglePageAsync(
-        String resourceGroupName, String devCenterName, Integer top) {
+    private Mono<PagedResponse<CatalogInner>> listByDevCenterSinglePageAsync(String resourceGroupName,
+        String devCenterName, Integer top) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -205,33 +188,16 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .listByDevCenter(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            devCenterName,
-                            top,
-                            accept,
-                            context))
-            .<PagedResponse<CatalogInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.listByDevCenter(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, top, accept, context))
+            .<PagedResponse<CatalogInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param top The maximum number of resources to return from the operation. Example: '$top=10'.
@@ -239,23 +205,19 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of {@link
-     *     Mono}.
+     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<CatalogInner>> listByDevCenterSinglePageAsync(
-        String resourceGroupName, String devCenterName, Integer top, Context context) {
+    private Mono<PagedResponse<CatalogInner>> listByDevCenterSinglePageAsync(String resourceGroupName,
+        String devCenterName, Integer top, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -267,29 +229,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .listByDevCenter(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                devCenterName,
-                top,
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .listByDevCenter(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+                resourceGroupName, devCenterName, top, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param top The maximum number of resources to return from the operation. Example: '$top=10'.
@@ -300,14 +248,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<CatalogInner> listByDevCenterAsync(String resourceGroupName, String devCenterName, Integer top) {
-        return new PagedFlux<>(
-            () -> listByDevCenterSinglePageAsync(resourceGroupName, devCenterName, top),
+        return new PagedFlux<>(() -> listByDevCenterSinglePageAsync(resourceGroupName, devCenterName, top),
             nextLink -> listByDevCenterNextSinglePageAsync(nextLink));
     }
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -318,14 +265,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     private PagedFlux<CatalogInner> listByDevCenterAsync(String resourceGroupName, String devCenterName) {
         final Integer top = null;
-        return new PagedFlux<>(
-            () -> listByDevCenterSinglePageAsync(resourceGroupName, devCenterName, top),
+        return new PagedFlux<>(() -> listByDevCenterSinglePageAsync(resourceGroupName, devCenterName, top),
             nextLink -> listByDevCenterNextSinglePageAsync(nextLink));
     }
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param top The maximum number of resources to return from the operation. Example: '$top=10'.
@@ -336,16 +282,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return results of the catalog list operation as paginated response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<CatalogInner> listByDevCenterAsync(
-        String resourceGroupName, String devCenterName, Integer top, Context context) {
-        return new PagedFlux<>(
-            () -> listByDevCenterSinglePageAsync(resourceGroupName, devCenterName, top, context),
+    private PagedFlux<CatalogInner> listByDevCenterAsync(String resourceGroupName, String devCenterName, Integer top,
+        Context context) {
+        return new PagedFlux<>(() -> listByDevCenterSinglePageAsync(resourceGroupName, devCenterName, top, context),
             nextLink -> listByDevCenterNextSinglePageAsync(nextLink, context));
     }
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -361,7 +306,7 @@ public final class CatalogsClientImpl implements CatalogsClient {
 
     /**
      * Lists catalogs for a devcenter.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param top The maximum number of resources to return from the operation. Example: '$top=10'.
@@ -372,14 +317,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return results of the catalog list operation as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<CatalogInner> listByDevCenter(
-        String resourceGroupName, String devCenterName, Integer top, Context context) {
+    public PagedIterable<CatalogInner> listByDevCenter(String resourceGroupName, String devCenterName, Integer top,
+        Context context) {
         return new PagedIterable<>(listByDevCenterAsync(resourceGroupName, devCenterName, top, context));
     }
 
     /**
      * Gets a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -389,19 +334,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return a catalog along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<CatalogInner>> getWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    private Mono<Response<CatalogInner>> getWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -415,24 +356,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .get(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            devCenterName,
-                            catalogName,
-                            accept,
-                            context))
+            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Gets a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -443,19 +374,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return a catalog along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<CatalogInner>> getWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    private Mono<Response<CatalogInner>> getWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -469,21 +396,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .get(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                devCenterName,
-                catalogName,
-                accept,
-                context);
+        return service.get(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, devCenterName, catalogName, accept, context);
     }
 
     /**
      * Gets a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -500,7 +419,7 @@ public final class CatalogsClientImpl implements CatalogsClient {
 
     /**
      * Gets a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -511,14 +430,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return a catalog along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<CatalogInner> getWithResponse(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    public Response<CatalogInner> getWithResponse(String resourceGroupName, String devCenterName, String catalogName,
+        Context context) {
         return getWithResponseAsync(resourceGroupName, devCenterName, catalogName, context).block();
     }
 
     /**
      * Gets a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -534,7 +453,7 @@ public final class CatalogsClientImpl implements CatalogsClient {
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -545,19 +464,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body) {
+    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogInner body) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -576,25 +491,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .createOrUpdate(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            devCenterName,
-                            catalogName,
-                            body,
-                            accept,
-                            context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, body, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -606,19 +510,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogInner body, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -637,22 +537,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .createOrUpdate(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                devCenterName,
-                catalogName,
-                body,
-                accept,
-                context);
+        return service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, body, accept, context);
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -663,19 +554,17 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createOrUpdateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body);
-        return this
-            .client
-            .<CatalogInner, CatalogInner>getLroResult(
-                mono, this.client.getHttpPipeline(), CatalogInner.class, CatalogInner.class, this.client.getContext());
+    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdateAsync(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogInner body) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = createOrUpdateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body);
+        return this.client.<CatalogInner, CatalogInner>getLroResult(mono, this.client.getHttpPipeline(),
+            CatalogInner.class, CatalogInner.class, this.client.getContext());
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -687,20 +576,18 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body, Context context) {
+    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdateAsync(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogInner body, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createOrUpdateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body, context);
-        return this
-            .client
-            .<CatalogInner, CatalogInner>getLroResult(
-                mono, this.client.getHttpPipeline(), CatalogInner.class, CatalogInner.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = createOrUpdateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body, context);
+        return this.client.<CatalogInner, CatalogInner>getLroResult(mono, this.client.getHttpPipeline(),
+            CatalogInner.class, CatalogInner.class, context);
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -711,14 +598,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdate(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body) {
+    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdate(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogInner body) {
         return this.beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body).getSyncPoller();
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -730,16 +617,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdate(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body, Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context)
+    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginCreateOrUpdate(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogInner body, Context context) {
+        return this.beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context)
             .getSyncPoller();
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -750,16 +636,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<CatalogInner> createOrUpdateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body) {
-        return beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body)
-            .last()
+    private Mono<CatalogInner> createOrUpdateAsync(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogInner body) {
+        return beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -771,16 +656,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<CatalogInner> createOrUpdateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body, Context context) {
-        return beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context)
-            .last()
+    private Mono<CatalogInner> createOrUpdateAsync(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogInner body, Context context) {
+        return beginCreateOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -791,14 +675,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public CatalogInner createOrUpdate(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body) {
+    public CatalogInner createOrUpdate(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogInner body) {
         return createOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body).block();
     }
 
     /**
      * Creates or updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -810,14 +694,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public CatalogInner createOrUpdate(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogInner body, Context context) {
+    public CatalogInner createOrUpdate(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogInner body, Context context) {
         return createOrUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context).block();
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -828,19 +712,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body) {
+    private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName, CatalogUpdate body) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -859,25 +739,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .update(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            devCenterName,
-                            catalogName,
-                            body,
-                            accept,
-                            context))
+            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, body, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -889,19 +758,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog along with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName, CatalogUpdate body, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -920,22 +785,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .update(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                devCenterName,
-                catalogName,
-                body,
-                accept,
-                context);
+        return service.update(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, devCenterName, catalogName, body, accept, context);
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -946,19 +802,17 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginUpdateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            updateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body);
-        return this
-            .client
-            .<CatalogInner, CatalogInner>getLroResult(
-                mono, this.client.getHttpPipeline(), CatalogInner.class, CatalogInner.class, this.client.getContext());
+    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginUpdateAsync(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogUpdate body) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = updateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body);
+        return this.client.<CatalogInner, CatalogInner>getLroResult(mono, this.client.getHttpPipeline(),
+            CatalogInner.class, CatalogInner.class, this.client.getContext());
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -970,20 +824,18 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginUpdateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body, Context context) {
+    private PollerFlux<PollResult<CatalogInner>, CatalogInner> beginUpdateAsync(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogUpdate body, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            updateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body, context);
-        return this
-            .client
-            .<CatalogInner, CatalogInner>getLroResult(
-                mono, this.client.getHttpPipeline(), CatalogInner.class, CatalogInner.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = updateWithResponseAsync(resourceGroupName, devCenterName, catalogName, body, context);
+        return this.client.<CatalogInner, CatalogInner>getLroResult(mono, this.client.getHttpPipeline(),
+            CatalogInner.class, CatalogInner.class, context);
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -994,14 +846,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginUpdate(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body) {
+    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginUpdate(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogUpdate body) {
         return this.beginUpdateAsync(resourceGroupName, devCenterName, catalogName, body).getSyncPoller();
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1013,14 +865,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginUpdate(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body, Context context) {
+    public SyncPoller<PollResult<CatalogInner>, CatalogInner> beginUpdate(String resourceGroupName,
+        String devCenterName, String catalogName, CatalogUpdate body, Context context) {
         return this.beginUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context).getSyncPoller();
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1031,16 +883,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<CatalogInner> updateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body) {
-        return beginUpdateAsync(resourceGroupName, devCenterName, catalogName, body)
-            .last()
+    private Mono<CatalogInner> updateAsync(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogUpdate body) {
+        return beginUpdateAsync(resourceGroupName, devCenterName, catalogName, body).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1052,16 +903,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<CatalogInner> updateAsync(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body, Context context) {
-        return beginUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context)
-            .last()
+    private Mono<CatalogInner> updateAsync(String resourceGroupName, String devCenterName, String catalogName,
+        CatalogUpdate body, Context context) {
+        return beginUpdateAsync(resourceGroupName, devCenterName, catalogName, body, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1078,7 +928,7 @@ public final class CatalogsClientImpl implements CatalogsClient {
 
     /**
      * Partially updates a catalog.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1090,14 +940,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return represents a catalog.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public CatalogInner update(
-        String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body, Context context) {
+    public CatalogInner update(String resourceGroupName, String devCenterName, String catalogName, CatalogUpdate body,
+        Context context) {
         return updateAsync(resourceGroupName, devCenterName, catalogName, body, context).block();
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1107,19 +957,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1133,24 +979,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .delete(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            devCenterName,
-                            catalogName,
-                            accept,
-                            context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1161,19 +997,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1187,21 +1019,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .delete(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                devCenterName,
-                catalogName,
-                accept,
-                context);
+        return service.delete(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, devCenterName, catalogName, accept, context);
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1211,18 +1035,16 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
         Mono<Response<Flux<ByteBuffer>>> mono = deleteWithResponseAsync(resourceGroupName, devCenterName, catalogName);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1233,19 +1055,18 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, devCenterName, catalogName, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, devCenterName, catalogName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1255,14 +1076,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String devCenterName,
+        String catalogName) {
         return this.beginDeleteAsync(resourceGroupName, devCenterName, catalogName).getSyncPoller();
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1273,14 +1094,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
         return this.beginDeleteAsync(resourceGroupName, devCenterName, catalogName, context).getSyncPoller();
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1291,14 +1112,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Void> deleteAsync(String resourceGroupName, String devCenterName, String catalogName) {
-        return beginDeleteAsync(resourceGroupName, devCenterName, catalogName)
-            .last()
+        return beginDeleteAsync(resourceGroupName, devCenterName, catalogName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1309,16 +1129,15 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return A {@link Mono} that completes when a successful response is received.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteAsync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
-        return beginDeleteAsync(resourceGroupName, devCenterName, catalogName, context)
-            .last()
+    private Mono<Void> deleteAsync(String resourceGroupName, String devCenterName, String catalogName,
+        Context context) {
+        return beginDeleteAsync(resourceGroupName, devCenterName, catalogName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1333,7 +1152,7 @@ public final class CatalogsClientImpl implements CatalogsClient {
 
     /**
      * Deletes a catalog resource.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1348,30 +1167,27 @@ public final class CatalogsClientImpl implements CatalogsClient {
     }
 
     /**
-     * Syncs templates for a template source.
-     *
+     * Gets catalog synchronization error details.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
+     * @return catalog synchronization error details along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> syncWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    private Mono<Response<SyncErrorDetailsInner>> getSyncErrorDetailsWithResponseAsync(String resourceGroupName,
+        String devCenterName, String catalogName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1385,24 +1201,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .sync(
-                            this.client.getEndpoint(),
-                            this.client.getApiVersion(),
-                            this.client.getSubscriptionId(),
-                            resourceGroupName,
-                            devCenterName,
-                            catalogName,
-                            accept,
-                            context))
+            .withContext(context -> service.getSyncErrorDetails(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Syncs templates for a template source.
-     *
+     * Gets catalog synchronization error details.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1410,22 +1216,19 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
+     * @return catalog synchronization error details along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> syncWithResponseAsync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    private Mono<Response<SyncErrorDetailsInner>> getSyncErrorDetailsWithResponseAsync(String resourceGroupName,
+        String devCenterName, String catalogName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -1439,21 +1242,144 @@ public final class CatalogsClientImpl implements CatalogsClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .sync(
-                this.client.getEndpoint(),
-                this.client.getApiVersion(),
-                this.client.getSubscriptionId(),
-                resourceGroupName,
-                devCenterName,
-                catalogName,
-                accept,
-                context);
+        return service.getSyncErrorDetails(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, accept, context);
+    }
+
+    /**
+     * Gets catalog synchronization error details.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return catalog synchronization error details on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<SyncErrorDetailsInner> getSyncErrorDetailsAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
+        return getSyncErrorDetailsWithResponseAsync(resourceGroupName, devCenterName, catalogName)
+            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
+    }
+
+    /**
+     * Gets catalog synchronization error details.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return catalog synchronization error details along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<SyncErrorDetailsInner> getSyncErrorDetailsWithResponse(String resourceGroupName,
+        String devCenterName, String catalogName, Context context) {
+        return getSyncErrorDetailsWithResponseAsync(resourceGroupName, devCenterName, catalogName, context).block();
+    }
+
+    /**
+     * Gets catalog synchronization error details.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return catalog synchronization error details.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SyncErrorDetailsInner getSyncErrorDetails(String resourceGroupName, String devCenterName,
+        String catalogName) {
+        return getSyncErrorDetailsWithResponse(resourceGroupName, devCenterName, catalogName, Context.NONE).getValue();
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> syncWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (devCenterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter devCenterName is required and cannot be null."));
+        }
+        if (catalogName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter catalogName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.sync(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Syncs templates for a template source.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> syncWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (devCenterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter devCenterName is required and cannot be null."));
+        }
+        if (catalogName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter catalogName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.sync(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, devCenterName, catalogName, accept, context);
+    }
+
+    /**
+     * Syncs templates for a template source.
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1463,18 +1389,16 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginSyncAsync(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    private PollerFlux<PollResult<Void>, Void> beginSyncAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
         Mono<Response<Flux<ByteBuffer>>> mono = syncWithResponseAsync(resourceGroupName, devCenterName, catalogName);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1485,19 +1409,18 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginSyncAsync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginSyncAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            syncWithResponseAsync(resourceGroupName, devCenterName, catalogName, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = syncWithResponseAsync(resourceGroupName, devCenterName, catalogName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1507,14 +1430,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginSync(
-        String resourceGroupName, String devCenterName, String catalogName) {
+    public SyncPoller<PollResult<Void>, Void> beginSync(String resourceGroupName, String devCenterName,
+        String catalogName) {
         return this.beginSyncAsync(resourceGroupName, devCenterName, catalogName).getSyncPoller();
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1525,14 +1448,14 @@ public final class CatalogsClientImpl implements CatalogsClient {
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginSync(
-        String resourceGroupName, String devCenterName, String catalogName, Context context) {
+    public SyncPoller<PollResult<Void>, Void> beginSync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
         return this.beginSyncAsync(resourceGroupName, devCenterName, catalogName, context).getSyncPoller();
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1543,14 +1466,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Void> syncAsync(String resourceGroupName, String devCenterName, String catalogName) {
-        return beginSyncAsync(resourceGroupName, devCenterName, catalogName)
-            .last()
+        return beginSyncAsync(resourceGroupName, devCenterName, catalogName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1562,14 +1484,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Void> syncAsync(String resourceGroupName, String devCenterName, String catalogName, Context context) {
-        return beginSyncAsync(resourceGroupName, devCenterName, catalogName, context)
-            .last()
+        return beginSyncAsync(resourceGroupName, devCenterName, catalogName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1584,7 +1505,7 @@ public final class CatalogsClientImpl implements CatalogsClient {
 
     /**
      * Syncs templates for a template source.
-     *
+     * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param devCenterName The name of the devcenter.
      * @param catalogName The name of the Catalog.
@@ -1599,15 +1520,237 @@ public final class CatalogsClientImpl implements CatalogsClient {
     }
 
     /**
-     * Get the next page of items.
-     *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of {@link
-     *     Mono}.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> connectWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (devCenterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter devCenterName is required and cannot be null."));
+        }
+        if (catalogName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter catalogName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.connect(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, devCenterName, catalogName, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> connectWithResponseAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (devCenterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter devCenterName is required and cannot be null."));
+        }
+        if (catalogName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter catalogName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.connect(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, devCenterName, catalogName, accept, context);
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginConnectAsync(String resourceGroupName, String devCenterName,
+        String catalogName) {
+        Mono<Response<Flux<ByteBuffer>>> mono = connectWithResponseAsync(resourceGroupName, devCenterName, catalogName);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginConnectAsync(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = connectWithResponseAsync(resourceGroupName, devCenterName, catalogName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginConnect(String resourceGroupName, String devCenterName,
+        String catalogName) {
+        return this.beginConnectAsync(resourceGroupName, devCenterName, catalogName).getSyncPoller();
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginConnect(String resourceGroupName, String devCenterName,
+        String catalogName, Context context) {
+        return this.beginConnectAsync(resourceGroupName, devCenterName, catalogName, context).getSyncPoller();
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> connectAsync(String resourceGroupName, String devCenterName, String catalogName) {
+        return beginConnectAsync(resourceGroupName, devCenterName, catalogName).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> connectAsync(String resourceGroupName, String devCenterName, String catalogName,
+        Context context) {
+        return beginConnectAsync(resourceGroupName, devCenterName, catalogName, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void connect(String resourceGroupName, String devCenterName, String catalogName) {
+        connectAsync(resourceGroupName, devCenterName, catalogName).block();
+    }
+
+    /**
+     * Connects a catalog to enable syncing.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param devCenterName The name of the devcenter.
+     * @param catalogName The name of the Catalog.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void connect(String resourceGroupName, String devCenterName, String catalogName, Context context) {
+        connectAsync(resourceGroupName, devCenterName, catalogName, context).block();
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items
+     * 
+     * The nextLink parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<CatalogInner>> listByDevCenterNextSinglePageAsync(String nextLink) {
@@ -1615,37 +1758,29 @@ public final class CatalogsClientImpl implements CatalogsClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
             .withContext(context -> service.listByDevCenterNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<CatalogInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .<PagedResponse<CatalogInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
+                res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Get the next page of items.
-     *
+     * 
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * 
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of {@link
-     *     Mono}.
+     * @return results of the catalog list operation along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<CatalogInner>> listByDevCenterNextSinglePageAsync(String nextLink, Context context) {
@@ -1653,23 +1788,13 @@ public final class CatalogsClientImpl implements CatalogsClient {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listByDevCenterNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listByDevCenterNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 }

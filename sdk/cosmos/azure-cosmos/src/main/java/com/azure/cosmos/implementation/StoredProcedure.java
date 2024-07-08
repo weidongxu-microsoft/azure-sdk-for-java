@@ -3,7 +3,8 @@
 
 package com.azure.cosmos.implementation;
 
-import com.azure.cosmos.BridgeInternal;
+import com.azure.cosmos.CosmosItemSerializer;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Represents a stored procedure in the Azure Cosmos DB database service.
@@ -24,10 +25,10 @@ public class StoredProcedure extends Resource {
     /**
      * Constructor.
      *
-     * @param jsonString the json string that represents the stored procedure.
+     * @param jsonNode the json node that represents the stored procedure.
      */
-    public StoredProcedure(String jsonString) {
-        super(jsonString);
+    public StoredProcedure(ObjectNode jsonNode) {
+        super(jsonNode);
     }
 
     /**
@@ -55,7 +56,7 @@ public class StoredProcedure extends Resource {
      * @param body the body of the stored procedure.
      */
     public void setBody(String body) {
-        BridgeInternal.setProperty(this, Constants.Properties.BODY, body);
+        this.set(Constants.Properties.BODY, body, CosmosItemSerializer.DEFAULT_SERIALIZER);
     }
 }
 

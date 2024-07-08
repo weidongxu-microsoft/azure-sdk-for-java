@@ -8,39 +8,57 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Import command settings. */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type",
-    defaultImpl = ImportSettings.class)
+/**
+ * Import command settings.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ImportSettings.class, visible = true)
 @JsonTypeName("ImportSettings")
 @JsonSubTypes({
     @JsonSubTypes.Type(
         name = "AzureDatabricksDeltaLakeImportCommand",
         value = AzureDatabricksDeltaLakeImportCommand.class),
-    @JsonSubTypes.Type(name = "SnowflakeImportCopyCommand", value = SnowflakeImportCopyCommand.class)
-})
+    @JsonSubTypes.Type(name = "SnowflakeImportCopyCommand", value = SnowflakeImportCopyCommand.class) })
 @Fluent
 public class ImportSettings {
     /*
+     * The import setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ImportSettings";
+
+    /*
      * Import command settings.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of ImportSettings class. */
+    /**
+     * Creates an instance of ImportSettings class.
+     */
     public ImportSettings() {
     }
 
     /**
+     * Get the type property: The import setting type.
+     * 
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the additionalProperties property: Import command settings.
-     *
+     * 
      * @return the additionalProperties value.
      */
     @JsonAnyGetter
@@ -50,7 +68,7 @@ public class ImportSettings {
 
     /**
      * Set the additionalProperties property: Import command settings.
-     *
+     * 
      * @param additionalProperties the additionalProperties value to set.
      * @return the ImportSettings object itself.
      */
@@ -62,14 +80,14 @@ public class ImportSettings {
     @JsonAnySetter
     void withAdditionalProperties(String key, Object value) {
         if (additionalProperties == null) {
-            additionalProperties = new HashMap<>();
+            additionalProperties = new LinkedHashMap<>();
         }
         additionalProperties.put(key, value);
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

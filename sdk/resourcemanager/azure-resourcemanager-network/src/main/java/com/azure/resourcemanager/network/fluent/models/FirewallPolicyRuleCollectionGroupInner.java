@@ -9,9 +9,12 @@ import com.azure.core.management.SubResource;
 import com.azure.resourcemanager.network.models.FirewallPolicyRuleCollection;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Rule Collection Group resource. */
+/**
+ * Rule Collection Group resource.
+ */
 @Fluent
 public final class FirewallPolicyRuleCollectionGroupInner extends SubResource {
     /*
@@ -38,7 +41,9 @@ public final class FirewallPolicyRuleCollectionGroupInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of FirewallPolicyRuleCollectionGroupInner class. */
+    /**
+     * Creates an instance of FirewallPolicyRuleCollectionGroupInner class.
+     */
     public FirewallPolicyRuleCollectionGroupInner() {
     }
 
@@ -91,11 +96,23 @@ public final class FirewallPolicyRuleCollectionGroupInner extends SubResource {
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FirewallPolicyRuleCollectionGroupInner withId(String id) {
         super.withId(id);
         return this;
+    }
+
+    /**
+     * Get the size property: A read-only string that represents the size of the
+     * FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB).
+     *
+     * @return the size value.
+     */
+    public String size() {
+        return this.innerProperties() == null ? null : this.innerProperties().size();
     }
 
     /**
@@ -136,8 +153,8 @@ public final class FirewallPolicyRuleCollectionGroupInner extends SubResource {
      * @param ruleCollections the ruleCollections value to set.
      * @return the FirewallPolicyRuleCollectionGroupInner object itself.
      */
-    public FirewallPolicyRuleCollectionGroupInner withRuleCollections(
-        List<FirewallPolicyRuleCollection> ruleCollections) {
+    public FirewallPolicyRuleCollectionGroupInner
+        withRuleCollections(List<FirewallPolicyRuleCollection> ruleCollections) {
         if (this.innerProperties() == null) {
             this.innerProperties = new FirewallPolicyRuleCollectionGroupProperties();
         }

@@ -10,18 +10,22 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Services response resource. */
+/**
+ * Services response resource.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "serviceType",
-    defaultImpl = ServiceResourceProperties.class)
+    defaultImpl = ServiceResourceProperties.class,
+    visible = true)
 @JsonTypeName("ServiceResourceProperties")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "DataTransfer", value = DataTransferServiceResourceProperties.class),
@@ -29,10 +33,16 @@ import java.util.Map;
     @JsonSubTypes.Type(name = "GraphAPICompute", value = GraphApiComputeServiceResourceProperties.class),
     @JsonSubTypes.Type(
         name = "MaterializedViewsBuilder",
-        value = MaterializedViewsBuilderServiceResourceProperties.class)
-})
+        value = MaterializedViewsBuilderServiceResourceProperties.class) })
 @Fluent
 public class ServiceResourceProperties {
+    /*
+     * ServiceType for the service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "serviceType", required = true)
+    private ServiceType serviceType;
+
     /*
      * Time of the last state change (ISO-8601 format).
      */
@@ -60,10 +70,23 @@ public class ServiceResourceProperties {
     /*
      * Services response resource.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of ServiceResourceProperties class. */
+    /**
+     * Creates an instance of ServiceResourceProperties class.
+     */
     public ServiceResourceProperties() {
+        this.serviceType = ServiceType.fromString("ServiceResourceProperties");
+    }
+
+    /**
+     * Get the serviceType property: ServiceType for the service.
+     *
+     * @return the serviceType value.
+     */
+    public ServiceType serviceType() {
+        return this.serviceType;
     }
 
     /**

@@ -5,17 +5,22 @@
 package com.azure.resourcemanager.appcontainers.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.resourcemanager.appcontainers.models.AppInsightsConfiguration;
 import com.azure.resourcemanager.appcontainers.models.AppLogsConfiguration;
 import com.azure.resourcemanager.appcontainers.models.CustomDomainConfiguration;
 import com.azure.resourcemanager.appcontainers.models.DaprConfiguration;
 import com.azure.resourcemanager.appcontainers.models.EnvironmentProvisioningState;
 import com.azure.resourcemanager.appcontainers.models.KedaConfiguration;
+import com.azure.resourcemanager.appcontainers.models.ManagedEnvironmentPropertiesPeerAuthentication;
+import com.azure.resourcemanager.appcontainers.models.OpenTelemetryConfiguration;
 import com.azure.resourcemanager.appcontainers.models.VnetConfiguration;
 import com.azure.resourcemanager.appcontainers.models.WorkloadProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Managed environment resource specific properties. */
+/**
+ * Managed environment resource specific properties.
+ */
 @Fluent
 public final class ManagedEnvironmentProperties {
     /*
@@ -69,6 +74,18 @@ public final class ManagedEnvironmentProperties {
     private AppLogsConfiguration appLogsConfiguration;
 
     /*
+     * Environment level Application Insights configuration
+     */
+    @JsonProperty(value = "appInsightsConfiguration")
+    private AppInsightsConfiguration appInsightsConfiguration;
+
+    /*
+     * Environment Open Telemetry configuration
+     */
+    @JsonProperty(value = "openTelemetryConfiguration")
+    private OpenTelemetryConfiguration openTelemetryConfiguration;
+
+    /*
      * Whether or not this Managed Environment is zone-redundant.
      */
     @JsonProperty(value = "zoneRedundant")
@@ -112,13 +129,21 @@ public final class ManagedEnvironmentProperties {
     @JsonProperty(value = "infrastructureResourceGroup")
     private String infrastructureResourceGroup;
 
-    /** Creates an instance of ManagedEnvironmentProperties class. */
+    /*
+     * Peer authentication settings for the Managed Environment
+     */
+    @JsonProperty(value = "peerAuthentication")
+    private ManagedEnvironmentPropertiesPeerAuthentication peerAuthentication;
+
+    /**
+     * Creates an instance of ManagedEnvironmentProperties class.
+     */
     public ManagedEnvironmentProperties() {
     }
 
     /**
      * Get the provisioningState property: Provisioning state of the Environment.
-     *
+     * 
      * @return the provisioningState value.
      */
     public EnvironmentProvisioningState provisioningState() {
@@ -128,7 +153,7 @@ public final class ManagedEnvironmentProperties {
     /**
      * Get the daprAIInstrumentationKey property: Azure Monitor instrumentation key used by Dapr to export Service to
      * Service communication telemetry.
-     *
+     * 
      * @return the daprAIInstrumentationKey value.
      */
     public String daprAIInstrumentationKey() {
@@ -138,7 +163,7 @@ public final class ManagedEnvironmentProperties {
     /**
      * Set the daprAIInstrumentationKey property: Azure Monitor instrumentation key used by Dapr to export Service to
      * Service communication telemetry.
-     *
+     * 
      * @param daprAIInstrumentationKey the daprAIInstrumentationKey value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -148,9 +173,9 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
-     * Get the daprAIConnectionString property: Application Insights connection string used by Dapr to export Service to
-     * Service communication telemetry.
-     *
+     * Get the daprAIConnectionString property: Application Insights connection string used by Dapr to export Service
+     * to Service communication telemetry.
+     * 
      * @return the daprAIConnectionString value.
      */
     public String daprAIConnectionString() {
@@ -158,9 +183,9 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
-     * Set the daprAIConnectionString property: Application Insights connection string used by Dapr to export Service to
-     * Service communication telemetry.
-     *
+     * Set the daprAIConnectionString property: Application Insights connection string used by Dapr to export Service
+     * to Service communication telemetry.
+     * 
      * @param daprAIConnectionString the daprAIConnectionString value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -171,7 +196,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the vnetConfiguration property: Vnet configuration for the environment.
-     *
+     * 
      * @return the vnetConfiguration value.
      */
     public VnetConfiguration vnetConfiguration() {
@@ -180,7 +205,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Set the vnetConfiguration property: Vnet configuration for the environment.
-     *
+     * 
      * @param vnetConfiguration the vnetConfiguration value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -191,7 +216,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the deploymentErrors property: Any errors that occurred during deployment or deployment validation.
-     *
+     * 
      * @return the deploymentErrors value.
      */
     public String deploymentErrors() {
@@ -200,7 +225,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the defaultDomain property: Default Domain Name for the cluster.
-     *
+     * 
      * @return the defaultDomain value.
      */
     public String defaultDomain() {
@@ -209,7 +234,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the staticIp property: Static IP of the Environment.
-     *
+     * 
      * @return the staticIp value.
      */
     public String staticIp() {
@@ -217,9 +242,10 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
-     * Get the appLogsConfiguration property: Cluster configuration which enables the log daemon to export app logs to a
-     * destination. Currently only "log-analytics" is supported.
-     *
+     * Get the appLogsConfiguration property: Cluster configuration which enables the log daemon to export
+     * app logs to a destination. Currently only "log-analytics" is
+     * supported.
+     * 
      * @return the appLogsConfiguration value.
      */
     public AppLogsConfiguration appLogsConfiguration() {
@@ -227,9 +253,10 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
-     * Set the appLogsConfiguration property: Cluster configuration which enables the log daemon to export app logs to a
-     * destination. Currently only "log-analytics" is supported.
-     *
+     * Set the appLogsConfiguration property: Cluster configuration which enables the log daemon to export
+     * app logs to a destination. Currently only "log-analytics" is
+     * supported.
+     * 
      * @param appLogsConfiguration the appLogsConfiguration value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -239,8 +266,50 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
+     * Get the appInsightsConfiguration property: Environment level Application Insights configuration.
+     * 
+     * @return the appInsightsConfiguration value.
+     */
+    public AppInsightsConfiguration appInsightsConfiguration() {
+        return this.appInsightsConfiguration;
+    }
+
+    /**
+     * Set the appInsightsConfiguration property: Environment level Application Insights configuration.
+     * 
+     * @param appInsightsConfiguration the appInsightsConfiguration value to set.
+     * @return the ManagedEnvironmentProperties object itself.
+     */
+    public ManagedEnvironmentProperties
+        withAppInsightsConfiguration(AppInsightsConfiguration appInsightsConfiguration) {
+        this.appInsightsConfiguration = appInsightsConfiguration;
+        return this;
+    }
+
+    /**
+     * Get the openTelemetryConfiguration property: Environment Open Telemetry configuration.
+     * 
+     * @return the openTelemetryConfiguration value.
+     */
+    public OpenTelemetryConfiguration openTelemetryConfiguration() {
+        return this.openTelemetryConfiguration;
+    }
+
+    /**
+     * Set the openTelemetryConfiguration property: Environment Open Telemetry configuration.
+     * 
+     * @param openTelemetryConfiguration the openTelemetryConfiguration value to set.
+     * @return the ManagedEnvironmentProperties object itself.
+     */
+    public ManagedEnvironmentProperties
+        withOpenTelemetryConfiguration(OpenTelemetryConfiguration openTelemetryConfiguration) {
+        this.openTelemetryConfiguration = openTelemetryConfiguration;
+        return this;
+    }
+
+    /**
      * Get the zoneRedundant property: Whether or not this Managed Environment is zone-redundant.
-     *
+     * 
      * @return the zoneRedundant value.
      */
     public Boolean zoneRedundant() {
@@ -249,7 +318,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Set the zoneRedundant property: Whether or not this Managed Environment is zone-redundant.
-     *
+     * 
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -260,7 +329,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the customDomainConfiguration property: Custom domain configuration for the environment.
-     *
+     * 
      * @return the customDomainConfiguration value.
      */
     public CustomDomainConfiguration customDomainConfiguration() {
@@ -269,19 +338,19 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Set the customDomainConfiguration property: Custom domain configuration for the environment.
-     *
+     * 
      * @param customDomainConfiguration the customDomainConfiguration value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
-    public ManagedEnvironmentProperties withCustomDomainConfiguration(
-        CustomDomainConfiguration customDomainConfiguration) {
+    public ManagedEnvironmentProperties
+        withCustomDomainConfiguration(CustomDomainConfiguration customDomainConfiguration) {
         this.customDomainConfiguration = customDomainConfiguration;
         return this;
     }
 
     /**
      * Get the eventStreamEndpoint property: The endpoint of the eventstream of the Environment.
-     *
+     * 
      * @return the eventStreamEndpoint value.
      */
     public String eventStreamEndpoint() {
@@ -290,7 +359,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the workloadProfiles property: Workload profiles configured for the Managed Environment.
-     *
+     * 
      * @return the workloadProfiles value.
      */
     public List<WorkloadProfile> workloadProfiles() {
@@ -299,7 +368,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Set the workloadProfiles property: Workload profiles configured for the Managed Environment.
-     *
+     * 
      * @param workloadProfiles the workloadProfiles value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -310,7 +379,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the kedaConfiguration property: The configuration of Keda component.
-     *
+     * 
      * @return the kedaConfiguration value.
      */
     public KedaConfiguration kedaConfiguration() {
@@ -319,7 +388,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Set the kedaConfiguration property: The configuration of Keda component.
-     *
+     * 
      * @param kedaConfiguration the kedaConfiguration value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -330,7 +399,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Get the daprConfiguration property: The configuration of Dapr component.
-     *
+     * 
      * @return the daprConfiguration value.
      */
     public DaprConfiguration daprConfiguration() {
@@ -339,7 +408,7 @@ public final class ManagedEnvironmentProperties {
 
     /**
      * Set the daprConfiguration property: The configuration of Dapr component.
-     *
+     * 
      * @param daprConfiguration the daprConfiguration value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -349,10 +418,10 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
-     * Get the infrastructureResourceGroup property: Name of the platform-managed resource group created for the Managed
-     * Environment to host infrastructure resources. If a subnet ID is provided, this resource group will be created in
-     * the same subscription as the subnet.
-     *
+     * Get the infrastructureResourceGroup property: Name of the platform-managed resource group created for the
+     * Managed Environment to host infrastructure resources. If a subnet ID is provided, this resource group will be
+     * created in the same subscription as the subnet.
+     * 
      * @return the infrastructureResourceGroup value.
      */
     public String infrastructureResourceGroup() {
@@ -360,10 +429,10 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
-     * Set the infrastructureResourceGroup property: Name of the platform-managed resource group created for the Managed
-     * Environment to host infrastructure resources. If a subnet ID is provided, this resource group will be created in
-     * the same subscription as the subnet.
-     *
+     * Set the infrastructureResourceGroup property: Name of the platform-managed resource group created for the
+     * Managed Environment to host infrastructure resources. If a subnet ID is provided, this resource group will be
+     * created in the same subscription as the subnet.
+     * 
      * @param infrastructureResourceGroup the infrastructureResourceGroup value to set.
      * @return the ManagedEnvironmentProperties object itself.
      */
@@ -373,8 +442,29 @@ public final class ManagedEnvironmentProperties {
     }
 
     /**
+     * Get the peerAuthentication property: Peer authentication settings for the Managed Environment.
+     * 
+     * @return the peerAuthentication value.
+     */
+    public ManagedEnvironmentPropertiesPeerAuthentication peerAuthentication() {
+        return this.peerAuthentication;
+    }
+
+    /**
+     * Set the peerAuthentication property: Peer authentication settings for the Managed Environment.
+     * 
+     * @param peerAuthentication the peerAuthentication value to set.
+     * @return the ManagedEnvironmentProperties object itself.
+     */
+    public ManagedEnvironmentProperties
+        withPeerAuthentication(ManagedEnvironmentPropertiesPeerAuthentication peerAuthentication) {
+        this.peerAuthentication = peerAuthentication;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
@@ -383,6 +473,12 @@ public final class ManagedEnvironmentProperties {
         }
         if (appLogsConfiguration() != null) {
             appLogsConfiguration().validate();
+        }
+        if (appInsightsConfiguration() != null) {
+            appInsightsConfiguration().validate();
+        }
+        if (openTelemetryConfiguration() != null) {
+            openTelemetryConfiguration().validate();
         }
         if (customDomainConfiguration() != null) {
             customDomainConfiguration().validate();
@@ -395,6 +491,9 @@ public final class ManagedEnvironmentProperties {
         }
         if (daprConfiguration() != null) {
             daprConfiguration().validate();
+        }
+        if (peerAuthentication() != null) {
+            peerAuthentication().validate();
         }
     }
 }

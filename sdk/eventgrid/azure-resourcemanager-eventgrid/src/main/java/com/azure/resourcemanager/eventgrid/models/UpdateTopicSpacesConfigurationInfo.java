@@ -6,8 +6,11 @@ package com.azure.resourcemanager.eventgrid.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-/** Properties of the topic spaces configuration info of a namespace. */
+/**
+ * Properties of the topic spaces configuration info of a namespace.
+ */
 @Fluent
 public final class UpdateTopicSpacesConfigurationInfo {
     /*
@@ -17,8 +20,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
     private TopicSpacesConfigurationState state;
 
     /*
-     * This property is used to specify custom topic to which events will be routed to from topic spaces configuration
-     * under namespace.
+     * This property is used to specify custom topic to which events will be routed to from topic spaces configuration under namespace.
      */
     @JsonProperty(value = "routeTopicResourceId")
     private String routeTopicResourceId;
@@ -55,13 +57,21 @@ public final class UpdateTopicSpacesConfigurationInfo {
     @JsonProperty(value = "routingIdentityInfo")
     private RoutingIdentityInfo routingIdentityInfo;
 
-    /** Creates an instance of UpdateTopicSpacesConfigurationInfo class. */
+    /*
+     * Custom domain info for topic spaces configuration.
+     */
+    @JsonProperty(value = "customDomains")
+    private List<CustomDomainConfiguration> customDomains;
+
+    /**
+     * Creates an instance of UpdateTopicSpacesConfigurationInfo class.
+     */
     public UpdateTopicSpacesConfigurationInfo() {
     }
 
     /**
      * Get the state property: Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled.
-     *
+     * 
      * @return the state value.
      */
     public TopicSpacesConfigurationState state() {
@@ -70,7 +80,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Set the state property: Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled.
-     *
+     * 
      * @param state the state value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
@@ -82,7 +92,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
     /**
      * Get the routeTopicResourceId property: This property is used to specify custom topic to which events will be
      * routed to from topic spaces configuration under namespace.
-     *
+     * 
      * @return the routeTopicResourceId value.
      */
     public String routeTopicResourceId() {
@@ -92,7 +102,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
     /**
      * Set the routeTopicResourceId property: This property is used to specify custom topic to which events will be
      * routed to from topic spaces configuration under namespace.
-     *
+     * 
      * @param routeTopicResourceId the routeTopicResourceId value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
@@ -103,7 +113,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Get the routingEnrichments property: Routing enrichments for topic spaces configuration.
-     *
+     * 
      * @return the routingEnrichments value.
      */
     public RoutingEnrichments routingEnrichments() {
@@ -112,7 +122,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Set the routingEnrichments property: Routing enrichments for topic spaces configuration.
-     *
+     * 
      * @param routingEnrichments the routingEnrichments value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
@@ -123,7 +133,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Get the clientAuthentication property: Client authentication settings for topic spaces configuration.
-     *
+     * 
      * @return the clientAuthentication value.
      */
     public ClientAuthenticationSettings clientAuthentication() {
@@ -132,20 +142,21 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Set the clientAuthentication property: Client authentication settings for topic spaces configuration.
-     *
+     * 
      * @param clientAuthentication the clientAuthentication value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
-    public UpdateTopicSpacesConfigurationInfo withClientAuthentication(
-        ClientAuthenticationSettings clientAuthentication) {
+    public UpdateTopicSpacesConfigurationInfo
+        withClientAuthentication(ClientAuthenticationSettings clientAuthentication) {
         this.clientAuthentication = clientAuthentication;
         return this;
     }
 
     /**
      * Get the maximumSessionExpiryInHours property: The maximum session expiry in hours. The property default value is
-     * 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours.
-     *
+     * 1 hour.
+     * Min allowed value is 1 hour and max allowed value is 8 hours.
+     * 
      * @return the maximumSessionExpiryInHours value.
      */
     public Integer maximumSessionExpiryInHours() {
@@ -154,8 +165,9 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Set the maximumSessionExpiryInHours property: The maximum session expiry in hours. The property default value is
-     * 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours.
-     *
+     * 1 hour.
+     * Min allowed value is 1 hour and max allowed value is 8 hours.
+     * 
      * @param maximumSessionExpiryInHours the maximumSessionExpiryInHours value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
@@ -166,8 +178,9 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Get the maximumClientSessionsPerAuthenticationName property: The maximum number of sessions per authentication
-     * name. The property default value is 1. Min allowed value is 1 and max allowed value is 100.
-     *
+     * name. The property default value is 1.
+     * Min allowed value is 1 and max allowed value is 100.
+     * 
      * @return the maximumClientSessionsPerAuthenticationName value.
      */
     public Integer maximumClientSessionsPerAuthenticationName() {
@@ -176,20 +189,21 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Set the maximumClientSessionsPerAuthenticationName property: The maximum number of sessions per authentication
-     * name. The property default value is 1. Min allowed value is 1 and max allowed value is 100.
-     *
+     * name. The property default value is 1.
+     * Min allowed value is 1 and max allowed value is 100.
+     * 
      * @param maximumClientSessionsPerAuthenticationName the maximumClientSessionsPerAuthenticationName value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
-    public UpdateTopicSpacesConfigurationInfo withMaximumClientSessionsPerAuthenticationName(
-        Integer maximumClientSessionsPerAuthenticationName) {
+    public UpdateTopicSpacesConfigurationInfo
+        withMaximumClientSessionsPerAuthenticationName(Integer maximumClientSessionsPerAuthenticationName) {
         this.maximumClientSessionsPerAuthenticationName = maximumClientSessionsPerAuthenticationName;
         return this;
     }
 
     /**
      * Get the routingIdentityInfo property: Routing identity info for topic spaces configuration.
-     *
+     * 
      * @return the routingIdentityInfo value.
      */
     public RoutingIdentityInfo routingIdentityInfo() {
@@ -198,7 +212,7 @@ public final class UpdateTopicSpacesConfigurationInfo {
 
     /**
      * Set the routingIdentityInfo property: Routing identity info for topic spaces configuration.
-     *
+     * 
      * @param routingIdentityInfo the routingIdentityInfo value to set.
      * @return the UpdateTopicSpacesConfigurationInfo object itself.
      */
@@ -208,8 +222,28 @@ public final class UpdateTopicSpacesConfigurationInfo {
     }
 
     /**
+     * Get the customDomains property: Custom domain info for topic spaces configuration.
+     * 
+     * @return the customDomains value.
+     */
+    public List<CustomDomainConfiguration> customDomains() {
+        return this.customDomains;
+    }
+
+    /**
+     * Set the customDomains property: Custom domain info for topic spaces configuration.
+     * 
+     * @param customDomains the customDomains value to set.
+     * @return the UpdateTopicSpacesConfigurationInfo object itself.
+     */
+    public UpdateTopicSpacesConfigurationInfo withCustomDomains(List<CustomDomainConfiguration> customDomains) {
+        this.customDomains = customDomains;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
@@ -221,6 +255,9 @@ public final class UpdateTopicSpacesConfigurationInfo {
         }
         if (routingIdentityInfo() != null) {
             routingIdentityInfo().validate();
+        }
+        if (customDomains() != null) {
+            customDomains().forEach(e -> e.validate());
         }
     }
 }

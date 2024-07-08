@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.StaticSiteBasicAuthPropertiesArmResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of static site basic auth. */
+/**
+ * Collection of static site basic auth.
+ */
 @Fluent
 public final class StaticSiteBasicAuthPropertiesCollection {
     /*
@@ -25,7 +28,9 @@ public final class StaticSiteBasicAuthPropertiesCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of StaticSiteBasicAuthPropertiesCollection class. */
+    /**
+     * Creates an instance of StaticSiteBasicAuthPropertiesCollection class.
+     */
     public StaticSiteBasicAuthPropertiesCollection() {
     }
 
@@ -44,8 +49,8 @@ public final class StaticSiteBasicAuthPropertiesCollection {
      * @param value the value value to set.
      * @return the StaticSiteBasicAuthPropertiesCollection object itself.
      */
-    public StaticSiteBasicAuthPropertiesCollection withValue(
-        List<StaticSiteBasicAuthPropertiesArmResourceInner> value) {
+    public StaticSiteBasicAuthPropertiesCollection
+        withValue(List<StaticSiteBasicAuthPropertiesArmResourceInner> value) {
         this.value = value;
         return this;
     }
@@ -66,10 +71,9 @@ public final class StaticSiteBasicAuthPropertiesCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model StaticSiteBasicAuthPropertiesCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model StaticSiteBasicAuthPropertiesCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

@@ -7,6 +7,7 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -14,10 +15,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * A WebLinkedService that uses client certificate based authentication to communicate with an HTTP endpoint. This
  * scheme follows mutual authentication; the server must also provide valid credentials to the client.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "authenticationType")
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "authenticationType",
+    defaultImpl = WebClientCertificateAuthentication.class,
+    visible = true)
 @JsonTypeName("ClientCertificate")
 @Fluent
 public final class WebClientCertificateAuthentication extends WebLinkedServiceTypeProperties {
+    /*
+     * Type of authentication used to connect to the web table source.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "authenticationType", required = true)
+    private WebAuthenticationType authenticationType = WebAuthenticationType.CLIENT_CERTIFICATE;
+
     /*
      * Base64-encoded contents of a PFX file.
      */
@@ -30,13 +42,25 @@ public final class WebClientCertificateAuthentication extends WebLinkedServiceTy
     @JsonProperty(value = "password", required = true)
     private SecretBase password;
 
-    /** Creates an instance of WebClientCertificateAuthentication class. */
+    /**
+     * Creates an instance of WebClientCertificateAuthentication class.
+     */
     public WebClientCertificateAuthentication() {
     }
 
     /**
+     * Get the authenticationType property: Type of authentication used to connect to the web table source.
+     * 
+     * @return the authenticationType value.
+     */
+    @Override
+    public WebAuthenticationType authenticationType() {
+        return this.authenticationType;
+    }
+
+    /**
      * Get the pfx property: Base64-encoded contents of a PFX file.
-     *
+     * 
      * @return the pfx value.
      */
     public SecretBase pfx() {
@@ -45,7 +69,7 @@ public final class WebClientCertificateAuthentication extends WebLinkedServiceTy
 
     /**
      * Set the pfx property: Base64-encoded contents of a PFX file.
-     *
+     * 
      * @param pfx the pfx value to set.
      * @return the WebClientCertificateAuthentication object itself.
      */
@@ -56,7 +80,7 @@ public final class WebClientCertificateAuthentication extends WebLinkedServiceTy
 
     /**
      * Get the password property: Password for the PFX file.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -65,7 +89,7 @@ public final class WebClientCertificateAuthentication extends WebLinkedServiceTy
 
     /**
      * Set the password property: Password for the PFX file.
-     *
+     * 
      * @param password the password value to set.
      * @return the WebClientCertificateAuthentication object itself.
      */
@@ -74,7 +98,9 @@ public final class WebClientCertificateAuthentication extends WebLinkedServiceTy
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WebClientCertificateAuthentication withUrl(Object url) {
         super.withUrl(url);
@@ -83,25 +109,23 @@ public final class WebClientCertificateAuthentication extends WebLinkedServiceTy
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (pfx() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property pfx in model WebClientCertificateAuthentication"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property pfx in model WebClientCertificateAuthentication"));
         } else {
             pfx().validate();
         }
         if (password() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property password in model WebClientCertificateAuthentication"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property password in model WebClientCertificateAuthentication"));
         } else {
             password().validate();
         }

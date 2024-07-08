@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.cosmos.generated;
 
-/** Samples for GremlinResources MigrateGremlinDatabaseToManualThroughput. */
+/**
+ * Samples for GremlinResources MigrateGremlinDatabaseToManualThroughput.
+ */
 public final class GremlinResourcesMigrateGremlinDatabaseToManualThroughputSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGremlinDatabaseMigrateToManualThroughput.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBGremlinDatabaseMigrateToManualThroughput.json
      */
     /**
      * Sample code: CosmosDBGremlinDatabaseMigrateToManualThroughput.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void cosmosDBGremlinDatabaseMigrateToManualThroughput(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+    public static void
+        cosmosDBGremlinDatabaseMigrateToManualThroughput(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getGremlinResources()

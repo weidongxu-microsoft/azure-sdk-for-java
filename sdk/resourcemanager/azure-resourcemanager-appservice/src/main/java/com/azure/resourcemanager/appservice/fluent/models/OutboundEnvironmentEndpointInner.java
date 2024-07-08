@@ -7,14 +7,16 @@ package com.azure.resourcemanager.appservice.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.appservice.models.EndpointDependency;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Endpoints accessed for a common purpose that the App Service Environment requires outbound network access to. */
+/**
+ * Endpoints accessed for a common purpose that the App Service Environment requires outbound network access to.
+ */
 @Fluent
 public final class OutboundEnvironmentEndpointInner {
     /*
-     * The type of service accessed by the App Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure
-     * Active Directory.
+     * The type of service accessed by the App Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory.
      */
     @JsonProperty(value = "category")
     private String category;
@@ -25,7 +27,9 @@ public final class OutboundEnvironmentEndpointInner {
     @JsonProperty(value = "endpoints")
     private List<EndpointDependency> endpoints;
 
-    /** Creates an instance of OutboundEnvironmentEndpointInner class. */
+    /**
+     * Creates an instance of OutboundEnvironmentEndpointInner class.
+     */
     public OutboundEnvironmentEndpointInner() {
     }
 

@@ -11,10 +11,13 @@ import com.azure.core.amqp.models.AmqpMessageBody;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.experimental.util.tracing.LoggingTracerProvider;
 import com.azure.core.test.TestBase;
+import com.azure.core.test.TestContextManager;
 import com.azure.core.test.TestMode;
+import com.azure.core.test.utils.TestConfigurationSource;
 import com.azure.core.util.AsyncCloseable;
 import com.azure.core.util.ClientOptions;
 import com.azure.core.util.Configuration;
+import com.azure.core.util.ConfigurationBuilder;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.IterableStream;
 import com.azure.core.util.logging.ClientLogger;
@@ -25,20 +28,15 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder.ServiceBusSessionR
 import com.azure.messaging.servicebus.implementation.DispositionStatus;
 import com.azure.messaging.servicebus.implementation.MessagingEntityType;
 import com.azure.messaging.servicebus.models.ServiceBusReceiveMode;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.provider.Arguments;
 import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
-import reactor.test.StepVerifier;
 
 import java.io.Closeable;
-import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.nio.charset.StandardCharsets;
@@ -63,7 +61,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 public abstract class IntegrationTestBase extends TestBase {
     protected static final Duration OPERATION_TIMEOUT = Duration.ofSeconds(30);
     protected static final Duration TIMEOUT = Duration.ofSeconds(60);
-    protected static final AmqpRetryOptions RETRY_OPTIONS = new AmqpRetryOptions().setTryTimeout(TIMEOUT);
+    // Tests use timeouts of 20-60 seconds to verify something has happened
+    // We need a short try timeout so that if transient issue happens we have a chance to retry it before overall test timeout.
+    // This is a good idea to do in any production application as well - no point in waiting too long
+    protected static final AmqpRetryOptions RETRY_OPTIONS = new AmqpRetryOptions().setTryTimeout(Duration.ofSeconds(3));
     protected final ClientLogger logger;
     protected ClientOptions optionsWithTracing;
     private static final String PROXY_AUTHENTICATION_TYPE = "PROXY_AUTHENTICATION_TYPE";
@@ -82,38 +83,25 @@ public abstract class IntegrationTestBase extends TestBase {
     }
 
     @BeforeEach
-    public void setupTest(TestInfo testInfo) {
-        Method testMethod = testInfo.getTestMethod().orElseGet(null);
-        testName = String.format("%s-%s",
-            testMethod == null ? "unknown" : testMethod.getName(),
-            testInfo.getDisplayName());
+    @Override
+    public void setupTest(TestContextManager testContextManager) {
+        this.testContextManager = testContextManager;
+        testName = testContextManager.getTrackerTestName();
 
         logger.info("========= SET-UP [{}] =========", testName);
 
         assumeTrue(getTestMode() == TestMode.RECORD);
 
-        StepVerifier.setDefaultTimeout(TIMEOUT);
         toClose = new ArrayList<>();
         optionsWithTracing = new ClientOptions().setTracingOptions(new LoggingTracerProvider.LoggingTracingOptions());
         beforeTest();
     }
 
-    @BeforeAll
-    static void beforeAll() {
-        StepVerifier.setDefaultTimeout(Duration.ofSeconds(30));
-    }
-
-    @AfterAll
-    static void afterAll() {
-        StepVerifier.resetDefaultTimeout();
-    }
-
     // These are overridden because we don't use the Interceptor Manager.
-    @Override
     @AfterEach
-    public void teardownTest(TestInfo testInfo) {
+    @Override
+    public void teardownTest() {
         logger.info("========= TEARDOWN [{}] =========", testName);
-        StepVerifier.resetDefaultTimeout();
         afterTest();
 
         logger.info("Disposing of subscriptions, consumers and clients.");
@@ -234,7 +222,8 @@ public abstract class IntegrationTestBase extends TestBase {
             .retryOptions(RETRY_OPTIONS)
             .clientOptions(optionsWithTracing)
             .transportType(AmqpTransportType.AMQP)
-            .scheduler(scheduler);
+            .scheduler(scheduler)
+            .configuration(v1OrV2(true));
 
         logger.info("Getting Builder using credentials : [{}] ", useCredentials);
         if (useCredentials) {
@@ -475,5 +464,26 @@ public abstract class IntegrationTestBase extends TestBase {
             builder = getBuilder(useCredentials);
         }
         return builder;
+    }
+
+    protected final Configuration v1OrV2(boolean isV2) {
+        final TestConfigurationSource configSource = new TestConfigurationSource();
+        if (isV2) {
+            configSource.put("com.azure.messaging.servicebus.nonSession.asyncReceive.v2", "true");
+            configSource.put("com.azure.messaging.servicebus.nonSession.syncReceive.v2", "true");
+            configSource.put("com.azure.messaging.servicebus.session.processor.asyncReceive.v2", "true");
+            configSource.put("com.azure.messaging.servicebus.session.reactor.asyncReceive.v2", "true");
+            configSource.put("com.azure.messaging.servicebus.session.syncReceive.v2", "true");
+            configSource.put("com.azure.messaging.servicebus.sendAndManageRules.v2", "true");
+        } else {
+            configSource.put("com.azure.messaging.servicebus.nonSession.asyncReceive.v2", "false");
+            configSource.put("com.azure.messaging.servicebus.nonSession.syncReceive.v2", "false");
+            configSource.put("com.azure.messaging.servicebus.session.processor.asyncReceive.v2", "false");
+            configSource.put("com.azure.messaging.servicebus.session.reactor.asyncReceive.v2", "false");
+            configSource.put("com.azure.messaging.servicebus.session.syncReceive.v2", "false");
+            configSource.put("com.azure.messaging.servicebus.sendAndManageRules.v2", "false");
+        }
+        return new ConfigurationBuilder(configSource)
+            .build();
     }
 }

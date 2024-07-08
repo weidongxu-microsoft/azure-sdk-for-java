@@ -6,14 +6,28 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Referenced tumbling window trigger dependency. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Referenced tumbling window trigger dependency.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = TumblingWindowTriggerDependencyReference.class,
+    visible = true)
 @JsonTypeName("TumblingWindowTriggerDependencyReference")
 @Fluent
 public final class TumblingWindowTriggerDependencyReference extends TriggerDependencyReference {
+    /*
+     * The type of dependency reference.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "TumblingWindowTriggerDependencyReference";
+
     /*
      * Timespan applied to the start time of a tumbling window when evaluating dependency.
      */
@@ -27,13 +41,25 @@ public final class TumblingWindowTriggerDependencyReference extends TriggerDepen
     @JsonProperty(value = "size")
     private String size;
 
-    /** Creates an instance of TumblingWindowTriggerDependencyReference class. */
+    /**
+     * Creates an instance of TumblingWindowTriggerDependencyReference class.
+     */
     public TumblingWindowTriggerDependencyReference() {
     }
 
     /**
+     * Get the type property: The type of dependency reference.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the offset property: Timespan applied to the start time of a tumbling window when evaluating dependency.
-     *
+     * 
      * @return the offset value.
      */
     public String offset() {
@@ -42,7 +68,7 @@ public final class TumblingWindowTriggerDependencyReference extends TriggerDepen
 
     /**
      * Set the offset property: Timespan applied to the start time of a tumbling window when evaluating dependency.
-     *
+     * 
      * @param offset the offset value to set.
      * @return the TumblingWindowTriggerDependencyReference object itself.
      */
@@ -54,7 +80,7 @@ public final class TumblingWindowTriggerDependencyReference extends TriggerDepen
     /**
      * Get the size property: The size of the window when evaluating the dependency. If undefined the frequency of the
      * tumbling window will be used.
-     *
+     * 
      * @return the size value.
      */
     public String size() {
@@ -64,7 +90,7 @@ public final class TumblingWindowTriggerDependencyReference extends TriggerDepen
     /**
      * Set the size property: The size of the window when evaluating the dependency. If undefined the frequency of the
      * tumbling window will be used.
-     *
+     * 
      * @param size the size value to set.
      * @return the TumblingWindowTriggerDependencyReference object itself.
      */
@@ -73,7 +99,9 @@ public final class TumblingWindowTriggerDependencyReference extends TriggerDepen
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TumblingWindowTriggerDependencyReference withReferenceTrigger(TriggerReference referenceTrigger) {
         super.withReferenceTrigger(referenceTrigger);
@@ -82,7 +110,7 @@ public final class TumblingWindowTriggerDependencyReference extends TriggerDepen
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -10,75 +10,43 @@ import com.azure.resourcemanager.nginx.models.NginxConfigurationFile;
 import com.azure.resourcemanager.nginx.models.NginxConfigurationPackage;
 import com.azure.resourcemanager.nginx.models.NginxConfigurationProperties;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class NginxConfigurationInnerTests {
-    @Test
-    public void testDeserialize() {
-        NginxConfigurationInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"provisioningState\":\"Canceled\",\"files\":[{\"content\":\"mkkvnip\",\"virtualPath\":\"xzjnchgejs\"},{\"content\":\"dmailzydehojw\",\"virtualPath\":\"huxinpmqnj\"},{\"content\":\"wixjsprozvcp\",\"virtualPath\":\"eg\"}],\"protectedFiles\":[{\"content\":\"fdatsc\",\"virtualPath\":\"vpjhulsuuv\"},{\"content\":\"jozkrwfndiod\",\"virtualPath\":\"slwejdpvw\"},{\"content\":\"oqpsoa\",\"virtualPath\":\"tazak\"},{\"content\":\"lahbcryff\",\"virtualPath\":\"dosyg\"}],\"package\":{\"data\":\"aojakhmsbzjhcrz\"},\"rootFile\":\"dphlxaolt\"},\"location\":\"trg\",\"tags\":{\"rwzoxxjtfelluwf\":\"pfzfsinzgvfc\"},\"id\":\"it\",\"name\":\"np\",\"type\":\"qfpjk\"}")
-                .toObject(NginxConfigurationInner.class);
-        Assertions.assertEquals("trg", model.location());
-        Assertions.assertEquals("pfzfsinzgvfc", model.tags().get("rwzoxxjtfelluwf"));
-        Assertions.assertEquals("mkkvnip", model.properties().files().get(0).content());
-        Assertions.assertEquals("xzjnchgejs", model.properties().files().get(0).virtualPath());
-        Assertions.assertEquals("fdatsc", model.properties().protectedFiles().get(0).content());
-        Assertions.assertEquals("vpjhulsuuv", model.properties().protectedFiles().get(0).virtualPath());
-        Assertions.assertEquals("aojakhmsbzjhcrz", model.properties().packageProperty().data());
-        Assertions.assertEquals("dphlxaolt", model.properties().rootFile());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        NginxConfigurationInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Failed\",\"files\":[{\"content\":\"fp\",\"virtualPath\":\"qobmtukk\"},{\"content\":\"yrtih\",\"virtualPath\":\"tijbpzvgnwzsymgl\"},{\"content\":\"fcyzkohdbihanufh\",\"virtualPath\":\"bj\"}],\"protectedFiles\":[{\"content\":\"ithxqhabifpi\",\"virtualPath\":\"wczbys\"}],\"package\":{\"data\":\"q\",\"protectedFiles\":[\"ivyqniwbybrkxvd\"]},\"rootFile\":\"jgrtfwvukxga\"},\"location\":\"ccsnhsjc\",\"id\":\"ejhkry\",\"name\":\"tnapczwlokjyemkk\",\"type\":\"ni\"}")
+            .toObject(NginxConfigurationInner.class);
+        Assertions.assertEquals("fp", model.properties().files().get(0).content());
+        Assertions.assertEquals("qobmtukk", model.properties().files().get(0).virtualPath());
+        Assertions.assertEquals("ithxqhabifpi", model.properties().protectedFiles().get(0).content());
+        Assertions.assertEquals("wczbys", model.properties().protectedFiles().get(0).virtualPath());
+        Assertions.assertEquals("q", model.properties().packageProperty().data());
+        Assertions.assertEquals("ivyqniwbybrkxvd", model.properties().packageProperty().protectedFiles().get(0));
+        Assertions.assertEquals("jgrtfwvukxga", model.properties().rootFile());
+        Assertions.assertEquals("ccsnhsjc", model.location());
     }
 
-    @Test
-    public void testSerialize() {
-        NginxConfigurationInner model =
-            new NginxConfigurationInner()
-                .withLocation("trg")
-                .withTags(mapOf("rwzoxxjtfelluwf", "pfzfsinzgvfc"))
-                .withProperties(
-                    new NginxConfigurationProperties()
-                        .withFiles(
-                            Arrays
-                                .asList(
-                                    new NginxConfigurationFile().withContent("mkkvnip").withVirtualPath("xzjnchgejs"),
-                                    new NginxConfigurationFile()
-                                        .withContent("dmailzydehojw")
-                                        .withVirtualPath("huxinpmqnj"),
-                                    new NginxConfigurationFile().withContent("wixjsprozvcp").withVirtualPath("eg")))
-                        .withProtectedFiles(
-                            Arrays
-                                .asList(
-                                    new NginxConfigurationFile().withContent("fdatsc").withVirtualPath("vpjhulsuuv"),
-                                    new NginxConfigurationFile()
-                                        .withContent("jozkrwfndiod")
-                                        .withVirtualPath("slwejdpvw"),
-                                    new NginxConfigurationFile().withContent("oqpsoa").withVirtualPath("tazak"),
-                                    new NginxConfigurationFile().withContent("lahbcryff").withVirtualPath("dosyg")))
-                        .withPackageProperty(new NginxConfigurationPackage().withData("aojakhmsbzjhcrz"))
-                        .withRootFile("dphlxaolt"));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        NginxConfigurationInner model = new NginxConfigurationInner().withProperties(new NginxConfigurationProperties()
+            .withFiles(Arrays.asList(new NginxConfigurationFile().withContent("fp").withVirtualPath("qobmtukk"),
+                new NginxConfigurationFile().withContent("yrtih").withVirtualPath("tijbpzvgnwzsymgl"),
+                new NginxConfigurationFile().withContent("fcyzkohdbihanufh").withVirtualPath("bj")))
+            .withProtectedFiles(
+                Arrays.asList(new NginxConfigurationFile().withContent("ithxqhabifpi").withVirtualPath("wczbys")))
+            .withPackageProperty(
+                new NginxConfigurationPackage().withData("q").withProtectedFiles(Arrays.asList("ivyqniwbybrkxvd")))
+            .withRootFile("jgrtfwvukxga")).withLocation("ccsnhsjc");
         model = BinaryData.fromObject(model).toObject(NginxConfigurationInner.class);
-        Assertions.assertEquals("trg", model.location());
-        Assertions.assertEquals("pfzfsinzgvfc", model.tags().get("rwzoxxjtfelluwf"));
-        Assertions.assertEquals("mkkvnip", model.properties().files().get(0).content());
-        Assertions.assertEquals("xzjnchgejs", model.properties().files().get(0).virtualPath());
-        Assertions.assertEquals("fdatsc", model.properties().protectedFiles().get(0).content());
-        Assertions.assertEquals("vpjhulsuuv", model.properties().protectedFiles().get(0).virtualPath());
-        Assertions.assertEquals("aojakhmsbzjhcrz", model.properties().packageProperty().data());
-        Assertions.assertEquals("dphlxaolt", model.properties().rootFile());
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> Map<String, T> mapOf(Object... inputs) {
-        Map<String, T> map = new HashMap<>();
-        for (int i = 0; i < inputs.length; i += 2) {
-            String key = (String) inputs[i];
-            T value = (T) inputs[i + 1];
-            map.put(key, value);
-        }
-        return map;
+        Assertions.assertEquals("fp", model.properties().files().get(0).content());
+        Assertions.assertEquals("qobmtukk", model.properties().files().get(0).virtualPath());
+        Assertions.assertEquals("ithxqhabifpi", model.properties().protectedFiles().get(0).content());
+        Assertions.assertEquals("wczbys", model.properties().protectedFiles().get(0).virtualPath());
+        Assertions.assertEquals("q", model.properties().packageProperty().data());
+        Assertions.assertEquals("ivyqniwbybrkxvd", model.properties().packageProperty().protectedFiles().get(0));
+        Assertions.assertEquals("jgrtfwvukxga", model.properties().rootFile());
+        Assertions.assertEquals("ccsnhsjc", model.location());
     }
 }

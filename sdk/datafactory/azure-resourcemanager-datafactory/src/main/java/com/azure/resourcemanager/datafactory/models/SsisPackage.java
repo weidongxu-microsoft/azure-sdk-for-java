@@ -6,15 +6,25 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Ssis Package. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Ssis Package.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SsisPackage.class, visible = true)
 @JsonTypeName("Package")
 @Fluent
 public final class SsisPackage extends SsisObjectMetadata {
+    /*
+     * Type of metadata.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private SsisObjectMetadataType type = SsisObjectMetadataType.PACKAGE;
+
     /*
      * Folder id which contains package.
      */
@@ -39,13 +49,25 @@ public final class SsisPackage extends SsisObjectMetadata {
     @JsonProperty(value = "parameters")
     private List<SsisParameter> parameters;
 
-    /** Creates an instance of SsisPackage class. */
+    /**
+     * Creates an instance of SsisPackage class.
+     */
     public SsisPackage() {
     }
 
     /**
+     * Get the type property: Type of metadata.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public SsisObjectMetadataType type() {
+        return this.type;
+    }
+
+    /**
      * Get the folderId property: Folder id which contains package.
-     *
+     * 
      * @return the folderId value.
      */
     public Long folderId() {
@@ -54,7 +76,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Set the folderId property: Folder id which contains package.
-     *
+     * 
      * @param folderId the folderId value to set.
      * @return the SsisPackage object itself.
      */
@@ -65,7 +87,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Get the projectVersion property: Project version which contains package.
-     *
+     * 
      * @return the projectVersion value.
      */
     public Long projectVersion() {
@@ -74,7 +96,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Set the projectVersion property: Project version which contains package.
-     *
+     * 
      * @param projectVersion the projectVersion value to set.
      * @return the SsisPackage object itself.
      */
@@ -85,7 +107,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Get the projectId property: Project id which contains package.
-     *
+     * 
      * @return the projectId value.
      */
     public Long projectId() {
@@ -94,7 +116,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Set the projectId property: Project id which contains package.
-     *
+     * 
      * @param projectId the projectId value to set.
      * @return the SsisPackage object itself.
      */
@@ -105,7 +127,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Get the parameters property: Parameters in package.
-     *
+     * 
      * @return the parameters value.
      */
     public List<SsisParameter> parameters() {
@@ -114,7 +136,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Set the parameters property: Parameters in package.
-     *
+     * 
      * @param parameters the parameters value to set.
      * @return the SsisPackage object itself.
      */
@@ -123,21 +145,27 @@ public final class SsisPackage extends SsisObjectMetadata {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SsisPackage withId(Long id) {
         super.withId(id);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SsisPackage withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SsisPackage withDescription(String description) {
         super.withDescription(description);
@@ -146,7 +174,7 @@ public final class SsisPackage extends SsisObjectMetadata {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

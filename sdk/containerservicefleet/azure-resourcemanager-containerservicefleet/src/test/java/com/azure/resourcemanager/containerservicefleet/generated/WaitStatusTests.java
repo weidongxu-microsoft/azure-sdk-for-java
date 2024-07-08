@@ -10,11 +10,9 @@ import com.azure.resourcemanager.containerservicefleet.models.WaitStatus;
 public final class WaitStatusTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        WaitStatus model =
-            BinaryData
-                .fromString(
-                    "{\"status\":{\"startTime\":\"2021-04-20T10:26:18Z\",\"completedTime\":\"2021-10-12T01:56:34Z\",\"state\":\"Stopped\"},\"waitDurationInSeconds\":1046063438}")
-                .toObject(WaitStatus.class);
+        WaitStatus model = BinaryData.fromString(
+            "{\"status\":{\"startTime\":\"2021-06-21T09:19:47Z\",\"completedTime\":\"2021-04-08T20:42:11Z\",\"state\":\"Running\"},\"waitDurationInSeconds\":794855452}")
+            .toObject(WaitStatus.class);
     }
 
     @org.junit.jupiter.api.Test

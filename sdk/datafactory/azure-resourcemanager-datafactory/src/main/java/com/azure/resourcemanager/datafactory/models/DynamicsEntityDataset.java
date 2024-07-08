@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.DynamicsEntityDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Dynamics entity dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Dynamics entity dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = DynamicsEntityDataset.class, visible = true)
 @JsonTypeName("DynamicsEntity")
 @Fluent
 public final class DynamicsEntityDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DynamicsEntity";
+
     /*
      * Dynamics entity dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private DynamicsEntityDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of DynamicsEntityDataset class. */
+    /**
+     * Creates an instance of DynamicsEntityDataset class.
+     */
     public DynamicsEntityDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Dynamics entity dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private DynamicsEntityDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsEntityDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class DynamicsEntityDataset extends Dataset {
 
     /**
      * Get the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the entityName value.
      */
     public Object entityName() {
@@ -96,7 +132,7 @@ public final class DynamicsEntityDataset extends Dataset {
 
     /**
      * Set the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param entityName the entityName value to set.
      * @return the DynamicsEntityDataset object itself.
      */
@@ -110,7 +146,7 @@ public final class DynamicsEntityDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

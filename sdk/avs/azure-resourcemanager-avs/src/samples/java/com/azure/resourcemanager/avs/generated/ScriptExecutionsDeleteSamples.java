@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.avs.generated;
 
-/** Samples for ScriptExecutions Delete. */
+/**
+ * Samples for ScriptExecutions Delete.
+ */
 public final class ScriptExecutionsDeleteSamples {
     /*
-     * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/ScriptExecutions_Delete.json
+     * x-ms-original-file:
+     * specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/ScriptExecutions_Delete.json
      */
     /**
      * Sample code: ScriptExecutions_Delete.
-     *
+     * 
      * @param manager Entry point to AvsManager.
      */
     public static void scriptExecutionsDelete(com.azure.resourcemanager.avs.AvsManager manager) {
-        manager
-            .scriptExecutions()
-            .delete("group1", "cloud1", "{scriptExecutionName}", com.azure.core.util.Context.NONE);
+        manager.scriptExecutions().delete("group1", "cloud1", "addSsoServer", com.azure.core.util.Context.NONE);
     }
 }

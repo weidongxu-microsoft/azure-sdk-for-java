@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.HDInsightLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** HDInsight linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * HDInsight linked service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = HDInsightLinkedService.class, visible = true)
 @JsonTypeName("HDInsight")
 @Fluent
 public final class HDInsightLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "HDInsight";
+
     /*
      * HDInsight linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private HDInsightLinkedServiceTypeProperties innerTypeProperties = new HDInsightLinkedServiceTypeProperties();
 
-    /** Creates an instance of HDInsightLinkedService class. */
+    /**
+     * Creates an instance of HDInsightLinkedService class.
+     */
     public HDInsightLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: HDInsight linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private HDInsightLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HDInsightLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HDInsightLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HDInsightLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HDInsightLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +97,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Get the clusterUri property: HDInsight cluster URI. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the clusterUri value.
      */
     public Object clusterUri() {
@@ -76,7 +106,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Set the clusterUri property: HDInsight cluster URI. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param clusterUri the clusterUri value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -90,7 +120,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Get the username property: HDInsight cluster user name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -99,7 +129,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Set the username property: HDInsight cluster user name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param username the username value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -113,7 +143,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Get the password property: HDInsight cluster password.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -122,7 +152,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Set the password property: HDInsight cluster password.
-     *
+     * 
      * @param password the password value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -136,7 +166,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Get the linkedServiceName property: The Azure Storage linked service reference.
-     *
+     * 
      * @return the linkedServiceName value.
      */
     public LinkedServiceReference linkedServiceName() {
@@ -145,7 +175,7 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Set the linkedServiceName property: The Azure Storage linked service reference.
-     *
+     * 
      * @param linkedServiceName the linkedServiceName value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -160,7 +190,7 @@ public final class HDInsightLinkedService extends LinkedService {
     /**
      * Get the hcatalogLinkedServiceName property: A reference to the Azure SQL linked service that points to the
      * HCatalog database.
-     *
+     * 
      * @return the hcatalogLinkedServiceName value.
      */
     public LinkedServiceReference hcatalogLinkedServiceName() {
@@ -170,7 +200,7 @@ public final class HDInsightLinkedService extends LinkedService {
     /**
      * Set the hcatalogLinkedServiceName property: A reference to the Azure SQL linked service that points to the
      * HCatalog database.
-     *
+     * 
      * @param hcatalogLinkedServiceName the hcatalogLinkedServiceName value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -184,22 +214,22 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the HDInsightLinkedService object itself.
      */
-    public HDInsightLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public HDInsightLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new HDInsightLinkedServiceTypeProperties();
         }
@@ -210,7 +240,7 @@ public final class HDInsightLinkedService extends LinkedService {
     /**
      * Get the isEspEnabled property: Specify if the HDInsight is created with ESP (Enterprise Security Package). Type:
      * Boolean.
-     *
+     * 
      * @return the isEspEnabled value.
      */
     public Object isEspEnabled() {
@@ -220,7 +250,7 @@ public final class HDInsightLinkedService extends LinkedService {
     /**
      * Set the isEspEnabled property: Specify if the HDInsight is created with ESP (Enterprise Security Package). Type:
      * Boolean.
-     *
+     * 
      * @param isEspEnabled the isEspEnabled value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -235,7 +265,7 @@ public final class HDInsightLinkedService extends LinkedService {
     /**
      * Get the fileSystem property: Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @return the fileSystem value.
      */
     public Object fileSystem() {
@@ -245,7 +275,7 @@ public final class HDInsightLinkedService extends LinkedService {
     /**
      * Set the fileSystem property: Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @param fileSystem the fileSystem value to set.
      * @return the HDInsightLinkedService object itself.
      */
@@ -259,17 +289,16 @@ public final class HDInsightLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model HDInsightLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model HDInsightLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

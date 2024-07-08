@@ -34,16 +34,23 @@ import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.network.fluent.ExpressRouteCircuitPeeringsClient;
 import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitPeeringInner;
 import com.azure.resourcemanager.network.models.ExpressRouteCircuitPeeringListResult;
-import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/** An instance of this class provides access to all the operations defined in ExpressRouteCircuitPeeringsClient. */
+import java.nio.ByteBuffer;
+
+/**
+ * An instance of this class provides access to all the operations defined in ExpressRouteCircuitPeeringsClient.
+ */
 public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRouteCircuitPeeringsClient {
-    /** The proxy service used to perform REST calls. */
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private final ExpressRouteCircuitPeeringsService service;
 
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private final NetworkManagementClientImpl client;
 
     /**
@@ -52,10 +59,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @param client the instance of the service client containing this operation class.
      */
     ExpressRouteCircuitPeeringsClientImpl(NetworkManagementClientImpl client) {
-        this.service =
-            RestProxy
-                .create(
-                    ExpressRouteCircuitPeeringsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
+        this.service = RestProxy.create(ExpressRouteCircuitPeeringsService.class, client.getHttpPipeline(),
+            client.getSerializerAdapter());
         this.client = client;
     }
 
@@ -66,75 +71,51 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
     public interface ExpressRouteCircuitPeeringsService {
-        @Headers({"Content-Type: application/json"})
-        @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}")
-        @ExpectedResponses({200, 202, 204})
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}")
+        @ExpectedResponses({ 200, 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> delete(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("circuitName") String circuitName,
-            @PathParam("peeringName") String peeringName,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName,
+            @PathParam("peeringName") String peeringName, @QueryParam("api-version") String apiVersion,
+            @PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ExpressRouteCircuitPeeringInner>> get(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("circuitName") String circuitName,
-            @PathParam("peeringName") String peeringName,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<ExpressRouteCircuitPeeringInner>> get(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName,
+            @PathParam("peeringName") String peeringName, @QueryParam("api-version") String apiVersion,
+            @PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}")
-        @ExpectedResponses({200, 201})
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}")
+        @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("circuitName") String circuitName,
-            @PathParam("peeringName") String peeringName,
-            @QueryParam("api-version") String apiVersion,
+        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName,
+            @PathParam("peeringName") String peeringName, @QueryParam("api-version") String apiVersion,
             @PathParam("subscriptionId") String subscriptionId,
             @BodyParam("application/json") ExpressRouteCircuitPeeringInner peeringParameters,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
-        @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings")
-        @ExpectedResponses({200})
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings")
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ExpressRouteCircuitPeeringListResult>> list(
-            @HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("circuitName") String circuitName,
-            @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @HeaderParam("Accept") String accept,
-            Context context);
+        Mono<Response<ExpressRouteCircuitPeeringListResult>> list(@HostParam("$host") String endpoint,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @HeaderParam("Accept") String accept, Context context);
 
-        @Headers({"Content-Type: application/json"})
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
-        @ExpectedResponses({200})
+        @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ExpressRouteCircuitPeeringListResult>> listNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink,
-            @HostParam("$host") String endpoint,
-            @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
@@ -149,13 +130,11 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName) {
+    public Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String circuitName,
+        String peeringName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -168,26 +147,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter peeringName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .delete(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            circuitName,
-                            peeringName,
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), resourceGroupName, circuitName,
+                peeringName, apiVersion, this.client.getSubscriptionId(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -204,13 +171,11 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName, Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String circuitName,
+        String peeringName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -223,24 +188,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter peeringName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .delete(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                circuitName,
-                peeringName,
-                apiVersion,
-                this.client.getSubscriptionId(),
-                accept,
-                context);
+        return service.delete(this.client.getEndpoint(), resourceGroupName, circuitName, peeringName, apiVersion,
+            this.client.getSubscriptionId(), accept, context);
     }
 
     /**
@@ -255,13 +210,11 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String circuitName, String peeringName) {
+    public PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String circuitName,
+        String peeringName) {
         Mono<Response<Flux<ByteBuffer>>> mono = deleteWithResponseAsync(resourceGroupName, circuitName, peeringName);
-        return this
-            .client
-            .<Void, Void>getLroResult(
-                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
     }
 
     /**
@@ -277,14 +230,13 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the {@link PollerFlux} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(
-        String resourceGroupName, String circuitName, String peeringName, Context context) {
+    private PollerFlux<PollResult<Void>, Void> beginDeleteAsync(String resourceGroupName, String circuitName,
+        String peeringName, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            deleteWithResponseAsync(resourceGroupName, circuitName, peeringName, context);
-        return this
-            .client
-            .<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class, context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteWithResponseAsync(resourceGroupName, circuitName, peeringName, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
     }
 
     /**
@@ -299,8 +251,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String circuitName, String peeringName) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String circuitName,
+        String peeringName) {
         return this.beginDeleteAsync(resourceGroupName, circuitName, peeringName).getSyncPoller();
     }
 
@@ -317,8 +269,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDelete(
-        String resourceGroupName, String circuitName, String peeringName, Context context) {
+    public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String circuitName,
+        String peeringName, Context context) {
         return this.beginDeleteAsync(resourceGroupName, circuitName, peeringName, context).getSyncPoller();
     }
 
@@ -335,8 +287,7 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String circuitName, String peeringName) {
-        return beginDeleteAsync(resourceGroupName, circuitName, peeringName)
-            .last()
+        return beginDeleteAsync(resourceGroupName, circuitName, peeringName).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -354,8 +305,7 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<Void> deleteAsync(String resourceGroupName, String circuitName, String peeringName, Context context) {
-        return beginDeleteAsync(resourceGroupName, circuitName, peeringName, context)
-            .last()
+        return beginDeleteAsync(resourceGroupName, circuitName, peeringName, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -400,16 +350,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the specified peering for the express route circuit along with {@link Response} on successful completion
-     *     of {@link Mono}.
+     * of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<ExpressRouteCircuitPeeringInner>> getWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName) {
+    public Mono<Response<ExpressRouteCircuitPeeringInner>> getWithResponseAsync(String resourceGroupName,
+        String circuitName, String peeringName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -422,26 +370,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter peeringName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .get(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            circuitName,
-                            peeringName,
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
+            .withContext(context -> service.get(this.client.getEndpoint(), resourceGroupName, circuitName, peeringName,
+                apiVersion, this.client.getSubscriptionId(), accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -456,16 +392,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the specified peering for the express route circuit along with {@link Response} on successful completion
-     *     of {@link Mono}.
+     * of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<ExpressRouteCircuitPeeringInner>> getWithResponseAsync(
-        String resourceGroupName, String circuitName, String peeringName, Context context) {
+    private Mono<Response<ExpressRouteCircuitPeeringInner>> getWithResponseAsync(String resourceGroupName,
+        String circuitName, String peeringName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -478,24 +412,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter peeringName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .get(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                circuitName,
-                peeringName,
-                apiVersion,
-                this.client.getSubscriptionId(),
-                accept,
-                context);
+        return service.get(this.client.getEndpoint(), resourceGroupName, circuitName, peeringName, apiVersion,
+            this.client.getSubscriptionId(), accept, context);
     }
 
     /**
@@ -510,8 +434,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the specified peering for the express route circuit on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRouteCircuitPeeringInner> getAsync(
-        String resourceGroupName, String circuitName, String peeringName) {
+    public Mono<ExpressRouteCircuitPeeringInner> getAsync(String resourceGroupName, String circuitName,
+        String peeringName) {
         return getWithResponseAsync(resourceGroupName, circuitName, peeringName)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
@@ -529,8 +453,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return the specified peering for the express route circuit along with {@link Response}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<ExpressRouteCircuitPeeringInner> getWithResponse(
-        String resourceGroupName, String circuitName, String peeringName, Context context) {
+    public Response<ExpressRouteCircuitPeeringInner> getWithResponse(String resourceGroupName, String circuitName,
+        String peeringName, Context context) {
         return getWithResponseAsync(resourceGroupName, circuitName, peeringName, context).block();
     }
 
@@ -560,20 +484,15 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return peering in an ExpressRouteCircuit resource along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return peering in an ExpressRouteCircuit resource along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters) {
+    public Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String circuitName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -586,10 +505,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter peeringName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (peeringParameters == null) {
             return Mono
@@ -597,22 +514,11 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
         } else {
             peeringParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .createOrUpdate(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            circuitName,
-                            peeringName,
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            peeringParameters,
-                            accept,
-                            context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), resourceGroupName, circuitName,
+                peeringName, apiVersion, this.client.getSubscriptionId(), peeringParameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -627,21 +533,15 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return peering in an ExpressRouteCircuit resource along with {@link Response} on successful completion of {@link
-     *     Mono}.
+     * @return peering in an ExpressRouteCircuit resource along with {@link Response} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters,
-        Context context) {
+    private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
+        String circuitName, String peeringName, ExpressRouteCircuitPeeringInner peeringParameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -654,10 +554,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter peeringName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (peeringParameters == null) {
             return Mono
@@ -665,20 +563,11 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
         } else {
             peeringParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .createOrUpdate(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                circuitName,
-                peeringName,
-                apiVersion,
-                this.client.getSubscriptionId(),
-                peeringParameters,
-                accept,
-                context);
+        return service.createOrUpdate(this.client.getEndpoint(), resourceGroupName, circuitName, peeringName,
+            apiVersion, this.client.getSubscriptionId(), peeringParameters, accept, context);
     }
 
     /**
@@ -695,21 +584,13 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public PollerFlux<PollResult<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner>
-        beginCreateOrUpdateAsync(
-            String resourceGroupName,
-            String circuitName,
-            String peeringName,
+        beginCreateOrUpdateAsync(String resourceGroupName, String circuitName, String peeringName,
             ExpressRouteCircuitPeeringInner peeringParameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createOrUpdateWithResponseAsync(resourceGroupName, circuitName, peeringName, peeringParameters);
-        return this
-            .client
-            .<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeeringInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ExpressRouteCircuitPeeringInner.class,
-                ExpressRouteCircuitPeeringInner.class,
-                this.client.getContext());
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = createOrUpdateWithResponseAsync(resourceGroupName, circuitName, peeringName, peeringParameters);
+        return this.client.<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeeringInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ExpressRouteCircuitPeeringInner.class, ExpressRouteCircuitPeeringInner.class,
+            this.client.getContext());
     }
 
     /**
@@ -727,23 +608,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     private PollerFlux<PollResult<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner>
-        beginCreateOrUpdateAsync(
-            String resourceGroupName,
-            String circuitName,
-            String peeringName,
-            ExpressRouteCircuitPeeringInner peeringParameters,
-            Context context) {
+        beginCreateOrUpdateAsync(String resourceGroupName, String circuitName, String peeringName,
+            ExpressRouteCircuitPeeringInner peeringParameters, Context context) {
         context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono =
-            createOrUpdateWithResponseAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context);
-        return this
-            .client
-            .<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeeringInner>getLroResult(
-                mono,
-                this.client.getHttpPipeline(),
-                ExpressRouteCircuitPeeringInner.class,
-                ExpressRouteCircuitPeeringInner.class,
-                context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = createOrUpdateWithResponseAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context);
+        return this.client.<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeeringInner>getLroResult(mono,
+            this.client.getHttpPipeline(), ExpressRouteCircuitPeeringInner.class, ExpressRouteCircuitPeeringInner.class,
+            context);
     }
 
     /**
@@ -760,12 +632,9 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner> beginCreateOrUpdate(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
+        String resourceGroupName, String circuitName, String peeringName,
         ExpressRouteCircuitPeeringInner peeringParameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters)
+        return this.beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters)
             .getSyncPoller();
     }
 
@@ -784,13 +653,9 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ExpressRouteCircuitPeeringInner>, ExpressRouteCircuitPeeringInner> beginCreateOrUpdate(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters,
-        Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context)
+        String resourceGroupName, String circuitName, String peeringName,
+        ExpressRouteCircuitPeeringInner peeringParameters, Context context) {
+        return this.beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context)
             .getSyncPoller();
     }
 
@@ -807,13 +672,9 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return peering in an ExpressRouteCircuit resource on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRouteCircuitPeeringInner> createOrUpdateAsync(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters) {
-        return beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters)
-            .last()
+    public Mono<ExpressRouteCircuitPeeringInner> createOrUpdateAsync(String resourceGroupName, String circuitName,
+        String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -831,14 +692,9 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return peering in an ExpressRouteCircuit resource on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<ExpressRouteCircuitPeeringInner> createOrUpdateAsync(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters,
-        Context context) {
-        return beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context)
-            .last()
+    private Mono<ExpressRouteCircuitPeeringInner> createOrUpdateAsync(String resourceGroupName, String circuitName,
+        String peeringName, ExpressRouteCircuitPeeringInner peeringParameters, Context context) {
+        return beginCreateOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context).last()
             .flatMap(this.client::getLroFinalResultOrError);
     }
 
@@ -855,11 +711,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return peering in an ExpressRouteCircuit resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteCircuitPeeringInner createOrUpdate(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters) {
+    public ExpressRouteCircuitPeeringInner createOrUpdate(String resourceGroupName, String circuitName,
+        String peeringName, ExpressRouteCircuitPeeringInner peeringParameters) {
         return createOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters).block();
     }
 
@@ -877,12 +730,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return peering in an ExpressRouteCircuit resource.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteCircuitPeeringInner createOrUpdate(
-        String resourceGroupName,
-        String circuitName,
-        String peeringName,
-        ExpressRouteCircuitPeeringInner peeringParameters,
-        Context context) {
+    public ExpressRouteCircuitPeeringInner createOrUpdate(String resourceGroupName, String circuitName,
+        String peeringName, ExpressRouteCircuitPeeringInner peeringParameters, Context context) {
         return createOrUpdateAsync(resourceGroupName, circuitName, peeringName, peeringParameters, context).block();
     }
 
@@ -895,16 +744,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return all peerings in a specified express route circuit along with {@link PagedResponse} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listSinglePageAsync(
-        String resourceGroupName, String circuitName) {
+    private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listSinglePageAsync(String resourceGroupName,
+        String circuitName) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -914,34 +761,16 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter circuitName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context ->
-                    service
-                        .list(
-                            this.client.getEndpoint(),
-                            resourceGroupName,
-                            circuitName,
-                            apiVersion,
-                            this.client.getSubscriptionId(),
-                            accept,
-                            context))
-            .<PagedResponse<ExpressRouteCircuitPeeringInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+            .withContext(context -> service.list(this.client.getEndpoint(), resourceGroupName, circuitName, apiVersion,
+                this.client.getSubscriptionId(), accept, context))
+            .<PagedResponse<ExpressRouteCircuitPeeringInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -955,16 +784,14 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return all peerings in a specified express route circuit along with {@link PagedResponse} on successful
-     *     completion of {@link Mono}.
+     * completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listSinglePageAsync(
-        String resourceGroupName, String circuitName, Context context) {
+    private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listSinglePageAsync(String resourceGroupName,
+        String circuitName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
             return Mono
@@ -974,32 +801,17 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter circuitName is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .list(
-                this.client.getEndpoint(),
-                resourceGroupName,
-                circuitName,
-                apiVersion,
-                this.client.getSubscriptionId(),
-                accept,
-                context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+            .list(this.client.getEndpoint(), resourceGroupName, circuitName, apiVersion,
+                this.client.getSubscriptionId(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
@@ -1014,8 +826,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<ExpressRouteCircuitPeeringInner> listAsync(String resourceGroupName, String circuitName) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, circuitName), nextLink -> listNextSinglePageAsync(nextLink));
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, circuitName),
+            nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
@@ -1030,10 +842,9 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return all peerings in a specified express route circuit as paginated response with {@link PagedFlux}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ExpressRouteCircuitPeeringInner> listAsync(
-        String resourceGroupName, String circuitName, Context context) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, circuitName, context),
+    private PagedFlux<ExpressRouteCircuitPeeringInner> listAsync(String resourceGroupName, String circuitName,
+        Context context) {
+        return new PagedFlux<>(() -> listSinglePageAsync(resourceGroupName, circuitName, context),
             nextLink -> listNextSinglePageAsync(nextLink, context));
     }
 
@@ -1064,8 +875,8 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * @return all peerings in a specified express route circuit as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ExpressRouteCircuitPeeringInner> list(
-        String resourceGroupName, String circuitName, Context context) {
+    public PagedIterable<ExpressRouteCircuitPeeringInner> list(String resourceGroupName, String circuitName,
+        Context context) {
         return new PagedIterable<>(listAsync(resourceGroupName, circuitName, context));
     }
 
@@ -1073,12 +884,13 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * Get the next page of items.
      *
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     *
+     * The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return response for ListPeering API service call retrieves all peerings that belong to an ExpressRouteCircuit
-     *     along with {@link PagedResponse} on successful completion of {@link Mono}.
+     * along with {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listNextSinglePageAsync(String nextLink) {
@@ -1086,23 +898,13 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
-            .<PagedResponse<ExpressRouteCircuitPeeringInner>>map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null))
+        return FluxUtil.withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
+            .<PagedResponse<ExpressRouteCircuitPeeringInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
@@ -1110,38 +912,29 @@ public final class ExpressRouteCircuitPeeringsClientImpl implements ExpressRoute
      * Get the next page of items.
      *
      * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     *
+     * The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return response for ListPeering API service call retrieves all peerings that belong to an ExpressRouteCircuit
-     *     along with {@link PagedResponse} on successful completion of {@link Mono}.
+     * along with {@link PagedResponse} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listNextSinglePageAsync(
-        String nextLink, Context context) {
+    private Mono<PagedResponse<ExpressRouteCircuitPeeringInner>> listNextSinglePageAsync(String nextLink,
+        Context context) {
         if (nextLink == null) {
             return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono
-                .error(
-                    new IllegalArgumentException(
-                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service
-            .listNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(
-                res ->
-                    new PagedResponseBase<>(
-                        res.getRequest(),
-                        res.getStatusCode(),
-                        res.getHeaders(),
-                        res.getValue().value(),
-                        res.getValue().nextLink(),
-                        null));
+        return service.listNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
     }
 }

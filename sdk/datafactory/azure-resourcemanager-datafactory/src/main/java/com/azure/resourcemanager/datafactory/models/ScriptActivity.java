@@ -8,70 +8,122 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ScriptActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Script activity type. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Script activity type.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ScriptActivity.class, visible = true)
 @JsonTypeName("Script")
 @Fluent
 public final class ScriptActivity extends ExecutionActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Script";
+
     /*
      * Script activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private ScriptActivityTypeProperties innerTypeProperties = new ScriptActivityTypeProperties();
 
-    /** Creates an instance of ScriptActivity class. */
+    /**
+     * Creates an instance of ScriptActivity class.
+     */
     public ScriptActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Script activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ScriptActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScriptActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScriptActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -81,7 +133,7 @@ public final class ScriptActivity extends ExecutionActivity {
     /**
      * Get the scriptBlockExecutionTimeout property: ScriptBlock execution timeout. Type: string (or Expression with
      * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * 
      * @return the scriptBlockExecutionTimeout value.
      */
     public Object scriptBlockExecutionTimeout() {
@@ -91,7 +143,7 @@ public final class ScriptActivity extends ExecutionActivity {
     /**
      * Set the scriptBlockExecutionTimeout property: ScriptBlock execution timeout. Type: string (or Expression with
      * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-     *
+     * 
      * @param scriptBlockExecutionTimeout the scriptBlockExecutionTimeout value to set.
      * @return the ScriptActivity object itself.
      */
@@ -105,7 +157,7 @@ public final class ScriptActivity extends ExecutionActivity {
 
     /**
      * Get the scripts property: Array of script blocks. Type: array.
-     *
+     * 
      * @return the scripts value.
      */
     public List<ScriptActivityScriptBlock> scripts() {
@@ -114,7 +166,7 @@ public final class ScriptActivity extends ExecutionActivity {
 
     /**
      * Set the scripts property: Array of script blocks. Type: array.
-     *
+     * 
      * @param scripts the scripts value to set.
      * @return the ScriptActivity object itself.
      */
@@ -128,7 +180,7 @@ public final class ScriptActivity extends ExecutionActivity {
 
     /**
      * Get the logSettings property: Log settings of script activity.
-     *
+     * 
      * @return the logSettings value.
      */
     public ScriptActivityTypePropertiesLogSettings logSettings() {
@@ -137,7 +189,7 @@ public final class ScriptActivity extends ExecutionActivity {
 
     /**
      * Set the logSettings property: Log settings of script activity.
-     *
+     * 
      * @param logSettings the logSettings value to set.
      * @return the ScriptActivity object itself.
      */
@@ -151,17 +203,16 @@ public final class ScriptActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ScriptActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ScriptActivity"));
         } else {
             innerTypeProperties().validate();
         }

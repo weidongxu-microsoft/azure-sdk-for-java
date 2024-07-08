@@ -22,6 +22,10 @@ import com.azure.security.keyvault.administration.implementation.KeyVaultErrorCo
 import com.azure.security.keyvault.administration.implementation.models.FullBackupHeaders;
 import com.azure.security.keyvault.administration.implementation.models.FullBackupOperation;
 import com.azure.security.keyvault.administration.implementation.models.FullRestoreOperationHeaders;
+import com.azure.security.keyvault.administration.implementation.models.PreBackupOperationParameters;
+import com.azure.security.keyvault.administration.implementation.models.PreFullBackupHeaders;
+import com.azure.security.keyvault.administration.implementation.models.PreFullRestoreOperationHeaders;
+import com.azure.security.keyvault.administration.implementation.models.PreRestoreOperationParameters;
 import com.azure.security.keyvault.administration.implementation.models.RestoreOperation;
 import com.azure.security.keyvault.administration.implementation.models.RestoreOperationParameters;
 import com.azure.security.keyvault.administration.implementation.models.SASTokenParameter;
@@ -47,22 +51,152 @@ import static com.azure.security.keyvault.administration.KeyVaultAdministrationU
 import static com.azure.security.keyvault.administration.KeyVaultBackupAsyncClient.restoreOperationToSelectiveKeyRestoreOperation;
 
 /**
- * The {@link KeyVaultBackupClient} provides synchronous methods to perform backup and restore operations of an Azure
- * Key Vault.
+ * The {@link KeyVaultBackupClient} provides synchronous methods to perform full a backup and restore of a key vault,
+ * as well as selectively restoring specific keys from a backup.
  *
- * <p>Instances of this client are obtained by calling the {@link KeyVaultBackupClientBuilder#buildClient()}
- * method on a {@link KeyVaultBackupClientBuilder} object.</p>
+ * <h2>Getting Started</h2>
  *
- * <p><strong>Samples to construct a sync client</strong></p>
- * <!-- src_embed com.azure.security.keyvault.administration.keyVaultBackupClient.instantiation -->
+ * <p>In order to interact with the Azure Key Vault service, you will need to create an instance of the
+ * {@link KeyVaultBackupClient} class, a vault url and a credential object.</p>
+ *
+ * <p>The examples shown in this document use a credential object named DefaultAzureCredential for authentication,
+ * which is appropriate for most scenarios, including local development and production environments. Additionally,
+ * we recommend using a
+ * <a href="https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/">
+ * managed identity</a> for authentication in production environments.
+ * You can find more information on different ways of authenticating and their corresponding credential types in the
+ * <a href="https://learn.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable">
+ * Azure Identity documentation"</a>.</p>
+ *
+ * <p><strong>Sample: Construct Asynchronous Backup Client</strong></p>
+ *
+ * <p>The following code sample demonstrates the creation of a {@link KeyVaultBackupClient}, using the
+ * {@link KeyVaultBackupClientBuilder} to configure it.</p>
+ *
+ * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.instantiation -->
  * <pre>
  * KeyVaultBackupClient keyVaultBackupClient = new KeyVaultBackupClientBuilder&#40;&#41;
  *     .vaultUrl&#40;&quot;&lt;your-managed-hsm-url&gt;&quot;&#41;
  *     .credential&#40;new DefaultAzureCredentialBuilder&#40;&#41;.build&#40;&#41;&#41;
  *     .buildClient&#40;&#41;;
  * </pre>
- * <!-- end com.azure.security.keyvault.administration.keyVaultBackupClient.instantiation -->
+ * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.instantiation -->
  *
+ * <br/>
+ *
+ * <hr/>
+ *
+ * <h2>Back Up a Collection of Keys</h2>
+ * The {@link KeyVaultBackupClient} can be used to back up the entire collection of keys from a key vault.
+ *
+ * <p><strong>Code Sample:</strong></p>
+ * <p>The following code sample demonstrates how to synchronously back up an entire collection of keys using, using the
+ * {@link KeyVaultBackupClient#beginBackup(String, String)} API.</p>
+ *
+ * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginBackup#String-String -->
+ * <pre>
+ * String blobStorageUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&quot;;
+ * String sasToken = &quot;&lt;sas-token&gt;&quot;;
+ *
+ * SyncPoller&lt;KeyVaultBackupOperation, String&gt; backupPoller = client.beginBackup&#40;blobStorageUrl, sasToken&#41;;
+ * PollResponse&lt;KeyVaultBackupOperation&gt; pollResponse = backupPoller.poll&#40;&#41;;
+ *
+ * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
+ *
+ * PollResponse&lt;KeyVaultBackupOperation&gt; finalPollResponse = backupPoller.waitForCompletion&#40;&#41;;
+ *
+ * if &#40;finalPollResponse.getStatus&#40;&#41; == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED&#41; &#123;
+ *     String folderUrl = backupPoller.getFinalResult&#40;&#41;;
+ *
+ *     System.out.printf&#40;&quot;Backup completed. The storage location of this backup is: %s.%n&quot;, folderUrl&#41;;
+ * &#125; else &#123;
+ *     KeyVaultBackupOperation operation = backupPoller.poll&#40;&#41;.getValue&#40;&#41;;
+ *
+ *     System.out.printf&#40;&quot;Backup failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
+ * &#125;
+ * </pre>
+ * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginBackup#String-String -->
+ *
+ * <p><strong>Note:</strong> For the asynchronous sample, refer to {@link KeyVaultBackupAsyncClient}.</p>
+ *
+ * <br/>
+ *
+ * <hr/>
+ *
+ * <h2>Restore a Collection of Keys</h2>
+ * The {@link KeyVaultBackupClient} can be used to restore an entire collection of keys from a backup.
+ *
+ * <p><strong>Code Sample:</strong></p>
+ * <p>The following code sample demonstrates how to synchronously restore an entire collection of keys from a backup,
+ * using the {@link KeyVaultBackupClient#beginRestore(String, String)} API.</p>
+ *
+ * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginRestore#String-String -->
+ * <pre>
+ * String folderUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&#47;mhsm-myaccount-2020090117323313&quot;;
+ * String sasToken = &quot;&lt;sas-token&gt;&quot;;
+ *
+ * SyncPoller&lt;KeyVaultRestoreOperation, KeyVaultRestoreResult&gt; restorePoller =
+ *     client.beginRestore&#40;folderUrl, sasToken&#41;;
+ * PollResponse&lt;KeyVaultRestoreOperation&gt; pollResponse = restorePoller.poll&#40;&#41;;
+ *
+ * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
+ *
+ * PollResponse&lt;KeyVaultRestoreOperation&gt; finalPollResponse = restorePoller.waitForCompletion&#40;&#41;;
+ *
+ * if &#40;finalPollResponse.getStatus&#40;&#41; == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED&#41; &#123;
+ *     System.out.printf&#40;&quot;Backup restored successfully.%n&quot;&#41;;
+ * &#125; else &#123;
+ *     KeyVaultRestoreOperation operation = restorePoller.poll&#40;&#41;.getValue&#40;&#41;;
+ *
+ *     System.out.printf&#40;&quot;Restore failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
+ * &#125;
+ * </pre>
+ * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginRestore#String-String -->
+ *
+ * <p><strong>Note:</strong> For the asynchronous sample, refer to {@link KeyVaultBackupAsyncClient}.</p>
+ *
+ * <br/>
+ *
+ * <hr/>
+ *
+ * <h2>Selectively Restore a Key</h2>
+ * The {@link KeyVaultBackupClient} can be used to restore a specific key from a backup.
+ *
+ * <p><strong>Code Sample:</strong></p>
+ * <p>The following code sample demonstrates how to synchronously restore a specific key from a backup, using
+ * the {@link KeyVaultBackupClient#beginSelectiveKeyRestore(String, String, String)} API.</p>
+ *
+ * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginSelectiveKeyRestore#String-String-String -->
+ * <pre>
+ * String folderUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&#47;mhsm-myaccount-2020090117323313&quot;;
+ * String sasToken = &quot;&lt;sas-token&gt;&quot;;
+ * String keyName = &quot;myKey&quot;;
+ *
+ * SyncPoller&lt;KeyVaultSelectiveKeyRestoreOperation, KeyVaultSelectiveKeyRestoreResult&gt; restorePoller =
+ *     client.beginSelectiveKeyRestore&#40;folderUrl, sasToken, keyName&#41;;
+ * PollResponse&lt;KeyVaultSelectiveKeyRestoreOperation&gt; pollResponse = restorePoller.poll&#40;&#41;;
+ *
+ * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
+ *
+ * PollResponse&lt;KeyVaultSelectiveKeyRestoreOperation&gt; finalPollResponse = restorePoller.waitForCompletion&#40;&#41;;
+ *
+ * if &#40;finalPollResponse.getStatus&#40;&#41; == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED&#41; &#123;
+ *     System.out.printf&#40;&quot;Key restored successfully.%n&quot;&#41;;
+ * &#125; else &#123;
+ *     KeyVaultSelectiveKeyRestoreOperation operation = restorePoller.poll&#40;&#41;.getValue&#40;&#41;;
+ *
+ *     System.out.printf&#40;&quot;Key restore failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
+ * &#125;
+ * </pre>
+ * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginSelectiveKeyRestore#String-String-String -->
+ *
+ * <p><strong>Note:</strong> For the asynchronous sample, refer to {@link KeyVaultBackupAsyncClient}.</p>
+ *
+ * <br/>
+ *
+ * <hr/>
+ *
+ * @see com.azure.security.keyvault.administration
  * @see KeyVaultBackupClientBuilder
  */
 @ServiceClient(builder = KeyVaultBackupClientBuilder.class)
@@ -105,8 +239,7 @@ public final class KeyVaultBackupClient {
      */
     KeyVaultBackupClient(URL vaultUrl, HttpPipeline httpPipeline,
                               KeyVaultAdministrationServiceVersion serviceVersion) {
-        Objects.requireNonNull(vaultUrl,
-            KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.VAULT_END_POINT_REQUIRED));
+        Objects.requireNonNull(vaultUrl, KeyVaultErrorCodeStrings.VAULT_END_POINT_REQUIRED);
 
         this.vaultUrl = vaultUrl.toString();
         this.serviceVersion = serviceVersion.getVersion();
@@ -133,14 +266,12 @@ public final class KeyVaultBackupClient {
      * <p>Starts a {@link KeyVaultBackupOperation backup operation}, polls for its status and waits for it to complete.
      * Prints out the details of the operation's final result in case of success or prints out error details in case the
      * operation fails.</p>
-     * <!-- src_embed com.azure.security.keyvault.administration.keyVaultBackupClient.beginBackup#String-String -->
+     * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginBackup#String-String -->
      * <pre>
      * String blobStorageUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&quot;;
-     * String sasToken = &quot;sv=2020-02-10&amp;ss=b&amp;srt=o&amp;sp=rwdlactfx&amp;se=2021-06-17T07:13:07Z&amp;st=2021-06-16T23:13:07Z&quot;
-     *     + &quot;&amp;spr=https&amp;sig=n5V6fnlkViEF9b7ij%2FttTHNwO2BdFIHKHppRxGAyJdc%3D&quot;;
+     * String sasToken = &quot;&lt;sas-token&gt;&quot;;
      *
      * SyncPoller&lt;KeyVaultBackupOperation, String&gt; backupPoller = client.beginBackup&#40;blobStorageUrl, sasToken&#41;;
-     *
      * PollResponse&lt;KeyVaultBackupOperation&gt; pollResponse = backupPoller.poll&#40;&#41;;
      *
      * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
@@ -157,28 +288,23 @@ public final class KeyVaultBackupClient {
      *     System.out.printf&#40;&quot;Backup failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
      * &#125;
      * </pre>
-     * <!-- end com.azure.security.keyvault.administration.keyVaultBackupClient.beginBackup#String-String -->
+     * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginBackup#String-String -->
      *
      * @param blobStorageUrl The URL for the Blob Storage resource where the backup will be located.
-     * @param sasToken A Shared Access Signature (SAS) token to authorize access to the blob.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
      *
      * @return A {@link SyncPoller} polling on the {@link KeyVaultBackupOperation backup operation} status.
      *
      * @throws KeyVaultAdministrationException If the given {@code blobStorageUrl} or {@code sasToken} are invalid.
-     * @throws NullPointerException If the {@code blobStorageUrl} or {@code sasToken} are {@code null}.
+     * @throws NullPointerException If the {@code blobStorageUrl} is {@code null}.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<KeyVaultBackupOperation, String> beginBackup(String blobStorageUrl, String sasToken) {
         if (blobStorageUrl == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'blobStorageUrl'")));
-        }
-
-        if (sasToken == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'sasToken'")));
+            throw LOGGER.logExceptionAsError(
+                new NullPointerException(
+                    String.format(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED, "'blobStorageUrl'")));
         }
 
         Context context = Context.NONE;
@@ -196,16 +322,18 @@ public final class KeyVaultBackupClient {
      * Initiates a full backup of the Key Vault.
      *
      * @param blobStorageUrl The URL for the Blob Storage resource where the backup will be located.
-     * @param sasToken A Shared Access Signature (SAS) token to authorize access to the blob.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
      * @param context Additional context that is passed through the HTTP pipeline during the service call.
      *
      * @return A {@link Response} containing the {@link KeyVaultBackupOperation backup operation} status.
      *
      * @throws KeyVaultAdministrationException If the given {@code blobStorageUrl} or {@code sasToken} are invalid.
      */
-    Response<KeyVaultBackupOperation> backupWithResponse(String blobStorageUrl, String sasToken,
-                                                               Context context) {
-        SASTokenParameter sasTokenParameter = new SASTokenParameter(blobStorageUrl, sasToken);
+    Response<KeyVaultBackupOperation> backupWithResponse(String blobStorageUrl, String sasToken, Context context) {
+        SASTokenParameter sasTokenParameter = new SASTokenParameter(blobStorageUrl)
+            .setToken(sasToken)
+            .setUseManagedIdentity(sasToken == null);
         context = enableSyncRestProxy(context);
 
         try {
@@ -283,19 +411,123 @@ public final class KeyVaultBackupClient {
     }
 
     /**
+     * Initiates a pre-backup check on the Key Vault. This operation checks if it is possible to back up the entire
+     * collection of keys from a key vault.
+     *
+     * <p><strong>Code Samples</strong></p>
+     * <p>Starts a {@link KeyVaultBackupOperation pre-backup operation}, polls for its status and waits for it to
+     * complete. Prints out the details of the operation's final result in case of success or prints out error details
+     * in case the operation fails.</p>
+     * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginPreBackup#String-String -->
+     * <pre>
+     * String blobStorageUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&quot;;
+     * String sasToken = &quot;&lt;sas-token&gt;&quot;;
+     *
+     * SyncPoller&lt;KeyVaultBackupOperation, String&gt; preBackupPoller = client.beginPreBackup&#40;blobStorageUrl, sasToken&#41;;
+     * PollResponse&lt;KeyVaultBackupOperation&gt; pollResponse = preBackupPoller.poll&#40;&#41;;
+     *
+     * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
+     *
+     * PollResponse&lt;KeyVaultBackupOperation&gt; finalPollResponse = preBackupPoller.waitForCompletion&#40;&#41;;
+     *
+     * if &#40;finalPollResponse.getStatus&#40;&#41; == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED&#41; &#123;
+     *     System.out.printf&#40;&quot;Pre-backup check completed successfully.%n&quot;&#41;;
+     * &#125; else &#123;
+     *     KeyVaultBackupOperation operation = preBackupPoller.poll&#40;&#41;.getValue&#40;&#41;;
+     *
+     *     System.out.printf&#40;&quot;Pre-backup check failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
+     * &#125;
+     * </pre>
+     * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginPreBackup#String-String -->
+     *
+     * @param blobStorageUrl The URL for the Blob Storage resource where the backup will be located.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
+     *
+     * @return A {@link SyncPoller} polling on the {@link KeyVaultBackupOperation pre-backup operation} status.
+     *
+     * @throws KeyVaultAdministrationException If the given {@code blobStorageUrl} or {@code sasToken} are invalid.
+     * @throws NullPointerException If the {@code blobStorageUrl} is {@code null}.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<KeyVaultBackupOperation, String> beginPreBackup(String blobStorageUrl, String sasToken) {
+        if (blobStorageUrl == null) {
+            throw LOGGER.logExceptionAsError(
+                new NullPointerException(
+                    String.format(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED, "'blobStorageUrl'")));
+        }
+
+        Context context = Context.NONE;
+
+        return SyncPoller.createPoller(
+            getDefaultPollingInterval(),
+            cxt ->
+                new PollResponse<>(LongRunningOperationStatus.NOT_STARTED,
+                    preBackupActivationOperation(blobStorageUrl, sasToken, context)
+                        .apply(cxt)),
+            backupPollOperation(context),
+            (pollingContext, firstResponse) -> {
+                throw LOGGER.logExceptionAsError(new RuntimeException("Cancellation is not supported"));
+            },
+            backupFetchOperation());
+    }
+
+    private Function<PollingContext<KeyVaultBackupOperation>, KeyVaultBackupOperation> preBackupActivationOperation(
+        String blobStorageUrl, String sasToken, Context context) {
+
+        return (pollingContext) -> {
+            try {
+                return preBackupWithResponse(blobStorageUrl, sasToken, context).getValue();
+            } catch (RuntimeException e) {
+                throw LOGGER.logExceptionAsError(e);
+            }
+        };
+    }
+
+    /**
+     * Initiates a pre-backup check on the Key Vault. This operation checks if it is possible to back up the entire
+     * collection of keys from a key vault.
+     *
+     * @param blobStorageUrl The URL for the Blob Storage resource where the backup will be located.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
+     * @param context Additional context that is passed through the HTTP pipeline during the service call.
+     *
+     * @return A {@link Response} containing the {@link KeyVaultBackupOperation pre-backup operation} status.
+     *
+     * @throws KeyVaultAdministrationException If the given {@code blobStorageUrl} or {@code sasToken} are invalid.
+     */
+    Response<KeyVaultBackupOperation> preBackupWithResponse(String blobStorageUrl, String sasToken, Context context) {
+        PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters()
+            .setStorageResourceUri(blobStorageUrl)
+            .setToken(sasToken)
+            .setUseManagedIdentity(sasToken == null);
+        context = enableSyncRestProxy(context);
+
+        try {
+            ResponseBase<PreFullBackupHeaders, FullBackupOperation> backupOperationResponse =
+                clientImpl.preFullBackupWithResponse(vaultUrl, preBackupOperationParameters, context);
+
+            return new SimpleResponse<>(backupOperationResponse.getRequest(), backupOperationResponse.getStatusCode(),
+                backupOperationResponse.getHeaders(),
+                (KeyVaultBackupOperation) transformToLongRunningOperation(backupOperationResponse.getValue()));
+        } catch (RuntimeException e) {
+            throw LOGGER.logExceptionAsError(e);
+        }
+    }
+
+    /**
      * Initiates a full restore of the Key Vault.
      *
      * <p><strong>Code Samples</strong></p>
      * <p>Starts a {@link KeyVaultRestoreOperation restore operation}, polls for its status and waits for it to
      * complete. Prints out error details in case the operation fails.</p>
-     * <!-- src_embed com.azure.security.keyvault.administration.keyVaultBackupClient.beginBackup#String-String -->
+     * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginBackup#String-String -->
      * <pre>
      * String blobStorageUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&quot;;
-     * String sasToken = &quot;sv=2020-02-10&amp;ss=b&amp;srt=o&amp;sp=rwdlactfx&amp;se=2021-06-17T07:13:07Z&amp;st=2021-06-16T23:13:07Z&quot;
-     *     + &quot;&amp;spr=https&amp;sig=n5V6fnlkViEF9b7ij%2FttTHNwO2BdFIHKHppRxGAyJdc%3D&quot;;
+     * String sasToken = &quot;&lt;sas-token&gt;&quot;;
      *
      * SyncPoller&lt;KeyVaultBackupOperation, String&gt; backupPoller = client.beginBackup&#40;blobStorageUrl, sasToken&#41;;
-     *
      * PollResponse&lt;KeyVaultBackupOperation&gt; pollResponse = backupPoller.poll&#40;&#41;;
      *
      * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
@@ -312,32 +544,29 @@ public final class KeyVaultBackupClient {
      *     System.out.printf&#40;&quot;Backup failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
      * &#125;
      * </pre>
-     * <!-- end com.azure.security.keyvault.administration.keyVaultBackupClient.beginBackup#String-String -->
+     * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginBackup#String-String -->
      *
      * @param folderUrl The URL for the Blob Storage resource where the backup is located, including the path to
      * the blob container where the backup resides. This would be the exact value that is returned as the result of a
      * backup operation. An example of such a URL may look like the following:
      * https://contoso.blob.core.windows.net/backup/mhsm-contoso-2020090117323313.
-     * @param sasToken A Shared Access Signature (SAS) token to authorize access to the blob.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
      *
      * @return A {@link SyncPoller} to poll on the {@link KeyVaultRestoreOperation restore operation} status.
      *
      * @throws KeyVaultAdministrationException If the given {@code folderUrl} or {@code sasToken} are invalid.
-     * @throws NullPointerException If the {@code folderUrl} or {@code sasToken} are {@code null}.
+     * @throws NullPointerException If the {@code folderUrl} is {@code null}.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<KeyVaultRestoreOperation, KeyVaultRestoreResult> beginRestore(String folderUrl, String sasToken) {
         if (folderUrl == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'folderUrl'")));
+            throw LOGGER.logExceptionAsError(
+                new NullPointerException(String.format(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED, "'folderUrl'")));
         }
-        if (sasToken == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'sasToken'")));
-        }
+
         Context context = Context.NONE;
+
         return SyncPoller.createPoller(getDefaultPollingInterval(),
             cxt -> new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, restoreActivationOperation(folderUrl, sasToken, context).apply(cxt)),
             restorePollOperation(context),
@@ -354,7 +583,8 @@ public final class KeyVaultBackupClient {
      * the blob container where the backup resides. This would be the exact value that is returned as the result of a
      * backup operation. An example of such a URL may look like the following:
      * https://contoso.blob.core.windows.net/backup/mhsm-contoso-2020090117323313.
-     * @param sasToken A Shared Access Signature (SAS) token to authorize access to the blob.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
      * @param context Additional context that is passed through the HTTP pipeline during the service call.
      *
      * @return A {@link Response} containing the {@link KeyVaultRestoreOperation backup operation} status.
@@ -366,7 +596,9 @@ public final class KeyVaultBackupClient {
         String folderName = segments[segments.length - 1];
         String containerUrl = folderUrl.substring(0, folderUrl.length() - folderName.length());
 
-        SASTokenParameter sasTokenParameter = new SASTokenParameter(containerUrl, sasToken);
+        SASTokenParameter sasTokenParameter = new SASTokenParameter(containerUrl)
+            .setToken(sasToken)
+            .setUseManagedIdentity(sasToken == null);
         RestoreOperationParameters restoreOperationParameters =
             new RestoreOperationParameters(sasTokenParameter, folderName);
         context = enableSyncRestProxy(context);
@@ -438,72 +670,178 @@ public final class KeyVaultBackupClient {
     }
 
     /**
+     * Initiates a pre-restore check on the Key Vault. This operation checks if it is possible to restore an entire
+     * collection of keys from a backup.
+     *
+     * <p><strong>Code Samples</strong></p>
+     * <p>Starts a {@link KeyVaultRestoreOperation pre-restore operation}, polls for its status and waits for it to
+     * complete. Prints out error details in case the operation fails.</p>
+     * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginPreRestore#String-String -->
+     * <pre>
+     * String folderUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&#47;mhsm-myaccount-2020090117323313&quot;;
+     * String sasToken = &quot;&lt;sas-token&gt;&quot;;
+     *
+     * SyncPoller&lt;KeyVaultRestoreOperation, KeyVaultRestoreResult&gt; preRestorePoller =
+     *     client.beginPreRestore&#40;folderUrl, sasToken&#41;;
+     * PollResponse&lt;KeyVaultRestoreOperation&gt; pollResponse = preRestorePoller.poll&#40;&#41;;
+     *
+     * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
+     *
+     * PollResponse&lt;KeyVaultRestoreOperation&gt; finalPollResponse = preRestorePoller.waitForCompletion&#40;&#41;;
+     *
+     * if &#40;finalPollResponse.getStatus&#40;&#41; == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED&#41; &#123;
+     *     System.out.printf&#40;&quot;Pre-restore check completed successfully.%n&quot;&#41;;
+     * &#125; else &#123;
+     *     KeyVaultRestoreOperation operation = preRestorePoller.poll&#40;&#41;.getValue&#40;&#41;;
+     *
+     *     System.out.printf&#40;&quot;Pre-restore check failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
+     * &#125;
+     * </pre>
+     * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginPreRestore#String-String -->
+     *
+     * @param folderUrl The URL for the Blob Storage resource where the backup is located, including the path to
+     * the blob container where the backup resides. This would be the exact value that is returned as the result of a
+     * backup operation. An example of such a URL may look like the following:
+     * {@code https://contoso.blob.core.windows.net/backup/mhsm-contoso-2020090117323313}.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
+     *
+     * @return A {@link SyncPoller} to poll on the {@link KeyVaultRestoreOperation restore operation} status.
+     *
+     * @throws KeyVaultAdministrationException If the given {@code folderUrl} or {@code sasToken} are invalid.
+     * @throws NullPointerException If the {@code folderUrl} is {@code null}.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<KeyVaultRestoreOperation, KeyVaultRestoreResult> beginPreRestore(String folderUrl, String sasToken) {
+        if (folderUrl == null) {
+            throw LOGGER.logExceptionAsError(
+                new NullPointerException(String.format(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED, "'folderUrl'")));
+        }
+
+        Context context = Context.NONE;
+
+        return SyncPoller.createPoller(getDefaultPollingInterval(),
+            cxt ->
+                new PollResponse<>(LongRunningOperationStatus.NOT_STARTED,
+                    preRestoreActivationOperation(folderUrl, sasToken, context)
+                        .apply(cxt)),
+            restorePollOperation(context),
+            (pollingContext, firstResponse) -> {
+                throw LOGGER.logExceptionAsError(new RuntimeException("Cancellation is not supported"));
+            },
+            (pollingContext) -> new KeyVaultRestoreResult());
+    }
+
+    /**
+     * Initiates a pre-restore check on the Key Vault. This operation checks if it is possible to restore an entire
+     * collection of keys from a backup.
+     *
+     * @param folderUrl The URL for the Blob Storage resource where the backup is located, including the path to
+     * the blob container where the backup resides. This would be the exact value that is returned as the result of a
+     * backup operation. An example of such a URL may look like the following:
+     * {@code https://contoso.blob.core.windows.net/backup/mhsm-contoso-2020090117323313}.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
+     * @param context Additional context that is passed through the HTTP pipeline during the service call.
+     *
+     * @return A {@link Response} containing the {@link KeyVaultRestoreOperation backup operation} status.
+     *
+     * @throws KeyVaultAdministrationException If the given {@code folderUrl} or {@code sasToken} are invalid.
+     */
+    Response<KeyVaultRestoreOperation> preRestoreWithResponse(String folderUrl, String sasToken, Context context) {
+        String[] segments = folderUrl.split("/");
+        String folderName = segments[segments.length - 1];
+        String containerUrl = folderUrl.substring(0, folderUrl.length() - folderName.length());
+
+        SASTokenParameter sasTokenParameter = new SASTokenParameter(containerUrl)
+            .setToken(sasToken)
+            .setUseManagedIdentity(sasToken == null);
+        PreRestoreOperationParameters restoreOperationParameters =
+            new PreRestoreOperationParameters()
+                .setFolderToRestore(folderName)
+                .setSasTokenParameters(sasTokenParameter);
+        context = enableSyncRestProxy(context);
+
+        try {
+            ResponseBase<PreFullRestoreOperationHeaders, RestoreOperation> restoreOperationResponse =
+                clientImpl.preFullRestoreOperationWithResponse(vaultUrl, restoreOperationParameters, context);
+            return new SimpleResponse<>(restoreOperationResponse.getRequest(),
+                restoreOperationResponse.getStatusCode(),
+                restoreOperationResponse.getHeaders(),
+                (KeyVaultRestoreOperation) transformToLongRunningOperation(restoreOperationResponse.getValue()));
+        } catch (RuntimeException e) {
+            throw LOGGER.logExceptionAsError(e);
+        }
+    }
+
+    private Function<PollingContext<KeyVaultRestoreOperation>, KeyVaultRestoreOperation> preRestoreActivationOperation(String folderUrl, String sasToken, Context context) {
+        return (pollingContext) -> {
+            try {
+                return preRestoreWithResponse(folderUrl, sasToken, context).getValue();
+            } catch (RuntimeException e) {
+                throw LOGGER.logExceptionAsError(e);
+            }
+        };
+    }
+
+    /**
      * Restores all versions of a given key using the supplied SAS token pointing to a previously stored Azure Blob
      * storage backup folder.
      *
      * <p><strong>Code Samples</strong></p>
      * <p>Starts a {@link KeyVaultSelectiveKeyRestoreOperation selective key restore operation}, polls for its status
      * and waits for it to complete. Prints out error details in case the operation fails.</p>
-     * <!-- src_embed com.azure.security.keyvault.administration.keyVaultBackupClient.beginSelectiveKeyRestore#String-String-String -->
+     * <!-- src_embed com.azure.security.keyvault.administration.KeyVaultBackupClient.beginSelectiveKeyRestore#String-String-String -->
      * <pre>
      * String folderUrl = &quot;https:&#47;&#47;myaccount.blob.core.windows.net&#47;myContainer&#47;mhsm-myaccount-2020090117323313&quot;;
-     * String sasToken = &quot;sv=2020-02-10&amp;ss=b&amp;srt=o&amp;sp=rwdlactfx&amp;se=2021-06-17T07:13:07Z&amp;st=2021-06-16T23:13:07Z&quot;
-     *     + &quot;&amp;spr=https&amp;sig=n5V6fnlkViEF9b7ij%2FttTHNwO2BdFIHKHppRxGAyJdc%3D&quot;;
+     * String sasToken = &quot;&lt;sas-token&gt;&quot;;
      * String keyName = &quot;myKey&quot;;
      *
-     * SyncPoller&lt;KeyVaultSelectiveKeyRestoreOperation, KeyVaultSelectiveKeyRestoreResult&gt; backupPoller =
+     * SyncPoller&lt;KeyVaultSelectiveKeyRestoreOperation, KeyVaultSelectiveKeyRestoreResult&gt; restorePoller =
      *     client.beginSelectiveKeyRestore&#40;folderUrl, sasToken, keyName&#41;;
-     *
-     * PollResponse&lt;KeyVaultSelectiveKeyRestoreOperation&gt; pollResponse = backupPoller.poll&#40;&#41;;
+     * PollResponse&lt;KeyVaultSelectiveKeyRestoreOperation&gt; pollResponse = restorePoller.poll&#40;&#41;;
      *
      * System.out.printf&#40;&quot;The current status of the operation is: %s.%n&quot;, pollResponse.getStatus&#40;&#41;&#41;;
      *
-     * PollResponse&lt;KeyVaultSelectiveKeyRestoreOperation&gt; finalPollResponse = backupPoller.waitForCompletion&#40;&#41;;
+     * PollResponse&lt;KeyVaultSelectiveKeyRestoreOperation&gt; finalPollResponse = restorePoller.waitForCompletion&#40;&#41;;
      *
      * if &#40;finalPollResponse.getStatus&#40;&#41; == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED&#41; &#123;
      *     System.out.printf&#40;&quot;Key restored successfully.%n&quot;&#41;;
      * &#125; else &#123;
-     *     KeyVaultSelectiveKeyRestoreOperation operation = backupPoller.poll&#40;&#41;.getValue&#40;&#41;;
+     *     KeyVaultSelectiveKeyRestoreOperation operation = restorePoller.poll&#40;&#41;.getValue&#40;&#41;;
      *
      *     System.out.printf&#40;&quot;Key restore failed with error: %s.%n&quot;, operation.getError&#40;&#41;.getMessage&#40;&#41;&#41;;
      * &#125;
      * </pre>
-     * <!-- end com.azure.security.keyvault.administration.keyVaultBackupClient.beginSelectiveKeyRestore#String-String-String -->
+     * <!-- end com.azure.security.keyvault.administration.KeyVaultBackupClient.beginSelectiveKeyRestore#String-String-String -->
      *
      * @param keyName The name of the key to be restored.
      * @param folderUrl The URL for the Blob Storage resource where the backup is located, including the path to
      * the blob container where the backup resides. This would be the exact value that is returned as the result of a
      * backup operation. An example of such a URL may look like the following:
      * https://contoso.blob.core.windows.net/backup/mhsm-contoso-2020090117323313.
-     * @param sasToken A Shared Access Signature (SAS) token to authorize access to the blob.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
      *
      * @return A {@link SyncPoller} to poll on the {@link KeyVaultRestoreOperation restore operation} status.
      *
      * @throws KeyVaultAdministrationException If the given {@code folderUrl} or {@code sasToken} are invalid.
-     * @throws NullPointerException If the {@code keyName}, {@code folderUrl} or {@code sasToken} are {@code
-     * null}.
+     * @throws NullPointerException If the {@code keyName} or {@code folderUrl} are {@code null}.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<KeyVaultSelectiveKeyRestoreOperation, KeyVaultSelectiveKeyRestoreResult> beginSelectiveKeyRestore(String keyName, String folderUrl, String sasToken) {
         if (keyName == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'keyName'")));
+            throw LOGGER.logExceptionAsError(
+                new NullPointerException(String.format(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED, "'keyName'")));
         }
 
         if (folderUrl == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'folderUrl'")));
-        }
-
-        if (sasToken == null) {
-            throw LOGGER.logExceptionAsError(new NullPointerException(
-                String.format(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED),
-                    "'sasToken'")));
+            throw LOGGER.logExceptionAsError(
+                new NullPointerException(String.format(KeyVaultErrorCodeStrings.PARAMETER_REQUIRED, "'folderUrl'")));
         }
 
         Context context = Context.NONE;
+
         return SyncPoller.createPoller(getDefaultPollingInterval(),
             cxt -> new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, selectiveKeyRestoreActivationOperation(keyName, folderUrl, sasToken, context).apply(cxt)),
             selectiveKeyRestorePollOperation(context),
@@ -522,20 +860,21 @@ public final class KeyVaultBackupClient {
      * the blob container where the backup resides. This would be the exact value that is returned as the result of a
      * backup operation. An example of such a URL may look like the following:
      * https://contoso.blob.core.windows.net/backup/mhsm-contoso-2020090117323313.
-     * @param sasToken A Shared Access Signature (SAS) token to authorize access to the blob.
+     * @param sasToken Optional Shared Access Signature (SAS) token to authorize access to the blob. If {@code null},
+     * Managed Identity will be used to authenticate instead.
      * @param context Additional context that is passed through the HTTP pipeline during the service call.
      *
      * @return A {@link Response} containing the {@link KeyVaultSelectiveKeyRestoreOperation backup operation} status.
      */
-    Response<KeyVaultSelectiveKeyRestoreOperation> selectiveKeyRestoreWithResponse(String keyName,
-                                                                                         String folderUrl,
-                                                                                         String sasToken,
-                                                                                         Context context) {
+    Response<KeyVaultSelectiveKeyRestoreOperation> selectiveKeyRestoreWithResponse(String keyName, String folderUrl,
+                                                                                   String sasToken, Context context) {
         String[] segments = folderUrl.split("/");
         String folderName = segments[segments.length - 1];
         String containerUrl = folderUrl.substring(0, folderUrl.length() - folderName.length());
 
-        SASTokenParameter sasTokenParameter = new SASTokenParameter(containerUrl, sasToken);
+        SASTokenParameter sasTokenParameter = new SASTokenParameter(containerUrl)
+            .setToken(sasToken)
+            .setUseManagedIdentity(sasToken == null);
         SelectiveKeyRestoreOperationParameters selectiveKeyRestoreOperationParameters =
             new SelectiveKeyRestoreOperationParameters(sasTokenParameter, folderName);
         context = enableSyncRestProxy(context);

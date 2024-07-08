@@ -4,24 +4,23 @@
 
 package com.azure.resourcemanager.selfhelp.generated;
 
-/** Samples for DiscoverySolution List. */
+/**
+ * Samples for DiscoverySolution List.
+ */
 public final class DiscoverySolutionListSamples {
     /*
-     * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/ListDiscoverySolutionsForKeyVaultResource.json
+     * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/
+     * ListDiscoverySolutionsAtTenantScope.json
      */
     /**
-     * Sample code: List DiscoverySolutions for a KeyVault resource.
-     *
+     * Sample code: List DiscoverySolutions at resource scope.
+     * 
      * @param manager Entry point to SelfHelpManager.
      */
-    public static void listDiscoverySolutionsForAKeyVaultResource(
-        com.azure.resourcemanager.selfhelp.SelfHelpManager manager) {
-        manager
-            .discoverySolutions()
-            .list(
-                "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read",
-                null,
-                null,
+    public static void
+        listDiscoverySolutionsAtResourceScope(com.azure.resourcemanager.selfhelp.SelfHelpManager manager) {
+        manager.discoverySolutions()
+            .list("ProblemClassificationId eq 'SampleProblemClassificationId1'", null,
                 com.azure.core.util.Context.NONE);
     }
 }

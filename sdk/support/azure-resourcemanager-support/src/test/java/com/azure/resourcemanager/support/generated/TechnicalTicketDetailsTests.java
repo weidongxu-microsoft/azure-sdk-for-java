@@ -11,15 +11,15 @@ import org.junit.jupiter.api.Assertions;
 public final class TechnicalTicketDetailsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        TechnicalTicketDetails model =
-            BinaryData.fromString("{\"resourceId\":\"x\"}").toObject(TechnicalTicketDetails.class);
-        Assertions.assertEquals("x", model.resourceId());
+        TechnicalTicketDetails model
+            = BinaryData.fromString("{\"resourceId\":\"dhmdua\"}").toObject(TechnicalTicketDetails.class);
+        Assertions.assertEquals("dhmdua", model.resourceId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        TechnicalTicketDetails model = new TechnicalTicketDetails().withResourceId("x");
+        TechnicalTicketDetails model = new TechnicalTicketDetails().withResourceId("dhmdua");
         model = BinaryData.fromObject(model).toObject(TechnicalTicketDetails.class);
-        Assertions.assertEquals("x", model.resourceId());
+        Assertions.assertEquals("dhmdua", model.resourceId());
     }
 }

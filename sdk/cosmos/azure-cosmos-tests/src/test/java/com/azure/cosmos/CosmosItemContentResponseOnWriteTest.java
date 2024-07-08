@@ -32,7 +32,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         super(clientBuilder);
     }
 
-    @BeforeClass(groups = {"simple"}, timeOut = SETUP_TIMEOUT)
+    @BeforeClass(groups = {"fast"}, timeOut = SETUP_TIMEOUT)
     public void beforeClass() {
         assertThat(this.client).isNull();
         this.client = getClientBuilder().buildClient();
@@ -40,13 +40,13 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         container = client.getDatabase(asyncContainer.getDatabase().getId()).getContainer(asyncContainer.getId());
     }
 
-    @AfterClass(groups = {"simple"}, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
+    @AfterClass(groups = {"fast"}, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
     public void afterClass() {
         assertThat(this.client).isNotNull();
         this.client.close();
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void createItem_withContentResponseOnWriteDisabled() throws Exception {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemRequestOptions cosmosItemRequestOptions = new CosmosItemRequestOptions();
@@ -62,7 +62,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         validateMinimalItemResponse(properties, itemResponse1, true);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void createItem_withContentResponseOnWriteEnabledThroughRequestOptions() throws Exception {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemRequestOptions cosmosItemRequestOptions = new CosmosItemRequestOptions();
@@ -78,7 +78,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         validateItemResponse(properties, itemResponse1);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void readItem_withContentResponseOnWriteDisabled() throws Exception {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemRequestOptions cosmosItemRequestOptions = new CosmosItemRequestOptions();
@@ -88,7 +88,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         CosmosItemResponse<InternalObjectNode> itemResponse = container.createItem(properties, cosmosItemRequestOptions);
 
         CosmosItemResponse<InternalObjectNode> readResponse1 = container.readItem(properties.getId(),
-                                                                                    new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")),
+                                                                                    new PartitionKey(properties.get("mypk")),
                                                                                     cosmosItemRequestOptions,
                                                                                     InternalObjectNode.class);
         //  Read item should have full response irrespective of the flag - contentResponseOnWriteEnabled
@@ -96,7 +96,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
 
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void readItem_withContentResponseOnWriteEnabledThroughRequestOptions() throws Exception {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemResponse<InternalObjectNode> itemResponse = container.createItem(properties);
@@ -107,7 +107,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         }
 
         CosmosItemResponse<InternalObjectNode> readResponse1 = container.readItem(properties.getId(),
-            new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")),
+            new PartitionKey(properties.get("mypk")),
             cosmosItemRequestOptions,
             InternalObjectNode.class);
         //  Read item should have full response irrespective of the flag - contentResponseOnWriteEnabled
@@ -115,7 +115,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
 
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void replaceItem_withContentResponseOnWriteDisabled() {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemRequestOptions cosmosItemRequestOptions = new CosmosItemRequestOptions();
@@ -126,18 +126,18 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
 
         validateMinimalItemResponse(properties, itemResponse, true);
         String newPropValue = UUID.randomUUID().toString();
-        BridgeInternal.setProperty(properties, "newProp", newPropValue);
+        properties.set("newProp", newPropValue, CosmosItemSerializer.DEFAULT_SERIALIZER);
         ModelBridgeInternal.setPartitionKey(cosmosItemRequestOptions,
-            new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")));
+            new PartitionKey(properties.get("mypk")));
         // replace document
         CosmosItemResponse<InternalObjectNode> replace = container.replaceItem(properties,
             properties.getId(),
-            new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")),
+            new PartitionKey(properties.get("mypk")),
             cosmosItemRequestOptions);
         validateMinimalItemResponse(properties, replace, true);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void replaceItem_withContentResponseOnWriteEnabledThroughRequestOptions() throws Exception{
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemRequestOptions cosmosItemRequestOptions = new CosmosItemRequestOptions();
@@ -148,31 +148,31 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
 
         validateItemResponse(properties, itemResponse);
         String newPropValue = UUID.randomUUID().toString();
-        BridgeInternal.setProperty(properties, "newProp", newPropValue);
+        properties.set("newProp", newPropValue, CosmosItemSerializer.DEFAULT_SERIALIZER);
         ModelBridgeInternal.setPartitionKey(cosmosItemRequestOptions,
-            new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")));
+            new PartitionKey(properties.get("mypk")));
         // replace document
         CosmosItemResponse<InternalObjectNode> replace = container.replaceItem(properties,
             properties.getId(),
-            new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")),
+            new PartitionKey(properties.get("mypk")),
             cosmosItemRequestOptions);
         validateItemResponse(properties, replace);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void deleteItem_withContentResponseOnWriteDisabled() throws Exception {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemResponse<InternalObjectNode> itemResponse = container.createItem(properties);
         CosmosItemRequestOptions options = new CosmosItemRequestOptions();
 
         CosmosItemResponse<?> deleteResponse = container.deleteItem(properties.getId(),
-                                                                    new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")),
+                                                                    new PartitionKey(properties.get("mypk")),
                                                                     options);
         assertThat(deleteResponse.getStatusCode()).isEqualTo(204);
         validateMinimalItemResponse(properties, deleteResponse, false);
     }
 
-    @Test(groups = { "simple" }, timeOut = TIMEOUT)
+    @Test(groups = { "fast" }, timeOut = TIMEOUT)
     public void deleteItem_withContentResponseOnWriteEnabledThroughRequestOptions() throws Exception {
         InternalObjectNode properties = getDocumentDefinition(UUID.randomUUID().toString());
         CosmosItemResponse<InternalObjectNode> itemResponse = container.createItem(properties);
@@ -182,7 +182,7 @@ public class CosmosItemContentResponseOnWriteTest extends TestSuiteBase {
         }
 
         CosmosItemResponse<?> deleteResponse = container.deleteItem(properties.getId(),
-            new PartitionKey(ModelBridgeInternal.getObjectFromJsonSerializable(properties, "mypk")),
+            new PartitionKey(properties.get("mypk")),
             cosmosItemRequestOptions);
         assertThat(deleteResponse.getStatusCode()).isEqualTo(204);
         validateMinimalItemResponse(properties, deleteResponse, false);

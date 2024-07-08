@@ -457,6 +457,11 @@ public final class AppendBlobAsyncClient extends BlobAsyncClientBase {
 
     Mono<Response<AppendBlobItem>> appendBlockWithResponse(Flux<ByteBuffer> data, long length, byte[] contentMd5,
         AppendBlobRequestConditions appendBlobRequestConditions, Context context) {
+
+        if (data == null) {
+            return Mono.error(new NullPointerException("'data' cannot be null."));
+        }
+
         appendBlobRequestConditions = appendBlobRequestConditions == null ? new AppendBlobRequestConditions()
             : appendBlobRequestConditions;
         context = context == null ? Context.NONE : context;
@@ -664,12 +669,10 @@ public final class AppendBlobAsyncClient extends BlobAsyncClientBase {
         requestConditions = (requestConditions == null) ? new AppendBlobRequestConditions() : requestConditions;
         context = context == null ? Context.NONE : context;
 
-        return this.azureBlobStorage.getAppendBlobs().sealWithResponseAsync(containerName, blobName, null, null,
-            requestConditions.getLeaseId(), requestConditions.getIfModifiedSince(),
+        return this.azureBlobStorage.getAppendBlobs().sealNoCustomHeadersWithResponseAsync(containerName, blobName,
+            null, null, requestConditions.getLeaseId(), requestConditions.getIfModifiedSince(),
             requestConditions.getIfUnmodifiedSince(), requestConditions.getIfMatch(),
-            requestConditions.getIfNoneMatch(), requestConditions.getAppendPosition(),
-            context)
-            .map(response -> new SimpleResponse<>(response, null));
+            requestConditions.getIfNoneMatch(), requestConditions.getAppendPosition(), context);
     }
 
     /**

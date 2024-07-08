@@ -4,14 +4,17 @@
 
 package com.azure.resourcemanager.appcontainers.generated;
 
-/** Samples for AvailableWorkloadProfiles Get. */
+/**
+ * Samples for AvailableWorkloadProfiles Get.
+ */
 public final class AvailableWorkloadProfilesGetSamples {
     /*
-     * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/AvailableWorkloadProfiles_Get.json
+     * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/
+     * AvailableWorkloadProfiles_Get.json
      */
     /**
      * Sample code: BillingMeters_Get.
-     *
+     * 
      * @param manager Entry point to ContainerAppsApiManager.
      */
     public static void billingMetersGet(com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {

@@ -12,32 +12,28 @@ import org.junit.jupiter.api.Assertions;
 public final class AzureSqlContainerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AzureSqlContainer model =
-            BinaryData
-                .fromString(
-                    "{\"containerType\":\"AzureSqlContainer\",\"friendlyName\":\"tswfpfmdgycxnms\",\"backupManagementType\":\"AzureStorage\",\"registrationStatus\":\"jjyslurlps\",\"healthStatus\":\"kvp\",\"protectableObjectType\":\"wqslsrhmpqvw\"}")
-                .toObject(AzureSqlContainer.class);
-        Assertions.assertEquals("tswfpfmdgycxnms", model.friendlyName());
-        Assertions.assertEquals(BackupManagementType.AZURE_STORAGE, model.backupManagementType());
-        Assertions.assertEquals("jjyslurlps", model.registrationStatus());
-        Assertions.assertEquals("kvp", model.healthStatus());
-        Assertions.assertEquals("wqslsrhmpqvw", model.protectableObjectType());
+        AzureSqlContainer model = BinaryData.fromString(
+            "{\"containerType\":\"AzureSqlContainer\",\"friendlyName\":\"mcub\",\"backupManagementType\":\"AzureSql\",\"registrationStatus\":\"oxxkubvp\",\"healthStatus\":\"v\",\"protectableObjectType\":\"h\"}")
+            .toObject(AzureSqlContainer.class);
+        Assertions.assertEquals("mcub", model.friendlyName());
+        Assertions.assertEquals(BackupManagementType.AZURE_SQL, model.backupManagementType());
+        Assertions.assertEquals("oxxkubvp", model.registrationStatus());
+        Assertions.assertEquals("v", model.healthStatus());
+        Assertions.assertEquals("h", model.protectableObjectType());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AzureSqlContainer model =
-            new AzureSqlContainer()
-                .withFriendlyName("tswfpfmdgycxnms")
-                .withBackupManagementType(BackupManagementType.AZURE_STORAGE)
-                .withRegistrationStatus("jjyslurlps")
-                .withHealthStatus("kvp")
-                .withProtectableObjectType("wqslsrhmpqvw");
+        AzureSqlContainer model = new AzureSqlContainer().withFriendlyName("mcub")
+            .withBackupManagementType(BackupManagementType.AZURE_SQL)
+            .withRegistrationStatus("oxxkubvp")
+            .withHealthStatus("v")
+            .withProtectableObjectType("h");
         model = BinaryData.fromObject(model).toObject(AzureSqlContainer.class);
-        Assertions.assertEquals("tswfpfmdgycxnms", model.friendlyName());
-        Assertions.assertEquals(BackupManagementType.AZURE_STORAGE, model.backupManagementType());
-        Assertions.assertEquals("jjyslurlps", model.registrationStatus());
-        Assertions.assertEquals("kvp", model.healthStatus());
-        Assertions.assertEquals("wqslsrhmpqvw", model.protectableObjectType());
+        Assertions.assertEquals("mcub", model.friendlyName());
+        Assertions.assertEquals(BackupManagementType.AZURE_SQL, model.backupManagementType());
+        Assertions.assertEquals("oxxkubvp", model.registrationStatus());
+        Assertions.assertEquals("v", model.healthStatus());
+        Assertions.assertEquals("h", model.protectableObjectType());
     }
 }

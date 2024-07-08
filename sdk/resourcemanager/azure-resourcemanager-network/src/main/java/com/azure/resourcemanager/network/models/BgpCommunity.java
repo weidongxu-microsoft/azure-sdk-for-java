@@ -6,9 +6,12 @@ package com.azure.resourcemanager.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Contains bgp community information offered in Service Community resources. */
+/**
+ * Contains bgp community information offered in Service Community resources.
+ */
 @Fluent
 public final class BgpCommunity {
     /*
@@ -24,8 +27,7 @@ public final class BgpCommunity {
     private String communityName;
 
     /*
-     * The value of the bgp community. For more information:
-     * https://docs.microsoft.com/en-us/azure/expressroute/expressroute-routing.
+     * The value of the bgp community. For more information: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-routing.
      */
     @JsonProperty(value = "communityValue")
     private String communityValue;
@@ -48,7 +50,9 @@ public final class BgpCommunity {
     @JsonProperty(value = "serviceGroup")
     private String serviceGroup;
 
-    /** Creates an instance of BgpCommunity class. */
+    /**
+     * Creates an instance of BgpCommunity class.
+     */
     public BgpCommunity() {
     }
 

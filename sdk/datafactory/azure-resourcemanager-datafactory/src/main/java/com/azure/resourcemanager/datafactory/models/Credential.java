@@ -10,9 +10,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,18 +21,20 @@ import java.util.Map;
  * The Azure Data Factory nested object which contains the information and credential which can be used to connect with
  * related store or compute resource.
  */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type",
-    defaultImpl = Credential.class)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Credential.class, visible = true)
 @JsonTypeName("Credential")
 @JsonSubTypes({
-    @JsonSubTypes.Type(name = "ManagedIdentity", value = ManagedIdentityCredential.class),
-    @JsonSubTypes.Type(name = "ServicePrincipal", value = ServicePrincipalCredential.class)
-})
+    @JsonSubTypes.Type(name = "ServicePrincipal", value = ServicePrincipalCredential.class),
+    @JsonSubTypes.Type(name = "ManagedIdentity", value = ManagedIdentityCredential.class) })
 @Fluent
 public class Credential {
+    /*
+     * Type of credential.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Credential";
+
     /*
      * Credential description.
      */
@@ -48,15 +51,27 @@ public class Credential {
      * The Azure Data Factory nested object which contains the information and credential which can be used to connect
      * with related store or compute resource.
      */
-    @JsonIgnore private Map<String, Object> additionalProperties;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties;
 
-    /** Creates an instance of Credential class. */
+    /**
+     * Creates an instance of Credential class.
+     */
     public Credential() {
     }
 
     /**
+     * Get the type property: Type of credential.
+     * 
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the description property: Credential description.
-     *
+     * 
      * @return the description value.
      */
     public String description() {
@@ -65,7 +80,7 @@ public class Credential {
 
     /**
      * Set the description property: Credential description.
-     *
+     * 
      * @param description the description value to set.
      * @return the Credential object itself.
      */
@@ -76,7 +91,7 @@ public class Credential {
 
     /**
      * Get the annotations property: List of tags that can be used for describing the Credential.
-     *
+     * 
      * @return the annotations value.
      */
     public List<Object> annotations() {
@@ -85,7 +100,7 @@ public class Credential {
 
     /**
      * Set the annotations property: List of tags that can be used for describing the Credential.
-     *
+     * 
      * @param annotations the annotations value to set.
      * @return the Credential object itself.
      */
@@ -97,7 +112,7 @@ public class Credential {
     /**
      * Get the additionalProperties property: The Azure Data Factory nested object which contains the information and
      * credential which can be used to connect with related store or compute resource.
-     *
+     * 
      * @return the additionalProperties value.
      */
     @JsonAnyGetter
@@ -108,7 +123,7 @@ public class Credential {
     /**
      * Set the additionalProperties property: The Azure Data Factory nested object which contains the information and
      * credential which can be used to connect with related store or compute resource.
-     *
+     * 
      * @param additionalProperties the additionalProperties value to set.
      * @return the Credential object itself.
      */
@@ -120,14 +135,14 @@ public class Credential {
     @JsonAnySetter
     void withAdditionalProperties(String key, Object value) {
         if (additionalProperties == null) {
-            additionalProperties = new HashMap<>();
+            additionalProperties = new LinkedHashMap<>();
         }
         additionalProperties.put(key, value);
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

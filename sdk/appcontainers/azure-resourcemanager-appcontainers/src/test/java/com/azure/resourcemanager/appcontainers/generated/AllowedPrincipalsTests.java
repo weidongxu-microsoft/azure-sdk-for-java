@@ -12,22 +12,19 @@ import org.junit.jupiter.api.Assertions;
 public final class AllowedPrincipalsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AllowedPrincipals model =
-            BinaryData
-                .fromString("{\"groups\":[\"ddhsgcbacphe\",\"koty\",\"qgoulznd\"],\"identities\":[\"wyqkgfgibm\"]}")
-                .toObject(AllowedPrincipals.class);
-        Assertions.assertEquals("ddhsgcbacphe", model.groups().get(0));
-        Assertions.assertEquals("wyqkgfgibm", model.identities().get(0));
+        AllowedPrincipals model = BinaryData.fromString(
+            "{\"groups\":[\"ajionpimexgstxg\",\"po\",\"gmaajrm\"],\"identities\":[\"wzrlovmclwhij\",\"oejctbzaqsqsy\"]}")
+            .toObject(AllowedPrincipals.class);
+        Assertions.assertEquals("ajionpimexgstxg", model.groups().get(0));
+        Assertions.assertEquals("wzrlovmclwhij", model.identities().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AllowedPrincipals model =
-            new AllowedPrincipals()
-                .withGroups(Arrays.asList("ddhsgcbacphe", "koty", "qgoulznd"))
-                .withIdentities(Arrays.asList("wyqkgfgibm"));
+        AllowedPrincipals model = new AllowedPrincipals().withGroups(Arrays.asList("ajionpimexgstxg", "po", "gmaajrm"))
+            .withIdentities(Arrays.asList("wzrlovmclwhij", "oejctbzaqsqsy"));
         model = BinaryData.fromObject(model).toObject(AllowedPrincipals.class);
-        Assertions.assertEquals("ddhsgcbacphe", model.groups().get(0));
-        Assertions.assertEquals("wyqkgfgibm", model.identities().get(0));
+        Assertions.assertEquals("ajionpimexgstxg", model.groups().get(0));
+        Assertions.assertEquals("wzrlovmclwhij", model.identities().get(0));
     }
 }

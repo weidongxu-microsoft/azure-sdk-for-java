@@ -5,62 +5,100 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** SAPHana specific recoverypoint, specifically encapsulates full/diff recoverypoints. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * SAPHana specific recoverypoint, specifically encapsulates full/diff recoverypoints.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = AzureWorkloadSapHanaRecoveryPoint.class,
+    visible = true)
 @JsonTypeName("AzureWorkloadSAPHanaRecoveryPoint")
 @Fluent
 public final class AzureWorkloadSapHanaRecoveryPoint extends AzureWorkloadRecoveryPoint {
-    /** Creates an instance of AzureWorkloadSapHanaRecoveryPoint class. */
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "AzureWorkloadSAPHanaRecoveryPoint";
+
+    /**
+     * Creates an instance of AzureWorkloadSapHanaRecoveryPoint class.
+     */
     public AzureWorkloadSapHanaRecoveryPoint() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSapHanaRecoveryPoint withRecoveryPointTimeInUtc(OffsetDateTime recoveryPointTimeInUtc) {
         super.withRecoveryPointTimeInUtc(recoveryPointTimeInUtc);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureWorkloadSapHanaRecoveryPoint withType(RestorePointType type) {
         super.withType(type);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSapHanaRecoveryPoint withRecoveryPointTierDetails(
-        List<RecoveryPointTierInformationV2> recoveryPointTierDetails) {
+    public AzureWorkloadSapHanaRecoveryPoint
+        withRecoveryPointTierDetails(List<RecoveryPointTierInformationV2> recoveryPointTierDetails) {
         super.withRecoveryPointTierDetails(recoveryPointTierDetails);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSapHanaRecoveryPoint withRecoveryPointMoveReadinessInfo(
-        Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo) {
+    public AzureWorkloadSapHanaRecoveryPoint
+        withRecoveryPointMoveReadinessInfo(Map<String, RecoveryPointMoveReadinessInfo> recoveryPointMoveReadinessInfo) {
         super.withRecoveryPointMoveReadinessInfo(recoveryPointMoveReadinessInfo);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AzureWorkloadSapHanaRecoveryPoint withRecoveryPointProperties(
-        RecoveryPointProperties recoveryPointProperties) {
+    public AzureWorkloadSapHanaRecoveryPoint
+        withRecoveryPointProperties(RecoveryPointProperties recoveryPointProperties) {
         super.withRecoveryPointProperties(recoveryPointProperties);
         return this;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -12,28 +12,26 @@ import com.azure.resourcemanager.network.models.IpsecEncryption;
 import com.azure.resourcemanager.network.models.IpsecIntegrity;
 import com.azure.resourcemanager.network.models.PfsGroup;
 
-/** Samples for VirtualNetworkGateways SetVpnclientIpsecParameters. */
+/**
+ * Samples for VirtualNetworkGateways SetVpnclientIpsecParameters.
+ */
 public final class VirtualNetworkGatewaysSetVpnclientIpsecParametersSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
      */
     /**
      * Sample code: Set VirtualNetworkGateway VpnClientIpsecParameters.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void setVirtualNetworkGatewayVpnClientIpsecParameters(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+    public static void
+        setVirtualNetworkGatewayVpnClientIpsecParameters(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.networks()
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .setVpnclientIpsecParameters(
-                "rg1",
-                "vpngw",
-                new VpnClientIPsecParametersInner()
-                    .withSaLifeTimeSeconds(86473)
+            .setVpnclientIpsecParameters("rg1", "vpngw",
+                new VpnClientIPsecParametersInner().withSaLifeTimeSeconds(86473)
                     .withSaDataSizeKilobytes(429497)
                     .withIpsecEncryption(IpsecEncryption.AES256)
                     .withIpsecIntegrity(IpsecIntegrity.SHA256)

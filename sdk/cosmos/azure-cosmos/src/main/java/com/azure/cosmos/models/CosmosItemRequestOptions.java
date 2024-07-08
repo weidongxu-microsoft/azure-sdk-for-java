@@ -6,6 +6,7 @@ import com.azure.cosmos.ConsistencyLevel;
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.cosmos.CosmosDiagnosticsThresholds;
 import com.azure.cosmos.CosmosEndToEndOperationLatencyPolicyConfig;
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.implementation.ImplementationBridgeHelpers;
 import com.azure.cosmos.implementation.RequestOptions;
 import com.azure.cosmos.implementation.WriteRetryPolicy;
@@ -43,6 +44,7 @@ public class CosmosItemRequestOptions {
     private boolean useTrackingIds;
     private CosmosEndToEndOperationLatencyPolicyConfig endToEndOperationLatencyPolicyConfig;
     private List<String> excludeRegions;
+    private CosmosItemSerializer customSerializer;
 
     /**
      * copy constructor
@@ -65,6 +67,7 @@ public class CosmosItemRequestOptions {
         useTrackingIds = options.useTrackingIds;
         endToEndOperationLatencyPolicyConfig = options.endToEndOperationLatencyPolicyConfig;
         excludeRegions = options.excludeRegions;
+        customSerializer = options.customSerializer;
         if (options.customOptions != null) {
             this.customOptions = new HashMap<>(options.customOptions);
         }
@@ -303,7 +306,7 @@ public class CosmosItemRequestOptions {
     /**
      * Enables automatic retries for write operations even when the SDK can't
      * guarantee that they are idempotent. This is an override of the
-     * {@link CosmosClientBuilder#setNonIdempotentWriteRetryPolicy(boolean, boolean)} behavior for a specific request/operation.
+     * {@link CosmosClientBuilder#nonIdempotentWriteRetryOptions(com.azure.cosmos.NonIdempotentWriteRetryOptions)} behavior for a specific request/operation.
      * <br/>
      * NOTE: the setting on the CosmosClientBuilder will determine the default behavior for Create, Replace,
      * Upsert and Delete operations. It can be overridden on per-request base in the request options. For patch
@@ -441,12 +444,14 @@ public class CosmosItemRequestOptions {
             requestOptions.setNonIdempotentWriteRetriesEnabled(this.nonIdempotentWriteRetriesEnabled);
         }
         requestOptions.setCosmosEndToEndLatencyPolicyConfig(endToEndOperationLatencyPolicyConfig);
-        requestOptions.setExcludeRegions(excludeRegions);
+        requestOptions.setExcludedRegions(excludeRegions);
         if(this.customOptions != null) {
             for(Map.Entry<String, String> entry : this.customOptions.entrySet()) {
                 requestOptions.setHeader(entry.getKey(), entry.getValue());
             }
         }
+        requestOptions.setEffectiveItemSerializer(this.customSerializer);
+        requestOptions.setUseTrackingIds(this.useTrackingIds);
         return requestOptions;
     }
 
@@ -525,6 +530,38 @@ public class CosmosItemRequestOptions {
     }
 
     /**
+     * Gets the diagnostic thresholds used as an override for a specific operation. If no operation specific
+     * diagnostic threshold has been specified, this method will return null, although at runtime the default
+     * thresholds specified at the client-level will be used.
+     * @return the diagnostic thresholds used as an override for a specific operation.
+     */
+    public CosmosDiagnosticsThresholds getDiagnosticsThresholds() {
+        return this.thresholds;
+    }
+
+    /**
+     * Gets the custom item serializer defined for this instance of request options
+     * @return the custom item serializer
+     */
+    public CosmosItemSerializer getCustomItemSerializer() {
+        return this.customSerializer;
+    }
+
+    /**
+     * Allows specifying a custom item serializer to be used for this operation. If the serializer
+     * on the request options is null, the serializer on CosmosClientBuilder is used. If both serializers
+     * are null (the default), an internal Jackson ObjectMapper is ued for serialization/deserialization.
+     * @param customItemSerializer the custom item serializer for this operation
+     * @return  the CosmosItemRequestOptions.
+     */
+    public CosmosItemRequestOptions setCustomItemSerializer(CosmosItemSerializer customItemSerializer) {
+        this.customSerializer = customItemSerializer;
+
+        return this;
+    }
+
+
+    /**
      * Gets the custom item request options
      *
      * @return Map of custom request options
@@ -547,6 +584,11 @@ public class CosmosItemRequestOptions {
     static void initialize() {
         ImplementationBridgeHelpers.CosmosItemRequestOptionsHelper.setCosmosItemRequestOptionsAccessor(
             new ImplementationBridgeHelpers.CosmosItemRequestOptionsHelper.CosmosItemRequestOptionsAccessor() {
+
+                @Override
+                public RequestOptions toRequestOptions(CosmosItemRequestOptions itemRequestOptions) {
+                    return itemRequestOptions.toRequestOptions();
+                }
 
                 @Override
                 public void setOperationContext(CosmosItemRequestOptions itemRequestOptions,
@@ -581,51 +623,19 @@ public class CosmosItemRequestOptions {
                 }
 
                 @Override
-                public CosmosItemRequestOptions setNonIdempotentWriteRetryPolicy(
-                    CosmosItemRequestOptions cosmosItemRequestOptions,
-                    boolean enabled,
-                    boolean useTrackingIds) {
+                public CosmosEndToEndOperationLatencyPolicyConfig getEndToEndOperationLatencyPolicyConfig(
+                    CosmosItemRequestOptions options) {
 
-                    return cosmosItemRequestOptions.setNonIdempotentWriteRetryPolicy(enabled, useTrackingIds);
+                    if (options == null) {
+                        return null;
+                    }
+
+                    return options.getCosmosEndToEndOperationLatencyPolicyConfig();
                 }
 
                 @Override
-                public WriteRetryPolicy calculateAndGetEffectiveNonIdempotentRetriesEnabled(
-                    CosmosItemRequestOptions cosmosItemRequestOptions,
-                    WriteRetryPolicy clientDefault,
-                    boolean operationDefault) {
-
-                    if (cosmosItemRequestOptions.nonIdempotentWriteRetriesEnabled != null) {
-                        return new WriteRetryPolicy(
-                            cosmosItemRequestOptions.nonIdempotentWriteRetriesEnabled,
-                            cosmosItemRequestOptions.useTrackingIds);
-                    }
-
-                    if (!operationDefault) {
-                        cosmosItemRequestOptions.setNonIdempotentWriteRetryPolicy(
-                            false,
-                            false);
-                        return WriteRetryPolicy.DISABLED;
-                    }
-
-                    if (clientDefault != null) {
-                        if (clientDefault.isEnabled()) {
-                            cosmosItemRequestOptions.setNonIdempotentWriteRetryPolicy(
-                                true,
-                                clientDefault.useTrackingIdProperty());
-                        } else {
-                            cosmosItemRequestOptions.setNonIdempotentWriteRetryPolicy(
-                                false,
-                                false);
-                        }
-
-                        return clientDefault;
-                    }
-
-                    cosmosItemRequestOptions.setNonIdempotentWriteRetryPolicy(
-                        false,
-                        false);
-                    return WriteRetryPolicy.DISABLED;
+                public CosmosPatchItemRequestOptions clonePatchItemRequestOptions(CosmosPatchItemRequestOptions options) {
+                    return new CosmosPatchItemRequestOptions(options);
                 }
             }
         );

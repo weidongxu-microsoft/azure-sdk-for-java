@@ -12,7 +12,9 @@ import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Properties of the private endpoint. */
+/**
+ * Properties of the private endpoint.
+ */
 @Fluent
 public final class PrivateEndpointPropertiesInner {
     /*
@@ -40,8 +42,7 @@ public final class PrivateEndpointPropertiesInner {
     private List<PrivateLinkServiceConnection> privateLinkServiceConnections;
 
     /*
-     * A grouping of information about the connection to the remote resource. Used when the network admin does not have
-     * access to approve connections to the remote resource.
+     * A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
      */
     @JsonProperty(value = "manualPrivateLinkServiceConnections")
     private List<PrivateLinkServiceConnection> manualPrivateLinkServiceConnections;
@@ -59,8 +60,7 @@ public final class PrivateEndpointPropertiesInner {
     private List<ApplicationSecurityGroupInner> applicationSecurityGroups;
 
     /*
-     * A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's
-     * endpoints.
+     * A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints.
      */
     @JsonProperty(value = "ipConfigurations")
     private List<PrivateEndpointIpConfiguration> ipConfigurations;
@@ -71,13 +71,15 @@ public final class PrivateEndpointPropertiesInner {
     @JsonProperty(value = "customNetworkInterfaceName")
     private String customNetworkInterfaceName;
 
-    /** Creates an instance of PrivateEndpointPropertiesInner class. */
+    /**
+     * Creates an instance of PrivateEndpointPropertiesInner class.
+     */
     public PrivateEndpointPropertiesInner() {
     }
 
     /**
      * Get the subnet property: The ID of the subnet from which the private IP will be allocated.
-     *
+     * 
      * @return the subnet value.
      */
     public SubnetInner subnet() {
@@ -86,7 +88,7 @@ public final class PrivateEndpointPropertiesInner {
 
     /**
      * Set the subnet property: The ID of the subnet from which the private IP will be allocated.
-     *
+     * 
      * @param subnet the subnet value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
@@ -98,7 +100,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Get the networkInterfaces property: An array of references to the network interfaces created for this private
      * endpoint.
-     *
+     * 
      * @return the networkInterfaces value.
      */
     public List<NetworkInterfaceInner> networkInterfaces() {
@@ -107,7 +109,7 @@ public final class PrivateEndpointPropertiesInner {
 
     /**
      * Get the provisioningState property: The provisioning state of the private endpoint resource.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
@@ -117,7 +119,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Get the privateLinkServiceConnections property: A grouping of information about the connection to the remote
      * resource.
-     *
+     * 
      * @return the privateLinkServiceConnections value.
      */
     public List<PrivateLinkServiceConnection> privateLinkServiceConnections() {
@@ -127,12 +129,12 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Set the privateLinkServiceConnections property: A grouping of information about the connection to the remote
      * resource.
-     *
+     * 
      * @param privateLinkServiceConnections the privateLinkServiceConnections value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
-    public PrivateEndpointPropertiesInner withPrivateLinkServiceConnections(
-        List<PrivateLinkServiceConnection> privateLinkServiceConnections) {
+    public PrivateEndpointPropertiesInner
+        withPrivateLinkServiceConnections(List<PrivateLinkServiceConnection> privateLinkServiceConnections) {
         this.privateLinkServiceConnections = privateLinkServiceConnections;
         return this;
     }
@@ -140,7 +142,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Get the manualPrivateLinkServiceConnections property: A grouping of information about the connection to the
      * remote resource. Used when the network admin does not have access to approve connections to the remote resource.
-     *
+     * 
      * @return the manualPrivateLinkServiceConnections value.
      */
     public List<PrivateLinkServiceConnection> manualPrivateLinkServiceConnections() {
@@ -150,7 +152,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Set the manualPrivateLinkServiceConnections property: A grouping of information about the connection to the
      * remote resource. Used when the network admin does not have access to approve connections to the remote resource.
-     *
+     * 
      * @param manualPrivateLinkServiceConnections the manualPrivateLinkServiceConnections value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
@@ -162,7 +164,7 @@ public final class PrivateEndpointPropertiesInner {
 
     /**
      * Get the customDnsConfigs property: An array of custom dns configurations.
-     *
+     * 
      * @return the customDnsConfigs value.
      */
     public List<CustomDnsConfigPropertiesFormat> customDnsConfigs() {
@@ -171,7 +173,7 @@ public final class PrivateEndpointPropertiesInner {
 
     /**
      * Set the customDnsConfigs property: An array of custom dns configurations.
-     *
+     * 
      * @param customDnsConfigs the customDnsConfigs value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
@@ -183,7 +185,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Get the applicationSecurityGroups property: Application security groups in which the private endpoint IP
      * configuration is included.
-     *
+     * 
      * @return the applicationSecurityGroups value.
      */
     public List<ApplicationSecurityGroupInner> applicationSecurityGroups() {
@@ -193,12 +195,12 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Set the applicationSecurityGroups property: Application security groups in which the private endpoint IP
      * configuration is included.
-     *
+     * 
      * @param applicationSecurityGroups the applicationSecurityGroups value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
-    public PrivateEndpointPropertiesInner withApplicationSecurityGroups(
-        List<ApplicationSecurityGroupInner> applicationSecurityGroups) {
+    public PrivateEndpointPropertiesInner
+        withApplicationSecurityGroups(List<ApplicationSecurityGroupInner> applicationSecurityGroups) {
         this.applicationSecurityGroups = applicationSecurityGroups;
         return this;
     }
@@ -206,7 +208,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Get the ipConfigurations property: A list of IP configurations of the private endpoint. This will be used to map
      * to the First Party Service's endpoints.
-     *
+     * 
      * @return the ipConfigurations value.
      */
     public List<PrivateEndpointIpConfiguration> ipConfigurations() {
@@ -216,7 +218,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Set the ipConfigurations property: A list of IP configurations of the private endpoint. This will be used to map
      * to the First Party Service's endpoints.
-     *
+     * 
      * @param ipConfigurations the ipConfigurations value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
@@ -228,7 +230,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Get the customNetworkInterfaceName property: The custom name of the network interface attached to the private
      * endpoint.
-     *
+     * 
      * @return the customNetworkInterfaceName value.
      */
     public String customNetworkInterfaceName() {
@@ -238,7 +240,7 @@ public final class PrivateEndpointPropertiesInner {
     /**
      * Set the customNetworkInterfaceName property: The custom name of the network interface attached to the private
      * endpoint.
-     *
+     * 
      * @param customNetworkInterfaceName the customNetworkInterfaceName value to set.
      * @return the PrivateEndpointPropertiesInner object itself.
      */
@@ -249,7 +251,7 @@ public final class PrivateEndpointPropertiesInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

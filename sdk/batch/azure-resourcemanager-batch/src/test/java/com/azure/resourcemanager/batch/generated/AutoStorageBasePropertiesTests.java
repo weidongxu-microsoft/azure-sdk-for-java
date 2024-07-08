@@ -9,33 +9,26 @@ import com.azure.resourcemanager.batch.models.AutoStorageAuthenticationMode;
 import com.azure.resourcemanager.batch.models.AutoStorageBaseProperties;
 import com.azure.resourcemanager.batch.models.ComputeNodeIdentityReference;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class AutoStorageBasePropertiesTests {
-    @Test
-    public void testDeserialize() {
-        AutoStorageBaseProperties model =
-            BinaryData
-                .fromString(
-                    "{\"storageAccountId\":\"lhqgnufooojy\",\"authenticationMode\":\"BatchAccountManagedIdentity\",\"nodeIdentityReference\":{\"resourceId\":\"esaagdfm\"}}")
-                .toObject(AutoStorageBaseProperties.class);
-        Assertions.assertEquals("lhqgnufooojy", model.storageAccountId());
-        Assertions
-            .assertEquals(AutoStorageAuthenticationMode.BATCH_ACCOUNT_MANAGED_IDENTITY, model.authenticationMode());
-        Assertions.assertEquals("esaagdfm", model.nodeIdentityReference().resourceId());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        AutoStorageBaseProperties model = BinaryData.fromString(
+            "{\"storageAccountId\":\"btcqq\",\"authenticationMode\":\"StorageKeys\",\"nodeIdentityReference\":{\"resourceId\":\"hqgnufooojywif\"}}")
+            .toObject(AutoStorageBaseProperties.class);
+        Assertions.assertEquals("btcqq", model.storageAccountId());
+        Assertions.assertEquals(AutoStorageAuthenticationMode.STORAGE_KEYS, model.authenticationMode());
+        Assertions.assertEquals("hqgnufooojywif", model.nodeIdentityReference().resourceId());
     }
 
-    @Test
-    public void testSerialize() {
-        AutoStorageBaseProperties model =
-            new AutoStorageBaseProperties()
-                .withStorageAccountId("lhqgnufooojy")
-                .withAuthenticationMode(AutoStorageAuthenticationMode.BATCH_ACCOUNT_MANAGED_IDENTITY)
-                .withNodeIdentityReference(new ComputeNodeIdentityReference().withResourceId("esaagdfm"));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        AutoStorageBaseProperties model = new AutoStorageBaseProperties().withStorageAccountId("btcqq")
+            .withAuthenticationMode(AutoStorageAuthenticationMode.STORAGE_KEYS)
+            .withNodeIdentityReference(new ComputeNodeIdentityReference().withResourceId("hqgnufooojywif"));
         model = BinaryData.fromObject(model).toObject(AutoStorageBaseProperties.class);
-        Assertions.assertEquals("lhqgnufooojy", model.storageAccountId());
-        Assertions
-            .assertEquals(AutoStorageAuthenticationMode.BATCH_ACCOUNT_MANAGED_IDENTITY, model.authenticationMode());
-        Assertions.assertEquals("esaagdfm", model.nodeIdentityReference().resourceId());
+        Assertions.assertEquals("btcqq", model.storageAccountId());
+        Assertions.assertEquals(AutoStorageAuthenticationMode.STORAGE_KEYS, model.authenticationMode());
+        Assertions.assertEquals("hqgnufooojywif", model.nodeIdentityReference().resourceId());
     }
 }

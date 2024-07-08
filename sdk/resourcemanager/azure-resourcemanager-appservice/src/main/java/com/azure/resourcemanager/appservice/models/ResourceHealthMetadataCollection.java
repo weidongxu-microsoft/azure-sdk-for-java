@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.ResourceHealthMetadataInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of resource health metadata. */
+/**
+ * Collection of resource health metadata.
+ */
 @Fluent
 public final class ResourceHealthMetadataCollection {
     /*
@@ -25,7 +28,9 @@ public final class ResourceHealthMetadataCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ResourceHealthMetadataCollection class. */
+    /**
+     * Creates an instance of ResourceHealthMetadataCollection class.
+     */
     public ResourceHealthMetadataCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class ResourceHealthMetadataCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model ResourceHealthMetadataCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model ResourceHealthMetadataCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

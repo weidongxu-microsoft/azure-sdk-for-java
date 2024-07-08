@@ -21,8 +21,7 @@ public final class IotConnectorsImpl implements IotConnectors {
 
     private final com.azure.resourcemanager.healthcareapis.HealthcareApisManager serviceManager;
 
-    public IotConnectorsImpl(
-        IotConnectorsClient innerClient,
+    public IotConnectorsImpl(IotConnectorsClient innerClient,
         com.azure.resourcemanager.healthcareapis.HealthcareApisManager serviceManager) {
         this.innerClient = innerClient;
         this.serviceManager = serviceManager;
@@ -30,35 +29,32 @@ public final class IotConnectorsImpl implements IotConnectors {
 
     public PagedIterable<IotConnector> listByWorkspace(String resourceGroupName, String workspaceName) {
         PagedIterable<IotConnectorInner> inner = this.serviceClient().listByWorkspace(resourceGroupName, workspaceName);
-        return Utils.mapPage(inner, inner1 -> new IotConnectorImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new IotConnectorImpl(inner1, this.manager()));
     }
 
-    public PagedIterable<IotConnector> listByWorkspace(
-        String resourceGroupName, String workspaceName, Context context) {
-        PagedIterable<IotConnectorInner> inner =
-            this.serviceClient().listByWorkspace(resourceGroupName, workspaceName, context);
-        return Utils.mapPage(inner, inner1 -> new IotConnectorImpl(inner1, this.manager()));
+    public PagedIterable<IotConnector> listByWorkspace(String resourceGroupName, String workspaceName,
+        Context context) {
+        PagedIterable<IotConnectorInner> inner
+            = this.serviceClient().listByWorkspace(resourceGroupName, workspaceName, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new IotConnectorImpl(inner1, this.manager()));
+    }
+
+    public Response<IotConnector> getWithResponse(String resourceGroupName, String workspaceName,
+        String iotConnectorName, Context context) {
+        Response<IotConnectorInner> inner
+            = this.serviceClient().getWithResponse(resourceGroupName, workspaceName, iotConnectorName, context);
+        if (inner != null) {
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
+                new IotConnectorImpl(inner.getValue(), this.manager()));
+        } else {
+            return null;
+        }
     }
 
     public IotConnector get(String resourceGroupName, String workspaceName, String iotConnectorName) {
         IotConnectorInner inner = this.serviceClient().get(resourceGroupName, workspaceName, iotConnectorName);
         if (inner != null) {
             return new IotConnectorImpl(inner, this.manager());
-        } else {
-            return null;
-        }
-    }
-
-    public Response<IotConnector> getWithResponse(
-        String resourceGroupName, String workspaceName, String iotConnectorName, Context context) {
-        Response<IotConnectorInner> inner =
-            this.serviceClient().getWithResponse(resourceGroupName, workspaceName, iotConnectorName, context);
-        if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
-                new IotConnectorImpl(inner.getValue(), this.manager()));
         } else {
             return null;
         }
@@ -73,105 +69,77 @@ public final class IotConnectorsImpl implements IotConnectors {
     }
 
     public IotConnector getById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String workspaceName = Utils.getValueFromIdByName(id, "workspaces");
+        String workspaceName = ResourceManagerUtils.getValueFromIdByName(id, "workspaces");
         if (workspaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
         }
-        String iotConnectorName = Utils.getValueFromIdByName(id, "iotconnectors");
+        String iotConnectorName = ResourceManagerUtils.getValueFromIdByName(id, "iotconnectors");
         if (iotConnectorName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
         }
         return this.getWithResponse(resourceGroupName, workspaceName, iotConnectorName, Context.NONE).getValue();
     }
 
     public Response<IotConnector> getByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String workspaceName = Utils.getValueFromIdByName(id, "workspaces");
+        String workspaceName = ResourceManagerUtils.getValueFromIdByName(id, "workspaces");
         if (workspaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
         }
-        String iotConnectorName = Utils.getValueFromIdByName(id, "iotconnectors");
+        String iotConnectorName = ResourceManagerUtils.getValueFromIdByName(id, "iotconnectors");
         if (iotConnectorName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
         }
         return this.getWithResponse(resourceGroupName, workspaceName, iotConnectorName, context);
     }
 
     public void deleteById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String iotConnectorName = Utils.getValueFromIdByName(id, "iotconnectors");
+        String iotConnectorName = ResourceManagerUtils.getValueFromIdByName(id, "iotconnectors");
         if (iotConnectorName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
         }
-        String workspaceName = Utils.getValueFromIdByName(id, "workspaces");
+        String workspaceName = ResourceManagerUtils.getValueFromIdByName(id, "workspaces");
         if (workspaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
         }
         this.delete(resourceGroupName, iotConnectorName, workspaceName, Context.NONE);
     }
 
     public void deleteByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String iotConnectorName = Utils.getValueFromIdByName(id, "iotconnectors");
+        String iotConnectorName = ResourceManagerUtils.getValueFromIdByName(id, "iotconnectors");
         if (iotConnectorName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'iotconnectors'.", id)));
         }
-        String workspaceName = Utils.getValueFromIdByName(id, "workspaces");
+        String workspaceName = ResourceManagerUtils.getValueFromIdByName(id, "workspaces");
         if (workspaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'workspaces'.", id)));
         }
         this.delete(resourceGroupName, iotConnectorName, workspaceName, context);
     }

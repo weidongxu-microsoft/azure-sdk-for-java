@@ -13,35 +13,23 @@ import org.junit.jupiter.api.Assertions;
 public final class TrackedResourceUpdateTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        TrackedResourceUpdate model =
-            BinaryData
-                .fromString(
-                    "{\"tags\":{\"suuv\":\"u\",\"odjpslwejd\":\"kjozkrwfnd\",\"cctazakljlahbc\":\"vwryoqpso\",\"gexpaojakhmsbz\":\"yffdfdos\"},\"location\":\"crzevdphlx\"}")
+        TrackedResourceUpdate model
+            = BinaryData.fromString("{\"tags\":{\"jzyflu\":\"deupewnwrei\"},\"location\":\"rh\"}")
                 .toObject(TrackedResourceUpdate.class);
-        Assertions.assertEquals("u", model.tags().get("suuv"));
-        Assertions.assertEquals("crzevdphlx", model.location());
+        Assertions.assertEquals("deupewnwrei", model.tags().get("jzyflu"));
+        Assertions.assertEquals("rh", model.location());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        TrackedResourceUpdate model =
-            new TrackedResourceUpdate()
-                .withTags(
-                    mapOf(
-                        "suuv",
-                        "u",
-                        "odjpslwejd",
-                        "kjozkrwfnd",
-                        "cctazakljlahbc",
-                        "vwryoqpso",
-                        "gexpaojakhmsbz",
-                        "yffdfdos"))
-                .withLocation("crzevdphlx");
+        TrackedResourceUpdate model
+            = new TrackedResourceUpdate().withTags(mapOf("jzyflu", "deupewnwrei")).withLocation("rh");
         model = BinaryData.fromObject(model).toObject(TrackedResourceUpdate.class);
-        Assertions.assertEquals("u", model.tags().get("suuv"));
-        Assertions.assertEquals("crzevdphlx", model.location());
+        Assertions.assertEquals("deupewnwrei", model.tags().get("jzyflu"));
+        Assertions.assertEquals("rh", model.location());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

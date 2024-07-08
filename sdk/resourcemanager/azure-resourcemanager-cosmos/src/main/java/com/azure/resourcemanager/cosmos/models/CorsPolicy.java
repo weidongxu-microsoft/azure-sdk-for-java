@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The CORS policy for the Cosmos DB database account. */
+/**
+ * The CORS policy for the Cosmos DB database account.
+ */
 @Fluent
 public final class CorsPolicy {
     /*
@@ -30,8 +32,7 @@ public final class CorsPolicy {
     private String allowedHeaders;
 
     /*
-     * The response headers that may be sent in the response to the CORS request and exposed by the browser to the
-     * request issuer.
+     * The response headers that may be sent in the response to the CORS request and exposed by the browser to the request issuer.
      */
     @JsonProperty(value = "exposedHeaders")
     private String exposedHeaders;
@@ -42,14 +43,16 @@ public final class CorsPolicy {
     @JsonProperty(value = "maxAgeInSeconds")
     private Long maxAgeInSeconds;
 
-    /** Creates an instance of CorsPolicy class. */
+    /**
+     * Creates an instance of CorsPolicy class.
+     */
     public CorsPolicy() {
     }
 
     /**
      * Get the allowedOrigins property: The origin domains that are permitted to make a request against the service via
      * CORS.
-     *
+     * 
      * @return the allowedOrigins value.
      */
     public String allowedOrigins() {
@@ -59,7 +62,7 @@ public final class CorsPolicy {
     /**
      * Set the allowedOrigins property: The origin domains that are permitted to make a request against the service via
      * CORS.
-     *
+     * 
      * @param allowedOrigins the allowedOrigins value to set.
      * @return the CorsPolicy object itself.
      */
@@ -71,7 +74,7 @@ public final class CorsPolicy {
     /**
      * Get the allowedMethods property: The methods (HTTP request verbs) that the origin domain may use for a CORS
      * request.
-     *
+     * 
      * @return the allowedMethods value.
      */
     public String allowedMethods() {
@@ -81,7 +84,7 @@ public final class CorsPolicy {
     /**
      * Set the allowedMethods property: The methods (HTTP request verbs) that the origin domain may use for a CORS
      * request.
-     *
+     * 
      * @param allowedMethods the allowedMethods value to set.
      * @return the CorsPolicy object itself.
      */
@@ -92,7 +95,7 @@ public final class CorsPolicy {
 
     /**
      * Get the allowedHeaders property: The request headers that the origin domain may specify on the CORS request.
-     *
+     * 
      * @return the allowedHeaders value.
      */
     public String allowedHeaders() {
@@ -101,7 +104,7 @@ public final class CorsPolicy {
 
     /**
      * Set the allowedHeaders property: The request headers that the origin domain may specify on the CORS request.
-     *
+     * 
      * @param allowedHeaders the allowedHeaders value to set.
      * @return the CorsPolicy object itself.
      */
@@ -113,7 +116,7 @@ public final class CorsPolicy {
     /**
      * Get the exposedHeaders property: The response headers that may be sent in the response to the CORS request and
      * exposed by the browser to the request issuer.
-     *
+     * 
      * @return the exposedHeaders value.
      */
     public String exposedHeaders() {
@@ -123,7 +126,7 @@ public final class CorsPolicy {
     /**
      * Set the exposedHeaders property: The response headers that may be sent in the response to the CORS request and
      * exposed by the browser to the request issuer.
-     *
+     * 
      * @param exposedHeaders the exposedHeaders value to set.
      * @return the CorsPolicy object itself.
      */
@@ -135,7 +138,7 @@ public final class CorsPolicy {
     /**
      * Get the maxAgeInSeconds property: The maximum amount time that a browser should cache the preflight OPTIONS
      * request.
-     *
+     * 
      * @return the maxAgeInSeconds value.
      */
     public Long maxAgeInSeconds() {
@@ -145,7 +148,7 @@ public final class CorsPolicy {
     /**
      * Set the maxAgeInSeconds property: The maximum amount time that a browser should cache the preflight OPTIONS
      * request.
-     *
+     * 
      * @param maxAgeInSeconds the maxAgeInSeconds value to set.
      * @return the CorsPolicy object itself.
      */
@@ -156,14 +159,13 @@ public final class CorsPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (allowedOrigins() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property allowedOrigins in model CorsPolicy"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property allowedOrigins in model CorsPolicy"));
         }
     }
 

@@ -8,6 +8,8 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.dataprotection.models.AlertsState;
 import com.azure.resourcemanager.dataprotection.models.AzureMonitorAlertSettings;
 import com.azure.resourcemanager.dataprotection.models.BackupVault;
+import com.azure.resourcemanager.dataprotection.models.CrossRegionRestoreSettings;
+import com.azure.resourcemanager.dataprotection.models.CrossRegionRestoreState;
 import com.azure.resourcemanager.dataprotection.models.CrossSubscriptionRestoreSettings;
 import com.azure.resourcemanager.dataprotection.models.CrossSubscriptionRestoreState;
 import com.azure.resourcemanager.dataprotection.models.FeatureSettings;
@@ -26,73 +28,56 @@ import org.junit.jupiter.api.Assertions;
 public final class BackupVaultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        BackupVault model =
-            BinaryData
-                .fromString(
-                    "{\"monitoringSettings\":{\"azureMonitorAlertSettings\":{\"alertsForAllJobFailures\":\"Enabled\"}},\"provisioningState\":\"Updating\",\"resourceMoveState\":\"CommitTimedout\",\"resourceMoveDetails\":{\"operationId\":\"ojakhmsbzjhcrze\",\"startTimeUtc\":\"phlxa\",\"completionTimeUtc\":\"thqt\",\"sourceResourcePath\":\"qjbpfzfsin\",\"targetResourcePath\":\"v\"},\"securitySettings\":{\"softDeleteSettings\":{\"state\":\"On\",\"retentionDurationInDays\":72.89301806581457},\"immutabilitySettings\":{\"state\":\"Locked\"}},\"storageSettings\":[{\"datastoreType\":\"VaultStore\",\"type\":\"ZoneRedundant\"},{\"datastoreType\":\"OperationalStore\",\"type\":\"ZoneRedundant\"},{\"datastoreType\":\"VaultStore\",\"type\":\"GeoRedundant\"},{\"datastoreType\":\"ArchiveStore\",\"type\":\"LocallyRedundant\"}],\"isVaultProtectedByResourceGuard\":true,\"featureSettings\":{\"crossSubscriptionRestoreSettings\":{\"state\":\"Disabled\"}}}")
-                .toObject(BackupVault.class);
-        Assertions
-            .assertEquals(
-                AlertsState.ENABLED, model.monitoringSettings().azureMonitorAlertSettings().alertsForAllJobFailures());
-        Assertions.assertEquals(SoftDeleteState.ON, model.securitySettings().softDeleteSettings().state());
-        Assertions
-            .assertEquals(72.89301806581457D, model.securitySettings().softDeleteSettings().retentionDurationInDays());
-        Assertions.assertEquals(ImmutabilityState.LOCKED, model.securitySettings().immutabilitySettings().state());
-        Assertions.assertEquals(StorageSettingStoreTypes.VAULT_STORE, model.storageSettings().get(0).datastoreType());
-        Assertions.assertEquals(StorageSettingTypes.ZONE_REDUNDANT, model.storageSettings().get(0).type());
-        Assertions
-            .assertEquals(
-                CrossSubscriptionRestoreState.DISABLED,
-                model.featureSettings().crossSubscriptionRestoreSettings().state());
+        BackupVault model = BinaryData.fromString(
+            "{\"monitoringSettings\":{\"azureMonitorAlertSettings\":{\"alertsForAllJobFailures\":\"Disabled\"}},\"provisioningState\":\"Unknown\",\"resourceMoveState\":\"PartialSuccess\",\"resourceMoveDetails\":{\"operationId\":\"kcprbnw\",\"startTimeUtc\":\"gjvtbv\",\"completionTimeUtc\":\"sszdnru\",\"sourceResourcePath\":\"guhmuouqfpr\",\"targetResourcePath\":\"wbnguitnwui\"},\"securitySettings\":{\"softDeleteSettings\":{\"state\":\"AlwaysOn\",\"retentionDurationInDays\":48.564128567474796},\"immutabilitySettings\":{\"state\":\"Disabled\"}},\"storageSettings\":[{\"datastoreType\":\"OperationalStore\",\"type\":\"GeoRedundant\"}],\"isVaultProtectedByResourceGuard\":false,\"featureSettings\":{\"crossSubscriptionRestoreSettings\":{\"state\":\"PermanentlyDisabled\"},\"crossRegionRestoreSettings\":{\"state\":\"Enabled\"}},\"secureScore\":\"NotSupported\",\"replicatedRegions\":[\"ymwisdkft\"]}")
+            .toObject(BackupVault.class);
+        Assertions.assertEquals(AlertsState.DISABLED,
+            model.monitoringSettings().azureMonitorAlertSettings().alertsForAllJobFailures());
+        Assertions.assertEquals(SoftDeleteState.ALWAYS_ON, model.securitySettings().softDeleteSettings().state());
+        Assertions.assertEquals(48.564128567474796D,
+            model.securitySettings().softDeleteSettings().retentionDurationInDays());
+        Assertions.assertEquals(ImmutabilityState.DISABLED, model.securitySettings().immutabilitySettings().state());
+        Assertions.assertEquals(StorageSettingStoreTypes.OPERATIONAL_STORE,
+            model.storageSettings().get(0).datastoreType());
+        Assertions.assertEquals(StorageSettingTypes.GEO_REDUNDANT, model.storageSettings().get(0).type());
+        Assertions.assertEquals(CrossSubscriptionRestoreState.PERMANENTLY_DISABLED,
+            model.featureSettings().crossSubscriptionRestoreSettings().state());
+        Assertions.assertEquals(CrossRegionRestoreState.ENABLED,
+            model.featureSettings().crossRegionRestoreSettings().state());
+        Assertions.assertEquals("ymwisdkft", model.replicatedRegions().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        BackupVault model =
-            new BackupVault()
-                .withMonitoringSettings(
-                    new MonitoringSettings()
-                        .withAzureMonitorAlertSettings(
-                            new AzureMonitorAlertSettings().withAlertsForAllJobFailures(AlertsState.ENABLED)))
-                .withSecuritySettings(
-                    new SecuritySettings()
-                        .withSoftDeleteSettings(
-                            new SoftDeleteSettings()
-                                .withState(SoftDeleteState.ON)
-                                .withRetentionDurationInDays(72.89301806581457D))
-                        .withImmutabilitySettings(new ImmutabilitySettings().withState(ImmutabilityState.LOCKED)))
-                .withStorageSettings(
-                    Arrays
-                        .asList(
-                            new StorageSetting()
-                                .withDatastoreType(StorageSettingStoreTypes.VAULT_STORE)
-                                .withType(StorageSettingTypes.ZONE_REDUNDANT),
-                            new StorageSetting()
-                                .withDatastoreType(StorageSettingStoreTypes.OPERATIONAL_STORE)
-                                .withType(StorageSettingTypes.ZONE_REDUNDANT),
-                            new StorageSetting()
-                                .withDatastoreType(StorageSettingStoreTypes.VAULT_STORE)
-                                .withType(StorageSettingTypes.GEO_REDUNDANT),
-                            new StorageSetting()
-                                .withDatastoreType(StorageSettingStoreTypes.ARCHIVE_STORE)
-                                .withType(StorageSettingTypes.LOCALLY_REDUNDANT)))
-                .withFeatureSettings(
-                    new FeatureSettings()
-                        .withCrossSubscriptionRestoreSettings(
-                            new CrossSubscriptionRestoreSettings().withState(CrossSubscriptionRestoreState.DISABLED)));
+        BackupVault model = new BackupVault()
+            .withMonitoringSettings(new MonitoringSettings().withAzureMonitorAlertSettings(
+                new AzureMonitorAlertSettings().withAlertsForAllJobFailures(AlertsState.DISABLED)))
+            .withSecuritySettings(new SecuritySettings()
+                .withSoftDeleteSettings(new SoftDeleteSettings().withState(SoftDeleteState.ALWAYS_ON)
+                    .withRetentionDurationInDays(48.564128567474796D))
+                .withImmutabilitySettings(new ImmutabilitySettings().withState(ImmutabilityState.DISABLED)))
+            .withStorageSettings(
+                Arrays.asList(new StorageSetting().withDatastoreType(StorageSettingStoreTypes.OPERATIONAL_STORE)
+                    .withType(StorageSettingTypes.GEO_REDUNDANT)))
+            .withFeatureSettings(new FeatureSettings().withCrossSubscriptionRestoreSettings(
+                new CrossSubscriptionRestoreSettings().withState(CrossSubscriptionRestoreState.PERMANENTLY_DISABLED))
+                .withCrossRegionRestoreSettings(
+                    new CrossRegionRestoreSettings().withState(CrossRegionRestoreState.ENABLED)))
+            .withReplicatedRegions(Arrays.asList("ymwisdkft"));
         model = BinaryData.fromObject(model).toObject(BackupVault.class);
-        Assertions
-            .assertEquals(
-                AlertsState.ENABLED, model.monitoringSettings().azureMonitorAlertSettings().alertsForAllJobFailures());
-        Assertions.assertEquals(SoftDeleteState.ON, model.securitySettings().softDeleteSettings().state());
-        Assertions
-            .assertEquals(72.89301806581457D, model.securitySettings().softDeleteSettings().retentionDurationInDays());
-        Assertions.assertEquals(ImmutabilityState.LOCKED, model.securitySettings().immutabilitySettings().state());
-        Assertions.assertEquals(StorageSettingStoreTypes.VAULT_STORE, model.storageSettings().get(0).datastoreType());
-        Assertions.assertEquals(StorageSettingTypes.ZONE_REDUNDANT, model.storageSettings().get(0).type());
-        Assertions
-            .assertEquals(
-                CrossSubscriptionRestoreState.DISABLED,
-                model.featureSettings().crossSubscriptionRestoreSettings().state());
+        Assertions.assertEquals(AlertsState.DISABLED,
+            model.monitoringSettings().azureMonitorAlertSettings().alertsForAllJobFailures());
+        Assertions.assertEquals(SoftDeleteState.ALWAYS_ON, model.securitySettings().softDeleteSettings().state());
+        Assertions.assertEquals(48.564128567474796D,
+            model.securitySettings().softDeleteSettings().retentionDurationInDays());
+        Assertions.assertEquals(ImmutabilityState.DISABLED, model.securitySettings().immutabilitySettings().state());
+        Assertions.assertEquals(StorageSettingStoreTypes.OPERATIONAL_STORE,
+            model.storageSettings().get(0).datastoreType());
+        Assertions.assertEquals(StorageSettingTypes.GEO_REDUNDANT, model.storageSettings().get(0).type());
+        Assertions.assertEquals(CrossSubscriptionRestoreState.PERMANENTLY_DISABLED,
+            model.featureSettings().crossSubscriptionRestoreSettings().state());
+        Assertions.assertEquals(CrossRegionRestoreState.ENABLED,
+            model.featureSettings().crossRegionRestoreSettings().state());
+        Assertions.assertEquals("ymwisdkft", model.replicatedRegions().get(0));
     }
 }

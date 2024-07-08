@@ -10,11 +10,9 @@ import com.azure.resourcemanager.avs.fluent.models.ScriptPackageProperties;
 public final class ScriptPackagePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ScriptPackageProperties model =
-            BinaryData
-                .fromString(
-                    "{\"description\":\"nuuzkopbm\",\"version\":\"rfdwoyu\",\"company\":\"ziuiefozbhdm\",\"uri\":\"l\"}")
-                .toObject(ScriptPackageProperties.class);
+        ScriptPackageProperties model = BinaryData.fromString(
+            "{\"provisioningState\":\"Canceled\",\"description\":\"rp\",\"version\":\"ebmnzbtbhjpglk\",\"company\":\"ohdneuel\",\"uri\":\"hsd\"}")
+            .toObject(ScriptPackageProperties.class);
     }
 
     @org.junit.jupiter.api.Test

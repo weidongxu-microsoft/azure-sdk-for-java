@@ -7,7 +7,9 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Header configuration of the Actions set in Application Gateway. */
+/**
+ * Header configuration of the Actions set in Application Gateway.
+ */
 @Fluent
 public final class ApplicationGatewayHeaderConfiguration {
     /*
@@ -17,18 +19,26 @@ public final class ApplicationGatewayHeaderConfiguration {
     private String headerName;
 
     /*
+     * An optional field under "Rewrite Action". It lets you capture and modify the value(s) of a specific header when multiple headers with the same name exist. Currently supported for Set-Cookie Response header only. For more details, visit https://aka.ms/appgwheadercrud
+     */
+    @JsonProperty(value = "headerValueMatcher")
+    private HeaderValueMatcher headerValueMatcher;
+
+    /*
      * Header value of the header configuration.
      */
     @JsonProperty(value = "headerValue")
     private String headerValue;
 
-    /** Creates an instance of ApplicationGatewayHeaderConfiguration class. */
+    /**
+     * Creates an instance of ApplicationGatewayHeaderConfiguration class.
+     */
     public ApplicationGatewayHeaderConfiguration() {
     }
 
     /**
      * Get the headerName property: Header name of the header configuration.
-     *
+     * 
      * @return the headerName value.
      */
     public String headerName() {
@@ -37,7 +47,7 @@ public final class ApplicationGatewayHeaderConfiguration {
 
     /**
      * Set the headerName property: Header name of the header configuration.
-     *
+     * 
      * @param headerName the headerName value to set.
      * @return the ApplicationGatewayHeaderConfiguration object itself.
      */
@@ -47,8 +57,32 @@ public final class ApplicationGatewayHeaderConfiguration {
     }
 
     /**
+     * Get the headerValueMatcher property: An optional field under "Rewrite Action". It lets you capture and modify the
+     * value(s) of a specific header when multiple headers with the same name exist. Currently supported for Set-Cookie
+     * Response header only. For more details, visit https://aka.ms/appgwheadercrud.
+     * 
+     * @return the headerValueMatcher value.
+     */
+    public HeaderValueMatcher headerValueMatcher() {
+        return this.headerValueMatcher;
+    }
+
+    /**
+     * Set the headerValueMatcher property: An optional field under "Rewrite Action". It lets you capture and modify the
+     * value(s) of a specific header when multiple headers with the same name exist. Currently supported for Set-Cookie
+     * Response header only. For more details, visit https://aka.ms/appgwheadercrud.
+     * 
+     * @param headerValueMatcher the headerValueMatcher value to set.
+     * @return the ApplicationGatewayHeaderConfiguration object itself.
+     */
+    public ApplicationGatewayHeaderConfiguration withHeaderValueMatcher(HeaderValueMatcher headerValueMatcher) {
+        this.headerValueMatcher = headerValueMatcher;
+        return this;
+    }
+
+    /**
      * Get the headerValue property: Header value of the header configuration.
-     *
+     * 
      * @return the headerValue value.
      */
     public String headerValue() {
@@ -57,7 +91,7 @@ public final class ApplicationGatewayHeaderConfiguration {
 
     /**
      * Set the headerValue property: Header value of the header configuration.
-     *
+     * 
      * @param headerValue the headerValue value to set.
      * @return the ApplicationGatewayHeaderConfiguration object itself.
      */
@@ -68,9 +102,12 @@ public final class ApplicationGatewayHeaderConfiguration {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (headerValueMatcher() != null) {
+            headerValueMatcher().validate();
+        }
     }
 }

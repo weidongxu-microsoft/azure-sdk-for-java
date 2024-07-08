@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.netapp.generated;
 
-/** Samples for SnapshotPolicies ListVolumes. */
+/**
+ * Samples for SnapshotPolicies ListVolumes.
+ */
 public final class SnapshotPoliciesListVolumesSamples {
     /*
-     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/SnapshotPolicies_ListVolumes.json
+     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/SnapshotPolicies_ListVolumes.json
      */
     /**
      * Sample code: SnapshotPolicies_ListVolumes.
-     *
+     * 
      * @param manager Entry point to NetAppFilesManager.
      */
     public static void snapshotPoliciesListVolumes(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
-        manager
-            .snapshotPolicies()
+        manager.snapshotPolicies()
             .listVolumesWithResponse("myRG", "account1", "snapshotPolicyName", com.azure.core.util.Context.NONE);
     }
 }

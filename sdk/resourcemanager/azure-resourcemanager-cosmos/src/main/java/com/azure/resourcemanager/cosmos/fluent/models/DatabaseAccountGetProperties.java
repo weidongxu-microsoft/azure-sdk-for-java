@@ -25,18 +25,16 @@ import com.azure.resourcemanager.cosmos.models.PublicNetworkAccess;
 import com.azure.resourcemanager.cosmos.models.RestoreParameters;
 import com.azure.resourcemanager.cosmos.models.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties for the database account. */
+/**
+ * Properties for the database account.
+ */
 @Fluent
 public final class DatabaseAccountGetProperties {
     /*
-     * The status of the Cosmos DB account at the time the operation was called. The status can be one of following.
-     * 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that
-     * are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB
-     * account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB
-     * account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'DeletionFailed' – the Cosmos DB
-     * account deletion failed.
+     * The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'DeletionFailed' – the Cosmos DB account deletion failed.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
@@ -66,9 +64,7 @@ public final class DatabaseAccountGetProperties {
     private Boolean isVirtualNetworkFilterEnabled;
 
     /*
-     * Enables automatic failover of the write region in the rare event that the region is unavailable due to an
-     * outage. Automatic failover will result in a new write region for the account and is chosen based on the failover
-     * priorities configured for the account.
+     * Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
      */
     @JsonProperty(value = "enableAutomaticFailover")
     private Boolean enableAutomaticFailover;
@@ -152,8 +148,7 @@ public final class DatabaseAccountGetProperties {
     private String keyVaultKeyUri;
 
     /*
-     * The default identity for accessing key vault used in features like customer managed keys. The default identity
-     * needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
+     * The default identity for accessing key vault used in features like customer managed keys. The default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
      */
     @JsonProperty(value = "defaultIdentity")
     private String defaultIdentity;
@@ -255,13 +250,26 @@ public final class DatabaseAccountGetProperties {
     private Boolean enablePartitionMerge;
 
     /*
-     * Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which
-     * only work with Tls 1.2.
+     * Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2.
      */
     @JsonProperty(value = "minimalTlsVersion")
     private MinimalTlsVersion minimalTlsVersion;
 
-    /** Creates an instance of DatabaseAccountGetProperties class. */
+    /*
+     * Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account
+     */
+    @JsonProperty(value = "enableBurstCapacity")
+    private Boolean enableBurstCapacity;
+
+    /*
+     * Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance.
+     */
+    @JsonProperty(value = "customerManagedKeyStatus")
+    private String customerManagedKeyStatus;
+
+    /**
+     * Creates an instance of DatabaseAccountGetProperties class.
+     */
     public DatabaseAccountGetProperties() {
     }
 
@@ -547,8 +555,8 @@ public final class DatabaseAccountGetProperties {
      * @param disableKeyBasedMetadataWriteAccess the disableKeyBasedMetadataWriteAccess value to set.
      * @return the DatabaseAccountGetProperties object itself.
      */
-    public DatabaseAccountGetProperties withDisableKeyBasedMetadataWriteAccess(
-        Boolean disableKeyBasedMetadataWriteAccess) {
+    public DatabaseAccountGetProperties
+        withDisableKeyBasedMetadataWriteAccess(Boolean disableKeyBasedMetadataWriteAccess) {
         this.disableKeyBasedMetadataWriteAccess = disableKeyBasedMetadataWriteAccess;
         return this;
     }
@@ -692,8 +700,8 @@ public final class DatabaseAccountGetProperties {
      * @param analyticalStorageConfiguration the analyticalStorageConfiguration value to set.
      * @return the DatabaseAccountGetProperties object itself.
      */
-    public DatabaseAccountGetProperties withAnalyticalStorageConfiguration(
-        AnalyticalStorageConfiguration analyticalStorageConfiguration) {
+    public DatabaseAccountGetProperties
+        withAnalyticalStorageConfiguration(AnalyticalStorageConfiguration analyticalStorageConfiguration) {
         this.analyticalStorageConfiguration = analyticalStorageConfiguration;
         return this;
     }
@@ -906,8 +914,8 @@ public final class DatabaseAccountGetProperties {
     }
 
     /**
-     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @return the minimalTlsVersion value.
      */
@@ -916,14 +924,58 @@ public final class DatabaseAccountGetProperties {
     }
 
     /**
-     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @param minimalTlsVersion the minimalTlsVersion value to set.
      * @return the DatabaseAccountGetProperties object itself.
      */
     public DatabaseAccountGetProperties withMinimalTlsVersion(MinimalTlsVersion minimalTlsVersion) {
         this.minimalTlsVersion = minimalTlsVersion;
+        return this;
+    }
+
+    /**
+     * Get the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @return the enableBurstCapacity value.
+     */
+    public Boolean enableBurstCapacity() {
+        return this.enableBurstCapacity;
+    }
+
+    /**
+     * Set the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @param enableBurstCapacity the enableBurstCapacity value to set.
+     * @return the DatabaseAccountGetProperties object itself.
+     */
+    public DatabaseAccountGetProperties withEnableBurstCapacity(Boolean enableBurstCapacity) {
+        this.enableBurstCapacity = enableBurstCapacity;
+        return this;
+    }
+
+    /**
+     * Get the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @return the customerManagedKeyStatus value.
+     */
+    public String customerManagedKeyStatus() {
+        return this.customerManagedKeyStatus;
+    }
+
+    /**
+     * Set the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @param customerManagedKeyStatus the customerManagedKeyStatus value to set.
+     * @return the DatabaseAccountGetProperties object itself.
+     */
+    public DatabaseAccountGetProperties withCustomerManagedKeyStatus(String customerManagedKeyStatus) {
+        this.customerManagedKeyStatus = customerManagedKeyStatus;
         return this;
     }
 

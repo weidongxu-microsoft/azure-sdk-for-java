@@ -7,7 +7,9 @@ package com.azure.resourcemanager.containerservicefleet.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The FleetHubProfile configures the fleet hub. */
+/**
+ * The FleetHubProfile configures the fleet hub.
+ */
 @Fluent
 public final class FleetHubProfile {
     /*
@@ -15,6 +17,18 @@ public final class FleetHubProfile {
      */
     @JsonProperty(value = "dnsPrefix")
     private String dnsPrefix;
+
+    /*
+     * The access profile for the Fleet hub API server.
+     */
+    @JsonProperty(value = "apiServerAccessProfile")
+    private ApiServerAccessProfile apiServerAccessProfile;
+
+    /*
+     * The agent profile for the Fleet hub.
+     */
+    @JsonProperty(value = "agentProfile")
+    private AgentProfile agentProfile;
 
     /*
      * The FQDN of the Fleet hub.
@@ -28,13 +42,21 @@ public final class FleetHubProfile {
     @JsonProperty(value = "kubernetesVersion", access = JsonProperty.Access.WRITE_ONLY)
     private String kubernetesVersion;
 
-    /** Creates an instance of FleetHubProfile class. */
+    /*
+     * The Azure Portal FQDN of the Fleet hub.
+     */
+    @JsonProperty(value = "portalFqdn", access = JsonProperty.Access.WRITE_ONLY)
+    private String portalFqdn;
+
+    /**
+     * Creates an instance of FleetHubProfile class.
+     */
     public FleetHubProfile() {
     }
 
     /**
      * Get the dnsPrefix property: DNS prefix used to create the FQDN for the Fleet hub.
-     *
+     * 
      * @return the dnsPrefix value.
      */
     public String dnsPrefix() {
@@ -43,7 +65,7 @@ public final class FleetHubProfile {
 
     /**
      * Set the dnsPrefix property: DNS prefix used to create the FQDN for the Fleet hub.
-     *
+     * 
      * @param dnsPrefix the dnsPrefix value to set.
      * @return the FleetHubProfile object itself.
      */
@@ -53,8 +75,48 @@ public final class FleetHubProfile {
     }
 
     /**
+     * Get the apiServerAccessProfile property: The access profile for the Fleet hub API server.
+     * 
+     * @return the apiServerAccessProfile value.
+     */
+    public ApiServerAccessProfile apiServerAccessProfile() {
+        return this.apiServerAccessProfile;
+    }
+
+    /**
+     * Set the apiServerAccessProfile property: The access profile for the Fleet hub API server.
+     * 
+     * @param apiServerAccessProfile the apiServerAccessProfile value to set.
+     * @return the FleetHubProfile object itself.
+     */
+    public FleetHubProfile withApiServerAccessProfile(ApiServerAccessProfile apiServerAccessProfile) {
+        this.apiServerAccessProfile = apiServerAccessProfile;
+        return this;
+    }
+
+    /**
+     * Get the agentProfile property: The agent profile for the Fleet hub.
+     * 
+     * @return the agentProfile value.
+     */
+    public AgentProfile agentProfile() {
+        return this.agentProfile;
+    }
+
+    /**
+     * Set the agentProfile property: The agent profile for the Fleet hub.
+     * 
+     * @param agentProfile the agentProfile value to set.
+     * @return the FleetHubProfile object itself.
+     */
+    public FleetHubProfile withAgentProfile(AgentProfile agentProfile) {
+        this.agentProfile = agentProfile;
+        return this;
+    }
+
+    /**
      * Get the fqdn property: The FQDN of the Fleet hub.
-     *
+     * 
      * @return the fqdn value.
      */
     public String fqdn() {
@@ -63,7 +125,7 @@ public final class FleetHubProfile {
 
     /**
      * Get the kubernetesVersion property: The Kubernetes version of the Fleet hub.
-     *
+     * 
      * @return the kubernetesVersion value.
      */
     public String kubernetesVersion() {
@@ -71,10 +133,25 @@ public final class FleetHubProfile {
     }
 
     /**
+     * Get the portalFqdn property: The Azure Portal FQDN of the Fleet hub.
+     * 
+     * @return the portalFqdn value.
+     */
+    public String portalFqdn() {
+        return this.portalFqdn;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (apiServerAccessProfile() != null) {
+            apiServerAccessProfile().validate();
+        }
+        if (agentProfile() != null) {
+            agentProfile().validate();
+        }
     }
 }

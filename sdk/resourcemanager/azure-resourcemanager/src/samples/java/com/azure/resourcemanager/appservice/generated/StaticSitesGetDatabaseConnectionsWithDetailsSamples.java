@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for StaticSites GetDatabaseConnectionsWithDetails. */
+/**
+ * Samples for StaticSites GetDatabaseConnectionsWithDetails.
+ */
 public final class StaticSitesGetDatabaseConnectionsWithDetailsSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteDatabaseConnectionsWithDetails.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteDatabaseConnectionsWithDetails.json
      */
     /**
      * Sample code: List full details of database connections for the static site.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void listFullDetailsOfDatabaseConnectionsForTheStaticSite(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+    public static void
+        listFullDetailsOfDatabaseConnectionsForTheStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.webApps()
             .manager()
             .serviceClient()
             .getStaticSites()

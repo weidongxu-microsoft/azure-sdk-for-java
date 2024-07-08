@@ -10,9 +10,12 @@ import com.azure.resourcemanager.network.models.ExpressRouteGatewayPropertiesAut
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.azure.resourcemanager.network.models.VirtualHubId;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** ExpressRoute gateway resource properties. */
+/**
+ * ExpressRoute gateway resource properties.
+ */
 @Fluent
 public final class ExpressRouteGatewayProperties {
     /*
@@ -45,7 +48,9 @@ public final class ExpressRouteGatewayProperties {
     @JsonProperty(value = "allowNonVirtualWanTraffic")
     private Boolean allowNonVirtualWanTraffic;
 
-    /** Creates an instance of ExpressRouteGatewayProperties class. */
+    /**
+     * Creates an instance of ExpressRouteGatewayProperties class.
+     */
     public ExpressRouteGatewayProperties() {
     }
 
@@ -64,8 +69,8 @@ public final class ExpressRouteGatewayProperties {
      * @param autoScaleConfiguration the autoScaleConfiguration value to set.
      * @return the ExpressRouteGatewayProperties object itself.
      */
-    public ExpressRouteGatewayProperties withAutoScaleConfiguration(
-        ExpressRouteGatewayPropertiesAutoScaleConfiguration autoScaleConfiguration) {
+    public ExpressRouteGatewayProperties
+        withAutoScaleConfiguration(ExpressRouteGatewayPropertiesAutoScaleConfiguration autoScaleConfiguration) {
         this.autoScaleConfiguration = autoScaleConfiguration;
         return this;
     }
@@ -85,8 +90,8 @@ public final class ExpressRouteGatewayProperties {
      * @param expressRouteConnections the expressRouteConnections value to set.
      * @return the ExpressRouteGatewayProperties object itself.
      */
-    public ExpressRouteGatewayProperties withExpressRouteConnections(
-        List<ExpressRouteConnectionInner> expressRouteConnections) {
+    public ExpressRouteGatewayProperties
+        withExpressRouteConnections(List<ExpressRouteConnectionInner> expressRouteConnections) {
         this.expressRouteConnections = expressRouteConnections;
         return this;
     }
@@ -155,10 +160,9 @@ public final class ExpressRouteGatewayProperties {
             expressRouteConnections().forEach(e -> e.validate());
         }
         if (virtualHub() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property virtualHub in model ExpressRouteGatewayProperties"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property virtualHub in model ExpressRouteGatewayProperties"));
         } else {
             virtualHub().validate();
         }

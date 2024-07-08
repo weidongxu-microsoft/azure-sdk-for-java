@@ -6,15 +6,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 
-/** Generic backup copy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * Generic backup copy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = GenericRecoveryPoint.class,
+    visible = true)
 @JsonTypeName("GenericRecoveryPoint")
 @Fluent
 public final class GenericRecoveryPoint extends RecoveryPoint {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "GenericRecoveryPoint";
+
     /*
      * Friendly name of the backup copy.
      */
@@ -45,13 +59,26 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
     @JsonProperty(value = "recoveryPointProperties")
     private RecoveryPointProperties recoveryPointProperties;
 
-    /** Creates an instance of GenericRecoveryPoint class. */
+    /**
+     * Creates an instance of GenericRecoveryPoint class.
+     */
     public GenericRecoveryPoint() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the friendlyName property: Friendly name of the backup copy.
-     *
+     * 
      * @return the friendlyName value.
      */
     public String friendlyName() {
@@ -60,7 +87,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the friendlyName property: Friendly name of the backup copy.
-     *
+     * 
      * @param friendlyName the friendlyName value to set.
      * @return the GenericRecoveryPoint object itself.
      */
@@ -71,7 +98,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointType property: Type of the backup copy.
-     *
+     * 
      * @return the recoveryPointType value.
      */
     public String recoveryPointType() {
@@ -80,7 +107,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointType property: Type of the backup copy.
-     *
+     * 
      * @param recoveryPointType the recoveryPointType value to set.
      * @return the GenericRecoveryPoint object itself.
      */
@@ -91,7 +118,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointTime property: Time at which this backup copy was created.
-     *
+     * 
      * @return the recoveryPointTime value.
      */
     public OffsetDateTime recoveryPointTime() {
@@ -100,7 +127,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointTime property: Time at which this backup copy was created.
-     *
+     * 
      * @param recoveryPointTime the recoveryPointTime value to set.
      * @return the GenericRecoveryPoint object itself.
      */
@@ -111,7 +138,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointAdditionalInfo property: Additional information associated with this backup copy.
-     *
+     * 
      * @return the recoveryPointAdditionalInfo value.
      */
     public String recoveryPointAdditionalInfo() {
@@ -120,7 +147,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointAdditionalInfo property: Additional information associated with this backup copy.
-     *
+     * 
      * @param recoveryPointAdditionalInfo the recoveryPointAdditionalInfo value to set.
      * @return the GenericRecoveryPoint object itself.
      */
@@ -131,7 +158,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Get the recoveryPointProperties property: Properties of Recovery Point.
-     *
+     * 
      * @return the recoveryPointProperties value.
      */
     public RecoveryPointProperties recoveryPointProperties() {
@@ -140,7 +167,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Set the recoveryPointProperties property: Properties of Recovery Point.
-     *
+     * 
      * @param recoveryPointProperties the recoveryPointProperties value to set.
      * @return the GenericRecoveryPoint object itself.
      */
@@ -151,7 +178,7 @@ public final class GenericRecoveryPoint extends RecoveryPoint {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

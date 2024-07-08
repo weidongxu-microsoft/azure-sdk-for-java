@@ -7,28 +7,54 @@ package com.azure.resourcemanager.eventgrid.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.eventgrid.fluent.models.AzureFunctionEventSubscriptionDestinationProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Information about the azure function destination for an event subscription. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "endpointType")
+/**
+ * Information about the azure function destination for an event subscription.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "endpointType",
+    defaultImpl = AzureFunctionEventSubscriptionDestination.class,
+    visible = true)
 @JsonTypeName("AzureFunction")
 @Fluent
 public final class AzureFunctionEventSubscriptionDestination extends EventSubscriptionDestination {
+    /*
+     * Type of the endpoint for the event subscription destination.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "endpointType", required = true)
+    private EndpointType endpointType = EndpointType.AZURE_FUNCTION;
+
     /*
      * Azure Function Properties of the event subscription destination.
      */
     @JsonProperty(value = "properties")
     private AzureFunctionEventSubscriptionDestinationProperties innerProperties;
 
-    /** Creates an instance of AzureFunctionEventSubscriptionDestination class. */
+    /**
+     * Creates an instance of AzureFunctionEventSubscriptionDestination class.
+     */
     public AzureFunctionEventSubscriptionDestination() {
     }
 
     /**
+     * Get the endpointType property: Type of the endpoint for the event subscription destination.
+     * 
+     * @return the endpointType value.
+     */
+    @Override
+    public EndpointType endpointType() {
+        return this.endpointType;
+    }
+
+    /**
      * Get the innerProperties property: Azure Function Properties of the event subscription destination.
-     *
+     * 
      * @return the innerProperties value.
      */
     private AzureFunctionEventSubscriptionDestinationProperties innerProperties() {
@@ -38,7 +64,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
     /**
      * Get the resourceId property: The Azure Resource Id that represents the endpoint of the Azure Function destination
      * of an event subscription.
-     *
+     * 
      * @return the resourceId value.
      */
     public String resourceId() {
@@ -48,7 +74,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
     /**
      * Set the resourceId property: The Azure Resource Id that represents the endpoint of the Azure Function destination
      * of an event subscription.
-     *
+     * 
      * @param resourceId the resourceId value to set.
      * @return the AzureFunctionEventSubscriptionDestination object itself.
      */
@@ -62,7 +88,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Get the maxEventsPerBatch property: Maximum number of events per batch.
-     *
+     * 
      * @return the maxEventsPerBatch value.
      */
     public Integer maxEventsPerBatch() {
@@ -71,7 +97,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Set the maxEventsPerBatch property: Maximum number of events per batch.
-     *
+     * 
      * @param maxEventsPerBatch the maxEventsPerBatch value to set.
      * @return the AzureFunctionEventSubscriptionDestination object itself.
      */
@@ -85,7 +111,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Get the preferredBatchSizeInKilobytes property: Preferred batch size in Kilobytes.
-     *
+     * 
      * @return the preferredBatchSizeInKilobytes value.
      */
     public Integer preferredBatchSizeInKilobytes() {
@@ -94,12 +120,12 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Set the preferredBatchSizeInKilobytes property: Preferred batch size in Kilobytes.
-     *
+     * 
      * @param preferredBatchSizeInKilobytes the preferredBatchSizeInKilobytes value to set.
      * @return the AzureFunctionEventSubscriptionDestination object itself.
      */
-    public AzureFunctionEventSubscriptionDestination withPreferredBatchSizeInKilobytes(
-        Integer preferredBatchSizeInKilobytes) {
+    public AzureFunctionEventSubscriptionDestination
+        withPreferredBatchSizeInKilobytes(Integer preferredBatchSizeInKilobytes) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AzureFunctionEventSubscriptionDestinationProperties();
         }
@@ -109,7 +135,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Get the deliveryAttributeMappings property: Delivery attribute details.
-     *
+     * 
      * @return the deliveryAttributeMappings value.
      */
     public List<DeliveryAttributeMapping> deliveryAttributeMappings() {
@@ -118,12 +144,12 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Set the deliveryAttributeMappings property: Delivery attribute details.
-     *
+     * 
      * @param deliveryAttributeMappings the deliveryAttributeMappings value to set.
      * @return the AzureFunctionEventSubscriptionDestination object itself.
      */
-    public AzureFunctionEventSubscriptionDestination withDeliveryAttributeMappings(
-        List<DeliveryAttributeMapping> deliveryAttributeMappings) {
+    public AzureFunctionEventSubscriptionDestination
+        withDeliveryAttributeMappings(List<DeliveryAttributeMapping> deliveryAttributeMappings) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AzureFunctionEventSubscriptionDestinationProperties();
         }
@@ -133,7 +159,7 @@ public final class AzureFunctionEventSubscriptionDestination extends EventSubscr
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

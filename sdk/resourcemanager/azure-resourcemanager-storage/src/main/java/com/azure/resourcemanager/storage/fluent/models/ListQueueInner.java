@@ -9,7 +9,9 @@ import com.azure.core.management.ProxyResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-/** The ListQueue model. */
+/**
+ * The ListQueue model.
+ */
 @Fluent
 public final class ListQueueInner extends ProxyResource {
     /*
@@ -19,8 +21,14 @@ public final class ListQueueInner extends ProxyResource {
     private ListQueueProperties innerQueueProperties;
 
     /**
+     * Creates an instance of ListQueueInner class.
+     */
+    public ListQueueInner() {
+    }
+
+    /**
      * Get the innerQueueProperties property: List Queue resource properties.
-     *
+     * 
      * @return the innerQueueProperties value.
      */
     private ListQueueProperties innerQueueProperties() {
@@ -29,7 +37,7 @@ public final class ListQueueInner extends ProxyResource {
 
     /**
      * Get the metadata property: A name-value pair that represents queue metadata.
-     *
+     * 
      * @return the metadata value.
      */
     public Map<String, String> metadata() {
@@ -38,7 +46,7 @@ public final class ListQueueInner extends ProxyResource {
 
     /**
      * Set the metadata property: A name-value pair that represents queue metadata.
-     *
+     * 
      * @param metadata the metadata value to set.
      * @return the ListQueueInner object itself.
      */
@@ -52,7 +60,7 @@ public final class ListQueueInner extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

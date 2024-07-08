@@ -8,49 +8,77 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ScheduleTriggerTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Trigger that creates pipeline runs periodically, on schedule. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Trigger that creates pipeline runs periodically, on schedule.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ScheduleTrigger.class, visible = true)
 @JsonTypeName("ScheduleTrigger")
 @Fluent
 public final class ScheduleTrigger extends MultiplePipelineTrigger {
+    /*
+     * Trigger type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ScheduleTrigger";
+
     /*
      * Schedule Trigger properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private ScheduleTriggerTypeProperties innerTypeProperties = new ScheduleTriggerTypeProperties();
 
-    /** Creates an instance of ScheduleTrigger class. */
+    /**
+     * Creates an instance of ScheduleTrigger class.
+     */
     public ScheduleTrigger() {
     }
 
     /**
+     * Get the type property: Trigger type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Schedule Trigger properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ScheduleTriggerTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScheduleTrigger withPipelines(List<TriggerPipelineReference> pipelines) {
         super.withPipelines(pipelines);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScheduleTrigger withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScheduleTrigger withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -59,7 +87,7 @@ public final class ScheduleTrigger extends MultiplePipelineTrigger {
 
     /**
      * Get the recurrence property: Recurrence schedule configuration.
-     *
+     * 
      * @return the recurrence value.
      */
     public ScheduleTriggerRecurrence recurrence() {
@@ -68,7 +96,7 @@ public final class ScheduleTrigger extends MultiplePipelineTrigger {
 
     /**
      * Set the recurrence property: Recurrence schedule configuration.
-     *
+     * 
      * @param recurrence the recurrence value to set.
      * @return the ScheduleTrigger object itself.
      */
@@ -82,17 +110,16 @@ public final class ScheduleTrigger extends MultiplePipelineTrigger {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ScheduleTrigger"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ScheduleTrigger"));
         } else {
             innerTypeProperties().validate();
         }

@@ -32,7 +32,7 @@ import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils
 import com.azure.resourcemanager.storage.StorageManager;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 import com.azure.resourcemanager.storage.models.StorageAccountSkuType;
-import com.azure.resourcemanager.test.ResourceManagerTestBase;
+import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
 import com.azure.resourcemanager.test.utils.TestDelayProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class EventHubTests extends ResourceManagerTestBase {
+public class EventHubTests extends ResourceManagerTestProxyTestBase {
     protected EventHubsManager eventHubsManager;
     protected StorageManager storageManager;
     protected ResourceManager resourceManager;
@@ -548,7 +548,7 @@ public class EventHubTests extends ResourceManagerTestBase {
             Assertions.assertTrue(pairing.name().equalsIgnoreCase(geodrName));
             Assertions.assertTrue(pairing.primaryNamespaceResourceGroupName().equalsIgnoreCase(rgName));
             Assertions.assertTrue(pairing.primaryNamespaceName().equalsIgnoreCase(primaryNamespace.name()));
-            Assertions.assertTrue(pairing.secondaryNamespaceId().equalsIgnoreCase(secondaryNamespace.id()));
+            assertResourceIdEquals(pairing.secondaryNamespaceId(), secondaryNamespace.id());
 
             PagedIterable<DisasterRecoveryPairingAuthorizationRule> rules = pairing.listAuthorizationRules();
             Assertions.assertTrue(TestUtilities.getSize(rules) > 0);
@@ -572,7 +572,7 @@ public class EventHubTests extends ResourceManagerTestBase {
                     found = true;
                     Assertions.assertTrue(pairing1.primaryNamespaceResourceGroupName().equalsIgnoreCase(rgName));
                     Assertions.assertTrue(pairing1.primaryNamespaceName().equalsIgnoreCase(primaryNamespace.name()));
-                    Assertions.assertTrue(pairing1.secondaryNamespaceId().equalsIgnoreCase(secondaryNamespace.id()));
+                    assertResourceIdEquals(pairing.secondaryNamespaceId(), secondaryNamespace.id());
                 }
             }
             Assertions.assertTrue(found);

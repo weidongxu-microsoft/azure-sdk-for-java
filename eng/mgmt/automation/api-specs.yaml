@@ -11,6 +11,8 @@ authorization:
   suffix: generated
 azure-kusto:
   service: kusto
+azurelargeinstance:
+  service: largeinstance
 cdn:
   suffix: generated
 compute:
@@ -47,14 +49,23 @@ dns:
 eventhub:
   service: eventhubs
   suffix: generated
+fist:
+  service: iotfirmwaredefense
 graphservicesprod:
   service: graphservices
+hdinsight/Microsoft.HDInsight/HDInsightOnAks:
+  service: hdinsight
+  suffix: containers
 help:
   service: selfhelp
 hybridaks:
   service: hybridcontainerservice
+informatica:
+  service: informaticadatamanagement
 keyvault:
   suffix: generated
+liftrastronomer:
+  service: astro
 liftrqumulo:
   service: qumulo
 loadtestservice:
@@ -71,8 +82,12 @@ network:
   suffix: generated
 newrelic:
   service: newrelicobservability
+offazurespringboot:
+  service: springappdiscovery
 operationalinsights:
   service: loganalytics
+oracle:
+  service: oracledatabase
 paloaltonetworks:
   suffix: ngfw
 postgresql:
@@ -85,10 +100,14 @@ redis:
   suffix: generated
 resources:
   suffix: generated
+riskiq:
+  service: defendereasm
 service-map:
   service: servicemap
 servicebus:
   suffix: generated
+solutions:
+  service: managedapplications
 sql:
   suffix: generated
 storage:
@@ -100,3 +119,7 @@ vmware:
 web:
   service: appservice
   suffix: generated
+workloads/Microsoft.Workloads/SAPDiscoverySites:
+  service: migrationdiscoverysap
+workloads/Microsoft.Workloads/SAPVirtualInstance:
+  service: workloadssapvirtualinstance

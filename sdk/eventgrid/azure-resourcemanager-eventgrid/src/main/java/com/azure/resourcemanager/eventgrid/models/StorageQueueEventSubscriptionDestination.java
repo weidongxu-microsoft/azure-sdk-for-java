@@ -7,27 +7,53 @@ package com.azure.resourcemanager.eventgrid.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.eventgrid.fluent.models.StorageQueueEventSubscriptionDestinationProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Information about the storage queue destination for an event subscription. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "endpointType")
+/**
+ * Information about the storage queue destination for an event subscription.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "endpointType",
+    defaultImpl = StorageQueueEventSubscriptionDestination.class,
+    visible = true)
 @JsonTypeName("StorageQueue")
 @Fluent
 public final class StorageQueueEventSubscriptionDestination extends EventSubscriptionDestination {
+    /*
+     * Type of the endpoint for the event subscription destination.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "endpointType", required = true)
+    private EndpointType endpointType = EndpointType.STORAGE_QUEUE;
+
     /*
      * Storage Queue Properties of the event subscription destination.
      */
     @JsonProperty(value = "properties")
     private StorageQueueEventSubscriptionDestinationProperties innerProperties;
 
-    /** Creates an instance of StorageQueueEventSubscriptionDestination class. */
+    /**
+     * Creates an instance of StorageQueueEventSubscriptionDestination class.
+     */
     public StorageQueueEventSubscriptionDestination() {
     }
 
     /**
+     * Get the endpointType property: Type of the endpoint for the event subscription destination.
+     * 
+     * @return the endpointType value.
+     */
+    @Override
+    public EndpointType endpointType() {
+        return this.endpointType;
+    }
+
+    /**
      * Get the innerProperties property: Storage Queue Properties of the event subscription destination.
-     *
+     * 
      * @return the innerProperties value.
      */
     private StorageQueueEventSubscriptionDestinationProperties innerProperties() {
@@ -37,7 +63,7 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
     /**
      * Get the resourceId property: The Azure Resource ID of the storage account that contains the queue that is the
      * destination of an event subscription.
-     *
+     * 
      * @return the resourceId value.
      */
     public String resourceId() {
@@ -47,7 +73,7 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
     /**
      * Set the resourceId property: The Azure Resource ID of the storage account that contains the queue that is the
      * destination of an event subscription.
-     *
+     * 
      * @param resourceId the resourceId value to set.
      * @return the StorageQueueEventSubscriptionDestination object itself.
      */
@@ -62,7 +88,7 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
     /**
      * Get the queueName property: The name of the Storage queue under a storage account that is the destination of an
      * event subscription.
-     *
+     * 
      * @return the queueName value.
      */
     public String queueName() {
@@ -72,7 +98,7 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
     /**
      * Set the queueName property: The name of the Storage queue under a storage account that is the destination of an
      * event subscription.
-     *
+     * 
      * @param queueName the queueName value to set.
      * @return the StorageQueueEventSubscriptionDestination object itself.
      */
@@ -88,7 +114,7 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
      * Get the queueMessageTimeToLiveInSeconds property: Storage queue message time to live in seconds. This value
      * cannot be zero or negative with the exception of using -1 to indicate that the Time To Live of the message is
      * Infinite.
-     *
+     * 
      * @return the queueMessageTimeToLiveInSeconds value.
      */
     public Long queueMessageTimeToLiveInSeconds() {
@@ -99,12 +125,12 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
      * Set the queueMessageTimeToLiveInSeconds property: Storage queue message time to live in seconds. This value
      * cannot be zero or negative with the exception of using -1 to indicate that the Time To Live of the message is
      * Infinite.
-     *
+     * 
      * @param queueMessageTimeToLiveInSeconds the queueMessageTimeToLiveInSeconds value to set.
      * @return the StorageQueueEventSubscriptionDestination object itself.
      */
-    public StorageQueueEventSubscriptionDestination withQueueMessageTimeToLiveInSeconds(
-        Long queueMessageTimeToLiveInSeconds) {
+    public StorageQueueEventSubscriptionDestination
+        withQueueMessageTimeToLiveInSeconds(Long queueMessageTimeToLiveInSeconds) {
         if (this.innerProperties() == null) {
             this.innerProperties = new StorageQueueEventSubscriptionDestinationProperties();
         }
@@ -114,7 +140,7 @@ public final class StorageQueueEventSubscriptionDestination extends EventSubscri
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

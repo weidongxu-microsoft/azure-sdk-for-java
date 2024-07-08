@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ODataLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Open Data Protocol (OData) linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Open Data Protocol (OData) linked service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ODataLinkedService.class, visible = true)
 @JsonTypeName("OData")
 @Fluent
 public final class ODataLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "OData";
+
     /*
      * OData linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private ODataLinkedServiceTypeProperties innerTypeProperties = new ODataLinkedServiceTypeProperties();
 
-    /** Creates an instance of ODataLinkedService class. */
+    /**
+     * Creates an instance of ODataLinkedService class.
+     */
     public ODataLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: OData linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ODataLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODataLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +97,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Get the url property: The URL of the OData service endpoint. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the url value.
      */
     public Object url() {
@@ -76,7 +106,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Set the url property: The URL of the OData service endpoint. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param url the url value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -90,7 +120,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Get the authenticationType property: Type of authentication used to connect to the OData service.
-     *
+     * 
      * @return the authenticationType value.
      */
     public ODataAuthenticationType authenticationType() {
@@ -99,7 +129,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Set the authenticationType property: Type of authentication used to connect to the OData service.
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -113,7 +143,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Get the username property: User name of the OData service. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -122,7 +152,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Set the username property: User name of the OData service. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param username the username value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -136,7 +166,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Get the password property: Password of the OData service.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -145,7 +175,7 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Set the password property: Password of the OData service.
-     *
+     * 
      * @param password the password value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -159,8 +189,8 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Get the authHeaders property: The additional HTTP headers in the request to RESTful API used for authorization.
-     * Type: object (or Expression with resultType object).
-     *
+     * Type: key value pairs (value should be string type).
+     * 
      * @return the authHeaders value.
      */
     public Object authHeaders() {
@@ -169,8 +199,8 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Set the authHeaders property: The additional HTTP headers in the request to RESTful API used for authorization.
-     * Type: object (or Expression with resultType object).
-     *
+     * Type: key value pairs (value should be string type).
+     * 
      * @param authHeaders the authHeaders value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -185,7 +215,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Get the tenant property: Specify the tenant information (domain name or tenant ID) under which your application
      * resides. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the tenant value.
      */
     public Object tenant() {
@@ -195,7 +225,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Set the tenant property: Specify the tenant information (domain name or tenant ID) under which your application
      * resides. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param tenant the tenant value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -210,7 +240,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Get the servicePrincipalId property: Specify the application id of your application registered in Azure Active
      * Directory. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the servicePrincipalId value.
      */
     public Object servicePrincipalId() {
@@ -220,7 +250,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Set the servicePrincipalId property: Specify the application id of your application registered in Azure Active
      * Directory. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param servicePrincipalId the servicePrincipalId value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -236,7 +266,7 @@ public final class ODataLinkedService extends LinkedService {
      * Get the azureCloudType property: Indicates the azure cloud type of the service principle auth. Allowed values are
      * AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the azureCloudType value.
      */
     public Object azureCloudType() {
@@ -247,7 +277,7 @@ public final class ODataLinkedService extends LinkedService {
      * Set the azureCloudType property: Indicates the azure cloud type of the service principle auth. Allowed values are
      * AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type.
      * Type: string (or Expression with resultType string).
-     *
+     * 
      * @param azureCloudType the azureCloudType value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -262,7 +292,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Get the aadResourceId property: Specify the resource you are requesting authorization to use Directory. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @return the aadResourceId value.
      */
     public Object aadResourceId() {
@@ -272,7 +302,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Set the aadResourceId property: Specify the resource you are requesting authorization to use Directory. Type:
      * string (or Expression with resultType string).
-     *
+     * 
      * @param aadResourceId the aadResourceId value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -287,7 +317,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Get the aadServicePrincipalCredentialType property: Specify the credential type (key or cert) is used for service
      * principal.
-     *
+     * 
      * @return the aadServicePrincipalCredentialType value.
      */
     public ODataAadServicePrincipalCredentialType aadServicePrincipalCredentialType() {
@@ -299,7 +329,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Set the aadServicePrincipalCredentialType property: Specify the credential type (key or cert) is used for service
      * principal.
-     *
+     * 
      * @param aadServicePrincipalCredentialType the aadServicePrincipalCredentialType value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -315,7 +345,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Get the servicePrincipalKey property: Specify the secret of your application registered in Azure Active
      * Directory. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the servicePrincipalKey value.
      */
     public SecretBase servicePrincipalKey() {
@@ -325,7 +355,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Set the servicePrincipalKey property: Specify the secret of your application registered in Azure Active
      * Directory. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param servicePrincipalKey the servicePrincipalKey value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -340,7 +370,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Get the servicePrincipalEmbeddedCert property: Specify the base64 encoded certificate of your application
      * registered in Azure Active Directory. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the servicePrincipalEmbeddedCert value.
      */
     public SecretBase servicePrincipalEmbeddedCert() {
@@ -350,7 +380,7 @@ public final class ODataLinkedService extends LinkedService {
     /**
      * Set the servicePrincipalEmbeddedCert property: Specify the base64 encoded certificate of your application
      * registered in Azure Active Directory. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param servicePrincipalEmbeddedCert the servicePrincipalEmbeddedCert value to set.
      * @return the ODataLinkedService object itself.
      */
@@ -366,7 +396,7 @@ public final class ODataLinkedService extends LinkedService {
      * Get the servicePrincipalEmbeddedCertPassword property: Specify the password of your certificate if your
      * certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the servicePrincipalEmbeddedCertPassword value.
      */
     public SecretBase servicePrincipalEmbeddedCertPassword() {
@@ -379,12 +409,12 @@ public final class ODataLinkedService extends LinkedService {
      * Set the servicePrincipalEmbeddedCertPassword property: Specify the password of your certificate if your
      * certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param servicePrincipalEmbeddedCertPassword the servicePrincipalEmbeddedCertPassword value to set.
      * @return the ODataLinkedService object itself.
      */
-    public ODataLinkedService withServicePrincipalEmbeddedCertPassword(
-        SecretBase servicePrincipalEmbeddedCertPassword) {
+    public ODataLinkedService
+        withServicePrincipalEmbeddedCertPassword(SecretBase servicePrincipalEmbeddedCertPassword) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new ODataLinkedServiceTypeProperties();
         }
@@ -394,22 +424,22 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the ODataLinkedService object itself.
      */
-    public ODataLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public ODataLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new ODataLinkedServiceTypeProperties();
         }
@@ -419,17 +449,16 @@ public final class ODataLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ODataLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ODataLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for WebApps ListWorkflowsConnections. */
+/**
+ * Samples for WebApps ListWorkflowsConnections.
+ */
 public final class WebAppsListWorkflowsConnectionsSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListWorkflowsConfigurationConnections.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListWorkflowsConfigurationConnections.json
      */
     /**
      * Sample code: List the Instance Workflows Configuration Connections.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void listTheInstanceWorkflowsConfigurationConnections(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+    public static void
+        listTheInstanceWorkflowsConfigurationConnections(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.webApps()
             .manager()
             .serviceClient()
             .getWebApps()

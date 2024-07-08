@@ -6,15 +6,29 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Mab container-specific backup policy. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "backupManagementType")
+/**
+ * Mab container-specific backup policy.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "backupManagementType",
+    defaultImpl = MabProtectionPolicy.class,
+    visible = true)
 @JsonTypeName("MAB")
 @Fluent
 public final class MabProtectionPolicy extends ProtectionPolicy {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "backupManagementType", required = true)
+    private String backupManagementType = "MAB";
+
     /*
      * Backup schedule of backup policy.
      */
@@ -27,13 +41,26 @@ public final class MabProtectionPolicy extends ProtectionPolicy {
     @JsonProperty(value = "retentionPolicy")
     private RetentionPolicy retentionPolicy;
 
-    /** Creates an instance of MabProtectionPolicy class. */
+    /**
+     * Creates an instance of MabProtectionPolicy class.
+     */
     public MabProtectionPolicy() {
     }
 
     /**
+     * Get the backupManagementType property: This property will be used as the discriminator for deciding the specific
+     * types in the polymorphic chain of types.
+     * 
+     * @return the backupManagementType value.
+     */
+    @Override
+    public String backupManagementType() {
+        return this.backupManagementType;
+    }
+
+    /**
      * Get the schedulePolicy property: Backup schedule of backup policy.
-     *
+     * 
      * @return the schedulePolicy value.
      */
     public SchedulePolicy schedulePolicy() {
@@ -42,7 +69,7 @@ public final class MabProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the schedulePolicy property: Backup schedule of backup policy.
-     *
+     * 
      * @param schedulePolicy the schedulePolicy value to set.
      * @return the MabProtectionPolicy object itself.
      */
@@ -53,7 +80,7 @@ public final class MabProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Get the retentionPolicy property: Retention policy details.
-     *
+     * 
      * @return the retentionPolicy value.
      */
     public RetentionPolicy retentionPolicy() {
@@ -62,7 +89,7 @@ public final class MabProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Set the retentionPolicy property: Retention policy details.
-     *
+     * 
      * @param retentionPolicy the retentionPolicy value to set.
      * @return the MabProtectionPolicy object itself.
      */
@@ -71,14 +98,18 @@ public final class MabProtectionPolicy extends ProtectionPolicy {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabProtectionPolicy withProtectedItemsCount(Integer protectedItemsCount) {
         super.withProtectedItemsCount(protectedItemsCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MabProtectionPolicy withResourceGuardOperationRequests(List<String> resourceGuardOperationRequests) {
         super.withResourceGuardOperationRequests(resourceGuardOperationRequests);
@@ -87,7 +118,7 @@ public final class MabProtectionPolicy extends ProtectionPolicy {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -8,71 +8,127 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.SqlServerStoredProcedureActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** SQL stored procedure activity type. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * SQL stored procedure activity type.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = SqlServerStoredProcedureActivity.class,
+    visible = true)
 @JsonTypeName("SqlServerStoredProcedure")
 @Fluent
 public final class SqlServerStoredProcedureActivity extends ExecutionActivity {
     /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SqlServerStoredProcedure";
+
+    /*
      * SQL stored procedure activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private SqlServerStoredProcedureActivityTypeProperties innerTypeProperties =
-        new SqlServerStoredProcedureActivityTypeProperties();
+    private SqlServerStoredProcedureActivityTypeProperties innerTypeProperties
+        = new SqlServerStoredProcedureActivityTypeProperties();
 
-    /** Creates an instance of SqlServerStoredProcedureActivity class. */
+    /**
+     * Creates an instance of SqlServerStoredProcedureActivity class.
+     */
     public SqlServerStoredProcedureActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: SQL stored procedure activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SqlServerStoredProcedureActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerStoredProcedureActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerStoredProcedureActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerStoredProcedureActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerStoredProcedureActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SqlServerStoredProcedureActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SqlServerStoredProcedureActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerStoredProcedureActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlServerStoredProcedureActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -81,7 +137,7 @@ public final class SqlServerStoredProcedureActivity extends ExecutionActivity {
 
     /**
      * Get the storedProcedureName property: Stored procedure name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the storedProcedureName value.
      */
     public Object storedProcedureName() {
@@ -90,7 +146,7 @@ public final class SqlServerStoredProcedureActivity extends ExecutionActivity {
 
     /**
      * Set the storedProcedureName property: Stored procedure name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param storedProcedureName the storedProcedureName value to set.
      * @return the SqlServerStoredProcedureActivity object itself.
      */
@@ -105,7 +161,7 @@ public final class SqlServerStoredProcedureActivity extends ExecutionActivity {
     /**
      * Get the storedProcedureParameters property: Value and type setting for stored procedure parameters. Example:
      * "{Parameter1: {value: "1", type: "int"}}".
-     *
+     * 
      * @return the storedProcedureParameters value.
      */
     public Object storedProcedureParameters() {
@@ -115,7 +171,7 @@ public final class SqlServerStoredProcedureActivity extends ExecutionActivity {
     /**
      * Set the storedProcedureParameters property: Value and type setting for stored procedure parameters. Example:
      * "{Parameter1: {value: "1", type: "int"}}".
-     *
+     * 
      * @param storedProcedureParameters the storedProcedureParameters value to set.
      * @return the SqlServerStoredProcedureActivity object itself.
      */
@@ -129,17 +185,16 @@ public final class SqlServerStoredProcedureActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model SqlServerStoredProcedureActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model SqlServerStoredProcedureActivity"));
         } else {
             innerTypeProperties().validate();
         }

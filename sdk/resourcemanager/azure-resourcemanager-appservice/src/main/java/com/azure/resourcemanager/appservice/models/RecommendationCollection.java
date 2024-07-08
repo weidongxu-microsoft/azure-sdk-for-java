@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.RecommendationInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of recommendations. */
+/**
+ * Collection of recommendations.
+ */
 @Fluent
 public final class RecommendationCollection {
     /*
@@ -25,7 +28,9 @@ public final class RecommendationCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of RecommendationCollection class. */
+    /**
+     * Creates an instance of RecommendationCollection class.
+     */
     public RecommendationCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class RecommendationCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model RecommendationCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model RecommendationCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

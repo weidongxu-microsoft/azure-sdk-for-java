@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.ApplicationStackResourceInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Application Stacks. */
+/**
+ * Collection of Application Stacks.
+ */
 @Fluent
 public final class ApplicationStackCollection {
     /*
@@ -25,7 +28,9 @@ public final class ApplicationStackCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ApplicationStackCollection class. */
+    /**
+     * Creates an instance of ApplicationStackCollection class.
+     */
     public ApplicationStackCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class ApplicationStackCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model ApplicationStackCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model ApplicationStackCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

@@ -10,9 +10,12 @@ import com.azure.resourcemanager.appservice.models.KubeEnvironmentProfile;
 import com.azure.resourcemanager.appservice.models.ProvisioningState;
 import com.azure.resourcemanager.appservice.models.StatusOptions;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
-/** AppServicePlan resource specific properties. */
+/**
+ * AppServicePlan resource specific properties.
+ */
 @Fluent
 public final class AppServicePlanProperties {
     /*
@@ -155,7 +158,9 @@ public final class AppServicePlanProperties {
     @JsonProperty(value = "zoneRedundant")
     private Boolean zoneRedundant;
 
-    /** Creates an instance of AppServicePlanProperties class. */
+    /**
+     * Creates an instance of AppServicePlanProperties class.
+     */
     public AppServicePlanProperties() {
     }
 
@@ -249,8 +254,9 @@ public final class AppServicePlanProperties {
 
     /**
      * Get the perSiteScaling property: If &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be
-     * scaled independently. If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all
-     * instances of the plan.
+     * scaled independently.
+     * If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the
+     * plan.
      *
      * @return the perSiteScaling value.
      */
@@ -260,8 +266,9 @@ public final class AppServicePlanProperties {
 
     /**
      * Set the perSiteScaling property: If &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be
-     * scaled independently. If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all
-     * instances of the plan.
+     * scaled independently.
+     * If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the
+     * plan.
      *
      * @param perSiteScaling the perSiteScaling value to set.
      * @return the AppServicePlanProperties object itself.
@@ -534,8 +541,8 @@ public final class AppServicePlanProperties {
 
     /**
      * Get the zoneRedundant property: If &lt;code&gt;true&lt;/code&gt;, this App Service Plan will perform availability
-     * zone balancing. If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone
-     * balancing.
+     * zone balancing.
+     * If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone balancing.
      *
      * @return the zoneRedundant value.
      */
@@ -545,8 +552,8 @@ public final class AppServicePlanProperties {
 
     /**
      * Set the zoneRedundant property: If &lt;code&gt;true&lt;/code&gt;, this App Service Plan will perform availability
-     * zone balancing. If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone
-     * balancing.
+     * zone balancing.
+     * If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone balancing.
      *
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the AppServicePlanProperties object itself.

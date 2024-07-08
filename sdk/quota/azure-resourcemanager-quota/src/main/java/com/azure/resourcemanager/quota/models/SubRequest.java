@@ -7,7 +7,9 @@ package com.azure.resourcemanager.quota.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Request property. */
+/**
+ * Request property.
+ */
 @Fluent
 public final class SubRequest {
     /*
@@ -23,8 +25,7 @@ public final class SubRequest {
     private String resourceType;
 
     /*
-     * Quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET
-     * response in the request body of your PUT operation.
+     *  Quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation.
      */
     @JsonProperty(value = "unit")
     private String unit;
@@ -53,13 +54,15 @@ public final class SubRequest {
     @JsonProperty(value = "limit")
     private LimitJsonObject limit;
 
-    /** Creates an instance of SubRequest class. */
+    /**
+     * Creates an instance of SubRequest class.
+     */
     public SubRequest() {
     }
 
     /**
      * Get the name property: Resource name.
-     *
+     * 
      * @return the name value.
      */
     public ResourceName name() {
@@ -68,7 +71,7 @@ public final class SubRequest {
 
     /**
      * Set the name property: Resource name.
-     *
+     * 
      * @param name the name value to set.
      * @return the SubRequest object itself.
      */
@@ -79,7 +82,7 @@ public final class SubRequest {
 
     /**
      * Get the resourceType property: Resource type for which the quota properties were requested.
-     *
+     * 
      * @return the resourceType value.
      */
     public String resourceType() {
@@ -89,7 +92,7 @@ public final class SubRequest {
     /**
      * Get the unit property: Quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value
      * returned in the GET response in the request body of your PUT operation.
-     *
+     * 
      * @return the unit value.
      */
     public String unit() {
@@ -99,7 +102,7 @@ public final class SubRequest {
     /**
      * Set the unit property: Quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value
      * returned in the GET response in the request body of your PUT operation.
-     *
+     * 
      * @param unit the unit value to set.
      * @return the SubRequest object itself.
      */
@@ -110,7 +113,7 @@ public final class SubRequest {
 
     /**
      * Get the provisioningState property: The quota request status.
-     *
+     * 
      * @return the provisioningState value.
      */
     public QuotaRequestState provisioningState() {
@@ -119,7 +122,7 @@ public final class SubRequest {
 
     /**
      * Get the message property: User-friendly status message.
-     *
+     * 
      * @return the message value.
      */
     public String message() {
@@ -128,7 +131,7 @@ public final class SubRequest {
 
     /**
      * Get the subRequestId property: Quota request ID.
-     *
+     * 
      * @return the subRequestId value.
      */
     public String subRequestId() {
@@ -137,7 +140,7 @@ public final class SubRequest {
 
     /**
      * Get the limit property: Resource quota limit properties.
-     *
+     * 
      * @return the limit value.
      */
     public LimitJsonObject limit() {
@@ -146,7 +149,7 @@ public final class SubRequest {
 
     /**
      * Set the limit property: Resource quota limit properties.
-     *
+     * 
      * @param limit the limit value to set.
      * @return the SubRequest object itself.
      */
@@ -157,7 +160,7 @@ public final class SubRequest {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

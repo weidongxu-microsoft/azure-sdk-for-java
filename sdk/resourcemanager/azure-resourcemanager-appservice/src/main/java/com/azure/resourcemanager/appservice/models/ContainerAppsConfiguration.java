@@ -7,7 +7,9 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The ContainerAppsConfiguration model. */
+/**
+ * The ContainerAppsConfiguration model.
+ */
 @Fluent
 public final class ContainerAppsConfiguration {
     /*
@@ -17,50 +19,45 @@ public final class ContainerAppsConfiguration {
     private String daprAIInstrumentationKey;
 
     /*
-     * IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap
-     * with any other Subnet IP ranges.
+     * IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
      */
     @JsonProperty(value = "platformReservedCidr")
     private String platformReservedCidr;
 
     /*
-     * An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS
-     * server
+     * An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server
      */
     @JsonProperty(value = "platformReservedDnsIP")
     private String platformReservedDnsIp;
 
     /*
-     * Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the
-     * subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if
-     * defined.
+     * Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined.
      */
     @JsonProperty(value = "controlPlaneSubnetResourceId")
     private String controlPlaneSubnetResourceId;
 
     /*
-     * Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the
-     * subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if
-     * defined.
+     * Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined.
      */
     @JsonProperty(value = "appSubnetResourceId")
     private String appSubnetResourceId;
 
     /*
-     * CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or
-     * the IP range defined in platformReservedCidr, if defined.
+     * CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the IP range defined in platformReservedCidr, if defined.
      */
     @JsonProperty(value = "dockerBridgeCidr")
     private String dockerBridgeCidr;
 
-    /** Creates an instance of ContainerAppsConfiguration class. */
+    /**
+     * Creates an instance of ContainerAppsConfiguration class.
+     */
     public ContainerAppsConfiguration() {
     }
 
     /**
      * Get the daprAIInstrumentationKey property: Azure Monitor instrumentation key used by Dapr to export Service to
      * Service communication telemetry.
-     *
+     * 
      * @return the daprAIInstrumentationKey value.
      */
     public String daprAIInstrumentationKey() {
@@ -70,7 +67,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Set the daprAIInstrumentationKey property: Azure Monitor instrumentation key used by Dapr to export Service to
      * Service communication telemetry.
-     *
+     * 
      * @param daprAIInstrumentationKey the daprAIInstrumentationKey value to set.
      * @return the ContainerAppsConfiguration object itself.
      */
@@ -82,7 +79,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Get the platformReservedCidr property: IP range in CIDR notation that can be reserved for environment
      * infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
-     *
+     * 
      * @return the platformReservedCidr value.
      */
     public String platformReservedCidr() {
@@ -92,7 +89,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Set the platformReservedCidr property: IP range in CIDR notation that can be reserved for environment
      * infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
-     *
+     * 
      * @param platformReservedCidr the platformReservedCidr value to set.
      * @return the ContainerAppsConfiguration object itself.
      */
@@ -104,7 +101,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Get the platformReservedDnsIp property: An IP address from the IP range defined by platformReservedCidr that will
      * be reserved for the internal DNS server.
-     *
+     * 
      * @return the platformReservedDnsIp value.
      */
     public String platformReservedDnsIp() {
@@ -114,7 +111,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Set the platformReservedDnsIp property: An IP address from the IP range defined by platformReservedCidr that will
      * be reserved for the internal DNS server.
-     *
+     * 
      * @param platformReservedDnsIp the platformReservedDnsIp value to set.
      * @return the ContainerAppsConfiguration object itself.
      */
@@ -127,7 +124,7 @@ public final class ContainerAppsConfiguration {
      * Get the controlPlaneSubnetResourceId property: Resource ID of a subnet for control plane infrastructure
      * components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap
      * with the IP range defined in platformReservedCidr, if defined.
-     *
+     * 
      * @return the controlPlaneSubnetResourceId value.
      */
     public String controlPlaneSubnetResourceId() {
@@ -138,7 +135,7 @@ public final class ContainerAppsConfiguration {
      * Set the controlPlaneSubnetResourceId property: Resource ID of a subnet for control plane infrastructure
      * components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap
      * with the IP range defined in platformReservedCidr, if defined.
-     *
+     * 
      * @param controlPlaneSubnetResourceId the controlPlaneSubnetResourceId value to set.
      * @return the ContainerAppsConfiguration object itself.
      */
@@ -151,7 +148,7 @@ public final class ContainerAppsConfiguration {
      * Get the appSubnetResourceId property: Resource ID of a subnet for control plane infrastructure components. This
      * subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range
      * defined in platformReservedCidr, if defined.
-     *
+     * 
      * @return the appSubnetResourceId value.
      */
     public String appSubnetResourceId() {
@@ -162,7 +159,7 @@ public final class ContainerAppsConfiguration {
      * Set the appSubnetResourceId property: Resource ID of a subnet for control plane infrastructure components. This
      * subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range
      * defined in platformReservedCidr, if defined.
-     *
+     * 
      * @param appSubnetResourceId the appSubnetResourceId value to set.
      * @return the ContainerAppsConfiguration object itself.
      */
@@ -174,7 +171,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Get the dockerBridgeCidr property: CIDR notation IP range assigned to the Docker bridge network. It must not
      * overlap with any Subnet IP ranges or the IP range defined in platformReservedCidr, if defined.
-     *
+     * 
      * @return the dockerBridgeCidr value.
      */
     public String dockerBridgeCidr() {
@@ -184,7 +181,7 @@ public final class ContainerAppsConfiguration {
     /**
      * Set the dockerBridgeCidr property: CIDR notation IP range assigned to the Docker bridge network. It must not
      * overlap with any Subnet IP ranges or the IP range defined in platformReservedCidr, if defined.
-     *
+     * 
      * @param dockerBridgeCidr the dockerBridgeCidr value to set.
      * @return the ContainerAppsConfiguration object itself.
      */
@@ -195,7 +192,7 @@ public final class ContainerAppsConfiguration {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.HostnameBindingInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of hostname bindings. */
+/**
+ * Collection of hostname bindings.
+ */
 @Fluent
 public final class HostnameBindingCollection {
     /*
@@ -25,7 +28,9 @@ public final class HostnameBindingCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of HostnameBindingCollection class. */
+    /**
+     * Creates an instance of HostnameBindingCollection class.
+     */
     public HostnameBindingCollection() {
     }
 
@@ -65,8 +70,8 @@ public final class HostnameBindingCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
+            throw LOGGER.atError()
+                .log(
                     new IllegalArgumentException("Missing required property value in model HostnameBindingCollection"));
         } else {
             value().forEach(e -> e.validate());

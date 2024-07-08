@@ -6,15 +6,17 @@ package com.azure.resourcemanager.appservice.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Domain purchase consent object, representing acceptance of applicable legal agreements. */
+/**
+ * Domain purchase consent object, representing acceptance of applicable legal agreements.
+ */
 @Fluent
 public final class DomainPurchaseConsent {
     /*
-     * List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under
-     * <code>TopLevelDomain</code> resource.
+     * List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under <code>TopLevelDomain</code> resource.
      */
     @JsonProperty(value = "agreementKeys")
     private List<String> agreementKeys;
@@ -31,7 +33,9 @@ public final class DomainPurchaseConsent {
     @JsonProperty(value = "agreedAt")
     private OffsetDateTime agreedAt;
 
-    /** Creates an instance of DomainPurchaseConsent class. */
+    /**
+     * Creates an instance of DomainPurchaseConsent class.
+     */
     public DomainPurchaseConsent() {
     }
 

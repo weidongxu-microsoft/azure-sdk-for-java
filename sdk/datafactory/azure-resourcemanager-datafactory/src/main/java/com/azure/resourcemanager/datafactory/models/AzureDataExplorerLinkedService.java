@@ -8,58 +8,92 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.AzureDataExplorerLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Azure Data Explorer (Kusto) linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Azure Data Explorer (Kusto) linked service.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = AzureDataExplorerLinkedService.class,
+    visible = true)
 @JsonTypeName("AzureDataExplorer")
 @Fluent
 public final class AzureDataExplorerLinkedService extends LinkedService {
     /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureDataExplorer";
+
+    /*
      * Azure Data Explorer (Kusto) linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private AzureDataExplorerLinkedServiceTypeProperties innerTypeProperties =
-        new AzureDataExplorerLinkedServiceTypeProperties();
+    private AzureDataExplorerLinkedServiceTypeProperties innerTypeProperties
+        = new AzureDataExplorerLinkedServiceTypeProperties();
 
-    /** Creates an instance of AzureDataExplorerLinkedService class. */
+    /**
+     * Creates an instance of AzureDataExplorerLinkedService class.
+     */
     public AzureDataExplorerLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Azure Data Explorer (Kusto) linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AzureDataExplorerLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureDataExplorerLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -70,7 +104,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
      * Get the endpoint property: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the format
      * https://&lt;clusterName&gt;.&lt;regionName&gt;.kusto.windows.net. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the endpoint value.
      */
     public Object endpoint() {
@@ -81,7 +115,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
      * Set the endpoint property: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the format
      * https://&lt;clusterName&gt;.&lt;regionName&gt;.kusto.windows.net. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param endpoint the endpoint value to set.
      * @return the AzureDataExplorerLinkedService object itself.
      */
@@ -96,7 +130,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
     /**
      * Get the servicePrincipalId property: The ID of the service principal used to authenticate against Azure Data
      * Explorer. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the servicePrincipalId value.
      */
     public Object servicePrincipalId() {
@@ -106,7 +140,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
     /**
      * Set the servicePrincipalId property: The ID of the service principal used to authenticate against Azure Data
      * Explorer. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param servicePrincipalId the servicePrincipalId value to set.
      * @return the AzureDataExplorerLinkedService object itself.
      */
@@ -120,7 +154,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Get the servicePrincipalKey property: The key of the service principal used to authenticate against Kusto.
-     *
+     * 
      * @return the servicePrincipalKey value.
      */
     public SecretBase servicePrincipalKey() {
@@ -129,7 +163,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Set the servicePrincipalKey property: The key of the service principal used to authenticate against Kusto.
-     *
+     * 
      * @param servicePrincipalKey the servicePrincipalKey value to set.
      * @return the AzureDataExplorerLinkedService object itself.
      */
@@ -143,7 +177,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Get the database property: Database name for connection. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the database value.
      */
     public Object database() {
@@ -152,7 +186,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Set the database property: Database name for connection. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param database the database value to set.
      * @return the AzureDataExplorerLinkedService object itself.
      */
@@ -167,7 +201,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
     /**
      * Get the tenant property: The name or ID of the tenant to which the service principal belongs. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the tenant value.
      */
     public Object tenant() {
@@ -177,7 +211,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
     /**
      * Set the tenant property: The name or ID of the tenant to which the service principal belongs. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param tenant the tenant value to set.
      * @return the AzureDataExplorerLinkedService object itself.
      */
@@ -191,7 +225,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Get the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @return the credential value.
      */
     public CredentialReference credential() {
@@ -200,7 +234,7 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Set the credential property: The credential reference containing authentication information.
-     *
+     * 
      * @param credential the credential value to set.
      * @return the AzureDataExplorerLinkedService object itself.
      */
@@ -214,17 +248,16 @@ public final class AzureDataExplorerLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model AzureDataExplorerLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model AzureDataExplorerLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

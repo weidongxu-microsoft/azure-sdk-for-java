@@ -9,40 +9,81 @@ import com.azure.cosmos.implementation.apachecommons.lang.StringUtils;
 import com.azure.cosmos.implementation.directconnectivity.rntbd.RntbdChannelAcquisitionTimeline;
 import com.azure.cosmos.implementation.directconnectivity.rntbd.RntbdChannelStatistics;
 import com.azure.cosmos.implementation.directconnectivity.rntbd.RntbdEndpointStatistics;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.netty.buffer.ByteBufInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import static com.azure.cosmos.implementation.guava25.base.Preconditions.checkArgument;
 
 /**
  * Used internally to represents a response from the store.
  */
 public class StoreResponse {
-    final static Logger LOGGER = LoggerFactory.getLogger(StoreResponse.class);
+    private static final Logger logger = LoggerFactory.getLogger(StoreResponse.class.getSimpleName());
     final private int status;
     final private String[] responseHeaderNames;
     final private String[] responseHeaderValues;
-    final private byte[] content;
     private int requestPayloadLength;
-    private int responsePayloadLength;
     private RequestTimeline requestTimeline;
     private RntbdChannelAcquisitionTimeline channelAcquisitionTimeline;
     private RntbdEndpointStatistics rntbdEndpointStatistics;
     private RntbdChannelStatistics channelStatistics;
     private int rntbdRequestLength;
     private int rntbdResponseLength;
-    private final List<String> replicaStatusList;
-
+    private final Map<String, Set<String>> replicaStatusList;
     private String faultInjectionRuleId;
     private List<String> faultInjectionRuleEvaluationResults;
+
+    private final JsonNodeStorePayload responsePayload;
 
     public StoreResponse(
             int status,
             Map<String, String> headerMap,
-            byte[] content) {
+            ByteBufInputStream contentStream,
+            int responsePayloadLength) {
+
+        checkArgument((contentStream == null) == (responsePayloadLength == 0),
+            "Parameter 'contentStream' must be consistent with 'responsePayloadLength'.");
+        requestTimeline = RequestTimeline.empty();
+        responseHeaderNames = new String[headerMap.size()];
+        responseHeaderValues = new String[headerMap.size()];
+
+        int i = 0;
+        for (Map.Entry<String, String> headerEntry : headerMap.entrySet()) {
+            responseHeaderNames[i] = headerEntry.getKey();
+            responseHeaderValues[i] = headerEntry.getValue();
+            i++;
+        }
+
+        this.status = status;
+        replicaStatusList = new HashMap<>();
+        if (contentStream != null) {
+            try {
+                this.responsePayload = new JsonNodeStorePayload(contentStream, responsePayloadLength);
+            }
+            finally {
+                try {
+                    contentStream.close();
+                } catch (IOException e) {
+                    logger.debug("Could not successfully close content stream.", e);
+                }
+            }
+        } else {
+            this.responsePayload = null;
+        }
+    }
+
+    private StoreResponse(
+        int status,
+        Map<String, String> headerMap,
+        JsonNodeStorePayload responsePayload) {
 
         requestTimeline = RequestTimeline.empty();
         responseHeaderNames = new String[headerMap.size()];
@@ -56,12 +97,8 @@ public class StoreResponse {
         }
 
         this.status = status;
-        this.content = content;
-        if (this.content != null) {
-            this.responsePayloadLength = this.content.length;
-        }
-
-        replicaStatusList = new ArrayList<>();
+        replicaStatusList = new HashMap<>();
+        this.responsePayload = responsePayload;
     }
 
     public int getStatus() {
@@ -100,12 +137,20 @@ public class StoreResponse {
         this.requestPayloadLength = requestPayloadLength;
     }
 
-    public byte[] getResponseBody() {
-        return this.content;
+    public JsonNode getResponseBodyAsJson() {
+        if (this.responsePayload == null) {
+            return null;
+        }
+
+        return this.responsePayload.getPayload();
     }
 
     public int getResponseBodyLength() {
-        return this.responsePayloadLength;
+        if (this.responsePayload == null) {
+            return 0;
+        }
+
+        return this.responsePayload.getResponsePayloadSize();
     }
 
     public long getLSN() {
@@ -200,7 +245,7 @@ public class StoreResponse {
         return subStatusCode;
     }
 
-    public List<String> getReplicaStatusList() {
+    public Map<String, Set<String>> getReplicaStatusList() {
         return this.replicaStatusList;
     }
 
@@ -237,6 +282,6 @@ public class StoreResponse {
         return new StoreResponse(
             newStatusCode,
             headers,
-            this.content);
+            this.responsePayload);
     }
 }

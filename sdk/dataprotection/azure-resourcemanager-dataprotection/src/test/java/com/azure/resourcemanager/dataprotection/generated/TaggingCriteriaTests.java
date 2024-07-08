@@ -14,29 +14,22 @@ import org.junit.jupiter.api.Assertions;
 public final class TaggingCriteriaTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        TaggingCriteria model =
-            BinaryData
-                .fromString(
-                    "{\"criteria\":[{\"objectType\":\"BackupCriteria\"},{\"objectType\":\"BackupCriteria\"},{\"objectType\":\"BackupCriteria\"},{\"objectType\":\"BackupCriteria\"}],\"isDefault\":true,\"taggingPriority\":1690476720955095356,\"tagInfo\":{\"eTag\":\"vhixbjxy\",\"id\":\"n\",\"tagName\":\"lrcoolsttpki\"}}")
-                .toObject(TaggingCriteria.class);
-        Assertions.assertEquals(true, model.isDefault());
-        Assertions.assertEquals(1690476720955095356L, model.taggingPriority());
-        Assertions.assertEquals("lrcoolsttpki", model.tagInfo().tagName());
+        TaggingCriteria model = BinaryData.fromString(
+            "{\"criteria\":[{\"objectType\":\"BackupCriteria\"},{\"objectType\":\"BackupCriteria\"}],\"isDefault\":false,\"taggingPriority\":6127684200554474555,\"tagInfo\":{\"eTag\":\"alxlllchp\",\"id\":\"bzevwrd\",\"tagName\":\"hfuk\"}}")
+            .toObject(TaggingCriteria.class);
+        Assertions.assertEquals(false, model.isDefault());
+        Assertions.assertEquals(6127684200554474555L, model.taggingPriority());
+        Assertions.assertEquals("hfuk", model.tagInfo().tagName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        TaggingCriteria model =
-            new TaggingCriteria()
-                .withCriteria(
-                    Arrays
-                        .asList(new BackupCriteria(), new BackupCriteria(), new BackupCriteria(), new BackupCriteria()))
-                .withIsDefault(true)
-                .withTaggingPriority(1690476720955095356L)
-                .withTagInfo(new RetentionTag().withTagName("lrcoolsttpki"));
+        TaggingCriteria model = new TaggingCriteria()
+            .withCriteria(Arrays.asList(new BackupCriteria(), new BackupCriteria())).withIsDefault(false)
+            .withTaggingPriority(6127684200554474555L).withTagInfo(new RetentionTag().withTagName("hfuk"));
         model = BinaryData.fromObject(model).toObject(TaggingCriteria.class);
-        Assertions.assertEquals(true, model.isDefault());
-        Assertions.assertEquals(1690476720955095356L, model.taggingPriority());
-        Assertions.assertEquals("lrcoolsttpki", model.tagInfo().tagName());
+        Assertions.assertEquals(false, model.isDefault());
+        Assertions.assertEquals(6127684200554474555L, model.taggingPriority());
+        Assertions.assertEquals("hfuk", model.tagInfo().tagName());
     }
 }

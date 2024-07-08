@@ -6,14 +6,24 @@ package com.azure.resourcemanager.quota.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The resource quota limit value. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "limitObjectType")
+/**
+ * The resource quota limit value.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "limitObjectType", defaultImpl = LimitObject.class, visible = true)
 @JsonTypeName("LimitValue")
 @Fluent
 public final class LimitObject extends LimitJsonObject {
+    /*
+     * The limit object type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "limitObjectType", required = true)
+    private LimitType limitObjectType = LimitType.LIMIT_VALUE;
+
     /*
      * The quota/limit value
      */
@@ -26,13 +36,25 @@ public final class LimitObject extends LimitJsonObject {
     @JsonProperty(value = "limitType")
     private QuotaLimitTypes limitType;
 
-    /** Creates an instance of LimitObject class. */
+    /**
+     * Creates an instance of LimitObject class.
+     */
     public LimitObject() {
     }
 
     /**
+     * Get the limitObjectType property: The limit object type.
+     * 
+     * @return the limitObjectType value.
+     */
+    @Override
+    public LimitType limitObjectType() {
+        return this.limitObjectType;
+    }
+
+    /**
      * Get the value property: The quota/limit value.
-     *
+     * 
      * @return the value value.
      */
     public int value() {
@@ -41,7 +63,7 @@ public final class LimitObject extends LimitJsonObject {
 
     /**
      * Set the value property: The quota/limit value.
-     *
+     * 
      * @param value the value value to set.
      * @return the LimitObject object itself.
      */
@@ -52,7 +74,7 @@ public final class LimitObject extends LimitJsonObject {
 
     /**
      * Get the limitType property: The quota or usages limit types.
-     *
+     * 
      * @return the limitType value.
      */
     public QuotaLimitTypes limitType() {
@@ -61,7 +83,7 @@ public final class LimitObject extends LimitJsonObject {
 
     /**
      * Set the limitType property: The quota or usages limit types.
-     *
+     * 
      * @param limitType the limitType value to set.
      * @return the LimitObject object itself.
      */
@@ -72,7 +94,7 @@ public final class LimitObject extends LimitJsonObject {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

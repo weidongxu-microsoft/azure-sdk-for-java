@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for PrivateLinkServices ListAutoApprovedPrivateLinkServices. */
+/**
+ * Samples for PrivateLinkServices ListAutoApprovedPrivateLinkServices.
+ */
 public final class PrivateLinkServicesListAutoApprovedPrivateLinkServicesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/AutoApprovedPrivateLinkServicesGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AutoApprovedPrivateLinkServicesGet.json
      */
     /**
      * Sample code: Get list of private link service id that can be linked to a private end point with auto approved.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getListOfPrivateLinkServiceIdThatCanBeLinkedToAPrivateEndPointWithAutoApproved(
         com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getPrivateLinkServices()

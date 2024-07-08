@@ -7,73 +7,109 @@ package com.azure.resourcemanager.eventgrid.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.eventgrid.fluent.models.WebhookPartnerDestinationProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Information about the WebHook of the partner destination. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "endpointType")
+/**
+ * Information about the WebHook of the partner destination.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "endpointType",
+    defaultImpl = WebhookPartnerDestinationInfo.class,
+    visible = true)
 @JsonTypeName("WebHook")
 @Fluent
 public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo {
+    /*
+     * Type of the endpoint for the partner destination
+     */
+    @JsonTypeId
+    @JsonProperty(value = "endpointType", required = true)
+    private PartnerEndpointType endpointType = PartnerEndpointType.WEB_HOOK;
+
     /*
      * WebHook Properties of the partner destination.
      */
     @JsonProperty(value = "properties")
     private WebhookPartnerDestinationProperties innerProperties;
 
-    /** Creates an instance of WebhookPartnerDestinationInfo class. */
+    /**
+     * Creates an instance of WebhookPartnerDestinationInfo class.
+     */
     public WebhookPartnerDestinationInfo() {
     }
 
     /**
+     * Get the endpointType property: Type of the endpoint for the partner destination.
+     * 
+     * @return the endpointType value.
+     */
+    @Override
+    public PartnerEndpointType endpointType() {
+        return this.endpointType;
+    }
+
+    /**
      * Get the innerProperties property: WebHook Properties of the partner destination.
-     *
+     * 
      * @return the innerProperties value.
      */
     private WebhookPartnerDestinationProperties innerProperties() {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WebhookPartnerDestinationInfo withAzureSubscriptionId(String azureSubscriptionId) {
         super.withAzureSubscriptionId(azureSubscriptionId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WebhookPartnerDestinationInfo withResourceGroupName(String resourceGroupName) {
         super.withResourceGroupName(resourceGroupName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WebhookPartnerDestinationInfo withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WebhookPartnerDestinationInfo withEndpointServiceContext(String endpointServiceContext) {
         super.withEndpointServiceContext(endpointServiceContext);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public WebhookPartnerDestinationInfo withResourceMoveChangeHistory(
-        List<ResourceMoveChangeHistory> resourceMoveChangeHistory) {
+    public WebhookPartnerDestinationInfo
+        withResourceMoveChangeHistory(List<ResourceMoveChangeHistory> resourceMoveChangeHistory) {
         super.withResourceMoveChangeHistory(resourceMoveChangeHistory);
         return this;
     }
 
     /**
      * Get the endpointUrl property: The URL that represents the endpoint of the partner destination.
-     *
+     * 
      * @return the endpointUrl value.
      */
     public String endpointUrl() {
@@ -82,7 +118,7 @@ public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo 
 
     /**
      * Set the endpointUrl property: The URL that represents the endpoint of the partner destination.
-     *
+     * 
      * @param endpointUrl the endpointUrl value to set.
      * @return the WebhookPartnerDestinationInfo object itself.
      */
@@ -96,7 +132,7 @@ public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo 
 
     /**
      * Get the endpointBaseUrl property: The base URL that represents the endpoint of the partner destination.
-     *
+     * 
      * @return the endpointBaseUrl value.
      */
     public String endpointBaseUrl() {
@@ -105,7 +141,7 @@ public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo 
 
     /**
      * Set the endpointBaseUrl property: The base URL that represents the endpoint of the partner destination.
-     *
+     * 
      * @param endpointBaseUrl the endpointBaseUrl value to set.
      * @return the WebhookPartnerDestinationInfo object itself.
      */
@@ -119,7 +155,7 @@ public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo 
 
     /**
      * Get the clientAuthentication property: Partner client authentication.
-     *
+     * 
      * @return the clientAuthentication value.
      */
     public PartnerClientAuthentication clientAuthentication() {
@@ -128,7 +164,7 @@ public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo 
 
     /**
      * Set the clientAuthentication property: Partner client authentication.
-     *
+     * 
      * @param clientAuthentication the clientAuthentication value to set.
      * @return the WebhookPartnerDestinationInfo object itself.
      */
@@ -142,7 +178,7 @@ public final class WebhookPartnerDestinationInfo extends PartnerDestinationInfo 
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -9,19 +9,20 @@ import com.azure.resourcemanager.netapp.models.HourlySchedule;
 import com.azure.resourcemanager.netapp.models.MonthlySchedule;
 import com.azure.resourcemanager.netapp.models.WeeklySchedule;
 
-/** Samples for SnapshotPolicies Create. */
+/**
+ * Samples for SnapshotPolicies Create.
+ */
 public final class SnapshotPoliciesCreateSamples {
     /*
-     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/SnapshotPolicies_Create.json
+     * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/SnapshotPolicies_Create.json
      */
     /**
      * Sample code: SnapshotPolicies_Create.
-     *
+     * 
      * @param manager Entry point to NetAppFilesManager.
      */
     public static void snapshotPoliciesCreate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
-        manager
-            .snapshotPolicies()
+        manager.snapshotPolicies()
             .define("snapshotPolicyName")
             .withRegion("eastus")
             .withExistingNetAppAccount("myRG", "account1")

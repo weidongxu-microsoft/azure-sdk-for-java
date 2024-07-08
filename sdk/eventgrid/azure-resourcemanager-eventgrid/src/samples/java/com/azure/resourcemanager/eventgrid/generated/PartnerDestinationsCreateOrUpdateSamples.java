@@ -7,19 +7,20 @@ package com.azure.resourcemanager.eventgrid.generated;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-/** Samples for PartnerDestinations CreateOrUpdate. */
+/**
+ * Samples for PartnerDestinations CreateOrUpdate.
+ */
 public final class PartnerDestinationsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PartnerDestinations_CreateOrUpdate.json
+     * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerDestinations_CreateOrUpdate.json
      */
     /**
      * Sample code: PartnerDestinations_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to EventGridManager.
      */
     public static void partnerDestinationsCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
-        manager
-            .partnerDestinations()
+        manager.partnerDestinations()
             .define("examplePartnerDestinationName1")
             .withRegion("westus2")
             .withExistingResourceGroup("examplerg")

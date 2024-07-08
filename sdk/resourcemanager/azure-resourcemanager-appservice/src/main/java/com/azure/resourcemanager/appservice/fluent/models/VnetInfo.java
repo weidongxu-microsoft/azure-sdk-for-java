@@ -6,9 +6,12 @@ package com.azure.resourcemanager.appservice.fluent.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Virtual Network information contract. */
+/**
+ * Virtual Network information contract.
+ */
 @Fluent
 public final class VnetInfo {
     /*
@@ -54,7 +57,9 @@ public final class VnetInfo {
     @JsonProperty(value = "isSwift")
     private Boolean isSwift;
 
-    /** Creates an instance of VnetInfo class. */
+    /**
+     * Creates an instance of VnetInfo class.
+     */
     public VnetInfo() {
     }
 
@@ -89,7 +94,8 @@ public final class VnetInfo {
 
     /**
      * Get the certBlob property: A certificate file (.cer) blob containing the public key of the private key used to
-     * authenticate a Point-To-Site VPN connection.
+     * authenticate a
+     * Point-To-Site VPN connection.
      *
      * @return the certBlob value.
      */
@@ -99,7 +105,8 @@ public final class VnetInfo {
 
     /**
      * Set the certBlob property: A certificate file (.cer) blob containing the public key of the private key used to
-     * authenticate a Point-To-Site VPN connection.
+     * authenticate a
+     * Point-To-Site VPN connection.
      *
      * @param certBlob the certBlob value to set.
      * @return the VnetInfo object itself.

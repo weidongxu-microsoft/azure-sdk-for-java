@@ -11,15 +11,16 @@ import org.junit.jupiter.api.Assertions;
 public final class NfsMountEndpointUpdatePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        NfsMountEndpointUpdateProperties model =
-            BinaryData.fromString("{\"description\":\"lyaxuc\"}").toObject(NfsMountEndpointUpdateProperties.class);
-        Assertions.assertEquals("lyaxuc", model.description());
+        NfsMountEndpointUpdateProperties model
+            = BinaryData.fromString("{\"endpointType\":\"NfsMount\",\"description\":\"zz\"}")
+                .toObject(NfsMountEndpointUpdateProperties.class);
+        Assertions.assertEquals("zz", model.description());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        NfsMountEndpointUpdateProperties model = new NfsMountEndpointUpdateProperties().withDescription("lyaxuc");
+        NfsMountEndpointUpdateProperties model = new NfsMountEndpointUpdateProperties().withDescription("zz");
         model = BinaryData.fromObject(model).toObject(NfsMountEndpointUpdateProperties.class);
-        Assertions.assertEquals("lyaxuc", model.description());
+        Assertions.assertEquals("zz", model.description());
     }
 }

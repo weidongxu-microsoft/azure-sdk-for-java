@@ -3,44 +3,22 @@
 
 package com.azure.messaging.servicebus.administration.implementation;
 
-import com.azure.core.http.HttpHeaderName;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
-import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.core.util.Context;
-import com.azure.core.util.CoreUtils;
-import com.azure.core.util.IterableStream;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.messaging.servicebus.administration.implementation.models.AuthorizationRuleImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateQueueBodyContentImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateQueueBodyImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateRuleBodyContentImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateRuleBodyImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateSubscriptionBodyContentImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateSubscriptionBodyImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateTopicBodyContentImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.CreateTopicBodyImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.QueueDescriptionEntryImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.QueueDescriptionFeedImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.QueueDescriptionImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.ResponseLinkImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.RuleActionImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.RuleDescriptionEntryImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.RuleDescriptionFeedImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.RuleDescriptionImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.RuleFilterImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.SubscriptionDescriptionEntryImpl;
-import com.azure.messaging.servicebus.administration.implementation.models.SubscriptionDescriptionFeedImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.SubscriptionDescriptionImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.TopicDescriptionEntryImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.TopicDescriptionFeedImpl;
 import com.azure.messaging.servicebus.administration.implementation.models.TopicDescriptionImpl;
 import com.azure.messaging.servicebus.administration.models.AuthorizationRule;
 import com.azure.messaging.servicebus.administration.models.CreateQueueOptions;
-import com.azure.messaging.servicebus.administration.models.CreateRuleOptions;
 import com.azure.messaging.servicebus.administration.models.CreateSubscriptionOptions;
 import com.azure.messaging.servicebus.administration.models.CreateTopicOptions;
 import com.azure.messaging.servicebus.administration.models.QueueProperties;
@@ -50,31 +28,26 @@ import com.azure.messaging.servicebus.administration.models.RuleProperties;
 import com.azure.messaging.servicebus.administration.models.SharedAccessAuthorizationRule;
 import com.azure.messaging.servicebus.administration.models.SubscriptionProperties;
 import com.azure.messaging.servicebus.administration.models.TopicProperties;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.azure.xml.XmlReader;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import javax.xml.stream.XMLStreamException;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalQueries;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.azure.core.http.policy.AddHeadersFromContextPolicy.AZURE_REQUEST_HTTP_HEADERS_KEY;
 
 /**
  * Used to access internal methods on {@link QueueProperties}.
  */
 public final class EntityHelper {
     private static final ClientLogger LOGGER = new ClientLogger(EntityHelper.class);
-    public static final String CONTENT_TYPE = "application/xml";
     // Name of the entity type when listing queues and topics.
     public static final String QUEUES_ENTITY_TYPE = "queues";
     public static final String TOPICS_ENTITY_TYPE = "topics";
@@ -537,7 +510,9 @@ public final class EntityHelper {
                 implementation.setType("SharedAccessAuthorizationRule");
             } else {
                 final String className = rule.getClass().getName();
-                LOGGER.warning("AuthorizationRule type '{}' is unknown.", className);
+                LOGGER.atWarning()
+                    .addKeyValue("type", className)
+                    .log("AuthorizationRule type is unknown.");
                 implementation.setType(className);
             }
 
@@ -664,367 +639,175 @@ public final class EntityHelper {
     }
 
     /**
-     * Check that the additional headers field is present and add the additional auth header
+     * Converts a Response into its corresponding {@link QueueDescriptionFeedImpl} then mapped into {@link
+     * QueueProperties}.
      *
-     * @param headerName name of the header to be added
-     * @param context current request context
+     * @param response HTTP Response to deserialize.
+     * @param logger The ClientLogger logging errors and warnings.
+     * @return The corresponding HTTP response with convenience properties set.
      */
-    public static void addSupplementaryAuthHeader(HttpHeaderName headerName, String entity, Context context) {
-        context.getData(AZURE_REQUEST_HTTP_HEADERS_KEY)
-            .ifPresent(headers -> {
-                if (headers instanceof HttpHeaders) {
-                    HttpHeaders customHttpHeaders = (HttpHeaders) headers;
-                    customHttpHeaders.add(headerName, entity);
-                }
-            });
-    }
+    public static Response<QueueDescriptionFeedImpl> deserializeQueueFeed(Response<Object> response,
+        ClientLogger logger) {
+        String responseBody = response.getValue().toString();
 
-    /**
-     * Create Queue Body
-     *
-     * @param createQueueOptions Create Queue Body options
-     * @return {@link CreateQueueBodyImpl}
-     */
-    public static CreateQueueBodyImpl getCreateQueueBody(QueueDescriptionImpl createQueueOptions) {
-        final CreateQueueBodyContentImpl content = new CreateQueueBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setQueueDescription(createQueueOptions);
-        return new CreateQueueBodyImpl()
-            .setContent(content);
-    }
-
-    public static CreateTopicBodyImpl getUpdateTopicBody(TopicProperties topic) {
-        final TopicDescriptionImpl implementation = EntityHelper.toImplementation(topic);
-        final CreateTopicBodyContentImpl content = new CreateTopicBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setTopicDescription(implementation);
-        return new CreateTopicBodyImpl()
-            .setContent(content);
-    }
-
-    public static CreateTopicBodyImpl getCreateTopicBody(TopicDescriptionImpl topicOptions) {
-        final CreateTopicBodyContentImpl content = new CreateTopicBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setTopicDescription(topicOptions);
-        return new CreateTopicBodyImpl()
-            .setContent(content);
-    }
-
-    public static CreateRuleBodyImpl getUpdateRuleBody(RuleProperties rule) {
-        final RuleDescriptionImpl implementation = EntityHelper.toImplementation(rule);
-        final CreateRuleBodyContentImpl content = new CreateRuleBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setRuleDescription(implementation);
-        return new CreateRuleBodyImpl()
-            .setContent(content);
-    }
-
-    public static CreateSubscriptionBodyImpl getUpdateSubscriptionBody(SubscriptionProperties subscription) {
-        final SubscriptionDescriptionImpl implementation = EntityHelper.toImplementation(subscription);
-        final CreateSubscriptionBodyContentImpl content = new CreateSubscriptionBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setSubscriptionDescription(implementation);
-        return new CreateSubscriptionBodyImpl()
-            .setContent(content);
-    }
-
-    public static CreateSubscriptionBodyImpl getCreateSubscriptionBody(SubscriptionDescriptionImpl subscriptionDescription) {
-        final CreateSubscriptionBodyContentImpl content = new CreateSubscriptionBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setSubscriptionDescription(subscriptionDescription);
-        return new CreateSubscriptionBodyImpl().setContent(content);
-    }
-
-    public static CreateRuleBodyImpl getCreateRuleBody(String ruleName, CreateRuleOptions ruleOptions) {
-        final RuleActionImpl action = ruleOptions.getAction() != null
-            ? EntityHelper.toImplementation(ruleOptions.getAction())
-            : null;
-        final RuleFilterImpl filter = ruleOptions.getFilter() != null
-            ? EntityHelper.toImplementation(ruleOptions.getFilter())
-            : null;
-        final RuleDescriptionImpl rule = new RuleDescriptionImpl()
-            .setAction(action)
-            .setFilter(filter)
-            .setName(ruleName);
-
-        final CreateRuleBodyContentImpl content = new CreateRuleBodyContentImpl()
-            .setType(CONTENT_TYPE)
-            .setRuleDescription(rule);
-        return new CreateRuleBodyImpl().setContent(content);
-    }
-
-    public static List<TopicProperties> getTopics(TopicDescriptionFeedImpl feed) {
-        return feed.getEntry().stream()
-            .filter(e -> e.getContent() != null && e.getContent().getTopicDescription() != null)
-            .map(EntityHelper::getTopicProperties)
-            .collect(Collectors.toList());
-    }
-
-    public static List<QueueProperties> getQueues(QueueDescriptionFeedImpl feed) {
-        return feed.getEntry().stream()
-            .filter(e -> e.getContent() != null && e.getContent().getQueueDescription() != null)
-            .map(EntityHelper::getQueueProperties)
-            .collect(Collectors.toList());
-    }
-
-    public static QueueProperties getQueueProperties(QueueDescriptionEntryImpl e) {
-        final String queueName = e.getTitle().getContent();
-        final QueueProperties queueProperties = EntityHelper.toModel(
-            e.getContent().getQueueDescription());
-
-        EntityHelper.setQueueName(queueProperties, queueName);
-
-        return queueProperties;
-    }
-
-    public static List<RuleProperties> getRules(RuleDescriptionFeedImpl feed) {
-        return feed.getEntry().stream()
-            .filter(e -> e.getContent() != null && e.getContent().getRuleDescription() != null)
-            .map(e -> EntityHelper.toModel(e.getContent().getRuleDescription()))
-            .collect(Collectors.toList());
-    }
-
-    public static List<SubscriptionProperties> getSubscriptions(String topicName,
-                                                                SubscriptionDescriptionFeedImpl feed) {
-        return feed.getEntry().stream()
-            .filter(e -> e.getContent() != null && e.getContent().getSubscriptionDescription() != null)
-            .map(e -> getSubscriptionProperties(topicName, e))
-            .collect(Collectors.toList());
-    }
-
-    public static SubscriptionProperties getSubscriptionProperties(String topicName,
-                                                                   SubscriptionDescriptionEntryImpl entry) {
-        final SubscriptionProperties subscription = EntityHelper.toModel(
-            entry.getContent().getSubscriptionDescription());
-        final String subscriptionName = entry.getTitle().getContent();
-        EntityHelper.setSubscriptionName(subscription, subscriptionName);
-        EntityHelper.setTopicName(subscription, topicName);
-        return subscription;
-    }
-
-    public static TopicProperties getTopicProperties(TopicDescriptionEntryImpl entry) {
-        final TopicProperties result = EntityHelper.toModel(entry.getContent().getTopicDescription());
-        final String topicName = entry.getTitle().getContent();
-        EntityHelper.setTopicName(result, topicName);
-        return result;
-    }
-
-    public static SimpleResponse<SubscriptionProperties> getSubscriptionPropertiesSimpleResponse(String topicName,
-        Response<SubscriptionDescriptionEntryImpl> response) {
-        final SubscriptionDescriptionEntryImpl entry = response.getValue();
-
-        // This was an empty response (ie. 204).
-        if (entry == null) {
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
-        } else if (entry.getContent() == null) {
-            LOGGER.warning("entry.getContent() is null. There should have been content returned. Entry: {}", entry);
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
-        }
-        final SubscriptionProperties subscription = getSubscriptionProperties(topicName, entry);
-        final String subscriptionName = entry.getTitle().getContent();
-        EntityHelper.setSubscriptionName(subscription, subscriptionName);
-        EntityHelper.setTopicName(subscription, topicName);
-
-        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-            subscription);
-    }
-
-    public static SimpleResponse<RuleProperties> getRulePropertiesSimpleResponse(
-        Response<RuleDescriptionEntryImpl> response) {
-        final RuleDescriptionEntryImpl entry = response.getValue();
-        // This was an empty response (ie. 204).
-        if (entry == null) {
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
-        } else if (entry.getContent() == null) {
-            LOGGER.info("entry.getContent() is null. The entity may not exist. {}", entry);
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
-        }
-
-        final RuleDescriptionImpl description = entry.getContent().getRuleDescription();
-        final RuleProperties result = EntityHelper.toModel(description);
-        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), result);
-    }
-
-    public static void validateQueueName(String queueName) {
-        if (CoreUtils.isNullOrEmpty(queueName)) {
-            throw LOGGER.logExceptionAsError(new IllegalArgumentException("'queueName' cannot be null or empty."));
-        }
-    }
-
-    public static void validateRuleName(String ruleName) {
-        if (CoreUtils.isNullOrEmpty(ruleName)) {
-            throw LOGGER.logExceptionAsError(new IllegalArgumentException("'ruleName' cannot be null or empty."));
-        }
-    }
-
-    public static void validateTopicName(String topicName) {
-        if (CoreUtils.isNullOrEmpty(topicName)) {
-            throw LOGGER.logExceptionAsError(new IllegalArgumentException("'topicName' cannot be null or empty."));
-        }
-    }
-
-    public static void validateSubscriptionName(String subscriptionName) {
-        if (CoreUtils.isNullOrEmpty(subscriptionName)) {
-            throw LOGGER.logExceptionAsError(
-                new IllegalArgumentException("'subscriptionName' cannot be null or empty."));
-        }
-    }
-
-    public static Context getContext(Context context) {
-        context = context == null ? Context.NONE : context;
-        return context.addData(AZURE_REQUEST_HTTP_HEADERS_KEY, new HttpHeaders());
-    }
-
-    /**
-     * A page of Service Bus entities.
-     *
-     * @param <T> The entity description from Service Bus.
-     */
-    public static final class FeedPage<T> implements PagedResponse<T> {
-        private final int statusCode;
-        private final HttpHeaders header;
-        private final HttpRequest request;
-        private final IterableStream<T> entries;
-        private final String continuationToken;
-
-        /**
-         * Creates a page that does not have any more pages.
-         *
-         * @param entries Items in the page.
-         */
-        public FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries) {
-            this.statusCode = statusCode;
-            this.header = header;
-            this.request = request;
-            this.entries = new IterableStream<>(entries);
-            this.continuationToken = null;
-        }
-
-        /**
-         * Creates an instance that has additional pages to fetch.
-         *
-         * @param entries Items in the page.
-         * @param skip Number of elements to "skip".
-         */
-        public FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries, int skip) {
-            this.statusCode = statusCode;
-            this.header = header;
-            this.request = request;
-            this.entries = new IterableStream<>(entries);
-            this.continuationToken = String.valueOf(skip);
-        }
-
-        @Override
-        public IterableStream<T> getElements() {
-            return entries;
-        }
-
-        @Override
-        public String getContinuationToken() {
-            return continuationToken;
-        }
-
-        @Override
-        public int getStatusCode() {
-            return statusCode;
-        }
-
-        @Override
-        public HttpHeaders getHeaders() {
-            return header;
-        }
-
-        @Override
-        public HttpRequest getRequest() {
-            return request;
-        }
-
-        @Override
-        public void close() {
-        }
-    }
-
-    public static final class EntityNotFoundHttpResponse<T> extends HttpResponse {
-        private final int statusCode;
-        private final HttpHeaders headers;
-
-        public EntityNotFoundHttpResponse(Response<T> response) {
-            super(response.getRequest());
-            this.headers = response.getHeaders();
-            this.statusCode = response.getStatusCode();
-        }
-
-        @Override
-        public int getStatusCode() {
-            return statusCode;
-        }
-
-        @Override
-        public String getHeaderValue(String name) {
-            return headers.getValue(name);
-        }
-
-        @Override
-        public HttpHeaders getHeaders() {
-            return headers;
-        }
-
-        @Override
-        public Flux<ByteBuffer> getBody() {
-            return Flux.empty();
-        }
-
-        @Override
-        public Mono<byte[]> getBodyAsByteArray() {
-            return Mono.empty();
-        }
-
-        @Override
-        public Mono<String> getBodyAsString() {
-            return Mono.empty();
-        }
-
-        @Override
-        public Mono<String> getBodyAsString(Charset charset) {
-            return Mono.empty();
+        try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+            QueueDescriptionFeedImpl entry = QueueDescriptionFeedImpl.fromXml(xmlReader);
+            return new SimpleResponse<>(response, entry);
+        } catch (IllegalStateException ex) {
+            try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+                TopicDescriptionFeedImpl entryTopic = TopicDescriptionFeedImpl.fromXml(xmlReader);
+                logger.atWarning()
+                    .addKeyValue("entityName", entryTopic.getTitle())
+                    .log("Expected queue feed, but it is a topic feed.");
+                return new SimpleResponse<>(response, null);
+            } catch (IllegalStateException ignored) {
+                return new SimpleResponse<>(response, null);
+            } catch (XMLStreamException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (XMLStreamException e) {
+            throw new RuntimeException(e);
         }
     }
 
     /**
-     * Creates a {@link FeedPage} given the elements and a set of response links to get the next link from.
+     * Converts a Response into its corresponding {@link QueueDescriptionEntryImpl} then mapped into {@link
+     * QueueProperties}.
      *
-     * @param entities Entities in the feed.
-     * @param responseLinks Links returned from the feed.
-     * @param <TResult> Type of Service Bus entities in page.
-     * @return A {@link FeedPage} indicating whether this can be continued or not.
-     * @throws MalformedURLException if the "next" page link does not contain a well-formed URL.
+     * @param response HTTP Response to deserialize.
+     * @param logger The ClientLogger logging errors and warnings.
+     * @return The corresponding HTTP response with convenience properties set.
      */
-    @SuppressWarnings({"SimplifyOptionalCallChains"})
-    public static <TResult, TFeed> FeedPage<TResult> extractPage(Response<TFeed> response, List<TResult> entities,
-                                                                 List<ResponseLinkImpl> responseLinks)
-        throws MalformedURLException, UnsupportedEncodingException {
-        final Optional<ResponseLinkImpl> nextLink = responseLinks.stream()
-            .filter(link -> link.getRel().equalsIgnoreCase("next"))
-            .findFirst();
+    public static Response<QueueProperties> deserializeQueue(Response<Object> response, ClientLogger logger) {
+        String responseBody = response.getValue().toString();
 
-        if (!nextLink.isPresent()) {
-            return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);
+        try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+            QueueDescriptionEntryImpl entry = QueueDescriptionEntryImpl.fromXml(xmlReader);
+            // This was an empty response (ie. 204).
+            if (entry == null) {
+                return new SimpleResponse<>(response, null);
+            } else if (entry.getContent() == null) {
+                logger.atInfo()
+                    .addKeyValue("entry", entry)
+                    .log("The entry content is null. The entity may not exist.");
+                return new SimpleResponse<>(response, null);
+            }
+
+            final QueueProperties result = EntityHelper.toModel(entry.getContent().getQueueDescription());
+            final String queueName = entry.getTitle().getContent();
+            EntityHelper.setQueueName(result, queueName);
+
+            return new SimpleResponse<>(response, result);
+        } catch (IllegalStateException ex) {
+            try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+                TopicDescriptionEntryImpl entryTopic = TopicDescriptionEntryImpl.fromXml(xmlReader);
+                logger.atWarning()
+                    .addKeyValue("entityName", entryTopic.getTitle())
+                    .log("Expected queue, but it is a topic.");
+                return new SimpleResponse<>(response, null);
+            } catch (IllegalStateException ignored) {
+                return new SimpleResponse<>(response, null);
+            } catch (XMLStreamException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (XMLStreamException e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        final URL url = new URL(nextLink.get().getHref());
-        final String decode = URLDecoder.decode(url.getQuery(), StandardCharsets.UTF_8.toString());
-        final Optional<Integer> skipParameter = Arrays.stream(decode.split("&amp;|&"))
-            .map(part -> part.split("=", 2))
-            .filter(parts -> parts[0].equalsIgnoreCase("$skip") && parts.length == 2)
-            .map(parts -> Integer.valueOf(parts[1]))
-            .findFirst();
+    /**
+     * Converts a Response into its corresponding {@link TopicDescriptionFeedImpl} then mapped into {@link
+     * QueueProperties}.
+     *
+     * @param response HTTP Response to deserialize.
+     * @param logger The ClientLogger logging errors and warnings.
+     * @return The corresponding HTTP response with convenience properties set.
+     */
+    public static Response<TopicDescriptionFeedImpl> deserializeTopicFeed(Response<Object> response,
+        ClientLogger logger) {
+        String responseBody = response.getValue().toString();
 
-        if (skipParameter.isPresent()) {
-            return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities,
-                skipParameter.get());
-        } else {
-            LOGGER.warning("There should have been a skip parameter for the next page.");
-            return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);
+        try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+            TopicDescriptionFeedImpl entry = TopicDescriptionFeedImpl.fromXml(xmlReader);
+            return new SimpleResponse<>(response, entry);
+        } catch (IllegalStateException ex) {
+            try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+                QueueDescriptionFeedImpl entryTopic = QueueDescriptionFeedImpl.fromXml(xmlReader);
+                logger.atWarning()
+                    .addKeyValue("entityName", entryTopic.getTitle())
+                    .log("Expected topic feed, but it is a queue feed.");
+                return new SimpleResponse<>(response, null);
+            } catch (IllegalStateException ignored) {
+                return new SimpleResponse<>(response, null);
+            } catch (XMLStreamException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (XMLStreamException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Converts a Response into its corresponding {@link TopicDescriptionEntryImpl} then mapped into {@link
+     * QueueProperties}.
+     *
+     * @param response HTTP Response to deserialize.
+     * @param logger The ClientLogger logging errors and warnings.
+     * @return The corresponding HTTP response with convenience properties set.
+     */
+    public static Response<TopicProperties> deserializeTopic(Response<Object> response, ClientLogger logger) {
+        String responseBody = response.getValue().toString();
+
+        try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+            TopicDescriptionEntryImpl entry = TopicDescriptionEntryImpl.fromXml(xmlReader);
+            // This was an empty response (ie. 204).
+            if (entry == null) {
+                return new SimpleResponse<>(response, null);
+            } else if (entry.getContent() == null) {
+                logger.atWarning()
+                    .addKeyValue("entry", entry)
+                    .log("The entry content is null. The entity may not exist.");
+                return new SimpleResponse<>(response, null);
+            }
+
+            final TopicProperties result = EntityHelper.toModel(entry.getContent().getTopicDescription());
+            final String topicName = entry.getTitle().getContent();
+            EntityHelper.setTopicName(result, topicName);
+
+            return new SimpleResponse<>(response, result);
+        } catch (IllegalStateException ex) {
+            try (XmlReader xmlReader = XmlReader.fromString(responseBody)) {
+                QueueDescriptionEntryImpl entryQueue = QueueDescriptionEntryImpl.fromXml(xmlReader);
+                logger.atWarning()
+                    .addKeyValue("entityName", entryQueue.getTitle())
+                    .log("Expected topic, but it is a queue.");
+                return new SimpleResponse<>(response, null);
+            } catch (IllegalStateException ignored) {
+                return new SimpleResponse<>(response, null);
+            } catch (XMLStreamException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Attempts to parse an ISO datetime string as best possible. The initial attempt will use
+     * {@link OffsetDateTime#from(TemporalAccessor)} and will fall back to
+     * {@link java.time.LocalDateTime#from(TemporalAccessor)} and apply {@link ZoneOffset#UTC} as the
+     * timezone.
+     *
+     * @param datetimeString The datetime string to parse.
+     * @return The {@link OffsetDateTime} representing the string.
+     * @throws DateTimeParseException If the datetime is neither an ISO offset datetime or ISO local datetime.
+     */
+    public static OffsetDateTime parseOffsetDateTimeBest(String datetimeString) {
+        TemporalAccessor temporal = DateTimeFormatter.ISO_DATE_TIME
+            .parseBest(datetimeString, OffsetDateTime::from, LocalDateTime::from);
+
+        return  (temporal.query(TemporalQueries.offset()) == null)
+            ? LocalDateTime.from(temporal).atOffset(ZoneOffset.UTC)
+            : OffsetDateTime.from(temporal);
     }
 }

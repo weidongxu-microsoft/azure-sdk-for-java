@@ -12,15 +12,20 @@ import org.junit.jupiter.api.Assertions;
 public final class ClassicAlertSettingsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ClassicAlertSettings model =
-            BinaryData.fromString("{\"alertsForCriticalOperations\":\"Enabled\"}").toObject(ClassicAlertSettings.class);
-        Assertions.assertEquals(AlertsState.ENABLED, model.alertsForCriticalOperations());
+        ClassicAlertSettings model = BinaryData
+            .fromString(
+                "{\"alertsForCriticalOperations\":\"Disabled\",\"emailNotificationsForSiteRecovery\":\"Disabled\"}")
+            .toObject(ClassicAlertSettings.class);
+        Assertions.assertEquals(AlertsState.DISABLED, model.alertsForCriticalOperations());
+        Assertions.assertEquals(AlertsState.DISABLED, model.emailNotificationsForSiteRecovery());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ClassicAlertSettings model = new ClassicAlertSettings().withAlertsForCriticalOperations(AlertsState.ENABLED);
+        ClassicAlertSettings model = new ClassicAlertSettings().withAlertsForCriticalOperations(AlertsState.DISABLED)
+            .withEmailNotificationsForSiteRecovery(AlertsState.DISABLED);
         model = BinaryData.fromObject(model).toObject(ClassicAlertSettings.class);
-        Assertions.assertEquals(AlertsState.ENABLED, model.alertsForCriticalOperations());
+        Assertions.assertEquals(AlertsState.DISABLED, model.alertsForCriticalOperations());
+        Assertions.assertEquals(AlertsState.DISABLED, model.emailNotificationsForSiteRecovery());
     }
 }

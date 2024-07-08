@@ -13,6 +13,8 @@ import com.azure.identity.AzureDeveloperCliCredential;
 import com.azure.identity.AzureDeveloperCliCredentialBuilder;
 import com.azure.identity.AuthorizationCodeCredential;
 import com.azure.identity.AuthorizationCodeCredentialBuilder;
+import com.azure.identity.AzurePipelinesCredential;
+import com.azure.identity.AzurePipelinesCredentialBuilder;
 import com.azure.identity.AzurePowerShellCredential;
 import com.azure.identity.AzurePowerShellCredentialBuilder;
 import com.azure.identity.ClientAssertionCredential;
@@ -42,6 +44,7 @@ import com.azure.identity.UsernamePasswordCredentialBuilder;
 import com.azure.identity.WorkloadIdentityCredential;
 import com.azure.identity.WorkloadIdentityCredentialBuilder;
 
+import java.io.ByteArrayInputStream;
 import java.net.InetSocketAddress;
 
 /**
@@ -52,6 +55,9 @@ public final class JavaDocCodeSnippets {
 
     private String clientId = System.getenv("AZURE_CLIENT_ID");
     private String clientSecret = System.getenv("AZURE_CLIENT_SECRET");
+    private String serviceConnectionId = System.getenv("SERVICE_CONNECTION_ID");
+
+
     private String fakeUsernamePlaceholder = "fakeUsernamePlaceholder";
     private String fakePasswordPlaceholder = "fakePasswordPlaceholder";
     /**
@@ -87,6 +93,17 @@ public final class JavaDocCodeSnippets {
             .pemCertificate("<PATH-TO-PEM-CERTIFICATE>")
             .build();
         // END: com.azure.identity.credential.clientcertificatecredential.construct
+
+        byte[] certificateBytes = new byte[0];
+
+        // BEGIN: com.azure.identity.credential.clientcertificatecredential.constructWithStream
+        ByteArrayInputStream certificateStream = new ByteArrayInputStream(certificateBytes);
+        TokenCredential certificateCredentialWithStream = new ClientCertificateCredentialBuilder()
+            .tenantId(tenantId)
+            .clientId(clientId)
+            .pemCertificate(certificateStream)
+            .build();
+        // END: com.azure.identity.credential.clientcertificatecredential.constructWithStream
 
         // BEGIN: com.azure.identity.credential.clientcertificatecredential.constructwithproxy
         TokenCredential certificateCredential = new ClientCertificateCredentialBuilder()
@@ -268,6 +285,7 @@ public final class JavaDocCodeSnippets {
         TokenCredential onBehalfOfCredential = new OnBehalfOfCredentialBuilder()
             .clientId("<app-client-ID>")
             .clientSecret("<app-Client-Secret>")
+            .tenantId("<app-tenant-ID>")
             .userAssertion("<user-assertion>")
             .build();
         // END: com.azure.identity.credential.obocredential.construct
@@ -294,5 +312,22 @@ public final class JavaDocCodeSnippets {
         TokenCredential azureDevCliCredential = new AzureDeveloperCliCredentialBuilder()
             .build();
         // END: com.azure.identity.credential.azuredeveloperclicredential.construct
+    }
+
+    public void azurePipelinesCredentialCodeSnippets() {
+
+        // BEGIN: com.azure.identity.credential.azurepipelinescredential.construct
+        // serviceConnectionId is retrieved from the portal.
+        // systemAccessToken is retrieved from the pipeline environment as shown.
+        // You may choose another name for this variable.
+
+        String systemAccessToken = System.getenv("SYSTEM_ACCESSTOKEN");
+        AzurePipelinesCredential credential = new AzurePipelinesCredentialBuilder()
+            .clientId(clientId)
+            .tenantId(tenantId)
+            .serviceConnectionId(serviceConnectionId)
+            .systemAccessToken(systemAccessToken)
+            .build();
+        // END: com.azure.identity.credential.azurepipelinescredential.construct
     }
 }

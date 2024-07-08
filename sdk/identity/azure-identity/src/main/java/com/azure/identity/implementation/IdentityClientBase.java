@@ -6,11 +6,11 @@ package com.azure.identity.implementation;
 import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.exception.ClientAuthenticationException;
-import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.HttpPipelineBuilder;
+import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpHeader;
 import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpClient;
+import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.ProxyOptions;
 import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.HttpLogOptions;
@@ -18,6 +18,7 @@ import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.HttpPolicyProviders;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.util.ClientOptions;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.UserAgentUtil;
@@ -27,35 +28,45 @@ import com.azure.core.util.logging.LogLevel;
 import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
+import com.azure.identity.BrowserCustomizationOptions;
 import com.azure.identity.CredentialUnavailableException;
 import com.azure.identity.DeviceCodeInfo;
 import com.azure.identity.TokenCachePersistenceOptions;
+import com.azure.identity.implementation.models.AzureCliToken;
 import com.azure.identity.implementation.util.CertificateUtil;
 import com.azure.identity.implementation.util.IdentityUtil;
 import com.azure.identity.implementation.util.LoggingUtil;
+import com.azure.json.JsonProviders;
+import com.azure.json.JsonReader;
 import com.microsoft.aad.msal4j.AppTokenProviderParameters;
 import com.microsoft.aad.msal4j.ClaimsRequest;
 import com.microsoft.aad.msal4j.ClientCredentialFactory;
 import com.microsoft.aad.msal4j.ConfidentialClientApplication;
 import com.microsoft.aad.msal4j.DeviceCodeFlowParameters;
+import com.microsoft.aad.msal4j.IBroker;
 import com.microsoft.aad.msal4j.IClientCredential;
 import com.microsoft.aad.msal4j.InteractiveRequestParameters;
+import com.microsoft.aad.msal4j.ManagedIdentityId;
+import com.microsoft.aad.msal4j.ManagedIdentityApplication;
 import com.microsoft.aad.msal4j.OnBehalfOfParameters;
 import com.microsoft.aad.msal4j.Prompt;
 import com.microsoft.aad.msal4j.PublicClientApplication;
+import com.microsoft.aad.msal4j.SystemBrowserOptions;
 import com.microsoft.aad.msal4j.TokenProviderResult;
 import com.microsoft.aad.msal4j.UserNamePasswordParameters;
 import reactor.core.publisher.Mono;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -76,6 +87,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +98,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+
+import static com.azure.identity.implementation.util.IdentityUtil.isWindowsPlatform;
 
 public abstract class IdentityClientBase {
     static final SerializerAdapter SERIALIZER_ADAPTER = JacksonAdapter.createDefaultSerializerAdapter();
@@ -112,7 +126,10 @@ public abstract class IdentityClientBase {
     private static final String AZURE_IDENTITY_PROPERTIES = "azure-identity.properties";
     private static final String SDK_NAME = "name";
     private static final String SDK_VERSION = "version";
-    private final Map<String, String> properties;
+    private static final ClientOptions DEFAULT_CLIENT_OPTIONS = new ClientOptions();
+
+
+    private final Map<String, String> properties = CoreUtils.getProperties(AZURE_IDENTITY_PROPERTIES);
 
 
     final IdentityClientOptions options;
@@ -121,12 +138,16 @@ public abstract class IdentityClientBase {
     final String resourceId;
     final String clientSecret;
     final String clientAssertionFilePath;
-    final InputStream certificate;
+    final byte[] certificate;
     final String certificatePath;
     final Supplier<String> clientAssertionSupplier;
+    final Function<HttpPipeline, String> clientAssertionSupplierWithHttpPipeline;
     final String certificatePassword;
     HttpPipelineAdapter httpPipelineAdapter;
     String userAgent = UserAgentUtil.DEFAULT_USER_AGENT_HEADER;
+    private Class<?> interactiveBrowserBroker;
+    private Method getMsalRuntimeBroker;
+    HttpPipeline httpPipeline;
 
     /**
      * Creates an IdentityClient with the given options.
@@ -143,10 +164,19 @@ public abstract class IdentityClientBase {
      * @param clientAssertionTimeout the timeout to use for the client assertion.
      * @param options the options configuring the client.
      */
-    IdentityClientBase(String tenantId, String clientId, String clientSecret, String certificatePath,
-                   String clientAssertionFilePath, String resourceId, Supplier<String> clientAssertionSupplier,
-                   InputStream certificate, String certificatePassword, boolean isSharedTokenCacheCredential,
-                   Duration clientAssertionTimeout, IdentityClientOptions options) {
+    IdentityClientBase(String tenantId,
+                       String clientId,
+                       String clientSecret,
+                       String certificatePath,
+                       String clientAssertionFilePath,
+                       String resourceId,
+                       Supplier<String> clientAssertionSupplier,
+                       Function<HttpPipeline, String> clientAssertionSupplierWithHttpPipeline,
+                       byte[] certificate,
+                       String certificatePassword,
+                       boolean isSharedTokenCacheCredential,
+                       Duration clientAssertionTimeout,
+                       IdentityClientOptions options) {
         if (tenantId == null) {
             tenantId = IdentityUtil.DEFAULT_TENANT;
             options.setAdditionallyAllowedTenants(Collections.singletonList(IdentityUtil.ALL_TENANTS));
@@ -163,12 +193,12 @@ public abstract class IdentityClientBase {
         this.certificate = certificate;
         this.certificatePassword = certificatePassword;
         this.clientAssertionSupplier = clientAssertionSupplier;
+        this.clientAssertionSupplierWithHttpPipeline = clientAssertionSupplierWithHttpPipeline;
         this.options = options;
-        properties = CoreUtils.getProperties(AZURE_IDENTITY_PROPERTIES);
 
     }
 
-    ConfidentialClientApplication getConfidentialClient() {
+    ConfidentialClientApplication getConfidentialClient(boolean enableCae) {
         if (clientId == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 "A non-null value for client ID must be provided for user authentication."));
@@ -176,6 +206,7 @@ public abstract class IdentityClientBase {
         String authorityUrl = TRAILING_FORWARD_SLASHES.matcher(options.getAuthorityHost()).replaceAll("") + "/"
             + tenantId;
         IClientCredential credential;
+
         if (clientSecret != null) {
             credential = ClientCredentialFactory.createFromSecret(clientSecret);
         } else if (certificate != null || certificatePath != null) {
@@ -204,6 +235,8 @@ public abstract class IdentityClientBase {
             }
         } else if (clientAssertionSupplier != null) {
             credential = ClientCredentialFactory.createFromClientAssertion(clientAssertionSupplier.get());
+        } else if (clientAssertionSupplierWithHttpPipeline != null) {
+            credential = ClientCredentialFactory.createFromClientAssertion(clientAssertionSupplierWithHttpPipeline.apply(getPipeline()));
         } else {
             throw LOGGER.logExceptionAsError(
                 new IllegalArgumentException("Must provide client secret or client certificate path."
@@ -214,7 +247,10 @@ public abstract class IdentityClientBase {
         ConfidentialClientApplication.Builder applicationBuilder =
             ConfidentialClientApplication.builder(clientId, credential);
         try {
-            applicationBuilder = applicationBuilder.authority(authorityUrl).instanceDiscovery(options.isInstanceDiscoveryEnabled());
+            applicationBuilder = applicationBuilder
+                .logPii(options.isUnsafeSupportLoggingEnabled())
+                .authority(authorityUrl)
+                .instanceDiscovery(options.isInstanceDiscoveryEnabled());
 
             if (!options.isInstanceDiscoveryEnabled()) {
                 LOGGER.log(LogLevel.VERBOSE, () -> "Instance discovery and authority validation is disabled. In this"
@@ -225,9 +261,15 @@ public abstract class IdentityClientBase {
             throw LOGGER.logExceptionAsWarning(new IllegalStateException(e));
         }
 
-        applicationBuilder.sendX5c(options.isIncludeX5c());
+        if (enableCae) {
+            Set<String> set = new HashSet<>(1);
+            set.add("CP1");
+            applicationBuilder.clientCapabilities(set);
+        }
 
+        applicationBuilder.sendX5c(options.isIncludeX5c());
         initializeHttpPipelineAdapter();
+
         if (httpPipelineAdapter != null) {
             applicationBuilder.httpClient(httpPipelineAdapter);
         } else {
@@ -242,7 +284,7 @@ public abstract class IdentityClientBase {
         PersistentTokenCacheImpl tokenCache = null;
         if (tokenCachePersistenceOptions != null) {
             try {
-                tokenCache = new PersistentTokenCacheImpl()
+                tokenCache = new PersistentTokenCacheImpl(enableCae)
                     .setAllowUnencryptedStorage(tokenCachePersistenceOptions.isUnencryptedStorageAllowed())
                     .setName(tokenCachePersistenceOptions.getName());
                 applicationBuilder.setTokenCacheAccessAspect(tokenCache);
@@ -266,7 +308,7 @@ public abstract class IdentityClientBase {
         return confidentialClientApplication;
     }
 
-    PublicClientApplication getPublicClient(boolean sharedTokenCacheCredential) {
+    PublicClientApplication getPublicClient(boolean sharedTokenCacheCredential, boolean enableCae) {
         if (clientId == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 "A non-null value for client ID must be provided for user authentication."));
@@ -275,7 +317,9 @@ public abstract class IdentityClientBase {
             + tenantId;
         PublicClientApplication.Builder builder = PublicClientApplication.builder(clientId);
         try {
-            builder = builder.authority(authorityUrl).instanceDiscovery(options.isInstanceDiscoveryEnabled());
+            builder = builder
+                .logPii(options.isUnsafeSupportLoggingEnabled())
+                .authority(authorityUrl).instanceDiscovery(options.isInstanceDiscoveryEnabled());
 
             if (!options.isInstanceDiscoveryEnabled()) {
                 LOGGER.log(LogLevel.VERBOSE, () -> "Instance discovery and authority validation is disabled. In this"
@@ -297,17 +341,48 @@ public abstract class IdentityClientBase {
             builder.executorService(options.getExecutorService());
         }
 
-        if (!options.isCp1Disabled()) {
+        if (enableCae) {
             Set<String> set = new HashSet<>(1);
             set.add("CP1");
             builder.clientCapabilities(set);
+        }
+
+        if (options.isBrokerEnabled()) {
+            if (interactiveBrowserBroker == null) {
+                try {
+                    interactiveBrowserBroker = Class.forName("com.azure.identity.broker.implementation.InteractiveBrowserBroker");
+                } catch (ClassNotFoundException e) {
+                    throw LOGGER.logExceptionAsError(new IllegalStateException("Could not load the brokered authentication library. "
+                        + "Ensure that the azure-identity-broker library is on the classpath.", e));
+                }
+                getMsalRuntimeBroker = null;
+                try {
+                    getMsalRuntimeBroker = interactiveBrowserBroker.getMethod("getMsalRuntimeBroker");
+                } catch (NoSuchMethodException e) {
+                    throw LOGGER.logExceptionAsError(new IllegalStateException("Could not obtain the InteractiveBrowserBroker. "
+                        + "Ensure that the azure-identity-broker library is on the classpath.", e));
+                }
+            }
+
+            try {
+                if (getMsalRuntimeBroker != null) {
+                    builder.broker((IBroker) getMsalRuntimeBroker.invoke(null));
+
+                } else {
+                    throw LOGGER.logExceptionAsError(new IllegalStateException("Could not obtain the MSAL Broker. "
+                        + "Ensure that the azure-identity-broker library is on the classpath.", null));
+                }
+            } catch (InvocationTargetException | IllegalAccessException e) {
+                throw LOGGER.logExceptionAsError(new IllegalStateException("Could not invoke the MSAL Broker. "
+                    + "Ensure that the azure-identity-broker library is on the classpath.", e));
+            }
         }
 
         TokenCachePersistenceOptions tokenCachePersistenceOptions = options.getTokenCacheOptions();
         PersistentTokenCacheImpl tokenCache = null;
         if (tokenCachePersistenceOptions != null) {
             try {
-                tokenCache = new PersistentTokenCacheImpl()
+                tokenCache = new PersistentTokenCacheImpl(enableCae)
                     .setAllowUnencryptedStorage(tokenCachePersistenceOptions.isUnencryptedStorageAllowed())
                     .setName(tokenCachePersistenceOptions.getName());
                 builder.setTokenCacheAccessAspect(tokenCache);
@@ -334,7 +409,12 @@ public abstract class IdentityClientBase {
         ConfidentialClientApplication.Builder applicationBuilder =
             ConfidentialClientApplication.builder(clientId == null ? "SYSTEM-ASSIGNED-MANAGED-IDENTITY"
                 : clientId, credential);
-        applicationBuilder.validateAuthority(false);
+
+        applicationBuilder
+            .instanceDiscovery(false)
+            .validateAuthority(false)
+            .logPii(options.isUnsafeSupportLoggingEnabled());
+
         try {
             applicationBuilder = applicationBuilder.authority(authorityUrl);
         } catch (MalformedURLException e) {
@@ -377,6 +457,31 @@ public abstract class IdentityClientBase {
         return applicationBuilder.build();
     }
 
+    ManagedIdentityApplication getManagedIdentityMsalApplication() {
+
+        ManagedIdentityId managedIdentityId = CoreUtils.isNullOrEmpty(clientId)
+            ? (CoreUtils.isNullOrEmpty(resourceId)
+            ? ManagedIdentityId.systemAssigned() : ManagedIdentityId.userAssignedResourceId(resourceId))
+            : ManagedIdentityId.userAssignedClientId(clientId);
+
+        ManagedIdentityApplication.Builder miBuilder = ManagedIdentityApplication
+            .builder(managedIdentityId)
+            .logPii(options.isUnsafeSupportLoggingEnabled());
+
+        initializeHttpPipelineAdapter();
+        if (httpPipelineAdapter != null) {
+            miBuilder.httpClient(httpPipelineAdapter);
+        } else {
+            miBuilder.proxy(proxyOptionsToJavaNetProxy(options.getProxyOptions()));
+        }
+
+        if (options.getExecutorService() != null) {
+            miBuilder.executorService(options.getExecutorService());
+        }
+
+        return miBuilder.build();
+    }
+
     ConfidentialClientApplication getWorkloadIdentityConfidentialClient() {
         String authorityUrl = TRAILING_FORWARD_SLASHES.matcher(options.getAuthorityHost()).replaceAll("")
             + "/" + tenantId;
@@ -389,7 +494,9 @@ public abstract class IdentityClientBase {
                 : clientId, credential);
 
         try {
-            applicationBuilder = applicationBuilder.authority(authorityUrl).instanceDiscovery(options.isInstanceDiscoveryEnabled());
+            applicationBuilder = applicationBuilder.authority(authorityUrl)
+                .logPii(options.isUnsafeSupportLoggingEnabled())
+                .instanceDiscovery(options.isInstanceDiscoveryEnabled());
 
             if (!options.isInstanceDiscoveryEnabled()) {
                 LOGGER.log(LogLevel.VERBOSE, () -> "Instance discovery and authority validation is disabled. In this"
@@ -440,6 +547,11 @@ public abstract class IdentityClientBase {
         OnBehalfOfParameters.OnBehalfOfParametersBuilder builder = OnBehalfOfParameters
             .builder(new HashSet<>(request.getScopes()), options.getUserAssertion())
             .tenant(IdentityUtil.resolveTenantId(tenantId, request, options));
+
+        if (request.isCaeEnabled() && request.getClaims() != null) {
+            ClaimsRequest customClaimRequest = CustomClaimRequest.formatAsClaimsRequest(request.getClaims());
+            builder.claims(customClaimRequest);
+        }
         return builder.build();
     }
 
@@ -451,9 +563,32 @@ public abstract class IdentityClientBase {
                 .tenant(IdentityUtil
                     .resolveTenantId(tenantId, request, options));
 
-        if (request.getClaims() != null) {
+        if (request.isCaeEnabled() && request.getClaims() != null) {
             ClaimsRequest customClaimRequest = CustomClaimRequest.formatAsClaimsRequest(request.getClaims());
             builder.claims(customClaimRequest);
+        }
+
+        BrowserCustomizationOptions browserCustomizationOptions = options.getBrowserCustomizationOptions();
+
+        if (IdentityUtil.browserCustomizationOptionsPresent(browserCustomizationOptions)) {
+            SystemBrowserOptions.SystemBrowserOptionsBuilder browserOptionsBuilder =  SystemBrowserOptions.builder();
+            if (!CoreUtils.isNullOrEmpty(browserCustomizationOptions.getSuccessMessage())) {
+                browserOptionsBuilder.htmlMessageSuccess(browserCustomizationOptions.getSuccessMessage());
+            }
+
+            if (!CoreUtils.isNullOrEmpty(browserCustomizationOptions.getErrorMessage())) {
+                browserOptionsBuilder.htmlMessageError(browserCustomizationOptions.getErrorMessage());
+            }
+            builder.systemBrowserOptions(browserOptionsBuilder.build());
+        }
+
+        if (options.isBrokerEnabled()) {
+            builder.windowHandle(options.getBrokerWindowHandle());
+            if (options.isMsaPassthroughEnabled()) {
+                Map<String, String> extraQueryParameters = new HashMap<>();
+                extraQueryParameters.put("msal_request_type", "consumer_passthrough");
+                builder.extraQueryParameters(extraQueryParameters);
+            }
         }
 
         if (loginHint != null) {
@@ -467,7 +602,7 @@ public abstract class IdentityClientBase {
             UserNamePasswordParameters.builder(new HashSet<>(request.getScopes()),
                 username, password.toCharArray());
 
-        if (request.getClaims() != null) {
+        if (request.isCaeEnabled() && request.getClaims() != null) {
             ClaimsRequest customClaimRequest = CustomClaimRequest
                 .formatAsClaimsRequest(request.getClaims());
             userNamePasswordParametersBuilder.claims(customClaimRequest);
@@ -491,6 +626,8 @@ public abstract class IdentityClientBase {
             }
 
             ProcessBuilder builder = new ProcessBuilder(starter, switcher, azCommand.toString());
+            // Redirects stdin to dev null, helps to avoid messages sent in by the cmd process to upgrade etc.
+            builder.redirectInput(ProcessBuilder.Redirect.from(IdentityUtil.NULL_FILE));
 
             String workingDirectory = getSafeWorkingDirectory();
             if (workingDirectory != null) {
@@ -548,18 +685,17 @@ public abstract class IdentityClientBase {
 
             LOGGER.verbose("Azure CLI Authentication => A token response was received from Azure CLI, deserializing the"
                 + " response into an Access Token.");
-            Map<String, String> objectMap = SERIALIZER_ADAPTER.deserialize(processOutput, Map.class,
-                SerializerEncoding.JSON);
-            String accessToken = objectMap.get("accessToken");
-            String time = objectMap.get("expiresOn");
-            String timeToSecond = time.substring(0, time.indexOf("."));
-            String timeJoinedWithT = String.join("T", timeToSecond.split(" "));
-            OffsetDateTime expiresOn = LocalDateTime.parse(timeJoinedWithT, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                .atZone(ZoneId.systemDefault())
-                .toOffsetDateTime().withOffsetSameInstant(ZoneOffset.UTC);
-            token = new AccessToken(accessToken, expiresOn);
+            try (JsonReader reader = JsonProviders.createReader(processOutput)) {
+                AzureCliToken tokenHolder = AzureCliToken.fromJson(reader);
+                String accessToken = tokenHolder.getAccessToken();
+                OffsetDateTime tokenExpiration = tokenHolder.getTokenExpiration();
+                token = new AccessToken(accessToken, tokenExpiration);
+            }
+
         } catch (IOException | InterruptedException e) {
-            throw LOGGER.logExceptionAsError(new IllegalStateException(e));
+            IllegalStateException ex = new IllegalStateException(redactInfo(e.getMessage()));
+            ex.setStackTrace(e.getStackTrace());
+            throw LOGGER.logExceptionAsError(ex);
         }
         return token;
     }
@@ -578,6 +714,8 @@ public abstract class IdentityClientBase {
             }
 
             ProcessBuilder builder = new ProcessBuilder(starter, switcher, azdCommand.toString());
+            // Redirects stdin to dev null, helps to avoid messages sent in by the cmd process to upgrade etc.
+            builder.redirectInput(ProcessBuilder.Redirect.from(IdentityUtil.NULL_FILE));
 
             String workingDirectory = getSafeWorkingDirectory();
             if (workingDirectory != null) {
@@ -659,7 +797,9 @@ public abstract class IdentityClientBase {
                     .withOffsetSameInstant(ZoneOffset.UTC);
             token = new AccessToken(accessToken, expiresOn);
         } catch (IOException | InterruptedException e) {
-            throw LOGGER.logExceptionAsError(new IllegalStateException(e));
+            IllegalStateException ex = new IllegalStateException(redactInfo(e.getMessage()));
+            ex.setStackTrace(e.getStackTrace());
+            throw LOGGER.logExceptionAsError(ex);
         }
 
         return token;
@@ -714,10 +854,6 @@ public abstract class IdentityClientBase {
         }
     }
 
-    boolean isWindowsPlatform() {
-        return System.getProperty("os.name").contains("Windows");
-    }
-
     String redactInfo(String input) {
         return ACCESS_TOKEN_PATTERN.matcher(input).replaceAll("****");
     }
@@ -736,15 +872,16 @@ public abstract class IdentityClientBase {
 
         HttpLogOptions httpLogOptions = (options.getHttpLogOptions() == null) ? new HttpLogOptions() : options.getHttpLogOptions();
 
-        userAgent = UserAgentUtil.toUserAgentString(CoreUtils.getApplicationId(options.getClientOptions(), httpLogOptions), clientName, clientVersion, buildConfiguration);
+        ClientOptions localClientOptions = options.getClientOptions() != null
+            ? options.getClientOptions() : DEFAULT_CLIENT_OPTIONS;
+
+        userAgent = UserAgentUtil.toUserAgentString(CoreUtils.getApplicationId(localClientOptions, httpLogOptions), clientName, clientVersion, buildConfiguration);
         policies.add(new UserAgentPolicy(userAgent));
 
-        if (options.getClientOptions() != null) {
-            List<HttpHeader> httpHeaderList = new ArrayList<>();
-            options.getClientOptions().getHeaders().forEach(header ->
-                httpHeaderList.add(new HttpHeader(header.getName(), header.getValue())));
-            policies.add(new AddHeadersPolicy(new HttpHeaders(httpHeaderList)));
-        }
+        List<HttpHeader> httpHeaderList = new ArrayList<>();
+        localClientOptions.getHeaders().forEach(header ->
+            httpHeaderList.add(new HttpHeader(header.getName(), header.getValue())));
+        policies.add(new AddHeadersPolicy(new HttpHeaders(httpHeaderList)));
 
         policies.addAll(options.getPerCallPolicies());
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
@@ -754,40 +891,41 @@ public abstract class IdentityClientBase {
         HttpPolicyProviders.addAfterRetryPolicies(policies);
         policies.add(new HttpLoggingPolicy(httpLogOptions));
         return new HttpPipelineBuilder().httpClient(httpClient)
+            .clientOptions(localClientOptions)
             .policies(policies.toArray(new HttpPipelinePolicy[0])).build();
     }
 
 
     void initializeHttpPipelineAdapter() {
-        // If user supplies the pipeline, then it should override all other properties
-        // as they should directly be set on the pipeline.
+        if (options.getProxyOptions() == null) {
+            httpPipelineAdapter = new HttpPipelineAdapter(getPipeline(), options);
+        }
+    }
+
+    HttpPipeline getPipeline() {
+        // if we've already initialized, return the pipeline
+        if (this.httpPipeline != null) {
+            return httpPipeline;
+        }
+
+        // if the user has supplied a pipeline, use it
         HttpPipeline httpPipeline = options.getHttpPipeline();
         if (httpPipeline != null) {
-            httpPipelineAdapter = new HttpPipelineAdapter(httpPipeline, options);
-        } else {
-            // If http client is set on the credential, then it should override the proxy options if any configured.
-            HttpClient httpClient = options.getHttpClient();
-            if (httpClient != null) {
-                httpPipelineAdapter = new HttpPipelineAdapter(setupPipeline(httpClient), options);
-            } else if (options.getProxyOptions() == null) {
-                //Http Client is null, proxy options are not set, use the default client and build the pipeline.
-                httpPipelineAdapter = new HttpPipelineAdapter(setupPipeline(HttpClient.createDefault()), options);
-            }
+            this.httpPipeline = httpPipeline;
+            return this.httpPipeline;
         }
+
+        // if the user has supplied an HttpClient, use it
+        HttpClient httpClient = options.getHttpClient();
+        this.httpPipeline = setupPipeline(httpClient != null ? httpClient : HttpClient.createDefault());
+        return this.httpPipeline;
     }
 
     private byte[] getCertificateBytes() throws IOException {
         if (certificatePath != null) {
             return Files.readAllBytes(Paths.get(certificatePath));
         } else if (certificate != null) {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[4096];
-            int read = certificate.read(buffer, 0, buffer.length);
-            while (read != -1) {
-                outputStream.write(buffer, 0, read);
-                read = certificate.read(buffer, 0, buffer.length);
-            }
-            return outputStream.toByteArray();
+            return certificate;
         } else {
             return new byte[0];
         }
@@ -797,7 +935,7 @@ public abstract class IdentityClientBase {
         if (certificatePath != null) {
             return new BufferedInputStream(new FileInputStream(certificatePath));
         } else {
-            return certificate;
+            return new ByteArrayInputStream(certificate);
         }
     }
 

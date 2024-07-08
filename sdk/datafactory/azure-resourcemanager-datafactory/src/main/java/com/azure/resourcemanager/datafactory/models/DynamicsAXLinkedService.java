@@ -8,57 +8,91 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.DynamicsAXLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Dynamics AX linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Dynamics AX linked service.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = DynamicsAXLinkedService.class,
+    visible = true)
 @JsonTypeName("DynamicsAX")
 @Fluent
 public final class DynamicsAXLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DynamicsAX";
+
     /*
      * Dynamics AX linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private DynamicsAXLinkedServiceTypeProperties innerTypeProperties = new DynamicsAXLinkedServiceTypeProperties();
 
-    /** Creates an instance of DynamicsAXLinkedService class. */
+    /**
+     * Creates an instance of DynamicsAXLinkedService class.
+     */
     public DynamicsAXLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Dynamics AX linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private DynamicsAXLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsAXLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsAXLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsAXLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DynamicsAXLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +101,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
 
     /**
      * Get the url property: The Dynamics AX (or Dynamics 365 Finance and Operations) instance OData endpoint.
-     *
+     * 
      * @return the url value.
      */
     public Object url() {
@@ -76,7 +110,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
 
     /**
      * Set the url property: The Dynamics AX (or Dynamics 365 Finance and Operations) instance OData endpoint.
-     *
+     * 
      * @param url the url value to set.
      * @return the DynamicsAXLinkedService object itself.
      */
@@ -91,7 +125,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
     /**
      * Get the servicePrincipalId property: Specify the application's client ID. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the servicePrincipalId value.
      */
     public Object servicePrincipalId() {
@@ -101,7 +135,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
     /**
      * Set the servicePrincipalId property: Specify the application's client ID. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param servicePrincipalId the servicePrincipalId value to set.
      * @return the DynamicsAXLinkedService object itself.
      */
@@ -117,7 +151,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
      * Get the servicePrincipalKey property: Specify the application's key. Mark this field as a SecureString to store
      * it securely in Data Factory, or reference a secret stored in Azure Key Vault. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the servicePrincipalKey value.
      */
     public SecretBase servicePrincipalKey() {
@@ -128,7 +162,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
      * Set the servicePrincipalKey property: Specify the application's key. Mark this field as a SecureString to store
      * it securely in Data Factory, or reference a secret stored in Azure Key Vault. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param servicePrincipalKey the servicePrincipalKey value to set.
      * @return the DynamicsAXLinkedService object itself.
      */
@@ -144,7 +178,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
      * Get the tenant property: Specify the tenant information (domain name or tenant ID) under which your application
      * resides. Retrieve it by hovering the mouse in the top-right corner of the Azure portal. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the tenant value.
      */
     public Object tenant() {
@@ -155,7 +189,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
      * Set the tenant property: Specify the tenant information (domain name or tenant ID) under which your application
      * resides. Retrieve it by hovering the mouse in the top-right corner of the Azure portal. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param tenant the tenant value to set.
      * @return the DynamicsAXLinkedService object itself.
      */
@@ -170,7 +204,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
     /**
      * Get the aadResourceId property: Specify the resource you are requesting authorization. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the aadResourceId value.
      */
     public Object aadResourceId() {
@@ -180,7 +214,7 @@ public final class DynamicsAXLinkedService extends LinkedService {
     /**
      * Set the aadResourceId property: Specify the resource you are requesting authorization. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param aadResourceId the aadResourceId value to set.
      * @return the DynamicsAXLinkedService object itself.
      */
@@ -194,22 +228,22 @@ public final class DynamicsAXLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the DynamicsAXLinkedService object itself.
      */
-    public DynamicsAXLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public DynamicsAXLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new DynamicsAXLinkedServiceTypeProperties();
         }
@@ -219,17 +253,16 @@ public final class DynamicsAXLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model DynamicsAXLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model DynamicsAXLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

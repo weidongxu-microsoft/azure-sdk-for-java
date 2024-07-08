@@ -22,15 +22,19 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayRewriteRuleSet
 import com.azure.resourcemanager.network.models.ApplicationGatewayRoutingRule;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySku;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySslPolicy;
+import com.azure.resourcemanager.network.models.ApplicationGatewaySslPolicyName;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySslProfile;
 import com.azure.resourcemanager.network.models.ApplicationGatewayTrustedClientCertificate;
 import com.azure.resourcemanager.network.models.ApplicationGatewayTrustedRootCertificate;
 import com.azure.resourcemanager.network.models.ApplicationGatewayWebApplicationFirewallConfiguration;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of the application gateway. */
+/**
+ * Properties of the application gateway.
+ */
 @Fluent
 public final class ApplicationGatewayPropertiesFormat {
     /*
@@ -52,50 +56,43 @@ public final class ApplicationGatewayPropertiesFormat {
     private ApplicationGatewayOperationalState operationalState;
 
     /*
-     * Subnets of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Subnets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "gatewayIPConfigurations")
     private List<ApplicationGatewayIpConfigurationInner> gatewayIpConfigurations;
 
     /*
-     * Authentication certificates of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "authenticationCertificates")
     private List<ApplicationGatewayAuthenticationCertificateInner> authenticationCertificates;
 
     /*
-     * Trusted Root certificates of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Trusted Root certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "trustedRootCertificates")
     private List<ApplicationGatewayTrustedRootCertificate> trustedRootCertificates;
 
     /*
-     * Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "trustedClientCertificates")
     private List<ApplicationGatewayTrustedClientCertificate> trustedClientCertificates;
 
     /*
-     * SSL certificates of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * SSL certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "sslCertificates")
     private List<ApplicationGatewaySslCertificateInner> sslCertificates;
 
     /*
-     * Frontend IP addresses of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Frontend IP addresses of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "frontendIPConfigurations")
     private List<ApplicationGatewayFrontendIpConfiguration> frontendIpConfigurations;
 
     /*
-     * Frontend ports of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Frontend ports of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "frontendPorts")
     private List<ApplicationGatewayFrontendPort> frontendPorts;
@@ -107,50 +104,43 @@ public final class ApplicationGatewayPropertiesFormat {
     private List<ApplicationGatewayProbeInner> probes;
 
     /*
-     * Backend address pool of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Backend address pool of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "backendAddressPools")
     private List<ApplicationGatewayBackendAddressPool> backendAddressPools;
 
     /*
-     * Backend http settings of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Backend http settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "backendHttpSettingsCollection")
     private List<ApplicationGatewayBackendHttpSettings> backendHttpSettingsCollection;
 
     /*
-     * Backend settings of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Backend settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "backendSettingsCollection")
     private List<ApplicationGatewayBackendSettings> backendSettingsCollection;
 
     /*
-     * Http listeners of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "httpListeners")
     private List<ApplicationGatewayHttpListener> httpListeners;
 
     /*
-     * Listeners of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "listeners")
     private List<ApplicationGatewayListenerInner> listeners;
 
     /*
-     * SSL profiles of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "sslProfiles")
     private List<ApplicationGatewaySslProfile> sslProfiles;
 
     /*
-     * URL path map of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * URL path map of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "urlPathMaps")
     private List<ApplicationGatewayUrlPathMapInner> urlPathMaps;
@@ -174,8 +164,7 @@ public final class ApplicationGatewayPropertiesFormat {
     private List<ApplicationGatewayRewriteRuleSet> rewriteRuleSets;
 
     /*
-     * Redirect configurations of the application gateway resource. For default limits, see [Application Gateway
-     * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+     * Redirect configurations of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
      */
     @JsonProperty(value = "redirectConfigurations")
     private List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations;
@@ -241,8 +230,7 @@ public final class ApplicationGatewayPropertiesFormat {
     private List<ApplicationGatewayCustomError> customErrorConfigurations;
 
     /*
-     * If true, associates a firewall policy with an application gateway regardless whether the policy differs from the
-     * WAF Config.
+     * If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config.
      */
     @JsonProperty(value = "forceFirewallPolicyAssociation")
     private Boolean forceFirewallPolicyAssociation;
@@ -259,7 +247,15 @@ public final class ApplicationGatewayPropertiesFormat {
     @JsonProperty(value = "globalConfiguration")
     private ApplicationGatewayGlobalConfiguration globalConfiguration;
 
-    /** Creates an instance of ApplicationGatewayPropertiesFormat class. */
+    /*
+     * The default predefined SSL Policy applied on the application gateway resource.
+     */
+    @JsonProperty(value = "defaultPredefinedSslPolicy", access = JsonProperty.Access.WRITE_ONLY)
+    private ApplicationGatewaySslPolicyName defaultPredefinedSslPolicy;
+
+    /**
+     * Creates an instance of ApplicationGatewayPropertiesFormat class.
+     */
     public ApplicationGatewayPropertiesFormat() {
     }
 
@@ -331,8 +327,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param gatewayIpConfigurations the gatewayIpConfigurations value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withGatewayIpConfigurations(
-        List<ApplicationGatewayIpConfigurationInner> gatewayIpConfigurations) {
+    public ApplicationGatewayPropertiesFormat
+        withGatewayIpConfigurations(List<ApplicationGatewayIpConfigurationInner> gatewayIpConfigurations) {
         this.gatewayIpConfigurations = gatewayIpConfigurations;
         return this;
     }
@@ -381,8 +377,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param trustedRootCertificates the trustedRootCertificates value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withTrustedRootCertificates(
-        List<ApplicationGatewayTrustedRootCertificate> trustedRootCertificates) {
+    public ApplicationGatewayPropertiesFormat
+        withTrustedRootCertificates(List<ApplicationGatewayTrustedRootCertificate> trustedRootCertificates) {
         this.trustedRootCertificates = trustedRootCertificates;
         return this;
     }
@@ -406,8 +402,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param trustedClientCertificates the trustedClientCertificates value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withTrustedClientCertificates(
-        List<ApplicationGatewayTrustedClientCertificate> trustedClientCertificates) {
+    public ApplicationGatewayPropertiesFormat
+        withTrustedClientCertificates(List<ApplicationGatewayTrustedClientCertificate> trustedClientCertificates) {
         this.trustedClientCertificates = trustedClientCertificates;
         return this;
     }
@@ -431,8 +427,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param sslCertificates the sslCertificates value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withSslCertificates(
-        List<ApplicationGatewaySslCertificateInner> sslCertificates) {
+    public ApplicationGatewayPropertiesFormat
+        withSslCertificates(List<ApplicationGatewaySslCertificateInner> sslCertificates) {
         this.sslCertificates = sslCertificates;
         return this;
     }
@@ -456,8 +452,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param frontendIpConfigurations the frontendIpConfigurations value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withFrontendIpConfigurations(
-        List<ApplicationGatewayFrontendIpConfiguration> frontendIpConfigurations) {
+    public ApplicationGatewayPropertiesFormat
+        withFrontendIpConfigurations(List<ApplicationGatewayFrontendIpConfiguration> frontendIpConfigurations) {
         this.frontendIpConfigurations = frontendIpConfigurations;
         return this;
     }
@@ -525,8 +521,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param backendAddressPools the backendAddressPools value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withBackendAddressPools(
-        List<ApplicationGatewayBackendAddressPool> backendAddressPools) {
+    public ApplicationGatewayPropertiesFormat
+        withBackendAddressPools(List<ApplicationGatewayBackendAddressPool> backendAddressPools) {
         this.backendAddressPools = backendAddressPools;
         return this;
     }
@@ -550,8 +546,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param backendHttpSettingsCollection the backendHttpSettingsCollection value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withBackendHttpSettingsCollection(
-        List<ApplicationGatewayBackendHttpSettings> backendHttpSettingsCollection) {
+    public ApplicationGatewayPropertiesFormat
+        withBackendHttpSettingsCollection(List<ApplicationGatewayBackendHttpSettings> backendHttpSettingsCollection) {
         this.backendHttpSettingsCollection = backendHttpSettingsCollection;
         return this;
     }
@@ -575,8 +571,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param backendSettingsCollection the backendSettingsCollection value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withBackendSettingsCollection(
-        List<ApplicationGatewayBackendSettings> backendSettingsCollection) {
+    public ApplicationGatewayPropertiesFormat
+        withBackendSettingsCollection(List<ApplicationGatewayBackendSettings> backendSettingsCollection) {
         this.backendSettingsCollection = backendSettingsCollection;
         return this;
     }
@@ -690,8 +686,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param requestRoutingRules the requestRoutingRules value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withRequestRoutingRules(
-        List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules) {
+    public ApplicationGatewayPropertiesFormat
+        withRequestRoutingRules(List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules) {
         this.requestRoutingRules = requestRoutingRules;
         return this;
     }
@@ -731,8 +727,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param rewriteRuleSets the rewriteRuleSets value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withRewriteRuleSets(
-        List<ApplicationGatewayRewriteRuleSet> rewriteRuleSets) {
+    public ApplicationGatewayPropertiesFormat
+        withRewriteRuleSets(List<ApplicationGatewayRewriteRuleSet> rewriteRuleSets) {
         this.rewriteRuleSets = rewriteRuleSets;
         return this;
     }
@@ -756,8 +752,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param redirectConfigurations the redirectConfigurations value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withRedirectConfigurations(
-        List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations) {
+    public ApplicationGatewayPropertiesFormat
+        withRedirectConfigurations(List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations) {
         this.redirectConfigurations = redirectConfigurations;
         return this;
     }
@@ -858,8 +854,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param autoscaleConfiguration the autoscaleConfiguration value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withAutoscaleConfiguration(
-        ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration) {
+    public ApplicationGatewayPropertiesFormat
+        withAutoscaleConfiguration(ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration) {
         this.autoscaleConfiguration = autoscaleConfiguration;
         return this;
     }
@@ -879,8 +875,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param privateLinkConfigurations the privateLinkConfigurations value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withPrivateLinkConfigurations(
-        List<ApplicationGatewayPrivateLinkConfiguration> privateLinkConfigurations) {
+    public ApplicationGatewayPropertiesFormat
+        withPrivateLinkConfigurations(List<ApplicationGatewayPrivateLinkConfiguration> privateLinkConfigurations) {
         this.privateLinkConfigurations = privateLinkConfigurations;
         return this;
     }
@@ -927,8 +923,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param customErrorConfigurations the customErrorConfigurations value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withCustomErrorConfigurations(
-        List<ApplicationGatewayCustomError> customErrorConfigurations) {
+    public ApplicationGatewayPropertiesFormat
+        withCustomErrorConfigurations(List<ApplicationGatewayCustomError> customErrorConfigurations) {
         this.customErrorConfigurations = customErrorConfigurations;
         return this;
     }
@@ -950,8 +946,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param forceFirewallPolicyAssociation the forceFirewallPolicyAssociation value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withForceFirewallPolicyAssociation(
-        Boolean forceFirewallPolicyAssociation) {
+    public ApplicationGatewayPropertiesFormat
+        withForceFirewallPolicyAssociation(Boolean forceFirewallPolicyAssociation) {
         this.forceFirewallPolicyAssociation = forceFirewallPolicyAssociation;
         return this;
     }
@@ -971,8 +967,8 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param loadDistributionPolicies the loadDistributionPolicies value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withLoadDistributionPolicies(
-        List<ApplicationGatewayLoadDistributionPolicy> loadDistributionPolicies) {
+    public ApplicationGatewayPropertiesFormat
+        withLoadDistributionPolicies(List<ApplicationGatewayLoadDistributionPolicy> loadDistributionPolicies) {
         this.loadDistributionPolicies = loadDistributionPolicies;
         return this;
     }
@@ -992,10 +988,20 @@ public final class ApplicationGatewayPropertiesFormat {
      * @param globalConfiguration the globalConfiguration value to set.
      * @return the ApplicationGatewayPropertiesFormat object itself.
      */
-    public ApplicationGatewayPropertiesFormat withGlobalConfiguration(
-        ApplicationGatewayGlobalConfiguration globalConfiguration) {
+    public ApplicationGatewayPropertiesFormat
+        withGlobalConfiguration(ApplicationGatewayGlobalConfiguration globalConfiguration) {
         this.globalConfiguration = globalConfiguration;
         return this;
+    }
+
+    /**
+     * Get the defaultPredefinedSslPolicy property: The default predefined SSL Policy applied on the application gateway
+     * resource.
+     *
+     * @return the defaultPredefinedSslPolicy value.
+     */
+    public ApplicationGatewaySslPolicyName defaultPredefinedSslPolicy() {
+        return this.defaultPredefinedSslPolicy;
     }
 
     /**

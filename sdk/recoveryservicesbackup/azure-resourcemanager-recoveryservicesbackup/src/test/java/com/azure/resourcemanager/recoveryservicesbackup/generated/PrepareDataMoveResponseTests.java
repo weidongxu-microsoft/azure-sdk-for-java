@@ -13,26 +13,23 @@ import org.junit.jupiter.api.Assertions;
 public final class PrepareDataMoveResponseTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        PrepareDataMoveResponse model =
-            BinaryData
-                .fromString(
-                    "{\"objectType\":\"PrepareDataMoveResponse\",\"correlationId\":\"iqxf\",\"sourceVaultProperties\":{\"kpqhjpenuygbq\":\"qttv\"}}")
-                .toObject(PrepareDataMoveResponse.class);
-        Assertions.assertEquals("iqxf", model.correlationId());
-        Assertions.assertEquals("qttv", model.sourceVaultProperties().get("kpqhjpenuygbq"));
+        PrepareDataMoveResponse model = BinaryData.fromString(
+            "{\"objectType\":\"PrepareDataMoveResponse\",\"correlationId\":\"lklmtkhlo\",\"sourceVaultProperties\":{\"syzfhotlhikcyych\":\"xpvbrdfjm\"}}")
+            .toObject(PrepareDataMoveResponse.class);
+        Assertions.assertEquals("lklmtkhlo", model.correlationId());
+        Assertions.assertEquals("xpvbrdfjm", model.sourceVaultProperties().get("syzfhotlhikcyych"));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        PrepareDataMoveResponse model =
-            new PrepareDataMoveResponse()
-                .withCorrelationId("iqxf")
-                .withSourceVaultProperties(mapOf("kpqhjpenuygbq", "qttv"));
+        PrepareDataMoveResponse model = new PrepareDataMoveResponse().withCorrelationId("lklmtkhlo")
+            .withSourceVaultProperties(mapOf("syzfhotlhikcyych", "xpvbrdfjm"));
         model = BinaryData.fromObject(model).toObject(PrepareDataMoveResponse.class);
-        Assertions.assertEquals("iqxf", model.correlationId());
-        Assertions.assertEquals("qttv", model.sourceVaultProperties().get("kpqhjpenuygbq"));
+        Assertions.assertEquals("lklmtkhlo", model.correlationId());
+        Assertions.assertEquals("xpvbrdfjm", model.sourceVaultProperties().get("syzfhotlhikcyych"));
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

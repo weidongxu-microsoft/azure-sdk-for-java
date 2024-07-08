@@ -3,6 +3,8 @@
 package com.azure.resourcemanager;
 
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.resourcemanager.compute.models.KnownLinuxVirtualMachineImage;
 import com.azure.resourcemanager.compute.models.VirtualMachine;
 import com.azure.resourcemanager.compute.models.VirtualMachineSizeTypes;
@@ -23,11 +25,13 @@ import com.azure.resourcemanager.storage.models.StorageAccounts;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.azure.resourcemanager.test.ResourceManagerTestBase;
+import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
 import org.junit.jupiter.api.Assertions;
 
 /** Tests Network Watcher. */
 public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatchers> {
+    private static final ClientLogger LOGGER = new ClientLogger(TestNetworkWatcher.class);
+
     private String testId = "";
     private static final Region REGION = Region.EUROPE_NORTH;
     private String groupName;
@@ -121,7 +125,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withExistingPrimaryNetworkInterface(nic)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
                 .withRootUsername(userName)
-                .withRootPassword(ResourceManagerTestBase.password())
+                .withRootPassword(ResourceManagerTestProxyTestBase.password())
                 .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .defineNewExtension("packetCapture")
                 .withPublisher("Microsoft.Azure.NetworkWatcher")
@@ -143,7 +147,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withoutPrimaryPublicIPAddress()
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
                 .withRootUsername(userName)
-                .withRootPassword(ResourceManagerTestBase.password())
+                .withRootPassword(ResourceManagerTestProxyTestBase.password())
                 .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
         vmDefinitions.add(vm1);
@@ -169,19 +173,9 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
 
     @Override
     public void print(NetworkWatcher nw) {
-        StringBuilder info = new StringBuilder();
-        info
-            .append("Network Watcher: ")
-            .append(nw.id())
-            .append("\n\tName: ")
-            .append(nw.name())
-            .append("\n\tResource group: ")
-            .append(nw.resourceGroupName())
-            .append("\n\tRegion: ")
-            .append(nw.regionName())
-            .append("\n\tTags: ")
-            .append(nw.tags());
-        System.out.println(info.toString());
+        LOGGER.log(LogLevel.VERBOSE, () -> "Network Watcher: " + nw.id() + "\n\tName: " + nw.name()
+            + "\n\tResource group: " + nw.resourceGroupName() + "\n\tRegion: " + nw.regionName() + "\n\tTags: "
+            + nw.tags());
     }
 
     public String groupName() {

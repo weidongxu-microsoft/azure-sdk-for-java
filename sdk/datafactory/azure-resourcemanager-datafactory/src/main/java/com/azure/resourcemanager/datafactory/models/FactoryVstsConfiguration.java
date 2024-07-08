@@ -7,14 +7,28 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Factory's VSTS repo information. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Factory's VSTS repo information.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = FactoryVstsConfiguration.class,
+    visible = true)
 @JsonTypeName("FactoryVSTSConfiguration")
 @Fluent
 public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
+    /*
+     * Type of repo configuration.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "FactoryVSTSConfiguration";
+
     /*
      * VSTS project name.
      */
@@ -27,13 +41,25 @@ public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
     @JsonProperty(value = "tenantId")
     private String tenantId;
 
-    /** Creates an instance of FactoryVstsConfiguration class. */
+    /**
+     * Creates an instance of FactoryVstsConfiguration class.
+     */
     public FactoryVstsConfiguration() {
     }
 
     /**
+     * Get the type property: Type of repo configuration.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the projectName property: VSTS project name.
-     *
+     * 
      * @return the projectName value.
      */
     public String projectName() {
@@ -42,7 +68,7 @@ public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
 
     /**
      * Set the projectName property: VSTS project name.
-     *
+     * 
      * @param projectName the projectName value to set.
      * @return the FactoryVstsConfiguration object itself.
      */
@@ -53,7 +79,7 @@ public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
 
     /**
      * Get the tenantId property: VSTS tenant id.
-     *
+     * 
      * @return the tenantId value.
      */
     public String tenantId() {
@@ -62,7 +88,7 @@ public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
 
     /**
      * Set the tenantId property: VSTS tenant id.
-     *
+     * 
      * @param tenantId the tenantId value to set.
      * @return the FactoryVstsConfiguration object itself.
      */
@@ -71,42 +97,54 @@ public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FactoryVstsConfiguration withAccountName(String accountName) {
         super.withAccountName(accountName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FactoryVstsConfiguration withRepositoryName(String repositoryName) {
         super.withRepositoryName(repositoryName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FactoryVstsConfiguration withCollaborationBranch(String collaborationBranch) {
         super.withCollaborationBranch(collaborationBranch);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FactoryVstsConfiguration withRootFolder(String rootFolder) {
         super.withRootFolder(rootFolder);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FactoryVstsConfiguration withLastCommitId(String lastCommitId) {
         super.withLastCommitId(lastCommitId);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FactoryVstsConfiguration withDisablePublish(Boolean disablePublish) {
         super.withDisablePublish(disablePublish);
@@ -115,17 +153,16 @@ public final class FactoryVstsConfiguration extends FactoryRepoConfiguration {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (projectName() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property projectName in model FactoryVstsConfiguration"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property projectName in model FactoryVstsConfiguration"));
         }
     }
 

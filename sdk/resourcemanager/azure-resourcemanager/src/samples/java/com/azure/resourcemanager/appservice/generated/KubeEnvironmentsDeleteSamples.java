@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.appservice.generated;
 
-/** Samples for KubeEnvironments Delete. */
+/**
+ * Samples for KubeEnvironments Delete.
+ */
 public final class KubeEnvironmentsDeleteSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/KubeEnvironments_Delete.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/KubeEnvironments_Delete.json
      */
     /**
      * Sample code: Delete kube environment by name.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteKubeEnvironmentByName(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getKubeEnvironments()

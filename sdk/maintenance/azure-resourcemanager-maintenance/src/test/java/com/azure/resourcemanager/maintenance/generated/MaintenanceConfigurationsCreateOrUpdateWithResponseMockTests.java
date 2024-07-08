@@ -6,103 +6,91 @@ package com.azure.resourcemanager.maintenance.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.test.http.MockHttpResponse;
 import com.azure.resourcemanager.maintenance.MaintenanceManager;
+import com.azure.resourcemanager.maintenance.models.InputLinuxParameters;
+import com.azure.resourcemanager.maintenance.models.InputPatchConfiguration;
+import com.azure.resourcemanager.maintenance.models.InputWindowsParameters;
 import com.azure.resourcemanager.maintenance.models.MaintenanceConfiguration;
 import com.azure.resourcemanager.maintenance.models.MaintenanceScope;
+import com.azure.resourcemanager.maintenance.models.RebootOptions;
 import com.azure.resourcemanager.maintenance.models.Visibility;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public final class MaintenanceConfigurationsCreateOrUpdateWithResponseMockTests {
     @Test
     public void testCreateOrUpdateWithResponse() throws Exception {
-        HttpClient httpClient = Mockito.mock(HttpClient.class);
-        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
-        ArgumentCaptor<HttpRequest> httpRequest = ArgumentCaptor.forClass(HttpRequest.class);
+        String responseStr
+            = "{\"location\":\"vwrdnhfukuvsj\",\"tags\":{\"lerchpq\":\"smystuluqypfc\",\"dfc\":\"mfpjbabw\",\"qddrihpfhoqcaae\":\"sspuunnoxyhkx\",\"djvlpj\":\"dao\"},\"properties\":{\"namespace\":\"zb\",\"extensionProperties\":{\"xonbzoggculapz\":\"geivsiykzkdncj\",\"pgogtqxepny\":\"y\"},\"maintenanceScope\":\"SQLManagedInstance\",\"maintenanceWindow\":{\"startDateTime\":\"jlyjtlvofq\",\"expirationDateTime\":\"vfcibyfmowux\",\"duration\":\"jpvd\",\"timeZone\":\"fzwiivwzjbhyz\",\"recurEvery\":\"jrkambtrnegvmnv\"},\"visibility\":\"Public\",\"installPatches\":{\"rebootSetting\":\"Always\",\"windowsParameters\":{\"kbNumbersToExclude\":[\"astjbkkdmflvestm\"],\"kbNumbersToInclude\":[\"rriloz\",\"peewchpxlkt\",\"kuziycsle\"],\"classificationsToInclude\":[\"uztcktyhjtqed\"],\"excludeKbsRequiringReboot\":true},\"linuxParameters\":{\"packageNameMasksToExclude\":[\"mmrqz\",\"rr\"],\"packageNameMasksToInclude\":[\"gl\",\"dzgkr\"],\"classificationsToInclude\":[\"ev\"]}}},\"id\":\"epr\",\"name\":\"utnwytpzdmovzvf\",\"type\":\"aawzqadfl\"}";
 
-        String responseStr =
-            "{\"location\":\"cugicjoox\",\"tags\":{\"euecivyhzceuoj\":\"bwpucwwfvovbv\",\"dytdxwitx\":\"jrwjueiotwm\",\"qwgxhniskx\":\"rjaw\"},\"properties\":{\"namespace\":\"py\",\"extensionProperties\":{\"nhjdauw\":\"lwn\",\"nbmpowuwprzq\":\"vylwzbtdhxuj\",\"pjmkhfxobbc\":\"veual\",\"tghfgblcgwxzvl\":\"wsrtjriplrbpbe\"},\"maintenanceScope\":\"SQLDB\",\"maintenanceWindow\":{\"startDateTime\":\"begibtnmxiebwwa\",\"expirationDateTime\":\"ayqcgw\",\"duration\":\"zjuzgwyz\",\"timeZone\":\"txon\",\"recurEvery\":\"ts\"},\"visibility\":\"Public\"},\"id\":\"bp\",\"name\":\"xqpsrknftguv\",\"type\":\"iuhprwmdyvxqta\"}";
+        HttpClient httpClient
+            = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
+        MaintenanceManager manager = MaintenanceManager.configure()
+            .withHttpClient(httpClient)
+            .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
+                new AzureProfile("", "", AzureEnvironment.AZURE));
 
-        Mockito.when(httpResponse.getStatusCode()).thenReturn(200);
-        Mockito.when(httpResponse.getHeaders()).thenReturn(new HttpHeaders());
-        Mockito
-            .when(httpResponse.getBody())
-            .thenReturn(Flux.just(ByteBuffer.wrap(responseStr.getBytes(StandardCharsets.UTF_8))));
-        Mockito
-            .when(httpResponse.getBodyAsByteArray())
-            .thenReturn(Mono.just(responseStr.getBytes(StandardCharsets.UTF_8)));
-        Mockito
-            .when(httpClient.send(httpRequest.capture(), Mockito.any()))
-            .thenReturn(
-                Mono
-                    .defer(
-                        () -> {
-                            Mockito.when(httpResponse.getRequest()).thenReturn(httpRequest.getValue());
-                            return Mono.just(httpResponse);
-                        }));
+        MaintenanceConfiguration response = manager.maintenanceConfigurations()
+            .define("gyavu")
+            .withExistingResourceGroup("zdvoqytibyowbb")
+            .withRegion("thjoxoism")
+            .withTags(mapOf("sffgcvizqzd", "bpimlqoljxkcgxxl", "w", "l"))
+            .withNamespace("upfgfbk")
+            .withExtensionProperties(mapOf("wzf", "dyhgkfminsg", "ctxtgzukxi", "tsttktlahbq", "xrxc", "mmqtgqqqxhr",
+                "azivjlfrqttbajl", "juisavokqdzf"))
+            .withMaintenanceScope(MaintenanceScope.IN_GUEST_PATCH)
+            .withVisibility(Visibility.PUBLIC)
+            .withInstallPatches(new InputPatchConfiguration().withRebootSetting(RebootOptions.ALWAYS)
+                .withWindowsParameters(
+                    new InputWindowsParameters().withKbNumbersToExclude(Arrays.asList("vvjgslor", "il", "yw", "t"))
+                        .withKbNumbersToInclude(Arrays.asList("xnyed"))
+                        .withClassificationsToInclude(Arrays.asList("yvudtjuewbci", "xuuwhcj", "xccybvpa"))
+                        .withExcludeKbsRequiringReboot(false))
+                .withLinuxParameters(new InputLinuxParameters()
+                    .withPackageNameMasksToExclude(Arrays.asList("zp", "gwjplmag", "tcyohpfkyrk"))
+                    .withPackageNameMasksToInclude(Arrays.asList("giogsjkmnwqjno"))
+                    .withClassificationsToInclude(Arrays.asList("yhddvia", "egfnmntfpmvmemfn"))))
+            .withStartDateTime("xyiopidkqqfku")
+            .withExpirationDateTime("cxkdmligovi")
+            .withDuration("xk")
+            .withTimeZone("loazuruocbgoo")
+            .withRecurEvery("te")
+            .create();
 
-        MaintenanceManager manager =
-            MaintenanceManager
-                .configure()
-                .withHttpClient(httpClient)
-                .authenticate(
-                    tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
-                    new AzureProfile("", "", AzureEnvironment.AZURE));
-
-        MaintenanceConfiguration response =
-            manager
-                .maintenanceConfigurations()
-                .define("sbj")
-                .withExistingResourceGroup("ye")
-                .withRegion("zq")
-                .withTags(
-                    mapOf(
-                        "jidsuyonobglaoc",
-                        "ywpmueefjzwfqkq",
-                        "udxytlmoyrx",
-                        "xtccmg",
-                        "qj",
-                        "wfudwpzntxhdzhl",
-                        "bkyvp",
-                        "hckfrlhrx"))
-                .withNamespace("n")
-                .withExtensionProperties(mapOf("kafkuwbcrnwbm", "p", "us", "hhseyv", "ofmxagkvtmelmqkr", "tslhspkdeem"))
-                .withMaintenanceScope(MaintenanceScope.HOST)
-                .withVisibility(Visibility.PUBLIC)
-                .withStartDateTime("juahaquhcdhmdual")
-                .withExpirationDateTime("xqpvfadmw")
-                .withDuration("crgvxpvgom")
-                .withTimeZone("fmisg")
-                .withRecurEvery("nbbelda")
-                .create();
-
-        Assertions.assertEquals("cugicjoox", response.location());
-        Assertions.assertEquals("bwpucwwfvovbv", response.tags().get("euecivyhzceuoj"));
-        Assertions.assertEquals("py", response.namespace());
-        Assertions.assertEquals("lwn", response.extensionProperties().get("nhjdauw"));
-        Assertions.assertEquals(MaintenanceScope.SQLDB, response.maintenanceScope());
+        Assertions.assertEquals("vwrdnhfukuvsj", response.location());
+        Assertions.assertEquals("smystuluqypfc", response.tags().get("lerchpq"));
+        Assertions.assertEquals("zb", response.namespace());
+        Assertions.assertEquals("geivsiykzkdncj", response.extensionProperties().get("xonbzoggculapz"));
+        Assertions.assertEquals(MaintenanceScope.SQLMANAGED_INSTANCE, response.maintenanceScope());
         Assertions.assertEquals(Visibility.PUBLIC, response.visibility());
-        Assertions.assertEquals("begibtnmxiebwwa", response.startDateTime());
-        Assertions.assertEquals("ayqcgw", response.expirationDateTime());
-        Assertions.assertEquals("zjuzgwyz", response.duration());
-        Assertions.assertEquals("txon", response.timeZone());
-        Assertions.assertEquals("ts", response.recurEvery());
+        Assertions.assertEquals(RebootOptions.ALWAYS, response.installPatches().rebootSetting());
+        Assertions.assertEquals("astjbkkdmflvestm",
+            response.installPatches().windowsParameters().kbNumbersToExclude().get(0));
+        Assertions.assertEquals("rriloz", response.installPatches().windowsParameters().kbNumbersToInclude().get(0));
+        Assertions.assertEquals("uztcktyhjtqed",
+            response.installPatches().windowsParameters().classificationsToInclude().get(0));
+        Assertions.assertEquals(true, response.installPatches().windowsParameters().excludeKbsRequiringReboot());
+        Assertions.assertEquals("mmrqz",
+            response.installPatches().linuxParameters().packageNameMasksToExclude().get(0));
+        Assertions.assertEquals("gl", response.installPatches().linuxParameters().packageNameMasksToInclude().get(0));
+        Assertions.assertEquals("ev", response.installPatches().linuxParameters().classificationsToInclude().get(0));
+        Assertions.assertEquals("jlyjtlvofq", response.startDateTime());
+        Assertions.assertEquals("vfcibyfmowux", response.expirationDateTime());
+        Assertions.assertEquals("jpvd", response.duration());
+        Assertions.assertEquals("fzwiivwzjbhyz", response.timeZone());
+        Assertions.assertEquals("jrkambtrnegvmnv", response.recurEvery());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

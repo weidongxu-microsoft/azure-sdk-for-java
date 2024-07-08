@@ -27,6 +27,7 @@ import org.mockito.Mockito;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -172,8 +173,9 @@ public class ClientTelemetryTest extends TestSuiteBase {
             FeedResponse<InternalObjectNode> response = iterator.next();
         }
 
-        //Verifying above query operation, we should have 2 operation (1 latency, 1 request charge)
-        assertThat(clientTelemetry.getClientTelemetryInfo().getOperationInfoMap().size()).isEqualTo(2);
+        // Verifying above query operation, we should have 4 operation (1 latency, 1 request charge -
+        // for both query plan and the actual feed response)
+        assertThat(clientTelemetry.getClientTelemetryInfo().getOperationInfoMap().size()).isGreaterThanOrEqualTo(4);
     }
 
     @Test(groups = {"emulator"}, timeOut = TIMEOUT)
@@ -221,10 +223,12 @@ public class ClientTelemetryTest extends TestSuiteBase {
     public void systemInfo(CosmosClient cosmosClient) throws Exception {
         ClientTelemetry clientTelemetry = cosmosClient.asyncClient().getContextClient().getClientTelemetry();
         readClientTelemetry(clientTelemetry);
-        assertThat(clientTelemetry.getClientTelemetryInfo().getSystemInfoMap().size()).isEqualTo(2);
+        assertThat(clientTelemetry.getClientTelemetryInfo().getSystemInfoMap().size()).isGreaterThanOrEqualTo(2);
         for (ReportPayload reportPayload : clientTelemetry.getClientTelemetryInfo().getSystemInfoMap().keySet()) {
             if (reportPayload.getMetricInfo().getMetricsName().equals("CPU")) {
                 assertThat(reportPayload.getMetricInfo().getUnitName()).isEqualTo("Percentage");
+            } else if (reportPayload.getMetricInfo().getMetricsName().equals(ClientTelemetry.TCP_NEW_CHANNEL_LATENCY_NAME)) {
+                assertThat(reportPayload.getMetricInfo().getUnitName()).isEqualTo(ClientTelemetry.TCP_NEW_CHANNEL_LATENCY_UNIT);
             } else {
                 assertThat(reportPayload.getMetricInfo().getMetricsName()).isEqualTo("MemoryRemaining");
                 assertThat(reportPayload.getMetricInfo().getUnitName()).isEqualTo("MB");
@@ -263,10 +267,12 @@ public class ClientTelemetryTest extends TestSuiteBase {
 
     @SuppressWarnings("unchecked")
     @Test(groups = {"long"}, dataProvider = "useProxy", timeOut = TIMEOUT)
+    @Ignore("Stage Juno endpoint is only available for staging accounts")
     public void clientTelemetryWithStageJunoEndpoint(boolean useProxy) throws InterruptedException, NoSuchFieldException,
         IllegalAccessException {
         CosmosClient cosmosClient = null;
         String databaseId = UUID.randomUUID().toString();
+
         try {
             String whiteListedAccountForTelemetry = System.getProperty("COSMOS.CLIENT_TELEMETRY_COSMOS_ACCOUNT");
             assertThat(whiteListedAccountForTelemetry).isNotNull();
@@ -375,7 +381,7 @@ public class ClientTelemetryTest extends TestSuiteBase {
         InternalObjectNode internalObjectNode = new InternalObjectNode();
         String uuid = UUID.randomUUID().toString();
         internalObjectNode.setId(uuid);
-        BridgeInternal.setProperty(internalObjectNode, "mypk", uuid);
+        internalObjectNode.set("mypk", uuid, CosmosItemSerializer.DEFAULT_SERIALIZER);
         return internalObjectNode;
     }
 

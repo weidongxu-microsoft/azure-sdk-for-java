@@ -8,19 +8,24 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.cosmos.fluent.models.SqlUserDefinedFunctionCreateUpdateProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
-/** Parameters to create and update Cosmos DB userDefinedFunction. */
+/**
+ * Parameters to create and update Cosmos DB userDefinedFunction.
+ */
 @Fluent
 public final class SqlUserDefinedFunctionCreateUpdateParameters extends ArmResourceProperties {
     /*
      * Properties to create and update Azure Cosmos DB userDefinedFunction.
      */
     @JsonProperty(value = "properties", required = true)
-    private SqlUserDefinedFunctionCreateUpdateProperties innerProperties =
-        new SqlUserDefinedFunctionCreateUpdateProperties();
+    private SqlUserDefinedFunctionCreateUpdateProperties innerProperties
+        = new SqlUserDefinedFunctionCreateUpdateProperties();
 
-    /** Creates an instance of SqlUserDefinedFunctionCreateUpdateParameters class. */
+    /**
+     * Creates an instance of SqlUserDefinedFunctionCreateUpdateParameters class.
+     */
     public SqlUserDefinedFunctionCreateUpdateParameters() {
     }
 
@@ -33,14 +38,18 @@ public final class SqlUserDefinedFunctionCreateUpdateParameters extends ArmResou
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlUserDefinedFunctionCreateUpdateParameters withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SqlUserDefinedFunctionCreateUpdateParameters withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -104,11 +113,9 @@ public final class SqlUserDefinedFunctionCreateUpdateParameters extends ArmResou
     public void validate() {
         super.validate();
         if (innerProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerProperties in model"
-                            + " SqlUserDefinedFunctionCreateUpdateParameters"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerProperties in model SqlUserDefinedFunctionCreateUpdateParameters"));
         } else {
             innerProperties().validate();
         }

@@ -8,18 +8,17 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.cosmos.fluent.models.DatabaseAccountUpdateProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** Parameters for patching Azure Cosmos DB database account properties. */
+/**
+ * Parameters for patching Azure Cosmos DB database account properties.
+ */
 @Fluent
 public final class DatabaseAccountUpdateParameters {
     /*
-     * Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping
-     * this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have
-     * a key no greater than 128 characters and value no greater than 256 characters. For example, the default
-     * experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values
-     * also include "Table", "Graph", "DocumentDB", and "MongoDB".
+     * Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".
      */
     @JsonProperty(value = "tags")
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
@@ -43,7 +42,9 @@ public final class DatabaseAccountUpdateParameters {
     @JsonProperty(value = "properties")
     private DatabaseAccountUpdateProperties innerProperties;
 
-    /** Creates an instance of DatabaseAccountUpdateParameters class. */
+    /**
+     * Creates an instance of DatabaseAccountUpdateParameters class.
+     */
     public DatabaseAccountUpdateParameters() {
     }
 
@@ -379,8 +380,8 @@ public final class DatabaseAccountUpdateParameters {
      * @param disableKeyBasedMetadataWriteAccess the disableKeyBasedMetadataWriteAccess value to set.
      * @return the DatabaseAccountUpdateParameters object itself.
      */
-    public DatabaseAccountUpdateParameters withDisableKeyBasedMetadataWriteAccess(
-        Boolean disableKeyBasedMetadataWriteAccess) {
+    public DatabaseAccountUpdateParameters
+        withDisableKeyBasedMetadataWriteAccess(Boolean disableKeyBasedMetadataWriteAccess) {
         if (this.innerProperties() == null) {
             this.innerProperties = new DatabaseAccountUpdateProperties();
         }
@@ -545,8 +546,8 @@ public final class DatabaseAccountUpdateParameters {
      * @param analyticalStorageConfiguration the analyticalStorageConfiguration value to set.
      * @return the DatabaseAccountUpdateParameters object itself.
      */
-    public DatabaseAccountUpdateParameters withAnalyticalStorageConfiguration(
-        AnalyticalStorageConfiguration analyticalStorageConfiguration) {
+    public DatabaseAccountUpdateParameters
+        withAnalyticalStorageConfiguration(AnalyticalStorageConfiguration analyticalStorageConfiguration) {
         if (this.innerProperties() == null) {
             this.innerProperties = new DatabaseAccountUpdateProperties();
         }
@@ -734,8 +735,8 @@ public final class DatabaseAccountUpdateParameters {
     }
 
     /**
-     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Get the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @return the minimalTlsVersion value.
      */
@@ -744,8 +745,8 @@ public final class DatabaseAccountUpdateParameters {
     }
 
     /**
-     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default is Tls 1.0, except for
-     * Cassandra and Mongo API's, which only work with Tls 1.2.
+     * Set the minimalTlsVersion property: Indicates the minimum allowed Tls version. The default value is Tls 1.2.
+     * Cassandra and Mongo APIs only work with Tls 1.2.
      *
      * @param minimalTlsVersion the minimalTlsVersion value to set.
      * @return the DatabaseAccountUpdateParameters object itself.
@@ -755,6 +756,56 @@ public final class DatabaseAccountUpdateParameters {
             this.innerProperties = new DatabaseAccountUpdateProperties();
         }
         this.innerProperties().withMinimalTlsVersion(minimalTlsVersion);
+        return this;
+    }
+
+    /**
+     * Get the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @return the enableBurstCapacity value.
+     */
+    public Boolean enableBurstCapacity() {
+        return this.innerProperties() == null ? null : this.innerProperties().enableBurstCapacity();
+    }
+
+    /**
+     * Set the enableBurstCapacity property: Flag to indicate enabling/disabling of Burst Capacity Preview feature on
+     * the account.
+     *
+     * @param enableBurstCapacity the enableBurstCapacity value to set.
+     * @return the DatabaseAccountUpdateParameters object itself.
+     */
+    public DatabaseAccountUpdateParameters withEnableBurstCapacity(Boolean enableBurstCapacity) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new DatabaseAccountUpdateProperties();
+        }
+        this.innerProperties().withEnableBurstCapacity(enableBurstCapacity);
+        return this;
+    }
+
+    /**
+     * Get the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @return the customerManagedKeyStatus value.
+     */
+    public String customerManagedKeyStatus() {
+        return this.innerProperties() == null ? null : this.innerProperties().customerManagedKeyStatus();
+    }
+
+    /**
+     * Set the customerManagedKeyStatus property: Indicates the status of the Customer Managed Key feature on the
+     * account. In case there are errors, the property provides troubleshooting guidance.
+     *
+     * @param customerManagedKeyStatus the customerManagedKeyStatus value to set.
+     * @return the DatabaseAccountUpdateParameters object itself.
+     */
+    public DatabaseAccountUpdateParameters withCustomerManagedKeyStatus(String customerManagedKeyStatus) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new DatabaseAccountUpdateProperties();
+        }
+        this.innerProperties().withCustomerManagedKeyStatus(customerManagedKeyStatus);
         return this;
     }
 

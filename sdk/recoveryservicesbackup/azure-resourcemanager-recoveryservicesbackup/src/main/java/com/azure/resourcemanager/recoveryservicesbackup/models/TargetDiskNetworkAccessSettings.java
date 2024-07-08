@@ -7,7 +7,9 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Specifies target network access settings for disks of VM to be restored. */
+/**
+ * Specifies target network access settings for disks of VM to be restored.
+ */
 @Fluent
 public final class TargetDiskNetworkAccessSettings {
     /*
@@ -17,19 +19,20 @@ public final class TargetDiskNetworkAccessSettings {
     private TargetDiskNetworkAccessOption targetDiskNetworkAccessOption;
 
     /*
-     * Gets or sets the ARM resource ID of the target disk access to be used when TargetDiskNetworkAccessOption is set
-     * to TargetDiskNetworkAccessOption.UseNew
+     * Gets or sets the ARM resource ID of the target disk access to be used when TargetDiskNetworkAccessOption is set to TargetDiskNetworkAccessOption.UseNew
      */
     @JsonProperty(value = "targetDiskAccessId")
     private String targetDiskAccessId;
 
-    /** Creates an instance of TargetDiskNetworkAccessSettings class. */
+    /**
+     * Creates an instance of TargetDiskNetworkAccessSettings class.
+     */
     public TargetDiskNetworkAccessSettings() {
     }
 
     /**
      * Get the targetDiskNetworkAccessOption property: Network access settings to be used for restored disks.
-     *
+     * 
      * @return the targetDiskNetworkAccessOption value.
      */
     public TargetDiskNetworkAccessOption targetDiskNetworkAccessOption() {
@@ -38,12 +41,12 @@ public final class TargetDiskNetworkAccessSettings {
 
     /**
      * Set the targetDiskNetworkAccessOption property: Network access settings to be used for restored disks.
-     *
+     * 
      * @param targetDiskNetworkAccessOption the targetDiskNetworkAccessOption value to set.
      * @return the TargetDiskNetworkAccessSettings object itself.
      */
-    public TargetDiskNetworkAccessSettings withTargetDiskNetworkAccessOption(
-        TargetDiskNetworkAccessOption targetDiskNetworkAccessOption) {
+    public TargetDiskNetworkAccessSettings
+        withTargetDiskNetworkAccessOption(TargetDiskNetworkAccessOption targetDiskNetworkAccessOption) {
         this.targetDiskNetworkAccessOption = targetDiskNetworkAccessOption;
         return this;
     }
@@ -51,7 +54,7 @@ public final class TargetDiskNetworkAccessSettings {
     /**
      * Get the targetDiskAccessId property: Gets or sets the ARM resource ID of the target disk access to be used when
      * TargetDiskNetworkAccessOption is set to TargetDiskNetworkAccessOption.UseNew.
-     *
+     * 
      * @return the targetDiskAccessId value.
      */
     public String targetDiskAccessId() {
@@ -61,7 +64,7 @@ public final class TargetDiskNetworkAccessSettings {
     /**
      * Set the targetDiskAccessId property: Gets or sets the ARM resource ID of the target disk access to be used when
      * TargetDiskNetworkAccessOption is set to TargetDiskNetworkAccessOption.UseNew.
-     *
+     * 
      * @param targetDiskAccessId the targetDiskAccessId value to set.
      * @return the TargetDiskNetworkAccessSettings object itself.
      */
@@ -72,7 +75,7 @@ public final class TargetDiskNetworkAccessSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

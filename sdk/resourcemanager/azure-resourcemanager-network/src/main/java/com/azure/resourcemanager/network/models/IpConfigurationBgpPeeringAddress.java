@@ -6,9 +6,12 @@ package com.azure.resourcemanager.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Properties of IPConfigurationBgpPeeringAddress. */
+/**
+ * Properties of IPConfigurationBgpPeeringAddress.
+ */
 @Fluent
 public final class IpConfigurationBgpPeeringAddress {
     /*
@@ -35,7 +38,9 @@ public final class IpConfigurationBgpPeeringAddress {
     @JsonProperty(value = "tunnelIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> tunnelIpAddresses;
 
-    /** Creates an instance of IpConfigurationBgpPeeringAddress class. */
+    /**
+     * Creates an instance of IpConfigurationBgpPeeringAddress class.
+     */
     public IpConfigurationBgpPeeringAddress() {
     }
 

@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.Db2TableDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Db2 table dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Db2 table dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = Db2TableDataset.class, visible = true)
 @JsonTypeName("Db2Table")
 @Fluent
 public final class Db2TableDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Db2Table";
+
     /*
      * Db2 table dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private Db2TableDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of Db2TableDataset class. */
+    /**
+     * Creates an instance of Db2TableDataset class.
+     */
     public Db2TableDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Db2 table dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private Db2TableDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Db2TableDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class Db2TableDataset extends Dataset {
     /**
      * Get the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @return the tableName value.
      */
     public Object tableName() {
@@ -98,7 +134,7 @@ public final class Db2TableDataset extends Dataset {
     /**
      * Set the tableName property: This property will be retired. Please consider using schema + table properties
      * instead.
-     *
+     * 
      * @param tableName the tableName value to set.
      * @return the Db2TableDataset object itself.
      */
@@ -112,7 +148,7 @@ public final class Db2TableDataset extends Dataset {
 
     /**
      * Get the schema property: The Db2 schema name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the schema value.
      */
     public Object schemaTypePropertiesSchema() {
@@ -121,7 +157,7 @@ public final class Db2TableDataset extends Dataset {
 
     /**
      * Set the schema property: The Db2 schema name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param schema the schema value to set.
      * @return the Db2TableDataset object itself.
      */
@@ -135,7 +171,7 @@ public final class Db2TableDataset extends Dataset {
 
     /**
      * Get the table property: The Db2 table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the table value.
      */
     public Object table() {
@@ -144,7 +180,7 @@ public final class Db2TableDataset extends Dataset {
 
     /**
      * Set the table property: The Db2 table name. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param table the table value to set.
      * @return the Db2TableDataset object itself.
      */
@@ -158,7 +194,7 @@ public final class Db2TableDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

@@ -15,37 +15,33 @@ import org.junit.jupiter.api.Assertions;
 public final class ProtectionPolicyResourceInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ProtectionPolicyResourceInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"backupManagementType\":\"ProtectionPolicy\",\"protectedItemsCount\":1529613290,\"resourceGuardOperationRequests\":[\"edckzywbiexzfey\",\"eaxib\"]},\"eTag\":\"jwbhqwalmuz\",\"location\":\"oxaepd\",\"tags\":{\"bavxbniwdjswzt\":\"ancuxrhd\",\"xbzpfzab\":\"dbpgnxytxhp\"},\"id\":\"lcuhxwtctyqiklb\",\"name\":\"ovplw\",\"type\":\"bhvgy\"}")
-                .toObject(ProtectionPolicyResourceInner.class);
-        Assertions.assertEquals("oxaepd", model.location());
-        Assertions.assertEquals("ancuxrhd", model.tags().get("bavxbniwdjswzt"));
-        Assertions.assertEquals(1529613290, model.properties().protectedItemsCount());
-        Assertions.assertEquals("edckzywbiexzfey", model.properties().resourceGuardOperationRequests().get(0));
-        Assertions.assertEquals("jwbhqwalmuz", model.etag());
+        ProtectionPolicyResourceInner model = BinaryData.fromString(
+            "{\"properties\":{\"backupManagementType\":\"ProtectionPolicy\",\"protectedItemsCount\":208644200,\"resourceGuardOperationRequests\":[\"kvceoveilovnotyf\",\"fcnj\",\"k\"]},\"eTag\":\"x\",\"location\":\"hbttkphyw\",\"tags\":{\"mclfplphoxuscr\":\"jtoqne\",\"psbjta\":\"abgy\",\"kqujidsuyono\":\"qugxywpmueefjzwf\",\"tcc\":\"glaocq\"},\"id\":\"g\",\"name\":\"udxytlmoyrx\",\"type\":\"wfudwpzntxhdzhl\"}")
+            .toObject(ProtectionPolicyResourceInner.class);
+        Assertions.assertEquals("hbttkphyw", model.location());
+        Assertions.assertEquals("jtoqne", model.tags().get("mclfplphoxuscr"));
+        Assertions.assertEquals(208644200, model.properties().protectedItemsCount());
+        Assertions.assertEquals("kvceoveilovnotyf", model.properties().resourceGuardOperationRequests().get(0));
+        Assertions.assertEquals("x", model.etag());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ProtectionPolicyResourceInner model =
-            new ProtectionPolicyResourceInner()
-                .withLocation("oxaepd")
-                .withTags(mapOf("bavxbniwdjswzt", "ancuxrhd", "xbzpfzab", "dbpgnxytxhp"))
-                .withProperties(
-                    new ProtectionPolicy()
-                        .withProtectedItemsCount(1529613290)
-                        .withResourceGuardOperationRequests(Arrays.asList("edckzywbiexzfey", "eaxib")))
-                .withEtag("jwbhqwalmuz");
+        ProtectionPolicyResourceInner model = new ProtectionPolicyResourceInner().withLocation("hbttkphyw")
+            .withTags(mapOf("mclfplphoxuscr", "jtoqne", "psbjta", "abgy", "kqujidsuyono", "qugxywpmueefjzwf", "tcc",
+                "glaocq"))
+            .withProperties(new ProtectionPolicy().withProtectedItemsCount(208644200)
+                .withResourceGuardOperationRequests(Arrays.asList("kvceoveilovnotyf", "fcnj", "k")))
+            .withEtag("x");
         model = BinaryData.fromObject(model).toObject(ProtectionPolicyResourceInner.class);
-        Assertions.assertEquals("oxaepd", model.location());
-        Assertions.assertEquals("ancuxrhd", model.tags().get("bavxbniwdjswzt"));
-        Assertions.assertEquals(1529613290, model.properties().protectedItemsCount());
-        Assertions.assertEquals("edckzywbiexzfey", model.properties().resourceGuardOperationRequests().get(0));
-        Assertions.assertEquals("jwbhqwalmuz", model.etag());
+        Assertions.assertEquals("hbttkphyw", model.location());
+        Assertions.assertEquals("jtoqne", model.tags().get("mclfplphoxuscr"));
+        Assertions.assertEquals(208644200, model.properties().protectedItemsCount());
+        Assertions.assertEquals("kvceoveilovnotyf", model.properties().resourceGuardOperationRequests().get(0));
+        Assertions.assertEquals("x", model.etag());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

@@ -9,23 +9,21 @@ import com.azure.resourcemanager.batch.models.DiskEncryptionConfiguration;
 import com.azure.resourcemanager.batch.models.DiskEncryptionTarget;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class DiskEncryptionConfigurationTests {
-    @Test
-    public void testDeserialize() {
-        DiskEncryptionConfiguration model =
-            BinaryData
-                .fromString("{\"targets\":[\"TemporaryDisk\",\"OsDisk\"]}")
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        DiskEncryptionConfiguration model
+            = BinaryData.fromString("{\"targets\":[\"TemporaryDisk\",\"TemporaryDisk\",\"TemporaryDisk\"]}")
                 .toObject(DiskEncryptionConfiguration.class);
         Assertions.assertEquals(DiskEncryptionTarget.TEMPORARY_DISK, model.targets().get(0));
     }
 
-    @Test
-    public void testSerialize() {
-        DiskEncryptionConfiguration model =
-            new DiskEncryptionConfiguration()
-                .withTargets(Arrays.asList(DiskEncryptionTarget.TEMPORARY_DISK, DiskEncryptionTarget.OS_DISK));
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        DiskEncryptionConfiguration model
+            = new DiskEncryptionConfiguration().withTargets(Arrays.asList(DiskEncryptionTarget.TEMPORARY_DISK,
+                DiskEncryptionTarget.TEMPORARY_DISK, DiskEncryptionTarget.TEMPORARY_DISK));
         model = BinaryData.fromObject(model).toObject(DiskEncryptionConfiguration.class);
         Assertions.assertEquals(DiskEncryptionTarget.TEMPORARY_DISK, model.targets().get(0));
     }

@@ -13,26 +13,23 @@ import org.junit.jupiter.api.Assertions;
 public final class StorageMoverUpdateParametersTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        StorageMoverUpdateParameters model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"description\":\"jkjlxofpdvhpfx\"},\"tags\":{\"uybbkpodep\":\"ininmay\"}}")
-                .toObject(StorageMoverUpdateParameters.class);
+        StorageMoverUpdateParameters model = BinaryData
+            .fromString("{\"properties\":{\"description\":\"jkjlxofpdvhpfx\"},\"tags\":{\"uybbkpodep\":\"ininmay\"}}")
+            .toObject(StorageMoverUpdateParameters.class);
         Assertions.assertEquals("ininmay", model.tags().get("uybbkpodep"));
         Assertions.assertEquals("jkjlxofpdvhpfx", model.description());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        StorageMoverUpdateParameters model =
-            new StorageMoverUpdateParameters()
-                .withTags(mapOf("uybbkpodep", "ininmay"))
-                .withDescription("jkjlxofpdvhpfx");
+        StorageMoverUpdateParameters model = new StorageMoverUpdateParameters().withTags(mapOf("uybbkpodep", "ininmay"))
+            .withDescription("jkjlxofpdvhpfx");
         model = BinaryData.fromObject(model).toObject(StorageMoverUpdateParameters.class);
         Assertions.assertEquals("ininmay", model.tags().get("uybbkpodep"));
         Assertions.assertEquals("jkjlxofpdvhpfx", model.description());
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

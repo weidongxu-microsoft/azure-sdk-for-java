@@ -14,10 +14,13 @@ import com.azure.resourcemanager.appservice.models.UpgradeAvailability;
 import com.azure.resourcemanager.appservice.models.UpgradePreference;
 import com.azure.resourcemanager.appservice.models.VirtualNetworkProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** App Service Environment ARM resource. */
+/**
+ * App Service Environment ARM resource.
+ */
 @Fluent
 public final class AppServiceEnvironmentResourceInner extends Resource {
     /*
@@ -32,7 +35,9 @@ public final class AppServiceEnvironmentResourceInner extends Resource {
     @JsonProperty(value = "kind")
     private String kind;
 
-    /** Creates an instance of AppServiceEnvironmentResourceInner class. */
+    /**
+     * Creates an instance of AppServiceEnvironmentResourceInner class.
+     */
     public AppServiceEnvironmentResourceInner() {
     }
 
@@ -65,14 +70,18 @@ public final class AppServiceEnvironmentResourceInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppServiceEnvironmentResourceInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppServiceEnvironmentResourceInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -137,8 +146,8 @@ public final class AppServiceEnvironmentResourceInner extends Resource {
      * @param internalLoadBalancingMode the internalLoadBalancingMode value to set.
      * @return the AppServiceEnvironmentResourceInner object itself.
      */
-    public AppServiceEnvironmentResourceInner withInternalLoadBalancingMode(
-        LoadBalancingMode internalLoadBalancingMode) {
+    public AppServiceEnvironmentResourceInner
+        withInternalLoadBalancingMode(LoadBalancingMode internalLoadBalancingMode) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AppServiceEnvironmentInner();
         }
@@ -259,7 +268,8 @@ public final class AppServiceEnvironmentResourceInner extends Resource {
     /**
      * Get the suspended property: &lt;code&gt;true&lt;/code&gt; if the App Service Environment is suspended; otherwise,
      * &lt;code&gt;false&lt;/code&gt;. The environment can be suspended, e.g. when the management endpoint is no longer
-     * available (most likely because NSG blocked the incoming traffic).
+     * available
+     * (most likely because NSG blocked the incoming traffic).
      *
      * @return the suspended value.
      */
@@ -406,8 +416,8 @@ public final class AppServiceEnvironmentResourceInner extends Resource {
      * @param customDnsSuffixConfiguration the customDnsSuffixConfiguration value to set.
      * @return the AppServiceEnvironmentResourceInner object itself.
      */
-    public AppServiceEnvironmentResourceInner withCustomDnsSuffixConfiguration(
-        CustomDnsSuffixConfigurationInner customDnsSuffixConfiguration) {
+    public AppServiceEnvironmentResourceInner
+        withCustomDnsSuffixConfiguration(CustomDnsSuffixConfigurationInner customDnsSuffixConfiguration) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AppServiceEnvironmentInner();
         }
@@ -430,8 +440,8 @@ public final class AppServiceEnvironmentResourceInner extends Resource {
      * @param networkingConfiguration the networkingConfiguration value to set.
      * @return the AppServiceEnvironmentResourceInner object itself.
      */
-    public AppServiceEnvironmentResourceInner withNetworkingConfiguration(
-        AseV3NetworkingConfigurationInner networkingConfiguration) {
+    public AppServiceEnvironmentResourceInner
+        withNetworkingConfiguration(AseV3NetworkingConfigurationInner networkingConfiguration) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AppServiceEnvironmentInner();
         }

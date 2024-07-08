@@ -9,34 +9,25 @@ import com.azure.resourcemanager.batch.fluent.models.DetectorResponseInner;
 import com.azure.resourcemanager.batch.models.DetectorListResult;
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class DetectorListResultTests {
-    @Test
-    public void testDeserialize() {
-        DetectorListResult model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"value\":\"dpydn\"},\"etag\":\"hxdeoejz\",\"id\":\"cwif\",\"name\":\"jttgzf\",\"type\":\"ishc\"},{\"properties\":{\"value\":\"ajdeyeamdphaga\"},\"etag\":\"buxwgip\",\"id\":\"honowkgshwank\",\"name\":\"xzbinjeputt\",\"type\":\"rywn\"},{\"properties\":{\"value\":\"qftiy\"},\"etag\":\"rnkcqvyxlw\",\"id\":\"zlsico\",\"name\":\"oqqnwvlryav\",\"type\":\"hheunmmqhgyx\"},{\"properties\":{\"value\":\"noc\"},\"etag\":\"oklyaxuconuq\",\"id\":\"zf\",\"name\":\"beypewrmjmw\",\"type\":\"vjektcxsenh\"}],\"nextLink\":\"rsffrzpwvlqdqgbi\"}")
-                .toObject(DetectorListResult.class);
-        Assertions.assertEquals("dpydn", model.value().get(0).value());
-        Assertions.assertEquals("rsffrzpwvlqdqgbi", model.nextLink());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        DetectorListResult model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"value\":\"q\"},\"etag\":\"a\",\"id\":\"oaeupfhyhltrpmo\",\"name\":\"jmcmatuokthfu\",\"type\":\"uaodsfcpk\"},{\"properties\":{\"value\":\"dpuozmyz\"},\"etag\":\"agfuaxbezyiu\",\"id\":\"kktwhrdxw\",\"name\":\"ywqsmbsurexim\",\"type\":\"ryocfsfksymdd\"},{\"properties\":{\"value\":\"kiiuxhqyudxor\"},\"etag\":\"nbpoczvyifqrvkdv\",\"id\":\"sllr\",\"name\":\"vvdfwatkpnpul\",\"type\":\"xxbczwtr\"}],\"nextLink\":\"iqzbq\"}")
+            .toObject(DetectorListResult.class);
+        Assertions.assertEquals("q", model.value().get(0).value());
+        Assertions.assertEquals("iqzbq", model.nextLink());
     }
 
-    @Test
-    public void testSerialize() {
-        DetectorListResult model =
-            new DetectorListResult()
-                .withValue(
-                    Arrays
-                        .asList(
-                            new DetectorResponseInner().withValue("dpydn"),
-                            new DetectorResponseInner().withValue("ajdeyeamdphaga"),
-                            new DetectorResponseInner().withValue("qftiy"),
-                            new DetectorResponseInner().withValue("noc")))
-                .withNextLink("rsffrzpwvlqdqgbi");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        DetectorListResult model = new DetectorListResult().withValue(
+            Arrays.asList(new DetectorResponseInner().withValue("q"), new DetectorResponseInner().withValue("dpuozmyz"),
+                new DetectorResponseInner().withValue("kiiuxhqyudxor")))
+            .withNextLink("iqzbq");
         model = BinaryData.fromObject(model).toObject(DetectorListResult.class);
-        Assertions.assertEquals("dpydn", model.value().get(0).value());
-        Assertions.assertEquals("rsffrzpwvlqdqgbi", model.nextLink());
+        Assertions.assertEquals("q", model.value().get(0).value());
+        Assertions.assertEquals("iqzbq", model.nextLink());
     }
 }

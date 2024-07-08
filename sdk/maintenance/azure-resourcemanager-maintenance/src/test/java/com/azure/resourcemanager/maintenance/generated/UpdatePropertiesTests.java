@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Assertions;
 public final class UpdatePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        UpdateProperties model = BinaryData.fromString("{\"resourceId\":\"ohjtckw\"}").toObject(UpdateProperties.class);
-        Assertions.assertEquals("ohjtckw", model.resourceId());
+        UpdateProperties model = BinaryData.fromString("{\"resourceId\":\"dultskz\"}").toObject(UpdateProperties.class);
+        Assertions.assertEquals("dultskz", model.resourceId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        UpdateProperties model = new UpdateProperties().withResourceId("ohjtckw");
+        UpdateProperties model = new UpdateProperties().withResourceId("dultskz");
         model = BinaryData.fromObject(model).toObject(UpdateProperties.class);
-        Assertions.assertEquals("ohjtckw", model.resourceId());
+        Assertions.assertEquals("dultskz", model.resourceId());
     }
 }

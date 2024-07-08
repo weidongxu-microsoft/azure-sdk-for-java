@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity snowflake sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity snowflake sink.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SnowflakeSink.class, visible = true)
 @JsonTypeName("SnowflakeSink")
 @Fluent
 public final class SnowflakeSink extends CopySink {
+    /*
+     * Copy sink type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SnowflakeSink";
+
     /*
      * SQL pre-copy script. Type: string (or Expression with resultType string).
      */
@@ -26,13 +36,25 @@ public final class SnowflakeSink extends CopySink {
     @JsonProperty(value = "importSettings")
     private SnowflakeImportCopyCommand importSettings;
 
-    /** Creates an instance of SnowflakeSink class. */
+    /**
+     * Creates an instance of SnowflakeSink class.
+     */
     public SnowflakeSink() {
     }
 
     /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the preCopyScript property: SQL pre-copy script. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the preCopyScript value.
      */
     public Object preCopyScript() {
@@ -41,7 +63,7 @@ public final class SnowflakeSink extends CopySink {
 
     /**
      * Set the preCopyScript property: SQL pre-copy script. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param preCopyScript the preCopyScript value to set.
      * @return the SnowflakeSink object itself.
      */
@@ -52,7 +74,7 @@ public final class SnowflakeSink extends CopySink {
 
     /**
      * Get the importSettings property: Snowflake import settings.
-     *
+     * 
      * @return the importSettings value.
      */
     public SnowflakeImportCopyCommand importSettings() {
@@ -61,7 +83,7 @@ public final class SnowflakeSink extends CopySink {
 
     /**
      * Set the importSettings property: Snowflake import settings.
-     *
+     * 
      * @param importSettings the importSettings value to set.
      * @return the SnowflakeSink object itself.
      */
@@ -70,42 +92,54 @@ public final class SnowflakeSink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeSink withWriteBatchSize(Object writeBatchSize) {
         super.withWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeSink withWriteBatchTimeout(Object writeBatchTimeout) {
         super.withWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeSink withSinkRetryCount(Object sinkRetryCount) {
         super.withSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeSink withSinkRetryWait(Object sinkRetryWait) {
         super.withSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeSink withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SnowflakeSink withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -114,7 +148,7 @@ public final class SnowflakeSink extends CopySink {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

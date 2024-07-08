@@ -20,7 +20,9 @@ import java.util.Collections;
 import static com.azure.containers.containerregistry.TestUtils.HELLO_WORLD_REPOSITORY_NAME;
 import static com.azure.containers.containerregistry.TestUtils.HELLO_WORLD_SEATTLE_REPOSITORY_NAME;
 import static com.azure.containers.containerregistry.TestUtils.HTTP_STATUS_CODE_202;
-import static com.azure.containers.containerregistry.TestUtils.SKIP_AUTH_TOKEN_REQUEST_FUNCTION;
+import static com.azure.containers.containerregistry.TestUtils.REGISTRY_ENDPOINT;
+import static com.azure.containers.containerregistry.TestUtils.REGISTRY_NAME;
+import static com.azure.containers.containerregistry.TestUtils.importImage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -35,14 +37,12 @@ public class ContainerRegistryClientTest extends ContainerRegistryClientsTestBas
 
     private HttpClient buildSyncAssertingClient(HttpClient httpClient) {
         return new AssertingHttpClientBuilder(httpClient)
-            .skipRequest(SKIP_AUTH_TOKEN_REQUEST_FUNCTION)
             .assertSync()
             .build();
     }
 
     private HttpClient buildAsyncAssertingClient(HttpClient httpClient) {
         return new AssertingHttpClientBuilder(httpClient)
-            .skipRequest(SKIP_AUTH_TOKEN_REQUEST_FUNCTION)
             .assertAsync()
             .build();
     }
@@ -55,8 +55,8 @@ public class ContainerRegistryClientTest extends ContainerRegistryClientsTestBas
     }
 
     @BeforeEach
-    void beforeEach() {
-        TestUtils.importImage(getTestMode(), repositoryName, Collections.singletonList("latest"));
+    void beforeEach() throws InterruptedException {
+        importImage(getTestMode(), REGISTRY_NAME, repositoryName, Collections.singletonList("latest"), REGISTRY_ENDPOINT);
         if (getTestMode() == TestMode.PLAYBACK) {
             httpClient = interceptorManager.getPlaybackClient();
         } else {

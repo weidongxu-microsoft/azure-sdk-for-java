@@ -3,12 +3,13 @@
 
 package com.azure.cosmos.implementation;
 
-import com.azure.cosmos.BridgeInternal;
+import com.azure.cosmos.CosmosItemSerializer;
 import com.azure.cosmos.models.ModelBridgeInternal;
 import com.azure.cosmos.models.PartitionKey;
 import com.azure.cosmos.models.PermissionMode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.azure.cosmos.implementation.apachecommons.lang.StringUtils;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.Locale;
 
@@ -29,10 +30,10 @@ public final class Permission extends Resource {
     /**
      * Initialize a permission object from json string.
      *
-     * @param jsonString the json string that represents the permission.
+     * @param jsonNode the json string that represents the permission.
      */
-    public Permission(String jsonString) {
-        super(jsonString);
+    public Permission(ObjectNode jsonNode) {
+        super(jsonNode);
     }
 
     /**
@@ -61,7 +62,7 @@ public final class Permission extends Resource {
      * @param resourceLink the resource link.
      */
     public void setResourceLink(String resourceLink) {
-        BridgeInternal.setProperty(this, Constants.Properties.RESOURCE_LINK, resourceLink);
+        this.set(Constants.Properties.RESOURCE_LINK, resourceLink, CosmosItemSerializer.DEFAULT_SERIALIZER);
     }
 
     /**
@@ -80,8 +81,10 @@ public final class Permission extends Resource {
      * @param permissionMode the permission mode.
      */
     public void setPermissionMode(PermissionMode permissionMode) {
-        BridgeInternal.setProperty(this, Constants.Properties.PERMISSION_MODE,
-                                   permissionMode.toString().toLowerCase(Locale.ROOT));
+        this.set(
+            Constants.Properties.PERMISSION_MODE,
+            permissionMode.toString().toLowerCase(Locale.ROOT),
+            CosmosItemSerializer.DEFAULT_SERIALIZER);
     }
 
     /**
@@ -103,7 +106,7 @@ public final class Permission extends Resource {
         Object value = super.get(Constants.Properties.RESOURCE_PARTITION_KEY);
         if (value != null) {
             ArrayNode arrayValue = (ArrayNode) value;
-            key = new PartitionKey(BridgeInternal.getValue(arrayValue.get(0)));
+            key = new PartitionKey(JsonSerializable.getValue(arrayValue.get(0)));
         }
 
         return key;
@@ -117,8 +120,9 @@ public final class Permission extends Resource {
     public void setResourcePartitionKey(PartitionKey partitionkey) {
         checkNotNull(partitionkey, "Partition key can not be null");
 
-        BridgeInternal.setProperty(this,
+        this.set(
             Constants.Properties.RESOURCE_PARTITION_KEY,
-            new Object[]{ModelBridgeInternal.getPartitionKeyObject(partitionkey)});
+            ModelBridgeInternal.getPartitionKeyInternal(partitionkey).toObjectArray(),
+            CosmosItemSerializer.DEFAULT_SERIALIZER);
     }
 }

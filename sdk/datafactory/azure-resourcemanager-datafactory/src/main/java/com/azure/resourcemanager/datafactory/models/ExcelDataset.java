@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.ExcelDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Excel dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Excel dataset.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ExcelDataset.class, visible = true)
 @JsonTypeName("Excel")
 @Fluent
 public final class ExcelDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Excel";
+
     /*
      * Excel dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private ExcelDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of ExcelDataset class. */
+    /**
+     * Creates an instance of ExcelDataset class.
+     */
     public ExcelDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Excel dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ExcelDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExcelDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +123,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Get the location property: The location of the excel storage.
-     *
+     * 
      * @return the location value.
      */
     public DatasetLocation location() {
@@ -96,7 +132,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Set the location property: The location of the excel storage.
-     *
+     * 
      * @param location the location value to set.
      * @return the ExcelDataset object itself.
      */
@@ -110,7 +146,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Get the sheetName property: The sheet name of excel file. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the sheetName value.
      */
     public Object sheetName() {
@@ -119,7 +155,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Set the sheetName property: The sheet name of excel file. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param sheetName the sheetName value to set.
      * @return the ExcelDataset object itself.
      */
@@ -134,7 +170,7 @@ public final class ExcelDataset extends Dataset {
     /**
      * Get the sheetIndex property: The sheet index of excel file and default value is 0. Type: integer (or Expression
      * with resultType integer).
-     *
+     * 
      * @return the sheetIndex value.
      */
     public Object sheetIndex() {
@@ -144,7 +180,7 @@ public final class ExcelDataset extends Dataset {
     /**
      * Set the sheetIndex property: The sheet index of excel file and default value is 0. Type: integer (or Expression
      * with resultType integer).
-     *
+     * 
      * @param sheetIndex the sheetIndex value to set.
      * @return the ExcelDataset object itself.
      */
@@ -158,7 +194,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Get the range property: The partial data of one sheet. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the range value.
      */
     public Object range() {
@@ -167,7 +203,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Set the range property: The partial data of one sheet. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param range the range value to set.
      * @return the ExcelDataset object itself.
      */
@@ -183,7 +219,7 @@ public final class ExcelDataset extends Dataset {
      * Get the firstRowAsHeader property: When used as input, treat the first row of data as headers. When used as
      * output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @return the firstRowAsHeader value.
      */
     public Object firstRowAsHeader() {
@@ -194,7 +230,7 @@ public final class ExcelDataset extends Dataset {
      * Set the firstRowAsHeader property: When used as input, treat the first row of data as headers. When used as
      * output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @param firstRowAsHeader the firstRowAsHeader value to set.
      * @return the ExcelDataset object itself.
      */
@@ -208,7 +244,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Get the compression property: The data compression method used for the json dataset.
-     *
+     * 
      * @return the compression value.
      */
     public DatasetCompression compression() {
@@ -217,7 +253,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Set the compression property: The data compression method used for the json dataset.
-     *
+     * 
      * @param compression the compression value to set.
      * @return the ExcelDataset object itself.
      */
@@ -231,7 +267,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Get the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the nullValue value.
      */
     public Object nullValue() {
@@ -240,7 +276,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Set the nullValue property: The null value string. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param nullValue the nullValue value to set.
      * @return the ExcelDataset object itself.
      */
@@ -254,7 +290,7 @@ public final class ExcelDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

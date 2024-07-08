@@ -6,28 +6,55 @@ package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Operation result info. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+/**
+ * Operation result info.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "objectType",
+    defaultImpl = OperationResultInfo.class,
+    visible = true)
 @JsonTypeName("OperationResultInfo")
 @Fluent
 public final class OperationResultInfo extends OperationResultInfoBase {
+    /*
+     * This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "objectType", required = true)
+    private String objectType = "OperationResultInfo";
+
     /*
      * List of jobs created by this operation.
      */
     @JsonProperty(value = "jobList")
     private List<String> jobList;
 
-    /** Creates an instance of OperationResultInfo class. */
+    /**
+     * Creates an instance of OperationResultInfo class.
+     */
     public OperationResultInfo() {
     }
 
     /**
+     * Get the objectType property: This property will be used as the discriminator for deciding the specific types in
+     * the polymorphic chain of types.
+     * 
+     * @return the objectType value.
+     */
+    @Override
+    public String objectType() {
+        return this.objectType;
+    }
+
+    /**
      * Get the jobList property: List of jobs created by this operation.
-     *
+     * 
      * @return the jobList value.
      */
     public List<String> jobList() {
@@ -36,7 +63,7 @@ public final class OperationResultInfo extends OperationResultInfoBase {
 
     /**
      * Set the jobList property: List of jobs created by this operation.
-     *
+     * 
      * @param jobList the jobList value to set.
      * @return the OperationResultInfo object itself.
      */
@@ -47,7 +74,7 @@ public final class OperationResultInfo extends OperationResultInfoBase {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

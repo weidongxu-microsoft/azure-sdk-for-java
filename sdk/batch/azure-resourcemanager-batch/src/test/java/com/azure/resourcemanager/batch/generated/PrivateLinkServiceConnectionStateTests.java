@@ -8,26 +8,22 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.PrivateLinkServiceConnectionState;
 import com.azure.resourcemanager.batch.models.PrivateLinkServiceConnectionStatus;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class PrivateLinkServiceConnectionStateTests {
-    @Test
-    public void testDeserialize() {
-        PrivateLinkServiceConnectionState model =
-            BinaryData
-                .fromString(
-                    "{\"status\":\"Disconnected\",\"description\":\"podepoo\",\"actionsRequired\":\"nuvamiheogna\"}")
-                .toObject(PrivateLinkServiceConnectionState.class);
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        PrivateLinkServiceConnectionState model = BinaryData
+            .fromString(
+                "{\"status\":\"Disconnected\",\"description\":\"podepoo\",\"actionsRequired\":\"nuvamiheogna\"}")
+            .toObject(PrivateLinkServiceConnectionState.class);
         Assertions.assertEquals(PrivateLinkServiceConnectionStatus.DISCONNECTED, model.status());
         Assertions.assertEquals("podepoo", model.description());
     }
 
-    @Test
-    public void testSerialize() {
-        PrivateLinkServiceConnectionState model =
-            new PrivateLinkServiceConnectionState()
-                .withStatus(PrivateLinkServiceConnectionStatus.DISCONNECTED)
-                .withDescription("podepoo");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        PrivateLinkServiceConnectionState model = new PrivateLinkServiceConnectionState()
+            .withStatus(PrivateLinkServiceConnectionStatus.DISCONNECTED).withDescription("podepoo");
         model = BinaryData.fromObject(model).toObject(PrivateLinkServiceConnectionState.class);
         Assertions.assertEquals(PrivateLinkServiceConnectionStatus.DISCONNECTED, model.status());
         Assertions.assertEquals("podepoo", model.description());

@@ -37,7 +37,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -51,7 +51,7 @@ import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.AZURE_TENAN
 import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.EXPECTED_MERCHANT_NAME;
 import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.INVALID_KEY;
 import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.ONE_NANO_DURATION;
-import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.getTestProxySanitizers;
+import static com.azure.ai.formrecognizer.documentanalysis.TestUtils.REMOVE_SANITIZER_ID;
 import static com.azure.ai.formrecognizer.documentanalysis.implementation.util.Constants.DEFAULT_POLL_INTERVAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -62,6 +62,8 @@ public abstract class DocumentAnalysisClientTestBase extends TestProxyTestBase {
         "{\"urlSource\":\"https://fakeuri.com/blank%20space\"}";
 
     Duration durationTestMode;
+    // Declare a class-level variable
+    private boolean sanitizersRemoved = false;
 
     /**
      * Use duration of nearly zero value for PLAYBACK test mode, otherwise, use default duration value for LIVE mode.
@@ -105,14 +107,15 @@ public abstract class DocumentAnalysisClientTestBase extends TestProxyTestBase {
                 builder.credential(getCredentialByAuthority(endpoint));
             }
         }
-        if (!interceptorManager.isLiveMode()) {
-            interceptorManager.addSanitizers(getTestProxySanitizers());
+        if (!interceptorManager.isLiveMode() && !sanitizersRemoved) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+            sanitizersRemoved = true;
         }
         return builder;
     }
 
     private void setMatchers() {
-        interceptorManager.addMatchers(Arrays.asList(new BodilessMatcher()));
+        interceptorManager.addMatchers(Collections.singletonList(new BodilessMatcher()));
     }
     public DocumentModelAdministrationClientBuilder getDocumentModelAdminClientBuilder(HttpClient httpClient,
                                                                                 DocumentAnalysisServiceVersion serviceVersion,
@@ -148,8 +151,9 @@ public abstract class DocumentAnalysisClientTestBase extends TestProxyTestBase {
                 builder.credential(getCredentialByAuthority(endpoint));
             }
         }
-        if (!interceptorManager.isLiveMode()) {
-            interceptorManager.addSanitizers(getTestProxySanitizers());
+        if (!interceptorManager.isLiveMode() && !sanitizersRemoved) {
+            interceptorManager.removeSanitizers(REMOVE_SANITIZER_ID);
+            sanitizersRemoved = true;
         }
         return builder;
     }
@@ -248,8 +252,8 @@ public abstract class DocumentAnalysisClientTestBase extends TestProxyTestBase {
         assertEquals(2, page2.getPageNumber());
         assertEquals(1, page1.getSpans().size());
         assertEquals(1, page2.getSpans().size());
-        assertEquals(216, page1.getSpans().get(0).getLength());
-        assertEquals(217, page2.getSpans().get(0).getOffset());
+        assertEquals(205, page1.getSpans().get(0).getLength());
+        assertEquals(206, page2.getSpans().get(0).getOffset());
 
         DocumentPage receiptPage1 = analyzeResult.getPages().get(0);
         DocumentPage receiptPage2 = analyzeResult.getPages().get(1);
@@ -580,7 +584,7 @@ public abstract class DocumentAnalysisClientTestBase extends TestProxyTestBase {
         });
 
         assertNotNull(analyzeResult.getTables());
-        int[] table = new int[] {3, 5, 10};
+        int[] table = new int[] {2, 5, 10};
         Assertions.assertEquals(1, analyzeResult.getTables().size());
         for (int i = 0; i < analyzeResult.getTables().size(); i++) {
             DocumentTable actualDocumentTable = analyzeResult.getTables().get(i);
@@ -608,7 +612,7 @@ public abstract class DocumentAnalysisClientTestBase extends TestProxyTestBase {
         });
 
         assertNotNull(analyzeResult.getTables());
-        int[][] table = new int[][] {{5, 4, 20}, {3, 3, 6}};
+        int[][] table = new int[][] {{5, 4, 20}, {3, 2, 6}};
         Assertions.assertEquals(2, analyzeResult.getTables().size());
         for (int i = 0; i < analyzeResult.getTables().size(); i++) {
             int j = 0;

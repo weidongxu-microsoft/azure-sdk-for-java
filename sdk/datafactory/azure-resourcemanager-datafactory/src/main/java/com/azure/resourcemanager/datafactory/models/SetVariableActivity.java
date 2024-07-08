@@ -8,56 +8,130 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.SetVariableActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Set value for a Variable. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Set value for a Variable.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SetVariableActivity.class, visible = true)
 @JsonTypeName("SetVariable")
 @Fluent
 public final class SetVariableActivity extends ControlActivity {
+    /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SetVariable";
+
     /*
      * Set Variable activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private SetVariableActivityTypeProperties innerTypeProperties = new SetVariableActivityTypeProperties();
 
-    /** Creates an instance of SetVariableActivity class. */
+    /*
+     * Activity policy.
+     */
+    @JsonProperty(value = "policy")
+    private SecureInputOutputPolicy policy;
+
+    /**
+     * Creates an instance of SetVariableActivity class.
+     */
     public SetVariableActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Set Variable activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SetVariableActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the policy property: Activity policy.
+     * 
+     * @return the policy value.
+     */
+    public SecureInputOutputPolicy policy() {
+        return this.policy;
+    }
+
+    /**
+     * Set the policy property: Activity policy.
+     * 
+     * @param policy the policy value to set.
+     * @return the SetVariableActivity object itself.
+     */
+    public SetVariableActivity withPolicy(SecureInputOutputPolicy policy) {
+        this.policy = policy;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SetVariableActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SetVariableActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SetVariableActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SetVariableActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SetVariableActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SetVariableActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -66,7 +140,7 @@ public final class SetVariableActivity extends ControlActivity {
 
     /**
      * Get the variableName property: Name of the variable whose value needs to be set.
-     *
+     * 
      * @return the variableName value.
      */
     public String variableName() {
@@ -75,7 +149,7 @@ public final class SetVariableActivity extends ControlActivity {
 
     /**
      * Set the variableName property: Name of the variable whose value needs to be set.
-     *
+     * 
      * @param variableName the variableName value to set.
      * @return the SetVariableActivity object itself.
      */
@@ -89,7 +163,7 @@ public final class SetVariableActivity extends ControlActivity {
 
     /**
      * Get the value property: Value to be set. Could be a static value or Expression.
-     *
+     * 
      * @return the value value.
      */
     public Object value() {
@@ -98,7 +172,7 @@ public final class SetVariableActivity extends ControlActivity {
 
     /**
      * Set the value property: Value to be set. Could be a static value or Expression.
-     *
+     * 
      * @param value the value value to set.
      * @return the SetVariableActivity object itself.
      */
@@ -111,20 +185,45 @@ public final class SetVariableActivity extends ControlActivity {
     }
 
     /**
+     * Get the setSystemVariable property: If set to true, it sets the pipeline run return value.
+     * 
+     * @return the setSystemVariable value.
+     */
+    public Boolean setSystemVariable() {
+        return this.innerTypeProperties() == null ? null : this.innerTypeProperties().setSystemVariable();
+    }
+
+    /**
+     * Set the setSystemVariable property: If set to true, it sets the pipeline run return value.
+     * 
+     * @param setSystemVariable the setSystemVariable value to set.
+     * @return the SetVariableActivity object itself.
+     */
+    public SetVariableActivity withSetSystemVariable(Boolean setSystemVariable) {
+        if (this.innerTypeProperties() == null) {
+            this.innerTypeProperties = new SetVariableActivityTypeProperties();
+        }
+        this.innerTypeProperties().withSetSystemVariable(setSystemVariable);
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model SetVariableActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model SetVariableActivity"));
         } else {
             innerTypeProperties().validate();
+        }
+        if (policy() != null) {
+            policy().validate();
         }
     }
 

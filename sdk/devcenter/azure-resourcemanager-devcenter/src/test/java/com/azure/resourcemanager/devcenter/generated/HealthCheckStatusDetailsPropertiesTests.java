@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.fluent.models.HealthCheckStatusDetail
 public final class HealthCheckStatusDetailsPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        HealthCheckStatusDetailsProperties model =
-            BinaryData
-                .fromString(
-                    "{\"startDateTime\":\"2021-07-01T02:09:13Z\",\"endDateTime\":\"2021-06-22T22:11:38Z\",\"healthChecks\":[{\"status\":\"Pending\",\"displayName\":\"gytguslfead\",\"startDateTime\":\"2021-10-11T19:56:34Z\",\"endDateTime\":\"2021-03-01T03:16:18Z\",\"errorType\":\"yhejhzisxgfp\",\"recommendedAction\":\"olppvksrpqvujz\",\"additionalDetails\":\"ehtwdwrft\"},{\"status\":\"Running\",\"displayName\":\"yrcdlbhshfwprac\",\"startDateTime\":\"2021-05-02T16:38:33Z\",\"endDateTime\":\"2021-05-07T13:40:48Z\",\"errorType\":\"khevxccedc\",\"recommendedAction\":\"md\",\"additionalDetails\":\"dnwzxltjcvnhltiu\"},{\"status\":\"Unknown\",\"displayName\":\"avvwxqi\",\"startDateTime\":\"2021-05-18T05:36:02Z\",\"endDateTime\":\"2021-07-30T07:40:44Z\",\"errorType\":\"owx\",\"recommendedAction\":\"mdjrkvfgbvfvp\",\"additionalDetails\":\"odacizs\"}]}")
-                .toObject(HealthCheckStatusDetailsProperties.class);
+        HealthCheckStatusDetailsProperties model = BinaryData.fromString(
+            "{\"startDateTime\":\"2021-12-02T19:30Z\",\"endDateTime\":\"2021-02-22T04:35:52Z\",\"healthChecks\":[{\"status\":\"Passed\",\"displayName\":\"npjhlfzswpchwahf\",\"startDateTime\":\"2021-07-25T08:18:30Z\",\"endDateTime\":\"2021-04-23T04:46:24Z\",\"errorType\":\"epgfew\",\"recommendedAction\":\"wlyxgncxyk\",\"additionalDetails\":\"djhlimm\"},{\"status\":\"Unknown\",\"displayName\":\"h\",\"startDateTime\":\"2021-05-04T19:01:44Z\",\"endDateTime\":\"2021-08-24T02:48:56Z\",\"errorType\":\"vxcjzhqizxfpxtgq\",\"recommendedAction\":\"javftjuhdqa\",\"additionalDetails\":\"mtggu\"}]}")
+            .toObject(HealthCheckStatusDetailsProperties.class);
     }
 
     @org.junit.jupiter.api.Test

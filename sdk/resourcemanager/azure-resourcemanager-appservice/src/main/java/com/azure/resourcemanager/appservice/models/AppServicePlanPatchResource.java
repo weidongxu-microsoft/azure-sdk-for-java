@@ -7,9 +7,12 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.appservice.fluent.models.AppServicePlanPatchResourceProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
-/** ARM resource for a app service plan. */
+/**
+ * ARM resource for a app service plan.
+ */
 @Fluent
 public final class AppServicePlanPatchResource extends ProxyOnlyResource {
     /*
@@ -18,7 +21,9 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
     @JsonProperty(value = "properties")
     private AppServicePlanPatchResourceProperties innerProperties;
 
-    /** Creates an instance of AppServicePlanPatchResource class. */
+    /**
+     * Creates an instance of AppServicePlanPatchResource class.
+     */
     public AppServicePlanPatchResource() {
     }
 
@@ -31,7 +36,9 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AppServicePlanPatchResource withKind(String kind) {
         super.withKind(kind);
@@ -96,8 +103,8 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
      * @param hostingEnvironmentProfile the hostingEnvironmentProfile value to set.
      * @return the AppServicePlanPatchResource object itself.
      */
-    public AppServicePlanPatchResource withHostingEnvironmentProfile(
-        HostingEnvironmentProfile hostingEnvironmentProfile) {
+    public AppServicePlanPatchResource
+        withHostingEnvironmentProfile(HostingEnvironmentProfile hostingEnvironmentProfile) {
         if (this.innerProperties() == null) {
             this.innerProperties = new AppServicePlanPatchResourceProperties();
         }
@@ -135,8 +142,9 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
 
     /**
      * Get the perSiteScaling property: If &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be
-     * scaled independently. If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all
-     * instances of the plan.
+     * scaled independently.
+     * If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the
+     * plan.
      *
      * @return the perSiteScaling value.
      */
@@ -146,8 +154,9 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
 
     /**
      * Set the perSiteScaling property: If &lt;code&gt;true&lt;/code&gt;, apps assigned to this App Service plan can be
-     * scaled independently. If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all
-     * instances of the plan.
+     * scaled independently.
+     * If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will scale to all instances of the
+     * plan.
      *
      * @param perSiteScaling the perSiteScaling value to set.
      * @return the AppServicePlanPatchResource object itself.
@@ -456,8 +465,8 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
 
     /**
      * Get the zoneRedundant property: If &lt;code&gt;true&lt;/code&gt;, this App Service Plan will perform availability
-     * zone balancing. If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone
-     * balancing.
+     * zone balancing.
+     * If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone balancing.
      *
      * @return the zoneRedundant value.
      */
@@ -467,8 +476,8 @@ public final class AppServicePlanPatchResource extends ProxyOnlyResource {
 
     /**
      * Set the zoneRedundant property: If &lt;code&gt;true&lt;/code&gt;, this App Service Plan will perform availability
-     * zone balancing. If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone
-     * balancing.
+     * zone balancing.
+     * If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availability zone balancing.
      *
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the AppServicePlanPatchResource object itself.

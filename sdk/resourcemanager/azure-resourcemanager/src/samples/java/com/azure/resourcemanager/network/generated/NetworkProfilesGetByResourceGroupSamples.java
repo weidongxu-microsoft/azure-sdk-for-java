@@ -4,20 +4,21 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for NetworkProfiles GetByResourceGroup. */
+/**
+ * Samples for NetworkProfiles GetByResourceGroup.
+ */
 public final class NetworkProfilesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkProfileGetWithContainerNic.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkProfileGetWithContainerNic.json
      */
     /**
      * Sample code: Get network profile with container network interfaces.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getNetworkProfileWithContainerNetworkInterfaces(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+    public static void
+        getNetworkProfileWithContainerNetworkInterfaces(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.networks()
             .manager()
             .serviceClient()
             .getNetworkProfiles()
@@ -25,16 +26,15 @@ public final class NetworkProfilesGetByResourceGroupSamples {
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkProfileGetConfigOnly.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkProfileGetConfigOnly.json
      */
     /**
      * Sample code: Get network profile.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getNetworkProfile(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getNetworkProfiles()

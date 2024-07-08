@@ -13,26 +13,23 @@ import org.junit.jupiter.api.Assertions;
 public final class PrivateLinkScopesResourceTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        PrivateLinkScopesResource model =
-            BinaryData
-                .fromString(
-                    "{\"location\":\"pfhyhl\",\"tags\":{\"atuokthfuiu\":\"mopjmc\",\"zydagfuaxbezyiuo\":\"odsfcpkvxodpuozm\"},\"id\":\"ktwh\",\"name\":\"dxwzywqsmbsurexi\",\"type\":\"o\"}")
-                .toObject(PrivateLinkScopesResource.class);
-        Assertions.assertEquals("pfhyhl", model.location());
-        Assertions.assertEquals("mopjmc", model.tags().get("atuokthfuiu"));
+        PrivateLinkScopesResource model = BinaryData.fromString(
+            "{\"location\":\"wfqatmtd\",\"tags\":{\"w\":\"dvypgikdgsz\"},\"id\":\"birryuzhl\",\"name\":\"kj\",\"type\":\"qrvqq\"}")
+            .toObject(PrivateLinkScopesResource.class);
+        Assertions.assertEquals("wfqatmtd", model.location());
+        Assertions.assertEquals("dvypgikdgsz", model.tags().get("w"));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        PrivateLinkScopesResource model =
-            new PrivateLinkScopesResource()
-                .withLocation("pfhyhl")
-                .withTags(mapOf("atuokthfuiu", "mopjmc", "zydagfuaxbezyiuo", "odsfcpkvxodpuozm"));
+        PrivateLinkScopesResource model
+            = new PrivateLinkScopesResource().withLocation("wfqatmtd").withTags(mapOf("w", "dvypgikdgsz"));
         model = BinaryData.fromObject(model).toObject(PrivateLinkScopesResource.class);
-        Assertions.assertEquals("pfhyhl", model.location());
-        Assertions.assertEquals("mopjmc", model.tags().get("atuokthfuiu"));
+        Assertions.assertEquals("wfqatmtd", model.location());
+        Assertions.assertEquals("dvypgikdgsz", model.tags().get("w"));
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

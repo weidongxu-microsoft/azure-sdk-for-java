@@ -74,6 +74,8 @@ public final class CosmosClientTelemetryConfig {
     private TracingOptions tracingOptions;
 
     private double samplingRate;
+    
+    private ShowQueryMode showQueryMode = ShowQueryMode.NONE;
 
     /**
      * Instantiates a new Cosmos client telemetry configuration.
@@ -89,7 +91,12 @@ public final class CosmosClientTelemetryConfig {
         this.diagnosticHandlers = new CopyOnWriteArrayList<>();
         this.tracer = null;
         this.tracingOptions = null;
-        this.samplingRate = 1;
+        this.samplingRate = Configs.getMetricsConfig().getSampleRate();
+        CosmosMicrometerMetricsOptions defaultMetricsOptions = new CosmosMicrometerMetricsOptions();
+        this.isClientMetricsEnabled = defaultMetricsOptions.isEnabled();
+        if (this.isClientMetricsEnabled) {
+            this.micrometerMetricsOptions = defaultMetricsOptions;
+        }
     }
 
     /**
@@ -146,7 +153,6 @@ public final class CosmosClientTelemetryConfig {
         checkNotNull(clientMetricsOptions, "expected non-null clientMetricsOptions");
 
         if (! (clientMetricsOptions instanceof CosmosMicrometerMetricsOptions)) {
-            // TODO @fabianm -  extend this to OpenTelemetry etc. eventually
             throw new IllegalArgumentException(
                 "Currently only MetricsOptions of type CosmosMicrometerMetricsOptions are supported");
         }
@@ -281,7 +287,7 @@ public final class CosmosClientTelemetryConfig {
 
                           String validTagNames = String.join(
                               ", ",
-                              (String[]) Arrays.stream(TagName.values()).map(tag -> tag.toString()).toArray());
+                              (String[]) Arrays.stream(TagName.values()).map(TagName::toString).toArray());
 
                           throw new IllegalArgumentException(
                               String.format(
@@ -295,7 +301,7 @@ public final class CosmosClientTelemetryConfig {
                   });
 
         EnumSet<TagName> newTagNames = EnumSet.noneOf(TagName.class);
-        tagNameStream.forEach(tagName -> newTagNames.add(tagName));
+        tagNameStream.forEach(newTagNames::add);
 
         this.metricTagNamesOverride = newTagNames;
 
@@ -390,6 +396,19 @@ public final class CosmosClientTelemetryConfig {
         this.isTransportLevelTracingEnabled = true;
         return this;
     }
+    
+    /**
+     * Enables printing query in db.statement attribute and diagnostic logs. By default, query is not printed.
+     * Users have the option to enable printing parameterized or all queries, 
+     * but has to beware that customer data may be shown when the later option is chosen
+     * It's the user's responsibility to sanitize the queries if necessary.
+     * @param showQueryMode the mode for printing none, parameterized or all of the query statements
+     * @return current CosmosClientTelemetryConfig
+     */
+    public CosmosClientTelemetryConfig showQueryMode(ShowQueryMode showQueryMode) {
+        this.showQueryMode = showQueryMode;
+        return this;
+    }
 
     /**
      * Can be used to enable sampling for capturing all diagnostics to reduce/disable any client resource
@@ -433,6 +452,7 @@ public final class CosmosClientTelemetryConfig {
             ", clientTelemetryEnabled=" + this.effectiveIsClientTelemetryEnabled +
             ", clientMetricsEnabled=" + this.isClientMetricsEnabled +
             ", transportLevelTracingEnabled=" + this.isTransportLevelTracingEnabled +
+            ", showQueryMode=" + this.showQueryMode +
             ", customTracerProvided=" + (this.tracer != null) +
             ", customDiagnosticHandlers=" + handlers +
             "}";
@@ -540,6 +560,10 @@ public final class CosmosClientTelemetryConfig {
 
                 @Override
                 public MeterRegistry getClientMetricRegistry(CosmosClientTelemetryConfig config) {
+                    if (!config.isClientMetricsEnabled) {
+                        return null;
+                    }
+
                     return config.getClientMetricRegistry();
                 }
 
@@ -600,6 +624,13 @@ public final class CosmosClientTelemetryConfig {
                 public void addDiagnosticsHandler(CosmosClientTelemetryConfig config,
                                                   CosmosDiagnosticsHandler handler) {
 
+                    for (CosmosDiagnosticsHandler existingHandler : config.diagnosticHandlers) {
+                        if (existingHandler.getClass().getCanonicalName().equals(handler.getClass().getCanonicalName())) {
+                            // Handler already had been added - this can happen for example when multiple
+                            // Cosmos(Async)Clients are created from a single CosmosClientBuilder.
+                            return;
+                        }
+                    }
                     config.diagnosticHandlers.add(handler);
                 }
 
@@ -644,6 +675,26 @@ public final class CosmosClientTelemetryConfig {
                 @Override
                 public double getSamplingRate(CosmosClientTelemetryConfig config) {
                     return config.samplingRate;
+                }
+
+                @Override
+                public ShowQueryMode showQueryMode(CosmosClientTelemetryConfig config) {
+                    return config.showQueryMode;
+                }
+       
+                @Override
+                public double[] getDefaultPercentiles(CosmosClientTelemetryConfig config) {
+                    return config.micrometerMetricsOptions.getDefaultPercentiles();
+                }
+
+                @Override
+                public boolean shouldPublishHistograms(CosmosClientTelemetryConfig config) {
+                    return config.micrometerMetricsOptions.shouldPublishHistograms();
+                }
+
+                @Override
+                public boolean shouldApplyDiagnosticThresholdsForTransportLevelMeters(CosmosClientTelemetryConfig config) {
+                    return config.micrometerMetricsOptions.shouldApplyDiagnosticThresholdsForTransportLevelMeters();
                 }
             });
     }

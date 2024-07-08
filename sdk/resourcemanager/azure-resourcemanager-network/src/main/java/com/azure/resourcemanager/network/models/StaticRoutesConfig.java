@@ -13,8 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class StaticRoutesConfig {
     /*
-     * Boolean indicating whether static routes on this connection are automatically propagate to route tables which
-     * this connection propagates to.
+     * Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
      */
     @JsonProperty(value = "propagateStaticRoutes", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean propagateStaticRoutes;
@@ -25,14 +24,16 @@ public final class StaticRoutesConfig {
     @JsonProperty(value = "vnetLocalRouteOverrideCriteria")
     private VnetLocalRouteOverrideCriteria vnetLocalRouteOverrideCriteria;
 
-    /** Creates an instance of StaticRoutesConfig class. */
+    /**
+     * Creates an instance of StaticRoutesConfig class.
+     */
     public StaticRoutesConfig() {
     }
 
     /**
      * Get the propagateStaticRoutes property: Boolean indicating whether static routes on this connection are
      * automatically propagate to route tables which this connection propagates to.
-     *
+     * 
      * @return the propagateStaticRoutes value.
      */
     public Boolean propagateStaticRoutes() {
@@ -42,7 +43,7 @@ public final class StaticRoutesConfig {
     /**
      * Get the vnetLocalRouteOverrideCriteria property: Parameter determining whether NVA in spoke vnet is bypassed for
      * traffic with destination in spoke.
-     *
+     * 
      * @return the vnetLocalRouteOverrideCriteria value.
      */
     public VnetLocalRouteOverrideCriteria vnetLocalRouteOverrideCriteria() {
@@ -52,19 +53,19 @@ public final class StaticRoutesConfig {
     /**
      * Set the vnetLocalRouteOverrideCriteria property: Parameter determining whether NVA in spoke vnet is bypassed for
      * traffic with destination in spoke.
-     *
+     * 
      * @param vnetLocalRouteOverrideCriteria the vnetLocalRouteOverrideCriteria value to set.
      * @return the StaticRoutesConfig object itself.
      */
-    public StaticRoutesConfig withVnetLocalRouteOverrideCriteria(
-        VnetLocalRouteOverrideCriteria vnetLocalRouteOverrideCriteria) {
+    public StaticRoutesConfig
+        withVnetLocalRouteOverrideCriteria(VnetLocalRouteOverrideCriteria vnetLocalRouteOverrideCriteria) {
         this.vnetLocalRouteOverrideCriteria = vnetLocalRouteOverrideCriteria;
         return this;
     }
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

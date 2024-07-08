@@ -10,11 +10,9 @@ import com.azure.resourcemanager.avs.fluent.models.VirtualMachineProperties;
 public final class VirtualMachinePropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        VirtualMachineProperties model =
-            BinaryData
-                .fromString(
-                    "{\"displayName\":\"dtjinfw\",\"moRefId\":\"fltkacjv\",\"folderPath\":\"kdlfoa\",\"restrictMovement\":\"Enabled\"}")
-                .toObject(VirtualMachineProperties.class);
+        VirtualMachineProperties model = BinaryData.fromString(
+            "{\"provisioningState\":\"Canceled\",\"displayName\":\"abgy\",\"moRefId\":\"sbj\",\"folderPath\":\"zq\",\"restrictMovement\":\"Disabled\"}")
+            .toObject(VirtualMachineProperties.class);
     }
 
     @org.junit.jupiter.api.Test

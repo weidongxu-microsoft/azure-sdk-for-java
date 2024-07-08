@@ -6,14 +6,24 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity Avro sink. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity Avro sink.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AvroSink.class, visible = true)
 @JsonTypeName("AvroSink")
 @Fluent
 public final class AvroSink extends CopySink {
+    /*
+     * Copy sink type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AvroSink";
+
     /*
      * Avro store settings.
      */
@@ -26,13 +36,25 @@ public final class AvroSink extends CopySink {
     @JsonProperty(value = "formatSettings")
     private AvroWriteSettings formatSettings;
 
-    /** Creates an instance of AvroSink class. */
+    /**
+     * Creates an instance of AvroSink class.
+     */
     public AvroSink() {
     }
 
     /**
+     * Get the type property: Copy sink type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the storeSettings property: Avro store settings.
-     *
+     * 
      * @return the storeSettings value.
      */
     public StoreWriteSettings storeSettings() {
@@ -41,7 +63,7 @@ public final class AvroSink extends CopySink {
 
     /**
      * Set the storeSettings property: Avro store settings.
-     *
+     * 
      * @param storeSettings the storeSettings value to set.
      * @return the AvroSink object itself.
      */
@@ -52,7 +74,7 @@ public final class AvroSink extends CopySink {
 
     /**
      * Get the formatSettings property: Avro format settings.
-     *
+     * 
      * @return the formatSettings value.
      */
     public AvroWriteSettings formatSettings() {
@@ -61,7 +83,7 @@ public final class AvroSink extends CopySink {
 
     /**
      * Set the formatSettings property: Avro format settings.
-     *
+     * 
      * @param formatSettings the formatSettings value to set.
      * @return the AvroSink object itself.
      */
@@ -70,42 +92,54 @@ public final class AvroSink extends CopySink {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroSink withWriteBatchSize(Object writeBatchSize) {
         super.withWriteBatchSize(writeBatchSize);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroSink withWriteBatchTimeout(Object writeBatchTimeout) {
         super.withWriteBatchTimeout(writeBatchTimeout);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroSink withSinkRetryCount(Object sinkRetryCount) {
         super.withSinkRetryCount(sinkRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroSink withSinkRetryWait(Object sinkRetryWait) {
         super.withSinkRetryWait(sinkRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroSink withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AvroSink withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -114,7 +148,7 @@ public final class AvroSink extends CopySink {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

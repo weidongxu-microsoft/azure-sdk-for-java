@@ -4,52 +4,53 @@
 
 package com.azure.resourcemanager.storage.generated;
 
-import com.azure.core.util.Context;
 import com.azure.resourcemanager.storage.fluent.models.StorageQueueInner;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for Queue Create. */
+/**
+ * Samples for Queue Create.
+ */
 public final class QueueCreateSamples {
     /*
-     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/QueueOperationPut.json
+     * x-ms-original-file:
+     * specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPut.json
      */
     /**
      * Sample code: QueueOperationPut.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void queueOperationPut(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .storageAccounts()
+        azure.storageAccounts()
             .manager()
             .serviceClient()
             .getQueues()
-            .createWithResponse("res3376", "sto328", "queue6185", new StorageQueueInner(), Context.NONE);
+            .createWithResponse("res3376", "sto328", "queue6185", new StorageQueueInner(),
+                com.azure.core.util.Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/QueueOperationPutWithMetadata.json
+     * x-ms-original-file:
+     * specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPutWithMetadata
+     * .json
      */
     /**
      * Sample code: QueueOperationPutWithMetadata.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void queueOperationPutWithMetadata(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .storageAccounts()
+        azure.storageAccounts()
             .manager()
             .serviceClient()
             .getQueues()
-            .createWithResponse(
-                "res3376",
-                "sto328",
-                "queue6185",
+            .createWithResponse("res3376", "sto328", "queue6185",
                 new StorageQueueInner().withMetadata(mapOf("sample1", "meta1", "sample2", "meta2")),
-                Context.NONE);
+                com.azure.core.util.Context.NONE);
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

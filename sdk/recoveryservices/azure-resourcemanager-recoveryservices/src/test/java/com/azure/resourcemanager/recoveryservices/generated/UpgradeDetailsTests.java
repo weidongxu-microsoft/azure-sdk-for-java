@@ -10,11 +10,9 @@ import com.azure.resourcemanager.recoveryservices.models.UpgradeDetails;
 public final class UpgradeDetailsTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        UpgradeDetails model =
-            BinaryData
-                .fromString(
-                    "{\"operationId\":\"i\",\"startTimeUtc\":\"2021-12-07T02:37:39Z\",\"lastUpdatedTimeUtc\":\"2021-07-18T22:53:57Z\",\"endTimeUtc\":\"2021-10-23T16:11:35Z\",\"status\":\"Upgraded\",\"message\":\"abhjybi\",\"triggerType\":\"UserTriggered\",\"upgradedResourceId\":\"qfbow\",\"previousResourceId\":\"anyktzlcuiywg\"}")
-                .toObject(UpgradeDetails.class);
+        UpgradeDetails model = BinaryData.fromString(
+            "{\"operationId\":\"udwxdndnvowguj\",\"startTimeUtc\":\"2021-06-30T19:40:04Z\",\"lastUpdatedTimeUtc\":\"2021-04-30T19:52:02Z\",\"endTimeUtc\":\"2021-02-16T09:07:36Z\",\"status\":\"Failed\",\"message\":\"slazjdyg\",\"triggerType\":\"ForcedUpgrade\",\"upgradedResourceId\":\"ixhbkuofqweykhm\",\"previousResourceId\":\"evfyexfwhybcib\"}")
+            .toObject(UpgradeDetails.class);
     }
 
     @org.junit.jupiter.api.Test

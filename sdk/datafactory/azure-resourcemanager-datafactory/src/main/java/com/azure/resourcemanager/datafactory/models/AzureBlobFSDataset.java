@@ -7,78 +7,114 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.AzureBlobFSDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Azure Data Lake Storage Gen2 storage. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Azure Data Lake Storage Gen2 storage.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = AzureBlobFSDataset.class, visible = true)
 @JsonTypeName("AzureBlobFSFile")
 @Fluent
 public final class AzureBlobFSDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "AzureBlobFSFile";
+
     /*
      * Azure Data Lake Storage Gen2 dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private AzureBlobFSDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of AzureBlobFSDataset class. */
+    /**
+     * Creates an instance of AzureBlobFSDataset class.
+     */
     public AzureBlobFSDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Azure Data Lake Storage Gen2 dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private AzureBlobFSDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureBlobFSDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -88,7 +124,7 @@ public final class AzureBlobFSDataset extends Dataset {
     /**
      * Get the folderPath property: The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @return the folderPath value.
      */
     public Object folderPath() {
@@ -98,7 +134,7 @@ public final class AzureBlobFSDataset extends Dataset {
     /**
      * Set the folderPath property: The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression
      * with resultType string).
-     *
+     * 
      * @param folderPath the folderPath value to set.
      * @return the AzureBlobFSDataset object itself.
      */
@@ -113,7 +149,7 @@ public final class AzureBlobFSDataset extends Dataset {
     /**
      * Get the fileName property: The name of the Azure Data Lake Storage Gen2. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @return the fileName value.
      */
     public Object fileName() {
@@ -123,7 +159,7 @@ public final class AzureBlobFSDataset extends Dataset {
     /**
      * Set the fileName property: The name of the Azure Data Lake Storage Gen2. Type: string (or Expression with
      * resultType string).
-     *
+     * 
      * @param fileName the fileName value to set.
      * @return the AzureBlobFSDataset object itself.
      */
@@ -137,7 +173,7 @@ public final class AzureBlobFSDataset extends Dataset {
 
     /**
      * Get the format property: The format of the Azure Data Lake Storage Gen2 storage.
-     *
+     * 
      * @return the format value.
      */
     public DatasetStorageFormat format() {
@@ -146,7 +182,7 @@ public final class AzureBlobFSDataset extends Dataset {
 
     /**
      * Set the format property: The format of the Azure Data Lake Storage Gen2 storage.
-     *
+     * 
      * @param format the format value to set.
      * @return the AzureBlobFSDataset object itself.
      */
@@ -160,7 +196,7 @@ public final class AzureBlobFSDataset extends Dataset {
 
     /**
      * Get the compression property: The data compression method used for the blob storage.
-     *
+     * 
      * @return the compression value.
      */
     public DatasetCompression compression() {
@@ -169,7 +205,7 @@ public final class AzureBlobFSDataset extends Dataset {
 
     /**
      * Set the compression property: The data compression method used for the blob storage.
-     *
+     * 
      * @param compression the compression value to set.
      * @return the AzureBlobFSDataset object itself.
      */
@@ -183,7 +219,7 @@ public final class AzureBlobFSDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

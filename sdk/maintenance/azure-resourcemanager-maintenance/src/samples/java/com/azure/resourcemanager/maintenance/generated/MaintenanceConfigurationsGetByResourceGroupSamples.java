@@ -4,20 +4,49 @@
 
 package com.azure.resourcemanager.maintenance.generated;
 
-/** Samples for MaintenanceConfigurations GetByResourceGroup. */
+/**
+ * Samples for MaintenanceConfigurations GetByResourceGroup.
+ */
 public final class MaintenanceConfigurationsGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2021-05-01/examples/MaintenanceConfigurations_GetForResource.json
+     * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_GetForResource_GuestOSPatchWindows.json
+     */
+    /**
+     * Sample code: MaintenanceConfigurations_GetForResource_GuestOSPatchWindows.
+     * 
+     * @param manager Entry point to MaintenanceManager.
+     */
+    public static void maintenanceConfigurationsGetForResourceGuestOSPatchWindows(
+        com.azure.resourcemanager.maintenance.MaintenanceManager manager) {
+        manager.maintenanceConfigurations()
+            .getByResourceGroupWithResponse("examplerg", "configuration1", com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_GetForResource_GuestOSPatchLinux.json
+     */
+    /**
+     * Sample code: MaintenanceConfigurations_GetForResource_GuestOSPatchLinux.
+     * 
+     * @param manager Entry point to MaintenanceManager.
+     */
+    public static void maintenanceConfigurationsGetForResourceGuestOSPatchLinux(
+        com.azure.resourcemanager.maintenance.MaintenanceManager manager) {
+        manager.maintenanceConfigurations()
+            .getByResourceGroupWithResponse("examplerg", "configuration1", com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_GetForResource.json
      */
     /**
      * Sample code: MaintenanceConfigurations_GetForResource.
-     *
+     * 
      * @param manager Entry point to MaintenanceManager.
      */
-    public static void maintenanceConfigurationsGetForResource(
-        com.azure.resourcemanager.maintenance.MaintenanceManager manager) {
-        manager
-            .maintenanceConfigurations()
+    public static void
+        maintenanceConfigurationsGetForResource(com.azure.resourcemanager.maintenance.MaintenanceManager manager) {
+        manager.maintenanceConfigurations()
             .getByResourceGroupWithResponse("examplerg", "configuration1", com.azure.core.util.Context.NONE);
     }
 }

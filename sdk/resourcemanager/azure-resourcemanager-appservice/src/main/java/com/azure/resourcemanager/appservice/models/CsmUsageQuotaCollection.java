@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.CsmUsageQuotaInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of CSM usage quotas. */
+/**
+ * Collection of CSM usage quotas.
+ */
 @Fluent
 public final class CsmUsageQuotaCollection {
     /*
@@ -25,7 +28,9 @@ public final class CsmUsageQuotaCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of CsmUsageQuotaCollection class. */
+    /**
+     * Creates an instance of CsmUsageQuotaCollection class.
+     */
     public CsmUsageQuotaCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class CsmUsageQuotaCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model CsmUsageQuotaCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model CsmUsageQuotaCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

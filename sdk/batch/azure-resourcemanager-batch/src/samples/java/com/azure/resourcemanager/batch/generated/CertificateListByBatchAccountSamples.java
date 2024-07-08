@@ -4,42 +4,37 @@
 
 package com.azure.resourcemanager.batch.generated;
 
-import com.azure.core.util.Context;
-
-/** Samples for Certificate ListByBatchAccount. */
+/**
+ * Samples for Certificate ListByBatchAccount.
+ */
 public final class CertificateListByBatchAccountSamples {
     /*
-     * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-10-01/examples/CertificateListWithFilter.json
+     * x-ms-original-file:
+     * specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateListWithFilter.json
      */
     /**
      * Sample code: ListCertificates - Filter and Select.
-     *
+     * 
      * @param manager Entry point to BatchManager.
      */
     public static void listCertificatesFilterAndSelect(com.azure.resourcemanager.batch.BatchManager manager) {
-        manager
-            .certificates()
-            .listByBatchAccount(
-                "default-azurebatch-japaneast",
-                "sampleacct",
-                null,
-                "properties/format,properties/provisioningState",
-                "properties/provisioningStateTransitionTime gt '2017-05-01' or properties/provisioningState eq"
-                    + " 'Failed'",
-                Context.NONE);
+        manager.certificates().listByBatchAccount("default-azurebatch-japaneast", "sampleacct", null,
+            "properties/format,properties/provisioningState",
+            "properties/provisioningStateTransitionTime gt '2017-05-01' or properties/provisioningState eq 'Failed'",
+            com.azure.core.util.Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-10-01/examples/CertificateList.json
+     * x-ms-original-file:
+     * specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateList.json
      */
     /**
      * Sample code: ListCertificates.
-     *
+     * 
      * @param manager Entry point to BatchManager.
      */
     public static void listCertificates(com.azure.resourcemanager.batch.BatchManager manager) {
-        manager
-            .certificates()
-            .listByBatchAccount("default-azurebatch-japaneast", "sampleacct", 1, null, null, Context.NONE);
+        manager.certificates().listByBatchAccount("default-azurebatch-japaneast", "sampleacct", 1, null, null,
+            com.azure.core.util.Context.NONE);
     }
 }

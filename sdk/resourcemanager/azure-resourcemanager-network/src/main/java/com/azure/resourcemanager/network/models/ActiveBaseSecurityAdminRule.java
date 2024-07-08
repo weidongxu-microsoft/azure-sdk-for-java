@@ -7,24 +7,34 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 
-/** Network base admin rule. */
+/**
+ * Network base admin rule.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
     property = "kind",
-    defaultImpl = ActiveBaseSecurityAdminRule.class)
+    defaultImpl = ActiveBaseSecurityAdminRule.class,
+    visible = true)
 @JsonTypeName("ActiveBaseSecurityAdminRule")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "Custom", value = ActiveSecurityAdminRule.class),
-    @JsonSubTypes.Type(name = "Default", value = ActiveDefaultSecurityAdminRule.class)
-})
+    @JsonSubTypes.Type(name = "Default", value = ActiveDefaultSecurityAdminRule.class) })
 @Fluent
 public class ActiveBaseSecurityAdminRule {
+    /*
+     * Whether the rule is custom or default.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "kind", required = true)
+    private EffectiveAdminRuleKind kind;
+
     /*
      * Resource ID.
      */
@@ -67,8 +77,20 @@ public class ActiveBaseSecurityAdminRule {
     @JsonProperty(value = "ruleGroups")
     private List<ConfigurationGroup> ruleGroups;
 
-    /** Creates an instance of ActiveBaseSecurityAdminRule class. */
+    /**
+     * Creates an instance of ActiveBaseSecurityAdminRule class.
+     */
     public ActiveBaseSecurityAdminRule() {
+        this.kind = EffectiveAdminRuleKind.fromString("ActiveBaseSecurityAdminRule");
+    }
+
+    /**
+     * Get the kind property: Whether the rule is custom or default.
+     *
+     * @return the kind value.
+     */
+    public EffectiveAdminRuleKind kind() {
+        return this.kind;
     }
 
     /**
@@ -186,8 +208,8 @@ public class ActiveBaseSecurityAdminRule {
      * @param ruleCollectionAppliesToGroups the ruleCollectionAppliesToGroups value to set.
      * @return the ActiveBaseSecurityAdminRule object itself.
      */
-    public ActiveBaseSecurityAdminRule withRuleCollectionAppliesToGroups(
-        List<NetworkManagerSecurityGroupItem> ruleCollectionAppliesToGroups) {
+    public ActiveBaseSecurityAdminRule
+        withRuleCollectionAppliesToGroups(List<NetworkManagerSecurityGroupItem> ruleCollectionAppliesToGroups) {
         this.ruleCollectionAppliesToGroups = ruleCollectionAppliesToGroups;
         return this;
     }

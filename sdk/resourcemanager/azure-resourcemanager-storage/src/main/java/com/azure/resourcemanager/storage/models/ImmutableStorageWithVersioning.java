@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
-/** Object level immutability properties of the container. */
+/**
+ * Object level immutability properties of the container.
+ */
 @Fluent
 public final class ImmutableStorageWithVersioning {
     /*
@@ -30,9 +32,15 @@ public final class ImmutableStorageWithVersioning {
     private MigrationState migrationState;
 
     /**
+     * Creates an instance of ImmutableStorageWithVersioning class.
+     */
+    public ImmutableStorageWithVersioning() {
+    }
+
+    /**
      * Get the enabled property: This is an immutable property, when set to true it enables object level immutability at
      * the container level.
-     *
+     * 
      * @return the enabled value.
      */
     public Boolean enabled() {
@@ -42,7 +50,7 @@ public final class ImmutableStorageWithVersioning {
     /**
      * Set the enabled property: This is an immutable property, when set to true it enables object level immutability at
      * the container level.
-     *
+     * 
      * @param enabled the enabled value to set.
      * @return the ImmutableStorageWithVersioning object itself.
      */
@@ -53,7 +61,7 @@ public final class ImmutableStorageWithVersioning {
 
     /**
      * Get the timestamp property: Returns the date and time the object level immutability was enabled.
-     *
+     * 
      * @return the timestamp value.
      */
     public OffsetDateTime timestamp() {
@@ -63,7 +71,7 @@ public final class ImmutableStorageWithVersioning {
     /**
      * Get the migrationState property: This property denotes the container level immutability to object level
      * immutability migration state.
-     *
+     * 
      * @return the migrationState value.
      */
     public MigrationState migrationState() {
@@ -72,7 +80,7 @@ public final class ImmutableStorageWithVersioning {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

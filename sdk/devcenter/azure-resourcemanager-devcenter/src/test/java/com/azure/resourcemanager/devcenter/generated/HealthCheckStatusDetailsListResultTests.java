@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.models.HealthCheckStatusDetailsListRe
 public final class HealthCheckStatusDetailsListResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        HealthCheckStatusDetailsListResult model =
-            BinaryData
-                .fromString(
-                    "{\"value\":[{\"properties\":{\"startDateTime\":\"2021-12-10T01:46:10Z\",\"endDateTime\":\"2021-11-22T00:26:44Z\",\"healthChecks\":[]},\"id\":\"bxarzgszufoxci\",\"name\":\"opidoamciodh\",\"type\":\"haz\"},{\"properties\":{\"startDateTime\":\"2021-11-22T06:47:21Z\",\"endDateTime\":\"2021-03-10T21:25:05Z\",\"healthChecks\":[]},\"id\":\"lwntoego\",\"name\":\"dwbwhkszzcmrvexz\",\"type\":\"vbtqgsfraoyzk\"},{\"properties\":{\"startDateTime\":\"2021-06-11T18:07:16Z\",\"endDateTime\":\"2021-01-01T04:06:13Z\",\"healthChecks\":[]},\"id\":\"ux\",\"name\":\"wqaldsyu\",\"type\":\"ximerqfobwyznk\"}],\"nextLink\":\"kutwpf\"}")
-                .toObject(HealthCheckStatusDetailsListResult.class);
+        HealthCheckStatusDetailsListResult model = BinaryData.fromString(
+            "{\"value\":[{\"properties\":{\"startDateTime\":\"2021-07-16T10:37:49Z\",\"endDateTime\":\"2021-08-03T07:13:19Z\",\"healthChecks\":[{\"status\":\"Warning\",\"displayName\":\"hihlhzdsqtzbs\",\"startDateTime\":\"2021-01-15T23:38:36Z\",\"endDateTime\":\"2021-06-10T19:30:26Z\",\"errorType\":\"jhf\",\"recommendedAction\":\"vecactx\",\"additionalDetails\":\"oteyowc\"},{\"status\":\"Running\",\"displayName\":\"vekqvgqo\",\"startDateTime\":\"2021-10-12T22:41:28Z\",\"endDateTime\":\"2021-10-16T02:41:01Z\",\"errorType\":\"pjwyiv\",\"recommendedAction\":\"kfxcvhrfs\",\"additionalDetails\":\"uagrttikteusqc\"},{\"status\":\"Unknown\",\"displayName\":\"klxubyja\",\"startDateTime\":\"2021-09-13T22:37:23Z\",\"endDateTime\":\"2021-01-18T06:44:16Z\",\"errorType\":\"lcqcuubgqibrt\",\"recommendedAction\":\"metttwgd\",\"additionalDetails\":\"qxihhrmooi\"},{\"status\":\"Running\",\"displayName\":\"ypxiutcxap\",\"startDateTime\":\"2021-08-22T21:59:05Z\",\"endDateTime\":\"2021-11-27T00:42:27Z\",\"errorType\":\"togebjoxsl\",\"recommendedAction\":\"nhl\",\"additionalDetails\":\"rqnkkzjcjbtr\"}]},\"id\":\"ehvvib\",\"name\":\"xjjs\",\"type\":\"oqbeitpkxzt\"}],\"nextLink\":\"ob\"}")
+            .toObject(HealthCheckStatusDetailsListResult.class);
     }
 
     @org.junit.jupiter.api.Test

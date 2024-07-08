@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.models.EndpointDependency;
 public final class EndpointDependencyTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        EndpointDependency model =
-            BinaryData
-                .fromString(
-                    "{\"domainName\":\"haq\",\"description\":\"ss\",\"endpointDetails\":[{\"port\":1174161651}]}")
-                .toObject(EndpointDependency.class);
+        EndpointDependency model = BinaryData.fromString(
+            "{\"domainName\":\"hhnakzybbj\",\"description\":\"dj\",\"endpointDetails\":[{\"port\":1374695683},{\"port\":1920543012}]}")
+            .toObject(EndpointDependency.class);
     }
 
     @org.junit.jupiter.api.Test

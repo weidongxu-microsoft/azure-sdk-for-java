@@ -9,8 +9,6 @@ import com.azure.core.util.logging.ClientLogger;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 
-import java.util.Optional;
-
 import static com.azure.core.util.tracing.Tracer.PARENT_TRACE_CONTEXT_KEY;
 
 class OpenTelemetryUtils {
@@ -25,7 +23,8 @@ class OpenTelemetryUtils {
      * @param key key of the attribute to be added
      * @param value value of the attribute to be added
      */
-    static void addAttribute(io.opentelemetry.api.common.AttributesBuilder attributesBuilder, String key, Object value) {
+    static void addAttribute(io.opentelemetry.api.common.AttributesBuilder attributesBuilder, String key,
+        Object value) {
         if (value instanceof Boolean) {
             attributesBuilder.put(AttributeKey.booleanKey(key), (Boolean) value);
         } else if (value instanceof String) {
@@ -43,25 +42,34 @@ class OpenTelemetryUtils {
         } else if (value instanceof Byte) {
             attributesBuilder.put(AttributeKey.longKey(key), (Byte) value);
         } else {
-            LOGGER.warning("Could not populate attribute with key '{}', type '{}' is not supported.", key, value.getClass().getName());
+            LOGGER.warning("Could not populate attribute with key '{}', type '{}' is not supported.", key,
+                value.getClass().getName());
         }
     }
+
     /**
      * Returns OpenTelemetry trace context from given com.azure.core.Context under PARENT_TRACE_CONTEXT_KEY.
      * If not context is found, returns {@link io.opentelemetry.context.Context#current()}.
      */
     static io.opentelemetry.context.Context getTraceContextOrCurrent(Context azContext) {
-        Optional<Object> traceContextOpt = azContext.getData(PARENT_TRACE_CONTEXT_KEY);
-        if (traceContextOpt.isPresent()) {
-            Object traceContextObj = traceContextOpt.get();
-            if (traceContextObj instanceof io.opentelemetry.context.Context) {
+        Object traceContextObj = azContext.getData(PARENT_TRACE_CONTEXT_KEY).orElse(null);
+        if (traceContextObj != null) {
+            if (io.opentelemetry.context.Context.class.isAssignableFrom(traceContextObj.getClass())) {
                 return (io.opentelemetry.context.Context) traceContextObj;
-            } else if (traceContextObj != null) {
-                // TODO (limolkova) somehow we can get shaded otel agent context here
-                if (!warnedOnContextType) {
-                    LOGGER.warning("Expected instance of `io.opentelemetry.context.Context` under `PARENT_TRACE_CONTEXT_KEY`, but got {}, ignoring it.", traceContextObj.getClass().getName());
-                    warnedOnContextType = true;
-                }
+            } else if (!warnedOnContextType) {
+                // TODO (limolkova) https://github.com/Azure/azure-sdk-for-java/issues/36537
+                // The context we have here is created by azure-core-tracing-opentelemetry.
+                // but if otel or applicationInsights agents are used, the azure-core-tracing-opentelemetry is shaded
+                // and records shaded context.
+                // if azure-core-metrics-opentelemetry is NOT shaded, we won't be able to reuse this context since it's
+                // not compatible.
+                // I.e. it works fine if both are shaded or not shaded and warns (once) if just one of them is shaded.
+                // We should fix this by adding azure-core-metrics-opentelemetry to otel agent
+                // In the meantime, it's ok - we return current context and exemplars should work reasonably well.
+                LOGGER.warning(
+                    "Expected instance of `io.opentelemetry.context.Context` under `PARENT_TRACE_CONTEXT_KEY`, but got {}, ignoring it.",
+                    traceContextObj.getClass().getName());
+                warnedOnContextType = true;
             }
         }
 
@@ -74,7 +82,9 @@ class OpenTelemetryUtils {
         }
 
         if (attributesBuilder != null && !warnedOnBuilderType) {
-            LOGGER.warning("Expected instance of `OpenTelemetryAttributeBuilder` in `attributeCollection`, but got {}, ignoring it.", attributesBuilder.getClass().getName());
+            LOGGER.warning(
+                "Expected instance of `OpenTelemetryAttributeBuilder` in `attributeCollection`, but got {}, ignoring it.",
+                attributesBuilder.getClass().getName());
             warnedOnBuilderType = true;
         }
 

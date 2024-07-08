@@ -8,23 +8,46 @@ import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.fluent.models.BaseAdminRuleInner;
 import com.azure.resourcemanager.network.fluent.models.DefaultAdminPropertiesFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.List;
 
-/** Network default admin rule. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "kind")
+/**
+ * Network default admin rule.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "kind", defaultImpl = DefaultAdminRule.class, visible = true)
 @JsonTypeName("Default")
 @Fluent
 public final class DefaultAdminRule extends BaseAdminRuleInner {
+    /*
+     * Whether the rule is custom or default.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "kind", required = true)
+    private AdminRuleKind kind = AdminRuleKind.DEFAULT;
+
     /*
      * Indicates the properties of the security admin rule
      */
     @JsonProperty(value = "properties")
     private DefaultAdminPropertiesFormat innerProperties;
 
-    /** Creates an instance of DefaultAdminRule class. */
+    /**
+     * Creates an instance of DefaultAdminRule class.
+     */
     public DefaultAdminRule() {
+    }
+
+    /**
+     * Get the kind property: Whether the rule is custom or default.
+     *
+     * @return the kind value.
+     */
+    @Override
+    public AdminRuleKind kind() {
+        return this.kind;
     }
 
     /**
@@ -149,6 +172,15 @@ public final class DefaultAdminRule extends BaseAdminRuleInner {
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

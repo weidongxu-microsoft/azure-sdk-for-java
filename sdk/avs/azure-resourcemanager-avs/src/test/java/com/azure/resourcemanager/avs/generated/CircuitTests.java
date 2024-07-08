@@ -10,11 +10,9 @@ import com.azure.resourcemanager.avs.models.Circuit;
 public final class CircuitTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        Circuit model =
-            BinaryData
-                .fromString(
-                    "{\"primarySubnet\":\"jqabcypmivkwlzuv\",\"secondarySubnet\":\"fwnfnb\",\"expressRouteID\":\"fionl\",\"expressRoutePrivatePeeringID\":\"x\"}")
-                .toObject(Circuit.class);
+        Circuit model = BinaryData.fromString(
+            "{\"primarySubnet\":\"yb\",\"secondarySubnet\":\"qedqytbciqfoufl\",\"expressRouteID\":\"nkzsmodmglou\",\"expressRoutePrivatePeeringID\":\"b\"}")
+            .toObject(Circuit.class);
     }
 
     @org.junit.jupiter.api.Test

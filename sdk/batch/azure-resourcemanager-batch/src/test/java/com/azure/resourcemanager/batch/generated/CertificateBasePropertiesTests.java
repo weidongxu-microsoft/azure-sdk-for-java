@@ -8,30 +8,25 @@ import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.models.CertificateBaseProperties;
 import com.azure.resourcemanager.batch.models.CertificateFormat;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class CertificateBasePropertiesTests {
-    @Test
-    public void testDeserialize() {
-        CertificateBaseProperties model =
-            BinaryData
-                .fromString("{\"thumbprintAlgorithm\":\"tko\",\"thumbprint\":\"kouknvudwtiu\",\"format\":\"Cer\"}")
-                .toObject(CertificateBaseProperties.class);
-        Assertions.assertEquals("tko", model.thumbprintAlgorithm());
-        Assertions.assertEquals("kouknvudwtiu", model.thumbprint());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        CertificateBaseProperties model = BinaryData
+            .fromString("{\"thumbprintAlgorithm\":\"mdectehfiqscjey\",\"thumbprint\":\"hezrkgq\",\"format\":\"Cer\"}")
+            .toObject(CertificateBaseProperties.class);
+        Assertions.assertEquals("mdectehfiqscjey", model.thumbprintAlgorithm());
+        Assertions.assertEquals("hezrkgq", model.thumbprint());
         Assertions.assertEquals(CertificateFormat.CER, model.format());
     }
 
-    @Test
-    public void testSerialize() {
-        CertificateBaseProperties model =
-            new CertificateBaseProperties()
-                .withThumbprintAlgorithm("tko")
-                .withThumbprint("kouknvudwtiu")
-                .withFormat(CertificateFormat.CER);
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        CertificateBaseProperties model = new CertificateBaseProperties().withThumbprintAlgorithm("mdectehfiqscjey")
+            .withThumbprint("hezrkgq").withFormat(CertificateFormat.CER);
         model = BinaryData.fromObject(model).toObject(CertificateBaseProperties.class);
-        Assertions.assertEquals("tko", model.thumbprintAlgorithm());
-        Assertions.assertEquals("kouknvudwtiu", model.thumbprint());
+        Assertions.assertEquals("mdectehfiqscjey", model.thumbprintAlgorithm());
+        Assertions.assertEquals("hezrkgq", model.thumbprint());
         Assertions.assertEquals(CertificateFormat.CER, model.format());
     }
 }

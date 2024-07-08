@@ -13,37 +13,30 @@ import org.junit.jupiter.api.Assertions;
 public final class AvailableWorkloadProfileInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        AvailableWorkloadProfileInner model =
-            BinaryData
-                .fromString(
-                    "{\"location\":\"fbowskanyk\",\"properties\":{\"category\":\"cuiywgqyw\",\"applicability\":\"LocationDefault\",\"cores\":974991639,\"memoryGiB\":1069077696,\"displayName\":\"zgpphrcgyncocpe\"},\"id\":\"vmmcoofs\",\"name\":\"lzevgbmqjqab\",\"type\":\"y\"}")
-                .toObject(AvailableWorkloadProfileInner.class);
-        Assertions.assertEquals("fbowskanyk", model.location());
-        Assertions.assertEquals("cuiywgqyw", model.properties().category());
-        Assertions.assertEquals(Applicability.LOCATION_DEFAULT, model.properties().applicability());
-        Assertions.assertEquals(974991639, model.properties().cores());
-        Assertions.assertEquals(1069077696, model.properties().memoryGiB());
-        Assertions.assertEquals("zgpphrcgyncocpe", model.properties().displayName());
+        AvailableWorkloadProfileInner model = BinaryData.fromString(
+            "{\"location\":\"yocf\",\"properties\":{\"category\":\"s\",\"applicability\":\"Custom\",\"cores\":376493890,\"memoryGiB\":666664165,\"gpus\":30564685,\"displayName\":\"uxh\"},\"id\":\"udxorrqn\",\"name\":\"poczvyifqrvkdvjs\",\"type\":\"lrmv\"}")
+            .toObject(AvailableWorkloadProfileInner.class);
+        Assertions.assertEquals("yocf", model.location());
+        Assertions.assertEquals("s", model.properties().category());
+        Assertions.assertEquals(Applicability.CUSTOM, model.properties().applicability());
+        Assertions.assertEquals(376493890, model.properties().cores());
+        Assertions.assertEquals(666664165, model.properties().memoryGiB());
+        Assertions.assertEquals(30564685, model.properties().gpus());
+        Assertions.assertEquals("uxh", model.properties().displayName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AvailableWorkloadProfileInner model =
-            new AvailableWorkloadProfileInner()
-                .withLocation("fbowskanyk")
-                .withProperties(
-                    new AvailableWorkloadProfileProperties()
-                        .withCategory("cuiywgqyw")
-                        .withApplicability(Applicability.LOCATION_DEFAULT)
-                        .withCores(974991639)
-                        .withMemoryGiB(1069077696)
-                        .withDisplayName("zgpphrcgyncocpe"));
+        AvailableWorkloadProfileInner model = new AvailableWorkloadProfileInner().withLocation("yocf").withProperties(
+            new AvailableWorkloadProfileProperties().withCategory("s").withApplicability(Applicability.CUSTOM)
+                .withCores(376493890).withMemoryGiB(666664165).withGpus(30564685).withDisplayName("uxh"));
         model = BinaryData.fromObject(model).toObject(AvailableWorkloadProfileInner.class);
-        Assertions.assertEquals("fbowskanyk", model.location());
-        Assertions.assertEquals("cuiywgqyw", model.properties().category());
-        Assertions.assertEquals(Applicability.LOCATION_DEFAULT, model.properties().applicability());
-        Assertions.assertEquals(974991639, model.properties().cores());
-        Assertions.assertEquals(1069077696, model.properties().memoryGiB());
-        Assertions.assertEquals("zgpphrcgyncocpe", model.properties().displayName());
+        Assertions.assertEquals("yocf", model.location());
+        Assertions.assertEquals("s", model.properties().category());
+        Assertions.assertEquals(Applicability.CUSTOM, model.properties().applicability());
+        Assertions.assertEquals(376493890, model.properties().cores());
+        Assertions.assertEquals(666664165, model.properties().memoryGiB());
+        Assertions.assertEquals(30564685, model.properties().gpus());
+        Assertions.assertEquals("uxh", model.properties().displayName());
     }
 }

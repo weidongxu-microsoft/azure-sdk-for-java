@@ -124,6 +124,8 @@ public final class ServiceBusTracer {
      */
     public void endSpan(Throwable throwable, Context span, AutoCloseable scope) {
         if (isEnabled()) {
+            closeScope(scope);
+
             String errorCondition = null;
             if (throwable instanceof AmqpException) {
                 AmqpException exception = (AmqpException) throwable;
@@ -131,15 +133,16 @@ public final class ServiceBusTracer {
                     errorCondition = exception.getErrorCondition().getErrorCondition();
                 }
             }
+            tracer.end(errorCondition, throwable, span);
+        }
+    }
 
+    public void closeScope(AutoCloseable scope) {
+        if (scope != null) {
             try {
-                if (scope != null) {
-                    scope.close();
-                }
+                scope.close();
             } catch (Exception e) {
                 LOGGER.warning("Can't close scope", e);
-            } finally {
-                tracer.end(errorCondition, throwable, span);
             }
         }
     }
@@ -282,18 +285,16 @@ public final class ServiceBusTracer {
     /**
      * Starts span. Used by ServiceBus*Instrumentations.
      */
-    Context startProcessSpan(String spanName, ServiceBusReceivedMessage message, Context parent) {
-        if (isEnabled() && message != null) {
+    Context startProcessSpan(String spanName, Map<String, Object> applicationProperties, OffsetDateTime enqueuedTime, Context parent) {
+        if (isEnabled() && applicationProperties != null) {
             StartSpanOptions startOptions = createStartOption(SpanKind.CONSUMER, OperationName.PROCESS)
-                .setRemoteParent(extractContext(message.getApplicationProperties()));
+                .setRemoteParent(extractContext(applicationProperties));
 
-            if (message.getEnqueuedTime() != null) {
-                startOptions.setAttribute(MESSAGE_ENQUEUED_TIME_ATTRIBUTE_NAME, message.getEnqueuedTime().toEpochSecond());
+            if (enqueuedTime != null) {
+                startOptions.setAttribute(MESSAGE_ENQUEUED_TIME_ATTRIBUTE_NAME, enqueuedTime.toEpochSecond());
             }
 
-            Context span = tracer.start(spanName, startOptions, parent);
-            ContextAccessor.setContext(message, span);
-            return span;
+            return tracer.start(spanName, startOptions, parent);
         }
 
         return parent;

@@ -12,10 +12,13 @@ import com.azure.resourcemanager.network.models.ExpressRouteCircuitSku;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.azure.resourcemanager.network.models.ServiceProviderProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-/** ExpressRouteCircuit resource. */
+/**
+ * ExpressRouteCircuit resource.
+ */
 @Fluent
 public final class ExpressRouteCircuitInner extends Resource {
     /*
@@ -42,7 +45,9 @@ public final class ExpressRouteCircuitInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ExpressRouteCircuitInner class. */
+    /**
+     * Creates an instance of ExpressRouteCircuitInner class.
+     */
     public ExpressRouteCircuitInner() {
     }
 
@@ -104,14 +109,18 @@ public final class ExpressRouteCircuitInner extends Resource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExpressRouteCircuitInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExpressRouteCircuitInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -179,8 +188,8 @@ public final class ExpressRouteCircuitInner extends Resource {
      * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withServiceProviderProvisioningState(
-        ServiceProviderProvisioningState serviceProviderProvisioningState) {
+    public ExpressRouteCircuitInner
+        withServiceProviderProvisioningState(ServiceProviderProvisioningState serviceProviderProvisioningState) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ExpressRouteCircuitPropertiesFormat();
         }
@@ -295,8 +304,8 @@ public final class ExpressRouteCircuitInner extends Resource {
      * @param serviceProviderProperties the serviceProviderProperties value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withServiceProviderProperties(
-        ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
+    public ExpressRouteCircuitInner
+        withServiceProviderProperties(ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ExpressRouteCircuitPropertiesFormat();
         }
@@ -448,6 +457,31 @@ public final class ExpressRouteCircuitInner extends Resource {
      */
     public String authorizationStatus() {
         return this.innerProperties() == null ? null : this.innerProperties().authorizationStatus();
+    }
+
+    /**
+     * Get the enableDirectPortRateLimit property: Flag denoting rate-limiting status of the ExpressRoute direct-port
+     * circuit.
+     *
+     * @return the enableDirectPortRateLimit value.
+     */
+    public Boolean enableDirectPortRateLimit() {
+        return this.innerProperties() == null ? null : this.innerProperties().enableDirectPortRateLimit();
+    }
+
+    /**
+     * Set the enableDirectPortRateLimit property: Flag denoting rate-limiting status of the ExpressRoute direct-port
+     * circuit.
+     *
+     * @param enableDirectPortRateLimit the enableDirectPortRateLimit value to set.
+     * @return the ExpressRouteCircuitInner object itself.
+     */
+    public ExpressRouteCircuitInner withEnableDirectPortRateLimit(Boolean enableDirectPortRateLimit) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new ExpressRouteCircuitPropertiesFormat();
+        }
+        this.innerProperties().withEnableDirectPortRateLimit(enableDirectPortRateLimit);
+        return this;
     }
 
     /**

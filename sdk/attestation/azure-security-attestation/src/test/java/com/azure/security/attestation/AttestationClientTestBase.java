@@ -27,10 +27,7 @@ import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -85,6 +82,9 @@ public class AttestationClientTestBase extends TestProxyTestBase {
     protected void beforeTest() {
         super.beforeTest();
 
+        GlobalOpenTelemetry.resetForTest();
+        tracer = configureLoggingExporter(testContextManager.getTestName());
+
         if (interceptorManager.isPlaybackMode()) {
             interceptorManager.addMatchers(Collections.singletonList(new CustomMatcher()
                 .setHeadersKeyOnlyMatch(Collections.singletonList("Authorization"))));
@@ -122,21 +122,8 @@ public class AttestationClientTestBase extends TestProxyTestBase {
     }
 
     @Override
-    @BeforeEach
-    public void setupTest(TestInfo testInfo) {
+    public void afterTest() {
         GlobalOpenTelemetry.resetForTest();
-        super.setupTest(testInfo);
-        String testMethod = testInfo.getTestMethod().isPresent()
-            ? testInfo.getTestMethod().get().getName()
-            : testInfo.getDisplayName();
-        tracer = configureLoggingExporter(testMethod);
-    }
-
-    @Override
-    @AfterEach
-    public void teardownTest(TestInfo testInfo) {
-        GlobalOpenTelemetry.resetForTest();
-        super.teardownTest(testInfo);
     }
 
     @SuppressWarnings({"deprecation", "resource"})
@@ -270,8 +257,8 @@ public class AttestationClientTestBase extends TestProxyTestBase {
      */
     static String getIsolatedSigningCertificateBase64() {
         return TEST_MODE == TestMode.PLAYBACK
-            ? readResource("isolatedSigningCertificate") // Use a pre-canned certificate captured at provisioning time.
-            : Configuration.getGlobalConfiguration().get("isolatedSigningCertificate");
+            ? readResource("ISOLATED_SIGNING_CERTIFICATE") // Use a pre-canned certificate captured at provisioning time.
+            : Configuration.getGlobalConfiguration().get("ISOLATED_SIGNING_CERTIFICATE");
     }
 
     protected static X509Certificate getIsolatedSigningCertificate() {
@@ -286,8 +273,8 @@ public class AttestationClientTestBase extends TestProxyTestBase {
      */
     static String getIsolatedSigningKeyBase64() {
         return TEST_MODE == TestMode.PLAYBACK
-            ? readResource("isolatedSigningKey") // Use a pre-canned certificate captured at provisioning time.
-            : Configuration.getGlobalConfiguration().get("isolatedSigningKey");
+            ? readResource("ISOLATED_SIGNING_KEY") // Use a pre-canned certificate captured at provisioning time.
+            : Configuration.getGlobalConfiguration().get("ISOLATED_SIGNING_KEY");
     }
 
     static PrivateKey privateKeyFromBase64(String base64) {
@@ -331,14 +318,14 @@ public class AttestationClientTestBase extends TestProxyTestBase {
      */
     static String getPolicySigningCertificate0Base64() {
         return TEST_MODE == TestMode.PLAYBACK
-            ? readResource("policySigningCertificate0") // Use a pre-canned certificate captured at provisioning time.
-            : Configuration.getGlobalConfiguration().get("policySigningCertificate0");
+            ? readResource("POLICY_SIGNING_CERTIFICATE0") // Use a pre-canned certificate captured at provisioning time.
+            : Configuration.getGlobalConfiguration().get("POLICY_SIGNING_CERTIFICATE0");
     }
 
     static String getPolicySigningKey0Base64() {
         return TEST_MODE == TestMode.PLAYBACK
-            ? readResource("policySigningKey0") // Use a pre-canned certificate captured at provisioning time.
-            : Configuration.getGlobalConfiguration().get("policySigningKey0");
+            ? readResource("POLICY_SIGNING_KEY0") // Use a pre-canned certificate captured at provisioning time.
+            : Configuration.getGlobalConfiguration().get("POLICY_SIGNING_KEY0");
     }
 
     protected static X509Certificate getPolicySigningCertificate0() {
@@ -392,7 +379,8 @@ public class AttestationClientTestBase extends TestProxyTestBase {
      * @return returns the location in which the tests are running.
      */
     private static String getLocationShortName() {
-        return TEST_MODE == TestMode.PLAYBACK ? "wus" : Configuration.getGlobalConfiguration().get("locationShortName");
+        return TEST_MODE == TestMode.PLAYBACK ? "wus"
+            : Configuration.getGlobalConfiguration().get("LOCATION_SHORT_NAME");
     }
 
     /**

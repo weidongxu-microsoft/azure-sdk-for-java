@@ -7,7 +7,9 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** SKU of an application gateway. */
+/**
+ * SKU of an application gateway.
+ */
 @Fluent
 public final class ApplicationGatewaySku {
     /*
@@ -28,13 +30,21 @@ public final class ApplicationGatewaySku {
     @JsonProperty(value = "capacity")
     private Integer capacity;
 
-    /** Creates an instance of ApplicationGatewaySku class. */
+    /*
+     * Family of an application gateway SKU.
+     */
+    @JsonProperty(value = "family")
+    private ApplicationGatewaySkuFamily family;
+
+    /**
+     * Creates an instance of ApplicationGatewaySku class.
+     */
     public ApplicationGatewaySku() {
     }
 
     /**
      * Get the name property: Name of an application gateway SKU.
-     *
+     * 
      * @return the name value.
      */
     public ApplicationGatewaySkuName name() {
@@ -43,7 +53,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Set the name property: Name of an application gateway SKU.
-     *
+     * 
      * @param name the name value to set.
      * @return the ApplicationGatewaySku object itself.
      */
@@ -54,7 +64,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Get the tier property: Tier of an application gateway.
-     *
+     * 
      * @return the tier value.
      */
     public ApplicationGatewayTier tier() {
@@ -63,7 +73,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Set the tier property: Tier of an application gateway.
-     *
+     * 
      * @param tier the tier value to set.
      * @return the ApplicationGatewaySku object itself.
      */
@@ -74,7 +84,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Get the capacity property: Capacity (instance count) of an application gateway.
-     *
+     * 
      * @return the capacity value.
      */
     public Integer capacity() {
@@ -83,7 +93,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Set the capacity property: Capacity (instance count) of an application gateway.
-     *
+     * 
      * @param capacity the capacity value to set.
      * @return the ApplicationGatewaySku object itself.
      */
@@ -93,8 +103,28 @@ public final class ApplicationGatewaySku {
     }
 
     /**
+     * Get the family property: Family of an application gateway SKU.
+     * 
+     * @return the family value.
+     */
+    public ApplicationGatewaySkuFamily family() {
+        return this.family;
+    }
+
+    /**
+     * Set the family property: Family of an application gateway SKU.
+     * 
+     * @param family the family value to set.
+     * @return the ApplicationGatewaySku object itself.
+     */
+    public ApplicationGatewaySku withFamily(ApplicationGatewaySkuFamily family) {
+        this.family = family;
+        return this;
+    }
+
+    /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

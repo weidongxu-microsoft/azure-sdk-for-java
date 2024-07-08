@@ -10,11 +10,9 @@ import com.azure.resourcemanager.devcenter.models.HealthCheck;
 public final class HealthCheckTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        HealthCheck model =
-            BinaryData
-                .fromString(
-                    "{\"status\":\"Running\",\"displayName\":\"krribdeibqi\",\"startDateTime\":\"2021-08-10T16:45:38Z\",\"endDateTime\":\"2021-09-05T16:00:20Z\",\"errorType\":\"xndzwm\",\"recommendedAction\":\"efajpj\",\"additionalDetails\":\"wkqnyhg\"}")
-                .toObject(HealthCheck.class);
+        HealthCheck model = BinaryData.fromString(
+            "{\"status\":\"Pending\",\"displayName\":\"r\",\"startDateTime\":\"2021-11-12T08:33:33Z\",\"endDateTime\":\"2021-02-25T05:01:16Z\",\"errorType\":\"mghfcfiwrxgkne\",\"recommendedAction\":\"yinzqodfvpgs\",\"additionalDetails\":\"xgsg\"}")
+            .toObject(HealthCheck.class);
     }
 
     @org.junit.jupiter.api.Test

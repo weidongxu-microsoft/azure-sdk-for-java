@@ -7,78 +7,118 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.CommonDataServiceForAppsEntityDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The Common Data Service for Apps entity dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The Common Data Service for Apps entity dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = CommonDataServiceForAppsEntityDataset.class,
+    visible = true)
 @JsonTypeName("CommonDataServiceForAppsEntity")
 @Fluent
 public final class CommonDataServiceForAppsEntityDataset extends Dataset {
+    /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "CommonDataServiceForAppsEntity";
+
     /*
      * Common Data Service for Apps entity dataset properties.
      */
     @JsonProperty(value = "typeProperties")
     private CommonDataServiceForAppsEntityDatasetTypeProperties innerTypeProperties;
 
-    /** Creates an instance of CommonDataServiceForAppsEntityDataset class. */
+    /**
+     * Creates an instance of CommonDataServiceForAppsEntityDataset class.
+     */
     public CommonDataServiceForAppsEntityDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Common Data Service for Apps entity dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private CommonDataServiceForAppsEntityDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommonDataServiceForAppsEntityDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -87,7 +127,7 @@ public final class CommonDataServiceForAppsEntityDataset extends Dataset {
 
     /**
      * Get the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the entityName value.
      */
     public Object entityName() {
@@ -96,7 +136,7 @@ public final class CommonDataServiceForAppsEntityDataset extends Dataset {
 
     /**
      * Set the entityName property: The logical name of the entity. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param entityName the entityName value to set.
      * @return the CommonDataServiceForAppsEntityDataset object itself.
      */
@@ -110,7 +150,7 @@ public final class CommonDataServiceForAppsEntityDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

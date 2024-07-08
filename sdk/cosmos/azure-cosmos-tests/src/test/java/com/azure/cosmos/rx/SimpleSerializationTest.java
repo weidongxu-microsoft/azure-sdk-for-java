@@ -31,7 +31,7 @@ public class SimpleSerializationTest extends TestSuiteBase {
         public static class BadSerializer extends JsonSerializer<String> {
             @Override
             public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) {
-                throw new NotImplementedException("bad");
+                throw new NotImplementedException("BadSerializer: bad");
             }
         }
 
@@ -51,7 +51,7 @@ public class SimpleSerializationTest extends TestSuiteBase {
         super(clientBuilder);
     }
 
-    @Test(groups = {"simple"}, timeOut = TIMEOUT)
+    @Test(groups = {"fast"}, timeOut = TIMEOUT)
     public void createDocument() throws InterruptedException {
         TestObject testObject = new TestObject();
         testObject.id = UUID.randomUUID().toString();
@@ -62,19 +62,19 @@ public class SimpleSerializationTest extends TestSuiteBase {
             createdCollection.createItem(testObject).block();
             Assert.fail();
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).contains("Failed to serialize the object into json");
+            assertThat(e.getMessage()).startsWith("BadSerializer");
             assertThat(e.getCause()).isInstanceOf(JsonMappingException.class);
             assertThat(e.getCause().getMessage()).contains("bad");
         }
     }
 
-    @BeforeClass(groups = {"simple"}, timeOut = SETUP_TIMEOUT)
+    @BeforeClass(groups = {"fast"}, timeOut = SETUP_TIMEOUT)
     public void before_SimpleSerializationTest() {
         client = getClientBuilder().buildAsyncClient();
         createdCollection = getSharedMultiPartitionCosmosContainer(client);
     }
 
-    @AfterClass(groups = {"simple"}, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
+    @AfterClass(groups = {"fast"}, timeOut = SHUTDOWN_TIMEOUT, alwaysRun = true)
     public void afterClass() {
         safeClose(client);
     }

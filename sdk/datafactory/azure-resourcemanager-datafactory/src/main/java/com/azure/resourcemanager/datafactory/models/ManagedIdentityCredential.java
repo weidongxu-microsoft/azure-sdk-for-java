@@ -7,42 +7,72 @@ package com.azure.resourcemanager.datafactory.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.datafactory.fluent.models.ManagedIdentityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 
-/** Managed identity credential. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Managed identity credential.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = ManagedIdentityCredential.class,
+    visible = true)
 @JsonTypeName("ManagedIdentity")
 @Fluent
 public final class ManagedIdentityCredential extends Credential {
+    /*
+     * Type of credential.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ManagedIdentity";
+
     /*
      * Managed identity credential properties.
      */
     @JsonProperty(value = "typeProperties")
     private ManagedIdentityTypeProperties innerTypeProperties;
 
-    /** Creates an instance of ManagedIdentityCredential class. */
+    /**
+     * Creates an instance of ManagedIdentityCredential class.
+     */
     public ManagedIdentityCredential() {
     }
 
     /**
+     * Get the type property: Type of credential.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Managed identity credential properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ManagedIdentityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ManagedIdentityCredential withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ManagedIdentityCredential withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -51,7 +81,7 @@ public final class ManagedIdentityCredential extends Credential {
 
     /**
      * Get the resourceId property: The resource id of user assigned managed identity.
-     *
+     * 
      * @return the resourceId value.
      */
     public String resourceId() {
@@ -60,7 +90,7 @@ public final class ManagedIdentityCredential extends Credential {
 
     /**
      * Set the resourceId property: The resource id of user assigned managed identity.
-     *
+     * 
      * @param resourceId the resourceId value to set.
      * @return the ManagedIdentityCredential object itself.
      */
@@ -74,7 +104,7 @@ public final class ManagedIdentityCredential extends Credential {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

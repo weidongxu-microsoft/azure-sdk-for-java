@@ -9,7 +9,9 @@ import com.azure.core.util.logging.ClientLogger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Restore payload for single file backup restore. */
+/**
+ * Restore payload for Single File Backup Restore.
+ */
 @Fluent
 public final class BackupRestoreFiles {
     /*
@@ -19,8 +21,7 @@ public final class BackupRestoreFiles {
     private List<String> fileList;
 
     /*
-     * Destination folder where the files will be restored. The path name should start with a forward slash. If it is
-     * omitted from request then restore is done at the root folder of the destination volume by default
+     * Destination folder where the files will be restored. The path name should start with a forward slash. If it is omitted from request then restore is done at the root folder of the destination volume by default
      */
     @JsonProperty(value = "restoreFilePath")
     private String restoreFilePath;
@@ -31,13 +32,15 @@ public final class BackupRestoreFiles {
     @JsonProperty(value = "destinationVolumeId", required = true)
     private String destinationVolumeId;
 
-    /** Creates an instance of BackupRestoreFiles class. */
+    /**
+     * Creates an instance of BackupRestoreFiles class.
+     */
     public BackupRestoreFiles() {
     }
 
     /**
      * Get the fileList property: List of files to be restored.
-     *
+     * 
      * @return the fileList value.
      */
     public List<String> fileList() {
@@ -46,7 +49,7 @@ public final class BackupRestoreFiles {
 
     /**
      * Set the fileList property: List of files to be restored.
-     *
+     * 
      * @param fileList the fileList value to set.
      * @return the BackupRestoreFiles object itself.
      */
@@ -59,7 +62,7 @@ public final class BackupRestoreFiles {
      * Get the restoreFilePath property: Destination folder where the files will be restored. The path name should start
      * with a forward slash. If it is omitted from request then restore is done at the root folder of the destination
      * volume by default.
-     *
+     * 
      * @return the restoreFilePath value.
      */
     public String restoreFilePath() {
@@ -70,7 +73,7 @@ public final class BackupRestoreFiles {
      * Set the restoreFilePath property: Destination folder where the files will be restored. The path name should start
      * with a forward slash. If it is omitted from request then restore is done at the root folder of the destination
      * volume by default.
-     *
+     * 
      * @param restoreFilePath the restoreFilePath value to set.
      * @return the BackupRestoreFiles object itself.
      */
@@ -82,7 +85,7 @@ public final class BackupRestoreFiles {
     /**
      * Get the destinationVolumeId property: Resource Id of the destination volume on which the files need to be
      * restored.
-     *
+     * 
      * @return the destinationVolumeId value.
      */
     public String destinationVolumeId() {
@@ -92,7 +95,7 @@ public final class BackupRestoreFiles {
     /**
      * Set the destinationVolumeId property: Resource Id of the destination volume on which the files need to be
      * restored.
-     *
+     * 
      * @param destinationVolumeId the destinationVolumeId value to set.
      * @return the BackupRestoreFiles object itself.
      */
@@ -103,20 +106,18 @@ public final class BackupRestoreFiles {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (fileList() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property fileList in model BackupRestoreFiles"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property fileList in model BackupRestoreFiles"));
         }
         if (destinationVolumeId() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property destinationVolumeId in model BackupRestoreFiles"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property destinationVolumeId in model BackupRestoreFiles"));
         }
     }
 

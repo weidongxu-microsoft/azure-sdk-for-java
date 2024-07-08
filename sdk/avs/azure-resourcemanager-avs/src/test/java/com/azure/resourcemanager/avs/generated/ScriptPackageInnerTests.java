@@ -10,11 +10,9 @@ import com.azure.resourcemanager.avs.fluent.models.ScriptPackageInner;
 public final class ScriptPackageInnerTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ScriptPackageInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"description\":\"gmhrskdsnfdsdoak\",\"version\":\"dlmkkzevdl\",\"company\":\"wpusdsttwvogv\",\"uri\":\"ejdcngqqmoakuf\"},\"id\":\"m\",\"name\":\"zr\",\"type\":\"rdgrtw\"}")
-                .toObject(ScriptPackageInner.class);
+        ScriptPackageInner model = BinaryData.fromString(
+            "{\"properties\":{\"provisioningState\":\"Failed\",\"description\":\"mubyynt\",\"version\":\"rbqtkoie\",\"company\":\"eotg\",\"uri\":\"l\"},\"id\":\"muwlauwzizxbm\",\"name\":\"gcj\",\"type\":\"fuzmuvpbtt\"}")
+            .toObject(ScriptPackageInner.class);
     }
 
     @org.junit.jupiter.api.Test

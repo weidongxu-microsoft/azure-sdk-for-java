@@ -5,75 +5,120 @@
 package com.azure.resourcemanager.recoveryservicesbackup.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** Azure VM workload-specific workload item representing SAP HANA Database. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "workloadItemType")
+/**
+ * Azure VM workload-specific workload item representing SAP HANA Database.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "workloadItemType",
+    defaultImpl = AzureVmWorkloadSapHanaDatabaseWorkloadItem.class,
+    visible = true)
 @JsonTypeName("SAPHanaDatabase")
 @Fluent
 public final class AzureVmWorkloadSapHanaDatabaseWorkloadItem extends AzureVmWorkloadItem {
-    /** Creates an instance of AzureVmWorkloadSapHanaDatabaseWorkloadItem class. */
+    /*
+     * Type of the backup item.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "workloadItemType", required = true)
+    private String workloadItemType = "SAPHanaDatabase";
+
+    /**
+     * Creates an instance of AzureVmWorkloadSapHanaDatabaseWorkloadItem class.
+     */
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem() {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Get the workloadItemType property: Type of the backup item.
+     * 
+     * @return the workloadItemType value.
+     */
+    @Override
+    public String workloadItemType() {
+        return this.workloadItemType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withParentName(String parentName) {
         super.withParentName(parentName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withServerName(String serverName) {
         super.withServerName(serverName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withIsAutoProtectable(Boolean isAutoProtectable) {
         super.withIsAutoProtectable(isAutoProtectable);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withSubinquireditemcount(Integer subinquireditemcount) {
         super.withSubinquireditemcount(subinquireditemcount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withSubWorkloadItemCount(Integer subWorkloadItemCount) {
         super.withSubWorkloadItemCount(subWorkloadItemCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withBackupManagementType(String backupManagementType) {
         super.withBackupManagementType(backupManagementType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withWorkloadType(String workloadType) {
         super.withWorkloadType(workloadType);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withFriendlyName(String friendlyName) {
         super.withFriendlyName(friendlyName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AzureVmWorkloadSapHanaDatabaseWorkloadItem withProtectionState(ProtectionStatus protectionState) {
         super.withProtectionState(protectionState);
@@ -82,7 +127,7 @@ public final class AzureVmWorkloadSapHanaDatabaseWorkloadItem extends AzureVmWor
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

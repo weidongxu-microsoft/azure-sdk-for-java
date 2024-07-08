@@ -12,26 +12,22 @@ import org.junit.jupiter.api.Assertions;
 public final class JobDefinitionUpdateParametersTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        JobDefinitionUpdateParameters model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"description\":\"jeyp\",\"copyMode\":\"Mirror\",\"agentName\":\"rkgqhcjrefo\"}}")
-                .toObject(JobDefinitionUpdateParameters.class);
-        Assertions.assertEquals("jeyp", model.description());
-        Assertions.assertEquals(CopyMode.MIRROR, model.copyMode());
-        Assertions.assertEquals("rkgqhcjrefo", model.agentName());
+        JobDefinitionUpdateParameters model = BinaryData.fromString(
+            "{\"properties\":{\"description\":\"ddystkiiuxhqy\",\"copyMode\":\"Additive\",\"agentName\":\"rrqnbpoczvyifqrv\"}}")
+            .toObject(JobDefinitionUpdateParameters.class);
+        Assertions.assertEquals("ddystkiiuxhqy", model.description());
+        Assertions.assertEquals(CopyMode.ADDITIVE, model.copyMode());
+        Assertions.assertEquals("rrqnbpoczvyifqrv", model.agentName());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        JobDefinitionUpdateParameters model =
-            new JobDefinitionUpdateParameters()
-                .withDescription("jeyp")
-                .withCopyMode(CopyMode.MIRROR)
-                .withAgentName("rkgqhcjrefo");
+        JobDefinitionUpdateParameters model = new JobDefinitionUpdateParameters().withDescription("ddystkiiuxhqy")
+            .withCopyMode(CopyMode.ADDITIVE)
+            .withAgentName("rrqnbpoczvyifqrv");
         model = BinaryData.fromObject(model).toObject(JobDefinitionUpdateParameters.class);
-        Assertions.assertEquals("jeyp", model.description());
-        Assertions.assertEquals(CopyMode.MIRROR, model.copyMode());
-        Assertions.assertEquals("rkgqhcjrefo", model.agentName());
+        Assertions.assertEquals("ddystkiiuxhqy", model.description());
+        Assertions.assertEquals(CopyMode.ADDITIVE, model.copyMode());
+        Assertions.assertEquals("rrqnbpoczvyifqrv", model.agentName());
     }
 }

@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.DomainInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of domains. */
+/**
+ * Collection of domains.
+ */
 @Fluent
 public final class DomainCollection {
     /*
@@ -25,7 +28,9 @@ public final class DomainCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of DomainCollection class. */
+    /**
+     * Creates an instance of DomainCollection class.
+     */
     public DomainCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class DomainCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model DomainCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model DomainCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

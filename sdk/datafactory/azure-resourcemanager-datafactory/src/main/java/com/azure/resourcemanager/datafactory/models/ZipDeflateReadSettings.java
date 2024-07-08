@@ -6,28 +6,50 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The ZipDeflate compression read settings. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The ZipDeflate compression read settings.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ZipDeflateReadSettings.class, visible = true)
 @JsonTypeName("ZipDeflateReadSettings")
 @Fluent
 public final class ZipDeflateReadSettings extends CompressionReadSettings {
+    /*
+     * The Compression setting type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "ZipDeflateReadSettings";
+
     /*
      * Preserve the zip file name as folder path. Type: boolean (or Expression with resultType boolean).
      */
     @JsonProperty(value = "preserveZipFileNameAsFolder")
     private Object preserveZipFileNameAsFolder;
 
-    /** Creates an instance of ZipDeflateReadSettings class. */
+    /**
+     * Creates an instance of ZipDeflateReadSettings class.
+     */
     public ZipDeflateReadSettings() {
+    }
+
+    /**
+     * Get the type property: The Compression setting type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the preserveZipFileNameAsFolder property: Preserve the zip file name as folder path. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @return the preserveZipFileNameAsFolder value.
      */
     public Object preserveZipFileNameAsFolder() {
@@ -37,7 +59,7 @@ public final class ZipDeflateReadSettings extends CompressionReadSettings {
     /**
      * Set the preserveZipFileNameAsFolder property: Preserve the zip file name as folder path. Type: boolean (or
      * Expression with resultType boolean).
-     *
+     * 
      * @param preserveZipFileNameAsFolder the preserveZipFileNameAsFolder value to set.
      * @return the ZipDeflateReadSettings object itself.
      */
@@ -48,7 +70,7 @@ public final class ZipDeflateReadSettings extends CompressionReadSettings {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

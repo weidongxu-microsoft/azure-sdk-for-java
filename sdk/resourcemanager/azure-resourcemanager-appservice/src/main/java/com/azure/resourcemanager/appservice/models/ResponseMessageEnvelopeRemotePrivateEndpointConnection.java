@@ -7,6 +7,7 @@ package com.azure.resourcemanager.appservice.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +18,9 @@ import java.util.Map;
 @Fluent
 public final class ResponseMessageEnvelopeRemotePrivateEndpointConnection {
     /*
-     * Resource Id. Typically ID is populated only for responses to GET requests. Caller is responsible for passing in
-     * this
+     * Resource Id. Typically ID is populated only for responses to GET requests. Caller is responsible for passing in this
      * value for GET requests only.
-     * For example:
-     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}
+     * For example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}
      */
     @JsonProperty(value = "id")
     private String id;
@@ -93,13 +92,17 @@ public final class ResponseMessageEnvelopeRemotePrivateEndpointConnection {
     @JsonProperty(value = "zones")
     private List<String> zones;
 
-    /** Creates an instance of ResponseMessageEnvelopeRemotePrivateEndpointConnection class. */
+    /**
+     * Creates an instance of ResponseMessageEnvelopeRemotePrivateEndpointConnection class.
+     */
     public ResponseMessageEnvelopeRemotePrivateEndpointConnection() {
     }
 
     /**
      * Get the id property: Resource Id. Typically ID is populated only for responses to GET requests. Caller is
-     * responsible for passing in this value for GET requests only. For example:
+     * responsible for passing in this
+     * value for GET requests only.
+     * For example:
      * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}.
      *
      * @return the id value.
@@ -110,7 +113,9 @@ public final class ResponseMessageEnvelopeRemotePrivateEndpointConnection {
 
     /**
      * Set the id property: Resource Id. Typically ID is populated only for responses to GET requests. Caller is
-     * responsible for passing in this value for GET requests only. For example:
+     * responsible for passing in this
+     * value for GET requests only.
+     * For example:
      * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}.
      *
      * @param id the id value to set.
@@ -236,8 +241,8 @@ public final class ResponseMessageEnvelopeRemotePrivateEndpointConnection {
      * @param properties the properties value to set.
      * @return the ResponseMessageEnvelopeRemotePrivateEndpointConnection object itself.
      */
-    public ResponseMessageEnvelopeRemotePrivateEndpointConnection withProperties(
-        RemotePrivateEndpointConnection properties) {
+    public ResponseMessageEnvelopeRemotePrivateEndpointConnection
+        withProperties(RemotePrivateEndpointConnection properties) {
         this.properties = properties;
         return this;
     }

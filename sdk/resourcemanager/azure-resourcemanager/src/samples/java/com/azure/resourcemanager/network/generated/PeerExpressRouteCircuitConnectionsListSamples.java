@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for PeerExpressRouteCircuitConnections List. */
+/**
+ * Samples for PeerExpressRouteCircuitConnections List.
+ */
 public final class PeerExpressRouteCircuitConnectionsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PeerExpressRouteCircuitConnectionList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PeerExpressRouteCircuitConnectionList.json
      */
     /**
      * Sample code: List Peer ExpressRouteCircuit Connection.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listPeerExpressRouteCircuitConnection(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getPeerExpressRouteCircuitConnections()

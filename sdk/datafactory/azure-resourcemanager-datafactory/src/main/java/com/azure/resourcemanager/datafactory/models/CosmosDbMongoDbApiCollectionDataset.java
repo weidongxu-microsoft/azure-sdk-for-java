@@ -8,79 +8,119 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.CosmosDbMongoDbApiCollectionDatasetTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** The CosmosDB (MongoDB API) database dataset. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The CosmosDB (MongoDB API) database dataset.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = CosmosDbMongoDbApiCollectionDataset.class,
+    visible = true)
 @JsonTypeName("CosmosDbMongoDbApiCollection")
 @Fluent
 public final class CosmosDbMongoDbApiCollectionDataset extends Dataset {
     /*
+     * Type of dataset.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "CosmosDbMongoDbApiCollection";
+
+    /*
      * CosmosDB (MongoDB API) database dataset properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private CosmosDbMongoDbApiCollectionDatasetTypeProperties innerTypeProperties =
-        new CosmosDbMongoDbApiCollectionDatasetTypeProperties();
+    private CosmosDbMongoDbApiCollectionDatasetTypeProperties innerTypeProperties
+        = new CosmosDbMongoDbApiCollectionDatasetTypeProperties();
 
-    /** Creates an instance of CosmosDbMongoDbApiCollectionDataset class. */
+    /**
+     * Creates an instance of CosmosDbMongoDbApiCollectionDataset class.
+     */
     public CosmosDbMongoDbApiCollectionDataset() {
     }
 
     /**
+     * Get the type property: Type of dataset.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: CosmosDB (MongoDB API) database dataset properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private CosmosDbMongoDbApiCollectionDatasetTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withStructure(Object structure) {
         super.withStructure(structure);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withSchema(Object schema) {
         super.withSchema(schema);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CosmosDbMongoDbApiCollectionDataset withFolder(DatasetFolder folder) {
         super.withFolder(folder);
@@ -90,7 +130,7 @@ public final class CosmosDbMongoDbApiCollectionDataset extends Dataset {
     /**
      * Get the collection property: The collection name of the CosmosDB (MongoDB API) database. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @return the collection value.
      */
     public Object collection() {
@@ -100,7 +140,7 @@ public final class CosmosDbMongoDbApiCollectionDataset extends Dataset {
     /**
      * Set the collection property: The collection name of the CosmosDB (MongoDB API) database. Type: string (or
      * Expression with resultType string).
-     *
+     * 
      * @param collection the collection value to set.
      * @return the CosmosDbMongoDbApiCollectionDataset object itself.
      */
@@ -114,17 +154,16 @@ public final class CosmosDbMongoDbApiCollectionDataset extends Dataset {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model CosmosDbMongoDbApiCollectionDataset"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model CosmosDbMongoDbApiCollectionDataset"));
         } else {
             innerTypeProperties().validate();
         }

@@ -7,23 +7,20 @@ package com.azure.resourcemanager.batch.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.batch.fluent.models.DetectorResponseInner;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public final class DetectorResponseInnerTests {
-    @Test
-    public void testDeserialize() {
-        DetectorResponseInner model =
-            BinaryData
-                .fromString(
-                    "{\"properties\":{\"value\":\"ihkaetcktvfc\"},\"etag\":\"fsnkymuctq\",\"id\":\"jf\",\"name\":\"ebrjcxe\",\"type\":\"fuwutttxf\"}")
-                .toObject(DetectorResponseInner.class);
-        Assertions.assertEquals("ihkaetcktvfc", model.value());
+    @org.junit.jupiter.api.Test
+    public void testDeserialize() throws Exception {
+        DetectorResponseInner model = BinaryData.fromString(
+            "{\"properties\":{\"value\":\"ovm\"},\"etag\":\"kacspkw\",\"id\":\"hzdobpxjmflbvvnc\",\"name\":\"rkcciwwzjuqk\",\"type\":\"rsa\"}")
+            .toObject(DetectorResponseInner.class);
+        Assertions.assertEquals("ovm", model.value());
     }
 
-    @Test
-    public void testSerialize() {
-        DetectorResponseInner model = new DetectorResponseInner().withValue("ihkaetcktvfc");
+    @org.junit.jupiter.api.Test
+    public void testSerialize() throws Exception {
+        DetectorResponseInner model = new DetectorResponseInner().withValue("ovm");
         model = BinaryData.fromObject(model).toObject(DetectorResponseInner.class);
-        Assertions.assertEquals("ihkaetcktvfc", model.value());
+        Assertions.assertEquals("ovm", model.value());
     }
 }

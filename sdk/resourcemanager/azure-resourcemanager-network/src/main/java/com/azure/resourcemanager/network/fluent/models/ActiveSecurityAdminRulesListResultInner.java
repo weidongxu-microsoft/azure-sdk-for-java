@@ -7,6 +7,7 @@ package com.azure.resourcemanager.network.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.network.models.ActiveBaseSecurityAdminRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -22,13 +23,14 @@ public final class ActiveSecurityAdminRulesListResultInner {
     private List<ActiveBaseSecurityAdminRule> value;
 
     /*
-     * When present, the value can be passed to a subsequent query call (together with the same query and scopes used
-     * in the current request) to retrieve the next page of data.
+     * When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
      */
     @JsonProperty(value = "skipToken")
     private String skipToken;
 
-    /** Creates an instance of ActiveSecurityAdminRulesListResultInner class. */
+    /**
+     * Creates an instance of ActiveSecurityAdminRulesListResultInner class.
+     */
     public ActiveSecurityAdminRulesListResultInner() {
     }
 

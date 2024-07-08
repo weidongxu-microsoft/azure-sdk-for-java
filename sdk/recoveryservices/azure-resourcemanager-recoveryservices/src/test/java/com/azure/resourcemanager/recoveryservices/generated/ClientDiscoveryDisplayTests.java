@@ -11,29 +11,25 @@ import org.junit.jupiter.api.Assertions;
 public final class ClientDiscoveryDisplayTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        ClientDiscoveryDisplay model =
-            BinaryData
-                .fromString(
-                    "{\"provider\":\"sllr\",\"resource\":\"vdfwatkpn\",\"operation\":\"lexxbczwtru\",\"description\":\"qzbqjvsov\"}")
-                .toObject(ClientDiscoveryDisplay.class);
-        Assertions.assertEquals("sllr", model.provider());
-        Assertions.assertEquals("vdfwatkpn", model.resource());
-        Assertions.assertEquals("lexxbczwtru", model.operation());
-        Assertions.assertEquals("qzbqjvsov", model.description());
+        ClientDiscoveryDisplay model = BinaryData.fromString(
+            "{\"provider\":\"oqftiyqzrnkcq\",\"resource\":\"xlwhzlsicoh\",\"operation\":\"qnwvlrya\",\"description\":\"hheunmmqhgyx\"}")
+            .toObject(ClientDiscoveryDisplay.class);
+        Assertions.assertEquals("oqftiyqzrnkcq", model.provider());
+        Assertions.assertEquals("xlwhzlsicoh", model.resource());
+        Assertions.assertEquals("qnwvlrya", model.operation());
+        Assertions.assertEquals("hheunmmqhgyx", model.description());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        ClientDiscoveryDisplay model =
-            new ClientDiscoveryDisplay()
-                .withProvider("sllr")
-                .withResource("vdfwatkpn")
-                .withOperation("lexxbczwtru")
-                .withDescription("qzbqjvsov");
+        ClientDiscoveryDisplay model = new ClientDiscoveryDisplay().withProvider("oqftiyqzrnkcq")
+            .withResource("xlwhzlsicoh")
+            .withOperation("qnwvlrya")
+            .withDescription("hheunmmqhgyx");
         model = BinaryData.fromObject(model).toObject(ClientDiscoveryDisplay.class);
-        Assertions.assertEquals("sllr", model.provider());
-        Assertions.assertEquals("vdfwatkpn", model.resource());
-        Assertions.assertEquals("lexxbczwtru", model.operation());
-        Assertions.assertEquals("qzbqjvsov", model.description());
+        Assertions.assertEquals("oqftiyqzrnkcq", model.provider());
+        Assertions.assertEquals("xlwhzlsicoh", model.resource());
+        Assertions.assertEquals("qnwvlrya", model.operation());
+        Assertions.assertEquals("hheunmmqhgyx", model.description());
     }
 }

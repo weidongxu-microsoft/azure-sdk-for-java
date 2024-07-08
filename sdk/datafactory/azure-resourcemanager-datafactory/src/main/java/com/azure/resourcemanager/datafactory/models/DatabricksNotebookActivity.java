@@ -8,72 +8,128 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.DatabricksNotebookActivityTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** DatabricksNotebook activity. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * DatabricksNotebook activity.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = DatabricksNotebookActivity.class,
+    visible = true)
 @JsonTypeName("DatabricksNotebook")
 @Fluent
 public final class DatabricksNotebookActivity extends ExecutionActivity {
     /*
+     * Type of activity.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "DatabricksNotebook";
+
+    /*
      * Databricks Notebook activity properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private DatabricksNotebookActivityTypeProperties innerTypeProperties =
-        new DatabricksNotebookActivityTypeProperties();
+    private DatabricksNotebookActivityTypeProperties innerTypeProperties
+        = new DatabricksNotebookActivityTypeProperties();
 
-    /** Creates an instance of DatabricksNotebookActivity class. */
+    /**
+     * Creates an instance of DatabricksNotebookActivity class.
+     */
     public DatabricksNotebookActivity() {
     }
 
     /**
+     * Get the type property: Type of activity.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Databricks Notebook activity properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private DatabricksNotebookActivityTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksNotebookActivity withLinkedServiceName(LinkedServiceReference linkedServiceName) {
         super.withLinkedServiceName(linkedServiceName);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksNotebookActivity withPolicy(ActivityPolicy policy) {
         super.withPolicy(policy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksNotebookActivity withName(String name) {
         super.withName(name);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksNotebookActivity withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatabricksNotebookActivity withState(ActivityState state) {
+        super.withState(state);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatabricksNotebookActivity withOnInactiveMarkAs(ActivityOnInactiveMarkAs onInactiveMarkAs) {
+        super.withOnInactiveMarkAs(onInactiveMarkAs);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksNotebookActivity withDependsOn(List<ActivityDependency> dependsOn) {
         super.withDependsOn(dependsOn);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DatabricksNotebookActivity withUserProperties(List<UserProperty> userProperties) {
         super.withUserProperties(userProperties);
@@ -83,7 +139,7 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
     /**
      * Get the notebookPath property: The absolute path of the notebook to be run in the Databricks Workspace. This path
      * must begin with a slash. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the notebookPath value.
      */
     public Object notebookPath() {
@@ -93,7 +149,7 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
     /**
      * Set the notebookPath property: The absolute path of the notebook to be run in the Databricks Workspace. This path
      * must begin with a slash. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param notebookPath the notebookPath value to set.
      * @return the DatabricksNotebookActivity object itself.
      */
@@ -108,7 +164,7 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
     /**
      * Get the baseParameters property: Base parameters to be used for each run of this job.If the notebook takes a
      * parameter that is not specified, the default value from the notebook will be used.
-     *
+     * 
      * @return the baseParameters value.
      */
     public Map<String, Object> baseParameters() {
@@ -118,7 +174,7 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
     /**
      * Set the baseParameters property: Base parameters to be used for each run of this job.If the notebook takes a
      * parameter that is not specified, the default value from the notebook will be used.
-     *
+     * 
      * @param baseParameters the baseParameters value to set.
      * @return the DatabricksNotebookActivity object itself.
      */
@@ -132,7 +188,7 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
 
     /**
      * Get the libraries property: A list of libraries to be installed on the cluster that will execute the job.
-     *
+     * 
      * @return the libraries value.
      */
     public List<Map<String, Object>> libraries() {
@@ -141,7 +197,7 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
 
     /**
      * Set the libraries property: A list of libraries to be installed on the cluster that will execute the job.
-     *
+     * 
      * @param libraries the libraries value to set.
      * @return the DatabricksNotebookActivity object itself.
      */
@@ -155,17 +211,16 @@ public final class DatabricksNotebookActivity extends ExecutionActivity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model DatabricksNotebookActivity"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model DatabricksNotebookActivity"));
         } else {
             innerTypeProperties().validate();
         }

@@ -6,19 +6,20 @@ package com.azure.resourcemanager.appservice.generated;
 
 import com.azure.resourcemanager.appservice.models.BasicAuthName;
 
-/** Samples for StaticSites GetBasicAuth. */
+/**
+ * Samples for StaticSites GetBasicAuth.
+ */
 public final class StaticSitesGetBasicAuthSamples {
     /*
-     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteBasicAuth.json
+     * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteBasicAuth.json
      */
     /**
      * Sample code: Gets the basic auth properties for a static site.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void getsTheBasicAuthPropertiesForAStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .webApps()
+        azure.webApps()
             .manager()
             .serviceClient()
             .getStaticSites()

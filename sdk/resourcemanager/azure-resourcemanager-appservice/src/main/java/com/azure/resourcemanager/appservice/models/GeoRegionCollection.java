@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.GeoRegionInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of geographical regions. */
+/**
+ * Collection of geographical regions.
+ */
 @Fluent
 public final class GeoRegionCollection {
     /*
@@ -25,7 +28,9 @@ public final class GeoRegionCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of GeoRegionCollection class. */
+    /**
+     * Creates an instance of GeoRegionCollection class.
+     */
     public GeoRegionCollection() {
     }
 
@@ -65,9 +70,8 @@ public final class GeoRegionCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model GeoRegionCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model GeoRegionCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

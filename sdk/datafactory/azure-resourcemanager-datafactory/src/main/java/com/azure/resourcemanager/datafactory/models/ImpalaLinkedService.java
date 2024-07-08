@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.ImpalaLinkedServiceTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** Impala server linked service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * Impala server linked service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = ImpalaLinkedService.class, visible = true)
 @JsonTypeName("Impala")
 @Fluent
 public final class ImpalaLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "Impala";
+
     /*
      * Impala server linked service properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private ImpalaLinkedServiceTypeProperties innerTypeProperties = new ImpalaLinkedServiceTypeProperties();
 
-    /** Creates an instance of ImpalaLinkedService class. */
+    /**
+     * Creates an instance of ImpalaLinkedService class.
+     */
     public ImpalaLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Impala server linked service properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private ImpalaLinkedServiceTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ImpalaLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ImpalaLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ImpalaLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ImpalaLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -67,7 +97,7 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Get the host property: The IP address or host name of the Impala server. (i.e. 192.168.222.160).
-     *
+     * 
      * @return the host value.
      */
     public Object host() {
@@ -76,7 +106,7 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Set the host property: The IP address or host name of the Impala server. (i.e. 192.168.222.160).
-     *
+     * 
      * @param host the host value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -91,7 +121,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Get the port property: The TCP port that the Impala server uses to listen for client connections. The default
      * value is 21050.
-     *
+     * 
      * @return the port value.
      */
     public Object port() {
@@ -101,7 +131,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Set the port property: The TCP port that the Impala server uses to listen for client connections. The default
      * value is 21050.
-     *
+     * 
      * @param port the port value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -115,7 +145,7 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Get the authenticationType property: The authentication type to use.
-     *
+     * 
      * @return the authenticationType value.
      */
     public ImpalaAuthenticationType authenticationType() {
@@ -124,7 +154,7 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Set the authenticationType property: The authentication type to use.
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -139,7 +169,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Get the username property: The user name used to access the Impala server. The default value is anonymous when
      * using SASLUsername.
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -149,7 +179,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Set the username property: The user name used to access the Impala server. The default value is anonymous when
      * using SASLUsername.
-     *
+     * 
      * @param username the username value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -163,7 +193,7 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Get the password property: The password corresponding to the user name when using UsernameAndPassword.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -172,7 +202,7 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Set the password property: The password corresponding to the user name when using UsernameAndPassword.
-     *
+     * 
      * @param password the password value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -187,7 +217,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Get the enableSsl property: Specifies whether the connections to the server are encrypted using SSL. The default
      * value is false.
-     *
+     * 
      * @return the enableSsl value.
      */
     public Object enableSsl() {
@@ -197,7 +227,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Set the enableSsl property: Specifies whether the connections to the server are encrypted using SSL. The default
      * value is false.
-     *
+     * 
      * @param enableSsl the enableSsl value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -213,7 +243,7 @@ public final class ImpalaLinkedService extends LinkedService {
      * Get the trustedCertPath property: The full path of the .pem file containing trusted CA certificates for verifying
      * the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default
      * value is the cacerts.pem file installed with the IR.
-     *
+     * 
      * @return the trustedCertPath value.
      */
     public Object trustedCertPath() {
@@ -224,7 +254,7 @@ public final class ImpalaLinkedService extends LinkedService {
      * Set the trustedCertPath property: The full path of the .pem file containing trusted CA certificates for verifying
      * the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default
      * value is the cacerts.pem file installed with the IR.
-     *
+     * 
      * @param trustedCertPath the trustedCertPath value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -239,7 +269,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Get the useSystemTrustStore property: Specifies whether to use a CA certificate from the system trust store or
      * from a specified PEM file. The default value is false.
-     *
+     * 
      * @return the useSystemTrustStore value.
      */
     public Object useSystemTrustStore() {
@@ -249,7 +279,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Set the useSystemTrustStore property: Specifies whether to use a CA certificate from the system trust store or
      * from a specified PEM file. The default value is false.
-     *
+     * 
      * @param useSystemTrustStore the useSystemTrustStore value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -264,7 +294,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Get the allowHostnameCNMismatch property: Specifies whether to require a CA-issued SSL certificate name to match
      * the host name of the server when connecting over SSL. The default value is false.
-     *
+     * 
      * @return the allowHostnameCNMismatch value.
      */
     public Object allowHostnameCNMismatch() {
@@ -274,7 +304,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Set the allowHostnameCNMismatch property: Specifies whether to require a CA-issued SSL certificate name to match
      * the host name of the server when connecting over SSL. The default value is false.
-     *
+     * 
      * @param allowHostnameCNMismatch the allowHostnameCNMismatch value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -289,7 +319,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Get the allowSelfSignedServerCert property: Specifies whether to allow self-signed certificates from the server.
      * The default value is false.
-     *
+     * 
      * @return the allowSelfSignedServerCert value.
      */
     public Object allowSelfSignedServerCert() {
@@ -299,7 +329,7 @@ public final class ImpalaLinkedService extends LinkedService {
     /**
      * Set the allowSelfSignedServerCert property: Specifies whether to allow self-signed certificates from the server.
      * The default value is false.
-     *
+     * 
      * @param allowSelfSignedServerCert the allowSelfSignedServerCert value to set.
      * @return the ImpalaLinkedService object itself.
      */
@@ -313,22 +343,22 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the ImpalaLinkedService object itself.
      */
-    public ImpalaLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public ImpalaLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new ImpalaLinkedServiceTypeProperties();
         }
@@ -338,17 +368,16 @@ public final class ImpalaLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model ImpalaLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model ImpalaLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

@@ -9,9 +9,12 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.network.models.NetworkManagerSecurityGroupItem;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Defines the admin rule collection properties. */
+/**
+ * Defines the admin rule collection properties.
+ */
 @Fluent
 public final class AdminRuleCollectionPropertiesFormat {
     /*
@@ -32,7 +35,15 @@ public final class AdminRuleCollectionPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of AdminRuleCollectionPropertiesFormat class. */
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
+
+    /**
+     * Creates an instance of AdminRuleCollectionPropertiesFormat class.
+     */
     public AdminRuleCollectionPropertiesFormat() {
     }
 
@@ -71,8 +82,8 @@ public final class AdminRuleCollectionPropertiesFormat {
      * @param appliesToGroups the appliesToGroups value to set.
      * @return the AdminRuleCollectionPropertiesFormat object itself.
      */
-    public AdminRuleCollectionPropertiesFormat withAppliesToGroups(
-        List<NetworkManagerSecurityGroupItem> appliesToGroups) {
+    public AdminRuleCollectionPropertiesFormat
+        withAppliesToGroups(List<NetworkManagerSecurityGroupItem> appliesToGroups) {
         this.appliesToGroups = appliesToGroups;
         return this;
     }
@@ -87,16 +98,24 @@ public final class AdminRuleCollectionPropertiesFormat {
     }
 
     /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
+    }
+
+    /**
      * Validates the instance.
      *
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (appliesToGroups() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property appliesToGroups in model AdminRuleCollectionPropertiesFormat"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property appliesToGroups in model AdminRuleCollectionPropertiesFormat"));
         } else {
             appliesToGroups().forEach(e -> e.validate());
         }

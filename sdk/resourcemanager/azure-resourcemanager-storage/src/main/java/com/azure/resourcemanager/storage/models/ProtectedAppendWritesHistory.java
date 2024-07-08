@@ -8,7 +8,9 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
-/** Protected append writes history setting for the blob container with Legal holds. */
+/**
+ * Protected append writes history setting for the blob container with Legal holds.
+ */
 @Fluent
 public final class ProtectedAppendWritesHistory {
     /*
@@ -25,10 +27,16 @@ public final class ProtectedAppendWritesHistory {
     private OffsetDateTime timestamp;
 
     /**
+     * Creates an instance of ProtectedAppendWritesHistory class.
+     */
+    public ProtectedAppendWritesHistory() {
+    }
+
+    /**
      * Get the allowProtectedAppendWritesAll property: When enabled, new blocks can be written to both 'Append and Bock
      * Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing
      * blocks cannot be modified or deleted.
-     *
+     * 
      * @return the allowProtectedAppendWritesAll value.
      */
     public Boolean allowProtectedAppendWritesAll() {
@@ -39,7 +47,7 @@ public final class ProtectedAppendWritesHistory {
      * Set the allowProtectedAppendWritesAll property: When enabled, new blocks can be written to both 'Append and Bock
      * Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing
      * blocks cannot be modified or deleted.
-     *
+     * 
      * @param allowProtectedAppendWritesAll the allowProtectedAppendWritesAll value to set.
      * @return the ProtectedAppendWritesHistory object itself.
      */
@@ -50,7 +58,7 @@ public final class ProtectedAppendWritesHistory {
 
     /**
      * Get the timestamp property: Returns the date and time the tag was added.
-     *
+     * 
      * @return the timestamp value.
      */
     public OffsetDateTime timestamp() {
@@ -59,7 +67,7 @@ public final class ProtectedAppendWritesHistory {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

@@ -8,12 +8,13 @@ import com.azure.core.annotation.Immutable;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** DDoS custom policy properties. */
+/**
+ * DDoS custom policy properties.
+ */
 @Immutable
 public final class DdosCustomPolicyPropertiesFormat {
     /*
-     * The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the
-     * user changes its name or migrate the resource across subscriptions or resource groups.
+     * The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
      */
     @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
@@ -24,7 +25,9 @@ public final class DdosCustomPolicyPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of DdosCustomPolicyPropertiesFormat class. */
+    /**
+     * Creates an instance of DdosCustomPolicyPropertiesFormat class.
+     */
     public DdosCustomPolicyPropertiesFormat() {
     }
 
@@ -32,7 +35,7 @@ public final class DdosCustomPolicyPropertiesFormat {
      * Get the resourceGuid property: The resource GUID property of the DDoS custom policy resource. It uniquely
      * identifies the resource, even if the user changes its name or migrate the resource across subscriptions or
      * resource groups.
-     *
+     * 
      * @return the resourceGuid value.
      */
     public String resourceGuid() {
@@ -41,7 +44,7 @@ public final class DdosCustomPolicyPropertiesFormat {
 
     /**
      * Get the provisioningState property: The provisioning state of the DDoS custom policy resource.
-     *
+     * 
      * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
@@ -50,7 +53,7 @@ public final class DdosCustomPolicyPropertiesFormat {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

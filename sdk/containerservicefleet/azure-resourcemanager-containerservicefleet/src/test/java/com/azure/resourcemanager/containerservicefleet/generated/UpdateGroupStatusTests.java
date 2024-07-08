@@ -10,11 +10,9 @@ import com.azure.resourcemanager.containerservicefleet.models.UpdateGroupStatus;
 public final class UpdateGroupStatusTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        UpdateGroupStatus model =
-            BinaryData
-                .fromString(
-                    "{\"status\":{\"startTime\":\"2021-08-17T01:01:15Z\",\"completedTime\":\"2021-05-08T18:49:34Z\",\"state\":\"Completed\"},\"name\":\"aierhhb\",\"members\":[{\"status\":{\"startTime\":\"2021-07-20T05:11Z\",\"completedTime\":\"2021-01-08T14:04:30Z\",\"state\":\"Stopped\"},\"name\":\"odxobnbdxkqpxok\",\"clusterResourceId\":\"ionpimexg\",\"operationId\":\"xgcp\"}]}")
-                .toObject(UpdateGroupStatus.class);
+        UpdateGroupStatus model = BinaryData.fromString(
+            "{\"status\":{\"startTime\":\"2021-04-23T12:45:15Z\",\"completedTime\":\"2021-10-28T21:12:04Z\",\"state\":\"NotStarted\"},\"name\":\"xw\",\"members\":[{\"status\":{\"startTime\":\"2021-08-16T19:25:13Z\",\"completedTime\":\"2021-04-24T13:32:45Z\",\"state\":\"NotStarted\"},\"name\":\"hwankixzbinjepu\",\"clusterResourceId\":\"mryw\",\"operationId\":\"zoqftiyqzrnkcqvy\",\"message\":\"whzlsicohoq\"},{\"status\":{\"startTime\":\"2021-02-06T08:55:50Z\",\"completedTime\":\"2021-05-07T17:01:09Z\",\"state\":\"Stopping\"},\"name\":\"hheunmmqhgyx\",\"clusterResourceId\":\"onocukok\",\"operationId\":\"axuconuq\",\"message\":\"fkbey\"},{\"status\":{\"startTime\":\"2021-10-05T00:39Z\",\"completedTime\":\"2021-07-13T21:41:56Z\",\"state\":\"Failed\"},\"name\":\"jektcxsenh\",\"clusterResourceId\":\"rsffrzpwvlqdqgbi\",\"operationId\":\"lihkaetcktvfc\",\"message\":\"fsnkymuctq\"}]}")
+            .toObject(UpdateGroupStatus.class);
     }
 
     @org.junit.jupiter.api.Test

@@ -6,9 +6,12 @@ package com.azure.resourcemanager.cosmos.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** The configuration of the partition key to be used for partitioning data into multiple partitions. */
+/**
+ * The configuration of the partition key to be used for partitioning data into multiple partitions.
+ */
 @Fluent
 public final class ContainerPartitionKey {
     /*
@@ -18,8 +21,7 @@ public final class ContainerPartitionKey {
     private List<String> paths;
 
     /*
-     * Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three
-     * maximum) are supported for container create
+     * Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create
      */
     @JsonProperty(value = "kind")
     private PartitionKind kind;
@@ -36,7 +38,9 @@ public final class ContainerPartitionKey {
     @JsonProperty(value = "systemKey", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean systemKey;
 
-    /** Creates an instance of ContainerPartitionKey class. */
+    /**
+     * Creates an instance of ContainerPartitionKey class.
+     */
     public ContainerPartitionKey() {
     }
 

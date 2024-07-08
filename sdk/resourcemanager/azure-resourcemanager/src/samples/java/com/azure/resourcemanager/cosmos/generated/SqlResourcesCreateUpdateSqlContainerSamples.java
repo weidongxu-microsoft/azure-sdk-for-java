@@ -6,6 +6,7 @@ package com.azure.resourcemanager.cosmos.generated;
 
 import com.azure.resourcemanager.cosmos.models.ClientEncryptionIncludedPath;
 import com.azure.resourcemanager.cosmos.models.ClientEncryptionPolicy;
+import com.azure.resourcemanager.cosmos.models.ComputedProperty;
 import com.azure.resourcemanager.cosmos.models.ConflictResolutionMode;
 import com.azure.resourcemanager.cosmos.models.ConflictResolutionPolicy;
 import com.azure.resourcemanager.cosmos.models.ContainerPartitionKey;
@@ -21,14 +22,17 @@ import com.azure.resourcemanager.cosmos.models.SqlContainerCreateUpdateParameter
 import com.azure.resourcemanager.cosmos.models.SqlContainerResource;
 import com.azure.resourcemanager.cosmos.models.UniqueKey;
 import com.azure.resourcemanager.cosmos.models.UniqueKeyPolicy;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Samples for SqlResources CreateUpdateSqlContainer. */
+/**
+ * Samples for SqlResources CreateUpdateSqlContainer.
+ */
 public final class SqlResourcesCreateUpdateSqlContainerSamples {
     /*
-     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlContainerCreateUpdate.json
+     * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBSqlContainerCreateUpdate.json
      */
     /**
      * Sample code: CosmosDBSqlContainerCreateUpdate.
@@ -36,71 +40,47 @@ public final class SqlResourcesCreateUpdateSqlContainerSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void cosmosDBSqlContainerCreateUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .cosmosDBAccounts()
+        azure.cosmosDBAccounts()
             .manager()
             .serviceClient()
             .getSqlResources()
-            .createUpdateSqlContainer(
-                "rg1",
-                "ddb1",
-                "databaseName",
-                "containerName",
-                new SqlContainerCreateUpdateParameters()
-                    .withLocation("West US")
+            .createUpdateSqlContainer("rg1", "ddb1", "databaseName", "containerName",
+                new SqlContainerCreateUpdateParameters().withLocation("West US")
                     .withTags(mapOf())
                     .withResource(
-                        new SqlContainerResource()
-                            .withId("containerName")
-                            .withIndexingPolicy(
-                                new IndexingPolicy()
-                                    .withAutomatic(true)
-                                    .withIndexingMode(IndexingMode.CONSISTENT)
-                                    .withIncludedPaths(
-                                        Arrays
-                                            .asList(
-                                                new IncludedPath()
-                                                    .withPath("/*")
-                                                    .withIndexes(
-                                                        Arrays
-                                                            .asList(
-                                                                new Indexes()
-                                                                    .withDataType(DataType.STRING)
-                                                                    .withPrecision(-1)
-                                                                    .withKind(IndexKind.RANGE),
-                                                                new Indexes()
-                                                                    .withDataType(DataType.NUMBER)
-                                                                    .withPrecision(-1)
-                                                                    .withKind(IndexKind.RANGE)))))
-                                    .withExcludedPaths(Arrays.asList()))
-                            .withPartitionKey(
-                                new ContainerPartitionKey()
-                                    .withPaths(Arrays.asList("/AccountNumber"))
-                                    .withKind(PartitionKind.HASH))
+                        new SqlContainerResource().withId("containerName")
+                            .withIndexingPolicy(new IndexingPolicy().withAutomatic(true)
+                                .withIndexingMode(IndexingMode.CONSISTENT)
+                                .withIncludedPaths(Arrays.asList(new IncludedPath().withPath("/*")
+                                    .withIndexes(Arrays.asList(
+                                        new Indexes().withDataType(DataType.STRING)
+                                            .withPrecision(-1)
+                                            .withKind(IndexKind.RANGE),
+                                        new Indexes().withDataType(DataType.NUMBER)
+                                            .withPrecision(-1)
+                                            .withKind(IndexKind.RANGE)))))
+                                .withExcludedPaths(Arrays.asList()))
+                            .withPartitionKey(new ContainerPartitionKey().withPaths(Arrays.asList("/AccountNumber"))
+                                .withKind(PartitionKind.HASH))
                             .withDefaultTtl(100)
-                            .withUniqueKeyPolicy(
-                                new UniqueKeyPolicy()
-                                    .withUniqueKeys(
-                                        Arrays.asList(new UniqueKey().withPaths(Arrays.asList("/testPath")))))
+                            .withUniqueKeyPolicy(new UniqueKeyPolicy()
+                                .withUniqueKeys(Arrays.asList(new UniqueKey().withPaths(Arrays.asList("/testPath")))))
                             .withConflictResolutionPolicy(
-                                new ConflictResolutionPolicy()
-                                    .withMode(ConflictResolutionMode.LAST_WRITER_WINS)
+                                new ConflictResolutionPolicy().withMode(ConflictResolutionMode.LAST_WRITER_WINS)
                                     .withConflictResolutionPath("/path"))
-                            .withClientEncryptionPolicy(
-                                new ClientEncryptionPolicy()
-                                    .withIncludedPaths(
-                                        Arrays
-                                            .asList(
-                                                new ClientEncryptionIncludedPath()
-                                                    .withPath("/path")
-                                                    .withClientEncryptionKeyId("fakeTokenPlaceholder")
-                                                    .withEncryptionType("Deterministic")
-                                                    .withEncryptionAlgorithm("AEAD_AES_256_CBC_HMAC_SHA256")))
-                                    .withPolicyFormatVersion(2)))
+                            .withClientEncryptionPolicy(new ClientEncryptionPolicy()
+                                .withIncludedPaths(Arrays.asList(new ClientEncryptionIncludedPath().withPath("/path")
+                                    .withClientEncryptionKeyId("fakeTokenPlaceholder")
+                                    .withEncryptionType("Deterministic")
+                                    .withEncryptionAlgorithm("AEAD_AES_256_CBC_HMAC_SHA256")))
+                                .withPolicyFormatVersion(2))
+                            .withComputedProperties(Arrays.asList(new ComputedProperty().withName("cp_lowerName")
+                                .withQuery("SELECT VALUE LOWER(c.name) FROM c"))))
                     .withOptions(new CreateUpdateOptions()),
                 com.azure.core.util.Context.NONE);
     }
 
+    // Use "Map.of" if available
     @SuppressWarnings("unchecked")
     private static <T> Map<String, T> mapOf(Object... inputs) {
         Map<String, T> map = new HashMap<>();

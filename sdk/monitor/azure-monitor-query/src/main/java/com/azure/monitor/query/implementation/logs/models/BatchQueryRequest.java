@@ -5,72 +5,68 @@
 package com.azure.monitor.query.implementation.logs.models;
 
 import com.azure.core.annotation.Fluent;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-/** An single request in a batch. */
+/**
+ * An single request in a batch.
+ */
 @Fluent
-public final class BatchQueryRequest {
+public final class BatchQueryRequest implements JsonSerializable<BatchQueryRequest> {
     /*
-     * The error details.
+     * Unique ID corresponding to each request in the batch.
      */
-    @JsonProperty(value = "id", required = true)
-    private String id;
+    private final String id;
 
     /*
-     * Dictionary of <string>
+     * Headers of the request. Can use prefer header to set server timeout and to query statistics and visualization
+     * information.
      */
-    @JsonProperty(value = "headers")
     private Map<String, String> headers;
 
     /*
      * The Analytics query. Learn more about the [Analytics query
      * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
      */
-    @JsonProperty(value = "body", required = true)
-    private QueryBody body;
+    private final QueryBody body;
 
     /*
-     * The path property.
+     * The query path of a single request in a batch, defaults to /query
      */
-    @JsonProperty(value = "path")
     private String path = "/query";
 
     /*
-     * The method property.
+     * The method of a single request in a batch, defaults to POST
      */
-    @JsonProperty(value = "method")
     private String method = "POST";
 
     /*
-     * Workspace Id to be included in the query
+     * Primary Workspace ID of the query. This is the Workspace ID from the Properties blade in the Azure portal.
      */
-    @JsonProperty(value = "workspace", required = true)
-    private String workspace;
+    private final String workspace;
 
     /**
      * Creates an instance of BatchQueryRequest class.
-     *
+     * 
      * @param id the id value to set.
      * @param body the body value to set.
      * @param workspace the workspace value to set.
      */
-    @JsonCreator
-    public BatchQueryRequest(
-            @JsonProperty(value = "id", required = true) String id,
-            @JsonProperty(value = "body", required = true) QueryBody body,
-            @JsonProperty(value = "workspace", required = true) String workspace) {
-        path = "/query";
-        method = "POST";
+    public BatchQueryRequest(String id, QueryBody body, String workspace) {
         this.id = id;
         this.body = body;
         this.workspace = workspace;
     }
 
     /**
-     * Get the id property: The error details.
-     *
+     * Get the id property: Unique ID corresponding to each request in the batch.
+     * 
      * @return the id value.
      */
     public String getId() {
@@ -78,8 +74,9 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Get the headers property: Dictionary of &lt;string&gt;.
-     *
+     * Get the headers property: Headers of the request. Can use prefer header to set server timeout and to query
+     * statistics and visualization information.
+     * 
      * @return the headers value.
      */
     public Map<String, String> getHeaders() {
@@ -87,8 +84,9 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Set the headers property: Dictionary of &lt;string&gt;.
-     *
+     * Set the headers property: Headers of the request. Can use prefer header to set server timeout and to query
+     * statistics and visualization information.
+     * 
      * @param headers the headers value to set.
      * @return the BatchQueryRequest object itself.
      */
@@ -100,7 +98,7 @@ public final class BatchQueryRequest {
     /**
      * Get the body property: The Analytics query. Learn more about the [Analytics query
      * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/).
-     *
+     * 
      * @return the body value.
      */
     public QueryBody getBody() {
@@ -108,8 +106,8 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Get the path property: The path property.
-     *
+     * Get the path property: The query path of a single request in a batch, defaults to /query.
+     * 
      * @return the path value.
      */
     public String getPath() {
@@ -117,8 +115,8 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Set the path property: The path property.
-     *
+     * Set the path property: The query path of a single request in a batch, defaults to /query.
+     * 
      * @param path the path value to set.
      * @return the BatchQueryRequest object itself.
      */
@@ -128,8 +126,8 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Get the method property: The method property.
-     *
+     * Get the method property: The method of a single request in a batch, defaults to POST.
+     * 
      * @return the method value.
      */
     public String getMethod() {
@@ -137,8 +135,8 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Set the method property: The method property.
-     *
+     * Set the method property: The method of a single request in a batch, defaults to POST.
+     * 
      * @param method the method value to set.
      * @return the BatchQueryRequest object itself.
      */
@@ -148,30 +146,91 @@ public final class BatchQueryRequest {
     }
 
     /**
-     * Get the workspace property: Workspace Id to be included in the query.
-     *
+     * Get the workspace property: Primary Workspace ID of the query. This is the Workspace ID from the Properties
+     * blade in the Azure portal.
+     * 
      * @return the workspace value.
      */
     public String getWorkspace() {
         return this.workspace;
     }
 
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeStringField("id", this.id);
+        jsonWriter.writeJsonField("body", this.body);
+        jsonWriter.writeStringField("workspace", this.workspace);
+        jsonWriter.writeMapField("headers", this.headers, (writer, element) -> writer.writeString(element));
+        jsonWriter.writeStringField("path", this.path);
+        jsonWriter.writeStringField("method", this.method);
+        return jsonWriter.writeEndObject();
+    }
+
     /**
-     * Validates the instance.
-     *
-     * @throws IllegalArgumentException thrown if the instance is not valid.
+     * Reads an instance of BatchQueryRequest from the JsonReader.
+     * 
+     * @param jsonReader The JsonReader being read.
+     * @return An instance of BatchQueryRequest if the JsonReader was pointing to an instance of it, or null if it was
+     * pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
+     * @throws IOException If an error occurs while reading the BatchQueryRequest.
      */
-    public void validate() {
-        if (getId() == null) {
-            throw new IllegalArgumentException("Missing required property id in model BatchQueryRequest");
-        }
-        if (getBody() == null) {
-            throw new IllegalArgumentException("Missing required property body in model BatchQueryRequest");
-        } else {
-            getBody().validate();
-        }
-        if (getWorkspace() == null) {
-            throw new IllegalArgumentException("Missing required property workspace in model BatchQueryRequest");
-        }
+    public static BatchQueryRequest fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            boolean idFound = false;
+            String id = null;
+            boolean bodyFound = false;
+            QueryBody body = null;
+            boolean workspaceFound = false;
+            String workspace = null;
+            Map<String, String> headers = null;
+            String path = null;
+            String method = null;
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+
+                if ("id".equals(fieldName)) {
+                    id = reader.getString();
+                    idFound = true;
+                } else if ("body".equals(fieldName)) {
+                    body = QueryBody.fromJson(reader);
+                    bodyFound = true;
+                } else if ("workspace".equals(fieldName)) {
+                    workspace = reader.getString();
+                    workspaceFound = true;
+                } else if ("headers".equals(fieldName)) {
+                    headers = reader.readMap(reader1 -> reader1.getString());
+                } else if ("path".equals(fieldName)) {
+                    path = reader.getString();
+                } else if ("method".equals(fieldName)) {
+                    method = reader.getString();
+                } else {
+                    reader.skipChildren();
+                }
+            }
+            if (idFound && bodyFound && workspaceFound) {
+                BatchQueryRequest deserializedBatchQueryRequest = new BatchQueryRequest(id, body, workspace);
+                deserializedBatchQueryRequest.headers = headers;
+                deserializedBatchQueryRequest.path = path;
+                deserializedBatchQueryRequest.method = method;
+
+                return deserializedBatchQueryRequest;
+            }
+            List<String> missingProperties = new ArrayList<>();
+            if (!idFound) {
+                missingProperties.add("id");
+            }
+            if (!bodyFound) {
+                missingProperties.add("body");
+            }
+            if (!workspaceFound) {
+                missingProperties.add("workspace");
+            }
+
+            throw new IllegalStateException(
+                "Missing required property/properties: " + String.join(", ", missingProperties));
+        });
     }
 }

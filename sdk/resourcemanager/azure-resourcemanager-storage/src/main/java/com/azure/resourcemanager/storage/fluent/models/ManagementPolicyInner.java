@@ -10,7 +10,9 @@ import com.azure.resourcemanager.storage.models.ManagementPolicySchema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
-/** The Get Storage Account ManagementPolicies operation response. */
+/**
+ * The Get Storage Account ManagementPolicies operation response.
+ */
 @Fluent
 public final class ManagementPolicyInner extends ProxyResource {
     /*
@@ -20,8 +22,14 @@ public final class ManagementPolicyInner extends ProxyResource {
     private ManagementPolicyProperties innerProperties;
 
     /**
+     * Creates an instance of ManagementPolicyInner class.
+     */
+    public ManagementPolicyInner() {
+    }
+
+    /**
      * Get the innerProperties property: Returns the Storage Account Data Policies Rules.
-     *
+     * 
      * @return the innerProperties value.
      */
     private ManagementPolicyProperties innerProperties() {
@@ -30,7 +38,7 @@ public final class ManagementPolicyInner extends ProxyResource {
 
     /**
      * Get the lastModifiedTime property: Returns the date and time the ManagementPolicies was last modified.
-     *
+     * 
      * @return the lastModifiedTime value.
      */
     public OffsetDateTime lastModifiedTime() {
@@ -40,7 +48,7 @@ public final class ManagementPolicyInner extends ProxyResource {
     /**
      * Get the policy property: The Storage Account ManagementPolicy, in JSON format. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     *
+     * 
      * @return the policy value.
      */
     public ManagementPolicySchema policy() {
@@ -50,7 +58,7 @@ public final class ManagementPolicyInner extends ProxyResource {
     /**
      * Set the policy property: The Storage Account ManagementPolicy, in JSON format. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     *
+     * 
      * @param policy the policy value to set.
      * @return the ManagementPolicyInner object itself.
      */
@@ -64,7 +72,7 @@ public final class ManagementPolicyInner extends ProxyResource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

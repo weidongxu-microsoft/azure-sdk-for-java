@@ -13,11 +13,14 @@ import com.azure.resourcemanager.appservice.models.RunActionCorrelation;
 import com.azure.resourcemanager.appservice.models.WorkflowResource;
 import com.azure.resourcemanager.appservice.models.WorkflowStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-/** The workflow run action repetition definition. */
+/**
+ * The workflow run action repetition definition.
+ */
 @Fluent
 public final class WorkflowRunActionRepetitionDefinitionInner extends WorkflowResource {
     /*
@@ -26,7 +29,9 @@ public final class WorkflowRunActionRepetitionDefinitionInner extends WorkflowRe
     @JsonProperty(value = "properties", required = true)
     private WorkflowRunActionRepetitionProperties innerProperties = new WorkflowRunActionRepetitionProperties();
 
-    /** Creates an instance of WorkflowRunActionRepetitionDefinitionInner class. */
+    /**
+     * Creates an instance of WorkflowRunActionRepetitionDefinitionInner class.
+     */
     public WorkflowRunActionRepetitionDefinitionInner() {
     }
 
@@ -39,14 +44,18 @@ public final class WorkflowRunActionRepetitionDefinitionInner extends WorkflowRe
         return this.innerProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WorkflowRunActionRepetitionDefinitionInner withLocation(String location) {
         super.withLocation(location);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public WorkflowRunActionRepetitionDefinitionInner withTags(Map<String, String> tags) {
         super.withTags(tags);
@@ -323,11 +332,9 @@ public final class WorkflowRunActionRepetitionDefinitionInner extends WorkflowRe
     public void validate() {
         super.validate();
         if (innerProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerProperties in model"
-                            + " WorkflowRunActionRepetitionDefinitionInner"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerProperties in model WorkflowRunActionRepetitionDefinitionInner"));
         } else {
             innerProperties().validate();
         }

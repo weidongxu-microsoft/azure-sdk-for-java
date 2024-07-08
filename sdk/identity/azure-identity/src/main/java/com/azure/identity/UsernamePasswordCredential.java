@@ -22,8 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>Username password authentication is a common type of authentication flow used by many applications and services,
- * including <a href="https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/">Azure Active Directory
- * (Azure AD)</a> . With username password authentication, users enter their username and password credentials to sign
+ * including <a href="https://learn.microsoft.com/entra/fundamentals/">Microsoft Entra ID</a>.
+ * With username password authentication, users enter their username and password credentials to sign
  * in to an application or service.
  * The UsernamePasswordCredential authenticates a public client application and acquires a token using the
  * user credentials that don't require 2FA/MFA (Multi-factored) authentication. For more information refer to the
@@ -66,6 +66,9 @@ public class UsernamePasswordCredential implements TokenCredential {
     private final IdentitySyncClient identitySyncClient;
     private final String authorityHost;
     private final AtomicReference<MsalAuthenticationAccount> cachedToken;
+    private boolean isCaeEnabledRequestCached;
+    private boolean isCaeDisabledRequestCached;
+    private boolean isCachePopulated;
 
     /**
      * Creates a UserCredential with the given identity client options.
@@ -98,14 +101,23 @@ public class UsernamePasswordCredential implements TokenCredential {
     @Override
     public Mono<AccessToken> getToken(TokenRequestContext request) {
         return Mono.defer(() -> {
-            if (cachedToken.get() != null) {
+            isCachePopulated = isCachePopulated(request);
+            if (isCachePopulated) {
                 return identityClient.authenticateWithPublicClientCache(request, cachedToken.get())
                     .onErrorResume(t -> Mono.empty());
             } else {
                 return Mono.empty();
             }
         }).switchIfEmpty(Mono.defer(() -> identityClient.authenticateWithUsernamePassword(request, username, password)))
-            .map(this::updateCache)
+            .map(msalToken -> {
+                AccessToken accessToken = updateCache(msalToken);
+                if (request.isCaeEnabled()) {
+                    isCaeEnabledRequestCached = true;
+                } else {
+                    isCaeDisabledRequestCached = true;
+                }
+                return accessToken;
+            })
             .doOnNext(token -> LoggingUtil.logTokenSuccess(LOGGER, request))
             .doOnError(error -> LoggingUtil.logTokenError(LOGGER, identityClient.getIdentityClientOptions(),
                 request, error));
@@ -115,7 +127,11 @@ public class UsernamePasswordCredential implements TokenCredential {
     public AccessToken getTokenSync(TokenRequestContext request) {
         if (cachedToken.get() != null) {
             try {
-                return identitySyncClient.authenticateWithPublicClientCache(request, cachedToken.get());
+                MsalToken token = identitySyncClient.authenticateWithPublicClientCache(request, cachedToken.get());
+                if (token != null) {
+                    LoggingUtil.logTokenSuccess(LOGGER, request);
+                    return token;
+                }
             } catch (Exception e) { }
         }
 
@@ -165,5 +181,10 @@ public class UsernamePasswordCredential implements TokenCredential {
                                 identityClient.getTenantId(), identityClient.getClientId()),
                     msalToken.getAccount().getTenantProfiles()));
         return msalToken;
+    }
+
+    private boolean isCachePopulated(TokenRequestContext request) {
+        return (cachedToken.get() != null) && ((request.isCaeEnabled() && isCaeEnabledRequestCached)
+            || (!request.isCaeEnabled() && isCaeDisabledRequestCached));
     }
 }

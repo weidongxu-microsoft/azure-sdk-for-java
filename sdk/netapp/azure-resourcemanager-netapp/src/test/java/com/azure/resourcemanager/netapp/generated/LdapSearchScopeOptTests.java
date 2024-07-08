@@ -11,26 +11,22 @@ import org.junit.jupiter.api.Assertions;
 public final class LdapSearchScopeOptTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        LdapSearchScopeOpt model =
-            BinaryData
-                .fromString(
-                    "{\"userDN\":\"gpphrcgyn\",\"groupDN\":\"cpecfvmmcoofs\",\"groupMembershipFilter\":\"zevgb\"}")
-                .toObject(LdapSearchScopeOpt.class);
-        Assertions.assertEquals("gpphrcgyn", model.userDN());
-        Assertions.assertEquals("cpecfvmmcoofs", model.groupDN());
-        Assertions.assertEquals("zevgb", model.groupMembershipFilter());
+        LdapSearchScopeOpt model = BinaryData.fromString(
+            "{\"userDN\":\"ckhsmtxpsieb\",\"groupDN\":\"hvpesapskrdqm\",\"groupMembershipFilter\":\"jdhtldwkyzxu\"}")
+            .toObject(LdapSearchScopeOpt.class);
+        Assertions.assertEquals("ckhsmtxpsieb", model.userDN());
+        Assertions.assertEquals("hvpesapskrdqm", model.groupDN());
+        Assertions.assertEquals("jdhtldwkyzxu", model.groupMembershipFilter());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        LdapSearchScopeOpt model =
-            new LdapSearchScopeOpt()
-                .withUserDN("gpphrcgyn")
-                .withGroupDN("cpecfvmmcoofs")
-                .withGroupMembershipFilter("zevgb");
+        LdapSearchScopeOpt model = new LdapSearchScopeOpt().withUserDN("ckhsmtxpsieb")
+            .withGroupDN("hvpesapskrdqm")
+            .withGroupMembershipFilter("jdhtldwkyzxu");
         model = BinaryData.fromObject(model).toObject(LdapSearchScopeOpt.class);
-        Assertions.assertEquals("gpphrcgyn", model.userDN());
-        Assertions.assertEquals("cpecfvmmcoofs", model.groupDN());
-        Assertions.assertEquals("zevgb", model.groupMembershipFilter());
+        Assertions.assertEquals("ckhsmtxpsieb", model.userDN());
+        Assertions.assertEquals("hvpesapskrdqm", model.groupDN());
+        Assertions.assertEquals("jdhtldwkyzxu", model.groupMembershipFilter());
     }
 }

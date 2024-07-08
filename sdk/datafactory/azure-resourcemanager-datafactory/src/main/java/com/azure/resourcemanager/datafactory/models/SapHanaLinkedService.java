@@ -8,57 +8,87 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.SapHanaLinkedServiceProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import java.util.Map;
 
-/** SAP HANA Linked Service. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * SAP HANA Linked Service.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = SapHanaLinkedService.class, visible = true)
 @JsonTypeName("SapHana")
 @Fluent
 public final class SapHanaLinkedService extends LinkedService {
+    /*
+     * Type of linked service.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "SapHana";
+
     /*
      * Properties specific to this linked service type.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private SapHanaLinkedServiceProperties innerTypeProperties = new SapHanaLinkedServiceProperties();
 
-    /** Creates an instance of SapHanaLinkedService class. */
+    /**
+     * Creates an instance of SapHanaLinkedService class.
+     */
     public SapHanaLinkedService() {
     }
 
     /**
+     * Get the type property: Type of linked service.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Properties specific to this linked service type.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private SapHanaLinkedServiceProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SapHanaLinkedService withConnectVia(IntegrationRuntimeReference connectVia) {
         super.withConnectVia(connectVia);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SapHanaLinkedService withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SapHanaLinkedService withParameters(Map<String, ParameterSpecification> parameters) {
         super.withParameters(parameters);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SapHanaLinkedService withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -68,7 +98,7 @@ public final class SapHanaLinkedService extends LinkedService {
     /**
      * Get the connectionString property: SAP HANA ODBC connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference.
-     *
+     * 
      * @return the connectionString value.
      */
     public Object connectionString() {
@@ -78,7 +108,7 @@ public final class SapHanaLinkedService extends LinkedService {
     /**
      * Set the connectionString property: SAP HANA ODBC connection string. Type: string, SecureString or
      * AzureKeyVaultSecretReference.
-     *
+     * 
      * @param connectionString the connectionString value to set.
      * @return the SapHanaLinkedService object itself.
      */
@@ -92,7 +122,7 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Get the server property: Host name of the SAP HANA server. Type: string (or Expression with resultType string).
-     *
+     * 
      * @return the server value.
      */
     public Object server() {
@@ -101,7 +131,7 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Set the server property: Host name of the SAP HANA server. Type: string (or Expression with resultType string).
-     *
+     * 
      * @param server the server value to set.
      * @return the SapHanaLinkedService object itself.
      */
@@ -115,7 +145,7 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Get the authenticationType property: The authentication type to be used to connect to the SAP HANA server.
-     *
+     * 
      * @return the authenticationType value.
      */
     public SapHanaAuthenticationType authenticationType() {
@@ -124,7 +154,7 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Set the authenticationType property: The authentication type to be used to connect to the SAP HANA server.
-     *
+     * 
      * @param authenticationType the authenticationType value to set.
      * @return the SapHanaLinkedService object itself.
      */
@@ -139,7 +169,7 @@ public final class SapHanaLinkedService extends LinkedService {
     /**
      * Get the username property: Username to access the SAP HANA server. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @return the username value.
      */
     public Object username() {
@@ -149,7 +179,7 @@ public final class SapHanaLinkedService extends LinkedService {
     /**
      * Set the username property: Username to access the SAP HANA server. Type: string (or Expression with resultType
      * string).
-     *
+     * 
      * @param username the username value to set.
      * @return the SapHanaLinkedService object itself.
      */
@@ -163,7 +193,7 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Get the password property: Password to access the SAP HANA server.
-     *
+     * 
      * @return the password value.
      */
     public SecretBase password() {
@@ -172,7 +202,7 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Set the password property: Password to access the SAP HANA server.
-     *
+     * 
      * @param password the password value to set.
      * @return the SapHanaLinkedService object itself.
      */
@@ -186,22 +216,22 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Get the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @return the encryptedCredential value.
      */
-    public Object encryptedCredential() {
+    public String encryptedCredential() {
         return this.innerTypeProperties() == null ? null : this.innerTypeProperties().encryptedCredential();
     }
 
     /**
      * Set the encryptedCredential property: The encrypted credential used for authentication. Credentials are encrypted
-     * using the integration runtime credential manager. Type: string (or Expression with resultType string).
-     *
+     * using the integration runtime credential manager. Type: string.
+     * 
      * @param encryptedCredential the encryptedCredential value to set.
      * @return the SapHanaLinkedService object itself.
      */
-    public SapHanaLinkedService withEncryptedCredential(Object encryptedCredential) {
+    public SapHanaLinkedService withEncryptedCredential(String encryptedCredential) {
         if (this.innerTypeProperties() == null) {
             this.innerTypeProperties = new SapHanaLinkedServiceProperties();
         }
@@ -211,17 +241,16 @@ public final class SapHanaLinkedService extends LinkedService {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model SapHanaLinkedService"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model SapHanaLinkedService"));
         } else {
             innerTypeProperties().validate();
         }

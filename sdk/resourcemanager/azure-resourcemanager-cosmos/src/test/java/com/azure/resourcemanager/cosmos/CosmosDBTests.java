@@ -13,6 +13,7 @@ import com.azure.resourcemanager.cosmos.models.ConnectorOffer;
 import com.azure.resourcemanager.cosmos.models.CosmosDBAccount;
 import com.azure.resourcemanager.cosmos.models.DatabaseAccountKind;
 import com.azure.resourcemanager.cosmos.models.DefaultConsistencyLevel;
+import com.azure.resourcemanager.cosmos.models.PublicNetworkAccess;
 import com.azure.resourcemanager.cosmos.models.PrivateEndpointConnection;
 import com.azure.resourcemanager.network.models.Network;
 import com.azure.resourcemanager.network.models.PrivateEndpoint;
@@ -24,7 +25,7 @@ import com.azure.core.management.profile.AzureProfile;
 import com.azure.resourcemanager.resources.ResourceManager;
 import com.azure.resourcemanager.resources.fluentcore.utils.HttpPipelineProvider;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
-import com.azure.resourcemanager.test.ResourceManagerTestBase;
+import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
 import com.azure.resourcemanager.test.utils.TestDelayProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -34,7 +35,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
-public class CosmosDBTests extends ResourceManagerTestBase {
+public class CosmosDBTests extends ResourceManagerTestProxyTestBase {
 
     private String rgName = "";
     protected ResourceManager resourceManager;
@@ -278,5 +279,50 @@ public class CosmosDBTests extends ResourceManagerTestBase {
         Assertions.assertEquals(cosmosDBAccount.writableReplications().size(), 1);
         Assertions.assertEquals(cosmosDBAccount.readableReplications().size(), 2);
         Assertions.assertEquals(cosmosDBAccount.defaultConsistencyLevel(), DefaultConsistencyLevel.EVENTUAL);
+    }
+
+    @Test
+    public void canCreateCosmosDBAccountWithDisablePublicNetworkAccess() {
+        final String cosmosDbAccountName = generateRandomResourceName("cosmosdb", 22);
+
+        CosmosDBAccount cosmosDBAccount =
+            cosmosManager
+                .databaseAccounts()
+                .define(cosmosDbAccountName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withDataModelAzureTable()
+                .withEventualConsistency()
+                .withWriteReplication(Region.US_EAST)
+                .withReadReplication(Region.US_WEST)
+                .withTag("tag1", "value1")
+                .disablePublicNetworkAccess()
+                .create();
+
+        Assertions.assertEquals(PublicNetworkAccess.DISABLED, cosmosDBAccount.publicNetworkAccess());
+    }
+
+    @Test
+    public void canUpdatePublicNetworkAccess() {
+        final String cosmosDbAccountName = generateRandomResourceName("cosmosdb", 22);
+
+        CosmosDBAccount cosmosDBAccount =
+            cosmosManager
+                .databaseAccounts()
+                .define(cosmosDbAccountName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withDataModelAzureTable()
+                .withEventualConsistency()
+                .withWriteReplication(Region.US_EAST)
+                .withReadReplication(Region.US_WEST)
+                .withTag("tag1", "value1")
+                .create();
+
+        cosmosDBAccount.update().disablePublicNetworkAccess().apply();
+        Assertions.assertEquals(PublicNetworkAccess.DISABLED, cosmosDBAccount.publicNetworkAccess());
+
+        cosmosDBAccount.update().enablePublicNetworkAccess().apply();
+        Assertions.assertEquals(PublicNetworkAccess.ENABLED, cosmosDBAccount.publicNetworkAccess());
     }
 }

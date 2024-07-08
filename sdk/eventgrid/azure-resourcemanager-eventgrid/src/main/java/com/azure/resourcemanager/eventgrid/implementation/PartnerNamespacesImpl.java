@@ -14,8 +14,8 @@ import com.azure.resourcemanager.eventgrid.fluent.models.PartnerNamespaceInner;
 import com.azure.resourcemanager.eventgrid.fluent.models.PartnerNamespaceSharedAccessKeysInner;
 import com.azure.resourcemanager.eventgrid.models.PartnerNamespace;
 import com.azure.resourcemanager.eventgrid.models.PartnerNamespaceRegenerateKeyRequest;
-import com.azure.resourcemanager.eventgrid.models.PartnerNamespaceSharedAccessKeys;
 import com.azure.resourcemanager.eventgrid.models.PartnerNamespaces;
+import com.azure.resourcemanager.eventgrid.models.PartnerNamespaceSharedAccessKeys;
 
 public final class PartnerNamespacesImpl implements PartnerNamespaces {
     private static final ClientLogger LOGGER = new ClientLogger(PartnerNamespacesImpl.class);
@@ -24,21 +24,18 @@ public final class PartnerNamespacesImpl implements PartnerNamespaces {
 
     private final com.azure.resourcemanager.eventgrid.EventGridManager serviceManager;
 
-    public PartnerNamespacesImpl(
-        PartnerNamespacesClient innerClient, com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
+    public PartnerNamespacesImpl(PartnerNamespacesClient innerClient,
+        com.azure.resourcemanager.eventgrid.EventGridManager serviceManager) {
         this.innerClient = innerClient;
         this.serviceManager = serviceManager;
     }
 
-    public Response<PartnerNamespace> getByResourceGroupWithResponse(
-        String resourceGroupName, String partnerNamespaceName, Context context) {
-        Response<PartnerNamespaceInner> inner =
-            this.serviceClient().getByResourceGroupWithResponse(resourceGroupName, partnerNamespaceName, context);
+    public Response<PartnerNamespace> getByResourceGroupWithResponse(String resourceGroupName,
+        String partnerNamespaceName, Context context) {
+        Response<PartnerNamespaceInner> inner
+            = this.serviceClient().getByResourceGroupWithResponse(resourceGroupName, partnerNamespaceName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new PartnerNamespaceImpl(inner.getValue(), this.manager()));
         } else {
             return null;
@@ -64,45 +61,42 @@ public final class PartnerNamespacesImpl implements PartnerNamespaces {
 
     public PagedIterable<PartnerNamespace> list() {
         PagedIterable<PartnerNamespaceInner> inner = this.serviceClient().list();
-        return Utils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
     }
 
     public PagedIterable<PartnerNamespace> list(String filter, Integer top, Context context) {
         PagedIterable<PartnerNamespaceInner> inner = this.serviceClient().list(filter, top, context);
-        return Utils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
     }
 
     public PagedIterable<PartnerNamespace> listByResourceGroup(String resourceGroupName) {
         PagedIterable<PartnerNamespaceInner> inner = this.serviceClient().listByResourceGroup(resourceGroupName);
-        return Utils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
     }
 
-    public PagedIterable<PartnerNamespace> listByResourceGroup(
-        String resourceGroupName, String filter, Integer top, Context context) {
-        PagedIterable<PartnerNamespaceInner> inner =
-            this.serviceClient().listByResourceGroup(resourceGroupName, filter, top, context);
-        return Utils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
+    public PagedIterable<PartnerNamespace> listByResourceGroup(String resourceGroupName, String filter, Integer top,
+        Context context) {
+        PagedIterable<PartnerNamespaceInner> inner
+            = this.serviceClient().listByResourceGroup(resourceGroupName, filter, top, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new PartnerNamespaceImpl(inner1, this.manager()));
     }
 
-    public Response<PartnerNamespaceSharedAccessKeys> listSharedAccessKeysWithResponse(
-        String resourceGroupName, String partnerNamespaceName, Context context) {
-        Response<PartnerNamespaceSharedAccessKeysInner> inner =
-            this.serviceClient().listSharedAccessKeysWithResponse(resourceGroupName, partnerNamespaceName, context);
+    public Response<PartnerNamespaceSharedAccessKeys> listSharedAccessKeysWithResponse(String resourceGroupName,
+        String partnerNamespaceName, Context context) {
+        Response<PartnerNamespaceSharedAccessKeysInner> inner
+            = this.serviceClient().listSharedAccessKeysWithResponse(resourceGroupName, partnerNamespaceName, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new PartnerNamespaceSharedAccessKeysImpl(inner.getValue(), this.manager()));
         } else {
             return null;
         }
     }
 
-    public PartnerNamespaceSharedAccessKeys listSharedAccessKeys(
-        String resourceGroupName, String partnerNamespaceName) {
-        PartnerNamespaceSharedAccessKeysInner inner =
-            this.serviceClient().listSharedAccessKeys(resourceGroupName, partnerNamespaceName);
+    public PartnerNamespaceSharedAccessKeys listSharedAccessKeys(String resourceGroupName,
+        String partnerNamespaceName) {
+        PartnerNamespaceSharedAccessKeysInner inner
+            = this.serviceClient().listSharedAccessKeys(resourceGroupName, partnerNamespaceName);
         if (inner != null) {
             return new PartnerNamespaceSharedAccessKeysImpl(inner, this.manager());
         } else {
@@ -110,32 +104,22 @@ public final class PartnerNamespacesImpl implements PartnerNamespaces {
         }
     }
 
-    public Response<PartnerNamespaceSharedAccessKeys> regenerateKeyWithResponse(
-        String resourceGroupName,
-        String partnerNamespaceName,
-        PartnerNamespaceRegenerateKeyRequest regenerateKeyRequest,
-        Context context) {
-        Response<PartnerNamespaceSharedAccessKeysInner> inner =
-            this
-                .serviceClient()
-                .regenerateKeyWithResponse(resourceGroupName, partnerNamespaceName, regenerateKeyRequest, context);
+    public Response<PartnerNamespaceSharedAccessKeys> regenerateKeyWithResponse(String resourceGroupName,
+        String partnerNamespaceName, PartnerNamespaceRegenerateKeyRequest regenerateKeyRequest, Context context) {
+        Response<PartnerNamespaceSharedAccessKeysInner> inner = this.serviceClient()
+            .regenerateKeyWithResponse(resourceGroupName, partnerNamespaceName, regenerateKeyRequest, context);
         if (inner != null) {
-            return new SimpleResponse<>(
-                inner.getRequest(),
-                inner.getStatusCode(),
-                inner.getHeaders(),
+            return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
                 new PartnerNamespaceSharedAccessKeysImpl(inner.getValue(), this.manager()));
         } else {
             return null;
         }
     }
 
-    public PartnerNamespaceSharedAccessKeys regenerateKey(
-        String resourceGroupName,
-        String partnerNamespaceName,
+    public PartnerNamespaceSharedAccessKeys regenerateKey(String resourceGroupName, String partnerNamespaceName,
         PartnerNamespaceRegenerateKeyRequest regenerateKeyRequest) {
-        PartnerNamespaceSharedAccessKeysInner inner =
-            this.serviceClient().regenerateKey(resourceGroupName, partnerNamespaceName, regenerateKeyRequest);
+        PartnerNamespaceSharedAccessKeysInner inner
+            = this.serviceClient().regenerateKey(resourceGroupName, partnerNamespaceName, regenerateKeyRequest);
         if (inner != null) {
             return new PartnerNamespaceSharedAccessKeysImpl(inner, this.manager());
         } else {
@@ -144,85 +128,57 @@ public final class PartnerNamespacesImpl implements PartnerNamespaces {
     }
 
     public PartnerNamespace getById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
         return this.getByResourceGroupWithResponse(resourceGroupName, partnerNamespaceName, Context.NONE).getValue();
     }
 
     public Response<PartnerNamespace> getByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
         return this.getByResourceGroupWithResponse(resourceGroupName, partnerNamespaceName, context);
     }
 
     public void deleteById(String id) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
         this.delete(resourceGroupName, partnerNamespaceName, Context.NONE);
     }
 
     public void deleteByIdWithResponse(String id, Context context) {
-        String resourceGroupName = Utils.getValueFromIdByName(id, "resourceGroups");
+        String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String partnerNamespaceName = Utils.getValueFromIdByName(id, "partnerNamespaces");
+        String partnerNamespaceName = ResourceManagerUtils.getValueFromIdByName(id, "partnerNamespaces");
         if (partnerNamespaceName == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        String
-                            .format(
-                                "The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                String.format("The resource ID '%s' is not valid. Missing path segment 'partnerNamespaces'.", id)));
         }
         this.delete(resourceGroupName, partnerNamespaceName, context);
     }

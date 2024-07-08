@@ -6,27 +6,24 @@ package com.azure.resourcemanager.network.generated;
 
 import com.azure.resourcemanager.network.fluent.models.ExpressRoutePortAuthorizationInner;
 
-/** Samples for ExpressRoutePortAuthorizations CreateOrUpdate. */
+/**
+ * Samples for ExpressRoutePortAuthorizations CreateOrUpdate.
+ */
 public final class ExpressRoutePortAuthorizationsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRoutePortAuthorizationCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRoutePortAuthorizationCreate.json
      */
     /**
      * Sample code: Create ExpressRoutePort Authorization.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void createExpressRoutePortAuthorization(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getExpressRoutePortAuthorizations()
-            .createOrUpdate(
-                "rg1",
-                "expressRoutePortName",
-                "authorizatinName",
-                new ExpressRoutePortAuthorizationInner(),
+            .createOrUpdate("rg1", "expressRoutePortName", "authorizatinName", new ExpressRoutePortAuthorizationInner(),
                 com.azure.core.util.Context.NONE);
     }
 }

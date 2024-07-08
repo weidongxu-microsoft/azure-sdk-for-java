@@ -271,6 +271,7 @@ public class HttpConstants {
 
         // Dedicated Gateway Headers
         public static final String DEDICATED_GATEWAY_PER_REQUEST_CACHE_STALENESS = "x-ms-dedicatedgateway-max-age";
+        public static final String DEDICATED_GATEWAY_PER_REQUEST_BYPASS_CACHE = "x-ms-dedicatedgateway-bypass-cache";
 
         // Client Encryption Headers
         public static final String IS_CLIENT_ENCRYPTED_HEADER = "x-ms-cosmos-is-client-encrypted";
@@ -384,6 +385,9 @@ public class HttpConstants {
         public static final int PARTITION_KEY_MISMATCH = 1001;
         public static final int CROSS_PARTITION_QUERY_NOT_SERVABLE = 1004;
 
+        // client generated 400s
+        public static final int CUSTOM_SERIALIZER_EXCEPTION = 10101;
+
         // 410: StatusCodeType_Gone: substatus
         // Merge or split share the same status code and subStatusCode
         public static final int NAME_CACHE_IS_STALE = 1000;
@@ -424,14 +428,29 @@ public class HttpConstants {
         public static final int USER_REQUEST_RATE_TOO_LARGE = 3200;
 
         //SDK Codes(Client)
-        // IMPORTANT - whenever possible use consistency substaus codes that .Net SDK also uses
+        // IMPORTANT - whenever possible use consistency substatus codes that .Net SDK also uses
         public static final int TRANSPORT_GENERATED_410 = 20001;
         public static final int TIMEOUT_GENERATED_410 = 20002;
         // Client generated operation timeout exception
         public static final int CLIENT_OPERATION_TIMEOUT = 20008;
 
+        // IMPORTANT - below sub status codes have no corresponding .Net
+        // version, because they are only applicable in Java
+        public static final int NEGATIVE_TIMEOUT_PROVIDED = 20901; // .Net has different cancellation concept
+
+        // SubStatusCodes for Client generated 500
+        public static final int MISSING_PARTITION_KEY_RANGE_ID_IN_CONTEXT = 20902;
+        public static final int INVALID_REGIONS_IN_SESSION_TOKEN = 20903;
+        public static final int NON_PARTITIONED_RESOURCES = 20904;
+        public static final int PARTITION_KEY_IS_NULL = 20905;
+        public static final int UNKNOWN_AUTHORIZATION_TOKEN_KIND= 20906;
+        public static final int RECREATE_REQUEST_ON_HTTP_CLIENT = 20907;
+        public static final int INVALID_BACKEND_RESPONSE = 20908;
+        public static final int UNKNOWN_QUORUM_RESULT = 20909;
+        public static final int INVALID_RESULT = 20910;
+
         //SDK Codes (Server)
-        // IMPORTANT - whenever possible use consistency substaus codes that .Net SDK also uses
+        // IMPORTANT - whenever possible use consistency substatus codes that .Net SDK also uses
         public static final int NAME_CACHE_IS_STALE_EXCEEDED_RETRY_LIMIT = 21001;
         public static final int PARTITION_KEY_RANGE_GONE_EXCEEDED_RETRY_LIMIT = 21002;
         public static final int COMPLETING_SPLIT_EXCEEDED_RETRY_LIMIT = 21003;
@@ -442,7 +461,6 @@ public class HttpConstants {
         public static final int SERVER_GENERATED_503 = 21008;
         public static final int NO_VALID_STORE_RESPONSE = 21009;
         public static final int SERVER_GENERATED_408 = 21010;
-
     }
 
     public static class HeaderValues {

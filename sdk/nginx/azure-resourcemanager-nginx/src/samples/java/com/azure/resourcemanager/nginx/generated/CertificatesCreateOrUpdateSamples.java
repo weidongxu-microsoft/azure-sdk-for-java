@@ -4,22 +4,27 @@
 
 package com.azure.resourcemanager.nginx.generated;
 
-/** Samples for Certificates CreateOrUpdate. */
+import com.azure.resourcemanager.nginx.models.NginxCertificateProperties;
+
+/**
+ * Samples for Certificates CreateOrUpdate.
+ */
 public final class CertificatesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_CreateOrUpdate.json
+     * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Certificates_CreateOrUpdate.json
      */
     /**
      * Sample code: Certificates_CreateOrUpdate.
-     *
+     * 
      * @param manager Entry point to NginxManager.
      */
     public static void certificatesCreateOrUpdate(com.azure.resourcemanager.nginx.NginxManager manager) {
-        manager
-            .certificates()
+        manager.certificates()
             .define("default")
-            .withRegion((String) null)
             .withExistingNginxDeployment("myResourceGroup", "myDeployment")
+            .withProperties(new NginxCertificateProperties().withKeyVirtualPath("fakeTokenPlaceholder")
+                .withCertificateVirtualPath("/src/cert/somePath.cert")
+                .withKeyVaultSecretId("fakeTokenPlaceholder"))
             .create();
     }
 }

@@ -6,17 +6,27 @@ package com.azure.resourcemanager.datafactory.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** A copy activity file system source. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * A copy activity file system source.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = FileSystemSource.class, visible = true)
 @JsonTypeName("FileSystemSource")
 @Fluent
 public final class FileSystemSource extends CopySource {
     /*
-     * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression
-     * with resultType boolean).
+     * Copy source type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "FileSystemSource";
+
+    /*
+     * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with
+     * resultType boolean).
      */
     @JsonProperty(value = "recursive")
     private Object recursive;
@@ -28,14 +38,26 @@ public final class FileSystemSource extends CopySource {
     @JsonProperty(value = "additionalColumns")
     private Object additionalColumns;
 
-    /** Creates an instance of FileSystemSource class. */
+    /**
+     * Creates an instance of FileSystemSource class.
+     */
     public FileSystemSource() {
+    }
+
+    /**
+     * Get the type property: Copy source type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
     }
 
     /**
      * Get the recursive property: If true, files under the folder path will be read recursively. Default is true. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @return the recursive value.
      */
     public Object recursive() {
@@ -45,7 +67,7 @@ public final class FileSystemSource extends CopySource {
     /**
      * Set the recursive property: If true, files under the folder path will be read recursively. Default is true. Type:
      * boolean (or Expression with resultType boolean).
-     *
+     * 
      * @param recursive the recursive value to set.
      * @return the FileSystemSource object itself.
      */
@@ -57,7 +79,7 @@ public final class FileSystemSource extends CopySource {
     /**
      * Get the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @return the additionalColumns value.
      */
     public Object additionalColumns() {
@@ -67,7 +89,7 @@ public final class FileSystemSource extends CopySource {
     /**
      * Set the additionalColumns property: Specifies the additional columns to be added to source data. Type: array of
      * objects(AdditionalColumns) (or Expression with resultType array of objects).
-     *
+     * 
      * @param additionalColumns the additionalColumns value to set.
      * @return the FileSystemSource object itself.
      */
@@ -76,28 +98,36 @@ public final class FileSystemSource extends CopySource {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FileSystemSource withSourceRetryCount(Object sourceRetryCount) {
         super.withSourceRetryCount(sourceRetryCount);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FileSystemSource withSourceRetryWait(Object sourceRetryWait) {
         super.withSourceRetryWait(sourceRetryWait);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FileSystemSource withMaxConcurrentConnections(Object maxConcurrentConnections) {
         super.withMaxConcurrentConnections(maxConcurrentConnections);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FileSystemSource withDisableMetricsCollection(Object disableMetricsCollection) {
         super.withDisableMetricsCollection(disableMetricsCollection);
@@ -106,7 +136,7 @@ public final class FileSystemSource extends CopySource {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override

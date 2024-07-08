@@ -7,7 +7,11 @@ package com.azure.resourcemanager.cosmos.models;
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Cosmos DB SQL container resource object. */
+import java.util.List;
+
+/**
+ * Cosmos DB SQL container resource object.
+ */
 @Fluent
 public final class RestorableSqlContainerPropertiesResourceContainer extends SqlContainerResource {
     /*
@@ -34,7 +38,9 @@ public final class RestorableSqlContainerPropertiesResourceContainer extends Sql
     @JsonProperty(value = "_etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of RestorableSqlContainerPropertiesResourceContainer class. */
+    /**
+     * Creates an instance of RestorableSqlContainerPropertiesResourceContainer class.
+     */
     public RestorableSqlContainerPropertiesResourceContainer() {
     }
 
@@ -75,61 +81,106 @@ public final class RestorableSqlContainerPropertiesResourceContainer extends Sql
         return this.etag;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestorableSqlContainerPropertiesResourceContainer withId(String id) {
         super.withId(id);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestorableSqlContainerPropertiesResourceContainer withIndexingPolicy(IndexingPolicy indexingPolicy) {
         super.withIndexingPolicy(indexingPolicy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestorableSqlContainerPropertiesResourceContainer withPartitionKey(ContainerPartitionKey partitionKey) {
         super.withPartitionKey(partitionKey);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestorableSqlContainerPropertiesResourceContainer withDefaultTtl(Integer defaultTtl) {
         super.withDefaultTtl(defaultTtl);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestorableSqlContainerPropertiesResourceContainer withUniqueKeyPolicy(UniqueKeyPolicy uniqueKeyPolicy) {
         super.withUniqueKeyPolicy(uniqueKeyPolicy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RestorableSqlContainerPropertiesResourceContainer withConflictResolutionPolicy(
-        ConflictResolutionPolicy conflictResolutionPolicy) {
+    public RestorableSqlContainerPropertiesResourceContainer
+        withConflictResolutionPolicy(ConflictResolutionPolicy conflictResolutionPolicy) {
         super.withConflictResolutionPolicy(conflictResolutionPolicy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RestorableSqlContainerPropertiesResourceContainer withClientEncryptionPolicy(
-        ClientEncryptionPolicy clientEncryptionPolicy) {
+    public RestorableSqlContainerPropertiesResourceContainer
+        withClientEncryptionPolicy(ClientEncryptionPolicy clientEncryptionPolicy) {
         super.withClientEncryptionPolicy(clientEncryptionPolicy);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RestorableSqlContainerPropertiesResourceContainer withAnalyticalStorageTtl(Long analyticalStorageTtl) {
         super.withAnalyticalStorageTtl(analyticalStorageTtl);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RestorableSqlContainerPropertiesResourceContainer
+        withRestoreParameters(ResourceRestoreParameters restoreParameters) {
+        super.withRestoreParameters(restoreParameters);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RestorableSqlContainerPropertiesResourceContainer withCreateMode(CreateMode createMode) {
+        super.withCreateMode(createMode);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RestorableSqlContainerPropertiesResourceContainer
+        withComputedProperties(List<ComputedProperty> computedProperties) {
+        super.withComputedProperties(computedProperties);
         return this;
     }
 

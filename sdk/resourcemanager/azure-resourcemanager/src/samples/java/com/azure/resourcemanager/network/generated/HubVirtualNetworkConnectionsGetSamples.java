@@ -4,19 +4,20 @@
 
 package com.azure.resourcemanager.network.generated;
 
-/** Samples for HubVirtualNetworkConnections Get. */
+/**
+ * Samples for HubVirtualNetworkConnections Get.
+ */
 public final class HubVirtualNetworkConnectionsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/HubVirtualNetworkConnectionGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/HubVirtualNetworkConnectionGet.json
      */
     /**
      * Sample code: HubVirtualNetworkConnectionGet.
-     *
+     * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void hubVirtualNetworkConnectionGet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
+        azure.networks()
             .manager()
             .serviceClient()
             .getHubVirtualNetworkConnections()

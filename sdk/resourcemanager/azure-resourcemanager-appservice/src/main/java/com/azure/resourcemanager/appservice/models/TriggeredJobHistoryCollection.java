@@ -8,9 +8,12 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.fluent.models.TriggeredJobHistoryInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-/** Collection of Kudu continuous web job information elements. */
+/**
+ * Collection of Kudu continuous web job information elements.
+ */
 @Fluent
 public final class TriggeredJobHistoryCollection {
     /*
@@ -25,7 +28,9 @@ public final class TriggeredJobHistoryCollection {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of TriggeredJobHistoryCollection class. */
+    /**
+     * Creates an instance of TriggeredJobHistoryCollection class.
+     */
     public TriggeredJobHistoryCollection() {
     }
 
@@ -65,10 +70,9 @@ public final class TriggeredJobHistoryCollection {
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model TriggeredJobHistoryCollection"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property value in model TriggeredJobHistoryCollection"));
         } else {
             value().forEach(e -> e.validate());
         }

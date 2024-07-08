@@ -5,16 +5,20 @@
 package com.azure.resourcemanager.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Encryption identity for the storage account. */
+/**
+ * Encryption identity for the storage account.
+ */
 @Fluent
-public class EncryptionIdentity {
+public final class EncryptionIdentity {
     /*
      * Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage
      * account.
      */
     @JsonProperty(value = "userAssignedIdentity")
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
     private String encryptionUserAssignedIdentity;
 
     /*
@@ -25,9 +29,15 @@ public class EncryptionIdentity {
     private String encryptionFederatedIdentityClientId;
 
     /**
+     * Creates an instance of EncryptionIdentity class.
+     */
+    public EncryptionIdentity() {
+    }
+
+    /**
      * Get the encryptionUserAssignedIdentity property: Resource identifier of the UserAssigned identity to be
      * associated with server-side encryption on the storage account.
-     *
+     * 
      * @return the encryptionUserAssignedIdentity value.
      */
     public String encryptionUserAssignedIdentity() {
@@ -37,7 +47,7 @@ public class EncryptionIdentity {
     /**
      * Set the encryptionUserAssignedIdentity property: Resource identifier of the UserAssigned identity to be
      * associated with server-side encryption on the storage account.
-     *
+     * 
      * @param encryptionUserAssignedIdentity the encryptionUserAssignedIdentity value to set.
      * @return the EncryptionIdentity object itself.
      */
@@ -50,7 +60,7 @@ public class EncryptionIdentity {
      * Get the encryptionFederatedIdentityClientId property: ClientId of the multi-tenant application to be used in
      * conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the
      * storage account.
-     *
+     * 
      * @return the encryptionFederatedIdentityClientId value.
      */
     public String encryptionFederatedIdentityClientId() {
@@ -61,7 +71,7 @@ public class EncryptionIdentity {
      * Set the encryptionFederatedIdentityClientId property: ClientId of the multi-tenant application to be used in
      * conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the
      * storage account.
-     *
+     * 
      * @param encryptionFederatedIdentityClientId the encryptionFederatedIdentityClientId value to set.
      * @return the EncryptionIdentity object itself.
      */
@@ -72,7 +82,7 @@ public class EncryptionIdentity {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {

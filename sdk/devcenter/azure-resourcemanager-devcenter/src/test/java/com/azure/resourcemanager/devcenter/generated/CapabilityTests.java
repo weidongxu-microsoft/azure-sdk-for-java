@@ -10,8 +10,8 @@ import com.azure.resourcemanager.devcenter.models.Capability;
 public final class CapabilityTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        Capability model =
-            BinaryData.fromString("{\"name\":\"ljphuopxodl\",\"value\":\"ynt\"}").toObject(Capability.class);
+        Capability model
+            = BinaryData.fromString("{\"name\":\"rqttbajlkatnw\",\"value\":\"iopid\"}").toObject(Capability.class);
     }
 
     @org.junit.jupiter.api.Test

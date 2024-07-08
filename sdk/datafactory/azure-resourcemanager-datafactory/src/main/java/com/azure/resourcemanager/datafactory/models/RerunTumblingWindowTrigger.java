@@ -8,6 +8,7 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.RerunTumblingWindowTriggerTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
@@ -17,38 +18,65 @@ import java.util.List;
  * Trigger that schedules pipeline reruns for all fixed time interval windows from a requested start time to requested
  * end time.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = RerunTumblingWindowTrigger.class,
+    visible = true)
 @JsonTypeName("RerunTumblingWindowTrigger")
 @Fluent
 public final class RerunTumblingWindowTrigger extends Trigger {
     /*
+     * Trigger type.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "RerunTumblingWindowTrigger";
+
+    /*
      * Rerun Trigger properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
-    private RerunTumblingWindowTriggerTypeProperties innerTypeProperties =
-        new RerunTumblingWindowTriggerTypeProperties();
+    private RerunTumblingWindowTriggerTypeProperties innerTypeProperties
+        = new RerunTumblingWindowTriggerTypeProperties();
 
-    /** Creates an instance of RerunTumblingWindowTrigger class. */
+    /**
+     * Creates an instance of RerunTumblingWindowTrigger class.
+     */
     public RerunTumblingWindowTrigger() {
     }
 
     /**
+     * Get the type property: Trigger type.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Rerun Trigger properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private RerunTumblingWindowTriggerTypeProperties innerTypeProperties() {
         return this.innerTypeProperties;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RerunTumblingWindowTrigger withDescription(String description) {
         super.withDescription(description);
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RerunTumblingWindowTrigger withAnnotations(List<Object> annotations) {
         super.withAnnotations(annotations);
@@ -57,7 +85,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
 
     /**
      * Get the parentTrigger property: The parent trigger reference.
-     *
+     * 
      * @return the parentTrigger value.
      */
     public Object parentTrigger() {
@@ -66,7 +94,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
 
     /**
      * Set the parentTrigger property: The parent trigger reference.
-     *
+     * 
      * @param parentTrigger the parentTrigger value to set.
      * @return the RerunTumblingWindowTrigger object itself.
      */
@@ -81,7 +109,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
     /**
      * Get the requestedStartTime property: The start time for the time period for which restatement is initiated. Only
      * UTC time is currently supported.
-     *
+     * 
      * @return the requestedStartTime value.
      */
     public OffsetDateTime requestedStartTime() {
@@ -91,7 +119,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
     /**
      * Set the requestedStartTime property: The start time for the time period for which restatement is initiated. Only
      * UTC time is currently supported.
-     *
+     * 
      * @param requestedStartTime the requestedStartTime value to set.
      * @return the RerunTumblingWindowTrigger object itself.
      */
@@ -106,7 +134,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
     /**
      * Get the requestedEndTime property: The end time for the time period for which restatement is initiated. Only UTC
      * time is currently supported.
-     *
+     * 
      * @return the requestedEndTime value.
      */
     public OffsetDateTime requestedEndTime() {
@@ -116,7 +144,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
     /**
      * Set the requestedEndTime property: The end time for the time period for which restatement is initiated. Only UTC
      * time is currently supported.
-     *
+     * 
      * @param requestedEndTime the requestedEndTime value to set.
      * @return the RerunTumblingWindowTrigger object itself.
      */
@@ -131,7 +159,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
     /**
      * Get the rerunConcurrency property: The max number of parallel time windows (ready for execution) for which a
      * rerun is triggered.
-     *
+     * 
      * @return the rerunConcurrency value.
      */
     public int rerunConcurrency() {
@@ -141,7 +169,7 @@ public final class RerunTumblingWindowTrigger extends Trigger {
     /**
      * Set the rerunConcurrency property: The max number of parallel time windows (ready for execution) for which a
      * rerun is triggered.
-     *
+     * 
      * @param rerunConcurrency the rerunConcurrency value to set.
      * @return the RerunTumblingWindowTrigger object itself.
      */
@@ -155,17 +183,16 @@ public final class RerunTumblingWindowTrigger extends Trigger {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model RerunTumblingWindowTrigger"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model RerunTumblingWindowTrigger"));
         } else {
             innerTypeProperties().validate();
         }

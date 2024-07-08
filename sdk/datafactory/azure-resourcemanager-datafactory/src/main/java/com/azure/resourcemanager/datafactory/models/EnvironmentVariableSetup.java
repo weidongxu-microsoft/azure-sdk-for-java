@@ -8,27 +8,53 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.datafactory.fluent.models.EnvironmentVariableSetupTypeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-/** The custom setup of setting environment variable. */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * The custom setup of setting environment variable.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type",
+    defaultImpl = EnvironmentVariableSetup.class,
+    visible = true)
 @JsonTypeName("EnvironmentVariableSetup")
 @Fluent
 public final class EnvironmentVariableSetup extends CustomSetupBase {
+    /*
+     * The type of custom setup.
+     */
+    @JsonTypeId
+    @JsonProperty(value = "type", required = true)
+    private String type = "EnvironmentVariableSetup";
+
     /*
      * Add environment variable type properties.
      */
     @JsonProperty(value = "typeProperties", required = true)
     private EnvironmentVariableSetupTypeProperties innerTypeProperties = new EnvironmentVariableSetupTypeProperties();
 
-    /** Creates an instance of EnvironmentVariableSetup class. */
+    /**
+     * Creates an instance of EnvironmentVariableSetup class.
+     */
     public EnvironmentVariableSetup() {
     }
 
     /**
+     * Get the type property: The type of custom setup.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
      * Get the innerTypeProperties property: Add environment variable type properties.
-     *
+     * 
      * @return the innerTypeProperties value.
      */
     private EnvironmentVariableSetupTypeProperties innerTypeProperties() {
@@ -37,7 +63,7 @@ public final class EnvironmentVariableSetup extends CustomSetupBase {
 
     /**
      * Get the variableName property: The name of the environment variable.
-     *
+     * 
      * @return the variableName value.
      */
     public String variableName() {
@@ -46,7 +72,7 @@ public final class EnvironmentVariableSetup extends CustomSetupBase {
 
     /**
      * Set the variableName property: The name of the environment variable.
-     *
+     * 
      * @param variableName the variableName value to set.
      * @return the EnvironmentVariableSetup object itself.
      */
@@ -60,7 +86,7 @@ public final class EnvironmentVariableSetup extends CustomSetupBase {
 
     /**
      * Get the variableValue property: The value of the environment variable.
-     *
+     * 
      * @return the variableValue value.
      */
     public String variableValue() {
@@ -69,7 +95,7 @@ public final class EnvironmentVariableSetup extends CustomSetupBase {
 
     /**
      * Set the variableValue property: The value of the environment variable.
-     *
+     * 
      * @param variableValue the variableValue value to set.
      * @return the EnvironmentVariableSetup object itself.
      */
@@ -83,17 +109,16 @@ public final class EnvironmentVariableSetup extends CustomSetupBase {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
     public void validate() {
         super.validate();
         if (innerTypeProperties() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property innerTypeProperties in model EnvironmentVariableSetup"));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property innerTypeProperties in model EnvironmentVariableSetup"));
         } else {
             innerTypeProperties().validate();
         }
