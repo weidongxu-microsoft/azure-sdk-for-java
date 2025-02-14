@@ -150,7 +150,7 @@ public final class EmergingIssue implements JsonSerializable<EmergingIssue> {
 
                 if ("refreshTimestamp".equals(fieldName)) {
                     deserializedEmergingIssue.refreshTimestamp = reader
-                        .getNullable(nonNullReader -> CoreUtils.parseBestOffsetDateTime(nonNullReader.getString()));
+                        .getNullable(nonNullReader -> CoreUtils.parseBestOffsetDateTime(nonNullReader.getString().replace(" ", "T")));
                 } else if ("statusBanners".equals(fieldName)) {
                     List<StatusBanner> statusBanners = reader.readArray(reader1 -> StatusBanner.fromJson(reader1));
                     deserializedEmergingIssue.statusBanners = statusBanners;
