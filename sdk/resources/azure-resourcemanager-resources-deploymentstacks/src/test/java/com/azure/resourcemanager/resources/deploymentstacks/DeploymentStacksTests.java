@@ -82,14 +82,13 @@ public class DeploymentStacksTests extends TestProxyTestBase {
     public void testDeploymentStacks() {
         final String deploymentStackName = "dpA" + randomPadding();
 
-        DeploymentStack deploymentStack;
+        DeploymentStack deploymentStack = null;
         try {
             // Create a deployment stack
             // @embedmeStart
             deploymentStack = deploymentStacksManager.deploymentStacks()
                 .define(deploymentStackName)
                 .withExistingResourceGroup(resourceGroupName)
-                .withRegion(REGION)
                 .withProperties(new DeploymentStackProperties()
                     .withTemplateLink(
                         new DeploymentStacksTemplateLink().withUri(TEMPLATE_URI).withContentVersion(CONTENT_VERSION))
