@@ -11,7 +11,6 @@ import com.azure.xml.XmlSerializable;
 import com.azure.xml.XmlToken;
 import com.azure.xml.XmlWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -42,7 +41,7 @@ public final class BlobTags implements XmlSerializable<BlobTags> {
     @Generated
     public List<BlobTag> getBlobTagSet() {
         if (this.blobTagSet == null) {
-            return Collections.emptyList();
+            this.blobTagSet = new ArrayList<>();
         }
         return this.blobTagSet;
     }

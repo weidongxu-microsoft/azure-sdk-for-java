@@ -12,7 +12,6 @@ import com.azure.xml.XmlSerializable;
 import com.azure.xml.XmlToken;
 import com.azure.xml.XmlWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -183,7 +182,7 @@ public final class BlobContainersSegment implements XmlSerializable<BlobContaine
     @Generated
     public List<BlobContainerItem> getBlobContainerItems() {
         if (this.blobContainerItems == null) {
-            return Collections.emptyList();
+            this.blobContainerItems = new ArrayList<>();
         }
         return this.blobContainerItems;
     }

@@ -11,7 +11,6 @@ import com.azure.xml.XmlSerializable;
 import com.azure.xml.XmlToken;
 import com.azure.xml.XmlWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -149,7 +148,7 @@ public final class BlobServiceProperties implements XmlSerializable<BlobServiceP
     @Generated
     public List<BlobCorsRule> getCors() {
         if (this.cors == null) {
-            return Collections.emptyList();
+            this.cors = new ArrayList<>();
         }
         return this.cors;
     }

@@ -11,7 +11,6 @@ import com.azure.xml.XmlSerializable;
 import com.azure.xml.XmlToken;
 import com.azure.xml.XmlWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -42,7 +41,7 @@ public final class ArrowConfiguration implements XmlSerializable<ArrowConfigurat
     @Generated
     public List<ArrowField> getSchema() {
         if (this.schema == null) {
-            return Collections.emptyList();
+            this.schema = new ArrayList<>();
         }
         return this.schema;
     }
