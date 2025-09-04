@@ -66,6 +66,51 @@ See [Authentication][authenticate] for more options.
 
 ## Key concepts
 
+### Operations
+- List available StorageMover service operations.
+
+### StorageMover
+- Get a StorageMover resource.
+- Create or update a StorageMover resource.
+- Update (patch) properties of an existing StorageMover.
+- Delete a StorageMover resource.
+- List StorageMover resources in a resource group.
+- List StorageMover resources in a subscription.
+
+### Agent
+- Get an Agent resource.
+- Create or update an Agent resource.
+- Update (patch) properties of an existing Agent.
+- Delete an Agent resource.
+- List Agent resources under a StorageMover.
+
+### Endpoint
+- Get an Endpoint resource.
+- Create or update an Endpoint resource.
+- Update (patch) properties of an existing Endpoint.
+- Delete an Endpoint resource.
+- List Endpoint resources under a StorageMover.
+
+### Project
+- Get a Project resource.
+- Create or update a Project resource.
+- Update (patch) properties of an existing Project.
+- Delete a Project resource.
+- List Project resources under a StorageMover.
+
+### JobDefinition
+- Get a JobDefinition resource.
+- Create or update a JobDefinition resource.
+- Update (patch) properties of an existing JobDefinition.
+- Delete a JobDefinition resource.
+- List JobDefinition resources within a Project.
+- Start a job for a JobDefinition.
+- Stop a job for a JobDefinition.
+
+### JobRun
+- Get a JobRun resource.
+- List JobRun resources for a JobDefinition.
+
 See [API design][design] for general introduction on design and key concepts on Azure Management Libraries.
 
 ## Examples
