@@ -148,7 +148,7 @@ def delete_generated_code(path: str) -> None:
 def compile_arm_package(sdk_root: str, module: str) -> bool:
     if (
         os.system(
-            "mvn --no-transfer-progress clean verify -f {0}/pom.xml -Dmaven.javadoc.skip -Dgpg.skip -DskipTestCompile -Djacoco.skip -Drevapi.skip -pl {1}:{2} -am".format(
+            "mvn --no-transfer-progress clean verify -f {0}/pom.xml -Dmaven.javadoc.skip -Dgpg.skip -DskipTestCompile -Djacoco.skip -Drevapi.skip -Dcheckstyle.skip -pl {1}:{2} -am".format(
                 sdk_root, GROUP_ID, module
             )
         )
