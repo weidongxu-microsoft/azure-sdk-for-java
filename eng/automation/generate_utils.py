@@ -234,18 +234,22 @@ def compare_with_maven_package(
             "[Changelog] Compare stable version {0} with current version {1}".format(previous_version, current_version)
         )
 
-        r = requests.get(
-            MAVEN_URL.format(
-                group_id=group_id.replace(".", "/"),
-                artifact_id=module,
-                version=previous_version,
-            )
-        )
-        r.raise_for_status()
-        old_jar_fd, old_jar = tempfile.mkstemp(".jar")
+        # r = requests.get(
+        #     MAVEN_URL.format(
+        #         group_id=group_id.replace(".", "/"),
+        #         artifact_id=module,
+        #         version=previous_version,
+        #     )
+        # )
+        # r.raise_for_status()
+        # old_jar_fd, old_jar = tempfile.mkstemp(".jar")
         try:
-            with os.fdopen(old_jar_fd, "wb") as tmp:
-                tmp.write(r.content)
+            # with os.fdopen(old_jar_fd, "wb") as tmp:
+            #     tmp.write(r.content)
+            old_jar = os.path.join(
+                sdk_root,
+                "sdk/{service}/{artifact_id}/{artifact_id}-1.0.0-beta.1.jar".format(service=service, artifact_id=module),
+            )
             new_jar = os.path.join(
                 sdk_root,
                 JAR_FORMAT.format(service=service, artifact_id=module, version=current_version),
