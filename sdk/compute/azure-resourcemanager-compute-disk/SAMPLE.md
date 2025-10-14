@@ -5,15 +5,11 @@
 
 - [CreateOrUpdate](#diskaccesses_createorupdate)
 - [Delete](#diskaccesses_delete)
-- [DeleteAPrivateEndpointConnection](#diskaccesses_deleteaprivateendpointconnection)
-- [GetAPrivateEndpointConnection](#diskaccesses_getaprivateendpointconnection)
 - [GetByResourceGroup](#diskaccesses_getbyresourcegroup)
 - [GetPrivateLinkResources](#diskaccesses_getprivatelinkresources)
 - [List](#diskaccesses_list)
 - [ListByResourceGroup](#diskaccesses_listbyresourcegroup)
-- [ListPrivateEndpointConnections](#diskaccesses_listprivateendpointconnections)
 - [Update](#diskaccesses_update)
-- [UpdateAPrivateEndpointConnection](#diskaccesses_updateaprivateendpointconnection)
 
 ## DiskEncryptionSets
 
@@ -25,12 +21,12 @@
 - [ListByResourceGroup](#diskencryptionsets_listbyresourcegroup)
 - [Update](#diskencryptionsets_update)
 
-## DiskRestorePoint
+## DiskRestorePoints
 
-- [Get](#diskrestorepoint_get)
-- [GrantAccess](#diskrestorepoint_grantaccess)
-- [ListByRestorePoint](#diskrestorepoint_listbyrestorepoint)
-- [RevokeAccess](#diskrestorepoint_revokeaccess)
+- [Get](#diskrestorepoints_get)
+- [GrantAccess](#diskrestorepoints_grantaccess)
+- [ListByRestorePoint](#diskrestorepoints_listbyrestorepoint)
+- [RevokeAccess](#diskrestorepoints_revokeaccess)
 
 ## Disks
 
@@ -42,6 +38,13 @@
 - [ListByResourceGroup](#disks_listbyresourcegroup)
 - [RevokeAccess](#disks_revokeaccess)
 - [Update](#disks_update)
+
+## PrivateEndpointConnections
+
+- [DeleteAPrivateEndpointConnection](#privateendpointconnections_deleteaprivateendpointconnection)
+- [GetAPrivateEndpointConnection](#privateendpointconnections_getaprivateendpointconnection)
+- [ListPrivateEndpointConnections](#privateendpointconnections_listprivateendpointconnections)
+- [UpdateAPrivateEndpointConnection](#privateendpointconnections_updateaprivateendpointconnection)
 
 ## Snapshots
 
@@ -61,9 +64,7 @@
  */
 public final class DiskAccessesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_Create.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Create.json
      */
     /**
      * Sample code: create a disk access resource.
@@ -88,9 +89,7 @@ public final class DiskAccessesCreateOrUpdateSamples {
  */
 public final class DiskAccessesDeleteSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_Delete.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Delete.json
      */
     /**
      * Sample code: delete a disk access resource.
@@ -103,58 +102,6 @@ public final class DiskAccessesDeleteSamples {
 }
 ```
 
-### DiskAccesses_DeleteAPrivateEndpointConnection
-
-```java
-/**
- * Samples for DiskAccesses DeleteAPrivateEndpointConnection.
- */
-public final class DiskAccessesDeleteAPrivateEndpointConnectionSamples {
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccessPrivateEndpointConnection_Delete.json
-     */
-    /**
-     * Sample code: delete a private endpoint connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void deleteAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.diskAccesses()
-            .deleteAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
-                com.azure.core.util.Context.NONE);
-    }
-}
-```
-
-### DiskAccesses_GetAPrivateEndpointConnection
-
-```java
-/**
- * Samples for DiskAccesses GetAPrivateEndpointConnection.
- */
-public final class DiskAccessesGetAPrivateEndpointConnectionSamples {
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccessPrivateEndpointConnection_Get.json
-     */
-    /**
-     * Sample code: get information about a private endpoint connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.diskAccesses()
-            .getAPrivateEndpointConnectionWithResponse("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
-                com.azure.core.util.Context.NONE);
-    }
-}
-```
-
 ### DiskAccesses_GetByResourceGroup
 
 ```java
@@ -163,9 +110,7 @@ public final class DiskAccessesGetAPrivateEndpointConnectionSamples {
  */
 public final class DiskAccessesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_Get_WithPrivateEndpoints.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
      */
     /**
      * Sample code: get information about a disk access resource with private endpoints.
@@ -179,9 +124,7 @@ public final class DiskAccessesGetByResourceGroupSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_Get.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Get.json
      */
     /**
      * Sample code: get information about a disk access resource.
@@ -204,9 +147,7 @@ public final class DiskAccessesGetByResourceGroupSamples {
  */
 public final class DiskAccessesGetPrivateLinkResourcesSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccessPrivateLinkResources_Get.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
      */
     /**
      * Sample code: list all possible private link resources under disk access resource.
@@ -229,9 +170,7 @@ public final class DiskAccessesGetPrivateLinkResourcesSamples {
  */
 public final class DiskAccessesListSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_ListBySubscription.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_ListBySubscription.json
      */
     /**
      * Sample code: list all disk access resources in a subscription.
@@ -253,9 +192,7 @@ public final class DiskAccessesListSamples {
  */
 public final class DiskAccessesListByResourceGroupSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_ListByResourceGroup.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_ListByResourceGroup.json
      */
     /**
      * Sample code: list all disk access resources in a resource group.
@@ -265,31 +202,6 @@ public final class DiskAccessesListByResourceGroupSamples {
     public static void
         listAllDiskAccessResourcesInAResourceGroup(com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
         manager.diskAccesses().listByResourceGroup("myResourceGroup", com.azure.core.util.Context.NONE);
-    }
-}
-```
-
-### DiskAccesses_ListPrivateEndpointConnections
-
-```java
-/**
- * Samples for DiskAccesses ListPrivateEndpointConnections.
- */
-public final class DiskAccessesListPrivateEndpointConnectionsSamples {
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
-     */
-    /**
-     * Sample code: get information about a private endpoint connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.diskAccesses()
-            .listPrivateEndpointConnections("myResourceGroup", "myDiskAccess", com.azure.core.util.Context.NONE);
     }
 }
 ```
@@ -306,9 +218,7 @@ import java.util.Map;
  */
 public final class DiskAccessesUpdateSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccess_Update.json
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Update.json
      */
     /**
      * Sample code: update a disk access resource.
@@ -336,39 +246,6 @@ public final class DiskAccessesUpdateSamples {
 }
 ```
 
-### DiskAccesses_UpdateAPrivateEndpointConnection
-
-```java
-import com.azure.resourcemanager.compute.disk.fluent.models.PrivateEndpointConnectionInner;
-import com.azure.resourcemanager.compute.disk.models.PrivateEndpointServiceConnectionStatus;
-import com.azure.resourcemanager.compute.disk.models.PrivateLinkServiceConnectionState;
-
-/**
- * Samples for DiskAccesses UpdateAPrivateEndpointConnection.
- */
-public final class DiskAccessesUpdateAPrivateEndpointConnectionSamples {
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskAccessExamples/
-     * DiskAccessPrivateEndpointConnection_Approve.json
-     */
-    /**
-     * Sample code: approve a Private Endpoint Connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void approveAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.diskAccesses()
-            .updateAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
-                new PrivateEndpointConnectionInner().withPrivateLinkServiceConnectionState(
-                    new PrivateLinkServiceConnectionState().withStatus(PrivateEndpointServiceConnectionStatus.APPROVED)
-                        .withDescription("Approving myPrivateEndpointConnection")),
-                com.azure.core.util.Context.NONE);
-    }
-}
-```
-
 ### DiskEncryptionSets_CreateOrUpdate
 
 ```java
@@ -386,8 +263,8 @@ import java.util.Map;
  */
 public final class DiskEncryptionSetsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
+     * x-ms-original-file:
+     * 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
      */
     /**
      * Sample code: create a disk encryption set with key vault from a different tenant.
@@ -411,8 +288,7 @@ public final class DiskEncryptionSetsCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Create.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
      */
     /**
      * Sample code: create a disk encryption set.
@@ -433,8 +309,8 @@ public final class DiskEncryptionSetsCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
+     * x-ms-original-file:
+     * 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
      */
     /**
      * Sample code: create a disk encryption set with key vault from a different subscription.
@@ -475,8 +351,7 @@ public final class DiskEncryptionSetsCreateOrUpdateSamples {
  */
 public final class DiskEncryptionSetsDeleteSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Delete.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Delete.json
      */
     /**
      * Sample code: delete a disk encryption set.
@@ -497,8 +372,7 @@ public final class DiskEncryptionSetsDeleteSamples {
  */
 public final class DiskEncryptionSetsGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Get.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
      */
     /**
      * Sample code: get information about a disk encryption set.
@@ -512,8 +386,7 @@ public final class DiskEncryptionSetsGetByResourceGroupSamples {
     }
 
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
      */
     /**
      * Sample code: get information about a disk encryption set when auto-key rotation failed.
@@ -536,8 +409,7 @@ public final class DiskEncryptionSetsGetByResourceGroupSamples {
  */
 public final class DiskEncryptionSetsListSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_ListBySubscription.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_ListBySubscription.json
      */
     /**
      * Sample code: list all disk encryption sets in a subscription.
@@ -559,8 +431,7 @@ public final class DiskEncryptionSetsListSamples {
  */
 public final class DiskEncryptionSetsListAssociatedResourcesSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
      */
     /**
      * Sample code: list all resources that are encrypted with this disk encryption set.
@@ -583,8 +454,7 @@ public final class DiskEncryptionSetsListAssociatedResourcesSamples {
  */
 public final class DiskEncryptionSetsListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_ListByResourceGroup.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_ListByResourceGroup.json
      */
     /**
      * Sample code: list all disk encryption sets in a resource group.
@@ -615,8 +485,9 @@ import java.util.Map;
  */
 public final class DiskEncryptionSetsUpdateSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
+     * x-ms-original-file:
+     * 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.
+     * json
      */
     /**
      * Sample code: update a disk encryption set with rotationToLatestKeyVersionEnabled set to true - Updating.
@@ -637,8 +508,8 @@ public final class DiskEncryptionSetsUpdateSamples {
     }
 
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
+     * x-ms-original-file:
+     * 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
      */
     /**
      * Sample code: update a disk encryption set with rotationToLatestKeyVersionEnabled set to true - Succeeded.
@@ -659,8 +530,7 @@ public final class DiskEncryptionSetsUpdateSamples {
     }
 
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskEncryptionSetExamples/DiskEncryptionSet_Update.json
+     * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
      */
     /**
      * Sample code: update a disk encryption set.
@@ -694,16 +564,15 @@ public final class DiskEncryptionSetsUpdateSamples {
 }
 ```
 
-### DiskRestorePoint_Get
+### DiskRestorePoints_Get
 
 ```java
 /**
- * Samples for DiskRestorePoint Get.
+ * Samples for DiskRestorePoints Get.
  */
-public final class DiskRestorePointGetSamples {
+public final class DiskRestorePointsGetSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskRestorePointExamples/DiskRestorePoint_Get.json
+     * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_Get.json
      */
     /**
      * Sample code: get an incremental disk restorePoint resource.
@@ -718,8 +587,8 @@ public final class DiskRestorePointGetSamples {
     }
 
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskRestorePointExamples/DiskRestorePoint_Get_WhenSourceResourceIsFromDifferentRegion.json
+     * x-ms-original-file:
+     * 2025-01-02/diskRestorePointExamples/DiskRestorePoint_Get_WhenSourceResourceIsFromDifferentRegion.json
      */
     /**
      * Sample code: get an incremental disk restorePoint when source resource is from a different region.
@@ -735,7 +604,7 @@ public final class DiskRestorePointGetSamples {
 }
 ```
 
-### DiskRestorePoint_GrantAccess
+### DiskRestorePoints_GrantAccess
 
 ```java
 import com.azure.resourcemanager.compute.disk.models.AccessLevel;
@@ -743,12 +612,11 @@ import com.azure.resourcemanager.compute.disk.models.FileFormat;
 import com.azure.resourcemanager.compute.disk.models.GrantAccessData;
 
 /**
- * Samples for DiskRestorePoint GrantAccess.
+ * Samples for DiskRestorePoints GrantAccess.
  */
-public final class DiskRestorePointGrantAccessSamples {
+public final class DiskRestorePointsGrantAccessSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
+     * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
      */
     /**
      * Sample code: grants access to a diskRestorePoint.
@@ -768,16 +636,15 @@ public final class DiskRestorePointGrantAccessSamples {
 }
 ```
 
-### DiskRestorePoint_ListByRestorePoint
+### DiskRestorePoints_ListByRestorePoint
 
 ```java
 /**
- * Samples for DiskRestorePoint ListByRestorePoint.
+ * Samples for DiskRestorePoints ListByRestorePoint.
  */
-public final class DiskRestorePointListByRestorePointSamples {
+public final class DiskRestorePointsListByRestorePointSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
+     * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
      */
     /**
      * Sample code: get an incremental disk restorePoint resource.
@@ -792,16 +659,15 @@ public final class DiskRestorePointListByRestorePointSamples {
 }
 ```
 
-### DiskRestorePoint_RevokeAccess
+### DiskRestorePoints_RevokeAccess
 
 ```java
 /**
- * Samples for DiskRestorePoint RevokeAccess.
+ * Samples for DiskRestorePoints RevokeAccess.
  */
-public final class DiskRestorePointRevokeAccessSamples {
+public final class DiskRestorePointsRevokeAccessSamples {
     /*
-     * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/
-     * diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
+     * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
      */
     /**
      * Sample code: revokes access to a diskRestorePoint.
@@ -842,9 +708,7 @@ import com.azure.resourcemanager.compute.disk.models.OperatingSystemTypes;
  */
 public final class DisksCreateOrUpdateSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromUploadPreparedSecure.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromUploadPreparedSecure.json
      */
     /**
      * Sample code: create a managed disk from UploadPreparedSecure create option.
@@ -865,9 +729,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithOptimizedForFrequentAttach.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
      */
     /**
      * Sample code: create a managed disk with optimizedForFrequentAttach.
@@ -887,9 +749,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_ByCopyingASnapshot.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ByCopyingASnapshot.json
      */
     /**
      * Sample code: create a managed disk by copying a snapshot.
@@ -909,9 +769,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromImportSecure.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromImportSecure.json
      */
     /**
      * Sample code: create a managed disk from ImportSecure create option.
@@ -936,9 +794,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_ByImportingBlobFromADifferentSubscription.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
      */
     /**
      * Sample code: create a managed disk by importing an unmanaged blob from a different subscription.
@@ -959,9 +815,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
      */
     /**
      * Sample code: create a confidential VM supported disk encrypted with customer managed key.
@@ -986,9 +840,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_Empty.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_Empty.json
      */
     /**
      * Sample code: create an empty managed disk.
@@ -1006,9 +858,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromAnElasticSanVolumeSnapshot.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnElasticSanVolumeSnapshot.json
      */
     /**
      * Sample code: create a managed disk from elastic san volume snapshot.
@@ -1028,9 +878,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithDataAccessAuthMode.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithDataAccessAuthMode.json
      */
     /**
      * Sample code: create a managed disk with dataAccessAuthMode.
@@ -1050,9 +898,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromAPlatformImage.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAPlatformImage.json
      */
     /**
      * Sample code: create a managed disk from a platform image.
@@ -1073,9 +919,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithLogicalSectorSize.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithLogicalSectorSize.json
      */
     /**
      * Sample code: create an ultra managed disk with logicalSectorSize 512E.
@@ -1095,9 +939,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_PerformancePlus.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_PerformancePlus.json
      */
     /**
      * Sample code: create a managed disk with performancePlus.
@@ -1115,9 +957,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_InExtendedLocation.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_InExtendedLocation.json
      */
     /**
      * Sample code: create an empty managed disk in extended location.
@@ -1138,9 +978,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_ByImportingBlobFromTheSameSubscription.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
      */
     /**
      * Sample code: create a managed disk by importing an unmanaged blob from the same subscription.
@@ -1159,9 +997,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromImportSecure_WithVMMetadata.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromImportSecure_WithVMMetadata.json
      */
     /**
      * Sample code: create a managed disk from ImportSecure create option with metadata URI for Confidential VM.
@@ -1187,9 +1023,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithPremiumV2_LRSAccountType.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
      */
     /**
      * Sample code: create a managed disk with premium v2 account type.
@@ -1211,9 +1045,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithDiskEncryptionSet.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithDiskEncryptionSet.json
      */
     /**
      * Sample code: create a managed disk and associate with disk encryption set.
@@ -1234,9 +1066,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
      */
     /**
      * Sample code: create a managed disk from an Azure Compute Gallery direct shared image.
@@ -1257,9 +1087,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithSecurityProfile.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithSecurityProfile.json
      */
     /**
      * Sample code: create a managed disk with security profile.
@@ -1281,9 +1109,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithDiskAccess.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithDiskAccess.json
      */
     /**
      * Sample code: create a managed disk and associate with disk access resource.
@@ -1305,9 +1131,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithSSDZRSAccountType.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithSSDZRSAccountType.json
      */
     /**
      * Sample code: create a managed disk with ssd zrs account type.
@@ -1327,9 +1151,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
      */
     /**
      * Sample code: create a managed disk from an Azure Compute Gallery community image.
@@ -1350,9 +1172,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromAnAzureComputeGalleryImage.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
      */
     /**
      * Sample code: create a managed disk from an Azure Compute Gallery image.
@@ -1373,9 +1193,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_CreateOrUpdate_AvailabilityPolicy.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_CreateOrUpdate_AvailabilityPolicy.json
      */
     /**
      * Sample code: create a managed disk with availability policy.
@@ -1396,9 +1214,25 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_WithUltraSSD_ReadOnly.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_UploadDisk.json
+     */
+    /**
+     * Sample code: create a managed upload disk.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void createAManagedUploadDisk(com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.disks()
+            .define("myDisk")
+            .withRegion("West US")
+            .withExistingResourceGroup("myResourceGroup")
+            .withCreationData(
+                new CreationData().withCreateOption(DiskCreateOption.UPLOAD).withUploadSizeBytes(10737418752L))
+            .create();
+    }
+
+    /*
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
      */
     /**
      * Sample code: create a managed disk with ultra account type with readOnly property set.
@@ -1421,29 +1255,7 @@ public final class DisksCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_UploadDisk.json
-     */
-    /**
-     * Sample code: create a managed upload disk.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void createAManagedUploadDisk(com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.disks()
-            .define("myDisk")
-            .withRegion("West US")
-            .withExistingResourceGroup("myResourceGroup")
-            .withCreationData(
-                new CreationData().withCreateOption(DiskCreateOption.UPLOAD).withUploadSizeBytes(10737418752L))
-            .create();
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Create_FromAnExistingManagedDisk.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
      */
     /**
      * Sample code: create a managed disk from an existing managed disk in the same or different subscription.
@@ -1472,9 +1284,7 @@ public final class DisksCreateOrUpdateSamples {
  */
 public final class DisksDeleteSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Delete.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Delete.json
      */
     /**
      * Sample code: delete a managed disk.
@@ -1495,9 +1305,7 @@ public final class DisksDeleteSamples {
  */
 public final class DisksGetByResourceGroupSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/Disk_Get.
-     * json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Get.json
      */
     /**
      * Sample code: get information about a managed disk.
@@ -1524,9 +1332,7 @@ import com.azure.resourcemanager.compute.disk.models.GrantAccessData;
  */
 public final class DisksGrantAccessSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_BeginGetAccess_WithVMGuestStateAndVMMetadata.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_BeginGetAccess_WithVMGuestStateAndVMMetadata.json
      */
     /**
      * Sample code: get sas on managed disk, VM guest state and VM metadata for Confidential VM.
@@ -1544,9 +1350,7 @@ public final class DisksGrantAccessSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_BeginGetAccess_WithVMGuestState.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
      */
     /**
      * Sample code: get sas on managed disk and VM guest state.
@@ -1564,9 +1368,7 @@ public final class DisksGrantAccessSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_BeginGetAccess.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_BeginGetAccess.json
      */
     /**
      * Sample code: get a sas on a managed disk.
@@ -1592,9 +1394,7 @@ public final class DisksGrantAccessSamples {
  */
 public final class DisksListSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_ListBySubscription.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_ListBySubscription.json
      */
     /**
      * Sample code: list all managed disks in a subscription.
@@ -1616,9 +1416,7 @@ public final class DisksListSamples {
  */
 public final class DisksListByResourceGroupSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_ListByResourceGroup.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_ListByResourceGroup.json
      */
     /**
      * Sample code: list all managed disks in a resource group.
@@ -1640,9 +1438,7 @@ public final class DisksListByResourceGroupSamples {
  */
 public final class DisksRevokeAccessSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_EndGetAccess.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_EndGetAccess.json
      */
     /**
      * Sample code: revoke access to a managed disk.
@@ -1669,9 +1465,7 @@ import com.azure.resourcemanager.compute.disk.models.SupportedCapabilities;
  */
 public final class DisksUpdateSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_ToAddArchitecture.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_ToAddArchitecture.json
      */
     /**
      * Sample code: update a managed disk to add architecture.
@@ -1689,9 +1483,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_AddPurchasePlan.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddPurchasePlan.json
      */
     /**
      * Sample code: update a managed disk to add purchase plan.
@@ -1712,9 +1504,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_DisableOptimizedForFrequentAttach.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
      */
     /**
      * Sample code: update a managed disk to disable optimizedForFrequentAttach.
@@ -1730,9 +1520,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_AddDiskControllerTypes.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddDiskControllerTypes.json
      */
     /**
      * Sample code: update a managed disk with diskControllerTypes.
@@ -1750,9 +1538,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_AddSupportsHibernation.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddSupportsHibernation.json
      */
     /**
      * Sample code: update a managed disk to add supportsHibernation.
@@ -1768,9 +1554,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_CreateOrUpdate_BurstingEnabled.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
      */
     /**
      * Sample code: create or update a bursting enabled managed disk.
@@ -1786,9 +1570,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_DisableBursting.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_DisableBursting.json
      */
     /**
      * Sample code: update a managed disk to disable bursting.
@@ -1804,9 +1586,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_RemoveDiskAccess.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_RemoveDiskAccess.json
      */
     /**
      * Sample code: update managed disk to remove disk access resource association.
@@ -1822,9 +1602,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_AddAcceleratedNetworking.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddAcceleratedNetworking.json
      */
     /**
      * Sample code: update a managed disk to add accelerated networking.
@@ -1840,9 +1618,7 @@ public final class DisksUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/diskExamples/
-     * Disk_Update_ChangeTier.json
+     * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_ChangeTier.json
      */
     /**
      * Sample code: update a managed disk to change tier.
@@ -1859,6 +1635,108 @@ public final class DisksUpdateSamples {
 }
 ```
 
+### PrivateEndpointConnections_DeleteAPrivateEndpointConnection
+
+```java
+/**
+ * Samples for PrivateEndpointConnections DeleteAPrivateEndpointConnection.
+ */
+public final class PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
+     */
+    /**
+     * Sample code: delete a private endpoint connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void deleteAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.privateEndpointConnections()
+            .deleteAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
+                com.azure.core.util.Context.NONE);
+    }
+}
+```
+
+### PrivateEndpointConnections_GetAPrivateEndpointConnection
+
+```java
+/**
+ * Samples for PrivateEndpointConnections GetAPrivateEndpointConnection.
+ */
+public final class PrivateEndpointConnectionsGetAPrivateEndpointConnectionSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Get.json
+     */
+    /**
+     * Sample code: get information about a private endpoint connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.privateEndpointConnections()
+            .getAPrivateEndpointConnectionWithResponse("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
+                com.azure.core.util.Context.NONE);
+    }
+}
+```
+
+### PrivateEndpointConnections_ListPrivateEndpointConnections
+
+```java
+/**
+ * Samples for PrivateEndpointConnections ListPrivateEndpointConnections.
+ */
+public final class PrivateEndpointConnectionsListPrivateEndpointConnectionsSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
+     */
+    /**
+     * Sample code: get information about a private endpoint connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.privateEndpointConnections()
+            .listPrivateEndpointConnections("myResourceGroup", "myDiskAccess", com.azure.core.util.Context.NONE);
+    }
+}
+```
+
+### PrivateEndpointConnections_UpdateAPrivateEndpointConnection
+
+```java
+import com.azure.resourcemanager.compute.disk.fluent.models.PrivateEndpointConnectionInner;
+import com.azure.resourcemanager.compute.disk.models.PrivateEndpointServiceConnectionStatus;
+import com.azure.resourcemanager.compute.disk.models.PrivateLinkServiceConnectionState;
+
+/**
+ * Samples for PrivateEndpointConnections UpdateAPrivateEndpointConnection.
+ */
+public final class PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
+     */
+    /**
+     * Sample code: approve a Private Endpoint Connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void approveAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.privateEndpointConnections()
+            .updateAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
+                new PrivateEndpointConnectionInner().withPrivateLinkServiceConnectionState(
+                    new PrivateLinkServiceConnectionState().withStatus(PrivateEndpointServiceConnectionStatus.APPROVED)
+                        .withDescription("Approving myPrivateEndpointConnection")),
+                com.azure.core.util.Context.NONE);
+    }
+}
+```
+
 ### Snapshots_CreateOrUpdate
 
 ```java
@@ -1871,9 +1749,7 @@ import com.azure.resourcemanager.compute.disk.models.ProvisionedBandwidthCopyOpt
  */
 public final class SnapshotsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_FromAnExistingSnapshot.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
      */
     /**
      * Sample code: Create a snapshot from an existing snapshot in the same or a different subscription.
@@ -1893,9 +1769,7 @@ public final class SnapshotsCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_FromAnElasticSanVolumeSnapshot.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_FromAnElasticSanVolumeSnapshot.json
      */
     /**
      * Sample code: Create a snapshot from an elastic san volume snapshot.
@@ -1915,9 +1789,7 @@ public final class SnapshotsCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_InstantAccessSnapshot.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_InstantAccessSnapshot.json
      */
     /**
      * Sample code: create a snapshot which can be instantly accessable.
@@ -1938,9 +1810,7 @@ public final class SnapshotsCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_EnhancedProvisionedBandwidthCopySpeed.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_EnhancedProvisionedBandwidthCopySpeed.json
      */
     /**
      * Sample code: Create a snapshot from an existing snapshot in the same or a different subscription in a different
@@ -1963,9 +1833,7 @@ public final class SnapshotsCreateOrUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
      */
     /**
      * Sample code: Create a snapshot from an existing snapshot in the same or a different subscription in a different
@@ -1987,8 +1855,7 @@ public final class SnapshotsCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
+     * 2025-01-02/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
      */
     /**
      * Sample code: Create a snapshot by importing an unmanaged blob from the same subscription.
@@ -2008,8 +1875,7 @@ public final class SnapshotsCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
+     * 2025-01-02/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
      */
     /**
      * Sample code: Create a snapshot by importing an unmanaged blob from a different subscription.
@@ -2039,9 +1905,7 @@ public final class SnapshotsCreateOrUpdateSamples {
  */
 public final class SnapshotsDeleteSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Delete.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Delete.json
      */
     /**
      * Sample code: Delete a snapshot.
@@ -2062,9 +1926,7 @@ public final class SnapshotsDeleteSamples {
  */
 public final class SnapshotsGetByResourceGroupSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_GetIncrementalSnapshot.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
      */
     /**
      * Sample code: Get information about an incremental snapshot.
@@ -2079,9 +1941,7 @@ public final class SnapshotsGetByResourceGroupSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Get.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Get.json
      */
     /**
      * Sample code: Get information about a snapshot.
@@ -2107,9 +1967,7 @@ import com.azure.resourcemanager.compute.disk.models.GrantAccessData;
  */
 public final class SnapshotsGrantAccessSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_BeginGetAccess.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_BeginGetAccess.json
      */
     /**
      * Sample code: Get a sas on a snapshot.
@@ -2135,9 +1993,7 @@ public final class SnapshotsGrantAccessSamples {
  */
 public final class SnapshotsListSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_ListBySubscription.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_ListBySubscription.json
      */
     /**
      * Sample code: List all snapshots in a subscription.
@@ -2159,9 +2015,7 @@ public final class SnapshotsListSamples {
  */
 public final class SnapshotsListByResourceGroupSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_ListByResourceGroup.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_ListByResourceGroup.json
      */
     /**
      * Sample code: List all snapshots in a resource group.
@@ -2183,9 +2037,7 @@ public final class SnapshotsListByResourceGroupSamples {
  */
 public final class SnapshotsRevokeAccessSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_EndGetAccess.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_EndGetAccess.json
      */
     /**
      * Sample code: Revoke access to a snapshot.
@@ -2211,9 +2063,7 @@ import java.util.Map;
  */
 public final class SnapshotsUpdateSamples {
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Update_WithAcceleratedNetwork.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
      */
     /**
      * Sample code: Update a snapshot with accelerated networking.
@@ -2233,9 +2083,7 @@ public final class SnapshotsUpdateSamples {
     }
 
     /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2025-01-02/examples/snapshotExamples/
-     * Snapshot_Update.json
+     * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Update.json
      */
     /**
      * Sample code: Update a snapshot.

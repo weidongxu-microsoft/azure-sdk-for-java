@@ -1,8 +1,8 @@
-# Azure Resource Manager ComputeDisk client library for Java
+# Azure Resource Manager Compute Disk client library for Java
 
-Azure Resource Manager ComputeDisk client library for Java.
+Azure Resource Manager Compute Disk client library for Java.
 
-This package contains Microsoft Azure SDK for ComputeDisk Management SDK. Compute Client. Package tag package-compute-disk. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+This package contains Microsoft Azure SDK for Compute Disk Management SDK. Compute Client. Package api-version 2025-01-02. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
 
 ## We'd love to hear your feedback
 
@@ -32,7 +32,7 @@ Various documentation is available to help you get started
 <dependency>
     <groupId>com.azure.resourcemanager</groupId>
     <artifactId>azure-resourcemanager-compute-disk</artifactId>
-    <version>1.0.0-beta.1</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
