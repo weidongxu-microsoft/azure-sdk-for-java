@@ -36,6 +36,10 @@ parameters:
     displayName: azure-resourcemanager-compute-recommender
     type: boolean
     default: false
+  - name: release_azureresourcemanagercomputedisk
+    displayName: azure-resourcemanager-compute-disk
+    type: boolean
+    default: false
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -50,3 +54,7 @@ extends:
         groupId: com.azure.resourcemanager
         safeName: azureresourcemanagercomputerecommender
         releaseInBatch: ${{ parameters.release_azureresourcemanagercomputerecommender }}
+      - name: azure-resourcemanager-compute-disk
+        groupId: com.azure.resourcemanager
+        safeName: azureresourcemanagercomputedisk
+        releaseInBatch: ${{ parameters.release_azureresourcemanagercomputedisk }}

@@ -23,6 +23,9 @@ certificateregistration/Microsoft.CertificateRegistration/CertificateRegistratio
   service: certificateregistration
 compute:
   suffix: generated
+compute/Microsoft.Compute/DiskRP:
+  service: compute
+  suffix: disk
 containerinstance:
   suffix: generated
 containerregistry:
