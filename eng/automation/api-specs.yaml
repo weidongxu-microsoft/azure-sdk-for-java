@@ -23,6 +23,9 @@ certificateregistration/Microsoft.CertificateRegistration/CertificateRegistratio
   service: certificateregistration
 compute:
   suffix: generated
+compute/Microsoft.Compute/ComputeRP:
+  service: compute
+  suffix: compute
 compute/Microsoft.Compute/DiskRP:
   service: compute
   suffix: disk
