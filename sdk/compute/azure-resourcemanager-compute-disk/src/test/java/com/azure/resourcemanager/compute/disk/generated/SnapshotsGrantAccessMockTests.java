@@ -23,7 +23,7 @@ public final class SnapshotsGrantAccessMockTests {
     @Test
     public void testGrantAccess() throws Exception {
         String responseStr
-            = "{\"accessSAS\":\"suwsyrsnds\",\"securityDataAccessSAS\":\"g\",\"securityMetadataAccessSAS\":\"gvraeaen\"}";
+            = "{\"accessSAS\":\"fy\",\"securityDataAccessSAS\":\"bpfvm\",\"securityMetadataAccessSAS\":\"hrfou\"}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -33,11 +33,11 @@ public final class SnapshotsGrantAccessMockTests {
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
         AccessUri response = manager.snapshots()
-            .grantAccess("ichkoymkcdyhb", "kkpwdreqnovvq",
-                new GrantAccessData().withAccess(AccessLevel.NONE)
-                    .withDurationInSeconds(1985211204)
+            .grantAccess("yqsluic", "dggkzzlvmbmpa",
+                new GrantAccessData().withAccess(AccessLevel.READ)
+                    .withDurationInSeconds(950726192)
                     .withGetSecureVMGuestStateSas(false)
-                    .withFileFormat(FileFormat.VHD),
+                    .withFileFormat(FileFormat.VHDX),
                 com.azure.core.util.Context.NONE);
 
     }

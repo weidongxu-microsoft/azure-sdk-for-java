@@ -25,7 +25,7 @@ public final class DiskAccessesCreateOrUpdateMockTests {
     @Test
     public void testCreateOrUpdate() throws Exception {
         String responseStr
-            = "{\"properties\":{\"privateEndpointConnections\":[{\"properties\":{\"privateEndpoint\":{},\"privateLinkServiceConnectionState\":{},\"provisioningState\":\"Succeeded\"},\"id\":\"wozuhkf\",\"name\":\"bsjyofdx\",\"type\":\"uusdttouwa\"},{\"properties\":{\"privateEndpoint\":{},\"privateLinkServiceConnectionState\":{},\"provisioningState\":\"Creating\"},\"id\":\"kelnsmvbxwyjsf\",\"name\":\"hhcaal\",\"type\":\"jixisxyawjoyaqcs\"},{\"properties\":{\"privateEndpoint\":{},\"privateLinkServiceConnectionState\":{},\"provisioningState\":\"Creating\"},\"id\":\"idzyexznelixhnr\",\"name\":\"tfolhbnx\",\"type\":\"nalaulppg\"},{\"properties\":{\"privateEndpoint\":{},\"privateLinkServiceConnectionState\":{},\"provisioningState\":\"Failed\"},\"id\":\"pnyiropuhp\",\"name\":\"gvpgy\",\"type\":\"gqgitxmedjvcsl\"}],\"provisioningState\":\"Succeeded\",\"timeCreated\":\"2021-09-15T03:16:23Z\"},\"extendedLocation\":{\"name\":\"ktrmgucnapkt\",\"type\":\"EdgeZone\"},\"location\":\"lwptfdy\",\"tags\":{\"huaoppp\":\"qbuaceopzfqr\",\"z\":\"qeqxo\",\"moizpos\":\"ahzxctobgbk\"},\"id\":\"mgrcfbu\",\"name\":\"rmfqjhhkxbpvj\",\"type\":\"mjh\"}";
+            = "{\"properties\":{\"privateEndpointConnections\":[{\"properties\":{\"privateEndpoint\":{},\"privateLinkServiceConnectionState\":{},\"provisioningState\":\"Succeeded\"},\"id\":\"aqolbgycduiertg\",\"name\":\"cym\",\"type\":\"aolps\"},{\"properties\":{\"privateEndpoint\":{},\"privateLinkServiceConnectionState\":{},\"provisioningState\":\"Creating\"},\"id\":\"mdnbbglzpswiy\",\"name\":\"mcwyhzdxssadb\",\"type\":\"mnvdfzn\"}],\"provisioningState\":\"Succeeded\",\"timeCreated\":\"2021-09-27T09:43:19Z\"},\"extendedLocation\":{\"name\":\"ncblylpst\",\"type\":\"EdgeZone\"},\"location\":\"xsrz\",\"tags\":{\"dntnevf\":\"cers\",\"tdss\":\"wjmy\",\"tmweriofzpyq\":\"s\",\"hhszh\":\"emwabnet\"},\"id\":\"d\",\"name\":\"lvwiwubmwmbesl\",\"type\":\"nkww\"}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -35,16 +35,17 @@ public final class DiskAccessesCreateOrUpdateMockTests {
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
         DiskAccess response = manager.diskAccesses()
-            .define("mxiebw")
-            .withRegion("j")
-            .withExistingResourceGroup("kbegibt")
-            .withTags(mapOf("vu", "djzlmwlx", "n", "fhzovawjvzunluth", "pjzu", "rnxipei"))
-            .withExtendedLocation(new ExtendedLocation().withName("pjyzhpv").withType(ExtendedLocationTypes.EDGE_ZONE))
+            .define("lzdahzxctobgbkdm")
+            .withRegion("sotftpvj")
+            .withExistingResourceGroup("rhhuaopppcqeqx")
+            .withTags(
+                mapOf("q", "xilzznf", "taruoujmkcj", "vwpm", "ervnaenqpehi", "wqytjrybnwjewgdr", "mifthnzdnd", "doy"))
+            .withExtendedLocation(new ExtendedLocation().withName("rfbjf").withType(ExtendedLocationTypes.EDGE_ZONE))
             .create();
 
-        Assertions.assertEquals("lwptfdy", response.location());
-        Assertions.assertEquals("qbuaceopzfqr", response.tags().get("huaoppp"));
-        Assertions.assertEquals("ktrmgucnapkt", response.extendedLocation().name());
+        Assertions.assertEquals("xsrz", response.location());
+        Assertions.assertEquals("cers", response.tags().get("dntnevf"));
+        Assertions.assertEquals("ncblylpst", response.extendedLocation().name());
         Assertions.assertEquals(ExtendedLocationTypes.EDGE_ZONE, response.extendedLocation().type());
     }
 

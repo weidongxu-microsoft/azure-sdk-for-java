@@ -13,14 +13,14 @@ public final class SnapshotSkuTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         SnapshotSku model
-            = BinaryData.fromString("{\"name\":\"Standard_ZRS\",\"tier\":\"gshwankixz\"}").toObject(SnapshotSku.class);
-        Assertions.assertEquals(SnapshotStorageAccountTypes.STANDARD_ZRS, model.name());
+            = BinaryData.fromString("{\"name\":\"Standard_LRS\",\"tier\":\"knvudwtiukb\"}").toObject(SnapshotSku.class);
+        Assertions.assertEquals(SnapshotStorageAccountTypes.STANDARD_LRS, model.name());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        SnapshotSku model = new SnapshotSku().withName(SnapshotStorageAccountTypes.STANDARD_ZRS);
+        SnapshotSku model = new SnapshotSku().withName(SnapshotStorageAccountTypes.STANDARD_LRS);
         model = BinaryData.fromObject(model).toObject(SnapshotSku.class);
-        Assertions.assertEquals(SnapshotStorageAccountTypes.STANDARD_ZRS, model.name());
+        Assertions.assertEquals(SnapshotStorageAccountTypes.STANDARD_LRS, model.name());
     }
 }

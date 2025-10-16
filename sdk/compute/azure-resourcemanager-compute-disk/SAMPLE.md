@@ -5,11 +5,15 @@
 
 - [CreateOrUpdate](#diskaccesses_createorupdate)
 - [Delete](#diskaccesses_delete)
+- [DeleteAPrivateEndpointConnection](#diskaccesses_deleteaprivateendpointconnection)
+- [GetAPrivateEndpointConnection](#diskaccesses_getaprivateendpointconnection)
 - [GetByResourceGroup](#diskaccesses_getbyresourcegroup)
 - [GetPrivateLinkResources](#diskaccesses_getprivatelinkresources)
 - [List](#diskaccesses_list)
 - [ListByResourceGroup](#diskaccesses_listbyresourcegroup)
+- [ListPrivateEndpointConnections](#diskaccesses_listprivateendpointconnections)
 - [Update](#diskaccesses_update)
+- [UpdateAPrivateEndpointConnection](#diskaccesses_updateaprivateendpointconnection)
 
 ## DiskEncryptionSets
 
@@ -21,12 +25,12 @@
 - [ListByResourceGroup](#diskencryptionsets_listbyresourcegroup)
 - [Update](#diskencryptionsets_update)
 
-## DiskRestorePoints
+## DiskRestorePoint
 
-- [Get](#diskrestorepoints_get)
-- [GrantAccess](#diskrestorepoints_grantaccess)
-- [ListByRestorePoint](#diskrestorepoints_listbyrestorepoint)
-- [RevokeAccess](#diskrestorepoints_revokeaccess)
+- [Get](#diskrestorepoint_get)
+- [GrantAccess](#diskrestorepoint_grantaccess)
+- [ListByRestorePoint](#diskrestorepoint_listbyrestorepoint)
+- [RevokeAccess](#diskrestorepoint_revokeaccess)
 
 ## Disks
 
@@ -38,13 +42,6 @@
 - [ListByResourceGroup](#disks_listbyresourcegroup)
 - [RevokeAccess](#disks_revokeaccess)
 - [Update](#disks_update)
-
-## PrivateEndpointConnections
-
-- [DeleteAPrivateEndpointConnection](#privateendpointconnections_deleteaprivateendpointconnection)
-- [GetAPrivateEndpointConnection](#privateendpointconnections_getaprivateendpointconnection)
-- [ListPrivateEndpointConnections](#privateendpointconnections_listprivateendpointconnections)
-- [UpdateAPrivateEndpointConnection](#privateendpointconnections_updateaprivateendpointconnection)
 
 ## Snapshots
 
@@ -98,6 +95,54 @@ public final class DiskAccessesDeleteSamples {
      */
     public static void deleteADiskAccessResource(com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
         manager.diskAccesses().delete("myResourceGroup", "myDiskAccess", com.azure.core.util.Context.NONE);
+    }
+}
+```
+
+### DiskAccesses_DeleteAPrivateEndpointConnection
+
+```java
+/**
+ * Samples for DiskAccesses DeleteAPrivateEndpointConnection.
+ */
+public final class DiskAccessesDeleteAPrivateEndpointConnectionSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
+     */
+    /**
+     * Sample code: delete a private endpoint connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void deleteAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.diskAccesses()
+            .deleteAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
+                com.azure.core.util.Context.NONE);
+    }
+}
+```
+
+### DiskAccesses_GetAPrivateEndpointConnection
+
+```java
+/**
+ * Samples for DiskAccesses GetAPrivateEndpointConnection.
+ */
+public final class DiskAccessesGetAPrivateEndpointConnectionSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Get.json
+     */
+    /**
+     * Sample code: get information about a private endpoint connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.diskAccesses()
+            .getAPrivateEndpointConnectionWithResponse("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
+                com.azure.core.util.Context.NONE);
     }
 }
 ```
@@ -206,6 +251,29 @@ public final class DiskAccessesListByResourceGroupSamples {
 }
 ```
 
+### DiskAccesses_ListPrivateEndpointConnections
+
+```java
+/**
+ * Samples for DiskAccesses ListPrivateEndpointConnections.
+ */
+public final class DiskAccessesListPrivateEndpointConnectionsSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
+     */
+    /**
+     * Sample code: get information about a private endpoint connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.diskAccesses()
+            .listPrivateEndpointConnections("myResourceGroup", "myDiskAccess", com.azure.core.util.Context.NONE);
+    }
+}
+```
+
 ### DiskAccesses_Update
 
 ```java
@@ -242,6 +310,37 @@ public final class DiskAccessesUpdateSamples {
             map.put(key, value);
         }
         return map;
+    }
+}
+```
+
+### DiskAccesses_UpdateAPrivateEndpointConnection
+
+```java
+import com.azure.resourcemanager.compute.disk.fluent.models.PrivateEndpointConnectionInner;
+import com.azure.resourcemanager.compute.disk.models.PrivateEndpointServiceConnectionStatus;
+import com.azure.resourcemanager.compute.disk.models.PrivateLinkServiceConnectionState;
+
+/**
+ * Samples for DiskAccesses UpdateAPrivateEndpointConnection.
+ */
+public final class DiskAccessesUpdateAPrivateEndpointConnectionSamples {
+    /*
+     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
+     */
+    /**
+     * Sample code: approve a Private Endpoint Connection under a disk access resource.
+     * 
+     * @param manager Entry point to ComputeDiskManager.
+     */
+    public static void approveAPrivateEndpointConnectionUnderADiskAccessResource(
+        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
+        manager.diskAccesses()
+            .updateAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
+                new PrivateEndpointConnectionInner().withPrivateLinkServiceConnectionState(
+                    new PrivateLinkServiceConnectionState().withStatus(PrivateEndpointServiceConnectionStatus.APPROVED)
+                        .withDescription("Approving myPrivateEndpointConnection")),
+                com.azure.core.util.Context.NONE);
     }
 }
 ```
@@ -564,13 +663,13 @@ public final class DiskEncryptionSetsUpdateSamples {
 }
 ```
 
-### DiskRestorePoints_Get
+### DiskRestorePoint_Get
 
 ```java
 /**
- * Samples for DiskRestorePoints Get.
+ * Samples for DiskRestorePoint Get.
  */
-public final class DiskRestorePointsGetSamples {
+public final class DiskRestorePointGetSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_Get.json
      */
@@ -604,7 +703,7 @@ public final class DiskRestorePointsGetSamples {
 }
 ```
 
-### DiskRestorePoints_GrantAccess
+### DiskRestorePoint_GrantAccess
 
 ```java
 import com.azure.resourcemanager.compute.disk.models.AccessLevel;
@@ -612,9 +711,9 @@ import com.azure.resourcemanager.compute.disk.models.FileFormat;
 import com.azure.resourcemanager.compute.disk.models.GrantAccessData;
 
 /**
- * Samples for DiskRestorePoints GrantAccess.
+ * Samples for DiskRestorePoint GrantAccess.
  */
-public final class DiskRestorePointsGrantAccessSamples {
+public final class DiskRestorePointGrantAccessSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
      */
@@ -636,13 +735,13 @@ public final class DiskRestorePointsGrantAccessSamples {
 }
 ```
 
-### DiskRestorePoints_ListByRestorePoint
+### DiskRestorePoint_ListByRestorePoint
 
 ```java
 /**
- * Samples for DiskRestorePoints ListByRestorePoint.
+ * Samples for DiskRestorePoint ListByRestorePoint.
  */
-public final class DiskRestorePointsListByRestorePointSamples {
+public final class DiskRestorePointListByRestorePointSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
      */
@@ -659,13 +758,13 @@ public final class DiskRestorePointsListByRestorePointSamples {
 }
 ```
 
-### DiskRestorePoints_RevokeAccess
+### DiskRestorePoint_RevokeAccess
 
 ```java
 /**
- * Samples for DiskRestorePoints RevokeAccess.
+ * Samples for DiskRestorePoint RevokeAccess.
  */
-public final class DiskRestorePointsRevokeAccessSamples {
+public final class DiskRestorePointRevokeAccessSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
      */
@@ -1631,108 +1730,6 @@ public final class DisksUpdateSamples {
             .getByResourceGroupWithResponse("myResourceGroup", "myDisk", com.azure.core.util.Context.NONE)
             .getValue();
         resource.update().withTier("P30").apply();
-    }
-}
-```
-
-### PrivateEndpointConnections_DeleteAPrivateEndpointConnection
-
-```java
-/**
- * Samples for PrivateEndpointConnections DeleteAPrivateEndpointConnection.
- */
-public final class PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionSamples {
-    /*
-     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
-     */
-    /**
-     * Sample code: delete a private endpoint connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void deleteAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.privateEndpointConnections()
-            .deleteAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
-                com.azure.core.util.Context.NONE);
-    }
-}
-```
-
-### PrivateEndpointConnections_GetAPrivateEndpointConnection
-
-```java
-/**
- * Samples for PrivateEndpointConnections GetAPrivateEndpointConnection.
- */
-public final class PrivateEndpointConnectionsGetAPrivateEndpointConnectionSamples {
-    /*
-     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Get.json
-     */
-    /**
-     * Sample code: get information about a private endpoint connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.privateEndpointConnections()
-            .getAPrivateEndpointConnectionWithResponse("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
-                com.azure.core.util.Context.NONE);
-    }
-}
-```
-
-### PrivateEndpointConnections_ListPrivateEndpointConnections
-
-```java
-/**
- * Samples for PrivateEndpointConnections ListPrivateEndpointConnections.
- */
-public final class PrivateEndpointConnectionsListPrivateEndpointConnectionsSamples {
-    /*
-     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
-     */
-    /**
-     * Sample code: get information about a private endpoint connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.privateEndpointConnections()
-            .listPrivateEndpointConnections("myResourceGroup", "myDiskAccess", com.azure.core.util.Context.NONE);
-    }
-}
-```
-
-### PrivateEndpointConnections_UpdateAPrivateEndpointConnection
-
-```java
-import com.azure.resourcemanager.compute.disk.fluent.models.PrivateEndpointConnectionInner;
-import com.azure.resourcemanager.compute.disk.models.PrivateEndpointServiceConnectionStatus;
-import com.azure.resourcemanager.compute.disk.models.PrivateLinkServiceConnectionState;
-
-/**
- * Samples for PrivateEndpointConnections UpdateAPrivateEndpointConnection.
- */
-public final class PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionSamples {
-    /*
-     * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
-     */
-    /**
-     * Sample code: approve a Private Endpoint Connection under a disk access resource.
-     * 
-     * @param manager Entry point to ComputeDiskManager.
-     */
-    public static void approveAPrivateEndpointConnectionUnderADiskAccessResource(
-        com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.privateEndpointConnections()
-            .updateAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
-                new PrivateEndpointConnectionInner().withPrivateLinkServiceConnectionState(
-                    new PrivateLinkServiceConnectionState().withStatus(PrivateEndpointServiceConnectionStatus.APPROVED)
-                        .withDescription("Approving myPrivateEndpointConnection")),
-                com.azure.core.util.Context.NONE);
     }
 }
 ```

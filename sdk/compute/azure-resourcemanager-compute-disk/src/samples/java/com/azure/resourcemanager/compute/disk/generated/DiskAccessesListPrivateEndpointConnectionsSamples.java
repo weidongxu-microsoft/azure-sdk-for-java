@@ -5,9 +5,9 @@
 package com.azure.resourcemanager.compute.disk.generated;
 
 /**
- * Samples for PrivateEndpointConnections ListPrivateEndpointConnections.
+ * Samples for DiskAccesses ListPrivateEndpointConnections.
  */
-public final class PrivateEndpointConnectionsListPrivateEndpointConnectionsSamples {
+public final class DiskAccessesListPrivateEndpointConnectionsSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
      */
@@ -18,7 +18,7 @@ public final class PrivateEndpointConnectionsListPrivateEndpointConnectionsSampl
      */
     public static void getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(
         com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.privateEndpointConnections()
+        manager.diskAccesses()
             .listPrivateEndpointConnections("myResourceGroup", "myDiskAccess", com.azure.core.util.Context.NONE);
     }
 }

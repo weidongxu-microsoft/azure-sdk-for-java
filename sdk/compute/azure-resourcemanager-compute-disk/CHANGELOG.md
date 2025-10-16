@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2025-10-14)
+## 1.0.0 (2025-10-16)
 
 - Azure Resource Manager Compute Disk client library for Java. This package contains Microsoft Azure SDK for Compute Disk Management SDK. Compute Client. Package api-version 2025-01-02. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
 
@@ -64,17 +64,6 @@
 
 * `java.lang.Float completionPercent()` -> `java.lang.Double completionPercent()`
 
-#### `models.DiskAccesses` was modified
-
-* `deleteAPrivateEndpointConnection(java.lang.String,java.lang.String,java.lang.String,com.azure.core.util.Context)` was removed
-* `listPrivateEndpointConnections(java.lang.String,java.lang.String)` was removed
-* `listPrivateEndpointConnections(java.lang.String,java.lang.String,com.azure.core.util.Context)` was removed
-* `getAPrivateEndpointConnectionWithResponse(java.lang.String,java.lang.String,java.lang.String,com.azure.core.util.Context)` was removed
-* `deleteAPrivateEndpointConnection(java.lang.String,java.lang.String,java.lang.String)` was removed
-* `getAPrivateEndpointConnection(java.lang.String,java.lang.String,java.lang.String)` was removed
-* `updateAPrivateEndpointConnection(java.lang.String,java.lang.String,java.lang.String,fluent.models.PrivateEndpointConnectionInner)` was removed
-* `updateAPrivateEndpointConnection(java.lang.String,java.lang.String,java.lang.String,fluent.models.PrivateEndpointConnectionInner,com.azure.core.util.Context)` was removed
-
 #### `models.PrivateEndpoint` was modified
 
 * `PrivateEndpoint()` was changed to private access
@@ -85,15 +74,9 @@
 
 ### Features Added
 
-* `models.PrivateEndpointConnections` was added
-
 #### `models.Disk$Definition` was modified
 
 * `withCompletionPercent(java.lang.Double)` was added
-
-#### `ComputeDiskManager` was modified
-
-* `privateEndpointConnections()` was added
 
 #### `models.Snapshot$Definition` was modified
 

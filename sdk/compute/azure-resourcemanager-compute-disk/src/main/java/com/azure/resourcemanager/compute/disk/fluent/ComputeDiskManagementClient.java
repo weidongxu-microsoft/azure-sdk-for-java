@@ -61,13 +61,6 @@ public interface ComputeDiskManagementClient {
     DiskAccessesClient getDiskAccesses();
 
     /**
-     * Gets the PrivateEndpointConnectionsClient object to access its operations.
-     * 
-     * @return the PrivateEndpointConnectionsClient object.
-     */
-    PrivateEndpointConnectionsClient getPrivateEndpointConnections();
-
-    /**
      * Gets the DiskEncryptionSetsClient object to access its operations.
      * 
      * @return the DiskEncryptionSetsClient object.
@@ -75,16 +68,16 @@ public interface ComputeDiskManagementClient {
     DiskEncryptionSetsClient getDiskEncryptionSets();
 
     /**
-     * Gets the DiskRestorePointsClient object to access its operations.
-     * 
-     * @return the DiskRestorePointsClient object.
-     */
-    DiskRestorePointsClient getDiskRestorePoints();
-
-    /**
      * Gets the SnapshotsClient object to access its operations.
      * 
      * @return the SnapshotsClient object.
      */
     SnapshotsClient getSnapshots();
+
+    /**
+     * Gets the DiskRestorePointsClient object to access its operations.
+     * 
+     * @return the DiskRestorePointsClient object.
+     */
+    DiskRestorePointsClient getDiskRestorePoints();
 }

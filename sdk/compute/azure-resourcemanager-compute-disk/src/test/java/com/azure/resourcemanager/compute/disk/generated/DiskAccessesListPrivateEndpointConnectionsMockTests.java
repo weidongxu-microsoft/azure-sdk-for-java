@@ -6,6 +6,7 @@ package com.azure.resourcemanager.compute.disk.generated;
 
 import com.azure.core.credential.AccessToken;
 import com.azure.core.http.HttpClient;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.models.AzureCloud;
 import com.azure.core.test.http.MockHttpResponse;
@@ -18,11 +19,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
-public final class PrivateEndpointConnectionsGetAPrivateEndpointConnectionWithResponseMockTests {
+public final class DiskAccessesListPrivateEndpointConnectionsMockTests {
     @Test
-    public void testGetAPrivateEndpointConnectionWithResponse() throws Exception {
+    public void testListPrivateEndpointConnections() throws Exception {
         String responseStr
-            = "{\"properties\":{\"privateEndpoint\":{\"id\":\"fdxxivetvtcqaqtd\"},\"privateLinkServiceConnectionState\":{\"status\":\"Rejected\",\"description\":\"bxvwv\",\"actionsRequired\":\"slqb\"},\"provisioningState\":\"Deleting\"},\"id\":\"obl\",\"name\":\"tkblmpewww\",\"type\":\"bkrvrnsvshqj\"}";
+            = "{\"value\":[{\"properties\":{\"privateEndpoint\":{\"id\":\"napnyiropuhpigv\"},\"privateLinkServiceConnectionState\":{\"status\":\"Rejected\",\"description\":\"gqgitxmedjvcsl\",\"actionsRequired\":\"qwwncw\"},\"provisioningState\":\"Succeeded\"},\"id\":\"gktrmgucnapkte\",\"name\":\"ellwptfdy\",\"type\":\"pfqbuaceopzf\"}]}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -31,14 +32,14 @@ public final class PrivateEndpointConnectionsGetAPrivateEndpointConnectionWithRe
             .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
-        PrivateEndpointConnection response = manager.privateEndpointConnections()
-            .getAPrivateEndpointConnectionWithResponse("xjyngudivk", "tswb", "qzvszjf",
-                com.azure.core.util.Context.NONE)
-            .getValue();
+        PagedIterable<PrivateEndpointConnection> response = manager.diskAccesses()
+            .listPrivateEndpointConnections("hnrztfol", "bnxknalaulppg", com.azure.core.util.Context.NONE);
 
         Assertions.assertEquals(PrivateEndpointServiceConnectionStatus.REJECTED,
-            response.privateLinkServiceConnectionState().status());
-        Assertions.assertEquals("bxvwv", response.privateLinkServiceConnectionState().description());
-        Assertions.assertEquals("slqb", response.privateLinkServiceConnectionState().actionsRequired());
+            response.iterator().next().privateLinkServiceConnectionState().status());
+        Assertions.assertEquals("gqgitxmedjvcsl",
+            response.iterator().next().privateLinkServiceConnectionState().description());
+        Assertions.assertEquals("qwwncw",
+            response.iterator().next().privateLinkServiceConnectionState().actionsRequired());
     }
 }

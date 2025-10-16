@@ -1,5 +1,5 @@
 directory: specification/compute/Disk.Management
-commit: 1aa0239d219cf0e1acf409ecc0ee01a94c3dc75d
+commit: f45b371523d963f7c52cbbd80188b35679ae5ef6
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
 - specification/compute/Common.Management

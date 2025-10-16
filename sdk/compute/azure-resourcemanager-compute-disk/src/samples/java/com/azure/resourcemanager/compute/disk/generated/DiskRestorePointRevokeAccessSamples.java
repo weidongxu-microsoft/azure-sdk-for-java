@@ -5,9 +5,9 @@
 package com.azure.resourcemanager.compute.disk.generated;
 
 /**
- * Samples for DiskRestorePoints RevokeAccess.
+ * Samples for DiskRestorePoint RevokeAccess.
  */
-public final class DiskRestorePointsRevokeAccessSamples {
+public final class DiskRestorePointRevokeAccessSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
      */

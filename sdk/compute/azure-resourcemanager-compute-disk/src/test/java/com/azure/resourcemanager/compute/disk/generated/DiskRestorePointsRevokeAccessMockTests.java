@@ -28,7 +28,7 @@ public final class DiskRestorePointsRevokeAccessMockTests {
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
         manager.diskRestorePoints()
-            .revokeAccess("nubexk", "zksmondj", "quxvypomgkop", "whojvp", com.azure.core.util.Context.NONE);
+            .revokeAccess("wlquuijfqkace", "iipfpubj", "bwwift", "hqkvpuvksgplsak", com.azure.core.util.Context.NONE);
 
     }
 }

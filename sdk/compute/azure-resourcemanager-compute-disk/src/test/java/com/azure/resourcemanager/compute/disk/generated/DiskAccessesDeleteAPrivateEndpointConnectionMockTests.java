@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
-public final class PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionMockTests {
+public final class DiskAccessesDeleteAPrivateEndpointConnectionMockTests {
     @Test
     public void testDeleteAPrivateEndpointConnection() throws Exception {
         String responseStr = "{}";
@@ -27,8 +27,8 @@ public final class PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionMoc
             .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
-        manager.privateEndpointConnections()
-            .deleteAPrivateEndpointConnection("aolps", "lqlfm", "dnbbglzps", com.azure.core.util.Context.NONE);
+        manager.diskAccesses()
+            .deleteAPrivateEndpointConnection("qcslyjpkiid", "yexz", "eli", com.azure.core.util.Context.NONE);
 
     }
 }

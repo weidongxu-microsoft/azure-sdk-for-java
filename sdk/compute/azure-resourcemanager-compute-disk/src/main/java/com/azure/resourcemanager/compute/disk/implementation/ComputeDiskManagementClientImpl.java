@@ -31,7 +31,6 @@ import com.azure.resourcemanager.compute.disk.fluent.DiskAccessesClient;
 import com.azure.resourcemanager.compute.disk.fluent.DiskEncryptionSetsClient;
 import com.azure.resourcemanager.compute.disk.fluent.DiskRestorePointsClient;
 import com.azure.resourcemanager.compute.disk.fluent.DisksClient;
-import com.azure.resourcemanager.compute.disk.fluent.PrivateEndpointConnectionsClient;
 import com.azure.resourcemanager.compute.disk.fluent.SnapshotsClient;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -160,20 +159,6 @@ public final class ComputeDiskManagementClientImpl implements ComputeDiskManagem
     }
 
     /**
-     * The PrivateEndpointConnectionsClient object to access its operations.
-     */
-    private final PrivateEndpointConnectionsClient privateEndpointConnections;
-
-    /**
-     * Gets the PrivateEndpointConnectionsClient object to access its operations.
-     * 
-     * @return the PrivateEndpointConnectionsClient object.
-     */
-    public PrivateEndpointConnectionsClient getPrivateEndpointConnections() {
-        return this.privateEndpointConnections;
-    }
-
-    /**
      * The DiskEncryptionSetsClient object to access its operations.
      */
     private final DiskEncryptionSetsClient diskEncryptionSets;
@@ -188,20 +173,6 @@ public final class ComputeDiskManagementClientImpl implements ComputeDiskManagem
     }
 
     /**
-     * The DiskRestorePointsClient object to access its operations.
-     */
-    private final DiskRestorePointsClient diskRestorePoints;
-
-    /**
-     * Gets the DiskRestorePointsClient object to access its operations.
-     * 
-     * @return the DiskRestorePointsClient object.
-     */
-    public DiskRestorePointsClient getDiskRestorePoints() {
-        return this.diskRestorePoints;
-    }
-
-    /**
      * The SnapshotsClient object to access its operations.
      */
     private final SnapshotsClient snapshots;
@@ -213,6 +184,20 @@ public final class ComputeDiskManagementClientImpl implements ComputeDiskManagem
      */
     public SnapshotsClient getSnapshots() {
         return this.snapshots;
+    }
+
+    /**
+     * The DiskRestorePointsClient object to access its operations.
+     */
+    private final DiskRestorePointsClient diskRestorePoints;
+
+    /**
+     * Gets the DiskRestorePointsClient object to access its operations.
+     * 
+     * @return the DiskRestorePointsClient object.
+     */
+    public DiskRestorePointsClient getDiskRestorePoints() {
+        return this.diskRestorePoints;
     }
 
     /**
@@ -235,10 +220,9 @@ public final class ComputeDiskManagementClientImpl implements ComputeDiskManagem
         this.apiVersion = "2025-01-02";
         this.disks = new DisksClientImpl(this);
         this.diskAccesses = new DiskAccessesClientImpl(this);
-        this.privateEndpointConnections = new PrivateEndpointConnectionsClientImpl(this);
         this.diskEncryptionSets = new DiskEncryptionSetsClientImpl(this);
-        this.diskRestorePoints = new DiskRestorePointsClientImpl(this);
         this.snapshots = new SnapshotsClientImpl(this);
+        this.diskRestorePoints = new DiskRestorePointsClientImpl(this);
     }
 
     /**

@@ -5,9 +5,9 @@
 package com.azure.resourcemanager.compute.disk.generated;
 
 /**
- * Samples for PrivateEndpointConnections DeleteAPrivateEndpointConnection.
+ * Samples for DiskAccesses DeleteAPrivateEndpointConnection.
  */
-public final class PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionSamples {
+public final class DiskAccessesDeleteAPrivateEndpointConnectionSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
      */
@@ -18,7 +18,7 @@ public final class PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionSam
      */
     public static void deleteAPrivateEndpointConnectionUnderADiskAccessResource(
         com.azure.resourcemanager.compute.disk.ComputeDiskManager manager) {
-        manager.privateEndpointConnections()
+        manager.diskAccesses()
             .deleteAPrivateEndpointConnection("myResourceGroup", "myDiskAccess", "myPrivateEndpointConnection",
                 com.azure.core.util.Context.NONE);
     }

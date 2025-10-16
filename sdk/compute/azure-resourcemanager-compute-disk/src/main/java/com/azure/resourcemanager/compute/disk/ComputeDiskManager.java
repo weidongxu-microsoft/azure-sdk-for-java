@@ -30,13 +30,11 @@ import com.azure.resourcemanager.compute.disk.implementation.DiskAccessesImpl;
 import com.azure.resourcemanager.compute.disk.implementation.DiskEncryptionSetsImpl;
 import com.azure.resourcemanager.compute.disk.implementation.DiskRestorePointsImpl;
 import com.azure.resourcemanager.compute.disk.implementation.DisksImpl;
-import com.azure.resourcemanager.compute.disk.implementation.PrivateEndpointConnectionsImpl;
 import com.azure.resourcemanager.compute.disk.implementation.SnapshotsImpl;
 import com.azure.resourcemanager.compute.disk.models.DiskAccesses;
 import com.azure.resourcemanager.compute.disk.models.DiskEncryptionSets;
 import com.azure.resourcemanager.compute.disk.models.DiskRestorePoints;
 import com.azure.resourcemanager.compute.disk.models.Disks;
-import com.azure.resourcemanager.compute.disk.models.PrivateEndpointConnections;
 import com.azure.resourcemanager.compute.disk.models.Snapshots;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -55,13 +53,11 @@ public final class ComputeDiskManager {
 
     private DiskAccesses diskAccesses;
 
-    private PrivateEndpointConnections privateEndpointConnections;
-
     private DiskEncryptionSets diskEncryptionSets;
 
-    private DiskRestorePoints diskRestorePoints;
-
     private Snapshots snapshots;
+
+    private DiskRestorePoints diskRestorePoints;
 
     private final ComputeDiskManagementClient clientObject;
 
@@ -303,19 +299,6 @@ public final class ComputeDiskManager {
     }
 
     /**
-     * Gets the resource collection API of PrivateEndpointConnections.
-     * 
-     * @return Resource collection API of PrivateEndpointConnections.
-     */
-    public PrivateEndpointConnections privateEndpointConnections() {
-        if (this.privateEndpointConnections == null) {
-            this.privateEndpointConnections
-                = new PrivateEndpointConnectionsImpl(clientObject.getPrivateEndpointConnections(), this);
-        }
-        return privateEndpointConnections;
-    }
-
-    /**
      * Gets the resource collection API of DiskEncryptionSets. It manages DiskEncryptionSet.
      * 
      * @return Resource collection API of DiskEncryptionSets.
@@ -328,18 +311,6 @@ public final class ComputeDiskManager {
     }
 
     /**
-     * Gets the resource collection API of DiskRestorePoints.
-     * 
-     * @return Resource collection API of DiskRestorePoints.
-     */
-    public DiskRestorePoints diskRestorePoints() {
-        if (this.diskRestorePoints == null) {
-            this.diskRestorePoints = new DiskRestorePointsImpl(clientObject.getDiskRestorePoints(), this);
-        }
-        return diskRestorePoints;
-    }
-
-    /**
      * Gets the resource collection API of Snapshots. It manages Snapshot.
      * 
      * @return Resource collection API of Snapshots.
@@ -349,6 +320,18 @@ public final class ComputeDiskManager {
             this.snapshots = new SnapshotsImpl(clientObject.getSnapshots(), this);
         }
         return snapshots;
+    }
+
+    /**
+     * Gets the resource collection API of DiskRestorePoints.
+     * 
+     * @return Resource collection API of DiskRestorePoints.
+     */
+    public DiskRestorePoints diskRestorePoints() {
+        if (this.diskRestorePoints == null) {
+            this.diskRestorePoints = new DiskRestorePointsImpl(clientObject.getDiskRestorePoints(), this);
+        }
+        return diskRestorePoints;
     }
 
     /**

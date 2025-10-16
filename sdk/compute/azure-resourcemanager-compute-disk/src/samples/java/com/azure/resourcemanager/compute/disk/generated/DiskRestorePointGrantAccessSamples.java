@@ -9,9 +9,9 @@ import com.azure.resourcemanager.compute.disk.models.FileFormat;
 import com.azure.resourcemanager.compute.disk.models.GrantAccessData;
 
 /**
- * Samples for DiskRestorePoints GrantAccess.
+ * Samples for DiskRestorePoint GrantAccess.
  */
-public final class DiskRestorePointsGrantAccessSamples {
+public final class DiskRestorePointGrantAccessSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
      */

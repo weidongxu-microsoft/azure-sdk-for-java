@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 public final class DiskEncryptionSetsListAssociatedResourcesMockTests {
     @Test
     public void testListAssociatedResources() throws Exception {
-        String responseStr = "{\"value\":[\"vpbttd\"]}";
+        String responseStr = "{\"value\":[\"rp\"]}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -30,8 +30,8 @@ public final class DiskEncryptionSetsListAssociatedResourcesMockTests {
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
         PagedIterable<String> response = manager.diskEncryptionSets()
-            .listAssociatedResources("gqrlltmuwla", "wzizxbmpgcjefuzm", com.azure.core.util.Context.NONE);
+            .listAssociatedResources("fuzmuvpbtt", "um", com.azure.core.util.Context.NONE);
 
-        Assertions.assertEquals("vpbttd", response.iterator().next());
+        Assertions.assertEquals("rp", response.iterator().next());
     }
 }

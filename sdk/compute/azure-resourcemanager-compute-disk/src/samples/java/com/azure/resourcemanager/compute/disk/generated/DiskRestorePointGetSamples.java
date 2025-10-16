@@ -5,9 +5,9 @@
 package com.azure.resourcemanager.compute.disk.generated;
 
 /**
- * Samples for DiskRestorePoints Get.
+ * Samples for DiskRestorePoint Get.
  */
-public final class DiskRestorePointsGetSamples {
+public final class DiskRestorePointGetSamples {
     /*
      * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_Get.json
      */

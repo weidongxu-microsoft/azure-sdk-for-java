@@ -23,7 +23,7 @@ public final class DiskRestorePointsGrantAccessMockTests {
     @Test
     public void testGrantAccess() throws Exception {
         String responseStr
-            = "{\"accessSAS\":\"fouyf\",\"securityDataAccessSAS\":\"akcp\",\"securityMetadataAccessSAS\":\"yzvqt\"}";
+            = "{\"accessSAS\":\"g\",\"securityDataAccessSAS\":\"gvraeaen\",\"securityMetadataAccessSAS\":\"nzar\"}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -33,11 +33,11 @@ public final class DiskRestorePointsGrantAccessMockTests {
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
         AccessUri response = manager.diskRestorePoints()
-            .grantAccess("egrpkhj", "niyqslui", "pdggkzzlvm", "mpaxmodfvuefywsb",
-                new GrantAccessData().withAccess(AccessLevel.NONE)
-                    .withDurationInSeconds(938827927)
+            .grantAccess("h", "pkkpw", "reqnovvqfov", "jxywsuws",
+                new GrantAccessData().withAccess(AccessLevel.READ)
+                    .withDurationInSeconds(188945883)
                     .withGetSecureVMGuestStateSas(true)
-                    .withFileFormat(FileFormat.VHD),
+                    .withFileFormat(FileFormat.VHDX),
                 com.azure.core.util.Context.NONE);
 
     }

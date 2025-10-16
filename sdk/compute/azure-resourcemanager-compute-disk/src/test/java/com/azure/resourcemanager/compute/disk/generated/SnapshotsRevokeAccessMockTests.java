@@ -27,7 +27,7 @@ public final class SnapshotsRevokeAccessMockTests {
             .authenticate(tokenRequestContext -> Mono.just(new AccessToken("this_is_a_token", OffsetDateTime.MAX)),
                 new AzureProfile("", "", AzureCloud.AZURE_PUBLIC_CLOUD));
 
-        manager.snapshots().revokeAccess("qnzarrwl", "uu", com.azure.core.util.Context.NONE);
+        manager.snapshots().revokeAccess("ft", "akcp", com.azure.core.util.Context.NONE);
 
     }
 }
