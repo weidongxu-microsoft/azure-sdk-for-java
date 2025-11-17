@@ -761,6 +761,70 @@
           "code" : "java.field.addedStaticField",
           "new" : "field com.azure.resourcemanager.network.models.PublicIPSkuType.STANDARD_V2",
           "justification" : "Not a break."
+        },
+                {
+          "code": "java.class.removed",
+          "old" : {
+            "matcher": "regex",
+            "match": "class com\\.azure\\.resourcemanager\\.netapp\\.models\\..*List"
+          },
+          "justification": "Pageable models moved to implementation package. Unlikely used by user."
+        },
+        {
+          "ignore": true,
+          "code": "java.method.visibilityReduced",
+          "old" : {
+            "matcher": "regex",
+            "match": "method void com\\.azure\\.resourcemanager\\.netapp\\.models\\..*\\:\\:\\<init\\>\\(\\)"
+          },
+          "justification": "Output-only immutable models' constructors are now private."
+        },
+        {
+          "ignore": true,
+          "code": "java.method.removed",
+          "old" : {
+            "matcher": "regex",
+            "match": "method .* com\\.azure\\.resourcemanager\\.netapp\\.models\\..*\\:\\:with.*\\(.*\\).*"
+          },
+          "justification": "Output-only immutable models' setters are now package-private if it's being used by child class."
+        },
+        {
+          "ignore": true,
+          "code": "java.method.visibilityReduced",
+          "old" : {
+            "matcher": "regex",
+            "match": "method .* com\\.azure\\.resourcemanager\\.netapp\\.models\\..*\\:\\:with.*\\(.*\\).*"
+          },
+          "justification": "Output-only immutable models' setters are removed if no explicit usage."
+        },
+        {
+          "code" : "java.method.removed",
+          "old" : "method com.azure.resourcemanager.netapp.models.Snapshot com.azure.resourcemanager.netapp.models.Snapshots::update(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Object)",
+          "justification" : "The 'update' API has no effect."
+        },
+        {
+          "ignore": true,
+          "code": "java.method.returnTypeChanged",
+          "old" : {
+            "matcher": "regex",
+            "match": "method .*::relationshipStatus\\(\\)"
+          },
+          "justification": "Enum name changed due to specs bug fix."
+        },
+        {
+          "ignore": true,
+          "code" : ".*",
+          "old" : {
+            "matcher": "regex",
+            "match": ".*ThroughputMibps\\(\\).*"
+          },
+          "justification": "Type changed due to specs bug fix."
+        },
+        {
+          "regex": true,
+          "code": "java\\.missing\\.(oldSuperType|newSuperType)",
+          "old" : "class com\\.azure\\.resourcemanager\\.netapp\\.models\\..*",
+          "justification": "TypeSpec fix for base resource class."
         }
       ]
     }
