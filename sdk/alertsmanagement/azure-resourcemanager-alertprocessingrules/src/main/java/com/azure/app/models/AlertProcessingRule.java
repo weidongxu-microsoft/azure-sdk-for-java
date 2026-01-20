@@ -36,7 +36,7 @@ public interface AlertProcessingRule {
     String type();
 
     /**
-     * Gets the location property: Resource location.
+     * Gets the location property: The geo-location where the resource lives.
      * 
      * @return the location value.
      */
@@ -57,7 +57,7 @@ public interface AlertProcessingRule {
     AlertProcessingRuleProperties properties();
 
     /**
-     * Gets the systemData property: Alert processing rule system data.
+     * Gets the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
      * 
      * @return the systemData value.
      */
@@ -115,7 +115,7 @@ public interface AlertProcessingRule {
             /**
              * Specifies the region for the resource.
              * 
-             * @param location Resource location.
+             * @param location The geo-location where the resource lives.
              * @return the next definition stage.
              */
             WithResourceGroup withRegion(Region location);
@@ -123,7 +123,7 @@ public interface AlertProcessingRule {
             /**
              * Specifies the region for the resource.
              * 
-             * @param location Resource location.
+             * @param location The geo-location where the resource lives.
              * @return the next definition stage.
              */
             WithResourceGroup withRegion(String location);
@@ -136,7 +136,7 @@ public interface AlertProcessingRule {
             /**
              * Specifies resourceGroupName.
              * 
-             * @param resourceGroupName Resource group name where the resource is created.
+             * @param resourceGroupName The name of the resource group. The name is case insensitive.
              * @return the next definition stage.
              */
             WithCreate withExistingResourceGroup(String resourceGroupName);
@@ -168,7 +168,7 @@ public interface AlertProcessingRule {
          */
         interface WithTags {
             /**
-             * Specifies the tags property: Resource tags.
+             * Specifies the tags property: Resource tags..
              * 
              * @param tags Resource tags.
              * @return the next definition stage.

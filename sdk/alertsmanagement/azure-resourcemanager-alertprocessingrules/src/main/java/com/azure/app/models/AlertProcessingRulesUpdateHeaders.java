@@ -7,6 +7,7 @@ package com.azure.app.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpHeaders;
+import java.util.UUID;
 
 /**
  * The AlertProcessingRulesUpdateHeaders model.
@@ -16,7 +17,7 @@ public final class AlertProcessingRulesUpdateHeaders {
     /*
      * The x-ms-request-id property.
      */
-    private String xMsRequestId;
+    private UUID xMsRequestId;
 
     // HttpHeaders containing the raw property values.
     /**
@@ -25,7 +26,12 @@ public final class AlertProcessingRulesUpdateHeaders {
      * @param rawHeaders The raw HttpHeaders that will be used to create the property values.
      */
     public AlertProcessingRulesUpdateHeaders(HttpHeaders rawHeaders) {
-        this.xMsRequestId = rawHeaders.getValue(HttpHeaderName.X_MS_REQUEST_ID);
+        String xMsRequestId = rawHeaders.getValue(HttpHeaderName.X_MS_REQUEST_ID);
+        if (xMsRequestId != null) {
+            this.xMsRequestId = UUID.fromString(xMsRequestId);
+        } else {
+            this.xMsRequestId = null;
+        }
     }
 
     /**
@@ -33,7 +39,7 @@ public final class AlertProcessingRulesUpdateHeaders {
      * 
      * @return the xMsRequestId value.
      */
-    public String xMsRequestId() {
+    public UUID xMsRequestId() {
         return this.xMsRequestId;
     }
 
@@ -43,7 +49,7 @@ public final class AlertProcessingRulesUpdateHeaders {
      * @param xMsRequestId the xMsRequestId value to set.
      * @return the AlertProcessingRulesUpdateHeaders object itself.
      */
-    public AlertProcessingRulesUpdateHeaders withXMsRequestId(String xMsRequestId) {
+    public AlertProcessingRulesUpdateHeaders withXMsRequestId(UUID xMsRequestId) {
         this.xMsRequestId = xMsRequestId;
         return this;
     }

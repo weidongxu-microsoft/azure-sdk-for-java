@@ -35,7 +35,7 @@ public interface AlertProcessingRules {
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -46,7 +46,7 @@ public interface AlertProcessingRules {
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -58,7 +58,7 @@ public interface AlertProcessingRules {
     /**
      * Get an alert processing rule by name.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -72,7 +72,7 @@ public interface AlertProcessingRules {
     /**
      * Get an alert processing rule by name.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -84,8 +84,8 @@ public interface AlertProcessingRules {
     /**
      * Delete an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -98,8 +98,8 @@ public interface AlertProcessingRules {
     /**
      * Delete an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

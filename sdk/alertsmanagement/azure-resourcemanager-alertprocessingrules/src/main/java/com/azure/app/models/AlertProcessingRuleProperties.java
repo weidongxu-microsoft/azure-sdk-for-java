@@ -39,7 +39,7 @@ public final class AlertProcessingRuleProperties implements JsonSerializable<Ale
     private List<Action> actions;
 
     /*
-     * Description of alert processing rule.
+     * Actions to be applied.Description of alert processing rule.
      */
     private String description;
 
@@ -135,7 +135,7 @@ public final class AlertProcessingRuleProperties implements JsonSerializable<Ale
     }
 
     /**
-     * Get the description property: Description of alert processing rule.
+     * Get the description property: Actions to be applied.Description of alert processing rule.
      * 
      * @return the description value.
      */
@@ -144,7 +144,7 @@ public final class AlertProcessingRuleProperties implements JsonSerializable<Ale
     }
 
     /**
-     * Set the description property: Description of alert processing rule.
+     * Set the description property: Actions to be applied.Description of alert processing rule.
      * 
      * @param description the description value to set.
      * @return the AlertProcessingRuleProperties object itself.

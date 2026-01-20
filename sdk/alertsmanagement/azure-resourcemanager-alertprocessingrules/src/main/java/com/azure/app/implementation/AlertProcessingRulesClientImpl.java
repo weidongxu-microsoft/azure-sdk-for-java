@@ -77,7 +77,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<AlertProcessingRulesList>> list(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
@@ -85,7 +85,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Response<AlertProcessingRulesList> listSync(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
@@ -93,48 +93,47 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<AlertProcessingRulesList>> listByResourceGroup(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept, Context context);
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @HeaderParam("Accept") String accept,
+            Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Response<AlertProcessingRulesList> listByResourceGroupSync(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept, Context context);
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @HeaderParam("Accept") String accept,
+            Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<AlertProcessingRulesGetByResourceGroupResponse> getByResourceGroup(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+            @PathParam("alertProcessingRuleName") String alertProcessingRuleName, @HeaderParam("Accept") String accept,
+            Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         AlertProcessingRulesGetByResourceGroupResponse getByResourceGroupSync(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+            @PathParam("alertProcessingRuleName") String alertProcessingRuleName, @HeaderParam("Accept") String accept,
+            Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
         @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<AlertProcessingRulesCreateOrUpdateResponse> createOrUpdate(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") AlertProcessingRuleInner alertProcessingRule,
             @HeaderParam("Accept") String accept, Context context);
 
@@ -143,42 +142,20 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         AlertProcessingRulesCreateOrUpdateResponse createOrUpdateSync(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") AlertProcessingRuleInner alertProcessingRule,
             @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
-        @ExpectedResponses({ 200, 204 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<AlertProcessingRulesDeleteResponse> delete(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
-        @ExpectedResponses({ 200, 204 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        AlertProcessingRulesDeleteResponse deleteSync(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<AlertProcessingRulesUpdateResponse> update(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") PatchObject alertProcessingRulePatch, @HeaderParam("Accept") String accept,
             Context context);
 
@@ -187,11 +164,30 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         AlertProcessingRulesUpdateResponse updateSync(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName,
             @PathParam("alertProcessingRuleName") String alertProcessingRuleName,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") PatchObject alertProcessingRulePatch, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
+        @ExpectedResponses({ 200, 204 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<AlertProcessingRulesDeleteResponse> delete(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName,
+            @PathParam("alertProcessingRuleName") String alertProcessingRuleName, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}")
+        @ExpectedResponses({ 200, 204 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        AlertProcessingRulesDeleteResponse deleteSync(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName,
+            @PathParam("alertProcessingRuleName") String alertProcessingRuleName, @HeaderParam("Accept") String accept,
             Context context);
 
         @Headers({ "Content-Type: application/json" })
@@ -246,8 +242,8 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.list(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.list(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), accept, context))
             .<PagedResponse<AlertProcessingRuleInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
                 res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
@@ -287,7 +283,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         Response<AlertProcessingRulesList> res = service.listSync(this.client.getEndpoint(),
-            this.client.getSubscriptionId(), this.client.getApiVersion(), accept, Context.NONE);
+            this.client.getApiVersion(), this.client.getSubscriptionId(), accept, Context.NONE);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
             res.getValue().nextLink(), null);
     }
@@ -315,7 +311,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         Response<AlertProcessingRulesList> res = service.listSync(this.client.getEndpoint(),
-            this.client.getSubscriptionId(), this.client.getApiVersion(), accept, context);
+            this.client.getApiVersion(), this.client.getSubscriptionId(), accept, context);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
             res.getValue().nextLink(), null);
     }
@@ -350,7 +346,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -372,8 +368,8 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.listByResourceGroup(this.client.getEndpoint(),
-                this.client.getSubscriptionId(), resourceGroupName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.listByResourceGroup(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, accept, context))
             .<PagedResponse<AlertProcessingRuleInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
                 res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
@@ -382,7 +378,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -397,7 +393,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -421,7 +417,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         Response<AlertProcessingRulesList> res = service.listByResourceGroupSync(this.client.getEndpoint(),
-            this.client.getSubscriptionId(), resourceGroupName, this.client.getApiVersion(), accept, Context.NONE);
+            this.client.getApiVersion(), this.client.getSubscriptionId(), resourceGroupName, accept, Context.NONE);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
             res.getValue().nextLink(), null);
     }
@@ -429,7 +425,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -455,7 +451,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         Response<AlertProcessingRulesList> res = service.listByResourceGroupSync(this.client.getEndpoint(),
-            this.client.getSubscriptionId(), resourceGroupName, this.client.getApiVersion(), accept, context);
+            this.client.getApiVersion(), this.client.getSubscriptionId(), resourceGroupName, accept, context);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
             res.getValue().nextLink(), null);
     }
@@ -463,7 +459,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -478,7 +474,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * List all alert processing rules in a resource group.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -494,7 +490,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * Get an alert processing rule by name.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -522,16 +518,15 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.getByResourceGroup(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                    resourceGroupName, alertProcessingRuleName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.getByResourceGroup(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Get an alert processing rule by name.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -548,7 +543,7 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * Get an alert processing rule by name.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -578,14 +573,14 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
                 .log(new IllegalArgumentException("Parameter alertProcessingRuleName is required and cannot be null."));
         }
         final String accept = "application/json";
-        return service.getByResourceGroupSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
-            resourceGroupName, alertProcessingRuleName, this.client.getApiVersion(), accept, context);
+        return service.getByResourceGroupSync(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, accept, context);
     }
 
     /**
      * Get an alert processing rule by name.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -600,8 +595,8 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * Create or update an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be created/updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRule Alert processing rule to be created/updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -636,17 +631,17 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, alertProcessingRuleName, this.client.getApiVersion(), alertProcessingRule, accept,
-                context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, alertProcessingRule,
+                accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Create or update an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be created/updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRule Alert processing rule to be created/updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -664,8 +659,8 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * Create or update an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be created/updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRule Alert processing rule to be created/updated.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -701,15 +696,16 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
             alertProcessingRule.validate();
         }
         final String accept = "application/json";
-        return service.createOrUpdateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            alertProcessingRuleName, this.client.getApiVersion(), alertProcessingRule, accept, context);
+        return service.createOrUpdateSync(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, alertProcessingRule, accept,
+            context);
     }
 
     /**
      * Create or update an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be created/updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRule Alert processing rule to be created/updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -724,112 +720,10 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     }
 
     /**
-     * Delete an alert processing rule.
-     * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<AlertProcessingRulesDeleteResponse> deleteWithResponseAsync(String resourceGroupName,
-        String alertProcessingRuleName) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (alertProcessingRuleName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter alertProcessingRuleName is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, alertProcessingRuleName, this.client.getApiVersion(), accept, context))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Delete an alert processing rule.
-     * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteAsync(String resourceGroupName, String alertProcessingRuleName) {
-        return deleteWithResponseAsync(resourceGroupName, alertProcessingRuleName).flatMap(ignored -> Mono.empty());
-    }
-
-    /**
-     * Delete an alert processing rule.
-     * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be deleted.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the response.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public AlertProcessingRulesDeleteResponse deleteWithResponse(String resourceGroupName,
-        String alertProcessingRuleName, Context context) {
-        if (this.client.getEndpoint() == null) {
-            throw LOGGER.atError()
-                .log(new IllegalArgumentException(
-                    "Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            throw LOGGER.atError()
-                .log(new IllegalArgumentException(
-                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            throw LOGGER.atError()
-                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (alertProcessingRuleName == null) {
-            throw LOGGER.atError()
-                .log(new IllegalArgumentException("Parameter alertProcessingRuleName is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        return service.deleteSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            alertProcessingRuleName, this.client.getApiVersion(), accept, context);
-    }
-
-    /**
-     * Delete an alert processing rule.
-     * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name of the alert processing rule that needs to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(String resourceGroupName, String alertProcessingRuleName) {
-        deleteWithResponse(resourceGroupName, alertProcessingRuleName, Context.NONE);
-    }
-
-    /**
      * Enable, disable, or update tags for an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name that needs to be updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRulePatch Parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -864,17 +758,17 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                    alertProcessingRuleName, this.client.getApiVersion(), alertProcessingRulePatch, accept, context))
+            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, alertProcessingRulePatch,
+                accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Enable, disable, or update tags for an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name that needs to be updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRulePatch Parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -892,8 +786,8 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
     /**
      * Enable, disable, or update tags for an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name that needs to be updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRulePatch Parameters supplied to the operation.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -930,15 +824,16 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
             alertProcessingRulePatch.validate();
         }
         final String accept = "application/json";
-        return service.updateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            alertProcessingRuleName, this.client.getApiVersion(), alertProcessingRulePatch, accept, context);
+        return service.updateSync(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, alertProcessingRulePatch,
+            accept, context);
     }
 
     /**
      * Enable, disable, or update tags for an alert processing rule.
      * 
-     * @param resourceGroupName Resource group name where the resource is created.
-     * @param alertProcessingRuleName The name that needs to be updated.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
      * @param alertProcessingRulePatch Parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -950,6 +845,108 @@ public final class AlertProcessingRulesClientImpl implements AlertProcessingRule
         PatchObject alertProcessingRulePatch) {
         return updateWithResponse(resourceGroupName, alertProcessingRuleName, alertProcessingRulePatch, Context.NONE)
             .getValue();
+    }
+
+    /**
+     * Delete an alert processing rule.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<AlertProcessingRulesDeleteResponse> deleteWithResponseAsync(String resourceGroupName,
+        String alertProcessingRuleName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (alertProcessingRuleName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter alertProcessingRuleName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Delete an alert processing rule.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> deleteAsync(String resourceGroupName, String alertProcessingRuleName) {
+        return deleteWithResponseAsync(resourceGroupName, alertProcessingRuleName).flatMap(ignored -> Mono.empty());
+    }
+
+    /**
+     * Delete an alert processing rule.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public AlertProcessingRulesDeleteResponse deleteWithResponse(String resourceGroupName,
+        String alertProcessingRuleName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (alertProcessingRuleName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter alertProcessingRuleName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return service.deleteSync(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, alertProcessingRuleName, accept, context);
+    }
+
+    /**
+     * Delete an alert processing rule.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param alertProcessingRuleName The name of the alert processing rule that needs to be fetched.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void delete(String resourceGroupName, String alertProcessingRuleName) {
+        deleteWithResponse(resourceGroupName, alertProcessingRuleName, Context.NONE);
     }
 
     /**

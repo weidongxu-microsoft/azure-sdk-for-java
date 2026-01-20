@@ -133,10 +133,10 @@ public class Recurrence implements JsonSerializable<Recurrence> {
                 // Use the discriminator value to determine which subtype should be deserialized.
                 if ("Daily".equals(discriminatorValue)) {
                     return DailyRecurrence.fromJson(readerToUse.reset());
-                } else if ("Weekly".equals(discriminatorValue)) {
-                    return WeeklyRecurrence.fromJson(readerToUse.reset());
                 } else if ("Monthly".equals(discriminatorValue)) {
                     return MonthlyRecurrence.fromJson(readerToUse.reset());
+                } else if ("Weekly".equals(discriminatorValue)) {
+                    return WeeklyRecurrence.fromJson(readerToUse.reset());
                 } else {
                     return fromJsonKnownDiscriminator(readerToUse.reset());
                 }

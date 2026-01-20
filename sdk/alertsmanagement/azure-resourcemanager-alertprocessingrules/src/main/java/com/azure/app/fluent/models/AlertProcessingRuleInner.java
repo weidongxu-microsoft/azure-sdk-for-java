@@ -5,10 +5,9 @@
 package com.azure.app.fluent.models;
 
 import com.azure.app.models.AlertProcessingRuleProperties;
-import com.azure.app.models.ManagedResource;
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.Resource;
 import com.azure.core.management.SystemData;
-import com.azure.core.util.logging.ClientLogger;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
@@ -19,14 +18,14 @@ import java.util.Map;
  * Alert processing rule object containing target scopes, conditions and scheduling logic.
  */
 @Fluent
-public final class AlertProcessingRuleInner extends ManagedResource {
+public final class AlertProcessingRuleInner extends Resource {
     /*
      * Alert processing rule properties.
      */
     private AlertProcessingRuleProperties properties;
 
     /*
-     * Alert processing rule system data.
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
     private SystemData systemData;
 
@@ -72,7 +71,7 @@ public final class AlertProcessingRuleInner extends ManagedResource {
     }
 
     /**
-     * Get the systemData property: Alert processing rule system data.
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
      * 
      * @return the systemData value.
      */
@@ -133,19 +132,11 @@ public final class AlertProcessingRuleInner extends ManagedResource {
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
-    @Override
     public void validate() {
         if (properties() != null) {
             properties().validate();
         }
-        if (location() == null) {
-            throw LOGGER.atError()
-                .log(new IllegalArgumentException(
-                    "Missing required property location in model AlertProcessingRuleInner"));
-        }
     }
-
-    private static final ClientLogger LOGGER = new ClientLogger(AlertProcessingRuleInner.class);
 
     /**
      * {@inheritDoc}
