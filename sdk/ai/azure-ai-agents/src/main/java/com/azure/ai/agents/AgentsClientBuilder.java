@@ -516,4 +516,88 @@ public final class AgentsClientBuilder
     public BetaToolboxesClient buildBetaToolboxesClient() {
         return new BetaToolboxesClient(buildInnerClient().getBetaToolboxes());
     }
+
+    /**
+     * A builder for creating a new instance of the beta AgentsClient type.
+     */
+    public BetaAgentsClientBuilder beta() {
+        return new BetaAgentsClientBuilder();
+    }
+
+    /**
+     * A builder for creating a new instance of the beta AgentsClient type.
+     */
+    @ServiceClientBuilder(
+        serviceClients = {
+            BetaAgentsClient.class,
+            BetaMemoryStoresClient.class,
+            BetaToolboxesClient.class,
+            BetaAgentsAsyncClient.class,
+            BetaMemoryStoresAsyncClient.class,
+            BetaToolboxesAsyncClient.class })
+    public final class BetaAgentsClientBuilder {
+
+        private BetaAgentsClientBuilder() {
+        }
+
+        /**
+         * Builds an instance of BetaAgentsAsyncClient class.
+         *
+         * @return an instance of BetaAgentsAsyncClient.
+         */
+        @Generated
+        public BetaAgentsAsyncClient buildBetaAgentsAsyncClient() {
+            return AgentsClientBuilder.this.buildBetaAgentsAsyncClient();
+        }
+
+        /**
+         * Builds an instance of BetaMemoryStoresAsyncClient class.
+         *
+         * @return an instance of BetaMemoryStoresAsyncClient.
+         */
+        @Generated
+        public BetaMemoryStoresAsyncClient buildBetaMemoryStoresAsyncClient() {
+            return AgentsClientBuilder.this.buildBetaMemoryStoresAsyncClient();
+        }
+
+        /**
+         * Builds an instance of BetaToolboxesAsyncClient class.
+         *
+         * @return an instance of BetaToolboxesAsyncClient.
+         */
+        @Generated
+        public BetaToolboxesAsyncClient buildBetaToolboxesAsyncClient() {
+            return AgentsClientBuilder.this.buildBetaToolboxesAsyncClient();
+        }
+
+        /**
+         * Builds an instance of BetaAgentsClient class.
+         *
+         * @return an instance of BetaAgentsClient.
+         */
+        @Generated
+        public BetaAgentsClient buildBetaAgentsClient() {
+            return AgentsClientBuilder.this.buildBetaAgentsClient();
+        }
+
+        /**
+         * Builds an instance of BetaMemoryStoresClient class.
+         *
+         * @return an instance of BetaMemoryStoresClient.
+         */
+        @Generated
+        public BetaMemoryStoresClient buildBetaMemoryStoresClient() {
+            return AgentsClientBuilder.this.buildBetaMemoryStoresClient();
+        }
+
+        /**
+         * Builds an instance of BetaToolboxesClient class.
+         *
+         * @return an instance of BetaToolboxesClient.
+         */
+        @Generated
+        public BetaToolboxesClient buildBetaToolboxesClient() {
+            return AgentsClientBuilder.this.buildBetaToolboxesClient();
+        }
+    }
 }
