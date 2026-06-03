@@ -32,7 +32,7 @@ Various documentation is available to help you get started
 <dependency>
     <groupId>com.azure.resourcemanager</groupId>
     <artifactId>azure-resourcemanager-managednetworkfabric</artifactId>
-    <version>1.2.0-beta.1</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 [//]: # ({x-version-update-end})
@@ -142,5 +142,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct][coc]. For m
 [cg]: https://github.com/Azure/azure-sdk-for-java/blob/main/CONTRIBUTING.md
 [coc]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
-
 
