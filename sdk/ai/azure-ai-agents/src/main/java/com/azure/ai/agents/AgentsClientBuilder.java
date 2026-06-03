@@ -462,8 +462,7 @@ public final class AgentsClientBuilder
      *
      * @return an instance of BetaAgentsAsyncClient.
      */
-    @Generated
-    public BetaAgentsAsyncClient buildBetaAgentsAsyncClient() {
+    private BetaAgentsAsyncClient buildBetaAgentsAsyncClient() {
         return new BetaAgentsAsyncClient(buildInnerClient().getBetaAgents());
     }
 
@@ -472,8 +471,7 @@ public final class AgentsClientBuilder
      *
      * @return an instance of BetaMemoryStoresAsyncClient.
      */
-    @Generated
-    public BetaMemoryStoresAsyncClient buildBetaMemoryStoresAsyncClient() {
+    private BetaMemoryStoresAsyncClient buildBetaMemoryStoresAsyncClient() {
         return new BetaMemoryStoresAsyncClient(buildInnerClient().getBetaMemoryStores());
     }
 
@@ -482,8 +480,7 @@ public final class AgentsClientBuilder
      *
      * @return an instance of BetaToolboxesAsyncClient.
      */
-    @Generated
-    public BetaToolboxesAsyncClient buildBetaToolboxesAsyncClient() {
+    private BetaToolboxesAsyncClient buildBetaToolboxesAsyncClient() {
         return new BetaToolboxesAsyncClient(buildInnerClient().getBetaToolboxes());
     }
 
@@ -492,8 +489,7 @@ public final class AgentsClientBuilder
      *
      * @return an instance of BetaAgentsClient.
      */
-    @Generated
-    public BetaAgentsClient buildBetaAgentsClient() {
+    private BetaAgentsClient buildBetaAgentsClient() {
         return new BetaAgentsClient(buildInnerClient().getBetaAgents());
     }
 
@@ -502,8 +498,7 @@ public final class AgentsClientBuilder
      *
      * @return an instance of BetaMemoryStoresClient.
      */
-    @Generated
-    public BetaMemoryStoresClient buildBetaMemoryStoresClient() {
+    private BetaMemoryStoresClient buildBetaMemoryStoresClient() {
         return new BetaMemoryStoresClient(buildInnerClient().getBetaMemoryStores());
     }
 
@@ -512,8 +507,7 @@ public final class AgentsClientBuilder
      *
      * @return an instance of BetaToolboxesClient.
      */
-    @Generated
-    public BetaToolboxesClient buildBetaToolboxesClient() {
+    private BetaToolboxesClient buildBetaToolboxesClient() {
         return new BetaToolboxesClient(buildInnerClient().getBetaToolboxes());
     }
 
