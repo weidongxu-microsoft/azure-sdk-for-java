@@ -2,6 +2,8 @@
 
 ## 2.61.0-beta.1 (Unreleased)
 
+- Package api-version 2025-09-01.
+
 ### Features Added
 
 ### Breaking Changes

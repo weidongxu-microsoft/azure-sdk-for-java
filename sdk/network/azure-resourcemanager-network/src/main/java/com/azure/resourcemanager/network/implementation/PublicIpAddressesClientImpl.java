@@ -196,17 +196,6 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
             @BodyParam("application/json") DisassociateCloudServicePublicIpRequest parameters, Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses")
-        @ExpectedResponses({ 200 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<PublicIPAddressListResult>> listCloudServicePublicIpAddresses(
-            @HostParam("endpoint") String endpoint, @QueryParam("api-version") String apiVersion,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("cloudServiceName") String cloudServiceName, @HeaderParam("Accept") String accept,
-            Context context);
-
-        @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
@@ -247,6 +236,17 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
             Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<PublicIPAddressListResult>> listCloudServicePublicIpAddresses(
+            @HostParam("endpoint") String endpoint, @QueryParam("api-version") String apiVersion,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName,
+            @PathParam("cloudServiceName") String cloudServiceName, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
@@ -274,14 +274,6 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
         @Get("{nextLink}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<PublicIPAddressListResult>> listCloudServicePublicIpAddressesNext(
-            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
-            @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Get("{nextLink}")
-        @ExpectedResponses({ 200 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PublicIPAddressListResult>> listVirtualMachineScaleSetPublicIpAddressesNext(
             @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
             @HeaderParam("Accept") String accept, Context context);
@@ -291,6 +283,14 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PublicIPAddressListResult>> listVirtualMachineScaleSetVMPublicIpAddressesNext(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<PublicIPAddressListResult>> listCloudServicePublicIpAddressesNext(
             @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
             @HeaderParam("Accept") String accept, Context context);
     }
@@ -2409,6 +2409,578 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
     }
 
     /**
+     * Gets information about all public IP addresses on a virtual machine scale set level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a virtual machine scale set level along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(
+        String resourceGroupName, String virtualMachineScaleSetName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (virtualMachineScaleSetName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
+        }
+        final String apiVersion = "2018-10-01";
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(
+                context -> service.listVirtualMachineScaleSetPublicIpAddresses(this.client.getEndpoint(), apiVersion,
+                    this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, accept, context))
+            .<PagedResponse<PublicIpAddressInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Gets information about all public IP addresses on a virtual machine scale set level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a virtual machine scale set level along with
+     * {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(
+        String resourceGroupName, String virtualMachineScaleSetName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (virtualMachineScaleSetName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
+        }
+        final String apiVersion = "2018-10-01";
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service
+            .listVirtualMachineScaleSetPublicIpAddresses(this.client.getEndpoint(), apiVersion,
+                this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Gets information about all public IP addresses on a virtual machine scale set level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
+     * {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddressesAsync(String resourceGroupName,
+        String virtualMachineScaleSetName) {
+        return new PagedFlux<>(
+            () -> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(resourceGroupName,
+                virtualMachineScaleSetName),
+            nextLink -> listVirtualMachineScaleSetPublicIpAddressesNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets information about all public IP addresses on a virtual machine scale set level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
+     * {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddressesAsync(String resourceGroupName,
+        String virtualMachineScaleSetName, Context context) {
+        return new PagedFlux<>(
+            () -> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(resourceGroupName,
+                virtualMachineScaleSetName, context),
+            nextLink -> listVirtualMachineScaleSetPublicIpAddressesNextSinglePageAsync(nextLink, context));
+    }
+
+    /**
+     * Gets information about all public IP addresses on a virtual machine scale set level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
+     * {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddresses(String resourceGroupName,
+        String virtualMachineScaleSetName) {
+        return new PagedIterable<>(
+            listVirtualMachineScaleSetPublicIpAddressesAsync(resourceGroupName, virtualMachineScaleSetName));
+    }
+
+    /**
+     * Gets information about all public IP addresses on a virtual machine scale set level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
+     * {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddresses(String resourceGroupName,
+        String virtualMachineScaleSetName, Context context) {
+        return new PagedIterable<>(
+            listVirtualMachineScaleSetPublicIpAddressesAsync(resourceGroupName, virtualMachineScaleSetName, context));
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param publicIpAddressName The publicIpAddressName parameter.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP address in a virtual machine scale set along with {@link Response} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<PublicIpAddressInner>> getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(
+        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
+        String networkInterfaceName, String ipConfigurationName, String publicIpAddressName, String expand) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (virtualMachineScaleSetName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
+        }
+        if (virtualmachineIndex == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
+        }
+        if (networkInterfaceName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
+        }
+        if (ipConfigurationName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
+        }
+        if (publicIpAddressName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter publicIpAddressName is required and cannot be null."));
+        }
+        final String apiVersion = "2018-10-01";
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(
+                context -> service.getVirtualMachineScaleSetPublicIpAddress(this.client.getEndpoint(), apiVersion,
+                    this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex,
+                    networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param publicIpAddressName The publicIpAddressName parameter.
+     * @param expand Expands referenced resources.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP address in a virtual machine scale set along with {@link Response} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<PublicIpAddressInner>> getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(
+        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
+        String networkInterfaceName, String ipConfigurationName, String publicIpAddressName, String expand,
+        Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (virtualMachineScaleSetName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
+        }
+        if (virtualmachineIndex == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
+        }
+        if (networkInterfaceName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
+        }
+        if (ipConfigurationName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
+        }
+        if (publicIpAddressName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter publicIpAddressName is required and cannot be null."));
+        }
+        final String apiVersion = "2018-10-01";
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.getVirtualMachineScaleSetPublicIpAddress(this.client.getEndpoint(), apiVersion,
+            this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex,
+            networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, accept, context);
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param publicIpAddressName The publicIpAddressName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP address in a virtual machine scale set on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PublicIpAddressInner> getVirtualMachineScaleSetPublicIpAddressAsync(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName, String publicIpAddressName) {
+        final String expand = null;
+        return getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(resourceGroupName, virtualMachineScaleSetName,
+            virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand)
+                .flatMap(res -> Mono.justOrEmpty(res.getValue()));
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param publicIpAddressName The publicIpAddressName parameter.
+     * @param expand Expands referenced resources.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP address in a virtual machine scale set along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<PublicIpAddressInner> getVirtualMachineScaleSetPublicIpAddressWithResponse(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName, String publicIpAddressName, String expand, Context context) {
+        return getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(resourceGroupName, virtualMachineScaleSetName,
+            virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, context)
+                .block();
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param publicIpAddressName The publicIpAddressName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP address in a virtual machine scale set.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PublicIpAddressInner getVirtualMachineScaleSetPublicIpAddress(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName, String publicIpAddressName) {
+        final String expand = null;
+        return getVirtualMachineScaleSetPublicIpAddressWithResponse(resourceGroupName, virtualMachineScaleSetName,
+            virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, Context.NONE)
+                .getValue();
+    }
+
+    /**
+     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
+     * set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
+     * scale set along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(
+        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
+        String networkInterfaceName, String ipConfigurationName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (virtualMachineScaleSetName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
+        }
+        if (virtualmachineIndex == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
+        }
+        if (networkInterfaceName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
+        }
+        if (ipConfigurationName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
+        }
+        final String apiVersion = "2018-10-01";
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.listVirtualMachineScaleSetVMPublicIpAddresses(this.client.getEndpoint(),
+                apiVersion, this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName,
+                virtualmachineIndex, networkInterfaceName, ipConfigurationName, accept, context))
+            .<PagedResponse<PublicIpAddressInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
+     * set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
+     * scale set along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(
+        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
+        String networkInterfaceName, String ipConfigurationName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (virtualMachineScaleSetName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
+        }
+        if (virtualmachineIndex == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
+        }
+        if (networkInterfaceName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
+        }
+        if (ipConfigurationName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
+        }
+        final String apiVersion = "2018-10-01";
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service
+            .listVirtualMachineScaleSetVMPublicIpAddresses(this.client.getEndpoint(), apiVersion,
+                this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex,
+                networkInterfaceName, ipConfigurationName, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
+     * set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
+     * scale set as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddressesAsync(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName) {
+        return new PagedFlux<>(
+            () -> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(resourceGroupName,
+                virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName),
+            nextLink -> listVirtualMachineScaleSetVMPublicIpAddressesNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
+     * set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
+     * scale set as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddressesAsync(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName, Context context) {
+        return new PagedFlux<>(
+            () -> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(resourceGroupName,
+                virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, context),
+            nextLink -> listVirtualMachineScaleSetVMPublicIpAddressesNextSinglePageAsync(nextLink, context));
+    }
+
+    /**
+     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
+     * set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
+     * scale set as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddresses(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName) {
+        return new PagedIterable<>(listVirtualMachineScaleSetVMPublicIpAddressesAsync(resourceGroupName,
+            virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName));
+    }
+
+    /**
+     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
+     * set.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
+     * @param virtualmachineIndex The virtualmachineIndex parameter.
+     * @param networkInterfaceName The networkInterfaceName parameter.
+     * @param ipConfigurationName The ipConfigurationName parameter.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
+     * scale set as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddresses(String resourceGroupName,
+        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
+        String ipConfigurationName, Context context) {
+        return new PagedIterable<>(listVirtualMachineScaleSetVMPublicIpAddressesAsync(resourceGroupName,
+            virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, context));
+    }
+
+    /**
      * Gets information about all public IP addresses on a cloud service level.
      * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -2562,578 +3134,6 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
         String cloudServiceName, Context context) {
         return new PagedIterable<>(
             listCloudServicePublicIpAddressesAsync(resourceGroupName, cloudServiceName, context));
-    }
-
-    /**
-     * Gets information about all public IP addresses on a virtual machine scale set level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a virtual machine scale set level along with
-     * {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(
-        String resourceGroupName, String virtualMachineScaleSetName) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (virtualMachineScaleSetName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
-        }
-        final String apiVersion = "2025-09-01";
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(
-                context -> service.listVirtualMachineScaleSetPublicIpAddresses(this.client.getEndpoint(), apiVersion,
-                    this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, accept, context))
-            .<PagedResponse<PublicIpAddressInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
-                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Gets information about all public IP addresses on a virtual machine scale set level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a virtual machine scale set level along with
-     * {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(
-        String resourceGroupName, String virtualMachineScaleSetName, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (virtualMachineScaleSetName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
-        }
-        final String apiVersion = "2025-09-01";
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service
-            .listVirtualMachineScaleSetPublicIpAddresses(this.client.getEndpoint(), apiVersion,
-                this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, accept, context)
-            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                res.getValue().value(), res.getValue().nextLink(), null));
-    }
-
-    /**
-     * Gets information about all public IP addresses on a virtual machine scale set level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
-     * {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddressesAsync(String resourceGroupName,
-        String virtualMachineScaleSetName) {
-        return new PagedFlux<>(
-            () -> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(resourceGroupName,
-                virtualMachineScaleSetName),
-            nextLink -> listVirtualMachineScaleSetPublicIpAddressesNextSinglePageAsync(nextLink));
-    }
-
-    /**
-     * Gets information about all public IP addresses on a virtual machine scale set level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
-     * {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddressesAsync(String resourceGroupName,
-        String virtualMachineScaleSetName, Context context) {
-        return new PagedFlux<>(
-            () -> listVirtualMachineScaleSetPublicIpAddressesSinglePageAsync(resourceGroupName,
-                virtualMachineScaleSetName, context),
-            nextLink -> listVirtualMachineScaleSetPublicIpAddressesNextSinglePageAsync(nextLink, context));
-    }
-
-    /**
-     * Gets information about all public IP addresses on a virtual machine scale set level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
-     * {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddresses(String resourceGroupName,
-        String virtualMachineScaleSetName) {
-        return new PagedIterable<>(
-            listVirtualMachineScaleSetPublicIpAddressesAsync(resourceGroupName, virtualMachineScaleSetName));
-    }
-
-    /**
-     * Gets information about all public IP addresses on a virtual machine scale set level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The name of the virtual machine scale set.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a virtual machine scale set level as paginated response with
-     * {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetPublicIpAddresses(String resourceGroupName,
-        String virtualMachineScaleSetName, Context context) {
-        return new PagedIterable<>(
-            listVirtualMachineScaleSetPublicIpAddressesAsync(resourceGroupName, virtualMachineScaleSetName, context));
-    }
-
-    /**
-     * Get the specified public IP address in a virtual machine scale set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param publicIpAddressName The publicIpAddressName parameter.
-     * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified public IP address in a virtual machine scale set along with {@link Response} on successful
-     * completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<PublicIpAddressInner>> getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(
-        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
-        String networkInterfaceName, String ipConfigurationName, String publicIpAddressName, String expand) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (virtualMachineScaleSetName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
-        }
-        if (virtualmachineIndex == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
-        }
-        if (networkInterfaceName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
-        }
-        if (ipConfigurationName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
-        }
-        if (publicIpAddressName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter publicIpAddressName is required and cannot be null."));
-        }
-        final String apiVersion = "2025-09-01";
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(
-                context -> service.getVirtualMachineScaleSetPublicIpAddress(this.client.getEndpoint(), apiVersion,
-                    this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex,
-                    networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, accept, context))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Get the specified public IP address in a virtual machine scale set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param publicIpAddressName The publicIpAddressName parameter.
-     * @param expand Expands referenced resources.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified public IP address in a virtual machine scale set along with {@link Response} on successful
-     * completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<PublicIpAddressInner>> getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(
-        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
-        String networkInterfaceName, String ipConfigurationName, String publicIpAddressName, String expand,
-        Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (virtualMachineScaleSetName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
-        }
-        if (virtualmachineIndex == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
-        }
-        if (networkInterfaceName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
-        }
-        if (ipConfigurationName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
-        }
-        if (publicIpAddressName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter publicIpAddressName is required and cannot be null."));
-        }
-        final String apiVersion = "2025-09-01";
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service.getVirtualMachineScaleSetPublicIpAddress(this.client.getEndpoint(), apiVersion,
-            this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex,
-            networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, accept, context);
-    }
-
-    /**
-     * Get the specified public IP address in a virtual machine scale set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param publicIpAddressName The publicIpAddressName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified public IP address in a virtual machine scale set on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PublicIpAddressInner> getVirtualMachineScaleSetPublicIpAddressAsync(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName, String publicIpAddressName) {
-        final String expand = null;
-        return getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(resourceGroupName, virtualMachineScaleSetName,
-            virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand)
-                .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Get the specified public IP address in a virtual machine scale set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param publicIpAddressName The publicIpAddressName parameter.
-     * @param expand Expands referenced resources.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified public IP address in a virtual machine scale set along with {@link Response}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<PublicIpAddressInner> getVirtualMachineScaleSetPublicIpAddressWithResponse(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName, String publicIpAddressName, String expand, Context context) {
-        return getVirtualMachineScaleSetPublicIpAddressWithResponseAsync(resourceGroupName, virtualMachineScaleSetName,
-            virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, context)
-                .block();
-    }
-
-    /**
-     * Get the specified public IP address in a virtual machine scale set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param publicIpAddressName The publicIpAddressName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified public IP address in a virtual machine scale set.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public PublicIpAddressInner getVirtualMachineScaleSetPublicIpAddress(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName, String publicIpAddressName) {
-        final String expand = null;
-        return getVirtualMachineScaleSetPublicIpAddressWithResponse(resourceGroupName, virtualMachineScaleSetName,
-            virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand, Context.NONE)
-                .getValue();
-    }
-
-    /**
-     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
-     * set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
-     * scale set along with {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(
-        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
-        String networkInterfaceName, String ipConfigurationName) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (virtualMachineScaleSetName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
-        }
-        if (virtualmachineIndex == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
-        }
-        if (networkInterfaceName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
-        }
-        if (ipConfigurationName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
-        }
-        final String apiVersion = "2025-09-01";
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.listVirtualMachineScaleSetVMPublicIpAddresses(this.client.getEndpoint(),
-                apiVersion, this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName,
-                virtualmachineIndex, networkInterfaceName, ipConfigurationName, accept, context))
-            .<PagedResponse<PublicIpAddressInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
-                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
-     * set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
-     * scale set along with {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<PublicIpAddressInner>> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(
-        String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex,
-        String networkInterfaceName, String ipConfigurationName, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (virtualMachineScaleSetName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter virtualMachineScaleSetName is required and cannot be null."));
-        }
-        if (virtualmachineIndex == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter virtualmachineIndex is required and cannot be null."));
-        }
-        if (networkInterfaceName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter networkInterfaceName is required and cannot be null."));
-        }
-        if (ipConfigurationName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter ipConfigurationName is required and cannot be null."));
-        }
-        final String apiVersion = "2025-09-01";
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service
-            .listVirtualMachineScaleSetVMPublicIpAddresses(this.client.getEndpoint(), apiVersion,
-                this.client.getSubscriptionId(), resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex,
-                networkInterfaceName, ipConfigurationName, accept, context)
-            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                res.getValue().value(), res.getValue().nextLink(), null));
-    }
-
-    /**
-     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
-     * set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
-     * scale set as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddressesAsync(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName) {
-        return new PagedFlux<>(
-            () -> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(resourceGroupName,
-                virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName),
-            nextLink -> listVirtualMachineScaleSetVMPublicIpAddressesNextSinglePageAsync(nextLink));
-    }
-
-    /**
-     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
-     * set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
-     * scale set as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddressesAsync(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName, Context context) {
-        return new PagedFlux<>(
-            () -> listVirtualMachineScaleSetVMPublicIpAddressesSinglePageAsync(resourceGroupName,
-                virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, context),
-            nextLink -> listVirtualMachineScaleSetVMPublicIpAddressesNextSinglePageAsync(nextLink, context));
-    }
-
-    /**
-     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
-     * set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
-     * scale set as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddresses(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName) {
-        return new PagedIterable<>(listVirtualMachineScaleSetVMPublicIpAddressesAsync(resourceGroupName,
-            virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName));
-    }
-
-    /**
-     * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale
-     * set.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param virtualMachineScaleSetName The virtualMachineScaleSetName parameter.
-     * @param virtualmachineIndex The virtualmachineIndex parameter.
-     * @param networkInterfaceName The networkInterfaceName parameter.
-     * @param ipConfigurationName The ipConfigurationName parameter.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses in a virtual machine IP configuration in a virtual machine
-     * scale set as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddresses(String resourceGroupName,
-        String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
-        String ipConfigurationName, Context context) {
-        return new PagedIterable<>(listVirtualMachineScaleSetVMPublicIpAddressesAsync(resourceGroupName,
-            virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, context));
     }
 
     /**
@@ -3308,63 +3308,6 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a cloud service level along with {@link PagedResponse} on
-     * successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<PublicIpAddressInner>>
-        listCloudServicePublicIpAddressesNextSinglePageAsync(String nextLink) {
-        if (nextLink == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
-        }
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.listCloudServicePublicIpAddressesNext(nextLink, this.client.getEndpoint(),
-                accept, context))
-            .<PagedResponse<PublicIpAddressInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
-                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Get the next page of items.
-     * 
-     * @param nextLink The URL to get the next list of items.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a cloud service level along with {@link PagedResponse} on
-     * successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<PublicIpAddressInner>>
-        listCloudServicePublicIpAddressesNextSinglePageAsync(String nextLink, Context context) {
-        if (nextLink == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
-        }
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service.listCloudServicePublicIpAddressesNext(nextLink, this.client.getEndpoint(), accept, context)
-            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                res.getValue().value(), res.getValue().nextLink(), null));
-    }
-
-    /**
-     * Get the next page of items.
-     * 
-     * @param nextLink The URL to get the next list of items.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return information about all public IP addresses on a virtual machine scale set level along with
      * {@link PagedResponse} on successful completion of {@link Mono}.
      */
@@ -3470,6 +3413,63 @@ public final class PublicIpAddressesClientImpl implements InnerSupportsGet<Publi
         context = this.client.mergeContext(context);
         return service
             .listVirtualMachineScaleSetVMPublicIpAddressesNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a cloud service level along with {@link PagedResponse} on
+     * successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<PublicIpAddressInner>>
+        listCloudServicePublicIpAddressesNextSinglePageAsync(String nextLink) {
+        if (nextLink == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.listCloudServicePublicIpAddressesNext(nextLink, this.client.getEndpoint(),
+                accept, context))
+            .<PagedResponse<PublicIpAddressInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a cloud service level along with {@link PagedResponse} on
+     * successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<PublicIpAddressInner>>
+        listCloudServicePublicIpAddressesNextSinglePageAsync(String nextLink, Context context) {
+        if (nextLink == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.listCloudServicePublicIpAddressesNext(nextLink, this.client.getEndpoint(), accept, context)
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
                 res.getValue().value(), res.getValue().nextLink(), null));
     }

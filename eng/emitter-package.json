@@ -4,11 +4,11 @@
     "@azure-tools/typespec-java": "0.46.2"
   },
   "devDependencies": {
-    "@azure-tools/typespec-autorest": "0.71.0",
-    "@azure-tools/typespec-azure-core": "0.71.0",
-    "@azure-tools/typespec-azure-resource-manager": "0.71.0",
+    "@azure-tools/typespec-autorest": "https://pkg.pr.new/@azure-tools/typespec-autorest@5176",
+    "@azure-tools/typespec-azure-core": "https://pkg.pr.new/@azure-tools/typespec-azure-core@5176",
+    "@azure-tools/typespec-azure-resource-manager": "https://pkg.pr.new/@azure-tools/typespec-azure-resource-manager@5176",
     "@azure-tools/typespec-azure-rulesets": "0.71.0",
-    "@azure-tools/typespec-client-generator-core": "0.71.2",
+    "@azure-tools/typespec-client-generator-core": "https://pkg.pr.new/@azure-tools/typespec-client-generator-core@5176",
     "@typespec/compiler": "1.15.0",
     "@typespec/http": "1.15.0",
     "@typespec/openapi": "1.15.0",

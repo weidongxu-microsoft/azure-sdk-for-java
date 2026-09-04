@@ -896,52 +896,6 @@ public interface PublicIpAddressesClient extends InnerSupportsGet<PublicIpAddres
         DisassociateCloudServicePublicIpRequest parameters, Context context);
 
     /**
-     * Gets information about all public IP addresses on a cloud service level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param cloudServiceName The name of the cloud service.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a cloud service level as paginated response with
-     * {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedFlux<PublicIpAddressInner> listCloudServicePublicIpAddressesAsync(String resourceGroupName,
-        String cloudServiceName);
-
-    /**
-     * Gets information about all public IP addresses on a cloud service level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param cloudServiceName The name of the cloud service.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a cloud service level as paginated response with
-     * {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<PublicIpAddressInner> listCloudServicePublicIpAddresses(String resourceGroupName,
-        String cloudServiceName);
-
-    /**
-     * Gets information about all public IP addresses on a cloud service level.
-     * 
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param cloudServiceName The name of the cloud service.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about all public IP addresses on a cloud service level as paginated response with
-     * {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<PublicIpAddressInner> listCloudServicePublicIpAddresses(String resourceGroupName,
-        String cloudServiceName, Context context);
-
-    /**
      * Gets information about all public IP addresses on a virtual machine scale set level.
      * 
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1127,4 +1081,50 @@ public interface PublicIpAddressesClient extends InnerSupportsGet<PublicIpAddres
     PagedIterable<PublicIpAddressInner> listVirtualMachineScaleSetVMPublicIpAddresses(String resourceGroupName,
         String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName,
         String ipConfigurationName, Context context);
+
+    /**
+     * Gets information about all public IP addresses on a cloud service level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param cloudServiceName The name of the cloud service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a cloud service level as paginated response with
+     * {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    PagedFlux<PublicIpAddressInner> listCloudServicePublicIpAddressesAsync(String resourceGroupName,
+        String cloudServiceName);
+
+    /**
+     * Gets information about all public IP addresses on a cloud service level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param cloudServiceName The name of the cloud service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a cloud service level as paginated response with
+     * {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    PagedIterable<PublicIpAddressInner> listCloudServicePublicIpAddresses(String resourceGroupName,
+        String cloudServiceName);
+
+    /**
+     * Gets information about all public IP addresses on a cloud service level.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param cloudServiceName The name of the cloud service.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about all public IP addresses on a cloud service level as paginated response with
+     * {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    PagedIterable<PublicIpAddressInner> listCloudServicePublicIpAddresses(String resourceGroupName,
+        String cloudServiceName, Context context);
 }
