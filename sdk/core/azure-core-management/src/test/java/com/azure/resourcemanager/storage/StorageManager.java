@@ -20,6 +20,7 @@ import com.azure.core.http.policy.RequestIdPolicy;
 import com.azure.core.http.policy.RetryOptions;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.management.http.policy.ExternalEvaluationPolicy;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
@@ -235,6 +236,27 @@ public final class StorageManager {
                     retryPolicy = new RetryPolicy("Retry-After", ChronoUnit.SECONDS);
                 }
             }
+            HttpClient httpClient = this.httpClient == null ? HttpClient.createDefault() : this.httpClient;
+            List<HttpPipelinePolicy> acquisitionPolicies = new ArrayList<>();
+            acquisitionPolicies.add(new UserAgentPolicy(userAgentBuilder.toString()));
+            acquisitionPolicies.add(new AddHeadersFromContextPolicy());
+            acquisitionPolicies.add(new RequestIdPolicy());
+            acquisitionPolicies.addAll(this.policies.stream()
+                .filter(p -> p.getPipelinePosition() == HttpPipelinePosition.PER_CALL)
+                .collect(Collectors.toList()));
+            HttpPolicyProviders.addBeforeRetryPolicies(acquisitionPolicies);
+            acquisitionPolicies.add(retryPolicy);
+            acquisitionPolicies.add(new AddDatePolicy());
+            acquisitionPolicies.add(new BearerTokenAuthenticationPolicy(credential, scopes.toArray(new String[0])));
+            acquisitionPolicies.addAll(this.policies.stream()
+                .filter(p -> p.getPipelinePosition() == HttpPipelinePosition.PER_RETRY)
+                .collect(Collectors.toList()));
+            HttpPolicyProviders.addAfterRetryPolicies(acquisitionPolicies);
+            acquisitionPolicies.add(new HttpLoggingPolicy(httpLogOptions));
+            HttpPipeline acquisitionPipeline = new HttpPipelineBuilder().httpClient(httpClient)
+                .policies(acquisitionPolicies.toArray(new HttpPipelinePolicy[0]))
+                .build();
+
             List<HttpPipelinePolicy> policies = new ArrayList<>();
             policies.add(new UserAgentPolicy(userAgentBuilder.toString()));
             policies.add(new AddHeadersFromContextPolicy());
@@ -243,6 +265,7 @@ public final class StorageManager {
                 .filter(p -> p.getPipelinePosition() == HttpPipelinePosition.PER_CALL)
                 .collect(Collectors.toList()));
             HttpPolicyProviders.addBeforeRetryPolicies(policies);
+            policies.add(new ExternalEvaluationPolicy(acquisitionPipeline));
             policies.add(retryPolicy);
             policies.add(new AddDatePolicy());
             policies.add(new BearerTokenAuthenticationPolicy(credential, scopes.toArray(new String[0])));
